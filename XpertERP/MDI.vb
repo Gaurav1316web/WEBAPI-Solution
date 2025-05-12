@@ -10288,7 +10288,9 @@ Public Class MDI
                         frm = New frmShareAllotment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-
+                    Case clsUserMgtCode.rptShareRegister
+                        frm = New rptShareRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '---------------MIS------------------
                     Case clsUserMgtCode.MISitemGroups
                         frm = New frmMISItemGroup

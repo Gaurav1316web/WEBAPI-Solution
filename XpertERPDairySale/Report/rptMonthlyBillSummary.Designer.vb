@@ -46,6 +46,10 @@ Partial Class rptMonthlyBillSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnItemTypeBoth = New common.Controls.MyRadioButton()
+        Me.rbtnItemTypeTaxable = New common.Controls.MyRadioButton()
+        Me.rbtnItemTypeNonTaxable = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -73,6 +77,11 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnItemTypeTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,6 +119,7 @@ Partial Class rptMonthlyBillSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeShift)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
@@ -127,7 +137,7 @@ Partial Class rptMonthlyBillSummary
         'chkExcludeShift
         '
         Me.chkExcludeShift.AutoSize = True
-        Me.chkExcludeShift.Location = New System.Drawing.Point(785, 17)
+        Me.chkExcludeShift.Location = New System.Drawing.Point(593, 18)
         Me.chkExcludeShift.Name = "chkExcludeShift"
         Me.chkExcludeShift.Size = New System.Drawing.Size(92, 17)
         Me.chkExcludeShift.TabIndex = 448
@@ -140,17 +150,17 @@ Partial Class rptMonthlyBillSummary
         Me.RadGroupBox1.Controls.Add(Me.rbtnCustomerWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnrouteWise)
         Me.RadGroupBox1.HeaderText = "Report Type"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(557, 2)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(16, 52)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(222, 43)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(281, 40)
         Me.RadGroupBox1.TabIndex = 447
         Me.RadGroupBox1.Text = "Report Type"
         '
         'rbtnCustomerWise
         '
         Me.rbtnCustomerWise.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnCustomerWise.Location = New System.Drawing.Point(13, 17)
+        Me.rbtnCustomerWise.Location = New System.Drawing.Point(51, 16)
         Me.rbtnCustomerWise.MyLinkLable1 = Nothing
         Me.rbtnCustomerWise.MyLinkLable2 = Nothing
         Me.rbtnCustomerWise.Name = "rbtnCustomerWise"
@@ -161,7 +171,7 @@ Partial Class rptMonthlyBillSummary
         '
         'rbtnrouteWise
         '
-        Me.rbtnrouteWise.Location = New System.Drawing.Point(132, 16)
+        Me.rbtnrouteWise.Location = New System.Drawing.Point(152, 16)
         Me.rbtnrouteWise.MyLinkLable1 = Nothing
         Me.rbtnrouteWise.MyLinkLable2 = Nothing
         Me.rbtnrouteWise.Name = "rbtnrouteWise"
@@ -177,16 +187,16 @@ Partial Class rptMonthlyBillSummary
         Me.RadGroupBox5.Controls.Add(Me.rbtnDocumentdate)
         Me.RadGroupBox5.Controls.Add(Me.rbtnSupplydate)
         Me.RadGroupBox5.HeaderText = "Date Type"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(276, 3)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(306, 3)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(275, 40)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(281, 40)
         Me.RadGroupBox5.TabIndex = 446
         Me.RadGroupBox5.Text = "Date Type"
         '
         'rbtnDateWise
         '
-        Me.rbtnDateWise.Location = New System.Drawing.Point(199, 15)
+        Me.rbtnDateWise.Location = New System.Drawing.Point(200, 15)
         Me.rbtnDateWise.MyLinkLable1 = Nothing
         Me.rbtnDateWise.MyLinkLable2 = Nothing
         Me.rbtnDateWise.Name = "rbtnDateWise"
@@ -198,7 +208,7 @@ Partial Class rptMonthlyBillSummary
         'rbtnDocumentdate
         '
         Me.rbtnDocumentdate.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDocumentdate.Location = New System.Drawing.Point(9, 15)
+        Me.rbtnDocumentdate.Location = New System.Drawing.Point(10, 15)
         Me.rbtnDocumentdate.MyLinkLable1 = Nothing
         Me.rbtnDocumentdate.MyLinkLable2 = Nothing
         Me.rbtnDocumentdate.Name = "rbtnDocumentdate"
@@ -209,7 +219,7 @@ Partial Class rptMonthlyBillSummary
         '
         'rbtnSupplydate
         '
-        Me.rbtnSupplydate.Location = New System.Drawing.Point(111, 15)
+        Me.rbtnSupplydate.Location = New System.Drawing.Point(114, 15)
         Me.rbtnSupplydate.MyLinkLable1 = Nothing
         Me.rbtnSupplydate.MyLinkLable2 = Nothing
         Me.rbtnSupplydate.Name = "rbtnSupplydate"
@@ -222,7 +232,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.TxtRoute.arrDispalyMember = Nothing
         Me.TxtRoute.arrValueMember = Nothing
-        Me.TxtRoute.Location = New System.Drawing.Point(73, 74)
+        Me.TxtRoute.Location = New System.Drawing.Point(77, 123)
         Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRoute.MyLinkLable1 = Me.MyLabel10
@@ -236,7 +246,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(13, 75)
+        Me.MyLabel10.Location = New System.Drawing.Point(17, 124)
         Me.MyLabel10.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
@@ -247,7 +257,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(12, 49)
+        Me.MyLabel13.Location = New System.Drawing.Point(16, 98)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel13.TabIndex = 334
@@ -257,7 +267,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.txtMultiCustomer.arrDispalyMember = Nothing
         Me.txtMultiCustomer.arrValueMember = Nothing
-        Me.txtMultiCustomer.Location = New System.Drawing.Point(73, 50)
+        Me.txtMultiCustomer.Location = New System.Drawing.Point(77, 99)
         Me.txtMultiCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultiCustomer.MyLinkLable1 = Me.MyLabel13
         Me.txtMultiCustomer.MyLinkLable2 = Nothing
@@ -277,14 +287,14 @@ Partial Class rptMonthlyBillSummary
         Me.RadGroupBox4.Location = New System.Drawing.Point(16, 3)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(254, 40)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(281, 40)
         Me.RadGroupBox4.TabIndex = 53
         Me.RadGroupBox4.Text = "Date Range"
         '
         'MyLabel17
         '
         Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Location = New System.Drawing.Point(135, 16)
+        Me.MyLabel17.Location = New System.Drawing.Point(151, 16)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(19, 18)
         Me.MyLabel17.TabIndex = 3
@@ -293,7 +303,7 @@ Partial Class rptMonthlyBillSummary
         'MyLabel18
         '
         Me.MyLabel18.FieldName = Nothing
-        Me.MyLabel18.Location = New System.Drawing.Point(5, 16)
+        Me.MyLabel18.Location = New System.Drawing.Point(21, 16)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(32, 18)
         Me.MyLabel18.TabIndex = 2
@@ -303,7 +313,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.txtToDate.CustomFormat = "dd/MM/yyyy"
         Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.Location = New System.Drawing.Point(159, 15)
+        Me.txtToDate.Location = New System.Drawing.Point(175, 15)
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -317,7 +327,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.txtfDate.CustomFormat = "dd/MM/yyyy"
         Me.txtfDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtfDate.Location = New System.Drawing.Point(44, 15)
+        Me.txtfDate.Location = New System.Drawing.Point(58, 15)
         Me.txtfDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtfDate.Name = "txtfDate"
         Me.txtfDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -365,6 +375,54 @@ Partial Class rptMonthlyBillSummary
         Me.btnPrint.TabIndex = 165
         Me.btnPrint.Text = "Print"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeBoth)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeTaxable)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeNonTaxable)
+        Me.RadGroupBox2.HeaderText = "Item Type"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(306, 52)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(281, 40)
+        Me.RadGroupBox2.TabIndex = 449
+        Me.RadGroupBox2.Text = "Item Type"
+        '
+        'rbtnItemTypeBoth
+        '
+        Me.rbtnItemTypeBoth.Location = New System.Drawing.Point(195, 16)
+        Me.rbtnItemTypeBoth.MyLinkLable1 = Nothing
+        Me.rbtnItemTypeBoth.MyLinkLable2 = Nothing
+        Me.rbtnItemTypeBoth.Name = "rbtnItemTypeBoth"
+        Me.rbtnItemTypeBoth.Size = New System.Drawing.Size(44, 18)
+        Me.rbtnItemTypeBoth.TabIndex = 393
+        Me.rbtnItemTypeBoth.TabStop = False
+        Me.rbtnItemTypeBoth.Text = "Both"
+        '
+        'rbtnItemTypeTaxable
+        '
+        Me.rbtnItemTypeTaxable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnItemTypeTaxable.Location = New System.Drawing.Point(41, 16)
+        Me.rbtnItemTypeTaxable.MyLinkLable1 = Nothing
+        Me.rbtnItemTypeTaxable.MyLinkLable2 = Nothing
+        Me.rbtnItemTypeTaxable.Name = "rbtnItemTypeTaxable"
+        Me.rbtnItemTypeTaxable.Size = New System.Drawing.Size(58, 18)
+        Me.rbtnItemTypeTaxable.TabIndex = 393
+        Me.rbtnItemTypeTaxable.Text = "Taxable"
+        Me.rbtnItemTypeTaxable.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnItemTypeNonTaxable
+        '
+        Me.rbtnItemTypeNonTaxable.Location = New System.Drawing.Point(105, 16)
+        Me.rbtnItemTypeNonTaxable.MyLinkLable1 = Nothing
+        Me.rbtnItemTypeNonTaxable.MyLinkLable2 = Nothing
+        Me.rbtnItemTypeNonTaxable.Name = "rbtnItemTypeNonTaxable"
+        Me.rbtnItemTypeNonTaxable.Size = New System.Drawing.Size(84, 18)
+        Me.rbtnItemTypeNonTaxable.TabIndex = 393
+        Me.rbtnItemTypeNonTaxable.TabStop = False
+        Me.rbtnItemTypeNonTaxable.Text = "Non-Taxable"
+        '
         'rptMonthlyBillSummary
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -408,6 +466,12 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnItemTypeTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -437,4 +501,8 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents btnprintDetail As RadButton
     Friend WithEvents chkExcludeShift As CheckBox
     Friend WithEvents rbtnDateWise As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnItemTypeBoth As common.Controls.MyRadioButton
+    Friend WithEvents rbtnItemTypeTaxable As common.Controls.MyRadioButton
+    Friend WithEvents rbtnItemTypeNonTaxable As common.Controls.MyRadioButton
 End Class

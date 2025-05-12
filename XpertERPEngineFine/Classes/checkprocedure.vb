@@ -2909,6 +2909,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmShareAllotment, "Share Allotment", "1.46.02.02", clsUserMgtCode.SubModuleShareTransaction, 8)
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleShareReport, "Report", "1.46.03", clsUserMgtCode.ModuleShare, "SM", 30)
+        InsertDefaultValue(clsUserMgtCode.rptShareRegister, "Share Register", "1.46.03.01", clsUserMgtCode.SubModuleShareReport, 37)
 
         '----------------------------------MIS---------------------------------------'
 

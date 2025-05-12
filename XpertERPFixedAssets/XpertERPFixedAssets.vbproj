@@ -446,6 +446,12 @@
     <Compile Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Shares\Report\rptShareRegister.Designer.vb">
+      <DependentUpon>rptShareRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shares\Report\rptShareRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Shares\Transaction\frmMultipleShareAllotment.Designer.vb">
       <DependentUpon>frmMultipleShareAllotment.vb</DependentUpon>
     </Compile>
@@ -628,6 +634,9 @@
     <EmbeddedResource Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.resx">
       <DependentUpon>frmSecondaryCustomerSale.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Shares\Report\rptShareRegister.resx">
+      <DependentUpon>rptShareRegister.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Shares\Transaction\frmMultipleShareAllotment.resx">
       <DependentUpon>frmMultipleShareAllotment.vb</DependentUpon>
     </EmbeddedResource>
@@ -672,9 +681,7 @@
   <ItemGroup>
     <None Include="Resources\search4.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shares\Report\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
