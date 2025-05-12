@@ -8805,7 +8805,10 @@ from
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
+        printInvoice(DocCode)
+    End Sub
 
+    Sub printInvoice(ByVal DocCode As String, Optional ByVal chkDate As Date = Nothing, Optional ByVal chkCancel As Boolean = False)
         Try
             Dim DocWithIRN As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "' and status =1 and Is_Taxable=1"))
             Dim isTaxable As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Taxable from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No='" & txtDocNo.Value & "'  and Customer_Code='" & txtVendorNo.Value & "'"))
@@ -8834,7 +8837,14 @@ from
                     Dim objMultPrintInvoice As New FrmPrintFreshInvoice
                     Dim SaleInvoiceNo As New List(Of String)
                     SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + DocCode + "'"))
-                    Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), txtDate.Value, txtVendorNo.Value)
+                    Dim Qry As String = Nothing
+                    If chkCancel Then
+                        Qry = objMultPrintInvoice.PrintInvoiceForAll("'" & clsCommon.myCstr(DocCode) & "'", chkDate, Nothing, "Y", chkCancel)
+                        'Qry = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), chkDate, Nothing, "Y", chkCancel)
+
+                    Else
+                        Qry = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), txtDate.Value, txtVendorNo.Value)
+                    End If
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
