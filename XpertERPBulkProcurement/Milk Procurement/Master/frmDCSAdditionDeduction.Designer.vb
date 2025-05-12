@@ -94,12 +94,14 @@ Partial Class frmDCSAdditionDeduction
         Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
         Me.dtpEndDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnEndDate = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.txtDedCode = New common.UserControls.txtFinder()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -168,12 +170,13 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -188,6 +191,8 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel15)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtDedCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkMarginDCS)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkShare)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkNegativeAmt)
@@ -275,7 +280,7 @@ Partial Class frmDCSAdditionDeduction
         'chkNegativeAmt
         '
         Me.chkNegativeAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkNegativeAmt.Location = New System.Drawing.Point(263, 363)
+        Me.chkNegativeAmt.Location = New System.Drawing.Point(263, 387)
         Me.chkNegativeAmt.Name = "chkNegativeAmt"
         Me.chkNegativeAmt.Size = New System.Drawing.Size(183, 16)
         Me.chkNegativeAmt.TabIndex = 389
@@ -284,7 +289,7 @@ Partial Class frmDCSAdditionDeduction
         'chkDontGenerateDRCRNote
         '
         Me.chkDontGenerateDRCRNote.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDontGenerateDRCRNote.Location = New System.Drawing.Point(101, 363)
+        Me.chkDontGenerateDRCRNote.Location = New System.Drawing.Point(101, 387)
         Me.chkDontGenerateDRCRNote.Name = "chkDontGenerateDRCRNote"
         Me.chkDontGenerateDRCRNote.Size = New System.Drawing.Size(156, 16)
         Me.chkDontGenerateDRCRNote.TabIndex = 388
@@ -293,7 +298,7 @@ Partial Class frmDCSAdditionDeduction
         'chkApplyFormula
         '
         Me.chkApplyFormula.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkApplyFormula.Location = New System.Drawing.Point(510, 238)
+        Me.chkApplyFormula.Location = New System.Drawing.Point(510, 261)
         Me.chkApplyFormula.Name = "chkApplyFormula"
         Me.chkApplyFormula.Size = New System.Drawing.Size(93, 16)
         Me.chkApplyFormula.TabIndex = 387
@@ -303,7 +308,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(5, 314)
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 337)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(68, 18)
         Me.MyLabel12.TabIndex = 386
@@ -313,7 +318,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.txtExcludeDCS.arrDispalyMember = Nothing
         Me.txtExcludeDCS.arrValueMember = Nothing
-        Me.txtExcludeDCS.Location = New System.Drawing.Point(101, 313)
+        Me.txtExcludeDCS.Location = New System.Drawing.Point(101, 336)
         Me.txtExcludeDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtExcludeDCS.MyLinkLable1 = Nothing
         Me.txtExcludeDCS.MyLinkLable2 = Nothing
@@ -367,7 +372,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnACNotExists
         '
-        Me.rbtnACNotExists.Location = New System.Drawing.Point(307, 339)
+        Me.rbtnACNotExists.Location = New System.Drawing.Point(307, 361)
         Me.rbtnACNotExists.MyLinkLable1 = Nothing
         Me.rbtnACNotExists.MyLinkLable2 = Nothing
         Me.rbtnACNotExists.Name = "rbtnACNotExists"
@@ -377,7 +382,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'rbtnACExists
         '
-        Me.rbtnACExists.Location = New System.Drawing.Point(201, 339)
+        Me.rbtnACExists.Location = New System.Drawing.Point(201, 361)
         Me.rbtnACExists.MyLinkLable1 = Nothing
         Me.rbtnACExists.MyLinkLable2 = Nothing
         Me.rbtnACExists.Name = "rbtnACExists"
@@ -388,7 +393,7 @@ Partial Class frmDCSAdditionDeduction
         'chkSavingAC
         '
         Me.chkSavingAC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSavingAC.Location = New System.Drawing.Point(101, 340)
+        Me.chkSavingAC.Location = New System.Drawing.Point(101, 362)
         Me.chkSavingAC.Name = "chkSavingAC"
         Me.chkSavingAC.Size = New System.Drawing.Size(77, 16)
         Me.chkSavingAC.TabIndex = 377
@@ -397,7 +402,7 @@ Partial Class frmDCSAdditionDeduction
         'chkIncludeShortageOwnBMC
         '
         Me.chkIncludeShortageOwnBMC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIncludeShortageOwnBMC.Location = New System.Drawing.Point(437, 341)
+        Me.chkIncludeShortageOwnBMC.Location = New System.Drawing.Point(437, 363)
         Me.chkIncludeShortageOwnBMC.Name = "chkIncludeShortageOwnBMC"
         Me.chkIncludeShortageOwnBMC.Size = New System.Drawing.Size(232, 16)
         Me.chkIncludeShortageOwnBMC.TabIndex = 376
@@ -406,7 +411,7 @@ Partial Class frmDCSAdditionDeduction
         'chkSubtract
         '
         Me.chkSubtract.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSubtract.Location = New System.Drawing.Point(442, 238)
+        Me.chkSubtract.Location = New System.Drawing.Point(442, 261)
         Me.chkSubtract.Name = "chkSubtract"
         Me.chkSubtract.Size = New System.Drawing.Size(62, 16)
         Me.chkSubtract.TabIndex = 376
@@ -415,7 +420,7 @@ Partial Class frmDCSAdditionDeduction
         'chkApplyTDS
         '
         Me.chkApplyTDS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkApplyTDS.Location = New System.Drawing.Point(610, 237)
+        Me.chkApplyTDS.Location = New System.Drawing.Point(610, 260)
         Me.chkApplyTDS.Name = "chkApplyTDS"
         Me.chkApplyTDS.Size = New System.Drawing.Size(74, 16)
         Me.chkApplyTDS.TabIndex = 375
@@ -426,7 +431,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(5, 289)
+        Me.MyLabel10.Location = New System.Drawing.Point(5, 311)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel10.TabIndex = 374
@@ -436,7 +441,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.txtMilkType.arrDispalyMember = Nothing
         Me.txtMilkType.arrValueMember = Nothing
-        Me.txtMilkType.Location = New System.Drawing.Point(101, 288)
+        Me.txtMilkType.Location = New System.Drawing.Point(101, 310)
         Me.txtMilkType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMilkType.MyLinkLable1 = Nothing
         Me.txtMilkType.MyLinkLable2 = Nothing
@@ -450,7 +455,7 @@ Partial Class frmDCSAdditionDeduction
         Me.grpQtyUOM.Controls.Add(Me.rbtnQtyUOMRec)
         Me.grpQtyUOM.Controls.Add(Me.rbtnQtyUOMKG)
         Me.grpQtyUOM.Controls.Add(Me.rbtnQtyUOMLtr)
-        Me.grpQtyUOM.Location = New System.Drawing.Point(326, 116)
+        Me.grpQtyUOM.Location = New System.Drawing.Point(326, 134)
         Me.grpQtyUOM.Name = "grpQtyUOM"
         Me.grpQtyUOM.Size = New System.Drawing.Size(201, 29)
         Me.grpQtyUOM.TabIndex = 372
@@ -505,7 +510,7 @@ Partial Class frmDCSAdditionDeduction
         Me.cboROIncreaseAfter.IsSourceFromTable = False
         Me.cboROIncreaseAfter.IsSourceFromValueList = False
         Me.cboROIncreaseAfter.IsUnique = False
-        Me.cboROIncreaseAfter.Location = New System.Drawing.Point(392, 262)
+        Me.cboROIncreaseAfter.Location = New System.Drawing.Point(392, 284)
         Me.cboROIncreaseAfter.MendatroryField = True
         Me.cboROIncreaseAfter.MyLinkLable1 = Me.MyLabel9
         Me.cboROIncreaseAfter.MyLinkLable2 = Nothing
@@ -520,7 +525,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(310, 264)
+        Me.MyLabel9.Location = New System.Drawing.Point(310, 286)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(77, 16)
         Me.MyLabel9.TabIndex = 371
@@ -539,7 +544,7 @@ Partial Class frmDCSAdditionDeduction
         Me.cboRoundOFFDecimalPlaces.IsSourceFromTable = False
         Me.cboRoundOFFDecimalPlaces.IsSourceFromValueList = False
         Me.cboRoundOFFDecimalPlaces.IsUnique = False
-        Me.cboRoundOFFDecimalPlaces.Location = New System.Drawing.Point(101, 262)
+        Me.cboRoundOFFDecimalPlaces.Location = New System.Drawing.Point(101, 284)
         Me.cboRoundOFFDecimalPlaces.MendatroryField = True
         Me.cboRoundOFFDecimalPlaces.MyLinkLable1 = Me.MyLabel8
         Me.cboRoundOFFDecimalPlaces.MyLinkLable2 = Nothing
@@ -554,7 +559,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(5, 264)
+        Me.MyLabel8.Location = New System.Drawing.Point(5, 286)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel8.TabIndex = 369
@@ -564,7 +569,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(5, 237)
+        Me.MyLabel14.Location = New System.Drawing.Point(5, 260)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(70, 18)
         Me.MyLabel14.TabIndex = 367
@@ -574,7 +579,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.txtAddAmount.arrDispalyMember = Nothing
         Me.txtAddAmount.arrValueMember = Nothing
-        Me.txtAddAmount.Location = New System.Drawing.Point(101, 236)
+        Me.txtAddAmount.Location = New System.Drawing.Point(101, 259)
         Me.txtAddAmount.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtAddAmount.MyLinkLable1 = Nothing
         Me.txtAddAmount.MyLinkLable2 = Nothing
@@ -619,7 +624,7 @@ Partial Class frmDCSAdditionDeduction
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypePDCS)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeDCS)
         Me.GroupBox1.Controls.Add(Me.rbtnDCSTypeBoth)
-        Me.GroupBox1.Location = New System.Drawing.Point(528, 83)
+        Me.GroupBox1.Location = New System.Drawing.Point(528, 100)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(219, 151)
         Me.GroupBox1.TabIndex = 3
@@ -760,7 +765,7 @@ Partial Class frmDCSAdditionDeduction
         Me.grpAdditionType.Controls.Add(Me.rbtnAdditionTypeNormal)
         Me.grpAdditionType.Controls.Add(Me.rbtnAdditionTypeCompulsory)
         Me.grpAdditionType.Controls.Add(Me.rbtnAdditionTypeSaving)
-        Me.grpAdditionType.Location = New System.Drawing.Point(326, 147)
+        Me.grpAdditionType.Location = New System.Drawing.Point(326, 167)
         Me.grpAdditionType.Name = "grpAdditionType"
         Me.grpAdditionType.Size = New System.Drawing.Size(203, 37)
         Me.grpAdditionType.TabIndex = 29
@@ -803,7 +808,7 @@ Partial Class frmDCSAdditionDeduction
         Me.lblMappingCodeDesc.BorderVisible = True
         Me.lblMappingCodeDesc.FieldName = Nothing
         Me.lblMappingCodeDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMappingCodeDesc.Location = New System.Drawing.Point(310, 212)
+        Me.lblMappingCodeDesc.Location = New System.Drawing.Point(310, 236)
         Me.lblMappingCodeDesc.Name = "lblMappingCodeDesc"
         Me.lblMappingCodeDesc.Size = New System.Drawing.Size(212, 18)
         Me.lblMappingCodeDesc.TabIndex = 28
@@ -820,7 +825,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtMappingCode.IsSourceFromTable = False
         Me.txtMappingCode.IsSourceFromValueList = False
         Me.txtMappingCode.IsUnique = False
-        Me.txtMappingCode.Location = New System.Drawing.Point(101, 212)
+        Me.txtMappingCode.Location = New System.Drawing.Point(101, 236)
         Me.txtMappingCode.MendatroryField = True
         Me.txtMappingCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMappingCode.MyLinkLable1 = Me.MyLabel7
@@ -839,7 +844,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(5, 213)
+        Me.MyLabel7.Location = New System.Drawing.Point(5, 237)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(80, 16)
         Me.MyLabel7.TabIndex = 26
@@ -851,7 +856,7 @@ Partial Class frmDCSAdditionDeduction
         Me.lblGLAcctName.BorderVisible = True
         Me.lblGLAcctName.FieldName = Nothing
         Me.lblGLAcctName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGLAcctName.Location = New System.Drawing.Point(310, 188)
+        Me.lblGLAcctName.Location = New System.Drawing.Point(310, 213)
         Me.lblGLAcctName.Name = "lblGLAcctName"
         Me.lblGLAcctName.Size = New System.Drawing.Size(212, 18)
         Me.lblGLAcctName.TabIndex = 10
@@ -870,7 +875,7 @@ Partial Class frmDCSAdditionDeduction
         Me.cboApplyType.IsSourceFromTable = False
         Me.cboApplyType.IsSourceFromValueList = False
         Me.cboApplyType.IsUnique = False
-        Me.cboApplyType.Location = New System.Drawing.Point(101, 135)
+        Me.cboApplyType.Location = New System.Drawing.Point(101, 158)
         Me.cboApplyType.MendatroryField = True
         Me.cboApplyType.MyLinkLable1 = Me.MyLabel4
         Me.cboApplyType.MyLinkLable2 = Nothing
@@ -885,7 +890,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(5, 137)
+        Me.MyLabel4.Location = New System.Drawing.Point(5, 160)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel4.TabIndex = 14
@@ -904,7 +909,7 @@ Partial Class frmDCSAdditionDeduction
         Me.cboApplyOn.IsSourceFromTable = False
         Me.cboApplyOn.IsSourceFromValueList = False
         Me.cboApplyOn.IsUnique = False
-        Me.cboApplyOn.Location = New System.Drawing.Point(101, 109)
+        Me.cboApplyOn.Location = New System.Drawing.Point(101, 131)
         Me.cboApplyOn.MendatroryField = True
         Me.cboApplyOn.MyLinkLable1 = Me.MyLabel2
         Me.cboApplyOn.MyLinkLable2 = Nothing
@@ -919,7 +924,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(5, 111)
+        Me.MyLabel2.Location = New System.Drawing.Point(5, 133)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(53, 16)
         Me.MyLabel2.TabIndex = 15
@@ -936,7 +941,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtGLAccount.IsSourceFromTable = False
         Me.txtGLAccount.IsSourceFromValueList = False
         Me.txtGLAccount.IsUnique = False
-        Me.txtGLAccount.Location = New System.Drawing.Point(101, 188)
+        Me.txtGLAccount.Location = New System.Drawing.Point(101, 213)
         Me.txtGLAccount.MendatroryField = True
         Me.txtGLAccount.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtGLAccount.MyLinkLable1 = Me.MyLabel6
@@ -955,7 +960,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(5, 189)
+        Me.MyLabel6.Location = New System.Drawing.Point(5, 214)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel6.TabIndex = 12
@@ -975,7 +980,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtApplyValue.IsSourceFromTable = False
         Me.txtApplyValue.IsSourceFromValueList = False
         Me.txtApplyValue.IsUnique = False
-        Me.txtApplyValue.Location = New System.Drawing.Point(101, 161)
+        Me.txtApplyValue.Location = New System.Drawing.Point(101, 184)
         Me.txtApplyValue.MaxLength = 5
         Me.txtApplyValue.MendatroryField = True
         Me.txtApplyValue.MyLinkLable1 = Me.MyLabel5
@@ -994,7 +999,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(5, 163)
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 186)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(67, 16)
         Me.MyLabel5.TabIndex = 13
@@ -1004,7 +1009,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.GroupBox2.Controls.Add(Me.rbtnNatureTypeDeduction)
         Me.GroupBox2.Controls.Add(Me.rbtnNatureTypeAddition)
-        Me.GroupBox2.Location = New System.Drawing.Point(326, 83)
+        Me.GroupBox2.Location = New System.Drawing.Point(326, 95)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(198, 36)
         Me.GroupBox2.TabIndex = 6
@@ -1064,7 +1069,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtSNo.IsSourceFromTable = False
         Me.txtSNo.IsSourceFromValueList = False
         Me.txtSNo.IsUnique = False
-        Me.txtSNo.Location = New System.Drawing.Point(230, 161)
+        Me.txtSNo.Location = New System.Drawing.Point(230, 184)
         Me.txtSNo.MaxLength = 5
         Me.txtSNo.MendatroryField = False
         Me.txtSNo.MyLinkLable1 = Me.MyLabel1
@@ -1083,7 +1088,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(196, 163)
+        Me.MyLabel1.Location = New System.Drawing.Point(196, 186)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel1.TabIndex = 24
@@ -1093,7 +1098,7 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(5, 86)
+        Me.MyLabel3.Location = New System.Drawing.Point(5, 107)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel3.TabIndex = 16
@@ -1139,7 +1144,7 @@ Partial Class frmDCSAdditionDeduction
         Me.dtStartDate.IsSourceFromTable = False
         Me.dtStartDate.IsSourceFromValueList = False
         Me.dtStartDate.IsUnique = False
-        Me.dtStartDate.Location = New System.Drawing.Point(101, 85)
+        Me.dtStartDate.Location = New System.Drawing.Point(101, 106)
         Me.dtStartDate.MendatroryField = True
         Me.dtStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtStartDate.MyLinkLable1 = Me.MyLabel3
@@ -1188,7 +1193,7 @@ Partial Class frmDCSAdditionDeduction
         Me.dtpEndDate.IsSourceFromTable = False
         Me.dtpEndDate.IsSourceFromValueList = False
         Me.dtpEndDate.IsUnique = False
-        Me.dtpEndDate.Location = New System.Drawing.Point(230, 85)
+        Me.dtpEndDate.Location = New System.Drawing.Point(230, 106)
         Me.dtpEndDate.MendatroryField = False
         Me.dtpEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpEndDate.MyLinkLable1 = Me.MyLabel13
@@ -1209,11 +1214,20 @@ Partial Class frmDCSAdditionDeduction
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(179, 86)
+        Me.MyLabel13.Location = New System.Drawing.Point(179, 107)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(53, 16)
         Me.MyLabel13.TabIndex = 11
         Me.MyLabel13.Text = "End Date"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(611, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'btnEndDate
         '
@@ -1260,14 +1274,40 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'btnHistory
+        'txtDedCode
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(611, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 21)
-        Me.btnHistory.TabIndex = 5
-        Me.btnHistory.Text = "History"
+        Me.txtDedCode.CalculationExpression = Nothing
+        Me.txtDedCode.FieldCode = Nothing
+        Me.txtDedCode.FieldDesc = Nothing
+        Me.txtDedCode.FieldMaxLength = 0
+        Me.txtDedCode.FieldName = Nothing
+        Me.txtDedCode.isCalculatedField = False
+        Me.txtDedCode.IsSourceFromTable = False
+        Me.txtDedCode.IsSourceFromValueList = False
+        Me.txtDedCode.IsUnique = False
+        Me.txtDedCode.Location = New System.Drawing.Point(101, 82)
+        Me.txtDedCode.MendatroryField = True
+        Me.txtDedCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDedCode.MyLinkLable1 = Nothing
+        Me.txtDedCode.MyLinkLable2 = Nothing
+        Me.txtDedCode.MyReadOnly = False
+        Me.txtDedCode.MyShowMasterFormButton = False
+        Me.txtDedCode.Name = "txtDedCode"
+        Me.txtDedCode.ReferenceFieldDesc = Nothing
+        Me.txtDedCode.ReferenceFieldName = Nothing
+        Me.txtDedCode.ReferenceTableName = Nothing
+        Me.txtDedCode.Size = New System.Drawing.Size(146, 18)
+        Me.txtDedCode.TabIndex = 437
+        Me.txtDedCode.Value = ""
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(5, 82)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(87, 18)
+        Me.MyLabel15.TabIndex = 438
+        Me.MyLabel15.Text = "Deduction Code"
         '
         'frmDCSAdditionDeduction
         '
@@ -1355,12 +1395,13 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1444,4 +1485,6 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents chkShare As RadCheckBox
     Friend WithEvents chkMarginDCS As RadCheckBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents txtDedCode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
 End Class

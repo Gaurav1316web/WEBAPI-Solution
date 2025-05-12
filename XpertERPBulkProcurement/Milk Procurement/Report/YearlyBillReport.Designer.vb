@@ -107,7 +107,7 @@ Partial Class YearlyBillReport
         Me.RadPageView2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
-        Me.RadPageView2.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView2.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView2.Size = New System.Drawing.Size(800, 409)
         Me.RadPageView2.TabIndex = 18
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
