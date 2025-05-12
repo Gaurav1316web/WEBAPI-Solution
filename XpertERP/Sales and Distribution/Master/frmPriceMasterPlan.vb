@@ -477,6 +477,10 @@ Public Class frmPriceMasterPlan
                                 gv1.Rows(ii).Cells(clsCommon.myCstr(colAgainstItemWiseTaxCode)).Value = objTAXRate.HCODE
                             End If
                         End If
+                        Dim saleamt As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSaleAmt).Value)
+                        If saleamt <= 0 Then
+                            Throw New Exception("Error At line No" + clsCommon.myCstr(ii + 1) + " Sale amt should be greater then 0. ")
+                        End If
                     Next
 
                 End If

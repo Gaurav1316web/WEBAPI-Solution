@@ -32428,6 +32428,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
+            coll.Add("IsMultipleInvoice", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

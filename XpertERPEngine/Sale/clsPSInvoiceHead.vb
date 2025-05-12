@@ -209,6 +209,7 @@ Public Class clsPSInvoiceHead
     Public Transport_Code As String = Nothing
     Public Transporter_Name As String = Nothing
     Public Freight_Distance As Integer = 0
+    Public IsMultipleInvoice As Integer = 0
     Public Deduction_Type As String = Nothing
     Public Deduction As String = Nothing
     Public Distributor_Commission_TotalAmt As Decimal = 0
@@ -708,6 +709,7 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Transport_Code", obj.Transport_Code, True)
             clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Transporter_Name)
             clsCommon.AddColumnsForChange(coll, "Freight_Distance", obj.Freight_Distance)
+            clsCommon.AddColumnsForChange(coll, "IsMultipleInvoice", obj.IsMultipleInvoice)
 
             If clsCommon.myLen(obj.Invoice_No_For_Supplementary) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Supplementary_Type", obj.Supplementary_Type)
@@ -2232,8 +2234,8 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
                     Dim isCreditCust As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from tspl_customer_Master where cust_code='" + obj.Customer_Code + "'", trans))
                     If clsCommon.CompairString(isCreditCust, "N") = CompairStringResult.Equal Then
                         If FinancialImpactForDistributor Then
-                            objCustInvTR.Promotional_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SALES_ACCOUNTS.Promotional,* from TSPL_SALES_ACCOUNTS left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code where TSPL_ITEM_MASTER.Item_Code='" + objTr.Item_Code + "'", trans))
-                            If clsCommon.myLen(objCustInvTR.Transporter_GL_Account_Code) > 0 Then
+                            objCustInvTR.Promotional_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SALES_ACCOUNTS.Promotional from TSPL_SALES_ACCOUNTS left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code where TSPL_ITEM_MASTER.Item_Code='" + objTr.Item_Code + "'", trans))
+                            If clsCommon.myLen(objCustInvTR.Promotional_GL_Account_Code) > 0 Then
                                 objCustInvTR.Distributor_Commission_Amt = objTr.Distributor_Commission_Amt
                             Else
                                 Throw New Exception("Promotional GL Account Not Found!")
@@ -2447,8 +2449,8 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                                         objCustInvTR1.Amount = 0
                                     End If
                                     If FinancialImpactForDistributor Then
-                                        objCustInvTR1.Promotional_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SALES_ACCOUNTS.Promotional,* from TSPL_SALES_ACCOUNTS left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code where TSPL_ITEM_MASTER.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
-                                        If clsCommon.myLen(objCustInvTR1.Transporter_GL_Account_Code) > 0 Then
+                                        objCustInvTR1.Promotional_GL_Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_SALES_ACCOUNTS.Promotional from TSPL_SALES_ACCOUNTS left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code where TSPL_ITEM_MASTER.Item_Code='" + clsCommon.myCstr(dr1("Item_Code")) + "'", trans))
+                                        If clsCommon.myLen(objCustInvTR1.Promotional_GL_Account_Code) > 0 Then
                                             objCustInvTR1.Distributor_Commission_Amt = clsCommon.myCdbl(dr1("Distributor_Commission_Amt"))
                                         Else
                                             Throw New Exception("Promotional GL Account Not Found!")
