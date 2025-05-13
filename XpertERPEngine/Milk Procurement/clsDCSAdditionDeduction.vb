@@ -223,7 +223,7 @@ Public Class clsDCSAdditionDeduction
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Description_Hindi = clsCommon.myCstr(dt.Rows(0)("Description_Hindi"))
             obj.Start_Date = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
-            obj.Deduction = clsCommon.myCDate(dt.Rows(0)("Deduction"))
+            obj.Deduction = clsCommon.myCstr(dt.Rows(0)("Deduction"))
             If dt.Rows(0)("End_Date") IsNot DBNull.Value Then
                 obj.End_Date = clsCommon.myCDate(dt.Rows(0)("End_Date"))
             Else
