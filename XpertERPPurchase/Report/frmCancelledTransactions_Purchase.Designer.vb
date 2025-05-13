@@ -22,6 +22,7 @@ Partial Class frmCancelledTransactions_Purchase
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
@@ -322,22 +323,27 @@ Partial Class frmCancelledTransactions_Purchase
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(886, 233)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
         'cboTransaction
         '
         Me.cboTransaction.CalculationExpression = Nothing
+        Me.cboTransaction.DropDownAnimationEnabled = True
         Me.cboTransaction.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTransaction.FieldCode = Nothing
         Me.cboTransaction.FieldDesc = Nothing
@@ -371,6 +377,7 @@ Partial Class frmCancelledTransactions_Purchase
         'cboModule
         '
         Me.cboModule.CalculationExpression = Nothing
+        Me.cboModule.DropDownAnimationEnabled = True
         Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModule.FieldCode = Nothing
         Me.cboModule.FieldDesc = Nothing
