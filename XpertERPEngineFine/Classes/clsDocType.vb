@@ -4,6 +4,7 @@ Imports System.Windows.Forms
 Public Class clsDocType
     Public Const DCSDispatch As String = "DCS Dispatch"
     Public Const DCSInvoice As String = "DCS Invoice"
+    Public Const DCSSaleEntry As String = "DCS Sale Entry"
     Public Const ShortSupplyPenalty As String = "Short Supply Penalty"
     Public Const frmRCDFRateControl As String = "RCDF Rate Control"
     Public Const frmEmployeeDeductionMaster As String = "Employee Deduction Master"

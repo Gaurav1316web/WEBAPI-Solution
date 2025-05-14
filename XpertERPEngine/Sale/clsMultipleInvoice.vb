@@ -239,7 +239,7 @@ Public Class clsMultipleInvoice
                     obj.MBRT_Hours = clsCommon.myCdbl(dr("MBRT_Hours"))
                     obj.ParentDocNo = clsCommon.myCstr(dr("ParentDocNo"))
                     obj.ReceiverName = clsCommon.myCstr(dr("ReceiverName"))
-                    obj.Against_Demand_No = clsCommon.myCstr(dr("Against_Demand_No"))
+                    'obj.Against_Demand_No = clsCommon.myCstr(dr("Against_Demand_No"))
                     obj.Against_Booking_No = clsCommon.myCstr(dr("Against_Booking_No"))
                     obj.BoothSecurity_TotalAmt += clsCommon.myCdbl(dr("BoothSecurity_TotalAmt"))
                     obj.Vehicle_Type = clsCommon.myCstr(dr("Vehicle_Type"))
@@ -719,7 +719,7 @@ Public Class clsMultipleInvoice
                     objTr.Item_Desc = objShipmentDetail.Item_Desc
                     objTr.Qty = objShipmentDetail.Qty
                     objTr.Free_Qty = objShipmentDetail.Free_Qty
-                    objTr.Shipment_Code = objShipment.Document_Code
+                    objTr.Shipment_Code = objShipmentDetail.Document_Code
                     objTr.Balance_Qty = objShipmentDetail.Balance_Qty
                     objTr.Unit_code = objShipmentDetail.Unit_code
                     objTr.Location = objShipmentDetail.Location

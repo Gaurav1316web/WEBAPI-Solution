@@ -1823,6 +1823,12 @@
     <Compile Include="Milk Procurement\Transaction\frmCorrection.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSSaleEntry.Designer.vb">
+      <DependentUpon>frmDCSSaleEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSSaleEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmIncetiveEntry.Designer.vb">
       <DependentUpon>frmIncetiveEntry.vb</DependentUpon>
     </Compile>
@@ -5586,6 +5592,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmCorrection.resx">
       <DependentUpon>frmCorrection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDCSSaleEntry.resx">
+      <DependentUpon>frmDCSSaleEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmIncetiveEntry.resx">
       <DependentUpon>frmIncetiveEntry.vb</DependentUpon>

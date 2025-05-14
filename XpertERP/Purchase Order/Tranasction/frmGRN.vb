@@ -6353,77 +6353,84 @@ Public Class frmGRN
             If clsCommon.myLen(txtDocNo.Value) <= 0 AndAlso clsCommon.myLen(StrDocNo) <= 0 Then
                 MessageBox.Show("Select the GRN No.")
                 Exit Sub
-
             End If
-            If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GHO") = CompairStringResult.Equal) Then
-                strquery = "select TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode,  detail.Unit_code,head.VehicleNo, head.GRN_No as 'GRN No', convert(varchar,head.GRN_Date,103) as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name',head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton',detail.GRN_Qty as 'Quantity', detail.Item_Cost as 'Item Cost', detail.Disc_Amt as 'Discount', detail.Amount as 'Amount', HEAD.Discount_Base as 'Total Amount',HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount', tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2, " &
-                                   " CONCAT(ISNULL(TSPL_LOCATION_MASTER.ADD1, ''), ',', ISNULL(TSPL_LOCATION_MASTER.ADD2, ''), ',', ISNULL(TSPL_LOCATION_MASTER.ADD3, ''), ',', ISNULL(TSPL_LOCATION_MASTER.Add4, ''), ISNULL(TSPL_LOCATION_MASTER.State, '')) AS address1,head.Ref_No,head.Carrier,head.Against_PO,head.Posting_Date " &
-                                   " from TSPL_GRN_HEAD as head " &
-                                   " left outer join TSPL_GRN_DETAIL as detail on head.GRN_No=detail.grn_no " &
-                                   " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =HEAD.tax1 " &
-                                   " left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
-                                   " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=HEAD .TAX3" &
-                                   " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= HEAD .tax4" &
-                                   " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=HEAD .tax5 " &
-                                   " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =HEAD .TAX6 " &
-                                   " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =HEAD .TAX7 " &
-                                   " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =HEAD .TAX8 " &
-                                   " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =HEAD .TAX9" &
-                                   " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =HEAD .TAX10 " &
-                                   " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = HEAD.comp_code " &
-                                   " left outer join TSPL_LOCATION_MASTER ON HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code  AND tspl_location_master.Location_Code =  tspl_location_master.Loc_Segment_Code " &
-                                   " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= detail.Item_Code " &
-                                   " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = HEAD.Vendor_Code " &
-                                   " left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state " &
-                                   " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code " &
-                                   " where 1=1 "
-                If clsCommon.myLen(StrDocNo) Then
-                    strquery += " and head.grn_no='" + StrDocNo + "'"
-                End If
-            Else
-                strquery = "select  "
-                strquery += " convert(Varchar,TSPL_TENDER_HEADER.DocumentDate,103) AS TendorDocumentDate,TSPL_TENDER_HEADER.DocumentCode as TendorNo, "
+            clsGRNHead.funGRNPrint(MyBase.Form_ID, False, txtDate.Value, StrDocNo)
 
-                strquery += " Comp_Code1, TSPL_LOCATION_MASTER.Location_Desc, TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.Telphone as Location_Telphone , TSPL_LOCATION_MASTER.Email as Location_Email,TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant , TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode,  detail.Unit_code,head.VehicleNo, head.GRN_No as 'GRN No', convert(varchar,head.GRN_Date,103) as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name',head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton',detail.GRN_Qty as 'Quantity', detail.Item_Cost as 'Item Cost', detail.Disc_Amt as 'Discount', detail.Amount as 'Amount', HEAD.Discount_Base as 'Total Amount',HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount', tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,head.Ref_No,head.Carrier,head.Against_PO,head.Posting_Date  from TSPL_GRN_HEAD as head " &
-                            " left outer join TSPL_GRN_DETAIL as detail on head.GRN_No=detail.grn_no " &
-                            " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code = HEAD.tax1 " &
-                            " left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
-                            " left outer join tspl_tax_master as tax3 on tax3.Tax_Code = HEAD .TAX3" &
-                            " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code = HEAD .tax4" &
-                            " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code = HEAD .tax5 " &
-                            " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code = HEAD .TAX6 " &
-                            " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code = HEAD .TAX7 " &
-                            " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code = HEAD .TAX8 " &
-                            " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code = HEAD .TAX9" &
-                            " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code = HEAD .TAX10 " &
-                            " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = HEAD.comp_code " &
-                            " left outer join TSPL_LOCATION_MASTER ON  ( HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code  and  HEAD.Bill_To_Location = tspl_location_master.Loc_Segment_Code ) " &
-                            " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= detail.Item_Code  " &
-                            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = HEAD.Vendor_Code  " &
-                            " left outer join tspl_state_master as tspl_state_master_for_location_state on tspl_state_master_for_location_state.state_code=tspl_location_master.state  " &
-                            " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code "
-
-                strquery += " Left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=head.Against_PO
- left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo " & ""
-                strquery +=
-                            " where head.grn_no='" + StrDocNo + "'"
-
-            End If
-            If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    '==update by preeti gupta Against ticket no[ERO/30/04/19-000579]
-                    'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")))
-                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE(), "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")), "SubRptCmpnyMasterForERODE.rpt")
-                    frmCRV = Nothing
-                End If
-            End If
-
-
+            'clsGRNHead.funGRNPrint(Nothing, True, Nothing, StrDocNo)
+            'clsGRNHead.funGRNPrint()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+
+        '           If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GHO") = CompairStringResult.Equal) Then
+        '               strquery = "select TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode,  detail.Unit_code,head.VehicleNo, head.GRN_No as 'GRN No', convert(varchar,head.GRN_Date,103) as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name',head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton',detail.GRN_Qty as 'Quantity', detail.Item_Cost as 'Item Cost', detail.Disc_Amt as 'Discount', detail.Amount as 'Amount', HEAD.Discount_Base as 'Total Amount',HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount', tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2, " &
+        '                                  " CONCAT(ISNULL(TSPL_LOCATION_MASTER.ADD1, ''), ',', ISNULL(TSPL_LOCATION_MASTER.ADD2, ''), ',', ISNULL(TSPL_LOCATION_MASTER.ADD3, ''), ',', ISNULL(TSPL_LOCATION_MASTER.Add4, ''), ISNULL(TSPL_LOCATION_MASTER.State, '')) AS address1,head.Ref_No,head.Carrier,head.Against_PO,head.Posting_Date " &
+        '                                  " from TSPL_GRN_HEAD as head " &
+        '                                  " left outer join TSPL_GRN_DETAIL as detail on head.GRN_No=detail.grn_no " &
+        '                                  " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =HEAD.tax1 " &
+        '                                  " left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
+        '                                  " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=HEAD .TAX3" &
+        '                                  " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= HEAD .tax4" &
+        '                                  " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=HEAD .tax5 " &
+        '                                  " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =HEAD .TAX6 " &
+        '                                  " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =HEAD .TAX7 " &
+        '                                  " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =HEAD .TAX8 " &
+        '                                  " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =HEAD .TAX9" &
+        '                                  " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =HEAD .TAX10 " &
+        '                                  " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = HEAD.comp_code " &
+        '                                  " left outer join TSPL_LOCATION_MASTER ON HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code  AND tspl_location_master.Location_Code =  tspl_location_master.Loc_Segment_Code " &
+        '                                  " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= detail.Item_Code " &
+        '                                  " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = HEAD.Vendor_Code " &
+        '                                  " left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state " &
+        '                                  " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code " &
+        '                                  " where 1=1 "
+        '               If clsCommon.myLen(StrDocNo) Then
+        '                   strquery += " and head.grn_no='" + StrDocNo + "'"
+        '               End If
+        '           Else
+        '               strquery = "select  "
+        '               strquery += " convert(Varchar,TSPL_TENDER_HEADER.DocumentDate,103) AS TendorDocumentDate,TSPL_TENDER_HEADER.DocumentCode as TendorNo, "
+
+        '               strquery += " Comp_Code1, TSPL_LOCATION_MASTER.Location_Desc, TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.Telphone as Location_Telphone , TSPL_LOCATION_MASTER.Email as Location_Email,TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant , TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode,  detail.Unit_code,head.VehicleNo, head.GRN_No as 'GRN No', convert(varchar,head.GRN_Date,103) as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name',head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton',detail.GRN_Qty as 'Quantity', detail.Item_Cost as 'Item Cost', detail.Disc_Amt as 'Discount', detail.Amount as 'Amount', HEAD.Discount_Base as 'Total Amount',HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount', tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,head.Ref_No,head.Carrier,head.Against_PO,head.Posting_Date  from TSPL_GRN_HEAD as head " &
+        '                           " left outer join TSPL_GRN_DETAIL as detail on head.GRN_No=detail.grn_no " &
+        '                           " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code = HEAD.tax1 " &
+        '                           " left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
+        '                           " left outer join tspl_tax_master as tax3 on tax3.Tax_Code = HEAD .TAX3" &
+        '                           " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code = HEAD .tax4" &
+        '                           " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code = HEAD .tax5 " &
+        '                           " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code = HEAD .TAX6 " &
+        '                           " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code = HEAD .TAX7 " &
+        '                           " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code = HEAD .TAX8 " &
+        '                           " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code = HEAD .TAX9" &
+        '                           " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code = HEAD .TAX10 " &
+        '                           " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = HEAD.comp_code " &
+        '                           " left outer join TSPL_LOCATION_MASTER ON  ( HEAD.Bill_To_Location = TSPL_LOCATION_MASTER.Location_Code  and  HEAD.Bill_To_Location = tspl_location_master.Loc_Segment_Code ) " &
+        '                           " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= detail.Item_Code  " &
+        '                           " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = HEAD.Vendor_Code  " &
+        '                           " left outer join tspl_state_master as tspl_state_master_for_location_state on tspl_state_master_for_location_state.state_code=tspl_location_master.state  " &
+        '                           " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code "
+
+        '               strquery += " Left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=head.Against_PO
+        'left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo " & ""
+        '               strquery +=
+        '                           " where head.grn_no='" + StrDocNo + "'"
+
+        '           End If
+        '           If strquery IsNot Nothing AndAlso clsCommon.myLen(strquery) > 0 Then
+        '               Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
+        '               If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '                   Dim frmCRV As New frmCrystalReportViewer()
+        '                   '==update by preeti gupta Against ticket no[ERO/30/04/19-000579]
+        '                   'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")))
+        '                   frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE(), "crptGRNReport", "GRN Report", clsCommon.myCDate(dt.Rows(0)("GRN Date")), "SubRptCmpnyMasterForERODE.rpt")
+        '                   frmCRV = Nothing
+        '               End If
+        '           End If
+
+
+        '       Catch ex As Exception
+        '           clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '       End Try
     End Sub
 
     Private Sub gv1_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gv1.CellFormatting

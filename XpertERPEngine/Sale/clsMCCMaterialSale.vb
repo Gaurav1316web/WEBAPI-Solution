@@ -2995,6 +2995,7 @@ Public Class clsMCCMaterialSaleDetail
     Public Purchase_Cost As Double = 0
     Public OrgRate As Double = 0
     Public PrincipleCode As String = Nothing
+    Public REF_PK_ID As Integer
     Public PrincipleDesc As String = Nothing
     Public vendor_code As String = Nothing
     Public vendor_desc As String = Nothing
@@ -3156,6 +3157,7 @@ Public Class clsMCCMaterialSaleDetail
                 clsCommon.AddColumnsForChange(coll, "Purchase_Cost", obj.Purchase_Cost)
                 clsCommon.AddColumnsForChange(coll, "OrgRate", obj.OrgRate)
                 clsCommon.AddColumnsForChange(coll, "PrincipleCode", obj.PrincipleCode)
+                clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID, True)
                 clsCommon.AddColumnsForChange(coll, "PrincipleDesc", obj.PrincipleDesc)
                 clsCommon.AddColumnsForChange(coll, "vendor_code", obj.vendor_code)
                 clsCommon.AddColumnsForChange(coll, "vendor_desc", obj.vendor_desc)
