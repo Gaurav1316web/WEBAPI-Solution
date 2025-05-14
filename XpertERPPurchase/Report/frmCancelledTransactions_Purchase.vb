@@ -507,6 +507,9 @@ from TSPL_PR_HEAD_Cancel_Data
         Try
             If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Gate Received Note") = CompairStringResult.Equal Then
                 clsGRNHead.funGRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Material Received Note") = CompairStringResult.Equal Then
+                clsMRNHead.funMRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
