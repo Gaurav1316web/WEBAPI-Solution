@@ -1294,6 +1294,12 @@ Public Class rptPaymentProcessRouteReport
     End Sub
 
     Private Sub Load_Report_Paymnet_RCDF()
+        Dim isDedfound As Integer = 0
+        isDedfound = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select count(*) from TSPL_DCS_ADDITION_DEDUCTION WHERE Deduction IS NULL "))
+        If isDedfound > 0 Then
+            common.clsCommon.MyMessageBoxShow(Me, "Please Map remaining Code", Me.Text)
+            Exit Sub
+        End If
         Dim companyADD, CompName, CompCode As String
 
         Dim sQuery As String = ""
@@ -1516,9 +1522,15 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                  )ZZ GROUP BY ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition"
         Dim dtAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
-        Dim baseQryDeduction As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code , TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc ,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 
-from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+        Dim baseQryDeduction As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME,
+COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code) AS Ded_Code,
+COALESCE(TSPL_DEDUCTION_MASTER.Description, TSPL_PAYMENT_PROCESS_DEDUCTION.ded_desc) as Ded_Desc
+,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 
+from TSPL_PAYMENT_PROCESS_DEDUCTION 
+inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpLedgerFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpLedgerToDate.Value + "'),103) 
 union all
 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE, TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME as Vendor_NAME, 'TDS' as Ded_Code , 'TDS' as Ded_Desc ,(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount) as Amount,TSPL_VLC_MASTER_HEAD.Route_Code 

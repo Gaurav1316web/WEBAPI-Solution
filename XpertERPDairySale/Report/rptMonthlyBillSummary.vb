@@ -76,7 +76,15 @@ FROM
 GROUP BY 
     Customer_Code)RR on RR.Customer_Code=final.cust_Code "
             End If
-            qry = "select '" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
+            qry = "select "
+            If rbtnItemTypeTaxable.IsChecked Then
+                qry += " 'Taxable Supply Bill'  "
+            ElseIf rbtnItemTypeNonTaxable.IsChecked Then
+                qry += " 'Milk Supply Bill'  "
+            Else
+                qry += " 'Bill Summary'  "
+            End If
+            qry += " as ReportName, '" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
 ,0 as valueInRs,
 sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   max(Payment_Terms) AS Payment_Terms, 
@@ -512,34 +520,31 @@ from
                 0
               ) Booth_Security_Amt 
             from 
-              TSPL_SD_SALE_INVOICE_DETAIL 
-              LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
-              left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
-              left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-              and TSPL_SD_SHIPMENT_DETAIL.Line_No = TSPL_SD_sale_invoice_DETAIL.Line_No 
-              left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No 
-              left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
-              And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_sale_invoice_DETAIL.Unit_code 
-              LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
-              left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code 
-              and ItemConvReportUOM.Report_UOM = 1 
-            
-              left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_sale_invoice_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
-              and TSPL_SD_sale_invoice_DETAIL.Unit_code = ItemConvinUOM.UOM_Code 
-           
-                                       left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code 
-              left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-              left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
-              LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
-              left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
-              left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
-               
-              LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
-              left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code 
-              and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location 
-              and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
-             
-         ) as final
+TSPL_SD_SALE_INVOICE_DETAIL 
+LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
+left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
+and TSPL_SD_SHIPMENT_DETAIL.Line_No = TSPL_SD_sale_invoice_DETAIL.Line_No 
+left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No 
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_sale_invoice_DETAIL.Unit_code 
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
+left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1 
+left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_sale_invoice_DETAIL.Item_Code = ItemConvinUOM.Item_Code  and TSPL_SD_sale_invoice_DETAIL.Unit_code = ItemConvinUOM.UOM_Code 
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code 
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
+LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
+left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
+left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
+LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
+left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location  and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
+where 2=2 "
+            If rbtnItemTypeTaxable.IsChecked Then
+                qry += " and isnull( TSPL_ITEM_MASTER.IsTaxable,0)=1 "
+            ElseIf rbtnItemTypeNonTaxable.IsChecked Then
+                qry += " and isnull( TSPL_ITEM_MASTER.IsTaxable,0)=0 "
+            End If
+            qry += " ) as final
        where 2=2 " + whrcls + " ) AS Main_Final 
       left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = Main_Final.comp_code  
   ) Final  " + forCustomerWise + "where " + whr + " " + Group + "
@@ -625,7 +630,17 @@ FROM
 GROUP BY 
     Customer_Code)RR on RR.Customer_Code=final.cust_Code "
             End If
-            qry = "select '" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
+
+
+            qry = "select "
+            If rbtnItemTypeTaxable.IsChecked Then
+                qry += " 'Taxable Supply Bill'  "
+            ElseIf rbtnItemTypeNonTaxable.IsChecked Then
+                qry += " 'Milk Supply Bill'  "
+            Else
+                qry += " 'Bill Summary'  "
+            End If
+            qry += " as ReportName,'" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
 ,0 as valueInRs,  ROW_NUMBER() OVER (
     PARTITION BY Document_Date
     ORDER BY Document_Date asc
@@ -1063,40 +1078,34 @@ from
                 TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt, 
                 0
               ) Booth_Security_Amt 
-            from 
-              TSPL_SD_SALE_INVOICE_DETAIL 
-              LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
-              left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
-              left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-              and TSPL_SD_SHIPMENT_DETAIL.Line_No = TSPL_SD_sale_invoice_DETAIL.Line_No 
-              left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No 
-              left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
-              And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_sale_invoice_DETAIL.Unit_code 
-              LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
-              left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code 
-              and ItemConvReportUOM.Report_UOM = 1 
-            
-              left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_sale_invoice_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
-              and TSPL_SD_sale_invoice_DETAIL.Unit_code = ItemConvinUOM.UOM_Code 
-           
-                                       left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code 
-              left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-              left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
-              LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
-              left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
-              left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
-               
-              LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
-              left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code 
-              and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location 
-              and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
-             
-         ) as final
+from  TSPL_SD_SALE_INVOICE_DETAIL 
+LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
+left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  and TSPL_SD_SHIPMENT_DETAIL.Line_No = TSPL_SD_sale_invoice_DETAIL.Line_No 
+left outer join TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No 
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_sale_invoice_DETAIL.Unit_code 
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
+left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code  and ItemConvReportUOM.Report_UOM = 1 
+left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_sale_invoice_DETAIL.Item_Code = ItemConvinUOM.Item_Code  and TSPL_SD_sale_invoice_DETAIL.Unit_code = ItemConvinUOM.UOM_Code 
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code 
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
+LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
+left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
+left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
+LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
+left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location  and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
+Where 2=2 "
+            If rbtnItemTypeTaxable.IsChecked Then
+                qry += " and isnull( TSPL_ITEM_MASTER.IsTaxable,0)=1 "
+            ElseIf rbtnItemTypeNonTaxable.IsChecked Then
+                qry += " and isnull( TSPL_ITEM_MASTER.IsTaxable,0)=0 "
+            End If
+            qry += "       ) as final
        where 2=2 " + whrcls + " ) AS Main_Final 
       left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = Main_Final.comp_code  
-  ) Final  " + forCustomerWise + "where " + whr + " " + Group + "
+  ) Final  " + forCustomerWise + "where " + whr + " " + Group + ""
 
-  "
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()

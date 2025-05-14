@@ -546,6 +546,7 @@
     <Compile Include="Receivables\ClsBankBook.vb" />
     <Compile Include="Receivables\ClsCompetitorMaster.vb" />
     <Compile Include="Receivables\clsCustomerOutstanding.vb" />
+    <Compile Include="Sale\clsMultipleInvoice.vb" />
     <Compile Include="Sale\clsSaleIncentiveMaster.vb" />
     <Compile Include="Sale\ClsScrapSaleInvoice.vb" />
     <Compile Include="Sale\ClsScrapSaleReturn.vb" />

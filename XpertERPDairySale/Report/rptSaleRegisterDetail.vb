@@ -1931,4 +1931,16 @@ Public Class rptSaleRegisterDetail
         Dim obj As clsSaleRegisterParameterType = ReturnFilterData()
         Dim qry As String = clsSaleRegisterDetail.GetReportDataReaderForPrint(obj)
     End Sub
+
+    Private Sub txtMultSubLocation__My_Click(sender As Object, e As EventArgs) Handles txtMultSubLocation._My_Click
+        Try
+            If txtLocation.arrValueMember Is Nothing Then
+                Throw New Exception("Select Location")
+            End If
+            Dim Qry As String = " select Location_Code as CODE,Location_Desc as NAME, case when Is_Sub_Location='Y' then 'Sub Location' else case when Is_Section='Y' then 'Section' else '' end end as Type, Section_Code as Section from TSPL_LOCATION_MASTER where (Main_Location_Code In  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") or location_code In (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + "))  order by Type desc,Location_Code"
+            txtMultSubLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("SubLoc", Qry, "Code", "Name", txtMultSubLocation.arrValueMember, txtMultSubLocation.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -865,24 +865,27 @@ Public Class RCDFDashboard
             Dim FGSFG As String = ""
             Dim StatusInvoice As String = ""
             Dim StatusReturn As String = ""
+            Dim StatusReturn1 As String = ""
             Dim Stocktransferdispatch As String = ""
             Dim stocktransferinvoice As String = ""
-            Dim StatusScrap As String = ""
-            Dim StatusScrapInvoice As String = ""
+            Dim statusScrap As String = ""
+            Dim statusScrapInvoice As String = ""
             If rdbPosted.IsChecked = True Then
                 Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=1 "
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
                 StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=1 "
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=1 "
-                StatusScrap = " And TSPL_SCRAPSALE_HEAD.ispost=1  "
-                StatusScrapInvoice = " And TSPL_SCRAPINVOICE_HEAD.ispost=1  "
+                StatusReturn1 = " And TSPL_SCRAPSALE_HEAD_RETURN.ispost=1"
+                StatusScrap = " AND TSPL_SCRAPSALE_HEAD.ispost=1 "
+                StatusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=1 "
             ElseIf rdbUnposted.IsChecked = True Then
                 Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=0 "
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
                 StatusInvoice = " AND TSPL_SD_SALE_INVOICE_HEAD.Status=0 "
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=0 "
-                StatusScrap = " And TSPL_SCRAPSALE_HEAD.ispost=0  "
-                StatusScrapInvoice = " And TSPL_SCRAPINVOICE_HEAD.ispost=0  "
+                StatusReturn1 = " AND TSPL_SCRAPSALE_HEAD_RETURN.ispost=0 "
+                statusScrap = " AND TSPL_SCRAPSALE_HEAD.ispost=0 "
+                statusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=0 "
             ElseIf rdbAll.IsChecked = True Then
 
             End If
@@ -1078,15 +1081,32 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code
                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code 
                 AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_RETURN_DETAIL.Unit_code
-                WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") +
-                "' and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
-                    sQuery += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " " + whr + ""
+                WHERE  TSPL_SD_SALE_RETURN_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                and  TSPL_SD_SALE_RETURN_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                    sQuery += " " + StatusReturn + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location In  ('" + clsCommon.myCstr(txtLocation.Value) + "') "
                     sQuery += " union all
-                select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
-                WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                               select TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date as Document_Date,
+                CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
 				WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
-				end as 'SR_NO',0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER
+				end as 'SR_NO',
+                (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL_RETURN.shipped_Qty) as Qty							   
+								   FROM TSPL_SCRAPSALE_DETAIL_RETURN
+								     left outer join TSPL_SCRAPSALE_HEAD_RETURN on TSPL_SCRAPSALE_HEAD_RETURN.Document_No =TSPL_SCRAPSALE_DETAIL_RETURN.Document_No
+                                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SCRAPSALE_HEAD_RETURN.cust_Code
+                                     LEFT OUTER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_PRICE_COMPONENT_MAPPING.Price_Code=TSPL_CUSTOMER_MASTER.price_CodeNon
+                                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code
+                                     LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SCRAPSALE_DETAIL_RETURN.Item_Code 
+                                     AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code
+	                                 WHERE  TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                                     and    TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+									 and TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  ('" + clsCommon.myCstr(txtLocation.Value) + "') 
+                                     union all
+                                    select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
+                                    WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
+                                    CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
+				                    WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 3 	WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('KVSS') then 2 else 1
+				                    end as 'SR_NO',0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select TSPL_CUSTOMER_MASTER.price_CodeNon as 'price_CodeNon' from TSPL_CUSTOMER_MASTER) as TSPL_CUSTOMER_MASTER
                 )x 
                 )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
 
@@ -2161,6 +2181,15 @@ ORDER BY  TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.It
             e.RowElement.ForeColor = Color.MintCream
         Catch ex As Exception
         End Try
+    End Sub
+
+    Private Sub rdbSaleReturn_CheckStateChanged(sender As Object, e As EventArgs) Handles rdbSaleReturn.CheckStateChanged
+        If rdbSaleReturn.IsChecked = True Then
+            rdbDispatch.IsChecked = False
+            rdbInvoice.IsChecked = False
+        Else
+            rdbDispatch.IsChecked = True
+        End If
     End Sub
 End Class
 

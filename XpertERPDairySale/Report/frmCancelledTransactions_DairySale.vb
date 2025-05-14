@@ -73,7 +73,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmSaleDispatchDairy + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmDairyGatePass + "','" + clsUserMgtCode.frmMCCMaterial + "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmSaleDispatchDairy + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmDairyGatePass + "','" + clsUserMgtCode.frmMCCMaterial + "','" + clsUserMgtCode.frmDairyBookingCustomer + "','" + clsUserMgtCode.frmWreckageBooking + "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -272,6 +272,22 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
             End If
 
             qry += "order by TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GPDate , TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data.GPCode"
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyBookingCustomer) = CompairStringResult.Equal Then
+            gv1.DataSource = Nothing
+            qry = " select TSPL_BOOKING_MATSER_Cancel_Data.Document_No  as [Document Id] , convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Document_date ,103) as [Document Date],
+TSPL_BOOKING_MATSER_Cancel_Data.location_code as [Location Code], Convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Supply_Date,103) As [Supply Date], Case When TSPL_BOOKING_MATSER_Cancel_Data.Is_Taxable=0 Then 'Non-Taxable' Else 'Taxable' End As [Invoice Type],TSPL_BOOKING_MATSER_Cancel_Data.Against_DemandBooking_No as [Against Booking No], TSPL_BOOKING_MATSER_Cancel_Data.Created_By as [Created By], (convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Created_Date,103)+' '+convert(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Created_Date,108)) as [Created Date],TSPL_BOOKING_MATSER_Cancel_Data.Cancel_By AS [Canceled By],(CONVERT(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,103)+' '+CONVERT(varchar,TSPL_BOOKING_MATSER_Cancel_Data.Cancel_On,108)) AS [Canceled Date]
+,'' as Description from TSPL_BOOKING_MATSER_Cancel_Data   
+            WHERE  convert(date,TSPL_BOOKING_MATSER_Cancel_Data.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_BOOKING_MATSER_Cancel_Data.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+            If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                qry += " and TSPL_BOOKING_MATSER_Cancel_Data.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            End If
+            If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                qry += " and TSPL_BOOKING_MATSER_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            Else
+                qry += " and TSPL_BOOKING_MATSER_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            End If
+
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -383,7 +399,7 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
 
     Sub MSGShowAndHide()
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleDispatchDairy) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleDispatchDairy) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyBookingCustomer) = CompairStringResult.Equal Then
                 btnPrintCancel.Visible = False
                 lblPrintMsg.Visible = True
             Else
@@ -402,12 +418,31 @@ TSPL_SD_SALE_INVOICe_HEAD_Cancel_Data.Ack_Date as [Ack Date],TSPL_SD_SHIPMENT_HE
         Try
             If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
                 clsMCCMaterialSale.funPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmDairyBookingCustomer) = CompairStringResult.Equal Then
+                'PrintInvoiceForAll("", MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                Dim frm As New frmDairyBookingCustomer()
+
+                Dim InvoiceDocNo As String
+                Dim doccodeShip As String
+                'Dim InvoiceDocNo As New List(Of String)
+                doccodeShip = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Against_Booking_No ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
+
+                InvoiceDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD_Cancel_Data where Against_Shipment_No ='" + doccodeShip + "'"))
+                'Dim Qry As String = Nothing
+
+                frm.printInvoice(clsCommon.myCstr(InvoiceDocNo), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
+                'frm.printInvoice(clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
+
             Else
                 printCanceInvoice()
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub cboTransaction_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboTransaction.SelectedIndexChanged
+
     End Sub
 
     'Private Sub gv1_CellEditorInitialized(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellEditorInitialized

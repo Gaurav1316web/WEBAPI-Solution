@@ -1,5 +1,6 @@
 ﻿
 Imports XpertERPEngine
+
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class ShareMaster
     'Inherits System.Windows.Forms.Form

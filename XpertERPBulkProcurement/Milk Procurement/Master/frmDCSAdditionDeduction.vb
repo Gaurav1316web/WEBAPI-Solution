@@ -155,6 +155,7 @@ Public Class frmDCSAdditionDeduction
                 obj.Description = txtDescName.Text
                 obj.Description_Hindi = txtDescNameHindi.Text
                 obj.Start_Date = dtStartDate.Value
+                obj.Deduction = txtDedCode.Value
                 If dtpEndDate.Checked Then
                     obj.End_Date = dtpEndDate.Value
                 End If
@@ -261,6 +262,7 @@ Public Class frmDCSAdditionDeduction
                 txtDescName.Text = obj.Description
                 txtDescNameHindi.Text = obj.Description_Hindi
                 dtStartDate.Value = obj.Start_Date
+                txtDedCode.Value = obj.Deduction
                 If obj.End_Date IsNot Nothing Then
                     dtpEndDate.Checked = True
                     dtpEndDate.Value = obj.End_Date
@@ -509,6 +511,7 @@ Public Class frmDCSAdditionDeduction
         txtDescName.Text = Nothing
         txtDescNameHindi.Text = Nothing
         txtGLAccount.Value = ""
+        txtDedCode.Value = ""
         lblGLAcctName.Text = ""
         txtApplyValue.Text = ""
         dtpEndDate.Value = clsCommon.GETSERVERDATE()
@@ -723,6 +726,16 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_DCS_ADDITION_DEDUCTION")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtDedCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDedCode._MYValidating
+        Try
+            Dim qry As String = " Select code,Description,Ded_Grp_Code from TSPL_DEDUCTION_MASTER  "
+            Dim WhrCls As String = " 2=2 "
+            txtDedCode.Value = clsCommon.ShowSelectForm("DCSCode", qry, "code", WhrCls, txtDedCode.Value, "code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

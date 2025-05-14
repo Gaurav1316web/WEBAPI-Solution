@@ -35,6 +35,7 @@ Public Class clsDCSAdditionDeduction
     Public Arr As ArrayList = Nothing
     Public ArrDCSExclude As ArrayList = Nothing
     Public MarginDCS As Integer = 0
+    Public Deduction As String = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsDCSAdditionDeduction, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -59,6 +60,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Description_Hindi", obj.Description_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Deduction", obj.Deduction)
             If obj.End_Date Is Nothing Then
                 clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
                 clsCommon.AddColumnsForChange(coll, "End_Date_Created_By", Nothing, True)
@@ -221,6 +223,7 @@ Public Class clsDCSAdditionDeduction
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Description_Hindi = clsCommon.myCstr(dt.Rows(0)("Description_Hindi"))
             obj.Start_Date = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
+            obj.Deduction = clsCommon.myCstr(dt.Rows(0)("Deduction"))
             If dt.Rows(0)("End_Date") IsNot DBNull.Value Then
                 obj.End_Date = clsCommon.myCDate(dt.Rows(0)("End_Date"))
             Else

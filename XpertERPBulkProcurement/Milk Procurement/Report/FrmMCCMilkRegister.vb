@@ -2974,9 +2974,11 @@ Public Class FrmMCCMilkRegister
             RadButton1.Enabled = True
         End If
 
-        chkDateShift.Checked = False
-        txtFromShift.SelectedValue = "M"
-        txtToShift.SelectedValue = "E"
+        'chkDateShift.Checked = False
+        'txtFromShift.SelectedValue = "M"
+        'txtToShift.SelectedValue = "E"
+
+
         'txtMCC.arrValueMember = Nothing
         'txtRoute.arrValueMember = Nothing
         'txtVLC.arrValueMember = Nothing
@@ -3700,7 +3702,7 @@ Public Class FrmMCCMilkRegister
                     'End If
                     Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
                     If AreaWiseBilling Then
-                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, Nothing, Nothing, Nothing, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
+                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), "", StrPermission, Nothing, Nothing, Nothing, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
                         'strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, Nothing, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
                         strRejectionQuery = strSRNQuery
                         If chkOnlyRejection.Checked Then
@@ -3708,7 +3710,7 @@ Public Class FrmMCCMilkRegister
                                       Case When TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No Is Null Then TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type Else Null End End) Is Not Null"
                         End If
                     Else
-                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, arrRoute, txtVLC.arrValueMember, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
+                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), "", StrPermission, txtMCC.arrValueMember, arrRoute, txtVLC.arrValueMember, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
                         'strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, Nothing, txtVLC.arrValueMember, "", SetCowFatPer, fndArea.Value)
                         strRejectionQuery = strSRNQuery
                         If chkOnlyRejection.Checked Then

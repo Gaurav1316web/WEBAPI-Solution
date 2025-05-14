@@ -7352,7 +7352,14 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+
         Try
+            Dim isDedfound As Integer = 0
+            isDedfound = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select count(*) from TSPL_DCS_ADDITION_DEDUCTION WHERE Deduction IS NULL "))
+            If isDedfound > 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please Map remaining Code", Me.Text)
+                Exit Sub
+            End If
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
                 Load_Report_Paymnet_UDL()
             ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then

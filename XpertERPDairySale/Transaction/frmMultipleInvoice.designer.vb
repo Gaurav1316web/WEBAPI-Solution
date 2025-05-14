@@ -22,29 +22,29 @@ Partial Class frmMultipleInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.lblRoute = New common.Controls.MyLabel()
-        Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.lblCustomer = New common.Controls.MyLabel()
+        Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.rgbShiftType = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnEvening = New System.Windows.Forms.RadioButton()
-        Me.rbtnMorning = New System.Windows.Forms.RadioButton()
         Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnNonTaxable = New System.Windows.Forms.RadioButton()
         Me.rbtnTaxable = New System.Windows.Forms.RadioButton()
         Me.lblLocationDesc = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
-        Me.lblFromDate = New common.Controls.MyLabel()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -57,8 +57,12 @@ Partial Class frmMultipleInvoice
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblTodate = New common.Controls.MyLabel()
+        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.lblToDate = New common.Controls.MyLabel()
+        Me.lblfromDate = New common.Controls.MyLabel()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -67,24 +71,25 @@ Partial Class frmMultipleInvoice
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.rgbShiftType.SuspendLayout()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbItemType.SuspendLayout()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTodate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,9 +120,9 @@ Partial Class frmMultipleInvoice
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -144,6 +149,7 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(882, 417)
@@ -160,19 +166,20 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblTodate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtToShift)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtToDate)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRoute)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRoute)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblToDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblfromDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomer)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustomer)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.rgbShiftType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rgbItemType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocationDesc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblFromDate)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromDate)
         '
         'SplitContainer2.Panel2
         '
@@ -181,34 +188,34 @@ Partial Class frmMultipleInvoice
         Me.SplitContainer2.SplitterDistance = 77
         Me.SplitContainer2.TabIndex = 0
         '
-        'lblRoute
+        'lblCustomer
         '
-        Me.lblRoute.FieldName = Nothing
-        Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(10, 52)
-        Me.lblRoute.Name = "lblRoute"
-        Me.lblRoute.Size = New System.Drawing.Size(36, 18)
-        Me.lblRoute.TabIndex = 1522
-        Me.lblRoute.Text = "Route"
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomer.Location = New System.Drawing.Point(10, 52)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
+        Me.lblCustomer.TabIndex = 1522
+        Me.lblCustomer.Text = "Customer"
         '
-        'txtRoute
+        'txtCustomer
         '
-        Me.txtRoute.arrDispalyMember = Nothing
-        Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(75, 51)
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Me.lblRoute
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyNullText = "All"
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(312, 20)
-        Me.txtRoute.TabIndex = 1521
+        Me.txtCustomer.arrDispalyMember = Nothing
+        Me.txtCustomer.arrValueMember = Nothing
+        Me.txtCustomer.Location = New System.Drawing.Point(75, 51)
+        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.MyLinkLable1 = Me.lblCustomer
+        Me.txtCustomer.MyLinkLable2 = Nothing
+        Me.txtCustomer.MyNullText = "All"
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.Size = New System.Drawing.Size(340, 20)
+        Me.txtCustomer.TabIndex = 1521
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(670, 42)
+        Me.btnGo.Location = New System.Drawing.Point(553, 42)
         Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(181, 18)
+        Me.btnGo.Size = New System.Drawing.Size(181, 28)
         Me.btnGo.TabIndex = 1452
         Me.btnGo.Text = ">>>"
         '
@@ -217,44 +224,10 @@ Partial Class frmMultipleInvoice
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(367, 7)
+        Me.btnAddNew.Location = New System.Drawing.Point(398, 7)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 58
-        '
-        'rgbShiftType
-        '
-        Me.rgbShiftType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.rgbShiftType.Controls.Add(Me.rbtnEvening)
-        Me.rgbShiftType.Controls.Add(Me.rbtnMorning)
-        Me.rgbShiftType.HeaderText = "Shift Type"
-        Me.rgbShiftType.Location = New System.Drawing.Point(536, 5)
-        Me.rgbShiftType.Name = "rgbShiftType"
-        Me.rgbShiftType.Size = New System.Drawing.Size(118, 66)
-        Me.rgbShiftType.TabIndex = 57
-        Me.rgbShiftType.Text = "Shift Type"
-        '
-        'rbtnEvening
-        '
-        Me.rbtnEvening.AutoSize = True
-        Me.rbtnEvening.Location = New System.Drawing.Point(6, 44)
-        Me.rbtnEvening.Name = "rbtnEvening"
-        Me.rbtnEvening.Size = New System.Drawing.Size(66, 17)
-        Me.rbtnEvening.TabIndex = 1
-        Me.rbtnEvening.TabStop = True
-        Me.rbtnEvening.Text = "Evening"
-        Me.rbtnEvening.UseVisualStyleBackColor = True
-        '
-        'rbtnMorning
-        '
-        Me.rbtnMorning.AutoSize = True
-        Me.rbtnMorning.Location = New System.Drawing.Point(6, 21)
-        Me.rbtnMorning.Name = "rbtnMorning"
-        Me.rbtnMorning.Size = New System.Drawing.Size(70, 17)
-        Me.rbtnMorning.TabIndex = 0
-        Me.rbtnMorning.TabStop = True
-        Me.rbtnMorning.Text = "Morning"
-        Me.rbtnMorning.UseVisualStyleBackColor = True
         '
         'rgbItemType
         '
@@ -262,7 +235,7 @@ Partial Class frmMultipleInvoice
         Me.rgbItemType.Controls.Add(Me.rbtnNonTaxable)
         Me.rgbItemType.Controls.Add(Me.rbtnTaxable)
         Me.rgbItemType.HeaderText = "Item Type"
-        Me.rgbItemType.Location = New System.Drawing.Point(413, 4)
+        Me.rgbItemType.Location = New System.Drawing.Point(429, 4)
         Me.rgbItemType.Name = "rgbItemType"
         Me.rgbItemType.Size = New System.Drawing.Size(118, 66)
         Me.rgbItemType.TabIndex = 56
@@ -296,9 +269,9 @@ Partial Class frmMultipleInvoice
         Me.lblLocationDesc.BorderVisible = True
         Me.lblLocationDesc.FieldName = Nothing
         Me.lblLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocationDesc.Location = New System.Drawing.Point(206, 31)
+        Me.lblLocationDesc.Location = New System.Drawing.Point(211, 31)
         Me.lblLocationDesc.Name = "lblLocationDesc"
-        Me.lblLocationDesc.Size = New System.Drawing.Size(181, 18)
+        Me.lblLocationDesc.Size = New System.Drawing.Size(204, 18)
         Me.lblLocationDesc.TabIndex = 54
         Me.lblLocationDesc.TextWrap = False
         '
@@ -325,7 +298,7 @@ Partial Class frmMultipleInvoice
         Me.txtLocation.ReferenceFieldDesc = Nothing
         Me.txtLocation.ReferenceFieldName = Nothing
         Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(115, 19)
+        Me.txtLocation.Size = New System.Drawing.Size(123, 19)
         Me.txtLocation.TabIndex = 53
         Me.txtLocation.Value = ""
         '
@@ -339,46 +312,6 @@ Partial Class frmMultipleInvoice
         Me.lblLocation.TabIndex = 55
         Me.lblLocation.Text = "Location"
         '
-        'lblFromDate
-        '
-        Me.lblFromDate.FieldName = Nothing
-        Me.lblFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFromDate.Location = New System.Drawing.Point(10, 9)
-        Me.lblFromDate.Name = "lblFromDate"
-        Me.lblFromDate.Size = New System.Drawing.Size(60, 16)
-        Me.lblFromDate.TabIndex = 49
-        Me.lblFromDate.Text = "From Date"
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(75, 8)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Me.lblFromDate
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(115, 18)
-        Me.txtFromDate.TabIndex = 50
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "13/06/2011"
-        Me.txtFromDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
-        '
         'gv1
         '
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -386,16 +319,26 @@ Partial Class frmMultipleInvoice
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(882, 304)
         Me.gv1.TabIndex = 0
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(23, 5)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(65, 20)
+        Me.btnSave.TabIndex = 12
+        Me.btnSave.Text = "Save"
         '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(5, 5)
+        Me.btnPost.Location = New System.Drawing.Point(101, 5)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(65, 20)
         Me.btnPost.TabIndex = 1
@@ -470,45 +413,111 @@ Partial Class frmMultipleInvoice
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'lblTodate
+        'txtToShift
         '
-        Me.lblTodate.FieldName = Nothing
-        Me.lblTodate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTodate.Location = New System.Drawing.Point(206, 9)
-        Me.lblTodate.Name = "lblTodate"
-        Me.lblTodate.Size = New System.Drawing.Size(46, 16)
-        Me.lblTodate.TabIndex = 1523
-        Me.lblTodate.Text = "To Date"
+        Me.txtToShift.AutoCompleteDisplayMember = Nothing
+        Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
+        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.txtToShift.Items.Add(RadListDataItem1)
+        Me.txtToShift.Items.Add(RadListDataItem2)
+        Me.txtToShift.Location = New System.Drawing.Point(340, 7)
+        Me.txtToShift.Name = "txtToShift"
+        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtToShift.TabIndex = 1528
+        '
+        'txtFromShift
+        '
+        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
+        Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
+        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.txtFromShift.Items.Add(RadListDataItem3)
+        Me.txtFromShift.Items.Add(RadListDataItem4)
+        Me.txtFromShift.Location = New System.Drawing.Point(159, 7)
+        Me.txtFromShift.Name = "txtFromShift"
+        Me.txtFromShift.Size = New System.Drawing.Size(44, 20)
+        Me.txtFromShift.TabIndex = 1527
         '
         'txtToDate
         '
         Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
         Me.txtToDate.FieldCode = Nothing
         Me.txtToDate.FieldDesc = Nothing
         Me.txtToDate.FieldMaxLength = 0
         Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.txtToDate.isCalculatedField = False
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(261, 8)
+        Me.txtToDate.Location = New System.Drawing.Point(257, 7)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Me.lblTodate
+        Me.txtToDate.MyLinkLable1 = Nothing
         Me.txtToDate.MyLinkLable2 = Nothing
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.ReferenceFieldDesc = Nothing
         Me.txtToDate.ReferenceFieldName = Nothing
         Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(99, 18)
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
         Me.txtToDate.TabIndex = 1524
         Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "13/06/2011"
-        Me.txtToDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        Me.txtToDate.Text = "17-12-2011"
+        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(75, 7)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 1523
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "17-12-2011"
+        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'lblToDate
+        '
+        Me.lblToDate.FieldName = Nothing
+        Me.lblToDate.Location = New System.Drawing.Point(209, 8)
+        Me.lblToDate.Name = "lblToDate"
+        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.lblToDate.TabIndex = 1526
+        Me.lblToDate.Text = "To Date"
+        '
+        'lblfromDate
+        '
+        Me.lblfromDate.FieldName = Nothing
+        Me.lblfromDate.Location = New System.Drawing.Point(9, 8)
+        Me.lblfromDate.Name = "lblfromDate"
+        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
+        Me.lblfromDate.TabIndex = 1525
+        Me.lblfromDate.Text = "From Date"
         '
         'frmMultipleInvoice
         '
@@ -533,26 +542,26 @@ Partial Class frmMultipleInvoice
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.rgbShiftType.ResumeLayout(False)
-        Me.rgbShiftType.PerformLayout()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbItemType.ResumeLayout(False)
         Me.rgbItemType.PerformLayout()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTodate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -577,22 +586,22 @@ Partial Class frmMultipleInvoice
     Friend WithEvents Panel1 As Panel
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents gv1 As RadGridView
-    Friend WithEvents lblFromDate As common.Controls.MyLabel
-    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblLocationDesc As common.Controls.MyLabel
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
-    Friend WithEvents rgbShiftType As RadGroupBox
-    Friend WithEvents rbtnEvening As RadioButton
-    Friend WithEvents rbtnMorning As RadioButton
     Friend WithEvents rgbItemType As RadGroupBox
     Friend WithEvents rbtnNonTaxable As RadioButton
     Friend WithEvents rbtnTaxable As RadioButton
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents btnGo As RadButton
-    Friend WithEvents lblRoute As common.Controls.MyLabel
-    Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents lblTodate As common.Controls.MyLabel
+    Friend WithEvents lblCustomer As common.Controls.MyLabel
+    Friend WithEvents txtCustomer As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnSave As RadButton
+    Friend WithEvents txtToShift As RadDropDownList
+    Friend WithEvents txtFromShift As RadDropDownList
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblToDate As common.Controls.MyLabel
+    Friend WithEvents lblfromDate As common.Controls.MyLabel
 End Class
 
