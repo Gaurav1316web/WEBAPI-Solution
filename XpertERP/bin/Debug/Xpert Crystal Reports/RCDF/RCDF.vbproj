@@ -471,6 +471,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptBulkProcItemPrice.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptDBTPayment.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptDCSSaleEntry.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptDCSTrackSheet.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptDCSTrackSheet_JPR.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptDispatchChallan.rpt" />
