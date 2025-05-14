@@ -26,6 +26,13 @@ Public Class YearlyBillReport
 
     Private Sub LoadData()
         Try
+            Dim isDedfound As Integer = 0
+            isDedfound = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select count(*) from TSPL_DCS_ADDITION_DEDUCTION WHERE Deduction IS NULL "))
+            If isDedfound > 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please Map remaining Code", Me.Text)
+                Exit Sub
+            End If
+
             Dim PPDocNo As String = ""
             Dim Document As String = Nothing
             Dim qry As String = ""
