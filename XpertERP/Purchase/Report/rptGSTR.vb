@@ -596,8 +596,31 @@ Public Class rptGSTR
             summaryRowItem.Add(item3)
             Dim item4 As New GridViewSummaryItem("Taxable Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
-            Dim item5 As New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+
+
+            Dim chkPrevDoc As String = Nothing
+            'Dim item5 As GridViewSummaryItem
+            Dim Value As Decimal = 0
+            For Each gvRow As GridViewRowInfo In gv3.Rows
+                If clsCommon.CompairString(gvRow.Cells("Particulars").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
+                    If chkPrevDoc IsNot Nothing AndAlso clsCommon.myLen(chkPrevDoc) > 0 Then
+                        If Not clsCommon.CompairString(chkPrevDoc, clsCommon.myCstr(gvRow.Cells("Document No").Value)) = CompairStringResult.Equal Then
+                            'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+                            Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
+                        End If
+                    Else
+                        Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
+                        'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+                    End If
+                    chkPrevDoc = clsCommon.myCstr(gvRow.Cells("Document No").Value)
+                End If
+            Next
+            'summaryRowItem.Add(item5)
+
+            Dim item5 As New GridViewSummaryItem("Invoice Amount", Value.ToString("F2"), GridAggregateFunction.Sum)
             summaryRowItem.Add(item5)
+
+
             Dim item6 As New GridViewSummaryItem("Round Off Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item6)
         ElseIf btnGSTR1.IsChecked = True And chkItemWise.Checked = True Then
