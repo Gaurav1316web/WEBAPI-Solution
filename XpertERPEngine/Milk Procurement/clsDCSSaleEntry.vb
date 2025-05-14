@@ -2064,7 +2064,7 @@ Public Class clsDCSSaleEntry
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
-                    clsMCCMaterialSale.ReverseAndUnpost(clsCommon.myCstr(dr("DOCUMENT_CODE")), trans)
+                    clsMCCMaterialSale.ReverseAndUnpost(clsCommon.myCstr(dr("DOCUMENT_CODE")), True, trans)
                 Next
             End If
 

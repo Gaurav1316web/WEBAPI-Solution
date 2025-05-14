@@ -22439,7 +22439,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
-                            clsMCCMaterialSale.ReverseAndUnpost(strDocNo, trans)
+                            clsMCCMaterialSale.ReverseAndUnpost(strDocNo, False, trans)
                             clsMCCMaterialSale.DeleteData(strDocNo, trans)
                             trans.Commit()
                         Catch ex As Exception
