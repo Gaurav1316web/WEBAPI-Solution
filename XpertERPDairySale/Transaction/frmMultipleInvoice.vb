@@ -40,6 +40,8 @@ Public Class frmMultipleInvoice
         rbtnTaxable.Checked = True
         btnSave.Enabled = True
         btnPost.Enabled = False
+        btnLoadData.Visible = False
+        btnDelete.Visible = False
         btnGo.Enabled = True
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
@@ -47,7 +49,7 @@ Public Class frmMultipleInvoice
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            If txtFromDate.Value <= txtToDate.Value Then
+            If txtFromDate.Value <= txtToDate.Value AndAlso clsCommon.myLen(txtLocation.Value) > 0 Then
                 Dim WhrCls As String = ""
                 Dim FromShift As String = ""
                 Dim ToShift As String = ""
@@ -58,7 +60,7 @@ Public Class frmMultipleInvoice
                 End If
                 If clsCommon.CompairString(txtToShift.Text, "E") = CompairStringResult.Equal Then
                     ToShift = "PM"
-                ElseIf clsCommon.CompairString(txttoShift.Text, "M") = CompairStringResult.Equal Then
+                ElseIf clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
                     ToShift = "AM"
                 End If
                 Dim Qry As String = "select TSPL_SD_SHIPMENT_HEAD.Customer_Code as Customer_Code,TSPL_SD_SHIPMENT_HEAD.Route_No as Route_No
@@ -66,49 +68,53 @@ from TSPL_SD_SHIPMENT_HEAD
 left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
  where 2=2 "
                 Qry += "  and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No='' "
-                Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
-    AND 
-    (
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "')
-        OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')
-        OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "')
-    ) "
+                Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "E") = CompairStringResult.Equal Then
+                    Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')) "
+
+                ElseIf clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    Qry += " AND ( 
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+
+                ElseIf clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+                End If
                 If rbtnNonTaxable.Checked Then
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' "
-                    Else
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' "
-                    End If
-                    If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
-                    End If
-                    Qry += "  group by TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Route_No "
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                    gv1.DataSource = Nothing
-                    gv1.Rows.Clear()
-                    gv1.Columns.Clear()
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        gv1.DataSource = dt
-                        gv1.GroupDescriptors.Clear()
-                        gv1.ShowGroupPanel = False
-                        gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                        gv1.EnableFiltering = True
-                        gv1.AllowAddNewRow = False
-                        For ii As Integer = 0 To gv1.Columns.Count - 1
-                            gv1.Columns(ii).ReadOnly = True
-                            gv1.Columns(ii).IsVisible = True
-                        Next
+                    Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' "
+                Else
+                    Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' "
+                End If
+                If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                    Qry += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
+                End If
+                Qry += "  group by TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_SD_SHIPMENT_HEAD.Route_No "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    gv1.DataSource = dt
+                    gv1.GroupDescriptors.Clear()
+                    gv1.ShowGroupPanel = False
+                    gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv1.EnableFiltering = True
+                    gv1.AllowAddNewRow = False
+                    For ii As Integer = 0 To gv1.Columns.Count - 1
+                        gv1.Columns(ii).ReadOnly = True
+                        gv1.Columns(ii).IsVisible = True
+                    Next
                     gv1.BestFitColumns()
                     btnGo.Enabled = False
                 Else
-                        Throw New Exception("Data Not Found!")
-                    End If
-                Else
-                    Throw New Exception("Invalid Date Range!")
+                    Throw New Exception("Data Not Found!")
+                End If
+            Else
+                Throw New Exception("Invalid Date Range!")
             End If
-
-
         Catch ex As Exception
             'clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -132,18 +138,21 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
-            For intRow As Integer = 0 To gv1.Rows.Count - 1
-                If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
-                    Dim obj As clsPSInvoiceHead = clsPSInvoiceHead.GetData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), "R", NavigatorType.Current)
-                    clsPSInvoiceHead.PostData(Me.Form_ID, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), True)
-                End If
-            Next
-            clsCommon.MyMessageBoxShow(Me, "Posted Successfully", Me.Text)
+            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Post ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                For intRow As Integer = 0 To gv1.Rows.Count - 1
+                    If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
+                        Dim obj As clsPSInvoiceHead = clsPSInvoiceHead.GetData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), "R", NavigatorType.Current)
+                        clsPSInvoiceHead.PostData(Me.Form_ID, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), True)
+                    End If
+                Next
+                clsCommon.MyMessageBoxShow(Me, "Posted Successfully", Me.Text)
+                LoadData(True)
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
         Try
             Dim qry As String = ""
@@ -163,15 +172,13 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-
         Try
             SaveData(trans)
             trans.Commit()
             clsCommon.MyMessageBoxShow(Me, "Invoice Saved Successfully", Me.Text)
-            LoadData()
+            LoadData(False)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -192,21 +199,27 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
                 ToShift = "AM"
             End If
             For intRow As Integer = 0 To gv1.Rows.Count - 1
-
                 If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value)) > 0 Then
                     Dim Qry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD
             where Customer_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "' and Route_No='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(1).Value) + "'  
              and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No='' "
 
-                    Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
-    AND 
-    (
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "')
-        OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')
-        OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "')
-    ) "
+                    Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                    If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "E") = CompairStringResult.Equal Then
+                        Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')) "
+
+                    ElseIf clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                        Qry += " AND ( 
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+
+                    ElseIf clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                        Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+                    End If
+
 
                     If rbtnNonTaxable.Checked Then
                         Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' "
@@ -224,24 +237,29 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
                         Dim ObjInv As clsPSInvoiceHead = clsMultipleInvoice.ConvertShipmentToSaleInvoice(obj, True, trans)
                         Dim status As Boolean = ObjInv.SaveData(ObjInv, True, trans, True)
                         If status Then
-                            clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='" + ObjInv.Document_Code + "' where Document_Code in(" + clsCommon.GetMulcallString(lstDocument) + ")", trans)
+                            Qry = "update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='" + ObjInv.Document_Code + "' where Document_Code in(" + clsCommon.GetMulcallString(lstDocument) + ")"
+                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                        Else
+                            Throw New Exception("Something went worng while creating invoice!")
                         End If
                     End If
                 End If
-
             Next
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Public Sub LoadData()
+    Public Sub LoadData(ByVal isPosted As Boolean)
         Try
-            Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt
-
+            Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt
 from TSPL_SD_SALE_INVOICE_HEAD 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' and TSPL_SD_SALE_INVOICE_HEAD.status=0 "
+where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "'"
+            If isPosted Then
+                strQry += " and TSPL_SD_SALE_INVOICE_HEAD.status=1 "
+            Else
+                strQry += " and TSPL_SD_SALE_INVOICE_HEAD.status=0 "
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -263,6 +281,46 @@ where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.Get
             Else
                 Throw New Exception("Data Not Found!")
             End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub btnLoadData_Click(sender As Object, e As EventArgs) Handles btnLoadData.Click
+        LoadData(True)
+    End Sub
+    Private Sub frmMultipleInvoice_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIR
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnLoadData.Visible = True
+                btnDelete.Visible = True
+            End If
+        End If
+    End Sub
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        Try
+            If common.clsCommon.MyMessageBoxShow(Me, "Do you want to delete ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                For intRow As Integer = 0 To gv1.Rows.Count - 1
+                    If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRow).Cells(6).Value), "Approved") = CompairStringResult.Equal Then
+                            clsPSInvoiceHead.ReverseAndUnpost(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
+                        End If
+                        Dim status As Boolean = clsPSInvoiceHead.DeleteData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value))
+                        If status Then
+                            Dim Qry As String = " update TSPL_SD_SHIPMENT_HEAD set Sale_Invoice_No='' where Sale_Invoice_No =('" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "')"
+                            clsDBFuncationality.ExecuteNonQuery(Qry)
+                        End If
+
+                    End If
+                Next
+                clsCommon.MyMessageBoxShow(Me, "Delete Successfully", Me.Text)
+                LoadData(True)
+            End If
+
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

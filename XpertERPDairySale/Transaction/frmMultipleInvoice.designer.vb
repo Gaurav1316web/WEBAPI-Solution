@@ -22,17 +22,23 @@ Partial Class frmMultipleInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.lblToDate = New common.Controls.MyLabel()
+        Me.lblfromDate = New common.Controls.MyLabel()
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -57,12 +63,8 @@ Partial Class frmMultipleInvoice
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
-        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.lblToDate = New common.Controls.MyLabel()
-        Me.lblfromDate = New common.Controls.MyLabel()
+        Me.btnLoadData = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -71,6 +73,12 @@ Partial Class frmMultipleInvoice
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,12 +92,8 @@ Partial Class frmMultipleInvoice
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnLoadData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -120,9 +124,9 @@ Partial Class frmMultipleInvoice
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
         '
         'Panel1
         '
@@ -149,6 +153,7 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -166,6 +171,7 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnLoadData)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtToShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtToDate)
@@ -187,6 +193,112 @@ Partial Class frmMultipleInvoice
         Me.SplitContainer2.Size = New System.Drawing.Size(882, 385)
         Me.SplitContainer2.SplitterDistance = 77
         Me.SplitContainer2.TabIndex = 0
+        '
+        'txtToShift
+        '
+        Me.txtToShift.AutoCompleteDisplayMember = Nothing
+        Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
+        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.txtToShift.Items.Add(RadListDataItem5)
+        Me.txtToShift.Items.Add(RadListDataItem6)
+        Me.txtToShift.Location = New System.Drawing.Point(340, 7)
+        Me.txtToShift.Name = "txtToShift"
+        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtToShift.TabIndex = 1528
+        '
+        'txtFromShift
+        '
+        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
+        Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
+        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.txtFromShift.Items.Add(RadListDataItem1)
+        Me.txtFromShift.Items.Add(RadListDataItem2)
+        Me.txtFromShift.Location = New System.Drawing.Point(159, 7)
+        Me.txtFromShift.Name = "txtFromShift"
+        Me.txtFromShift.Size = New System.Drawing.Size(44, 20)
+        Me.txtFromShift.TabIndex = 1527
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(257, 7)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Nothing
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.TabIndex = 1524
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "17-12-2011"
+        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(75, 7)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 1523
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "17-12-2011"
+        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'lblToDate
+        '
+        Me.lblToDate.FieldName = Nothing
+        Me.lblToDate.Location = New System.Drawing.Point(209, 8)
+        Me.lblToDate.Name = "lblToDate"
+        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.lblToDate.TabIndex = 1526
+        Me.lblToDate.Text = "To Date"
+        '
+        'lblfromDate
+        '
+        Me.lblfromDate.FieldName = Nothing
+        Me.lblfromDate.Location = New System.Drawing.Point(9, 8)
+        Me.lblfromDate.Name = "lblfromDate"
+        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
+        Me.lblfromDate.TabIndex = 1525
+        Me.lblfromDate.Text = "From Date"
         '
         'lblCustomer
         '
@@ -319,7 +431,7 @@ Partial Class frmMultipleInvoice
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(882, 304)
         Me.gv1.TabIndex = 0
@@ -413,111 +525,23 @@ Partial Class frmMultipleInvoice
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'txtToShift
+        'btnLoadData
         '
-        Me.txtToShift.AutoCompleteDisplayMember = Nothing
-        Me.txtToShift.AutoCompleteValueMember = Nothing
-        Me.txtToShift.DropDownAnimationEnabled = True
-        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.txtToShift.Items.Add(RadListDataItem1)
-        Me.txtToShift.Items.Add(RadListDataItem2)
-        Me.txtToShift.Location = New System.Drawing.Point(340, 7)
-        Me.txtToShift.Name = "txtToShift"
-        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
-        Me.txtToShift.TabIndex = 1528
+        Me.btnLoadData.Location = New System.Drawing.Point(553, 10)
+        Me.btnLoadData.Name = "btnLoadData"
+        Me.btnLoadData.Size = New System.Drawing.Size(181, 28)
+        Me.btnLoadData.TabIndex = 1529
+        Me.btnLoadData.Text = "Load Multiple Invoice"
         '
-        'txtFromShift
+        'btnDelete
         '
-        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
-        Me.txtFromShift.AutoCompleteValueMember = Nothing
-        Me.txtFromShift.DropDownAnimationEnabled = True
-        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.txtFromShift.Items.Add(RadListDataItem3)
-        Me.txtFromShift.Items.Add(RadListDataItem4)
-        Me.txtFromShift.Location = New System.Drawing.Point(159, 7)
-        Me.txtFromShift.Name = "txtFromShift"
-        Me.txtFromShift.Size = New System.Drawing.Size(44, 20)
-        Me.txtFromShift.TabIndex = 1527
-        '
-        'txtToDate
-        '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(257, 7)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Nothing
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtToDate.TabIndex = 1524
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "17-12-2011"
-        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(75, 7)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Nothing
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtFromDate.TabIndex = 1523
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "17-12-2011"
-        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
-        '
-        'lblToDate
-        '
-        Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(209, 8)
-        Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
-        Me.lblToDate.TabIndex = 1526
-        Me.lblToDate.Text = "To Date"
-        '
-        'lblfromDate
-        '
-        Me.lblfromDate.FieldName = Nothing
-        Me.lblfromDate.Location = New System.Drawing.Point(9, 8)
-        Me.lblfromDate.Name = "lblfromDate"
-        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
-        Me.lblfromDate.TabIndex = 1525
-        Me.lblfromDate.Text = "From Date"
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(172, 5)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(65, 20)
+        Me.btnDelete.TabIndex = 13
+        Me.btnDelete.Text = "Delete"
         '
         'frmMultipleInvoice
         '
@@ -542,6 +566,12 @@ Partial Class frmMultipleInvoice
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -556,12 +586,8 @@ Partial Class frmMultipleInvoice
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnLoadData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -603,5 +629,7 @@ Partial Class frmMultipleInvoice
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblToDate As common.Controls.MyLabel
     Friend WithEvents lblfromDate As common.Controls.MyLabel
+    Friend WithEvents btnLoadData As RadButton
+    Friend WithEvents btnDelete As RadButton
 End Class
 

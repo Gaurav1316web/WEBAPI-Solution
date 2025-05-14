@@ -904,7 +904,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt  
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
      FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
@@ -987,6 +987,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             obj.Crate = clsCommon.myCdbl(dt.Rows(0)("Crate"))
             obj.jaali = clsCommon.myCdbl(dt.Rows(0)("jaali"))
             obj.Box = clsCommon.myCdbl(dt.Rows(0)("Box"))
+            obj.IsMultipleInvoice = clsCommon.myCdbl(dt.Rows(0)("IsMultipleInvoice"))
             obj.IsEwaybill = clsCommon.myCdbl(dt.Rows(0)("IsEwaybill"))
             obj.ChangedTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ChangedTCSBaseAmount"))
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ActualTCSBaseAmount"))
@@ -1516,7 +1517,7 @@ Case when TSPL_SD_SALE_INVOICE_DETAIL.TAX1 = 'IGST' then TSPL_SD_SALE_INVOICE_DE
 
 0 as ItemOthChrg,
 
-( case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then ((TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount -(case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)= 1 then TSPL_SD_SALE_INVOICE_DETAIL.total_disc_amt else 0 end ) )+ ((case when TSPL_SD_SALE_INVOICE_HEAD.TAX3='IGST' then TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt else TSPL_SD_SALE_INVOICE_DETAIL.TAX1_AMT + TSPL_SD_SALE_INVOICE_DETAIL.TAX2_AMT +TSPL_SD_SALE_INVOICE_DETAIL.TAX3_AMT + TSPL_SD_SALE_INVOICE_DETAIL.TAX4_AMT end))) else ((TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount -(case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)= 1 then TSPL_SD_SALE_INVOICE_DETAIL.total_disc_amt else 0 end ) )+ TSPL_SD_SALE_INVOICE_DETAIL.TAX1_AMT + (case when isnull(TCS1.is_tcs, '')<> 'Y' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_AMT ELSE 0 END) + (case when isnull(TCS2.is_tcs, '')<> 'Y' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_AMT ELSE 0 END)) end)  as ItemTotItemVal,
+( case when ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.tax2,'')='KKF' then ((TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount -(case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)= 1 then TSPL_SD_SALE_INVOICE_DETAIL.total_disc_amt else 0 end ) )+ ((case when TSPL_SD_SALE_INVOICE_HEAD.TAX3='IGST' then TSPL_SD_SALE_INVOICE_DETAIL.TAX1_AMT + TSPL_SD_SALE_INVOICE_DETAIL.TAX2_AMT +TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt else TSPL_SD_SALE_INVOICE_DETAIL.TAX1_AMT + TSPL_SD_SALE_INVOICE_DETAIL.TAX2_AMT +TSPL_SD_SALE_INVOICE_DETAIL.TAX3_AMT + TSPL_SD_SALE_INVOICE_DETAIL.TAX4_AMT end))) else ((TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount -(case when isnull(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)= 1 then TSPL_SD_SALE_INVOICE_DETAIL.total_disc_amt else 0 end ) )+ TSPL_SD_SALE_INVOICE_DETAIL.TAX1_AMT + (case when isnull(TCS1.is_tcs, '')<> 'Y' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_AMT ELSE 0 END) + (case when isnull(TCS2.is_tcs, '')<> 'Y' THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_AMT ELSE 0 END)) end)  as ItemTotItemVal,
 
 Case when ISNULL(TSPL_SD_SALE_INVOICE_HEAD.tax1,'')='KKF' or ISNULL(TSPL_SD_SALE_INVOICE_HEAD.tax2,'')='KKF' then TSPL_SD_SALE_INVOICE_HEAD.TAX3_Base_Amt else TSPL_SD_SALE_INVOICE_HEAD.TAX1_Base_Amt end as ValDtlsAssVal,
 
