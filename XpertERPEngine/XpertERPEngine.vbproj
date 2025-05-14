@@ -448,6 +448,7 @@
     <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
+    <Compile Include="Milk Procurement\clsDCSSaleEntry.vb" />
     <Compile Include="Milk Procurement\clsFarmerProMaster.vb" />
     <Compile Include="Milk Procurement\clsfrmCustomerRouteShiftMaster.vb" />
     <Compile Include="Milk Procurement\clsGazeReading.vb" />

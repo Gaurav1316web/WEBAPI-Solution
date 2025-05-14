@@ -8006,6 +8006,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmMCCSMSSettiing
                         frm = New FrmMccSMSSetting
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDCSSaleEntry
+                        frm = New frmDCSSaleEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmMCCMaterial
                         frm = New frmMCCMaterialSale
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
