@@ -458,18 +458,13 @@ Public Class frmRMProcessLoss
                     left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
                     left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
                     left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "',103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate((txtTodate.Value), "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1 AND Stock_Qty>0
+                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "',103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate((txtTodate.Value), "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1  
                     UNION 
                     SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
                     LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 
                     WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0) 
-                    )xxx  where Location_Code='" + txtLoc.Value + "' group by xxx.Item_Code,xxx.Location_Code)YYY
-
-
-  
-
- "
+                    )xxx  where Location_Code='" + txtLoc.Value + "' group by xxx.Item_Code,xxx.Location_Code)YYY "
 
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
