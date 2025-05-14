@@ -22,17 +22,17 @@ Partial Class RCDFDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition22 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition23 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition24 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition25 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition26 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition27 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -479,6 +479,7 @@ Partial Class RCDFDashboard
         Me.rdbSaleTransfer.TabIndex = 4
         Me.rdbSaleTransfer.TabStop = False
         Me.rdbSaleTransfer.Text = "All(Sale+Transfer)"
+        Me.rdbSaleTransfer.Visible = False
         '
         'rdbStockTransfer
         '
@@ -692,7 +693,7 @@ Partial Class RCDFDashboard
         '
         Me.gvRMStock.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMStock.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.gvRMStock.MyExportFilePath = ""
         Me.gvRMStock.MyStopExport = False
         Me.gvRMStock.Name = "gvRMStock"
@@ -746,7 +747,7 @@ Partial Class RCDFDashboard
         '
         Me.gvRMSupply.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMSupply.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gvRMSupply.MyExportFilePath = ""
         Me.gvRMSupply.MyStopExport = False
         Me.gvRMSupply.Name = "gvRMSupply"
@@ -778,7 +779,7 @@ Partial Class RCDFDashboard
         '
         Me.gvRMInPlant.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRMInPlant.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition21
         Me.gvRMInPlant.MyExportFilePath = ""
         Me.gvRMInPlant.MyStopExport = False
         Me.gvRMInPlant.Name = "gvRMInPlant"
@@ -840,7 +841,7 @@ Partial Class RCDFDashboard
         '
         Me.gvFinishGoods.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFinishGoods.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition22
         Me.gvFinishGoods.MyExportFilePath = ""
         Me.gvFinishGoods.MyStopExport = False
         Me.gvFinishGoods.Name = "gvFinishGoods"
@@ -865,7 +866,7 @@ Partial Class RCDFDashboard
         '
         'cvFinishGoods
         '
-        Me.cvFinishGoods.AreaDesign = CartesianArea1
+        Me.cvFinishGoods.AreaDesign = CartesianArea2
         Me.cvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvFinishGoods.Location = New System.Drawing.Point(0, 0)
         Me.cvFinishGoods.Name = "cvFinishGoods"
@@ -916,7 +917,7 @@ Partial Class RCDFDashboard
         '
         Me.gvProdution.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProdution.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition23
         Me.gvProdution.MyExportFilePath = ""
         Me.gvProdution.MyStopExport = False
         Me.gvProdution.Name = "gvProdution"
@@ -941,7 +942,7 @@ Partial Class RCDFDashboard
         '
         'cvProdution
         '
-        Me.cvProdution.AreaDesign = CartesianArea2
+        Me.cvProdution.AreaDesign = CartesianArea3
         Me.cvProdution.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvProdution.Location = New System.Drawing.Point(0, 0)
         Me.cvProdution.Name = "cvProdution"
@@ -990,7 +991,7 @@ Partial Class RCDFDashboard
         '
         Me.gvQuality.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvQuality.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition24
         Me.gvQuality.MyExportFilePath = ""
         Me.gvQuality.MyStopExport = False
         Me.gvQuality.Name = "gvQuality"
@@ -1022,7 +1023,7 @@ Partial Class RCDFDashboard
         '
         Me.gvQualitySummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvQualitySummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition25
         Me.gvQualitySummary.MyExportFilePath = ""
         Me.gvQualitySummary.MyStopExport = False
         Me.gvQualitySummary.Name = "gvQualitySummary"
@@ -1083,7 +1084,7 @@ Partial Class RCDFDashboard
         '
         Me.gvAccountVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountVendor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition26
         Me.gvAccountVendor.MyExportFilePath = ""
         Me.gvAccountVendor.MyStopExport = False
         Me.gvAccountVendor.Name = "gvAccountVendor"
@@ -1115,7 +1116,7 @@ Partial Class RCDFDashboard
         '
         Me.gvAccountCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition27
         Me.gvAccountCustomer.MyExportFilePath = ""
         Me.gvAccountCustomer.MyStopExport = False
         Me.gvAccountCustomer.Name = "gvAccountCustomer"
