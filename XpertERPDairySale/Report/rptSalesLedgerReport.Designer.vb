@@ -68,6 +68,7 @@ Partial Class rptSalesLedgerReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.chkDCSSale = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -116,6 +117,7 @@ Partial Class rptSalesLedgerReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDCSSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -199,6 +201,7 @@ Partial Class rptSalesLedgerReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkDCSSale)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox6)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox5)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox4)
@@ -217,7 +220,7 @@ Partial Class rptSalesLedgerReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(368, 372)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(455, 372)
         Me.RadGroupBox1.TabIndex = 389
         '
         'RadGroupBox6
@@ -601,6 +604,7 @@ Partial Class rptSalesLedgerReport
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -659,6 +663,15 @@ Partial Class rptSalesLedgerReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'chkDCSSale
+        '
+        Me.chkDCSSale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDCSSale.Location = New System.Drawing.Point(360, 11)
+        Me.chkDCSSale.Name = "chkDCSSale"
+        Me.chkDCSSale.Size = New System.Drawing.Size(70, 16)
+        Me.chkDCSSale.TabIndex = 446
+        Me.chkDCSSale.Text = "DCS Sale"
         '
         'rptSalesLedgerReport
         '
@@ -727,6 +740,7 @@ Partial Class rptSalesLedgerReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDCSSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -777,5 +791,6 @@ Partial Class rptSalesLedgerReport
     Friend WithEvents RadGroupBox6 As RadGroupBox
     Friend WithEvents rbtnDemand As common.Controls.MyRadioButton
     Friend WithEvents rbtnDispatch As common.Controls.MyRadioButton
+    Friend WithEvents chkDCSSale As RadCheckBox
 End Class
 
