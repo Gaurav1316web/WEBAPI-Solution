@@ -298,6 +298,7 @@ Partial Class FrmProductionAndSaleReport
         Me.rdbSaleTransfer.TabIndex = 4
         Me.rdbSaleTransfer.TabStop = False
         Me.rdbSaleTransfer.Text = "All(Sale+Transfer)"
+        Me.rdbSaleTransfer.Visible = False
         '
         'rdbStockTransfer
         '

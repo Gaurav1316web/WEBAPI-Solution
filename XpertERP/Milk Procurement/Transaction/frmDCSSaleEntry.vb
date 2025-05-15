@@ -6790,21 +6790,6 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         End Try
     End Sub
 
-    Private Sub btnPrintEwayBill_Click(sender As Object, e As EventArgs)
-        Try
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocNo.Value, txtVendorNo.Value, False))
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                frmCRV = Nothing
-            Else
-                Throw New Exception("No Data Found ")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
     'Private Sub rbtnCancel_Click(sender As Object, e As EventArgs) Handles rbtnCancel.Click
     '    Try
     '        'Dim EInvoiceType As String = ""
