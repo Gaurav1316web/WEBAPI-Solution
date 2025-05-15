@@ -30808,7 +30808,6 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("Booth_Security_Rate", "decimal(18,2) NULL")
             coll.Add("Booth_Security_Amt", "decimal(18,2) NULL")
-            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Transporter", "varchar(12) NULL")
             coll.Add("Against_Booking_PK_ID", "int null References TSPL_BOOKING_DETAIL(PK_ID)")
             coll.Add("Scheme_Main_Item", "Varchar(50) null")
