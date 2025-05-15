@@ -726,11 +726,10 @@ Public Class FrmProductionAndSaleReport
                         select Item_Code,xxx.Location_Code,cast(sum(xxx.StockQTYY * RI) as decimal(18,2)) as CLQty
                         from (
                         select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
-					  TSPL_INVENTORY_MOVEMENT.UOM, 
-					  
-					  ( Stock_Qty*ConvertedUnit.Conversion_Factor/(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.Conversion_Factor else ConvertedUnits.Conversion_Factor end)) as StockQTYY 
-					  
+					  TSPL_INVENTORY_MOVEMENT.UOM, 					  
+					  ( Stock_Qty*FromUOM.Conversion_Factor/ToUOM.Conversion_Factor) as StockQTYY 
 					  from TSPL_INVENTORY_MOVEMENT
+                        left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
 		              left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_INVENTORY_MOVEMENT.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_INVENTORY_MOVEMENT.Stock_UOM
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_INVENTORY_MOVEMENT.item_code and ToUOM.UOM_Code='MT'
