@@ -779,11 +779,11 @@ Public Class frmShipmentDairy
             End If
             If clsCommon.CompairString(isTaxable, "0") = CompairStringResult.Equal Then
                 obj.cmbDisItemType.SelectedValue = "NT"
-                obj.GetRouteNO(False)
+                obj.GetRouteNO(False, True)
                 obj.btnSave_Click(obj.btnSave, New EventArgs())
             ElseIf clsCommon.CompairString(isTaxable, "1") = CompairStringResult.Equal Then
                 obj.cmbDisItemType.SelectedValue = "T"
-                obj.GetRouteNO(False)
+                obj.GetRouteNO(False, True)
                 obj.btnSave_Click(obj.btnSave, New EventArgs())
             End If
 
@@ -7618,18 +7618,18 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
 
 
                             LoadDistributorGrid(strQry, trans)
-                            If FinancialImpactForDistributor Then
-                                If DispatchPriceCodeForCreditCustomer Then
+
+                            If DispatchPriceCodeForCreditCustomer Then
                                     txtVendorNo.Value = lst.Booth_Code
                                     lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
                                 End If
-                            End If
+
 
                             MergeDistributorItems(True, True, trans)
                             If RunBatchFifowise = 1 Then
                                 OpenBatchItemForCreditCust(trans)
                             End If
-                            If FinancialImpactForTPT Then
+                            If Not DispatchPriceCodeForCreditCustomer Then
                                 txtVendorNo.Value = lst.Booth_Code
                                 lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
                             End If
@@ -7640,7 +7640,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                             End If
 
                             SaveData(False, trans)
-                            If FinancialImpactForTPT Then
+                            If Not DispatchPriceCodeForCreditCustomer Then
                                 txtVendorNo.Value = txtTransNo.Text
                             End If
                         End If
@@ -12776,9 +12776,9 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         End If
     End Sub
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
-        GetRouteNO(isButtonClicked)
+        GetRouteNO(isButtonClicked, False)
     End Sub
-    Public Sub GetRouteNO(ByVal isButtonClicked As Boolean)
+    Public Sub GetRouteNO(ByVal isButtonClicked As Boolean, ByVal isProcessShipment As Boolean)
         If (clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal) AndAlso (Not clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "") = CompairStringResult.Equal) Then
             ' 
             If SettDistributorWiseBilling Then
@@ -12931,7 +12931,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             cmbShift.Enabled = True
         End If
         cmbDisItemType.Enabled = False
-        btnSave_Click(btnSave, New EventArgs())
+        If Not isProcessShipment Then
+            btnSave_Click(btnSave, New EventArgs())
+        End If
     End Sub
     Private Sub Vehicle()
         Dim Qry As String = "select TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number from TSPL_VEHICLE_MASTER

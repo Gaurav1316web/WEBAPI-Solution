@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmDemandUploader
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,16 +20,19 @@ Partial Class frmDemandUploader
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.txtDocNo = New common.UserControls.txtNavigator()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.lblDocNo = New common.Controls.MyLabel()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.lblUOM = New common.Controls.MyLabel()
+        Me.rgbEntryUOM = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnLTR = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnCratePouch = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnCrate = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.lblLocationDesc = New common.Controls.MyTextBox()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -39,16 +42,15 @@ Partial Class frmDemandUploader
         Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblDate = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSavePost = New Telerik.WinControls.UI.RadButton()
         Me.btnValidate = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnUpload = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -58,8 +60,13 @@ Partial Class frmDemandUploader
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbEntryUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbEntryUOM.SuspendLayout()
+        CType(Me.rbtnLTR, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCratePouch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,16 +76,16 @@ Partial Class frmDemandUploader
         CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSavePost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpload, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -96,6 +103,7 @@ Partial Class frmDemandUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -110,7 +118,6 @@ Partial Class frmDemandUploader
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -137,9 +144,9 @@ Partial Class frmDemandUploader
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblDocNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblUOM)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.rgbEntryUOM)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocationDesc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
@@ -155,42 +162,65 @@ Partial Class frmDemandUploader
         Me.SplitContainer2.SplitterDistance = 63
         Me.SplitContainer2.TabIndex = 0
         '
-        'txtDocNo
+        'btnGo
         '
-        Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(62, 7)
-        Me.txtDocNo.MendatroryField = False
-        Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDocNo.MyLinkLable1 = Nothing
-        Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
-        Me.txtDocNo.MyReadOnly = False
-        Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(269, 19)
-        Me.txtDocNo.TabIndex = 1532
-        Me.txtDocNo.TabStop = False
-        Me.txtDocNo.Value = ""
+        Me.btnGo.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.btnGo.Location = New System.Drawing.Point(431, 32)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(129, 24)
+        Me.btnGo.TabIndex = 1533
+        Me.btnGo.Text = ">>"
         '
-        'btnAddNew
+        'lblUOM
         '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(330, 7)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 1533
+        Me.lblUOM.FieldName = Nothing
+        Me.lblUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblUOM.Location = New System.Drawing.Point(429, 12)
+        Me.lblUOM.Name = "lblUOM"
+        Me.lblUOM.Size = New System.Drawing.Size(62, 16)
+        Me.lblUOM.TabIndex = 1532
+        Me.lblUOM.Text = "Entry UOM"
         '
-        'lblDocNo
+        'rgbEntryUOM
         '
-        Me.lblDocNo.FieldName = Nothing
-        Me.lblDocNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocNo.Location = New System.Drawing.Point(12, 8)
-        Me.lblDocNo.Name = "lblDocNo"
-        Me.lblDocNo.Size = New System.Drawing.Size(44, 16)
-        Me.lblDocNo.TabIndex = 1531
-        Me.lblDocNo.Text = "Doc No"
+        Me.rgbEntryUOM.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbEntryUOM.Controls.Add(Me.rbtnLTR)
+        Me.rgbEntryUOM.Controls.Add(Me.rbtnCratePouch)
+        Me.rgbEntryUOM.Controls.Add(Me.rbtnCrate)
+        Me.rgbEntryUOM.HeaderText = ""
+        Me.rgbEntryUOM.Location = New System.Drawing.Point(496, 7)
+        Me.rgbEntryUOM.Name = "rgbEntryUOM"
+        Me.rgbEntryUOM.Size = New System.Drawing.Size(197, 24)
+        Me.rgbEntryUOM.TabIndex = 1531
+        '
+        'rbtnLTR
+        '
+        Me.rbtnLTR.Location = New System.Drawing.Point(149, 4)
+        Me.rbtnLTR.Name = "rbtnLTR"
+        Me.rbtnLTR.Size = New System.Drawing.Size(38, 18)
+        Me.rbtnLTR.TabIndex = 2
+        Me.rbtnLTR.TabStop = False
+        Me.rbtnLTR.Text = "LTR"
+        '
+        'rbtnCratePouch
+        '
+        Me.rbtnCratePouch.Location = New System.Drawing.Point(53, 4)
+        Me.rbtnCratePouch.Name = "rbtnCratePouch"
+        Me.rbtnCratePouch.Size = New System.Drawing.Size(93, 18)
+        Me.rbtnCratePouch.TabIndex = 1
+        Me.rbtnCratePouch.TabStop = False
+        Me.rbtnCratePouch.Text = "Crate && Pouch"
+        '
+        'rbtnCrate
+        '
+        Me.rbtnCrate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnCrate.Location = New System.Drawing.Point(4, 4)
+        Me.rbtnCrate.Name = "rbtnCrate"
+        Me.rbtnCrate.Size = New System.Drawing.Size(47, 18)
+        Me.rbtnCrate.TabIndex = 0
+        Me.rbtnCrate.TabStop = False
+        Me.rbtnCrate.Text = "Crate"
+        Me.rbtnCrate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'lblLocation
         '
@@ -223,7 +253,7 @@ Partial Class frmDemandUploader
         Me.lblLocationDesc.ReferenceFieldDesc = Nothing
         Me.lblLocationDesc.ReferenceFieldName = Nothing
         Me.lblLocationDesc.ReferenceTableName = Nothing
-        Me.lblLocationDesc.Size = New System.Drawing.Size(267, 20)
+        Me.lblLocationDesc.Size = New System.Drawing.Size(177, 20)
         Me.lblLocationDesc.TabIndex = 1529
         Me.lblLocationDesc.TabStop = False
         '
@@ -257,7 +287,7 @@ Partial Class frmDemandUploader
         '
         Me.lblShift.FieldName = Nothing
         Me.lblShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShift.Location = New System.Drawing.Point(564, 9)
+        Me.lblShift.Location = New System.Drawing.Point(233, 12)
         Me.lblShift.Name = "lblShift"
         Me.lblShift.Size = New System.Drawing.Size(29, 16)
         Me.lblShift.TabIndex = 1527
@@ -269,7 +299,7 @@ Partial Class frmDemandUploader
         Me.rgbShift.Controls.Add(Me.rbtnEvening)
         Me.rgbShift.Controls.Add(Me.rbtnMorning)
         Me.rgbShift.HeaderText = ""
-        Me.rgbShift.Location = New System.Drawing.Point(600, 4)
+        Me.rgbShift.Location = New System.Drawing.Point(269, 7)
         Me.rgbShift.Name = "rgbShift"
         Me.rgbShift.Size = New System.Drawing.Size(141, 24)
         Me.rgbShift.TabIndex = 68
@@ -308,7 +338,7 @@ Partial Class frmDemandUploader
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(416, 7)
+        Me.txtDate.Location = New System.Drawing.Point(63, 9)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.lblDate
@@ -318,7 +348,7 @@ Partial Class frmDemandUploader
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(134, 18)
+        Me.txtDate.Size = New System.Drawing.Size(164, 18)
         Me.txtDate.TabIndex = 1526
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011 11:29 AM"
@@ -328,46 +358,34 @@ Partial Class frmDemandUploader
         '
         Me.lblDate.FieldName = Nothing
         Me.lblDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDate.Location = New System.Drawing.Point(370, 8)
+        Me.lblDate.Location = New System.Drawing.Point(8, 9)
         Me.lblDate.Name = "lblDate"
         Me.lblDate.Size = New System.Drawing.Size(30, 16)
         Me.lblDate.TabIndex = 1525
         Me.lblDate.Text = "Date"
         '
-        'gv1
+        'btnExport
         '
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Location = New System.Drawing.Point(85, 8)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(91, 24)
+        Me.btnExport.TabIndex = 6
+        Me.btnExport.Text = "Export Excel"
         '
+        'btnHistory
         '
-        '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv1.Name = "gv1"
-        Me.gv1.Size = New System.Drawing.Size(946, 293)
-        Me.gv1.TabIndex = 0
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(946, 360)
-        Me.RadPageViewPage2.Text = "Attachment"
-        '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(946, 360)
-        Me.UcAttachment1.TabIndex = 2
-        Me.UcAttachment1.TabStop = False
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(556, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(91, 24)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
         '
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(293, 8)
+        Me.btnSave.Location = New System.Drawing.Point(368, 8)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(91, 24)
         Me.btnSave.TabIndex = 4
@@ -385,7 +403,7 @@ Partial Class frmDemandUploader
         'btnSavePost
         '
         Me.btnSavePost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSavePost.Location = New System.Drawing.Point(386, 8)
+        Me.btnSavePost.Location = New System.Drawing.Point(461, 8)
         Me.btnSavePost.Name = "btnSavePost"
         Me.btnSavePost.Size = New System.Drawing.Size(91, 24)
         Me.btnSavePost.TabIndex = 3
@@ -394,7 +412,7 @@ Partial Class frmDemandUploader
         'btnValidate
         '
         Me.btnValidate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnValidate.Location = New System.Drawing.Point(200, 7)
+        Me.btnValidate.Location = New System.Drawing.Point(275, 7)
         Me.btnValidate.Name = "btnValidate"
         Me.btnValidate.Size = New System.Drawing.Size(91, 24)
         Me.btnValidate.TabIndex = 2
@@ -403,29 +421,46 @@ Partial Class frmDemandUploader
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(105, 7)
+        Me.btnReset.Location = New System.Drawing.Point(15, 8)
         Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(91, 24)
+        Me.btnReset.Size = New System.Drawing.Size(64, 24)
         Me.btnReset.TabIndex = 1
         Me.btnReset.Text = "Reset"
         '
         'btnUpload
         '
         Me.btnUpload.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpload.Location = New System.Drawing.Point(9, 7)
+        Me.btnUpload.Location = New System.Drawing.Point(181, 7)
         Me.btnUpload.Name = "btnUpload"
         Me.btnUpload.Size = New System.Drawing.Size(91, 24)
         Me.btnUpload.TabIndex = 0
         Me.btnUpload.Text = "Upload Excel"
         '
-        'btnHistory
+        'gv1
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(481, 8)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(91, 24)
-        Me.btnHistory.TabIndex = 5
-        Me.btnHistory.Text = "History"
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.AllowDragToGroup = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(946, 293)
+        Me.gv1.TabIndex = 137
+        Me.gv1.VarID = ""
         '
         'frmDemandUploader
         '
@@ -449,8 +484,14 @@ Partial Class frmDemandUploader
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbEntryUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbEntryUOM.ResumeLayout(False)
+        Me.rgbEntryUOM.PerformLayout()
+        CType(Me.rbtnLTR, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCratePouch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).EndInit()
@@ -461,16 +502,16 @@ Partial Class frmDemandUploader
         CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSavePost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpload, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -489,17 +530,19 @@ Partial Class frmDemandUploader
     Friend WithEvents rbtnEvening As RadRadioButton
     Friend WithEvents rbtnMorning As RadRadioButton
     Friend WithEvents lblShift As common.Controls.MyLabel
-    Friend WithEvents gv1 As RadGridView
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents lblLocationDesc As common.Controls.MyTextBox
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents lblDocNo As common.Controls.MyLabel
-    Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents txtDocNo As common.UserControls.txtNavigator
-    Friend WithEvents btnAddNew As RadButton
-    Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents lblUOM As common.Controls.MyLabel
+    Friend WithEvents rgbEntryUOM As RadGroupBox
+    Friend WithEvents rbtnLTR As RadRadioButton
+    Friend WithEvents rbtnCratePouch As RadRadioButton
+    Friend WithEvents rbtnCrate As RadRadioButton
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents btnExport As RadButton
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
