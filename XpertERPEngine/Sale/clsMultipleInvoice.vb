@@ -856,13 +856,16 @@ Public Class clsMultipleInvoice
                     objTr.Amt_Less_Commission = objShipmentDetail.Amt_Less_Commission
                     'objTr.Delivery_Code = objShipmentDetail.Delivery_Code
 
-                    If objShipmentDetail.FOC_Item = 1 Then
-                        obj.Discount_Amt += objShipmentDetail.Amt_Less_Discount
-                    Else
+                    'If objShipmentDetail.FOC_Item = 1 Then
+                    '    obj.Discount_Amt += objShipmentDetail.Amt_Less_Discount
+                    'Else
+                    obj.Discount_Base += objShipmentDetail.Amount
+                        obj.Discount_Amt += objShipmentDetail.Disc_Amt
                         obj.Amount_Less_Discount += objShipmentDetail.Amt_Less_Discount
-                        obj.Total_Amt += objShipmentDetail.Amt_Less_Discount
-                    End If
-                    obj.Discount_Base += objShipmentDetail.Amt_Less_Discount
+                        obj.Total_Tax_Amt += objShipmentDetail.Total_Tax_Amt
+                        obj.Total_Amt += objShipmentDetail.Item_Net_Amt
+                    'End If
+                    'obj.Discount_Base += objShipmentDetail.Amt_Less_Discount
 
 
 

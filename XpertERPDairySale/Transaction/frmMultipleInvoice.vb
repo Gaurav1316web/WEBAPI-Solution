@@ -141,12 +141,13 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
             If common.clsCommon.MyMessageBoxShow(Me, "Do you want to Post ", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 For intRow As Integer = 0 To gv1.Rows.Count - 1
                     If clsCommon.myLen(gv1.Rows(intRow).Cells(0).Value) > 0 Then
-                        Dim obj As clsPSInvoiceHead = clsPSInvoiceHead.GetData(clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), "R", NavigatorType.Current)
-                        clsPSInvoiceHead.PostData(Me.Form_ID, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), True)
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRow).Cells(6).Value), "Pending") = CompairStringResult.Equal Then
+                            clsPSInvoiceHead.PostData(Me.Form_ID, clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value), True)
+                        End If
                     End If
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Posted Successfully", Me.Text)
-                LoadData(True)
+                LoadData()
             End If
 
         Catch ex As Exception
@@ -178,7 +179,7 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
             SaveData(trans)
             trans.Commit()
             clsCommon.MyMessageBoxShow(Me, "Invoice Saved Successfully", Me.Text)
-            LoadData(False)
+            LoadData()
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -249,17 +250,13 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Public Sub LoadData(ByVal isPosted As Boolean)
+    Public Sub LoadData()
         Try
             Dim strQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Invoice_NO,convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Docuemnt_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as Status,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.total_tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt
 from TSPL_SD_SALE_INVOICE_HEAD 
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "'"
-            If isPosted Then
-                strQry += " and TSPL_SD_SALE_INVOICE_HEAD.status=1 "
-            Else
-                strQry += " and TSPL_SD_SALE_INVOICE_HEAD.status=0 "
-            End If
+where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -286,7 +283,7 @@ where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.Get
         End Try
     End Sub
     Private Sub btnLoadData_Click(sender As Object, e As EventArgs) Handles btnLoadData.Click
-        LoadData(True)
+        LoadData()
     End Sub
     Private Sub frmMultipleInvoice_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
@@ -317,7 +314,7 @@ where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.Get
                     End If
                 Next
                 clsCommon.MyMessageBoxShow(Me, "Delete Successfully", Me.Text)
-                LoadData(True)
+                LoadData()
             End If
 
 
