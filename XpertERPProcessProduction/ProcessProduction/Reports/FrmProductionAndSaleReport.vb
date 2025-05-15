@@ -739,14 +739,8 @@ Public Class FrmProductionAndSaleReport
 										 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
 
 										   left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
-                    where  Punching_Date<= '01/Jan/2025 11:59:59 PM' 
-                    and TSPL_INVENTORY_MOVEMENT.Item_Code in (  select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE 
-                    from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
-                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                    left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-                    left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-                    left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                    where "
+                    where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(tDate), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                    and "
                 query += "" + FG + " " + SFG + " " + FGSFG + ""
                 query += " and CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) 
                     and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) "

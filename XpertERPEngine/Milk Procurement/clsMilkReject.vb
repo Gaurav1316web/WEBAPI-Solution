@@ -1376,10 +1376,10 @@ Public Class clsMilkRejectHead
         strSRNQuery += " where 2 = 2 "
         strSRNQuery += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as date) <='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'"
         If clsCommon.CompairString(FromShift, "E") = CompairStringResult.Equal Then
-            strSRNQuery += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_DETAIL.SHIFT='M' then 3 else 2 end  )"
+            strSRNQuery += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
         End If
         If clsCommon.CompairString(ToShift, "M") = CompairStringResult.Equal Then
-            strSRNQuery += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_DETAIL.SHIFT='E' then 3 else 2 end  )"
+            strSRNQuery += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
         End If
         If clsCommon.CompairString(SRNAmounType, "Zero") = CompairStringResult.Equal Then
             strSRNQuery += " and  TSPL_MILK_SRN_DETAIL.AMOUNT = 0 "

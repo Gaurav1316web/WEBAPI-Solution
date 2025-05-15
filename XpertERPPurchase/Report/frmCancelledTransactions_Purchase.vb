@@ -180,6 +180,11 @@ Public Class frmCancelledTransactions_Purchase
     Sub gv1Format()
         Me.gv1.MasterTemplate.Columns("Document Id").Width = 120      ''First Column
         Me.gv1.MasterTemplate.Columns("Document Date").Width = 150    ''Second Column
+        'If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Invoice") = CompairStringResult.Equal Then
+        '    Me.gv1.MasterTemplate.Columns("item code").Width = 150    ''Second Column
+
+        'End If
+
         Dim count As Integer = gv1.MasterTemplate.Columns.Count
         For i As Integer = 2 To count - 2
             Me.gv1.MasterTemplate.Columns(i).Width = 120
@@ -188,6 +193,7 @@ Public Class frmCancelledTransactions_Purchase
         For j As Integer = 1 To count - 1
             Me.gv1.MasterTemplate.Columns(j).ReadOnly = True
         Next
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -378,6 +384,7 @@ from TSPL_SRN_HEAD_Cancel_Data
                     ,TSPL_PI_HEAD_Cancel_Data.Description as Description
 ,Cancel_By as [Cancelled By],
 					Cancel_On as [Cancelled Date] 
+,TSPL_PI_HEAD_Cancel_Data.Vendor_Code as [Vendor Code],TSPL_PI_HEAD_Cancel_Data.Ref_No as [Ref_No],'' as [Item code]
 from TSPL_PI_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PI_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
                      WHERE  convert(date,TSPL_PI_HEAD_Cancel_Data.PI_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
@@ -509,6 +516,16 @@ from TSPL_PR_HEAD_Cancel_Data
                 clsGRNHead.funGRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Material Received Note") = CompairStringResult.Equal Then
                 clsMRNHead.funMRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+                'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Return") = CompairStringResult.Equal Then
+                'clsPurchasReturnHead.funPRPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Invoice") = CompairStringResult.Equal Then
+
+                Dim ItemCode As New List(Of String)
+                'ItemCode = clsCommon.myCstr(clsDBFuncationality.("select Item_Code from TSPL_PI_DETAIL_Cancel_Data where PI_No ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
+                'doccodeShip = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD_Cancel_Data  where Against_Booking_No ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
+                ItemCode.Add(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_PI_DETAIL_Cancel_Data where PI_No ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
+
+                clsPurchaseInvoiceHead.funPIPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.GetMulcallString(ItemCode), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Ref_No").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Vendor Code").Value))
 
             End If
         Catch ex As Exception
