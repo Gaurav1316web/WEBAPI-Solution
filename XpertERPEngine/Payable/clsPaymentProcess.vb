@@ -443,7 +443,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                 End If
                             Next
 
-                            If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount + dclRedDeduction) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
+                            If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Head_Load_Amount + obj.ArrPPDetail(i).Compulsory_Amount + dclRedDeduction) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
                                 If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
                                     For k As Integer = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
                                         If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
@@ -530,6 +530,51 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                                 End If
                                             End If
                                         Next
+                                    End If
+                                End If
+
+
+
+                                If AmtToAdjustInCreditNote <> 0 Then
+                                    If obj.ArrPPDetail(i).Head_Load_Amount > 0 Then
+                                        Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD where Document_Type='C' and RefDocType='Milk_HE' and Against_MillkPurchaseInvoice_No='" + obj.ArrPPDetail(i).Milk_Purchase_Invoice_No + "'", trans))
+                                        If clsCommon.myLen(strDocNo) > 0 Then
+                                            Dim tAmt As Decimal = 0
+                                            If AmtToAdjustInCreditNote >= obj.ArrPPDetail(i).Head_Load_Amount Then
+                                                tAmt = obj.ArrPPDetail(i).Head_Load_Amount
+                                                AmtToAdjustInCreditNote -= tAmt
+                                            Else
+                                                tAmt = AmtToAdjustInCreditNote
+                                                AmtToAdjustInCreditNote = 0
+                                            End If
+                                            AdjAmt -= tAmt
+
+                                            objPayAdj = New clsPaymentAdjustmentEntry
+                                            objPayAdj.Adjustment_No = ""
+                                            objPayAdj.Description = " AP Adjustment Against Bulk Payment Process Head Load"
+                                            objPayAdj.Adjustment_Date = clsCommon.myCDate(obj.Doc_Date)
+                                            objPayAdj.Vendor_No = obj.ArrPPDetail(i).VSP_CODE
+                                            objPayAdj.Vendor_Name = obj.ArrPPDetail(i).VSP_NAME
+                                            objPayAdj.Doc_No = strDocNo
+                                            objPayAdj.Doc_Amount = obj.ArrPPDetail(i).Head_Load_Amount
+                                            objPayAdj.Remarks = "Credit note Adjusment Head Load"
+                                            objPayAdj.Adjustment_Amount = clsCommon.myCdbl(tAmt)
+                                            objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
+                                            objTrPay = New clsPaymentAdjustmentEntryDetail()
+                                            objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
+                                            objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
+                                            objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
+                                            objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
+                                            objTrPay.Amount = clsCommon.myCdbl(tAmt)
+                                            objTrPay.Remarks = "Credit note Adjusment Head Load"
+                                            objPayAdj.Arr.Add(objTrPay)
+                                            objPayAdj.SaveData(objPayAdj, True, trans)
+                                            clsPaymentAdjustmentEntry.FunPost(objPayAdj.Adjustment_No, trans)
+                                            arrCreditNoteAdjustAmt.Add(DocNo, tAmt)
+                                            If AmtToAdjustInCreditNote = 0 Then
+                                                Exit For
+                                            End If
+                                        End If
                                     End If
                                 End If
                             End If
