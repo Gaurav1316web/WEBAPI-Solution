@@ -860,6 +860,7 @@ Public Class FrmPrintFreshInvoice
     ' Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String) As String
     Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String, ByVal isMainPrint As String, ByVal isCancel As Boolean, ByVal ItemType As String) As String
         Dim Qry As String = Nothing
+
         If clsCommon.myLen(strinvoiceNo) > 0 Then
 
             Dim SD_SALE_INVOICE_DETAIL As String = Nothing
