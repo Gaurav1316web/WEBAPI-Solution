@@ -127,9 +127,10 @@ Public Class clsDemandBookingSale
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
             If isDemandAdjustment Then
                 SaveDemandHistoryData(obj, obj.Arr, "Demand Adjustment", "ERP", objCommonVar.CurrentUserCode, trans)
+            ElseIf IsDemandUploader Then
+                SaveDemandHistoryData(obj, obj.Arr, "Demand Uploader", "ERP", objCommonVar.CurrentUserCode, trans)
             Else
                 SaveDemandHistoryData(obj, obj.Arr, "Save/Update", "ERP", objCommonVar.CurrentUserCode, trans)
-
             End If
 
 
