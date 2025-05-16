@@ -44,7 +44,6 @@ Partial Class frmDemandUploader
         Me.lblDate = New common.Controls.MyLabel()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSavePost = New Telerik.WinControls.UI.RadButton()
@@ -79,7 +78,6 @@ Partial Class frmDemandUploader
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSavePost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,7 +102,6 @@ Partial Class frmDemandUploader
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSavePost)
@@ -138,6 +135,7 @@ Partial Class frmDemandUploader
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -159,13 +157,13 @@ Partial Class frmDemandUploader
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(946, 360)
-        Me.SplitContainer2.SplitterDistance = 63
+        Me.SplitContainer2.SplitterDistance = 59
         Me.SplitContainer2.TabIndex = 0
         '
         'btnGo
         '
         Me.btnGo.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.btnGo.Location = New System.Drawing.Point(431, 32)
+        Me.btnGo.Location = New System.Drawing.Point(431, 30)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(129, 24)
         Me.btnGo.TabIndex = 1533
@@ -386,7 +384,7 @@ Partial Class frmDemandUploader
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(946, 293)
+        Me.gv1.Size = New System.Drawing.Size(946, 297)
         Me.gv1.TabIndex = 137
         Me.gv1.VarID = ""
         '
@@ -398,15 +396,6 @@ Partial Class frmDemandUploader
         Me.btnExport.Size = New System.Drawing.Size(91, 24)
         Me.btnExport.TabIndex = 6
         Me.btnExport.Text = "Export Excel"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(556, 8)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(91, 24)
-        Me.btnHistory.TabIndex = 5
-        Me.btnHistory.Text = "History"
         '
         'btnSave
         '
@@ -505,7 +494,6 @@ Partial Class frmDemandUploader
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSavePost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -536,7 +524,6 @@ Partial Class frmDemandUploader
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents btnSave As RadButton
-    Friend WithEvents btnHistory As RadButton
     Friend WithEvents lblUOM As common.Controls.MyLabel
     Friend WithEvents rgbEntryUOM As RadGroupBox
     Friend WithEvents rbtnLTR As RadRadioButton
