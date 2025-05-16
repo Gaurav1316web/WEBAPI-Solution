@@ -280,6 +280,8 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             btnSave.Enabled = False
             Dim mess As String = ""
             Dim lineNo As Integer = 1
+            Dim lstCode As New List(Of String)
+            Dim location_Code As String = ""
             clsCommon.ProgressBarShow()
 
             For dblrows As Integer = 0 To gv1.Rows.Count - 1
@@ -289,21 +291,31 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                     clsCommon.ProgressBarUpdate("Validating, Please wait..." & (dblrows + 1) & "/" & gv1.Rows.Count)
                     If (Not String.IsNullOrEmpty(clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value))) Then
                         If (ValidateBooth(gv1.Rows(dblrows).Cells(2).Value)) Then
-                            Dim RouteNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from tspl_Customer_Master where Cust_Code='" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) + "'"))
-                            Dim DocumentNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(RouteNO) + "' and convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and Posted=1 "))
-                            If clsCommon.myLen(DocumentNo) > 0 Then
-                                Throw New Exception("Document already Posted for Route No -" & clsCommon.myCstr(RouteNO) & " Shift " + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "")
+                            If lstCode.Contains(clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value)) Then
+                                Throw New Exception("Duplicate Booth Code [" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) + "]")
+                            Else
+                                lstCode.Add(clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value))
                             End If
-                            For dblcolumns As Integer = 3 To gv1.Columns.Count - 1
-                                Dim obj1 As ItemValueClass = Nothing
-                                Try
-                                    obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
-                                Catch ex As Exception
-                                End Try
-                                k = k + 1
-                                If obj1 IsNot Nothing Then
-                                    If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
-                                        If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+                            If clsCommon.myLen(txtLocation.Value) > 0 Then
+                                location_Code = txtLocation.Value
+                            Else
+                                Throw New Exception("Location is Empty")
+                            End If
+                            Dim RouteNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from tspl_Customer_Master where Cust_Code='" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) + "'"))
+                                Dim DocumentNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(RouteNO) + "' and convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and Posted=1 "))
+                                If clsCommon.myLen(DocumentNo) > 0 Then
+                                    Throw New Exception("Document already Posted for Route No -" & clsCommon.myCstr(RouteNO) & " Shift " + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "")
+                                End If
+                                For dblcolumns As Integer = 3 To gv1.Columns.Count - 1
+                                    Dim obj1 As ItemValueClass = Nothing
+                                    Try
+                                        obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                    Catch ex As Exception
+                                    End Try
+                                    k = k + 1
+                                    If obj1 IsNot Nothing Then
+                                        If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
+                                            If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
                                             If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
                                                 Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + obj1.itemCode + "' and  AllowEntryInDecimal=1")) = 0 Then
@@ -341,21 +353,24 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                                                     End If
                                                 End If
                                             End If
+                                            Dim PriceCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) + "'"))
+                                            Dim itemRate As Double = GetItemRate(PriceCode, obj1.Unit_code, obj1.itemCode, lineNo, clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value), obj1.itemDesc)
+
                                             Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
                                             Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
-                                        Else
-                                            Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
-                                            If ItemCrateType = 1 Then
-                                                Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
-                                                Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                                                Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                            Else
+                                                Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+                                                If ItemCrateType = 1 Then
+                                                    Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                                    Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                                    Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                                End If
                                             End If
                                         End If
                                     End If
-                                End If
-                            Next
-                        Else
-                            Throw New Exception(" Booth: [ " + clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) + " ] does not exist in ERP" & Environment.NewLine)
+                                Next
+                            Else
+                                Throw New Exception(" Booth: [ " + clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) + " ] does not exist in ERP" & Environment.NewLine)
                         End If
                         lineNo += 1
                     End If
@@ -493,7 +508,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                     End If
                     Dim DocumentNO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                     If clsCommon.myLen(DocumentNO) > 0 Then
-                        Dim location_Code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + DocumentNO + "'"))
+                        Dim location_Code As String = txtLocation.Value
                         Dim k As Integer = 1
                         Dim lineNo As Integer = 1
                         Dim DObj As New List(Of clsDemandBookingSaleDetail)
@@ -758,6 +773,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
 
                     End If
                 Next
+                clsCommon.ProgressBarHide()
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
