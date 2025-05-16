@@ -352,8 +352,11 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 Else
                 End If
             End If
-
-            qry = " Select max(Short_Description)Short_Description,max(UOM_Code)UOM_Code,sum(Evening_Qty)Evening_Qty,sum(Morning_Qty)Morning_Qty,sum(Evening_Amt)Evening_Amt,sum(Morning_Amt)Morning_Amt,sum(Total_Qty)Total_Qty,sum(Total_Amt)Total_Amt from ( "
+            If rbtnDispatch.IsChecked Then
+                qry = " Select max(Short_Description)Short_Description,max(UOM_Code)UOM_Code,sum(Evening_Qty)Evening_Qty,sum(Morning_Qty)Morning_Qty,sum(Evening_Amt)Evening_Amt,sum(Morning_Amt)Morning_Amt,sum(Total_Qty)Total_Qty,sum(Total_Amt)Total_Amt from ( "
+            ElseIf rbtnDemand.IsChecked Then
+                qry = " Select Short_Description,UOM_Code,Evening_Qty,Morning_Qty,Evening_Amt,Morning_Amt,Total_Qty,Total_Amt from ( "
+            End If
             If rbtnDemand.IsChecked Then
                 BaseQry = " max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Evening' then TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Evening_Qty,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' then TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor) else 0 end),0) as Morning_Qty,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Evening' then TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount  else 0 end),0) as Evening_Amt,isnull(sum(case when isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' then TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount  else 0 end),0) as Morning_Amt,isnull(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1) /(I.Conversion_Factor)),0) as Total_Qty,isnull(sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount),0) as Total_Amt
             FROM TSPL_DEMAND_BOOKING_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Print_UOM = 1 ) as  I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code
@@ -388,11 +391,12 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 If chkDCSSale.Checked Then
                     qry += "" & Environment.NewLine & " union all " & Environment.NewLine & " SELECT max(sno)sno,max(Short_Description)Short_Description,max(UOM_Code)UOM_Code, max(Sku_Seq)Sku_Seq,sum(Evening_Qty) as Evening_Qty,0 as Morning_Qty,sum(Evening_Amt) as Evening_Amt,0 as Morning_Amt  ,sum(Total_Qty) as Total_Qty,isnull(sum(Total_Amt),0) as Total_Amt FROM ( SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, " & BaseQry2 & "  and IsTaxable = 1  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date)xxx where 2=2  " + whrDCSSaleShift + " "
                 End If
+                qry += " ) xxxx where SNO is not null and total_qty >0	group by sno	order by SNO, max(Sku_Seq ) "
             ElseIf rbtnDemand.IsChecked Then
                 qry += "  SELECT 1 as SNO,max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & "  and IsTaxable = 0 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 2 as SNO, 'Milk Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 0  
              " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 3 as SNO, max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & " and IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 1 "
+                qry += " ) xx	order by SNO, Sku_Seq "
             End If
-            qry += " ) xxxx where SNO is not null and total_qty >0	group by sno	order by SNO, max(Sku_Seq ) "
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
