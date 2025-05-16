@@ -801,8 +801,8 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                 fileInfoList.Add(Path)
             Next
 
-            ' Dim basePath As String = "C:\XpertServices\XpertFileUpload\Upload"
-            Dim basePath As String = "D:\PDF"
+            Dim basePath As String = "C:\XpertServices\XpertFileUpload\Upload"
+            'Dim basePath As String = "D:\PDF"
             For Each fileBase In fileInfoList
                 ' Assuming fileBase has a property like FileName (e.g., "document1.pdf")
                 Dim expectedFileName As String = fileBase '"Milk_Bill" ' Adjust this property name as needed
