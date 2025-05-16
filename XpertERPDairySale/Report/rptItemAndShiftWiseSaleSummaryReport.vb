@@ -353,7 +353,11 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 End If
             End If
             If rbtnDispatch.IsChecked Then
-                qry = " Select max(Short_Description)Short_Description,max(UOM_Code)UOM_Code,sum(Evening_Qty)Evening_Qty,sum(Morning_Qty)Morning_Qty,sum(Evening_Amt)Evening_Amt,sum(Morning_Amt)Morning_Amt,sum(Total_Qty)Total_Qty,sum(Total_Amt)Total_Amt from ( "
+                If chkDCSSale.Checked Then
+                    qry = " Select max(Short_Description)Short_Description,max(UOM_Code)UOM_Code,sum(Evening_Qty)Evening_Qty,sum(Morning_Qty)Morning_Qty,sum(Evening_Amt)Evening_Amt,sum(Morning_Amt)Morning_Amt,sum(Total_Qty)Total_Qty,sum(Total_Amt)Total_Amt from ( "
+                Else
+                    qry = " Select Short_Description,UOM_Code,Evening_Qty,Morning_Qty,Evening_Amt,Morning_Amt,Total_Qty,Total_Amt from ( "
+                End If
             ElseIf rbtnDemand.IsChecked Then
                 qry = " Select Short_Description,UOM_Code,Evening_Qty,Morning_Qty,Evening_Amt,Morning_Amt,Total_Qty,Total_Amt from ( "
             End If
@@ -391,7 +395,11 @@ Public Class rptItemAndShiftWiseSaleSummaryReport
                 If chkDCSSale.Checked Then
                     qry += "" & Environment.NewLine & " union all " & Environment.NewLine & " SELECT max(sno)sno,max(Short_Description)Short_Description,max(UOM_Code)UOM_Code, max(Sku_Seq)Sku_Seq,sum(Evening_Qty) as Evening_Qty,0 as Morning_Qty,sum(Evening_Amt) as Evening_Amt,0 as Morning_Amt  ,sum(Total_Qty) as Total_Qty,isnull(sum(Total_Amt),0) as Total_Amt FROM ( SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date, " & BaseQry2 & "  and IsTaxable = 1  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date)xxx where 2=2  " + whrDCSSaleShift + " "
                 End If
-                qry += " ) xxxx where SNO is not null and total_qty >0	group by sno	order by SNO, max(Sku_Seq ) "
+                If chkDCSSale.Checked Then
+                    qry += " ) xxxx where SNO is not null and total_qty >0	group by sno	order by SNO, max(Sku_Seq ) "
+                Else
+                    qry += " ) xx	order by SNO, Sku_Seq "
+                End If
             ElseIf rbtnDemand.IsChecked Then
                 qry += "  SELECT 1 as SNO,max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & "  and IsTaxable = 0 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 2 as SNO, 'Milk Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 0  
              " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 3 as SNO, max(TSPL_ITEM_MASTER.Short_Description)Short_Description, max(I.UOM_Code)UOM_Code, " & BaseQry & " and IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code  " & Environment.NewLine & " union all " & Environment.NewLine & "  SELECT 4 as SNO, 'Product Total' as Short_Description,'' as UOM_Code, " & BaseQry & "  and IsTaxable = 1 "
