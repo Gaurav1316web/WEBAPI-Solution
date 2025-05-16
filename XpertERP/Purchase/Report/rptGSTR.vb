@@ -602,18 +602,18 @@ Public Class rptGSTR
             'Dim item5 As GridViewSummaryItem
             Dim Value As Decimal = 0
             For Each gvRow As GridViewRowInfo In gv3.Rows
-                If clsCommon.CompairString(gvRow.Cells("Particulars").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
-                    If chkPrevDoc IsNot Nothing AndAlso clsCommon.myLen(chkPrevDoc) > 0 Then
-                        If Not clsCommon.CompairString(chkPrevDoc, clsCommon.myCstr(gvRow.Cells("Document No").Value)) = CompairStringResult.Equal Then
-                            'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
-                            Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
-                        End If
-                    Else
-                        Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
+                'If clsCommon.CompairString(gvRow.Cells("Particulars").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
+                If chkPrevDoc IsNot Nothing AndAlso clsCommon.myLen(chkPrevDoc) > 0 Then
+                    If Not clsCommon.CompairString(chkPrevDoc, clsCommon.myCstr(gvRow.Cells("Document No").Value)) = CompairStringResult.Equal Then
                         'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+                        Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
                     End If
-                    chkPrevDoc = clsCommon.myCstr(gvRow.Cells("Document No").Value)
+                Else
+                    Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
+                    'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
                 End If
+                chkPrevDoc = clsCommon.myCstr(gvRow.Cells("Document No").Value)
+                'End If
             Next
             'summaryRowItem.Add(item5)
 
@@ -2422,7 +2422,11 @@ Case When TSPL_Customer_INVOICE_HEAD.TAX10 IN ('TCS') Then Isnull(TSPL_Customer_
  Else 'Inter-State supplies to unregistered persons' End
  End As Description,"
             End If
-            BaseQry += " [Document No],[Document Date], [Trans Type],[Sale Invoice No],[Sale Invoice Date],CASE WHEN ISNULL(TSPL_SHIP_TO_LOCATION.Ship_To_Code,'')<>'' THEN TSPL_SHIP_TO_LOCATION_sTATE.GST_STATE_Code +'- ' +TSPL_SHIP_TO_LOCATION_sTATE.STATE_NAME ELSE tspl_state_master.GST_STATE_Code +' - ' +TSPL_state_master.state_name END AS [Place of Supply], z.[Customer Code] ,z.[Customer Name] ,z.[GST No],z.[Document Type] ,z.[Taxable Value] ,z.TaxRate,z.[Taxable Amount]-z.TCSAmt As [Taxable Amount] ,z.[Round Off Amount] ,z.[Invoice Amount],'Regular B2B' As [Invoice Type] from ( " & Environment.NewLine &
+            BaseQry += " [Document No],[Document Date], [Trans Type],[Sale Invoice No],[Sale Invoice Date],CASE WHEN ISNULL(TSPL_SHIP_TO_LOCATION.Ship_To_Code,'')<>'' THEN TSPL_SHIP_TO_LOCATION_sTATE.GST_STATE_Code +'- ' +TSPL_SHIP_TO_LOCATION_sTATE.STATE_NAME ELSE tspl_state_master.GST_STATE_Code +' - ' +TSPL_state_master.state_name END AS [Place of Supply], z.[Customer Code] ,z.[Customer Name] ,z.[GST No],z.[Document Type] ,z.[Taxable Value] ,z.TaxRate,z.[Taxable Amount]-z.TCSAmt As [Taxable Amount] ,z.[Round Off Amount] ,z.[Invoice Amount] "
+            If Not (clsCommon.CompairString(strType, "B2C(Large) Invoices - 5A, 5B") = CompairStringResult.Equal OrElse clsCommon.CompairString(strType, "B2C(Small) Invoices - 7") = CompairStringResult.Equal) Then
+                BaseQry += " ,'Regular B2B' As [Invoice Type] "
+            End If
+            BaseQry += " from ( " & Environment.NewLine &
             " select ROW_NUMBER() OVER(ORDER BY TSPL_Customer_Invoice_Head.Document_No ASC) as  SNo,'" & strType & "' as Particulars,TSPL_Customer_Invoice_Head.Document_No as [Document No],convert(varchar,TSPL_Customer_Invoice_Head.Document_Date ,103) as [Document Date]," & strtranstypeandsaleinvoiceno & " " & Environment.NewLine &
             " TSPL_Customer_Invoice_Head.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.GSTNO as [GST No],TSPL_Customer_Invoice_Head.Document_Type as [Document Type],
               TSPL_Customer_Invoice_Detail.Amount as [Taxable Value]," & Environment.NewLine &

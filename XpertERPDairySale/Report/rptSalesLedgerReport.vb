@@ -160,6 +160,7 @@ Public Class rptSalesLedgerReport
 
     Sub funreset()
         EnableDisableControls(True)
+        chkDCSSale.Checked = False
         gv1.DataSource = Nothing
         txtRoute.arrValueMember = Nothing
         txtCustomer.arrValueMember = Nothing
@@ -255,7 +256,11 @@ Public Class rptSalesLedgerReport
                 If rbtnDemand.IsChecked Then
                     whrcls += "  And TSPL_DEMAND_BOOKING_MASTER.Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 ElseIf rbtnDispatch.IsChecked Then
-                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    If chkDCSSale.Checked Then
+                        whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ",'')"
+                    Else
+                        whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    End If
                 End If
             End If
 
@@ -268,6 +273,11 @@ Public Class rptSalesLedgerReport
             End If
             If txtZone.arrValueMember IsNot Nothing Then
                 whrcls += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ")"
+            End If
+            If rbtnDispatch.IsChecked Then
+                If chkDCSSale.Checked = False Then
+                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <>'MCC'"
+                End If
             End If
 
             If rbtnDispatch.IsChecked Then
@@ -750,5 +760,12 @@ Public Class rptSalesLedgerReport
         End Try
         Return query
     End Function
+    Private Sub rbtnDemand_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDemand.ToggleStateChanged
+        If rbtnDemand.IsChecked Then
+            chkDCSSale.Visible = False
+        ElseIf rbtnDispatch.IsChecked Then
+            chkDCSSale.Visible = True
+        End If
+    End Sub
 End Class
 

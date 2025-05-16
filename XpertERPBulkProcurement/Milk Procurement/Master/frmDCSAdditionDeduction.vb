@@ -263,6 +263,7 @@ Public Class frmDCSAdditionDeduction
                 txtDescNameHindi.Text = obj.Description_Hindi
                 dtStartDate.Value = obj.Start_Date
                 txtDedCode.Value = obj.Deduction
+                lblDedName.Text = ClsDeductionMaster.GetName(obj.Deduction, Nothing)
                 If obj.End_Date IsNot Nothing Then
                     dtpEndDate.Checked = True
                     dtpEndDate.Value = obj.End_Date
@@ -512,6 +513,7 @@ Public Class frmDCSAdditionDeduction
         txtDescNameHindi.Text = Nothing
         txtGLAccount.Value = ""
         txtDedCode.Value = ""
+        lblDedName.Text = ""
         lblGLAcctName.Text = ""
         txtApplyValue.Text = ""
         dtpEndDate.Value = clsCommon.GETSERVERDATE()
@@ -734,6 +736,7 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
             Dim qry As String = " Select code,Description,Ded_Grp_Code from TSPL_DEDUCTION_MASTER  "
             Dim WhrCls As String = " 2=2 "
             txtDedCode.Value = clsCommon.ShowSelectForm("DCSCode", qry, "code", WhrCls, txtDedCode.Value, "code", isButtonClicked)
+            lblDedName.Text = clsDBFuncationality.getSingleValue("Select Description from TSPL_DEDUCTION_MASTER Where code='" + txtDedCode.Value + "' ")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -725,39 +725,20 @@ Public Class FrmProductionAndSaleReport
                 query += " LEFT OUTER JOIN (select Location_Code,sum(CLQty)Qty from (
                         select Item_Code,xxx.Location_Code,cast(sum(xxx.StockQTYY * RI) as decimal(18,2)) as CLQty
                         from (
-                        select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom,
-					  TSPL_INVENTORY_MOVEMENT.UOM,ConvertedUnit.Conversion_Factor, 
-					  
-					  ( Stock_Qty*ConvertedUnit.Conversion_Factor/(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.Conversion_Factor else ConvertedUnits.Conversion_Factor end)) as StockQTYY 
-					  
+                        select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,
+					  TSPL_INVENTORY_MOVEMENT.UOM, 					  
+					  ( Stock_Qty*FromUOM.Conversion_Factor/ToUOM.Conversion_Factor) as StockQTYY 
 					  from TSPL_INVENTORY_MOVEMENT
-		              left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and 
-					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
-					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and 
-					 ConvertedUnitS.Stocking_Unit='Y'
-					 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnit on ConvertedUnit.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and ConvertedUnit.UOM_Code=TSPL_INVENTORY_MOVEMENT.Stock_UOM
-										 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
-
-										   left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
-                    where  Punching_Date<= '01/Jan/2025 11:59:59 PM' 
-                    and TSPL_INVENTORY_MOVEMENT.Item_Code in (  select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE 
-                    from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
-                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                    left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-                    left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-                    left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                    where "
+                        left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
+		              left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_INVENTORY_MOVEMENT.Item_Code 
+						AND FromUOM.UOM_Code=TSPL_INVENTORY_MOVEMENT.Stock_UOM
+						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_INVENTORY_MOVEMENT.item_code and ToUOM.UOM_Code='MT'
+                    left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
+                    where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(tDate), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                    and "
                 query += "" + FG + " " + SFG + " " + FGSFG + ""
-                query += " and CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103) 
-                    and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) "
 
-                query += " 
-                    UNION 
-                    SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-                    LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-
-                    WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0) 
-                    )xxx 
+                query += " )xxx 
 					group by xxx.Item_Code,xxx.Location_Code)YYY group by Location_Code) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
 
                 query += " where TSPL_LOCATION_MASTER.IsMainPlant='0' and TSPL_LOCATION_MASTER.Rejected_Type='N'"

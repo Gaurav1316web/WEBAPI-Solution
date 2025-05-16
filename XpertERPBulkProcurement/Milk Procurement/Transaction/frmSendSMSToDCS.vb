@@ -783,7 +783,7 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
             End If
             Dim qry As String = Nothing
             qry = "Select FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
-                   and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)"
+                   and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103) and FILE_INFO is not null "
             If clsCommon.myLen(TxtDCS.Value) > 0 Then
                 qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE = '" & TxtDCS.Value & "'"
             End If
@@ -802,16 +802,28 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
             Next
 
             Dim basePath As String = "C:\XpertServices\XpertFileUpload\Upload"
+            'Dim basePath As String = "D:\PDF"
             For Each fileBase In fileInfoList
-                Dim allFiles = Directory.GetFiles(basePath, "*.pdf", SearchOption.TopDirectoryOnly)
-                For Each filePath In allFiles
-                    Dim fileNameWithoutExtension As String = Path.GetFileNameWithoutExtension(filePath)
+                ' Assuming fileBase has a property like FileName (e.g., "document1.pdf")
+                Dim expectedFileName As String = fileBase '"Milk_Bill" ' Adjust this property name as needed
+                Dim expectedPath As String = Path.Combine(basePath, expectedFileName)
 
-                    If Not pdfPaths.Contains(filePath) Then
-                        pdfPaths.Add(filePath)
-                    End If
+                ' Only add if the file exists and hasn't been added yet
+                If File.Exists(expectedPath) AndAlso Not pdfPaths.Contains(expectedPath) Then
+                    pdfPaths.Add(expectedPath)
+                End If
 
-                Next
+
+
+                'Dim allFiles = Directory.GetFiles(basePath, "*.pdf", SearchOption.TopDirectoryOnly)
+                'For Each filePath In allFiles
+                '    Dim fileNameWithoutExtension As String = Path.GetFileNameWithoutExtension(filePath)
+
+                '    If Not pdfPaths.Contains(filePath) Then
+                '        pdfPaths.Add(filePath)
+                '    End If
+
+                'Next
             Next
 
             If pdfPaths.Count = 0 Then
@@ -819,10 +831,12 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                 Return
             End If
 
-            Dim outputFolder As String = Path.Combine("C:\ERPTempFolder", "Merged_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
+            'Dim outputFolder As String = Path.Combine("C:\ERPTempFolder", "Merged_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
+            Dim outputFolder As String = Path.Combine("D:\EXE", "Milk_Bill")
             Directory.CreateDirectory(outputFolder)
             Dim outputPdfPath As String = Path.Combine(outputFolder, "merged.pdf")
-            Dim outputFolders As String = Path.Combine("C:\ERPTempFolder", "Files_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
+            'Dim outputFolders As String = Path.Combine("C:\ERPTempFolder", "Files_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
+            'Dim outputFolders As String = Path.Combine("D:\EXE"))
             Directory.CreateDirectory(outputFolder)
 
             Dim SQry As String = " Select Count(*)FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
@@ -843,7 +857,9 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                 MergePdfFiles(pdfPaths, outputPdfPath)
                 clsCommon.MyMessageBoxShow(Me, "Merged PDF saved at:  " & outputPdfPath, Me.Text)
             Else
-                SaveFilesIndividually(pdfPaths, outputFolders)
+                'SaveFilesIndividually(pdfPaths, outputFolders)
+                SaveFilesIndividually(pdfPaths, outputFolder)
+                clsCommon.MyMessageBoxShow(Me, " PDF saved at:  " & outputFolder, Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -854,6 +870,10 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
         Using stream As New FileStream(outputFilePath, FileMode.Create)
             Dim document As New Document()
             Dim pdfCopy As New PdfCopy(document, stream)
+            ' Enable full compression
+            pdfCopy.SetFullCompression()
+            ' Set compression level to best compression
+            pdfCopy.CompressionLevel = PdfStream.BEST_COMPRESSION
             document.Open()
 
             For Each file In pdfFiles
@@ -880,7 +900,7 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
             File.Copy(filePath, destinationPath, overwrite:=True)
         Next
 
-        MessageBox.Show("All individual files copied to: " & outputFolder, "Done", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        ' MessageBox.Show("All individual files copied to: " & outputFolder, "Done", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
     Private Sub TxtDCS__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDCS._MYValidating
         Try
