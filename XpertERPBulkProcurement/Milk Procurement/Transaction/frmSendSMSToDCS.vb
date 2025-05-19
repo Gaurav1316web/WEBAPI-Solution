@@ -831,8 +831,8 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                 Return
             End If
 
-            'Dim outputFolder As String = Path.Combine("C:\ERPTempFolder", "Merged_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
-            Dim outputFolder As String = Path.Combine("D:\EXE", "Milk_Bill")
+            Dim outputFolder As String = Path.Combine("C:\ERPTempFolder", "Milk_Bill")
+            'Dim outputFolder As String = Path.Combine("D:\EXE", "Milk_Bill")
             Directory.CreateDirectory(outputFolder)
             Dim outputPdfPath As String = Path.Combine(outputFolder, "merged.pdf")
             'Dim outputFolders As String = Path.Combine("C:\ERPTempFolder", "Files_" & DateTime.Now.ToString("yyyyMMdd_HHmmss"))
