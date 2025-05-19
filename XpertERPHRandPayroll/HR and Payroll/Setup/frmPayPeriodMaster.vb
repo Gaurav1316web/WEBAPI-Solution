@@ -114,16 +114,34 @@ Public Class frmPayPeriodMaster
         If SkipDatePayPeriodMaster = True Then
             Dim dateFromSkip As Date = clsCommon.GetPrintDate(dtpFrom.Value, "yyyy-MM-dd")
             Dim dateToSkip As Date = clsCommon.GetPrintDate(dtpTo.Value, "yyyy-MM-dd")
-            If clsCommon.myLen(dateFromSkip) > 0 AndAlso clsCommon.myLen(dateToSkip) > 0 Then
-                Dim strchk1 As String = "select PAY_PERIOD_CODE from TSPL_PAYPERIOD_MASTER where ( DATE_FROM  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) or DATE_TO  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) ) and PAY_PERIOD_CODE <> '" + txtCode.Value + "' "
-                Dim PAY_PERIOD_CODE As String = clsDBFuncationality.getSingleValue(strchk1)
-                If clsCommon.myLen(PAY_PERIOD_CODE) > 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "This Date Range" + chkPayPeriod + " Document Allready created.")
-                    Return False
-                End If
+            If dateFromSkip > dateToSkip Then
+                clsCommon.MyMessageBoxShow(Me, "From Date should not be greater than To Date.")
+                Return False
             End If
-            Else
-                If clsCommon.myLen(chkPayPeriod) > 0 Then
+            If clsCommon.myLen(dateFromSkip) > 0 AndAlso clsCommon.myLen(dateToSkip) > 0 Then
+                Dim strchk1 As String = "select Date_To,Date_from from TSPL_PAYPERIOD_MASTER where ( DATE_FROM  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) and  DATE_TO  between CONVERT(DATE,'" + dateFromSkip + "',103) and CONVERT(DATE,'" + dateToSkip + "',103) ) and PAY_PERIOD_CODE <> '" + txtCode.Value + "' "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strchk1)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each row As DataRow In dt.Rows
+                        Dim dbFrom As Date = Convert.ToDateTime(row("DATE_FROM"))
+                        Dim dbTo As Date = Convert.ToDateTime(row("DATE_TO"))
+
+                        If (dbFrom = dateFromSkip AndAlso dbTo = dateToSkip) Then
+                            clsCommon.MyMessageBoxShow(Me, "The selected date range overlaps with an existing pay period ")
+                            Return False
+                        End If
+                    Next
+
+                End If
+
+                'Dim PAY_PERIOD_CODE As String = clsDBFuncationality.getSingleValue(strchk1)
+                'If clsCommon.myLen(strchk1) > 0 Then
+                '    clsCommon.MyMessageBoxShow(Me, "This Date Range" + chkPayPeriod + " Document Allready created.")
+                '    Return False
+                'End If
+            End If
+        Else
+            If clsCommon.myLen(chkPayPeriod) > 0 Then
                 clsCommon.MyMessageBoxShow(Me, "From or To date overlapped Pay Period " + chkPayPeriod + " . Overlapping pay periods can not be created.")
                 Return False
             End If
