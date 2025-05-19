@@ -234,8 +234,7 @@ Public Class clsDCSSaleEntry
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DCS_SALE_ENTRY", "Document_Code", "TSPL_DCS_SALE_ENTRY_DETAIL", "Document_Code", trans)
             End If
 
-            Dim Pk_ID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select STRING_AGG(pk_id,',')PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "'", trans))
-            Dim qry As String = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (" + clsCommon.myCstr(Pk_ID) + ") "
+            Dim qry As String = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (select  PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "') "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -1999,8 +1998,7 @@ Public Class clsDCSSaleEntry
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_SALE_ENTRY", "Document_Code", "TSPL_DCS_SALE_ENTRY_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_SALE_ENTRY", "Document_Code", "TSPL_DCS_SALE_ENTRY_DETAIL", "Document_Code", trans)
 
-                Dim Pk_ID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select STRING_AGG(pk_id,',')PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + strCode + "'", trans))
-                Dim qry As String = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (" + clsCommon.myCstr(Pk_ID) + ") "
+                Dim qry As String = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (select  PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + strCode + "') "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
@@ -2054,8 +2052,8 @@ Public Class clsDCSSaleEntry
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
-            Dim Pk_ID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select STRING_AGG(pk_id,',')PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + strCode + "'", trans))
-            Qry = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (" + clsCommon.myCstr(Pk_ID) + ") "
+
+            Qry = "select distinct isnull(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE,'') DOCUMENT_CODE from TSPL_SD_SHIPMENT_DETAIL where REF_PK_ID in (select  PK_ID from TSPL_DCS_SALE_ENTRY_DETAIL where Document_Code='" + strCode + "') "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

@@ -829,7 +829,7 @@ group by DOC_DATE,SHIFT,VLC_CODE having sum(1)>1) as TabDCS on TabDCS.DOC_DATE=C
                         End Try
                     End If
                 End If
-                Else
+            Else
                 If True Then
                     If txtVLCCMMCC.arrValueMember Is Nothing OrElse txtVLCCMMCC.arrValueMember.Count < 0 Then
                         txtVLCCMMCC.Focus()
@@ -927,7 +927,7 @@ order by  xx.Shift desc,xx.Qty "
                         If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
                             For indx As Integer = 0 To dtDetail.Rows.Count - 1
                                 Dim Qty As Decimal = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
-                                If (clsCommon.myCdbl(drDCS("DiffQty"))) <> 0 Then
+                                If (clsCommon.myCdbl(drDCS("DiffQty"))) > 0 Then
                                     Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty")) - clsCommon.myCDecimal(drDCS("DiffQty"))
                                     If Qty < 0 Then
                                         Qty = clsCommon.myCDecimal(dtDetail.Rows(indx)("Qty"))
@@ -940,18 +940,18 @@ order by  xx.Shift desc,xx.Qty "
                                 End If
                                 Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
                                 Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
-                                If settMaxFATPerLimit > 0 Then
-                                    If FAT > settMaxFATPerLimit Then
-                                        FAT = settMaxFATPerLimit
-                                        FATKG = Math.Round((Qty * FAT / 100), 3, MidpointRounding.AwayFromZero)
-                                    End If
-                                End If
-                                If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
-                                    If SNF > settMaxSNFPerLimit Then
-                                        SNF = settMaxSNFPerLimit
-                                        SNFKG = Math.Round((Qty * SNF / 100), 3, MidpointRounding.AwayFromZero)
-                                    End If
-                                End If
+                                'If settMaxFATPerLimit > 0 Then
+                                '    If FAT > settMaxFATPerLimit Then
+                                '        FAT = settMaxFATPerLimit
+                                '        FATKG = Math.Round((Qty * FAT / 100), 3, MidpointRounding.AwayFromZero)
+                                '    End If
+                                'End If
+                                'If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                                '    If SNF > settMaxSNFPerLimit Then
+                                '        SNF = settMaxSNFPerLimit
+                                '        SNFKG = Math.Round((Qty * SNF / 100), 3, MidpointRounding.AwayFromZero)
+                                '    End If
+                                'End If
                                 Dim strRejectType As String = clsCommon.myCstr(dtDetail.Rows(indx)("Milk_Type"))
                                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                                 Try
