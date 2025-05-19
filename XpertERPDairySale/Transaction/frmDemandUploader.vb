@@ -288,7 +288,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
 
                 Dim k As Integer = 1
                 Try
-                    clsCommon.ProgressBarUpdate("Validating, Please wait..." & (dblrows + 1) & "/" & gv1.Rows.Count)
+                    clsCommon.ProgressBarUpdate("Validating, Please wait..." & (dblrows + 1) & "/" & gv1.Rows.Count - 1)
                     If (Not String.IsNullOrEmpty(clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value))) Then
                         If (ValidateBooth(gv1.Rows(dblrows).Cells(2).Value)) Then
                             If lstCode.Contains(clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value)) Then
@@ -494,7 +494,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         Try
             If gv1.Rows.Count > 0 Then
                 For dblrows As Integer = 0 To gv1.Rows.Count - 2
-                    clsCommon.ProgressBarUpdate("Saving Booth Code [" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) & "], Please wait..." & (dblrows + 1) & "/" & gv1.Rows.Count)
+                    clsCommon.ProgressBarUpdate("Saving Booth Code [" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value) & "], Please wait..." & (dblrows + 1) & "/" & gv1.Rows.Count - 1)
                     Dim strCustCode As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(2).Value)
                     Dim strShiftType As String = String.Empty
                     If rbtnMorning.IsChecked Then
