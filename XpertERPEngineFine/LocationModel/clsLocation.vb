@@ -131,6 +131,7 @@ Public Class clsLocation
     Public IsSubLocationWise As String = ""
     Public IsMainPlant As Integer = 0
     Public Isproduction As Integer = 0
+    Public IsSaleLocation As Integer = 0
     Public MP_Collection_Running_Date As Date? = Nothing
     Public Uploader_No As String = Nothing
     Public No_Of_Shift As Integer = Nothing
@@ -472,6 +473,7 @@ Public Class clsLocation
             clsCommon.AddColumnsForChange(coll, "IsSubLocationWise", obj.IsSubLocationWise)
             clsCommon.AddColumnsForChange(coll, "IsMainPlant", obj.IsMainPlant)
             clsCommon.AddColumnsForChange(coll, "Isproduction", obj.Isproduction)
+            clsCommon.AddColumnsForChange(coll, "IsSaleLocation", obj.IsSaleLocation, True)
             clsCommon.AddColumnsForChange(coll, "No_Of_Shift", obj.No_Of_Shift, True)
             If obj.MP_Collection_Running_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "MP_Collection_Running_Date", clsCommon.GetPrintDate(obj.MP_Collection_Running_Date, "dd/MMM/yyyy"))
@@ -580,6 +582,7 @@ Public Class clsLocation
                 obj.Is_JobWork = clsCommon.myCstr(dt.Rows(0)("Is_JobWork"))
                 obj.JobWork_Vendor = clsCommon.myCstr(dt.Rows(0)("Jobwork_vendor"))
                 obj.Jobwork_Item = clsCommon.myCstr(dt.Rows(0)("Jobwork_Item"))
+                obj.IsSaleLocation = clsCommon.myCdbl(dt.Rows(0)("IsSaleLocation"))
                 If clsCommon.myLen(dt.Rows(0)("Status_Date")) > 0 Then
                     obj.Status_Date = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Status_Date")), "dd/MMM/yyyy")
                 End If

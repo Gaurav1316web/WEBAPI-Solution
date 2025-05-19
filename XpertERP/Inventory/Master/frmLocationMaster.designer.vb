@@ -74,6 +74,7 @@ Partial Class frmLocationMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.Details = New Telerik.WinControls.UI.RadPageViewPage()
         Me.radgroupbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkIsEinvoice = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsProduction = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtPhone2 = New common.Controls.MyTextBox()
         Me.lblCountry = New common.Controls.MyLabel()
@@ -329,7 +330,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.chkIsEinvoice = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSaleLocation = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -344,6 +345,7 @@ Partial Class frmLocationMaster
         Me.Details.SuspendLayout()
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.radgroupbox.SuspendLayout()
+        CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCountry, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -629,7 +631,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -678,7 +680,7 @@ Partial Class frmLocationMaster
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(833, 6)
+        Me.btnClose.Location = New System.Drawing.Point(846, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 2
@@ -785,7 +787,7 @@ Partial Class frmLocationMaster
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuPrint})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(904, 20)
+        Me.RadMenu2.Size = New System.Drawing.Size(917, 20)
         Me.RadMenu2.TabIndex = 34
         '
         'grpLocation
@@ -797,7 +799,7 @@ Partial Class frmLocationMaster
         Me.grpLocation.Location = New System.Drawing.Point(0, 0)
         Me.grpLocation.Name = "grpLocation"
         Me.grpLocation.Padding = New System.Windows.Forms.Padding(10, 5, 10, 5)
-        Me.grpLocation.Size = New System.Drawing.Size(904, 600)
+        Me.grpLocation.Size = New System.Drawing.Size(917, 600)
         Me.grpLocation.TabIndex = 0
         '
         'RadPageView1
@@ -817,7 +819,7 @@ Partial Class frmLocationMaster
         Me.RadPageView1.Location = New System.Drawing.Point(10, 5)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.Details
-        Me.RadPageView1.Size = New System.Drawing.Size(884, 590)
+        Me.RadPageView1.Size = New System.Drawing.Size(897, 590)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -827,12 +829,13 @@ Partial Class frmLocationMaster
         Me.Details.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.Details.Location = New System.Drawing.Point(10, 37)
         Me.Details.Name = "Details"
-        Me.Details.Size = New System.Drawing.Size(863, 542)
+        Me.Details.Size = New System.Drawing.Size(876, 542)
         Me.Details.Text = "Details"
         '
         'radgroupbox
         '
         Me.radgroupbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.radgroupbox.Controls.Add(Me.chkSaleLocation)
         Me.radgroupbox.Controls.Add(Me.chkIsEinvoice)
         Me.radgroupbox.Controls.Add(Me.chkIsProduction)
         Me.radgroupbox.Controls.Add(Me.txtPhone2)
@@ -933,14 +936,23 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Location = New System.Drawing.Point(0, 0)
         Me.radgroupbox.Name = "radgroupbox"
         Me.radgroupbox.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.radgroupbox.Size = New System.Drawing.Size(863, 542)
+        Me.radgroupbox.Size = New System.Drawing.Size(876, 542)
         Me.radgroupbox.TabIndex = 0
         Me.radgroupbox.Text = "Details"
+        '
+        'chkIsEinvoice
+        '
+        Me.chkIsEinvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsEinvoice.Location = New System.Drawing.Point(709, 370)
+        Me.chkIsEinvoice.Name = "chkIsEinvoice"
+        Me.chkIsEinvoice.Size = New System.Drawing.Size(106, 16)
+        Me.chkIsEinvoice.TabIndex = 1399
+        Me.chkIsEinvoice.Text = "Enable E-Invoice"
         '
         'chkIsProduction
         '
         Me.chkIsProduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsProduction.Location = New System.Drawing.Point(758, 282)
+        Me.chkIsProduction.Location = New System.Drawing.Point(772, 282)
         Me.chkIsProduction.Name = "chkIsProduction"
         Me.chkIsProduction.Size = New System.Drawing.Size(86, 16)
         Me.chkIsProduction.TabIndex = 1394
@@ -1361,7 +1373,7 @@ Partial Class frmLocationMaster
         Me.txt_capacity.TabIndex = 1382
         Me.txt_capacity.Text = "0"
         Me.txt_capacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_capacity.Value = 0R
+        Me.txt_capacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -1742,7 +1754,7 @@ Partial Class frmLocationMaster
         Me.txtcsa_commision.TabIndex = 29
         Me.txtcsa_commision.Text = "0"
         Me.txtcsa_commision.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtcsa_commision.Value = 0R
+        Me.txtcsa_commision.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtcsa_commision.Visible = False
         '
         'rdbbtnSubLoc
@@ -3549,6 +3561,7 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSaleLocal.MyExportFilePath = ""
         Me.gvSaleLocal.MyStopExport = False
         Me.gvSaleLocal.Name = "gvSaleLocal"
         Me.gvSaleLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3576,6 +3589,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSaleItemDetailsLocal.MyExportFilePath = ""
         Me.gvSaleItemDetailsLocal.MyStopExport = False
         Me.gvSaleItemDetailsLocal.Name = "gvSaleItemDetailsLocal"
         Me.gvSaleItemDetailsLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3603,6 +3617,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSaleTaxLocal.MyExportFilePath = ""
         Me.gvSaleTaxLocal.MyStopExport = False
         Me.gvSaleTaxLocal.Name = "gvSaleTaxLocal"
         Me.gvSaleTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3673,6 +3688,7 @@ Partial Class frmLocationMaster
         Me.gvSaleInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvSaleInterState.MyExportFilePath = ""
         Me.gvSaleInterState.MyStopExport = False
         Me.gvSaleInterState.Name = "gvSaleInterState"
         Me.gvSaleInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3700,6 +3716,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSaleItemDetailsInterState.MyExportFilePath = ""
         Me.gvSaleItemDetailsInterState.MyStopExport = False
         Me.gvSaleItemDetailsInterState.Name = "gvSaleItemDetailsInterState"
         Me.gvSaleItemDetailsInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3727,6 +3744,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvSaleTaxInterState.MyExportFilePath = ""
         Me.gvSaleTaxInterState.MyStopExport = False
         Me.gvSaleTaxInterState.Name = "gvSaleTaxInterState"
         Me.gvSaleTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3802,6 +3820,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvPurchaseLocal.MyExportFilePath = ""
         Me.gvPurchaseLocal.MyStopExport = False
         Me.gvPurchaseLocal.Name = "gvPurchaseLocal"
         Me.gvPurchaseLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3829,6 +3848,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvPurchaseTaxLocal.MyExportFilePath = ""
         Me.gvPurchaseTaxLocal.MyStopExport = False
         Me.gvPurchaseTaxLocal.Name = "gvPurchaseTaxLocal"
         Me.gvPurchaseTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3882,6 +3902,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvPurchaseInterState.MyExportFilePath = ""
         Me.gvPurchaseInterState.MyStopExport = False
         Me.gvPurchaseInterState.Name = "gvPurchaseInterState"
         Me.gvPurchaseInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3909,6 +3930,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvPurchaseTaxInterState.MyExportFilePath = ""
         Me.gvPurchaseTaxInterState.MyStopExport = False
         Me.gvPurchaseTaxInterState.Name = "gvPurchaseTaxInterState"
         Me.gvPurchaseTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3984,6 +4006,7 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvTransferLocal.MyExportFilePath = ""
         Me.gvTransferLocal.MyStopExport = False
         Me.gvTransferLocal.Name = "gvTransferLocal"
         Me.gvTransferLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4011,6 +4034,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvTransferTaxLocal.MyExportFilePath = ""
         Me.gvTransferTaxLocal.MyStopExport = False
         Me.gvTransferTaxLocal.Name = "gvTransferTaxLocal"
         Me.gvTransferTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4064,6 +4088,7 @@ Partial Class frmLocationMaster
         Me.gvTransferInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvTransferInterState.MyExportFilePath = ""
         Me.gvTransferInterState.MyStopExport = False
         Me.gvTransferInterState.Name = "gvTransferInterState"
         Me.gvTransferInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4091,6 +4116,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvTransferTaxInterState.MyExportFilePath = ""
         Me.gvTransferTaxInterState.MyStopExport = False
         Me.gvTransferTaxInterState.Name = "gvTransferTaxInterState"
         Me.gvTransferTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4120,6 +4146,7 @@ Partial Class frmLocationMaster
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvCategory.MyExportFilePath = ""
         Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
@@ -4529,7 +4556,7 @@ Partial Class frmLocationMaster
         Me.txtTarget.TabIndex = 1428
         Me.txtTarget.Text = "0"
         Me.txtTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTarget.Value = 0R
+        Me.txtTarget.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel37
         '
@@ -5104,7 +5131,7 @@ Partial Class frmLocationMaster
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(311, 6)
+        Me.btnReset.Location = New System.Drawing.Point(324, 6)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(68, 24)
         Me.btnReset.TabIndex = 35
@@ -5169,7 +5196,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Size = New System.Drawing.Size(904, 678)
+        Me.SplitContainer1.Size = New System.Drawing.Size(917, 678)
         Me.SplitContainer1.SplitterDistance = 637
         Me.SplitContainer1.TabIndex = 0
         '
@@ -5191,7 +5218,7 @@ Partial Class frmLocationMaster
         'SplitContainer11.Panel2
         '
         Me.SplitContainer11.Panel2.Controls.Add(Me.grpLocation)
-        Me.SplitContainer11.Size = New System.Drawing.Size(904, 637)
+        Me.SplitContainer11.Size = New System.Drawing.Size(917, 637)
         Me.SplitContainer11.SplitterDistance = 33
         Me.SplitContainer11.TabIndex = 1
         '
@@ -5205,20 +5232,20 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'chkIsEinvoice
+        'chkSaleLocation
         '
-        Me.chkIsEinvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEinvoice.Location = New System.Drawing.Point(709, 370)
-        Me.chkIsEinvoice.Name = "chkIsEinvoice"
-        Me.chkIsEinvoice.Size = New System.Drawing.Size(106, 16)
-        Me.chkIsEinvoice.TabIndex = 1399
-        Me.chkIsEinvoice.Text = "Enable E-Invoice"
+        Me.chkSaleLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSaleLocation.Location = New System.Drawing.Point(678, 264)
+        Me.chkSaleLocation.Name = "chkSaleLocation"
+        Me.chkSaleLocation.Size = New System.Drawing.Size(89, 16)
+        Me.chkSaleLocation.TabIndex = 1394
+        Me.chkSaleLocation.Text = "Sale Location"
         '
         'frmLocationMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(904, 698)
+        Me.ClientSize = New System.Drawing.Size(917, 698)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Controls.Add(Me.RadMenu2)
@@ -5244,6 +5271,7 @@ Partial Class frmLocationMaster
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radgroupbox.ResumeLayout(False)
         Me.radgroupbox.PerformLayout()
+        CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsProduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCountry, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5545,7 +5573,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5830,5 +5858,6 @@ Partial Class frmLocationMaster
     Friend WithEvents txtTarget As common.MyNumBox
     Friend WithEvents chkIsProduction As RadCheckBox
     Friend WithEvents chkIsEinvoice As RadCheckBox
+    Friend WithEvents chkSaleLocation As RadCheckBox
 End Class
 

@@ -14468,6 +14468,7 @@ Public Class clsCreateAllTable
             coll.Add("Remarks", "Varchar(100) null")
             coll.Add("Target", "decimal (18,2) NULL")
             coll.Add("IsEinvoice", "integer null default 0")
+            coll.Add("IsSaleLocation", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 

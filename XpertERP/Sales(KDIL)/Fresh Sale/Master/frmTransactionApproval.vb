@@ -439,10 +439,21 @@ Public Class FrmTransactionApproval
                     Gv1.Rows(i).Cells(colVendorDesc).Value = dt.Rows(i)("CustName")
                     Gv1.Rows(i).Cells(colApprovalType).Value = dt.Rows(i)("Approval_type")
                     If clsCommon.CompairString(clsUserMgtCode.frmbookingdairy, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+
                         Gv1.Rows(i).Cells(colDemandAmount).Value = clsCommon.myCdbl(dt.Rows(i)("Demand_Amount"))
-                        Gv1.Rows(i).Cells(colAvailAmount).Value = clsCommon.myCdbl(dt.Rows(i)("OutStandingAmt"))
-                        Gv1.Rows(i).Cells(colShortExcess).Value = clsCommon.myCdbl(dt.Rows(i)("Short"))
-                        Gv1.Rows(i).Cells(colCreditLimit).Value = clsCommon.myCdbl(dt.Rows(i)("CreditLimit"))
+                        Dim CustomerOutstanding As DataTable = clsDBFuncationality.GetDataTable(clsCustomerMaster.getCustomerOutstandingAmtWithOPeningAndClosing("'" & Gv1.Rows(i).Cells(colVendorCode).Value & "'", clsCommon.GetPrintDate(clsCommon.myCDate(Gv1.Rows(i).Cells(colDocDate).Value), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(Gv1.Rows(i).Cells(colDocDate).Value), "dd/MMM/yyyy"), "ConvRate"))
+                        If CustomerOutstanding IsNot Nothing AndAlso CustomerOutstanding.Rows.Count > 0 Then
+                            For Each dr As DataRow In CustomerOutstanding.Rows
+                                If clsCommon.CompairString(clsCommon.myCstr(dr("ACode")), clsCommon.myCstr(Gv1.Rows(i).Cells(colVendorCode).Value)) = CompairStringResult.Equal Then
+                                    Gv1.Rows(i).Cells(colAvailAmount).Value = clsCommon.myCdbl(dr("BalAmt"))
+
+                                End If
+                            Next
+                        End If
+                        'Gv1.Rows(i).Cells(colAvailAmount).Value = clsCommon.myCdbl(dt.Rows(i)("OutStandingAmt"))
+                        Gv1.Rows(i).Cells(colShortExcess).Value = (clsCommon.myCdbl(Gv1.Rows(i).Cells(colAvailAmount).Value) - clsCommon.myCdbl(Gv1.Rows(i).Cells(colDemandAmount).Value)) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull( sum(TSPL_BOOKING_DETAIL.Booking_Qty * TSPL_BOOKING_DETAIL.Item_Rate) ,0 ) from TSPL_BOOKING_DETAIL INNER JOIN TSPL_BOOKING_MATSER ON  TSPL_BOOKING_MATSER.dOCUMENT_nO=TSPL_BOOKING_DETAIL.Document_No where TSPL_BOOKING_DETAIL.Booking_Status=4 and isnull(TSPL_BOOKING_DETAIL.DO_Posted,0)=0 and  TSPL_BOOKING_DETAIL.Cust_Code='" + clsCommon.myCstr(Gv1.Rows(i).Cells(colVendorCode).Value) + "'  and  TSPL_BOOKING_DETAIL.Document_No not in ('" + clsCommon.myCstr(Gv1.Rows(i).Cells(colDocNo).Value) + "') and TSPL_BOOKING_MATSER.From_Screen_Code<>'BOOK-DS_FSH' and TSPL_BOOKING_MATSER.Is_Cancelled=0")) 'clsCommon.myCdbl(dt.Rows(i)("Short"))
+                        'Gv1.Rows(i).Cells(colCreditLimit).Value = clsCommon.myCdbl(dt.Rows(i)("CreditLimit"))
+                        Gv1.Rows(i).Cells(colCreditLimit).Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Credit_Limit from tspl_customer_master where Cust_Code='" + Gv1.Rows(i).Cells(colVendorCode).Value + "'"))
                     ElseIf clsCommon.CompairString(clsUserMgtCode.mbtnGRN, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                         Gv1.Rows(i).Cells(colRequestedQty).Value = dt.Rows(i)("Requested_Qty")
                         Gv1.Rows(i).Cells(colApprovedQty).Value = dt.Rows(i)("Approved_Qty")
