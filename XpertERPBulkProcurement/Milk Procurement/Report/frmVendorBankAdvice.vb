@@ -65,7 +65,7 @@ Public Class frmVendorBankAdvice
         'End If
         'RadGroupBox3.Visible = True
         txtMCC.Enabled = Not MultipleFinderFillAuto
-        rbtnSaving.Visible = MultipleFinderFillAuto
+        'rbtnSaving.Visible = MultipleFinderFillAuto
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         fndArea.Visible = AreaWiseBilling
         lblArea.Visible = AreaWiseBilling

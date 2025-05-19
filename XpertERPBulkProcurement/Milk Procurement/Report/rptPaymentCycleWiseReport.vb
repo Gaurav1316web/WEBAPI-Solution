@@ -31,11 +31,38 @@ Public Class rptPaymentCycleWiseReport
         dgv_Groupmapping.AutoGenerateColumns = False
         Try
             Dim strQuery As String = Nothing
+            Dim dtCurr As DateTime = fromDate.Value
+            If rdbMonthly.Checked = True Then
+                fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                ToDate.Value = New Date(dtCurr.Year, dtCurr.Month, Date.DaysInMonth(dtCurr.Year, dtCurr.Month))
+                'ToDate.Value = fromDate.Value
+            ElseIf rdbQuartely.Checked = True Then
+                'Dim dtCurr As Date = fromDate.Value  ' assuming FromDate is already set
+
+                Dim currentQuarter As Integer = Math.Ceiling(dtCurr.Month / 4.0)
+                Dim endMonth As Integer = currentQuarter * 4
+                Dim endDay As Integer = Date.DaysInMonth(dtCurr.Year, endMonth)
+
+                fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                ToDate.Value = New Date(dtCurr.Year, endMonth, endDay)
+                'ToDate.Value = New Date(dtCurr.Year, dtCurr.Month, Date.DaysInMonth(dtCurr.Year, dtCurr.Month))
+            ElseIf rdbYearly.Checked = True Then
+                Dim from_Date As Date = New Date(dtCurr.Year, dtCurr.Month, 1)
+                Dim to_Date As Date = from_Date.AddYears(1).AddDays(-1)
+
+                fromDate.Value = from_Date
+                ToDate.Value = to_Date
+            End If
             If rcbMilkBill.Checked = True Then
                 strQuery = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD where 
                             convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "', 103)
                             and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "', 103)"
+            ElseIf chkPaymentSummary.Checked = True Then
+                strQuery = "Select  Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD where 
+                            Convert(Date, TSPL_PAYMENT_PROCESS_HEAD.From_Date) >= CONVERT(Date, '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") & "', 103)
+                            And convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") & "', 103)"
             Else
+
                 strQuery = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD"
             End If
             ' Dim strQuery As String = "select Doc_No,concat(convert(varchar,From_Date,103),' - ',convert(varchar,To_Date,103)) as Description from TSPL_PAYMENT_PROCESS_HEAD"
@@ -43,6 +70,7 @@ Public Class rptPaymentCycleWiseReport
             dgv_Groupmapping.Columns(0).FieldName = "Doc_No"
             dgv_Groupmapping.Columns(1).FieldName = "Description"
             dgv_Groupmapping.Select()
+            'dgv_Groupmapping.Columns(2). = True
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
@@ -67,6 +95,7 @@ Public Class rptPaymentCycleWiseReport
         chkShowData.Enabled = val
         RadGroupBox2.Enabled = val
         rcbMilkBill.Enabled = val
+        RadGroupBox5.Enabled = val
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs)
@@ -301,20 +330,54 @@ Public Class rptPaymentCycleWiseReport
     End Sub
 
     Private Sub fromDate_Leave(sender As Object, e As EventArgs) Handles fromDate.Leave
+        If rcbMilkBill.Checked = True Then
+            SetToDate()
+        End If
         'If MultipleFinderFillAuto = True Then
-        SetToDate()
+        'SetToDate()
         'End If
     End Sub
 
     Private Sub fromDate_Validating(sender As Object, e As CancelEventArgs) Handles fromDate.Validating
+        If rcbMilkBill.Checked = True Then
+            SetToDate()
+        ElseIf chkPaymentSummary.Checked = True Then
+            Dim dtCurr As DateTime = fromDate.Value
+            If rdbMonthly.Checked = True Then
+                fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                ToDate.Value = New Date(dtCurr.Year, dtCurr.Month, Date.DaysInMonth(dtCurr.Year, dtCurr.Month))
+                'ToDate.Value = fromDate.Value
+            ElseIf rdbQuartely.Checked = True Then
+                'Dim dtCurr As Date = fromDate.Value  ' assuming FromDate is already set
+
+                Dim currentQuarter As Integer = Math.Ceiling(dtCurr.Month / 4.0)
+                Dim endMonth As Integer = currentQuarter * 4
+                Dim endDay As Integer = Date.DaysInMonth(dtCurr.Year, endMonth)
+
+                fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                ToDate.Value = New Date(dtCurr.Year, endMonth, endDay)
+                'ToDate.Value = New Date(dtCurr.Year, dtCurr.Month, Date.DaysInMonth(dtCurr.Year, dtCurr.Month))
+            ElseIf rdbYearly.Checked = True Then
+                Dim from_Date As Date = New Date(dtCurr.Year, dtCurr.Month, 1)
+                Dim to_Date As Date = from_Date.AddYears(1).AddDays(-1)
+
+                fromDate.Value = from_Date
+                ToDate.Value = to_Date
+            End If
+        End If
         'If MultipleFinderFillAuto = True Then
-        SetToDate()
-        'End If
+
+        'End Ifelse
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Print(False, True)
+            If rcbMilkBill.Checked = True OrElse chkPaymentSummary.Checked = True Then
+                Print(False, True)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please Check MilkBill or PaymentSummary Checkbox", Me.Text)
+            End If
+
         Catch ex As Exception
         End Try
     End Sub
@@ -487,6 +550,7 @@ Public Class rptPaymentCycleWiseReport
 
     Private Sub rcbMilkBill_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rcbMilkBill.ToggleStateChanged
         ToDate.ReadOnly = True
+        chkPaymentSummary.Checked = False
         'fun_gridfill()
     End Sub
 
@@ -496,5 +560,40 @@ Public Class rptPaymentCycleWiseReport
 
     Private Sub ToDate_ValueChanged(sender As Object, e As EventArgs) Handles ToDate.ValueChanged
         fun_gridfill()
+    End Sub
+
+    Private Sub chkPaymentSummary_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkPaymentSummary.ToggleStateChanged
+        ToDate.ReadOnly = False
+        rcbMilkBill.Checked = False
+        fun_gridfill()
+    End Sub
+
+    Private Sub rdbMonthly_CheckedChanged(sender As Object, e As EventArgs) Handles rdbMonthly.CheckedChanged
+        'Dim dtCurr As DateTime = fromDate.Value
+        'fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+        'ToDate.Value = New Date(dtCurr.Year, dtCurr.Month, Date.DaysInMonth(dtCurr.Year, dtCurr.Month))
+        'ToDate.ReadOnly = True
+    End Sub
+
+    Private Sub rdbQuartely_CheckedChanged(sender As Object, e As EventArgs) Handles rdbQuartely.CheckedChanged
+        'Dim dtCurr As DateTime = fromDate.Value
+
+        'Dim currentQuarter As Integer = Math.Ceiling(dtCurr.Month / 4.0)
+        'Dim endMonth As Integer = currentQuarter * 4
+        'Dim endDay As Integer = Date.DaysInMonth(dtCurr.Year, endMonth)
+
+        'fromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+        'ToDate.Value = New Date(dtCurr.Year, endMonth, endDay)
+        'ToDate.ReadOnly = True
+    End Sub
+
+    Private Sub rdbYearly_CheckedChanged(sender As Object, e As EventArgs) Handles rdbYearly.CheckedChanged
+        'Dim dtCurr As DateTime = fromDate.Value
+        'Dim from_Date As Date = New Date(dtCurr.Year, dtCurr.Month, 1)
+        'Dim to_Date As Date = from_Date.AddYears(1).AddDays(-1)
+
+        'fromDate.Value = from_Date
+        'ToDate.Value = to_Date
+        'ToDate.ReadOnly = True
     End Sub
 End Class

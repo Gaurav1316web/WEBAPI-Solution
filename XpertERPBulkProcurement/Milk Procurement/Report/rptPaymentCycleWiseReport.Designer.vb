@@ -22,11 +22,11 @@ Partial Class rptPaymentCycleWiseReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewCheckBoxColumn4 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewCheckBoxColumn3 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -34,6 +34,12 @@ Partial Class rptPaymentCycleWiseReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbYearly = New System.Windows.Forms.RadioButton()
+        Me.rdbNA = New System.Windows.Forms.RadioButton()
+        Me.rdbQuartely = New System.Windows.Forms.RadioButton()
+        Me.rdbMonthly = New System.Windows.Forms.RadioButton()
+        Me.rcbMilkBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.rdbNegativeAmt = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtZone = New common.UserControls.txtMultiSelectFinder()
@@ -71,7 +77,6 @@ Partial Class rptPaymentCycleWiseReport
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rcbMilkBill = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -79,6 +84,9 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.rcbMilkBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,7 +119,6 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rcbMilkBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -178,6 +185,7 @@ Partial Class rptPaymentCycleWiseReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.rcbMilkBill)
         Me.RadPageViewPage1.Controls.Add(Me.rdbNegativeAmt)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
@@ -202,6 +210,70 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 404)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.rdbYearly)
+        Me.RadGroupBox5.Controls.Add(Me.rdbNA)
+        Me.RadGroupBox5.Controls.Add(Me.rdbQuartely)
+        Me.RadGroupBox5.Controls.Add(Me.rdbMonthly)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(519, 80)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(272, 27)
+        Me.RadGroupBox5.TabIndex = 1526
+        '
+        'rdbYearly
+        '
+        Me.rdbYearly.AutoSize = True
+        Me.rdbYearly.Location = New System.Drawing.Point(147, 5)
+        Me.rdbYearly.Name = "rdbYearly"
+        Me.rdbYearly.Size = New System.Drawing.Size(53, 17)
+        Me.rdbYearly.TabIndex = 440
+        Me.rdbYearly.Text = "Yearly"
+        Me.rdbYearly.UseVisualStyleBackColor = True
+        '
+        'rdbNA
+        '
+        Me.rdbNA.AutoSize = True
+        Me.rdbNA.Checked = True
+        Me.rdbNA.Location = New System.Drawing.Point(206, 5)
+        Me.rdbNA.Name = "rdbNA"
+        Me.rdbNA.Size = New System.Drawing.Size(44, 17)
+        Me.rdbNA.TabIndex = 439
+        Me.rdbNA.TabStop = True
+        Me.rdbNA.Text = "N/A"
+        Me.rdbNA.UseVisualStyleBackColor = True
+        '
+        'rdbQuartely
+        '
+        Me.rdbQuartely.AutoSize = True
+        Me.rdbQuartely.Location = New System.Drawing.Point(75, 5)
+        Me.rdbQuartely.Name = "rdbQuartely"
+        Me.rdbQuartely.Size = New System.Drawing.Size(68, 17)
+        Me.rdbQuartely.TabIndex = 438
+        Me.rdbQuartely.Text = "Quartely"
+        Me.rdbQuartely.UseVisualStyleBackColor = True
+        '
+        'rdbMonthly
+        '
+        Me.rdbMonthly.AutoSize = True
+        Me.rdbMonthly.Location = New System.Drawing.Point(4, 5)
+        Me.rdbMonthly.Name = "rdbMonthly"
+        Me.rdbMonthly.Size = New System.Drawing.Size(68, 17)
+        Me.rdbMonthly.TabIndex = 437
+        Me.rdbMonthly.Text = "Monthly"
+        Me.rdbMonthly.UseVisualStyleBackColor = True
+        '
+        'rcbMilkBill
+        '
+        Me.rcbMilkBill.Location = New System.Drawing.Point(135, 3)
+        Me.rcbMilkBill.Name = "rcbMilkBill"
+        Me.rcbMilkBill.Size = New System.Drawing.Size(56, 18)
+        Me.rcbMilkBill.TabIndex = 1525
+        Me.rcbMilkBill.Text = "MilkBill"
         '
         'rdbNegativeAmt
         '
@@ -268,24 +340,25 @@ Partial Class rptPaymentCycleWiseReport
         '
         '
         Me.dgv_Groupmapping.MasterTemplate.AllowAddNewRow = False
-        GridViewTextBoxColumn7.HeaderText = "Payment Cycle"
-        GridViewTextBoxColumn7.Name = "PaymentCycle"
-        GridViewTextBoxColumn7.ReadOnly = True
-        GridViewTextBoxColumn7.Width = 180
-        GridViewTextBoxColumn8.HeaderText = "From Date - To Date"
-        GridViewTextBoxColumn8.Name = "Description"
-        GridViewTextBoxColumn8.ReadOnly = True
-        GridViewTextBoxColumn8.Width = 197
-        GridViewCheckBoxColumn4.HeaderText = "Status"
-        GridViewCheckBoxColumn4.MinWidth = 20
-        GridViewCheckBoxColumn4.Name = "Status"
-        GridViewCheckBoxColumn4.Width = 169
-        Me.dgv_Groupmapping.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewCheckBoxColumn4})
+        GridViewTextBoxColumn5.HeaderText = "Payment Cycle"
+        GridViewTextBoxColumn5.Name = "PaymentCycle"
+        GridViewTextBoxColumn5.ReadOnly = True
+        GridViewTextBoxColumn5.Width = 180
+        GridViewTextBoxColumn6.HeaderText = "From Date - To Date"
+        GridViewTextBoxColumn6.Name = "Description"
+        GridViewTextBoxColumn6.ReadOnly = True
+        GridViewTextBoxColumn6.Width = 197
+        GridViewCheckBoxColumn3.HeaderText = "Status"
+        GridViewCheckBoxColumn3.MinWidth = 20
+        GridViewCheckBoxColumn3.Name = "Status"
+        GridViewCheckBoxColumn3.Width = 169
+        Me.dgv_Groupmapping.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewCheckBoxColumn3})
         Me.dgv_Groupmapping.MasterTemplate.EnableFiltering = True
         Me.dgv_Groupmapping.MasterTemplate.EnableGrouping = False
         Me.dgv_Groupmapping.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv_Groupmapping.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv_Groupmapping.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.dgv_Groupmapping.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.dgv_Groupmapping.MyExportFilePath = ""
         Me.dgv_Groupmapping.MyStopExport = False
         Me.dgv_Groupmapping.Name = "dgv_Groupmapping"
         Me.dgv_Groupmapping.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -293,6 +366,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.dgv_Groupmapping.Size = New System.Drawing.Size(564, 215)
         Me.dgv_Groupmapping.TabIndex = 1
         Me.dgv_Groupmapping.TabStop = False
+        Me.dgv_Groupmapping.VarID = ""
         '
         'chkPaymentSummary
         '
@@ -573,7 +647,8 @@ Partial Class rptPaymentCycleWiseReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -581,6 +656,7 @@ Partial Class rptPaymentCycleWiseReport
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(794, 404)
         Me.gv1.TabIndex = 6
+        Me.gv1.VarID = ""
         '
         'btnPrintCHT
         '
@@ -645,14 +721,6 @@ Partial Class rptPaymentCycleWiseReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rcbMilkBill
-        '
-        Me.rcbMilkBill.Location = New System.Drawing.Point(135, 3)
-        Me.rcbMilkBill.Name = "rcbMilkBill"
-        Me.rcbMilkBill.Size = New System.Drawing.Size(56, 18)
-        Me.rcbMilkBill.TabIndex = 1525
-        Me.rcbMilkBill.Text = "MilkBill"
-        '
         'rptPaymentCycleWiseReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -674,6 +742,10 @@ Partial Class rptPaymentCycleWiseReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.rcbMilkBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbNegativeAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -709,7 +781,6 @@ Partial Class rptPaymentCycleWiseReport
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rcbMilkBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -760,5 +831,10 @@ Partial Class rptPaymentCycleWiseReport
     Friend WithEvents btnPrintCHT As RadButton
     Friend WithEvents rdbNegativeAmt As RadCheckBox
     Friend WithEvents rcbMilkBill As RadCheckBox
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents rdbNA As RadioButton
+    Friend WithEvents rdbQuartely As RadioButton
+    Friend WithEvents rdbMonthly As RadioButton
+    Friend WithEvents rdbYearly As RadioButton
 End Class
 

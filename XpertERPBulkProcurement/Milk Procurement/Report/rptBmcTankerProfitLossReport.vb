@@ -10,12 +10,20 @@ Public Class rptBmcTankerProfitLossReport
     Public Sub Griddata(ByVal print As Boolean, ByVal print2 As Boolean)
         Try
             Dim arrRoute As ArrayList = Nothing
-
+            Dim Value As String
+            Value = clsCommon.myCstr(txtPercentage.Text)
+            If Value > 0 AndAlso Value < 100 Then
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Value must be greater then 0 and less then 100", Me.Text)
+                Exit Sub
+            End If
             Dim FinalQuery As String = Nothing
             Dim BaseQuery As String = Nothing
             Dim qry As String = Nothing
+            Dim Baseqry1 As String = ""
+
             Dim whrcls As String = ""
-            whrcls = "where 2 = 2 and convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,tspl_Milk_collection_MCC.Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
+            whrcls = "where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 whrcls += "  and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
 
@@ -23,7 +31,34 @@ Public Class rptBmcTankerProfitLossReport
             If txtTanker.arrValueMember IsNot Nothing AndAlso txtTanker.arrValueMember.Count > 0 Then
                 whrcls += " and TSPL_MILK_COLLECTION_MCC.Tanker_No in (" + clsCommon.GetMulcallString(txtTanker.arrValueMember) + ")"
             End If
-            BaseQuery = " select max(TSPL_TANKER_MASTER.Description)Description,max(TSPL_MILK_COLLECTION_MCC.Temp)Temp,MAX(TSPL_MILK_COLLECTION_MCC.Trip_No)Trip_No,MAX(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,MAX(TSPL_MILK_COLLECTION_MCC.Route_Code)Route_Code,
+            If rbtSummary.IsChecked Then
+
+
+                BaseQuery = " (Select *,CASE
+    WHEN ADJFATKG1 > 0 THEN 0
+    ELSE ADJFATKG1
+END AS ADJFATKG,
+CASE
+    WHEN ADJSNFKG1 > 0 THEN 0
+    ELSE ADJSNFKG1
+END AS  ADJSNFKG from 
+
+
+
+
+(Select *,CASE
+    WHEN FATKG > 0 THEN 0
+    ELSE (Original_FATKg * " + Value + "/100) + (FATKG)
+END AS ADJFATKG1,
+CASE
+    WHEN SNFKG > 0 THEN 0
+    ELSE (Original_SNFKg * " + Value + "/100) + (SNFKG)
+END AS  ADJSNFKG1
+
+FROM ( select 
+MAX(convert(Varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103)) AS DocumentDate,
+			MONTH(max(TSPL_MILK_COLLECTION_MCC.Document_Date)) AS MonthNumber,
+max(TSPL_TANKER_MASTER.Description)Description,max(TSPL_MILK_COLLECTION_MCC.Temp)Temp,MAX(TSPL_MILK_COLLECTION_MCC.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,(TSPL_MILK_COLLECTION_MCC.Route_Code)Route_Code,
 MAX(TSPL_MILK_COLLECTION_MCC.Entered_Qty) as QTY,
 MAX(TSPL_MILK_COLLECTION_MCC.Entered_FATKg) AS [FAT(Kg)],
 max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)Entered_SNFKg,
@@ -39,31 +74,140 @@ MAX(CASE
     END) AS Entered_Qty_fat,
 
 
-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty) AS Original_Qty,
-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg)Original_FATKg,
-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg)Original_SNFKg,
+sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS Original_Qty,
+sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)Original_FATKg,
+sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)Original_SNFKg,
 
 
    SUM(CASE 
-        WHEN TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty = 0 THEN 0 
-        ELSE CAST((TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg * 100) / TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty AS DECIMAL(10, 2))
+        WHEN TSPL_MILK_COLLECTION_MCC_DETAIL.Qty = 0 THEN 0 
+        ELSE CAST((TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg * 100) / TSPL_MILK_COLLECTION_MCC_DETAIL.Qty AS DECIMAL(10, 2))
     END) AS [SNF(%)],
 
     SUM(CASE 
-        WHEN TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty = 0 THEN 0 
-        ELSE CAST((TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg * 100) / TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty AS DECIMAL(10, 2))
+        WHEN TSPL_MILK_COLLECTION_MCC_DETAIL.Qty = 0 THEN 0 
+        ELSE CAST((TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg * 100) / TSPL_MILK_COLLECTION_MCC_DETAIL.Qty AS DECIMAL(10, 2))
     END) AS [FAT(%)],
 
 
-max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty) AS FLUSING,
- (max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg)) AS FATKG,
- (max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg)) AS SNFKG
-
+max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS FLUSING,
+ (max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)) AS FATKG,
+ (max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)) AS SNFKG
 from TSPL_MILK_COLLECTION_MCC 
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
 left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
-" & whrcls & " GROUP BY TSPL_MILK_COLLECTION_MCC.Document_No,Document_Date"
+" & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No)ZZZ)xxxx)"
 
+            Else
+
+                BaseQuery = "  
+
+WITH CombinedData AS 
+(select *,CASE
+    WHEN ADJFATKG1 > 0 THEN 0
+    ELSE ADJFATKG1
+END AS ADJFATKG,
+CASE
+    WHEN ADJSNFKG1 > 0 THEN 0
+    ELSE ADJSNFKG1
+END AS  ADJSNFKG   from
+(select *,CASE
+    WHEN FATKG > 0 THEN 0
+    ELSE (Original_FATKg * " + Value + "/100) + (FATKG)
+END AS ADJFATKG1,
+CASE
+    WHEN SNFKG > 0 THEN 0
+    ELSE (Original_SNFKg * " + Value + "/100) + (SNFKG)
+END AS  ADJSNFKG1 from 
+(
+    SELECT
+        CONVERT(VARCHAR, MCC.Document_Date, 103) AS DocumentDate,
+        MONTH(MCC.Document_Date) AS MonthNumber,
+        MAX(TM.Description) AS Description,
+        MAX(MCC.Temp) AS Temp,
+        MAX(MCC.Trip_No) AS Trip_No,
+        MCC.Tanker_No,
+        MCC.Route_Code,
+        MAX(MCC.Entered_Qty) AS QTY,
+        MAX(MCC.Entered_FATKg) AS [FAT(Kg)],
+        MAX(MCC.Entered_SNFKg) AS Entered_SNFKg,
+        MAX(CASE WHEN MCC.Entered_Qty = 0 THEN 0
+                 ELSE CAST((MCC.Entered_SNFKg * 100.0) / MCC.Entered_Qty AS DECIMAL(10, 2)) END) AS Entered_Qty_snf,
+        MAX(CASE WHEN MCC.Entered_Qty = 0 THEN 0
+                 ELSE CAST((MCC.Entered_FATKg * 100.0) / MCC.Entered_Qty AS DECIMAL(10, 2)) END) AS Entered_Qty_fat,
+        SUM(MCC_DETAIL.Qty) AS Original_Qty,
+        SUM(MCC_DETAIL.FATKg) AS Original_FATKg,
+        SUM(MCC_DETAIL.SNFKg) AS Original_SNFKg,
+        SUM(CASE WHEN MCC_DETAIL.Qty = 0 THEN 0
+                 ELSE CAST((MCC_DETAIL.SNFKg * 100.0) / MCC_DETAIL.Qty AS DECIMAL(10, 2)) END) AS [SNF(%)],
+        SUM(CASE WHEN MCC_DETAIL.Qty = 0 THEN 0
+                 ELSE CAST((MCC_DETAIL.FATKg * 100.0) / MCC_DETAIL.Qty AS DECIMAL(10, 2)) END) AS [FAT(%)],
+        MAX(MCC.Entered_Qty) - SUM(MCC_DETAIL.Qty) AS FLUSING,
+        MAX(MCC.Entered_FATKg) - SUM(MCC_DETAIL.FATKg) AS FATKG,
+        MAX(MCC.Entered_SNFKg) - SUM(MCC_DETAIL.SNFKg) AS SNFKG
+
+    FROM TSPL_MILK_COLLECTION_MCC MCC
+    LEFT JOIN TSPL_MILK_COLLECTION_MCC_DETAIL MCC_DETAIL
+        ON MCC_DETAIL.Document_No = MCC.Document_No
+    LEFT JOIN TSPL_TANKER_MASTER TM
+        ON TM.Tanker_No = MCC.Tanker_No
+" & whrcls & "
+      GROUP BY MCC.Tanker_No, MCC.Route_Code, MCC.Document_Date
+)xx)xxx)
+SELECT 
+    DocumentDate,
+    MonthNumber,
+    Description,
+    Temp,
+    Trip_No,
+    Tanker_No,
+    Route_Code,
+    QTY,
+    [FAT(Kg)],
+    Entered_SNFKg,
+    Entered_Qty_snf,
+    Entered_Qty_fat,
+    Original_Qty,
+    Original_FATKg,
+    Original_SNFKg,
+    [SNF(%)],
+    [FAT(%)],
+    FLUSING,
+    FATKG,
+    SNFKG,
+    0 AS SortOrder,ADJFATKG,ADJFATKG1,ADJSNFKG,ADJSNFKG1
+FROM CombinedData
+
+UNION ALL
+
+SELECT 
+    'TOTAL' AS DocumentDate,
+    NULL AS MonthNumber,
+    NULL AS Description,
+    NULL AS Temp,
+    NULL AS Trip_No,
+    Tanker_No,
+    Route_Code,
+    SUM(QTY),
+    SUM([FAT(Kg)]),
+    SUM(Entered_SNFKg),
+	SUM(Entered_Qty_snf),
+	SUM(Entered_Qty_fat),
+    SUM(Original_Qty),
+    SUM(Original_FATKg),
+    SUM(Original_SNFKg),
+	sum([SNF(%)]),
+	sum([Fat(%)]),
+    SUM(FLUSING),
+    SUM(FATKG),
+    SUM(SNFKG),
+    1 AS SortOrder
+	,sum(ADJFATKG),sum(ADJFATKG1),sum(ADJSNFKG),sum(ADJSNFKG1)
+FROM CombinedData
+GROUP BY Tanker_No, Route_Code
+
+ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQuery)
 
 
@@ -112,6 +256,12 @@ left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COL
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             'gv1.Columns("Document_No").HeaderText = "Document No."
+            gv1.Columns("DocumentDate").IsVisible = True
+            gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
+            gv1.Columns("MonthNumber").IsVisible = False
+            gv1.Columns("MonthNumber").HeaderText = "Month Number"
+
+
             gv1.Columns("Trip_No").IsVisible = True
             gv1.Columns("Trip_No").HeaderText = "Trip No"
             gv1.Columns("ROUTE_CODE").IsVisible = True
@@ -163,28 +313,43 @@ left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COL
             gv1.Columns("Description").HeaderText = "Transporter"
             gv1.Columns("Temp").IsVisible = True
             gv1.Columns("Temp").HeaderText = "Temp"
-        Next
-        Dim summaryRowItemB As New GridViewSummaryRowItem()
-        'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
-        Dim QTY As New GridViewSummaryItem("QTY", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(QTY)
-        Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Entered_SNFKg)
-        Dim Entered_Qty_snf As New GridViewSummaryItem("Entered_Qty_snf", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Entered_Qty_snf)
-        Dim Entered_Qty_fat As New GridViewSummaryItem("Entered_Qty_fat", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Entered_Qty_fat)
-        Dim Original_Qty As New GridViewSummaryItem("Original_Qty", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Original_Qty)
-        Dim Original_FATKg As New GridViewSummaryItem("Original_FATKg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Original_FATKg)
-        Dim Original_SNFKg As New GridViewSummaryItem("Original_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Original_SNFKg)
-        Dim FLUSING As New GridViewSummaryItem("FLUSING", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(FLUSING)
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
-        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
+            gv1.Columns("ADJFATKG1").IsVisible = False
+            gv1.Columns("ADJFATKG1").HeaderText = "FAT(KG)"
+            gv1.Columns("ADJSNFKG1").IsVisible = False
+            gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
+
+
+            gv1.Columns("ADJFATKG").IsVisible = True
+            gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
+            gv1.Columns("ADJSNFKG").IsVisible = True
+            gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+
+
+        Next
+        If rbtSummary.IsChecked Then
+            Dim summaryRowItemB As New GridViewSummaryRowItem()
+
+            'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+            Dim QTY As New GridViewSummaryItem("QTY", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(QTY)
+            Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Entered_SNFKg)
+            Dim Entered_Qty_snf As New GridViewSummaryItem("Entered_Qty_snf", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Entered_Qty_snf)
+            Dim Entered_Qty_fat As New GridViewSummaryItem("Entered_Qty_fat", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Entered_Qty_fat)
+            Dim Original_Qty As New GridViewSummaryItem("Original_Qty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Original_Qty)
+            Dim Original_FATKg As New GridViewSummaryItem("Original_FATKg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Original_FATKg)
+            Dim Original_SNFKg As New GridViewSummaryItem("Original_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Original_SNFKg)
+            Dim FLUSING As New GridViewSummaryItem("FLUSING", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(FLUSING)
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        End If
         gv1.AutoSizeRows = True
         gv1.BestFitColumns()
         gv1.MasterTemplate.AutoExpandGroups = True
@@ -195,6 +360,7 @@ left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COL
             view.ColumnGroups.Add(New GridViewColumnGroup(" "))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
             'If rdbDetails.Checked = True Then
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("DocumentDate").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Trip_No").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("ROUTE_CODE").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
@@ -239,6 +405,12 @@ left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COL
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FATKG").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SNFKG").Name)
 
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
+            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJFATKG").Name)
+
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJSNFKG").Name)
             'End If
             gv1.ViewDefinition = view
         End If
