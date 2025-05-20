@@ -3662,108 +3662,110 @@ Public Class frmIssueReturn
 
     Public Sub Print()
         Try
-            Dim frmCRV As New frmCrystalReportViewer()
-            '            Dim qry As String = "SELECT     TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment, " & _
-            '                     " case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,  " & _
-            '                      " TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty,  " & _
-            '                      " TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,  " & _
-            '                      " TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2,  " & _
-            '                      " loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy  " & _
-            '    " FROM  TSPL_IssueReturn_HEAD INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No  " & _
-            '" LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD.Issue_To = emp1.EMP_CODE  " & _
-            '"  LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE  " & _
-            '"   LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code  " & _
-            ' "   LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code  " & _
-            ' "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code  " & _
-            '"  where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
-            ''------------------------------ Changes by shipra on 24/06/13--------------------------------------------''
+            clsPurchasReturnHead.funIssueRetunPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
 
-            ''Dim qry As String = " SELECT     TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment,  case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,   TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty as returnqty,   TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,   TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy,(select xxxx.Issued_Qty  from TSPL_IssueReturn_DETAIL  xxxx where xxxx.Doc_No=TSPL_IssueReturn_HEAD.Req_IssueNo and xxxx.Item_Code=TSPL_IssueReturn_DETAIL .Item_Code  )as [Issued_Qty]     FROM  TSPL_IssueReturn_HEAD "
-            ''qry += " INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No"
-            ''qry += " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code"
-            ''qry += " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD .Issue_To = emp1.EMP_CODE  "
-            ''qry += " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE    "
-            ''qry += " LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code"
-            ''qry += " LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code    "
-            ''qry += " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
+            '            Dim frmCRV As New frmCrystalReportViewer()
+            '            '            Dim qry As String = "SELECT     TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment, " & _
+            '            '                     " case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,  " & _
+            '            '                      " TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty,  " & _
+            '            '                      " TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,  " & _
+            '            '                      " TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2,  " & _
+            '            '                      " loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy  " & _
+            '            '    " FROM  TSPL_IssueReturn_HEAD INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No  " & _
+            '            '" LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD.Issue_To = emp1.EMP_CODE  " & _
+            '            '"  LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE  " & _
+            '            '"   LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code  " & _
+            '            ' "   LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code  " & _
+            '            ' "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code  " & _
+            '            '"  where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
+            '            ''------------------------------ Changes by shipra on 24/06/13--------------------------------------------''
 
-            Dim qry As String = "     SELECT  loc1.Location_Code,loc1.Location_Desc,loc1.Add1,TSPL_CostCenter_MASTER.cost_name,  TSPL_IssueReturn_HEAD.Created_By ,TSPL_IssueReturn_HEAD.Modify_By ,   TSPL_IssueReturn_HEAD.Doc_No,TSPL_IssueReturn_HEAD.RequisitionNo, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment,  case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,TSPL_COMPANY_MASTER.ISO_No,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty_AgainstRet as returnqty,   TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,   TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy,"
-            'qry += " --(select xxxx.Issued_Qty  from TSPL_IssueReturn_DETAIL  xxxx where xxxx.Doc_No=TSPL_IssueReturn_HEAD.Req_IssueNo and xxxx.Item_Code=TSPL_IssueReturn_DETAIL .Item_Code  )"
-            qry += " TSPL_IssueReturn_DETAIL.Issued_Qty as [Issued_Qty] ,TSPL_COMPANY_MASTER.Logo_Img as [Logo_Img],  TSPL_COMPANY_MASTER.Logo_Img2 as [Logo_Img2],'" + objCommonVar.CurrentUser + "' as User_Name    FROM  TSPL_IssueReturn_HEAD  INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD .Issue_To = emp1.EMP_CODE   LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE     LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code              LEFT OUTER JOIN  TSPL_CostCenter_MASTER   ON TSPL_IssueReturn_DETAIL.Cost_Code  = TSPL_CostCenter_MASTER.Cost_Code  "
-            qry += " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
+            '            ''Dim qry As String = " SELECT     TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment,  case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,   TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty as returnqty,   TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,   TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy,(select xxxx.Issued_Qty  from TSPL_IssueReturn_DETAIL  xxxx where xxxx.Doc_No=TSPL_IssueReturn_HEAD.Req_IssueNo and xxxx.Item_Code=TSPL_IssueReturn_DETAIL .Item_Code  )as [Issued_Qty]     FROM  TSPL_IssueReturn_HEAD "
+            '            ''qry += " INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No"
+            '            ''qry += " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code"
+            '            ''qry += " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD .Issue_To = emp1.EMP_CODE  "
+            '            ''qry += " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE    "
+            '            ''qry += " LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code"
+            '            ''qry += " LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code    "
+            '            ''qry += " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
 
-
-
-            ''------------------------------ Changes by shipra on 24/06/13--------------------------------------------''
-
-            ''Dim demo As String
-            ''If demo = "" Then
-            ''    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            ''    demo = dt.Rows(0)("Doc_type").ToString
+            '            Dim qry As String = "     SELECT  loc1.Location_Code,loc1.Location_Desc,loc1.Add1,TSPL_CostCenter_MASTER.cost_name,  TSPL_IssueReturn_HEAD.Created_By ,TSPL_IssueReturn_HEAD.Modify_By ,   TSPL_IssueReturn_HEAD.Doc_No,TSPL_IssueReturn_HEAD.RequisitionNo, TSPL_IssueReturn_HEAD.Doc_Date,TSPL_IssueReturn_HEAD.Doc_Type, TSPL_IssueReturn_HEAD.Remarks, TSPL_IssueReturn_HEAD.Comment,  case when  TSPL_IssueReturn_HEAD.Status=0 then 'Pending' else 'Approved' end as Status, TSPL_IssueReturn_HEAD.Posting_Date, TSPL_IssueReturn_DETAIL.Item_Code,TSPL_COMPANY_MASTER.ISO_No,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Email,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_IssueReturn_DETAIL.Item_Desc, TSPL_IssueReturn_DETAIL.Required_Qty, TSPL_IssueReturn_DETAIL.Issued_Qty_AgainstRet as returnqty,   TSPL_IssueReturn_DETAIL.Unit_code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2,   TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, loc1.Location_Desc as Fromloc,loc2.Location_Desc as Toloc, emp1.Emp_Name as IssuesTo,emp2.Emp_Name as RequestBy,"
+            '            'qry += " --(select xxxx.Issued_Qty  from TSPL_IssueReturn_DETAIL  xxxx where xxxx.Doc_No=TSPL_IssueReturn_HEAD.Req_IssueNo and xxxx.Item_Code=TSPL_IssueReturn_DETAIL .Item_Code  )"
+            '            qry += " TSPL_IssueReturn_DETAIL.Issued_Qty as [Issued_Qty] ,TSPL_COMPANY_MASTER.Logo_Img as [Logo_Img],  TSPL_COMPANY_MASTER.Logo_Img2 as [Logo_Img2],'" + objCommonVar.CurrentUser + "' as User_Name    FROM  TSPL_IssueReturn_HEAD  INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD .Issue_To = emp1.EMP_CODE   LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE     LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code              LEFT OUTER JOIN  TSPL_CostCenter_MASTER   ON TSPL_IssueReturn_DETAIL.Cost_Code  = TSPL_CostCenter_MASTER.Cost_Code  "
+            '            qry += " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "'"
 
 
-            ''End If
+
+            '            ''------------------------------ Changes by shipra on 24/06/13--------------------------------------------''
+
+            '            ''Dim demo As String
+            '            ''If demo = "" Then
+            '            ''    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            '            ''    demo = dt.Rows(0)("Doc_type").ToString
 
 
-            Dim type As String = "select Doc_type from TSPL_IssueReturn_HEAD where Doc_No='" + txtDocNo.Value + "'"
-            Dim val As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(type))
-            'Dim dr As SqlDataReader
-            'dr = connectSql.RunSqlReturnDR(type)
-            'While dr.Read()
-            '    val = dr(0).ToString
-            'End While
+            '            ''End If
 
-            If val = "Issue" Then
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptissueNewV", "Issur/Return/Transfer")
-                'PurchaseOrderViewer.funreport(dt, "rptissue", "Issur/Return/Transfer")
-            ElseIf val = "Return" Then
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptreturnNewV", "Issur/Return/Transfer")
 
-                ' PurchaseOrderViewer.funreport(dt, "rptreturn", "Issur/Return/Transfer")
+            '            Dim type As String = "select Doc_type from TSPL_IssueReturn_HEAD where Doc_No='" + txtDocNo.Value + "'"
+            '            Dim val As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(type))
+            '            'Dim dr As SqlDataReader
+            '            'dr = connectSql.RunSqlReturnDR(type)
+            '            'While dr.Read()
+            '            '    val = dr(0).ToString
+            '            'End While
 
-            ElseIf val = "Transfer" Then
-                ''''---------------------Added By ----Pankaj Kumar----on 04/03/2012------------------------
-                Dim QryTrnsfr As String = "select TSPL_IssueReturn_HEAD.Created_By,TSPL_IssueReturn_HEAD.Modify_By, '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE) + "' as RunDate, TSPL_COMPANY_MASTER.logo_img, TSPL_COMPANY_MASTER.logo_img2, TSPL_COMPANY_MASTER.Comp_Name  as CompanyName, " & _
-    " TSPL_COMPANY_MASTER.Tin_No as CompanyTin,Case when len(TSPL_COMPANY_MASTER.Add1)>0 then TSPL_COMPANY_MASTER.Add1 else '' end +case when len(TSPL_COMPANY_MASTER.Add2)>0 then ','  else  '' end  +case when len(TSPL_COMPANY_MASTER.Add2)>0 then TSPL_COMPANY_MASTER.Add2  else  '' end + case when len(TSPL_COMPANY_MASTER.Add3)>0 then ','  else  '' end +case when len(TSPL_COMPANY_MASTER.Add3)>0 then TSPL_COMPANY_MASTER.Add3  else  '' end as CompanyAddress, " & _
-    " TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date, TSPL_IssueReturn_HEAD.Doc_Type, " & _
-    " (select Case when (len(TSPL_LOCATION_MASTER .Add1)>0) then convert(varchar(20),TSPL_LOCATION_MASTER.Add1,103) else '' end + " & _
-" case when (len(TSPL_LOCATION_MASTER.Add2)>0) then ', '+ convert(varchar(20),TSPL_LOCATION_MASTER.Add2,103)  else  '' end + " & _
-" case when (len(TSPL_LOCATION_MASTER.Add3)>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.Add3,103)  else  '' end + " & _
-" case when (len(TSPL_LOCATION_MASTER.Add4)>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.Add4,103)  else  '' end + " & _
-" case when (len(TSPL_LOCATION_MASTER.City_Code )>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.City_Code,103) else  ''  end + " & _
-" case when (len(TSPL_LOCATION_MASTER.State )>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.State,103)  else  ''  end + " & _
-" case when (len(TSPL_LOCATION_MASTER.Pin_Code )>0) then ', '+convert(varchar(10),TSPL_LOCATION_MASTER.Pin_Code,103)  else  ''  end + " & _
-" case when (len(TSPL_LOCATION_MASTER.Country )>0) then ', '+TSPL_LOCATION_MASTER.Country  else  ''  end  from TSPL_LOCATION_MASTER where location_Code='L001' ) as Address, " & _
-    " (select Location_Desc from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as ToLocDesc, " & _
-    " (select Loc_Segment_Code from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as ToLocSegCode, " & _
-    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as TinNo, " & _
-    " (select TCAN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as CstNo, " & _
-    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.From_Location) as CompanyTin, " & _
-    " '' as NRG_No, TSPL_IssueReturn_DETAIL.Item_Code AS ItemCode, TSPL_IssueReturn_DETAIL.Item_Desc AS Desciption, " & _
-    " TSPL_IssueReturn_DETAIL.Issued_Qty AS Quantity, TSPL_IssueReturn_DETAIL.Unit_code AS Uom, TSPL_IssueReturn_DETAIL.Unit_Cost AS Rate, " & _
-    " TSPL_IssueReturn_DETAIL.Amount AS Amount, TSPL_IssueReturn_HEAD.TAX1 AS TaxRateDesc1, TSPL_IssueReturn_HEAD.TAX1_Amt as TaxRate1, " & _
-    " TSPL_IssueReturn_HEAD.TAX2 as TaxRateDesc2, TSPL_IssueReturn_HEAD.TAX2_Amt as TaxRate2, TSPL_IssueReturn_HEAD.TAX3 as TaxRateDesc3, " & _
-    " TSPL_IssueReturn_HEAD.TAX3_Amt as TaxRate3, TSPL_IssueReturn_HEAD.TAX4 as TaxRateDesc4, TSPL_IssueReturn_HEAD.TAX4_Amt as TaxRate4, " & _
-    " TSPL_IssueReturn_HEAD.TAX5 as TaxRateDesc5, TSPL_IssueReturn_HEAD.TAX5_Amt as TaxRate5, TSPL_IssueReturn_HEAD.TAX6 as TaxRateDesc6, " & _
-    " TSPL_IssueReturn_HEAD.TAX6_Amt as TaxRate6, TSPL_IssueReturn_HEAD.TAX7 as TaxRateDesc7, TSPL_IssueReturn_HEAD.TAX7_Amt as TaxRate7, " & _
-    " TSPL_IssueReturn_HEAD.TAX8 as TaxRateDesc8, TSPL_IssueReturn_HEAD.TAX8_Amt as TaxRate8, TSPL_IssueReturn_HEAD.TAX9 as TaxRateDesc9, " & _
-    " TSPL_IssueReturn_HEAD.TAX9_Amt as TaxRate9, TSPL_IssueReturn_DETAIL.TAX10 as TaxRateDesc10, TSPL_IssueReturn_DETAIL.TAX10_Amt as  TaxRate10 " & _
-    " FROM TSPL_IssueReturn_HEAD " & _
-    " INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No " & _
-    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD.Issue_To = emp1.EMP_CODE " & _
-    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE " & _
-    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code " & _
-    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code " & _
-    " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code " & _
-    " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "' and TSPL_IssueReturn_HEAD.Doc_Type='" + val + "' "
-                ''''--------------------------------------------------Code Ends Here--------------------------------------------------
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryTrnsfr)
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")
+            '            If val = "Issue" Then
+            '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            '                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptissueNewV", "Issur/Return/Transfer")
+            '                'PurchaseOrderViewer.funreport(dt, "rptissue", "Issur/Return/Transfer")
+            '            ElseIf val = "Return" Then
+            '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            '                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptreturnNewV", "Issur/Return/Transfer")
 
-            End If
-            frmCRV = Nothing
+            '                ' PurchaseOrderViewer.funreport(dt, "rptreturn", "Issur/Return/Transfer")
+
+            '            ElseIf val = "Transfer" Then
+            '                ''''---------------------Added By ----Pankaj Kumar----on 04/03/2012------------------------
+            '                Dim QryTrnsfr As String = "select TSPL_IssueReturn_HEAD.Created_By,TSPL_IssueReturn_HEAD.Modify_By, '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE) + "' as RunDate, TSPL_COMPANY_MASTER.logo_img, TSPL_COMPANY_MASTER.logo_img2, TSPL_COMPANY_MASTER.Comp_Name  as CompanyName, " & _
+            '    " TSPL_COMPANY_MASTER.Tin_No as CompanyTin,Case when len(TSPL_COMPANY_MASTER.Add1)>0 then TSPL_COMPANY_MASTER.Add1 else '' end +case when len(TSPL_COMPANY_MASTER.Add2)>0 then ','  else  '' end  +case when len(TSPL_COMPANY_MASTER.Add2)>0 then TSPL_COMPANY_MASTER.Add2  else  '' end + case when len(TSPL_COMPANY_MASTER.Add3)>0 then ','  else  '' end +case when len(TSPL_COMPANY_MASTER.Add3)>0 then TSPL_COMPANY_MASTER.Add3  else  '' end as CompanyAddress, " & _
+            '    " TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date, TSPL_IssueReturn_HEAD.Doc_Type, " & _
+            '    " (select Case when (len(TSPL_LOCATION_MASTER .Add1)>0) then convert(varchar(20),TSPL_LOCATION_MASTER.Add1,103) else '' end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.Add2)>0) then ', '+ convert(varchar(20),TSPL_LOCATION_MASTER.Add2,103)  else  '' end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.Add3)>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.Add3,103)  else  '' end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.Add4)>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.Add4,103)  else  '' end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.City_Code )>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.City_Code,103) else  ''  end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.State )>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.State,103)  else  ''  end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.Pin_Code )>0) then ', '+convert(varchar(10),TSPL_LOCATION_MASTER.Pin_Code,103)  else  ''  end + " & _
+            '" case when (len(TSPL_LOCATION_MASTER.Country )>0) then ', '+TSPL_LOCATION_MASTER.Country  else  ''  end  from TSPL_LOCATION_MASTER where location_Code='L001' ) as Address, " & _
+            '    " (select Location_Desc from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as ToLocDesc, " & _
+            '    " (select Loc_Segment_Code from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as ToLocSegCode, " & _
+            '    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as TinNo, " & _
+            '    " (select TCAN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as CstNo, " & _
+            '    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.From_Location) as CompanyTin, " & _
+            '    " '' as NRG_No, TSPL_IssueReturn_DETAIL.Item_Code AS ItemCode, TSPL_IssueReturn_DETAIL.Item_Desc AS Desciption, " & _
+            '    " TSPL_IssueReturn_DETAIL.Issued_Qty AS Quantity, TSPL_IssueReturn_DETAIL.Unit_code AS Uom, TSPL_IssueReturn_DETAIL.Unit_Cost AS Rate, " & _
+            '    " TSPL_IssueReturn_DETAIL.Amount AS Amount, TSPL_IssueReturn_HEAD.TAX1 AS TaxRateDesc1, TSPL_IssueReturn_HEAD.TAX1_Amt as TaxRate1, " & _
+            '    " TSPL_IssueReturn_HEAD.TAX2 as TaxRateDesc2, TSPL_IssueReturn_HEAD.TAX2_Amt as TaxRate2, TSPL_IssueReturn_HEAD.TAX3 as TaxRateDesc3, " & _
+            '    " TSPL_IssueReturn_HEAD.TAX3_Amt as TaxRate3, TSPL_IssueReturn_HEAD.TAX4 as TaxRateDesc4, TSPL_IssueReturn_HEAD.TAX4_Amt as TaxRate4, " & _
+            '    " TSPL_IssueReturn_HEAD.TAX5 as TaxRateDesc5, TSPL_IssueReturn_HEAD.TAX5_Amt as TaxRate5, TSPL_IssueReturn_HEAD.TAX6 as TaxRateDesc6, " & _
+            '    " TSPL_IssueReturn_HEAD.TAX6_Amt as TaxRate6, TSPL_IssueReturn_HEAD.TAX7 as TaxRateDesc7, TSPL_IssueReturn_HEAD.TAX7_Amt as TaxRate7, " & _
+            '    " TSPL_IssueReturn_HEAD.TAX8 as TaxRateDesc8, TSPL_IssueReturn_HEAD.TAX8_Amt as TaxRate8, TSPL_IssueReturn_HEAD.TAX9 as TaxRateDesc9, " & _
+            '    " TSPL_IssueReturn_HEAD.TAX9_Amt as TaxRate9, TSPL_IssueReturn_DETAIL.TAX10 as TaxRateDesc10, TSPL_IssueReturn_DETAIL.TAX10_Amt as  TaxRate10 " & _
+            '    " FROM TSPL_IssueReturn_HEAD " & _
+            '    " INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No " & _
+            '    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD.Issue_To = emp1.EMP_CODE " & _
+            '    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE " & _
+            '    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code " & _
+            '    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code " & _
+            '    " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code " & _
+            '    " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo.Value + "' and TSPL_IssueReturn_HEAD.Doc_Type='" + val + "' "
+            '                ''''--------------------------------------------------Code Ends Here--------------------------------------------------
+            '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryTrnsfr)
+            '                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")
+
+            '            End If
+            '            frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
