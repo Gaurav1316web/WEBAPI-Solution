@@ -195,10 +195,6 @@ Public Class clsPurchaseInvoiceHead
         If isCancel Then
             TSPL_PI_HEAD = " TSPL_PI_HEAD_Cancel_Data"
             tspl_pi_detail = " tspl_pi_detail_Cancel_Data"
-
-            'SD_SHIPMENT_HEAD = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As T
-            'SPL_SD_SHIPMENT_HEAD "
-            ' SD_SHIPMENT_DETAIL = " TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL "
         Else
             TSPL_PI_HEAD = " TSPL_PI_HEAD"
             tspl_pi_detail = " tspl_pi_detail "

@@ -528,6 +528,9 @@ from TSPL_PR_HEAD_Cancel_Data
                 clsPurchaseInvoiceHead.funPIPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.GetMulcallString(ItemCode), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Ref_No").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Vendor Code").Value))
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Return") = CompairStringResult.Equal Then
                 clsPurchasReturnHead.funPRPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Requisition") = CompairStringResult.Equal Then
+                clsPurchasReturnHead.funStoreRequisitionPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
