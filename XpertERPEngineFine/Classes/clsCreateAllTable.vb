@@ -14559,6 +14559,8 @@ Public Class clsCreateAllTable
             coll.Add("OTP_TYPE", "varchar(12) null references TSPL_PROGRAM_MASTER(Program_Code)")
             coll.Add("SSO", "varchar(30) null")
             coll.Add("Sub_Location", "varchar(12) null references TSPL_Location_MASTER(Location_Code)")
+            coll.Add("Saras_Pro_Session_Expired", "integer NULL")
+            coll.Add("Saras_Order_Session_Expired", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
