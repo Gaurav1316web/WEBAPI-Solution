@@ -151,6 +151,99 @@ Public Class clsPurchasReturnHead
         Return True
     End Function
 
+    Public Shared Function funPRPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrDocNo As String, ByVal cboTrType As String, ByVal CboNoteType As String) As Boolean
+        Dim qry As String
+        Dim TSPL_PR_HEAD As String = Nothing
+        Dim TSPL_PR_DETAIL As String = Nothing
+        If isCancel Then
+            TSPL_PR_HEAD = "tspl_pr_head_cancel_data"
+            TSPL_PR_DETAIL = "TSPL_PR_DETAIL_cancel_data"
+        Else
+            TSPL_PR_HEAD = "TSPL_PR_HEAD"
+            TSPL_PR_DETAIL = "TSPL_PR_DETAIL"
+        End If
+
+        qry = "select " + TSPL_PR_HEAD + ".Note_type ,"
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+
+        qry += " TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode, case when isnull(TSPL_SHIP_TO_LOCATION1.Add2, '') <> '' then TSPL_SHIP_TO_LOCATION1.Add2 ELSE  '' END   + case when isnull(TSPL_SHIP_TO_LOCATION1.City_Code , '')<>'' then  ', '+TSPL_SHIP_TO_LOCATION1.City_Code ELSE '' END + case when isnull(TSPL_SHIP_TO_LOCATION1.State , '')<>'' then  ', '+ (sELECT STATE_NAME  FROM TSPL_STATE_MASTER WHERE State_Code =TSPL_SHIP_TO_LOCATION1.State)  ELSE '' END   AS BILL_To_Location, " + TSPL_PR_HEAD + ".PR_No," + TSPL_PR_HEAD + ".Description,	convert(varchar(15)," + TSPL_PR_HEAD + ".PR_Date,106)PR_Date, "
+        If clsCommon.CompairString(cboTrType, "P") = CompairStringResult.Equal AndAlso clsCommon.CompairString(CboNoteType, "D") = CompairStringResult.Equal Then
+            qry += "substring(" + TSPL_PR_HEAD + ".Description,27,len(" + TSPL_PR_HEAD + ".Description)) as 'PR_Head_Remarks',"
+        Else
+            qry += " " + TSPL_PR_HEAD + ".Remarks as 'PR_Head_Remarks',"
+        End If
+        qry += "" + TSPL_PR_HEAD + ".Total_Add_Charge, " + TSPL_PR_HEAD + ".PR_Total_Amt, " + TSPL_PR_DETAIL + ".TAX1, " + TSPL_PR_HEAD + ".discount_base, " + TSPL_PR_HEAD + ".TAX1, " + TSPL_PR_HEAD + ".TAX2, " + TSPL_PR_HEAD + ".TAX3, " + TSPL_PR_HEAD + ".TAX4, " + TSPL_PR_HEAD + ".TAX5, " + TSPL_PR_HEAD + ".TAX6, " + TSPL_PR_HEAD + ".TAX7, " + TSPL_PR_HEAD + ".TAX8, " + TSPL_PR_HEAD + ".TAX9, " + TSPL_PR_HEAD + ".TAX10, " + TSPL_PR_HEAD + ".Discount_Amt, " + TSPL_PR_HEAD + ".Amount_Less_Discount, " + TSPL_PR_HEAD + ".Total_Tax_Amt, " + TSPL_PR_HEAD + ".TAX1_Amt, " + TSPL_PR_HEAD + ".TAX2_Amt, " + TSPL_PR_HEAD + ".TAX3_Amt, " + TSPL_PR_HEAD + ".TAX4_Amt, " + TSPL_PR_HEAD + ".TAX5_Amt, " + TSPL_PR_HEAD + ".TAX6_Amt, " + TSPL_PR_HEAD + ".TAX7_Amt, " + TSPL_PR_HEAD + ".TAX8_Amt, " + TSPL_PR_HEAD + ".TAX9_Amt, " + TSPL_PR_HEAD + ".TAX10_Amt, TSPL_ITEM_BARCODE.Bar_Code, TSPL_COMPANY_MASTER.Comp_Name, " &
+            "(case when isnull(TSPL_COMPANY_MASTER.Add1, '') <> '' then TSPL_COMPANY_MASTER.Add1 ELSE  '' END + " &
+            "case when isnull(TSPL_COMPANY_MASTER.Add2, '')<>'' then ', ' + TSPL_COMPANY_MASTER.Add2 ELSE '' END  + " &
+            "case when isnull(TSPL_COMPANY_MASTER.Add3, '')<>'' then ', ' + TSPL_COMPANY_MASTER.Add3 ELSE '' END ) AS Company_Address, " &
+            " case when isnull(" + TSPL_PR_HEAD + ".Ship_To_Location ,'')<>'' then  (case when isnull(TSPL_SHIP_TO_LOCATION.Add1, '') <> '' then TSPL_SHIP_TO_LOCATION.Add1 ELSE  '' END + case when isnull(TSPL_SHIP_TO_LOCATION.Add2, '')<>'' then ', ' + TSPL_SHIP_TO_LOCATION.Add2 ELSE '' END  + case when isnull(TSPL_SHIP_TO_LOCATION.Add3, '')<>'' then ', ' + TSPL_SHIP_TO_LOCATION.Add3 ELSE '' END ) else  (case when isnull(TSPL_SHIP_TO_LOCATION1.Add1, '') <> '' then TSPL_SHIP_TO_LOCATION1.Add1 ELSE  '' END + case when isnull(TSPL_SHIP_TO_LOCATION1.Add2, '')<>'' then ', ' + TSPL_SHIP_TO_LOCATION1.Add2 ELSE '' END  + case when isnull(TSPL_SHIP_TO_LOCATION1.Add3, '')<>'' then ', ' + TSPL_SHIP_TO_LOCATION1.Add3 ELSE '' END ) end AS Ship_To_Location," &
+            "case when isnull(TSPL_VENDOR_MASTER.Add1, '')<>'' then TSPL_VENDOR_MASTER.Add1 ELSE '' END  + " &
+            "case when isnull(TSPL_VENDOR_MASTER.Add2, '')<>'' then ', ' + TSPL_VENDOR_MASTER.Add2 ELSE '' END  + " &
+            "case when isnull(TSPL_VENDOR_MASTER.Add3, '')<>'' then ', ' + TSPL_VENDOR_MASTER.Add3 ELSE '' END  AS Supplier_Address,	  " &
+            "" + TSPL_PR_HEAD + ".Vendor_Invoice_No, TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date, case when TSPL_PI_HEAD.InvoiceDate is null then '' else  Convert (varchar,TSPL_PI_HEAD.InvoiceDate,103) end as InvoiceDate,TSPL_SRN_HEAD.Against_PO, " &
+            "" + TSPL_PR_HEAD + ".Against_SRN, convert(varchar(15),TSPL_SRN_HEAD.SRN_Date,106)SRN_Date, convert(varchar(15)," + TSPL_PR_HEAD + ".Due_Date,106)Due_Date, " + TSPL_PR_HEAD + ".Terms_Code, " &
+            "TSPL_VENDOR_MASTER.Tin_No, TSPL_VENDOR_MASTER.CST, " + TSPL_PR_DETAIL + ".Item_Code, " + TSPL_PR_DETAIL + ".Item_Desc, " &
+            "isnull(" + TSPL_PR_DETAIL + ".MRP,0)MRP, isnull(" + TSPL_PR_DETAIL + ".Item_Cost,0)Item_Cost, " + TSPL_PR_DETAIL + ".Unit_code, isnull(TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty,0)PurchaseOrder_Qty, " &
+            "isnull(" + TSPL_PR_DETAIL + ".PR_Qty,0)PR_Qty, isnull(TSPL_PI_DETAIL.PI_Qty,0)Balance_Qty, (isnull(TSPL_PI_DETAIL.PI_Qty,0)-isnull(" + TSPL_PR_DETAIL + ".PR_Qty,0))Difference, " + TSPL_PR_DETAIL + ".Remarks, TSPL_VENDOR_MASTER.Vendor_Name, " + TSPL_PR_DETAIL + ".Landed_Cost_Amount, " &
+            " isnull(Tspl_Tax1.Tax_Code_Desc,'') as Taxdesc1,isnull(Tspl_Tax2.Tax_Code_Desc,'') as Taxdesc2,isnull(Tspl_Tax3.Tax_Code_Desc,'') as Taxdesc3,isnull(Tspl_Tax4.Tax_Code_Desc,'') as Taxdesc4,isnull(Tspl_Tax5.Tax_Code_Desc,'') as Taxdesc5,isnull(Tspl_Tax6.Tax_Code_Desc,'') as Taxdesc6,isnull(Tspl_Tax7.Tax_Code_Desc,'') as Taxdesc7,isnull(Tspl_Tax8.Tax_Code_Desc,'') as Taxdesc8,isnull(Tspl_Tax9.Tax_Code_Desc,'') as Taxdesc9,isnull(Tspl_Tax10.Tax_Code_Desc,'') as Taxdesc10 " &
+            " ," + TSPL_PR_HEAD + ".tax1_rate," + TSPL_PR_HEAD + ".TAX2_Rate," + TSPL_PR_HEAD + ".TAX3_Rate," + TSPL_PR_HEAD + ".TAX4_Rate," + TSPL_PR_HEAD + ".TAX5_Rate," + TSPL_PR_HEAD + ".TAX6_Rate," + TSPL_PR_HEAD + ".tax7_rate," + TSPL_PR_HEAD + ".tax8_rate," + TSPL_PR_HEAD + ".tax9_rate," + TSPL_PR_HEAD + ".tax10_rate " &
+            " ," + TSPL_PR_HEAD + ".Add_Charge_code1, " + TSPL_PR_HEAD + ".Add_Charge_Name1, " + TSPL_PR_HEAD + ".Add_Charge_Amt1 ," + TSPL_PR_HEAD + ".Add_Charge_code2, " + TSPL_PR_HEAD + ".Add_Charge_Name2, " + TSPL_PR_HEAD + ".Add_Charge_Amt2 ," + TSPL_PR_HEAD + ".Add_Charge_code3, " + TSPL_PR_HEAD + ".Add_Charge_Name3, " + TSPL_PR_HEAD + ".Add_Charge_Amt3 ," + TSPL_PR_HEAD + ".Add_Charge_code4, " + TSPL_PR_HEAD + ".Add_Charge_Name4, " + TSPL_PR_HEAD + ".Add_Charge_Amt4 ," + TSPL_PR_HEAD + ".Add_Charge_code5, " + TSPL_PR_HEAD + ".Add_Charge_Name5, " + TSPL_PR_HEAD + ".Add_Charge_Amt5 ," + TSPL_PR_HEAD + ".Add_Charge_code6, " + TSPL_PR_HEAD + ".Add_Charge_Name6, " + TSPL_PR_HEAD + ".Add_Charge_Amt6 ," + TSPL_PR_HEAD + ".Add_Charge_code7, " + TSPL_PR_HEAD + ".Add_Charge_Name7, " + TSPL_PR_HEAD + ".Add_Charge_Amt7 ," + TSPL_PR_HEAD + ".Add_Charge_code8, " + TSPL_PR_HEAD + ".Add_Charge_Name8, " + TSPL_PR_HEAD + ".Add_Charge_Amt8 ," + TSPL_PR_HEAD + ".Add_Charge_code9, " + TSPL_PR_HEAD + ".Add_Charge_Name9, " + TSPL_PR_HEAD + ".Add_Charge_Amt9 ," + TSPL_PR_HEAD + ".Add_Charge_code10, " + TSPL_PR_HEAD + ".Add_Charge_Name10, " + TSPL_PR_HEAD + ".Add_Charge_Amt10 , isnull (" + TSPL_PR_HEAD + ".RoundOffAmt,0) as RoundOffAmt," + TSPL_PR_HEAD + ".Discount_Base," + TSPL_PR_HEAD + ".Discount_Amt," + TSPL_PR_HEAD + ".Amount_Less_Discount " &
+            " from " + TSPL_PR_HEAD + " " &
+            "LEFT OUTER JOIN " + TSPL_PR_DETAIL + " ON " + TSPL_PR_DETAIL + ".PR_No = " + TSPL_PR_HEAD + ".PR_No " &
+            "LEFT OUTER JOIN TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= " + TSPL_PR_HEAD + ".Vendor_Code " &
+            "LEFT OUTER JOIN TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code= " + TSPL_PR_HEAD + ".Comp_Code " &
+            "LEFT OUTER JOIN TSPL_LOCATION_MASTER  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Location_Code  = " + TSPL_PR_HEAD + ".Ship_To_Location  LEFT OUTER JOIN TSPL_LOCATION_MASTER TSPL_SHIP_TO_LOCATION1 on TSPL_SHIP_TO_LOCATION1.Location_Code  = " + TSPL_PR_HEAD + ".Bill_To_Location " &
+            "LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_PurchaseReturn_No=" + TSPL_PR_HEAD + ".PR_No " &
+            "LEFT OUTER JOIN TSPL_PI_HEAD ON TSPL_PI_HEAD.PI_No= " + TSPL_PR_HEAD + ".Against_PI " &
+            "LEFT OUTER JOIN TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = " + TSPL_PR_HEAD + ".Against_SRN " &
+            "LEFT OUTER JOIN TSPL_PURCHASE_ORDER_HEAD ON TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_SRN_HEAD.Against_PO " &
+            "LEFT OUTER JOIN TSPL_PURCHASE_ORDER_DETAIL ON TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No = TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No AND TSPL_PURCHASE_ORDER_DETAIL.Item_Code =  " + TSPL_PR_DETAIL + ".Item_Code " &
+            "LEFT OUTER JOIN TSPL_ITEM_BARCODE on TSPL_ITEM_BARCODE.Item_Code= " + TSPL_PR_DETAIL + ".Item_Code and TSPL_ITEM_BARCODE.Item_MRP = " + TSPL_PR_DETAIL + ".MRP " &
+            " LEFT OUTER JOIN TSPL_PI_DETAIL ON  TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No AND TSPL_PI_DETAIL.Item_Code=" + TSPL_PR_DETAIL + ".Item_Code  and TSPL_PI_DETAIL.SRN_Id =" + TSPL_PR_DETAIL + " .SRN_Id and  TSPL_PI_DETAIL.Line_No =" + TSPL_PR_DETAIL + ".Line_No " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax1 on Tspl_Tax1.Tax_Code =" + TSPL_PR_HEAD + ".TAX1 " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax2 on Tspl_Tax2.Tax_Code =" + TSPL_PR_HEAD + ".TAX2  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax3 on Tspl_Tax3.Tax_Code =" + TSPL_PR_HEAD + ".TAX3  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax4 on Tspl_Tax4.Tax_Code =" + TSPL_PR_HEAD + ".TAX4  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax5 on Tspl_Tax5.Tax_Code =" + TSPL_PR_HEAD + ".TAX5  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax6 on Tspl_Tax6.Tax_Code =" + TSPL_PR_HEAD + ".TAX6  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax7 on Tspl_Tax7.Tax_Code =" + TSPL_PR_HEAD + ".TAX7  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax8 on Tspl_Tax8.Tax_Code =" + TSPL_PR_HEAD + ".TAX8  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax9 on Tspl_Tax9.Tax_Code =" + TSPL_PR_HEAD + ".TAX9  " &
+            " left outer join TSPL_TAX_MASTER Tspl_Tax10 on Tspl_Tax10.Tax_Code =" + TSPL_PR_HEAD + ".TAX10 " &
+            " left outer join tspl_location_master on tspl_location_master.location_code= " + TSPL_PR_HEAD + ".Bill_To_Location " &
+            " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= " + TSPL_PR_DETAIL + ".Item_Code " &
+            " left outer join tspl_state_master as tspl_state_master_for_location_state on tspl_state_master_for_location_state.state_code=tspl_location_master.state  " &
+            " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code " &
+            " WHERE 1 = 1 " &
+            " AND " + TSPL_PR_HEAD + ".PR_No='" + StrDocNo + "' "
+
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim qtySubReport As String = " SELECT TSPL_JOURNAL_MASTER.Voucher_No, TSPL_JOURNAL_MASTER.Voucher_Date, TSPL_JOURNAL_MASTER.Source_Code,   TSPL_JOURNAL_MASTER.Source_Desc, TSPL_JOURNAL_MASTER.Source_Doc_No, TSPL_JOURNAL_MASTER.Source_Doc_Date,   TSPL_JOURNAL_MASTER.Posting_Date, TSPL_JOURNAL_MASTER.Voucher_Desc, TSPL_JOURNAL_MASTER.Source_Narration,    TSPL_JOURNAL_MASTER.Remarks, TSPL_JOURNAL_MASTER.Comments, TSPL_JOURNAL_MASTER.Auto_Reverse,ISNULL(TSPL_JOURNAL_MASTER.Reverse_Date,'') AS Reverse_Date,    TSPL_JOURNAL_MASTER.Source_Type, TSPL_JOURNAL_MASTER.CustVend_Code, CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME ELSE TSPL_JOURNAL_MASTER.CustVend_Name end AS CustVend_Name,    TSPL_JOURNAL_MASTER.Transaction_Type,    TSPL_JOURNAL_MASTER.Provisional_Post, TSPL_JOURNAL_MASTER.Authorized, TSPL_JOURNAL_MASTER.Total_Debit_Amt,    TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Detail_Line_No as [Line No], TSPL_JOURNAL_DETAILS.Account_code as [Acc Code],    TSPL_JOURNAL_DETAILS.Account_Desc as [Acc Desc], case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt , case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, TSPL_JOURNAL_DETAILS.Description as [Desc],    TSPL_JOURNAL_DETAILS.Reference as [Ref], convert(varchar(11),TSPL_JOURNAL_DETAILS.Posting_Date,103) AS [Date],   TSPL_JOURNAL_MASTER.SendToTally,TSPL_JOURNAL_MASTER.Segment_code,TSPL_JOURNAL_MASTER.MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_code as [Hierarchy Code],  TSPL_JOURNAL_DETAILS.Cost_Centre_Code as [Cost Centre],TSPL_JOURNAL_MASTER.Ind_As , TSPL_JOURNAL_MASTER.AgainstVoucherNoReverseEntry,TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime   FROM TSPL_JOURNAL_MASTER INNER JOIN   TSPL_JOURNAL_DETAILS ON     TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No   left outer join  tspl_customer_master on tspl_customer_master.cust_code  =TSPL_JOURNAL_MASTER.CustVend_Code left outer join  TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_CODE  =TSPL_JOURNAL_MASTER.CustVend_Code   WHERE " &
+                                         " TSPL_JOURNAL_MASTER.Source_doc_No = ( select TSPL_Vendor_Invoice_Head.Document_No from TSPL_Vendor_Invoice_Head where Against_PurchaseReturn_No ='" + StrDocNo + "') " &
+                                         " order by [Line No]  "
+        Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qtySubReport)
+        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            Throw New Exception("No Data found to Print")
+        Else
+            ''richa agarwal create new report against ticket no BM00000008838 for price adjsutment 04 March,2016 ,31 May 2019 open Price Adjustment report in both cases i.e Credit Note and Debit Note if Trasaction type is Price Adjustment KDI/31/05/19-000455
+            Dim frmCRV As New frmCrystalReportViewer()
+            If clsCommon.CompairString(cboTrType, "P") = CompairStringResult.Equal Then
+                frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptPriceAdjustment", "Price Adjustment Report", clsCommon.myCDate(dt.Rows(0)("PR_Date")))
+            Else
+                'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "crptPurchaseReturn", "Purchase Return Report",  clsCommon.myCDate(dt.Rows(0)("PR_Date")))
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.PurchaseOrder, dt, dt2, "crptPurchaseReturn", "Purchase Return Report", clsCommon.myCDate(dt.Rows(0)("PR_Date")), "rptSubReportPurchaseReturnVoucherDetails.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
+            End If
+            frmCRV = Nothing
+        End If
+        Return True
+    End Function
+
+
     Public Function SaveData(ByVal obj As clsPurchasReturnHead, ByVal isNewEntry As Boolean) As Boolean
         ShowItemAllStructureWise = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = "1", True, False))
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
