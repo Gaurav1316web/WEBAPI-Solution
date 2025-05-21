@@ -590,7 +590,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Desc )xxxx order by GRPColumn "
             ElseIf rbtnSavingSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by Bank_Code) as SNO , max(CycleRange) as CycleRange, max(Bank_Code) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,max (Bank_Code_Desc)Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
-,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
+,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME,max(FD)FD,max(TD)TD
 from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group by Bank_Code "
             End If
             If rbtnCompulsory.IsChecked Then

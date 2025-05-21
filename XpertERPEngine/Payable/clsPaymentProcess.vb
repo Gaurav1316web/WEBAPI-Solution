@@ -80,7 +80,7 @@ Public Class clsPaymentProcessHead
 
 
             If isNewEntry Then
-                If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckUnpostedPaymentProcess, clsFixedParameterCode.CheckUnpostedPaymentProcess, trans)) > 0 Then
+                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CheckUnpostedPaymentProcess, clsFixedParameterCode.CheckUnpostedPaymentProcess, trans)) > 0 Then
                     Dim qry As String = "select Doc_No from TSPL_PAYMENT_PROCESS_HEAD where Loc_Seg_Code='" + obj.Loc_Seg_Code + "' and isPosted='0' and Doc_No not in ('" + obj.Doc_No + "')"
                     If clsCommon.myLen(obj.MCC_Code_Selected) > 0 Then
                         qry += " and MCC_Code_Selected='" + obj.MCC_Code_Selected + "'"
@@ -149,7 +149,7 @@ Public Class clsPaymentProcessHead
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
-                Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, trans)) = 1)
+                Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, trans)) = 1)
                 If objCommonVar.ApplyLocationWisePrefix Then
                     obj.Doc_No = clsERPFuncationality.GetNextCode(trans, dt, clsDocType.PaymentProcess, "", obj.Location_Code_Prefix, False)
                 Else
@@ -163,12 +163,12 @@ Public Class clsPaymentProcessHead
 
                 'PaymentProcessWithoutLoc
                 clsCommon.AddColumnsForChange(coll, "Doc_No", obj.Doc_No)
-                    If clsCommon.myLen(obj.Doc_No) <= 0 Then
-                        Throw New Exception("Error In Doc No Generation")
-                    End If
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Insert, "", trans)
-                Else
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Update, "Doc_No= '" + obj.Doc_No + "'", trans)
+                If clsCommon.myLen(obj.Doc_No) <= 0 Then
+                    Throw New Exception("Error In Doc No Generation")
+                End If
+                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_HEAD", OMInsertOrUpdate.Update, "Doc_No= '" + obj.Doc_No + "'", trans)
             End If
 
 
@@ -373,9 +373,9 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             End If
                         Next
                         objRcpt.ARInvoiceNo = clsCommon.myCstr(obj.arrClsPaymentProcessMccSale(i).AR_Invoice_No)
-                        objRcpt.Doc_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale(i).Amount) - ReturnAmt
+                        objRcpt.Doc_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSale(i).Amount) - ReturnAmt
                         objRcpt.Remarks = ""
-                        objRcpt.Adjustment_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale(i).Amount - obj.arrClsPaymentProcessMccSale(i).Reduce_Deduc_Amt) - ReturnAmt
+                        objRcpt.Adjustment_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSale(i).Amount - obj.arrClsPaymentProcessMccSale(i).Reduce_Deduc_Amt) - ReturnAmt
                         objRcpt.Arr = New List(Of clsAdjustmentEntryReceivablesDetail)
                         Dim objTrRcpt As New clsAdjustmentEntryReceivablesDetail()
                         objTrRcpt.Discount_Code = DisCCodeForArAdj
@@ -384,10 +384,10 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
 
                         objTrRcpt.Account_No = GLAcARAdj
                         objTrRcpt.Account_Description = GLAcDescARAdj
-                        objTrRcpt.Amount = clsCommon.myCdbl(clsCommon.myCdbl(obj.arrClsPaymentProcessMccSale(i).Amount - obj.arrClsPaymentProcessMccSale(i).Reduce_Deduc_Amt - ReturnAmt))
+                        objTrRcpt.Amount = clsCommon.myCDecimal(clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSale(i).Amount - obj.arrClsPaymentProcessMccSale(i).Reduce_Deduc_Amt - ReturnAmt))
                         objTrRcpt.Remarks = ""
                         objRcpt.Arr.Add(objTrRcpt)
-                        If clsCommon.myCdbl(objTrRcpt.Amount) > 0 Then
+                        If clsCommon.myCDecimal(objTrRcpt.Amount) > 0 Then
                             objRcpt.SaveData(objRcpt, True, trans)
                             clsAdjustmentEntryReceivables.FunPost(objRcpt.Adjustment_No, trans)
                         End If
@@ -405,7 +405,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
 
 
                 For i = 0 To obj.ArrPPDetail.Count - 1
-                    If clsCommon.CompairString(obj.ArrPPDetail(i).VSP_CODE, "DCS00170") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(obj.ArrPPDetail(i).VSP_CODE, "DCS00687") = CompairStringResult.Equal Then
                         Dim x As Integer = 0
                     End If
                     If ShowProgressBAR Then
@@ -424,7 +424,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             Dim ReturnAmt As Decimal = 0
                             For ireturn As Integer = 0 To obj.arrClsPaymentProcessMccSaleReturn.Count - 1
                                 If clsCommon.myCstr(obj.arrClsPaymentProcessMccSale(Counter).Sale_Doc_No) = clsCommon.myCstr(obj.arrClsPaymentProcessMccSaleReturn(ireturn).Sale_Doc_No) Then
-                                    ReturnAmt += clsCommon.myCdbl(obj.arrClsPaymentProcessMccSaleReturn(ireturn).Amount)
+                                    ReturnAmt += clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSaleReturn(ireturn).Amount)
                                     obj.arrClsPaymentProcessMccSaleReturn(ireturn).Amount = 0
                                 End If
                             Next
@@ -439,11 +439,12 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             Dim dclRedDeduction As Decimal = 0
                             For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).DRTo
                                 If clsCommon.CompairString(obj.arrClsPaymentProcessDeductions(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
-                                    dclRedDeduction = obj.arrClsPaymentProcessDeductions(Counter).Reduce_Deduc_Amt
+                                    dclRedDeduction += obj.arrClsPaymentProcessDeductions(Counter).Reduce_Deduc_Amt
                                 End If
                             Next
 
                             If ((obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Head_Load_Amount + obj.ArrPPDetail(i).Compulsory_Amount + dclRedDeduction) - obj.ArrPPDetail(i).Deduction_Amount - obj.ArrPPDetail(i).Advance_Payment_Amount) >= AmtToAdjustInCreditNote Then
+
                                 If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
                                     For k As Integer = 0 To obj.arrClsPaymentProcessCreditNote.Count - 1
                                         If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
@@ -466,14 +467,14 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                             objPayAdj.Doc_No = obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No
                                             objPayAdj.Doc_Amount = obj.arrClsPaymentProcessCreditNote.Item(k).Amount
                                             objPayAdj.Remarks = "Credit note Adjusment"
-                                            objPayAdj.Adjustment_Amount = clsCommon.myCdbl(tAmt)
+                                            objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(tAmt)
                                             objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                                             objTrPay = New clsPaymentAdjustmentEntryDetail()
                                             objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
                                             objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
                                             objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
                                             objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
-                                            objTrPay.Amount = clsCommon.myCdbl(tAmt)
+                                            objTrPay.Amount = clsCommon.myCDecimal(tAmt)
                                             objTrPay.Remarks = "Credit note Adjusment"
                                             objPayAdj.Arr.Add(objTrPay)
                                             objPayAdj.SaveData(objPayAdj, True, trans)
@@ -485,9 +486,6 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                         End If
                                     Next
                                 End If
-
-
-
 
                                 If AmtToAdjustInCreditNote <> 0 Then
                                     If obj.arrclsPaymentProcessCompulsory IsNot Nothing And obj.arrclsPaymentProcessCompulsory.Count > 0 Then
@@ -512,14 +510,14 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                                 objPayAdj.Doc_No = obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No
                                                 objPayAdj.Doc_Amount = obj.arrclsPaymentProcessCompulsory.Item(k).Amount
                                                 objPayAdj.Remarks = "Credit note Adjusment"
-                                                objPayAdj.Adjustment_Amount = clsCommon.myCdbl(tAmt)
+                                                objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(tAmt)
                                                 objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                                                 objTrPay = New clsPaymentAdjustmentEntryDetail()
                                                 objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
                                                 objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
                                                 objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
                                                 objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
-                                                objTrPay.Amount = clsCommon.myCdbl(tAmt)
+                                                objTrPay.Amount = clsCommon.myCDecimal(tAmt)
                                                 objTrPay.Remarks = "Credit note Adjusment"
                                                 objPayAdj.Arr.Add(objTrPay)
                                                 objPayAdj.SaveData(objPayAdj, True, trans)
@@ -532,8 +530,6 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                         Next
                                     End If
                                 End If
-
-
 
                                 If AmtToAdjustInCreditNote <> 0 Then
                                     If obj.ArrPPDetail(i).Head_Load_Amount > 0 Then
@@ -558,14 +554,14 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                             objPayAdj.Doc_No = strDocNo
                                             objPayAdj.Doc_Amount = obj.ArrPPDetail(i).Head_Load_Amount
                                             objPayAdj.Remarks = "Credit note Adjusment Head Load"
-                                            objPayAdj.Adjustment_Amount = clsCommon.myCdbl(tAmt)
+                                            objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(tAmt)
                                             objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                                             objTrPay = New clsPaymentAdjustmentEntryDetail()
                                             objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
                                             objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
                                             objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
                                             objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
-                                            objTrPay.Amount = clsCommon.myCdbl(tAmt)
+                                            objTrPay.Amount = clsCommon.myCDecimal(tAmt)
                                             objTrPay.Remarks = "Credit note Adjusment Head Load"
                                             objPayAdj.Arr.Add(objTrPay)
                                             objPayAdj.SaveData(objPayAdj, True, trans)
@@ -577,10 +573,9 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                         End If
                                     End If
                                 End If
+
                             End If
                         End If
-
-
 
                         objPayAdj = New clsPaymentAdjustmentEntry
                         objPayAdj.Adjustment_No = ""
@@ -589,16 +584,16 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                         objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
                         objPayAdj.Doc_No = clsCommon.myCstr(obj.ArrPPDetail(i).AP_Invoice_No)
-                        objPayAdj.Doc_Amount = clsCommon.myCdbl(obj.ArrPPDetail(i).Total_Invoice_Amount)
+                        objPayAdj.Doc_Amount = clsCommon.myCDecimal(obj.ArrPPDetail(i).Total_Invoice_Amount)
                         objPayAdj.Remarks = clsCommon.myCstr("")
-                        objPayAdj.Adjustment_Amount = clsCommon.myCdbl(AdjAmt)
+                        objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(AdjAmt)
                         objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                         objTrPay = New clsPaymentAdjustmentEntryDetail()
                         objTrPay.Discount_Code = clsCommon.myCstr(DisCCodeForArAdj)
                         objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
                         objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
                         objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
-                        objTrPay.Amount = clsCommon.myCdbl(AdjAmt)
+                        objTrPay.Amount = clsCommon.myCDecimal(AdjAmt)
                         objTrPay.Remarks = clsCommon.myCstr("")
                         objPayAdj.Arr.Add(objTrPay)
                         objPayAdj.SaveData(objPayAdj, True, trans)
@@ -609,7 +604,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         End If
                     End If
 
-                    AdjAmt -= (obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount) ''Becuase not effet the ap adjustment.
+                    AdjAmt -= (obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount + obj.ArrPPDetail(i).Head_Load_Amount) ''Becuase not effet the ap adjustment.
                     '========BM00000007337===================
                     For Counter = 0 To obj.arrClsPaymentProcessMccSaleReturn.Count - 1
                         If clsCommon.CompairString(obj.arrClsPaymentProcessMccSaleReturn(Counter).Customer_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
@@ -624,9 +619,9 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                         objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
                         objPayAdj.Doc_No = clsCommon.myCstr(obj.ArrPPDetail(i).AP_Invoice_No)
-                        objPayAdj.Doc_Amount = clsCommon.myCdbl(obj.ArrPPDetail(i).Total_Invoice_Amount)
+                        objPayAdj.Doc_Amount = clsCommon.myCDecimal(obj.ArrPPDetail(i).Total_Invoice_Amount)
                         objPayAdj.Remarks = clsCommon.myCstr("")
-                        objPayAdj.Adjustment_Amount = clsCommon.myCdbl(ReturnAdjAmt)
+                        objPayAdj.Adjustment_Amount = clsCommon.myCDecimal(ReturnAdjAmt)
                         objPayAdj.Adjust_Type = "R"
                         objPayAdj.Arr = New List(Of clsPaymentAdjustmentEntryDetail)
                         Dim objTrPay As New clsPaymentAdjustmentEntryDetail()
@@ -634,7 +629,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objTrPay.Discount_Description = clsCommon.myCstr(DiscDiscForArAdj)
                         objTrPay.Account_No = clsCommon.myCstr(GLAcARAdj)
                         objTrPay.Account_Description = clsCommon.myCstr(GLAcDescARAdj)
-                        objTrPay.Amount = clsCommon.myCdbl(ReturnAdjAmt)
+                        objTrPay.Amount = clsCommon.myCDecimal(ReturnAdjAmt)
                         objTrPay.Remarks = clsCommon.myCstr("")
                         objPayAdj.Arr.Add(objTrPay)
                         objPayAdj.SaveData(objPayAdj, True, trans)
@@ -672,13 +667,13 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         If obj.arrclsPaymentProcessSaving IsNot Nothing And obj.arrclsPaymentProcessSaving.Count > 0 Then
                             For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).SavingFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).SavingTo
                                 If clsCommon.CompairString(obj.arrclsPaymentProcessSaving(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
-                                    Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrclsPaymentProcessSaving.Item(k).Amount)
+                                    Dim tAmt As Decimal = clsCommon.myCDecimal(obj.arrclsPaymentProcessSaving.Item(k).Amount)
                                     If tAmt > 0 Then
                                         objTr = New clsPaymentDetail()
                                         objTr.Apply = "1"
                                         objTr.Payment_Type = "PY"
                                         objTr.Document_No = clsCommon.myCstr(obj.arrclsPaymentProcessSaving.Item(k).AP_Invoice_No)
-                                        objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.arrclsPaymentProcessSaving.Item(k).Amount)
+                                        objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.arrclsPaymentProcessSaving.Item(k).Amount)
                                         objTr.Applied_Amount = tAmt
                                         objTr.Pending_Balance = 0
                                         Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & obj.arrclsPaymentProcessSaving.Item(k).AP_Invoice_No & "'", trans))
@@ -713,7 +708,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                     objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                                     objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
                                     objPayAdj.Doc_No = clsCommon.myCstr(obj.arrClsPaymentProcessDeductions(Counter).AP_Invoice_No)
-                                    objPayAdj.Doc_Amount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessDeductions(Counter).AP_Invoice_No + "'", trans))
+                                    objPayAdj.Doc_Amount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessDeductions(Counter).AP_Invoice_No + "'", trans))
                                     objPayAdj.Remarks = clsCommon.myCstr("")
                                     objPayAdj.Adjustment_Amount = XAmount
                                     objPayAdj.Against_Payment_Process = DocNo
@@ -735,7 +730,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             For Counter = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRTo
                                 If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(Counter).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
                                     'Dim XAmount As Decimal = obj.arrClsPaymentProcessCreditNote(Counter).Amount
-                                    Dim XAmount As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No + "'", trans))
+                                    Dim XAmount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Balance_Amt from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No + "'", trans))
                                     If XAmount > 0 Then
                                         XTotalAmount -= XAmount
                                         objPayAdj = New clsPaymentAdjustmentEntry
@@ -745,7 +740,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                         objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                                         objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
                                         objPayAdj.Doc_No = clsCommon.myCstr(obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No)
-                                        objPayAdj.Doc_Amount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No + "'", trans))
+                                        objPayAdj.Doc_Amount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.arrClsPaymentProcessCreditNote(Counter).AP_Invoice_No + "'", trans))
                                         objPayAdj.Remarks = clsCommon.myCstr("")
                                         objPayAdj.Adjustment_Amount = XAmount
                                         objPayAdj.Against_Payment_Process = DocNo
@@ -773,7 +768,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             objPayAdj.Vendor_No = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_CODE)
                             objPayAdj.Vendor_Name = clsCommon.myCstr(obj.ArrPPDetail(i).VSP_NAME)
                             objPayAdj.Doc_No = obj.ArrPPDetail(i).AP_Invoice_No
-                            objPayAdj.Doc_Amount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.ArrPPDetail(i).AP_Invoice_No + "'", trans))
+                            objPayAdj.Doc_Amount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Document_Total from TSPL_Vendor_Invoice_Head where Document_No='" + obj.ArrPPDetail(i).AP_Invoice_No + "'", trans))
                             objPayAdj.Remarks = clsCommon.myCstr("")
                             objPayAdj.Adjustment_Amount = XTotalAmount
                             objPayAdj.Against_Payment_Process = DocNo
@@ -822,8 +817,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                     objTr.Apply = "1"
                     objTr.Payment_Type = "PY"
                     objTr.Document_No = clsCommon.myCstr(obj.ArrPPDetail.Item(i).AP_Invoice_No)
-                    objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Total_Invoice_Amount)
-                    objTr.Applied_Amount = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Total_Invoice_Amount + ReturnAdjAmt - AdjAmt - obj.ArrPPDetail.Item(i).Advance_Payment_Amount_Knock_Off - (obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount))
+                    objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Total_Invoice_Amount)
+                    objTr.Applied_Amount = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Total_Invoice_Amount + ReturnAdjAmt - AdjAmt - obj.ArrPPDetail.Item(i).Advance_Payment_Amount_Knock_Off - (obj.ArrPPDetail(i).Credit_Note_Amount + obj.ArrPPDetail(i).Compulsory_Amount))
                     objTr.Pending_Balance = 0
                     objTr.Vendor_Invoice_No = obj.ArrPPDetail.Item(i).Milk_Purchase_Invoice_No
                     objTr.Net_Balance = 0
@@ -837,8 +832,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             objTr.Apply = "1"
                             objTr.Payment_Type = "PY"
                             objTr.Document_No = clsCommon.myCstr(dtExtra.Rows(0)("Vsp_Own_System_Doc_No"))
-                            objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount)
-                            objTr.Applied_Amount = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount)
+                            objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount)
+                            objTr.Applied_Amount = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount)
                             objTr.Pending_Balance = 0
                             objTr.Vendor_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & clsCommon.myCstr(objTr.Document_No) & "'", trans))
                             objTr.Net_Balance = 0
@@ -851,8 +846,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             objTr.Payment_Type = "PY"
                             objTr.Document_No = clsCommon.myCstr(dtExtra.Rows(0)("Head_Load_Doc_No"))
 
-                            objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Head_Load_Amount)
-                            objTr.Applied_Amount = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Head_Load_Amount)
+                            objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Head_Load_Amount)
+                            objTr.Applied_Amount = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Head_Load_Amount)
                             objTr.Pending_Balance = 0
                             objTr.Vendor_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & clsCommon.myCstr(objTr.Document_No) & "'", trans))
                             objTr.Net_Balance = 0
@@ -864,8 +859,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                             objTr.Apply = "1"
                             objTr.Payment_Type = "PY"
                             objTr.Document_No = clsCommon.myCstr(dtExtra.Rows(0)("Deduction_Doc_No"))
-                            objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Deduction_Amount)
-                            objTr.Applied_Amount = clsCommon.myCdbl(obj.ArrPPDetail.Item(i).Deduction_Amount)
+                            objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Deduction_Amount)
+                            objTr.Applied_Amount = clsCommon.myCDecimal(obj.ArrPPDetail.Item(i).Deduction_Amount)
                             objTr.Pending_Balance = 0
                             objTr.Vendor_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & clsCommon.myCstr(objTr.Document_No) & "'", trans))
                             objTr.Net_Balance = 0
@@ -881,8 +876,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                 objTr.Apply = "1"
                                 objTr.Payment_Type = "PY"
                                 objTr.Document_No = clsCommon.myCstr(obj.arrClsPaymentProcessItemIssue.Item(j).AP_Invoice_No)
-                                objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssue.Item(j).Amount)
-                                objTr.Applied_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssue.Item(j).Amount - obj.arrClsPaymentProcessItemIssue.Item(j).Reduce_Deduc_Amt)
+                                objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.arrClsPaymentProcessItemIssue.Item(j).Amount)
+                                objTr.Applied_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessItemIssue.Item(j).Amount - obj.arrClsPaymentProcessItemIssue.Item(j).Reduce_Deduc_Amt)
                                 objTr.Pending_Balance = obj.arrClsPaymentProcessItemIssue.Item(j).Reduce_Deduc_Amt
                                 objTr.Vendor_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & clsCommon.myCstr(obj.arrClsPaymentProcessItemIssue.Item(j).AP_Invoice_No) & "'", trans))
                                 objTr.Net_Balance = obj.arrClsPaymentProcessItemIssue.Item(j).Reduce_Deduc_Amt
@@ -898,8 +893,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                 objTr.Apply = "1"
                                 objTr.Payment_Type = "PY"
                                 objTr.Document_No = clsCommon.myCstr(obj.arrClsPaymentProcessItemIssueReturn.Item(j).AP_Invoice_No)
-                                objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssueReturn.Item(j).Amount)
-                                objTr.Applied_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessItemIssueReturn.Item(j).Amount)
+                                objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.arrClsPaymentProcessItemIssueReturn.Item(j).Amount)
+                                objTr.Applied_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessItemIssueReturn.Item(j).Amount)
                                 objTr.Pending_Balance = 0
                                 objTr.Vendor_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & clsCommon.myCstr(obj.arrClsPaymentProcessItemIssueReturn.Item(j).AP_Invoice_No) & "'", trans))
                                 objTr.Net_Balance = 0
@@ -915,8 +910,8 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                 objTr.Apply = "1"
                                 objTr.Payment_Type = "PY"
                                 objTr.Document_No = clsCommon.myCstr(obj.arrClsPaymentProcessDeductions.Item(k).AP_Invoice_No)
-                                objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.arrClsPaymentProcessDeductions.Item(k).Amount)
-                                objTr.Applied_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessDeductions.Item(k).Amount - obj.arrClsPaymentProcessDeductions.Item(k).Reduce_Deduc_Amt)
+                                objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.arrClsPaymentProcessDeductions.Item(k).Amount)
+                                objTr.Applied_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessDeductions.Item(k).Amount - obj.arrClsPaymentProcessDeductions.Item(k).Reduce_Deduc_Amt)
                                 objTr.Pending_Balance = obj.arrClsPaymentProcessDeductions.Item(k).Reduce_Deduc_Amt
                                 Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & obj.arrClsPaymentProcessDeductions.Item(k).AP_Invoice_No & "'", trans))
                                 objTr.Net_Balance = obj.arrClsPaymentProcessDeductions.Item(k).Reduce_Deduc_Amt
@@ -930,7 +925,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                     If obj.arrClsPaymentProcessCreditNote IsNot Nothing And obj.arrClsPaymentProcessCreditNote.Count > 0 Then
                         For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).CRTo
                             If clsCommon.CompairString(obj.arrClsPaymentProcessCreditNote(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
-                                Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrClsPaymentProcessCreditNote.Item(k).Amount)
+                                Dim tAmt As Decimal = clsCommon.myCDecimal(obj.arrClsPaymentProcessCreditNote.Item(k).Amount)
                                 If arrCreditNoteAdjustAmt.ContainsKey(obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No) Then
                                     tAmt -= arrCreditNoteAdjustAmt(obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No)
                                 End If
@@ -939,7 +934,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                     objTr.Apply = "1"
                                     objTr.Payment_Type = "PY"
                                     objTr.Document_No = clsCommon.myCstr(obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No)
-                                    objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.arrClsPaymentProcessCreditNote.Item(k).Amount)
+                                    objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.arrClsPaymentProcessCreditNote.Item(k).Amount)
                                     objTr.Applied_Amount = tAmt
                                     objTr.Pending_Balance = 0
                                     Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & obj.arrClsPaymentProcessCreditNote.Item(k).AP_Invoice_No & "'", trans))
@@ -955,7 +950,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                     If obj.arrclsPaymentProcessCompulsory IsNot Nothing And obj.arrclsPaymentProcessCompulsory.Count > 0 Then
                         For k As Integer = obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).COMPULSORYFrom To obj.ArrIndex(obj.ArrPPDetail(i).VSP_CODE.ToUpper()).COMPULSORYTo
                             If clsCommon.CompairString(obj.arrclsPaymentProcessCompulsory(k).Vendor_CODE, obj.ArrPPDetail(i).VSP_CODE) = CompairStringResult.Equal Then
-                                Dim tAmt As Decimal = clsCommon.myCdbl(obj.arrclsPaymentProcessCompulsory.Item(k).Amount)
+                                Dim tAmt As Decimal = clsCommon.myCDecimal(obj.arrclsPaymentProcessCompulsory.Item(k).Amount)
                                 If arrCreditNoteAdjustAmt.ContainsKey(obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No) Then
                                     tAmt -= arrCreditNoteAdjustAmt(obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No)
                                 End If
@@ -964,7 +959,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                     objTr.Apply = "1"
                                     objTr.Payment_Type = "PY"
                                     objTr.Document_No = clsCommon.myCstr(obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No)
-                                    objTr.Original_Invoice_Amt = clsCommon.myCdbl(obj.arrclsPaymentProcessCompulsory.Item(k).Amount)
+                                    objTr.Original_Invoice_Amt = clsCommon.myCDecimal(obj.arrclsPaymentProcessCompulsory.Item(k).Amount)
                                     objTr.Applied_Amount = tAmt
                                     objTr.Pending_Balance = 0
                                     Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & obj.arrclsPaymentProcessCompulsory.Item(k).AP_Invoice_No & "'", trans))
@@ -1012,9 +1007,9 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objRcpt.Customer_Name = clsCommon.myCstr(clsCustomerMaster.GetName(objRcpt.Customer_No, trans))
                         objRcpt.Doc_No = clsCommon.myCstr(obj.arrClsPaymentProcessMccSaleReturn(i).Return_Doc_No)
                         objRcpt.ARInvoiceNo = clsCommon.myCstr(obj.arrClsPaymentProcessMccSaleReturn(i).AR_Invoice_No)
-                        objRcpt.Doc_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSaleReturn(i).Amount)
+                        objRcpt.Doc_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSaleReturn(i).Amount)
                         objRcpt.Remarks = ""
-                        objRcpt.Adjustment_Amount = clsCommon.myCdbl(obj.arrClsPaymentProcessMccSaleReturn(i).Amount)
+                        objRcpt.Adjustment_Amount = clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSaleReturn(i).Amount)
                         objRcpt.Arr = New List(Of clsAdjustmentEntryReceivablesDetail)
                         Dim objTrRcpt As New clsAdjustmentEntryReceivablesDetail()
                         objTrRcpt.Discount_Code = DisCCodeForArAdj
@@ -1022,10 +1017,10 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                         objTrRcpt.Account_No = GLAcARAdj
                         objTrRcpt.Account_Description = GLAcDescARAdj
                         Dim ReturnAmt As Decimal = 0
-                        objTrRcpt.Amount = clsCommon.myCdbl(clsCommon.myCdbl(obj.arrClsPaymentProcessMccSaleReturn(i).Amount))
+                        objTrRcpt.Amount = clsCommon.myCDecimal(clsCommon.myCDecimal(obj.arrClsPaymentProcessMccSaleReturn(i).Amount))
                         objTrRcpt.Remarks = ""
                         objRcpt.Arr.Add(objTrRcpt)
-                        If clsCommon.myCdbl(objTrRcpt.Amount) > 0 Then
+                        If clsCommon.myCDecimal(objTrRcpt.Amount) > 0 Then
                             objRcpt.SaveData(objRcpt, True, trans)
                             clsAdjustmentEntryReceivables.FunPostReverseEntry(objRcpt.Adjustment_No, trans)
                         End If
@@ -1065,7 +1060,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
     End Function
 
     Shared Function CreateApplyDocumentForAdavancePayment(ByVal dtTo As DateTime, ByVal ArrPPAdvancePayment As List(Of clsPaymentProcessAdvancePayment), ByVal objtr As clsPaymentProcessDetail, ByVal strLocSeg As String, ByVal trans As SqlTransaction)
-        Dim KFAmt As Double = objtr.Advance_Payment_Amount_Knock_Off
+        Dim KFAmt As Decimal = objtr.Advance_Payment_Amount_Knock_Off
         If objtr.Advance_Payment_Amount_Knock_Off > 0 Then
             If ArrPPAdvancePayment IsNot Nothing AndAlso ArrPPAdvancePayment.Count > 0 Then
                 For Each objAdvancePayment As clsPaymentProcessAdvancePayment In ArrPPAdvancePayment
@@ -1116,7 +1111,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
 
     Shared Function createDebitNote(ByVal objtr As clsPaymentProcessDetail, ByVal strLocSeg As String, ByVal trans As SqlTransaction)
         If objtr.MP_Net_Amount > 0 AndAlso objtr.VSP_Amount > objtr.MP_Net_Amount Then
-            Dim dblAmt As Double = objtr.VSP_Amount - objtr.MP_Net_Amount
+            Dim dblAmt As Decimal = objtr.VSP_Amount - objtr.MP_Net_Amount
             Dim objVendorInvHead As New clsVedorInvoiceHead()
             Dim objVendorInvDetail As New clsVedorInvoiceDetail()
             objVendorInvHead.isDeduction = 1
@@ -1288,7 +1283,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, strLocSeg, True, trans)
-                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, strLocSeg, True, trans)
                 End If
@@ -1442,20 +1437,20 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                 obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
                 obj.Loc_Seg_Code = clsCommon.myCstr(dt.Rows(0)("Loc_Seg_Code"))
                 obj.Location_Code_Prefix = clsCommon.myCstr(dt.Rows(0)("Location_Code_Prefix"))
-                obj.isPrePosted = clsCommon.myCdbl(dt.Rows(0)("isPrePosted"))
-                obj.isPosted = clsCommon.myCdbl(dt.Rows(0)("isPosted"))
+                obj.isPrePosted = clsCommon.myCDecimal(dt.Rows(0)("isPrePosted"))
+                obj.isPosted = clsCommon.myCDecimal(dt.Rows(0)("isPosted"))
                 obj.PaymentDesc = clsCommon.myCstr(dt.Rows(0)("PaymentDesc"))
                 If obj.isPosted = 1 Then
                     obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
                 End If
                 obj.MCC_Code_Selected = clsCommon.myCstr(dt.Rows(0)("MCC_Code_Selected"))
-                obj.Is_Skip_Previous_Item_Issue = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Item_Issue")) = 1, True, False)
-                obj.Is_Skip_Previous_Item_Issue_Return = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Item_Issue_Return")) = 1, True, False)
-                obj.Is_Skip_Previous_MCC_Sale = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_MCC_Sale")) = 1, True, False)
-                obj.Is_Skip_Previous_MCC_Sale_Return = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_MCC_Sale_Return")) = 1, True, False)
-                obj.Is_Skip_Previous_Credit_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Credit_Note")) = 1, True, False)
-                obj.Is_Skip_Previous_Debit_Note = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Debit_Note")) = 1, True, False)
-                obj.Is_Skip_Previous_Advacee_Payment = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Skip_Previous_Advacee_Payment")) = 1, True, False)
+                obj.Is_Skip_Previous_Item_Issue = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_Item_Issue")) = 1, True, False)
+                obj.Is_Skip_Previous_Item_Issue_Return = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_Item_Issue_Return")) = 1, True, False)
+                obj.Is_Skip_Previous_MCC_Sale = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_MCC_Sale")) = 1, True, False)
+                obj.Is_Skip_Previous_MCC_Sale_Return = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_MCC_Sale_Return")) = 1, True, False)
+                obj.Is_Skip_Previous_Credit_Note = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_Credit_Note")) = 1, True, False)
+                obj.Is_Skip_Previous_Debit_Note = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_Debit_Note")) = 1, True, False)
+                obj.Is_Skip_Previous_Advacee_Payment = IIf(clsCommon.myCDecimal(dt.Rows(0)("Is_Skip_Previous_Advacee_Payment")) = 1, True, False)
                 If GetDetailsData Then
                     If isGetDT Then
                         obj.dtClsPaymentProcessInvoices = clsPaymentProcessInvoices.getDataDT(obj.Doc_No, trans)
@@ -1545,7 +1540,7 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
         Try
             Dim str As String = ""
             Dim qry As String = ""
-            If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1) = True Then
+            If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1) = True Then
                 qry = " select TSPL_PAYMENT_PROCESS_HEAD.Doc_No as [DocumentNo] ,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date as [Doc Date] ,TSPL_PAYMENT_PROCESS_HEAD.From_Date as [From Date] ,TSPL_PAYMENT_PROCESS_HEAD.To_Date as [To Date] ,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code as [Plant Code],TSPL_GL_SEGMENT_CODE.description as [Plant Name], isnull (TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected,'') as [MCC Code]  , isnull (TSPL_MCC_MASTER.MCC_NAME,'') as [MCC Name] ,TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code as AreaCode,AreaMaster.Location_Desc as AreaName,TSPL_PAYMENT_PROCESS_HEAD.Location_Code_Prefix as [Location Code Prefix],TSPL_PAYMENT_PROCESS_HEAD.Created_By as [Created By] ,TSPL_PAYMENT_PROCESS_HEAD.Created_Date as [Created Date] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_By as [Modified By] ,TSPL_PAYMENT_PROCESS_HEAD.Modified_Date as [Modified Date] ,TSPL_PAYMENT_PROCESS_HEAD.Comp_Code as [Comp Code] ,case when isnull(TSPL_PAYMENT_PROCESS_HEAD.isPrePosted,0)=0 then 'NO' else 'YES' end as [Posting Status] ,TSPL_PAYMENT_PROCESS_HEAD.Posting_Date as [Posting Date],TSPL_PAYMENT_PROCESS_HEAD.DocRefNoForUploader as [NEFT Uploader Ref No],PMode.Payment_Mode as [Payment Mode],PMode.Payable_Amount as [Payable Amount] " &
                 " From TSPL_PAYMENT_PROCESS_HEAD 
 left outer join TSPL_LOCATION_MASTER as AreaMaster on AreaMaster.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
@@ -1580,10 +1575,10 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
             Else
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmPaymentProcess, clsCommon.myCstr(dt.Rows(0)("Area_Location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
             End If
-            If clsCommon.myCdbl(dt.Rows(0)("isPosted")) = 1 Then
+            If clsCommon.myCDecimal(dt.Rows(0)("isPosted")) = 1 Then
                 Throw New Exception("Payment process processed can't unpost it")
             End If
-            If clsCommon.myCdbl(dt.Rows(0)("isPrePosted")) = 0 Then
+            If clsCommon.myCDecimal(dt.Rows(0)("isPrePosted")) = 0 Then
                 Throw New Exception("Payment process should be posted to  unpost")
             End If
 
@@ -1641,7 +1636,7 @@ left join (select Doc_No as PP_Code,Max(Payment_Mode) as Payment_Mode,sum(Payabl
                 Throw New Exception("Payment process Document no Not found to reverse and unpost")
             End If
             Dim qry As String = "select isPosted from TSPL_PAYMENT_PROCESS_HEAD where Doc_No='" + strDocNo + "'"
-            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) <> 1 Then
+            If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) <> 1 Then
                 Throw New Exception("Payment process Document no should be posted to reverse and unpost")
             End If
 
@@ -1775,7 +1770,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             Dim qry As String = "select isPosted,From_Date,To_Date from TSPL_PAYMENT_PROCESS_HEAD where Doc_No='" + strDocNo + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If clsCommon.myCdbl(dt.Rows(0)("isPosted")) <> 0 Then
+                If clsCommon.myCDecimal(dt.Rows(0)("isPosted")) <> 0 Then
                     Throw New Exception("Payment process Document no should be Unposted to Delete with VSP Bill")
                 End If
             Else
@@ -1901,7 +1896,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
 
 
 
-        Dim settVSPDayWiseIncentiveAtSRN As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPDayWiseIncentiveAtSRN, clsFixedParameterCode.VSPDayWiseIncentiveAtSRN, trans)) > 0)
+        Dim settVSPDayWiseIncentiveAtSRN As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.VSPDayWiseIncentiveAtSRN, clsFixedParameterCode.VSPDayWiseIncentiveAtSRN, trans)) > 0)
         qry = "update TSPL_MILK_SRN_DETAIL set VSP_Commission_Apply=0, VSP_Deduction_Apply=0"
         If Not settVSPDayWiseIncentiveAtSRN Then
             qry += " ,VSP_Day_Wise_Incentive=0,VSP_Day_Wise_Incentive_Rate=0 "
@@ -1975,7 +1970,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             Dim dtDebit As New DataTable
             Dim dtCredit As New DataTable
             Dim dtMilkType As New DataTable
-            Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
             Dim dt As New DataTable
             Dim Flag As Boolean = False
@@ -2085,7 +2080,7 @@ Group by TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No, TSPL_DEDUCTION_MASTER.Descript
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     sQuery += " And TSPL_DEDUCTION_MASTER.Code !='PDP' "
                 End If
-            sQuery += " group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Sequence_No 
+                sQuery += " group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Sequence_No 
                             )TT
                             left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                             left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode
@@ -2417,10 +2412,10 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
     'Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strVSPCode As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As String
     Public Shared Function Load_Report_Paymnet_RCDF_BaseQuery1(ByVal strDocNo As String, ByVal CycleFromDate As String, ByVal CycleToDate As String, ByVal strLoc As String, ByVal strRoutecode As String, ByVal strBank As String, ByVal strHoldUnhold As String) As String
         Dim companyADD, CompName, CompCode As String
-        Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
-        Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
-        Dim ApplyMilkTypeBuffaloCowOnPrint As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMilkTypeBuffaloCowOnPrint, clsFixedParameterCode.ApplyMilkTypeBuffaloCowOnPrint, Nothing)) > 0, True, False)
+        Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
+        Dim ApplyMilkTypeBuffaloCowOnPrint As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyMilkTypeBuffaloCowOnPrint, clsFixedParameterCode.ApplyMilkTypeBuffaloCowOnPrint, Nothing)) > 0, True, False)
 
         Dim sQuery As String = ""
         sQuery += " select   TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+TSPL_COMPANY_MASTER.City_Code else ' ' end + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as comp_address from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
@@ -2484,8 +2479,8 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date >= Convert(Date, ('" + CycleFromDate 
         Dim strPC_SNFValue As String = 0
         Dim dtPC_FAT_SNF As DataTable = clsDBFuncationality.GetDataTable("select  top 1 round ( Price_Chart_FAT_Ratio * Price_Chart_Rate / nullif (Price_Chart_FAT_Per,0) , 2,1 ) as FAT_PCValue , round (  Price_Chart_SNF_Ratio * Price_Chart_Rate / nullif (Price_Chart_SNF_Per,0),2,1)  as SNF_PCValue  from TSPL_PRICE_CHART_PLANNING order by convert (date, Planning_Date,103)")
         If dtPC_FAT_SNF IsNot Nothing AndAlso dtPC_FAT_SNF.Rows.Count > 0 Then
-            strPC_FATValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
-            strPC_SNFValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
+            strPC_FATValue = clsCommon.myCDecimal(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
+            strPC_SNFValue = clsCommon.myCDecimal(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
         End If
         Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + fromDate + "',103) "))
         Dim BaseQry As String = ""
@@ -2613,13 +2608,13 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         Dim PDFPath As String = ""
         Dim companyADD As String
         Dim User_Name As String = objCommonVar.CurrentUser
-        Dim PickHeadLoadRateFromSecretaryMaster As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, Nothing)) = 1)
-        Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-        Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
-        Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-        Dim PaymentProcessInHindi As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
+        Dim PickHeadLoadRateFromSecretaryMaster As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickHeadLoadRateFromSecretaryMaster, clsFixedParameterCode.PickHeadLoadRateFromSecretaryMaster, Nothing)) = 1)
+        Dim SetCowFatPer As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
+        Dim IncentiveRate As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
+        Dim AreaWiseBilling As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        Dim PaymentProcessInHindi As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
 
-        Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
+        Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
         Dim sQuery As String = ""
         sQuery += " select   TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+TSPL_COMPANY_MASTER.City_Code else ' ' end + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as comp_address from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(sQuery)
@@ -3567,64 +3562,64 @@ Public Class clsPaymentProcessDetail
                     clsCommon.AddColumnsForChange(coll, "Payment_Mode_Saving", clsCommon.myCstr(arr.Item(i).Payment_Mode_Saving))
                     clsCommon.AddColumnsForChange(coll, "Zone_Code", clsCommon.myCstr(arr.Item(i).Zone_Code))
 
-                    clsCommon.AddColumnsForChange(coll, "VSP_Amount", clsCommon.myCdbl(arr.Item(i).VSP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Handling_Charges_Amount", clsCommon.myCdbl(arr.Item(i).Handling_Charges_Amount))
-                    clsCommon.AddColumnsForChange(coll, "SRN_Net_Amount", clsCommon.myCdbl(arr.Item(i).SRN_Net_Amount))
-                    clsCommon.AddColumnsForChange(coll, "SRN_RO_Amount", clsCommon.myCdbl(arr.Item(i).SRN_RO_Amount))
+                    clsCommon.AddColumnsForChange(coll, "VSP_Amount", clsCommon.myCDecimal(arr.Item(i).VSP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Handling_Charges_Amount", clsCommon.myCDecimal(arr.Item(i).Handling_Charges_Amount))
+                    clsCommon.AddColumnsForChange(coll, "SRN_Net_Amount", clsCommon.myCDecimal(arr.Item(i).SRN_Net_Amount))
+                    clsCommon.AddColumnsForChange(coll, "SRN_RO_Amount", clsCommon.myCDecimal(arr.Item(i).SRN_RO_Amount))
 
-                    clsCommon.AddColumnsForChange(coll, "MP_Amount", clsCommon.myCdbl(arr.Item(i).MP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "MP_EMP", clsCommon.myCdbl(arr.Item(i).MP_EMP))
-                    clsCommon.AddColumnsForChange(coll, "MP_Incentive", clsCommon.myCdbl(arr.Item(i).MP_Incentive))
-                    clsCommon.AddColumnsForChange(coll, "MP_IncentiveEMP", clsCommon.myCdbl(arr.Item(i).MP_IncentiveEMP))
-                    clsCommon.AddColumnsForChange(coll, "MP_Net_Amount", clsCommon.myCdbl(arr.Item(i).MP_Net_Amount))
+                    clsCommon.AddColumnsForChange(coll, "MP_Amount", clsCommon.myCDecimal(arr.Item(i).MP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "MP_EMP", clsCommon.myCDecimal(arr.Item(i).MP_EMP))
+                    clsCommon.AddColumnsForChange(coll, "MP_Incentive", clsCommon.myCDecimal(arr.Item(i).MP_Incentive))
+                    clsCommon.AddColumnsForChange(coll, "MP_IncentiveEMP", clsCommon.myCDecimal(arr.Item(i).MP_IncentiveEMP))
+                    clsCommon.AddColumnsForChange(coll, "MP_Net_Amount", clsCommon.myCDecimal(arr.Item(i).MP_Net_Amount))
 
-                    clsCommon.AddColumnsForChange(coll, "MP_VSP_Diff_Amount", clsCommon.myCdbl(arr.Item(i).MP_VSP_Diff_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Milk_Qty", clsCommon.myCdbl(arr.Item(i).Milk_Qty))
-                    clsCommon.AddColumnsForChange(coll, "Milk_Amount", clsCommon.myCdbl(arr.Item(i).Milk_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Incentive_Amount", clsCommon.myCdbl(arr.Item(i).Incentive_Amount))
-                    clsCommon.AddColumnsForChange(coll, "EMP_Amount", clsCommon.myCdbl(arr.Item(i).EMP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Incentive_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Incentive_EMP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Total_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Total_EMP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Total", clsCommon.myCdbl(arr.Item(i).Total))
+                    clsCommon.AddColumnsForChange(coll, "MP_VSP_Diff_Amount", clsCommon.myCDecimal(arr.Item(i).MP_VSP_Diff_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Milk_Qty", clsCommon.myCDecimal(arr.Item(i).Milk_Qty))
+                    clsCommon.AddColumnsForChange(coll, "Milk_Amount", clsCommon.myCDecimal(arr.Item(i).Milk_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Incentive_Amount", clsCommon.myCDecimal(arr.Item(i).Incentive_Amount))
+                    clsCommon.AddColumnsForChange(coll, "EMP_Amount", clsCommon.myCDecimal(arr.Item(i).EMP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Incentive_EMP_Amount", clsCommon.myCDecimal(arr.Item(i).Incentive_EMP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Total_EMP_Amount", clsCommon.myCDecimal(arr.Item(i).Total_EMP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Total", clsCommon.myCDecimal(arr.Item(i).Total))
                     clsCommon.AddColumnsForChange(coll, "TDS_Amount", arr.Item(i).TDS_Amount, True)
-                    clsCommon.AddColumnsForChange(coll, "Total_Invoice_Amount", clsCommon.myCdbl(arr.Item(i).Total_Invoice_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Amount", clsCommon.myCdbl(arr.Item(i).Vsp_Own_System_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", clsCommon.myCdbl(arr.Item(i).Head_Load_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Total_Invoice_Amount", clsCommon.myCDecimal(arr.Item(i).Total_Invoice_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Amount", clsCommon.myCDecimal(arr.Item(i).Vsp_Own_System_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", clsCommon.myCDecimal(arr.Item(i).Head_Load_Amount))
                     clsCommon.AddColumnsForChange(coll, "Invoice_Deduction_Amount", clsCommon.myCstr(arr.Item(i).Invoice_Deduction_Amount))
                     clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCstr(arr.Item(i).Reduce_Deduc_Amt))
                     clsCommon.AddColumnsForChange(coll, "MCC_Sale_Amount", clsCommon.myCstr(arr.Item(i).MCC_Sale_Amount))
-                    clsCommon.AddColumnsForChange(coll, "MCC_Sale_Return_Amount", clsCommon.myCdbl(arr.Item(i).MCC_Sale_Return_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Item_Issue_Amount", clsCommon.myCdbl(arr.Item(i).Item_Issue_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Item_Issue_Return_Amount", clsCommon.myCdbl(arr.Item(i).Item_Issue_Return_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Deduction_Amount", clsCommon.myCdbl(arr.Item(i).Deduction_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Asset_Lost_Amount", clsCommon.myCdbl(arr.Item(i).Asset_Lost_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Credit_Note_Amount", clsCommon.myCdbl(arr.Item(i).Credit_Note_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Compulsory_Amount", clsCommon.myCdbl(arr.Item(i).Compulsory_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Saving_Amount", clsCommon.myCdbl(arr.Item(i).Saving_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Payable_Amount", clsCommon.myCdbl(arr.Item(i).Payable_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Service_Charge_Amt", clsCommon.myCdbl(arr.Item(i).Service_Charge_Amt))
-                    clsCommon.AddColumnsForChange(coll, "Advance_Payment_Amount", clsCommon.myCdbl(arr.Item(i).Advance_Payment_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Advance_Payment_Amount_Knock_Off", clsCommon.myCdbl(arr.Item(i).Advance_Payment_Amount_Knock_Off))
+                    clsCommon.AddColumnsForChange(coll, "MCC_Sale_Return_Amount", clsCommon.myCDecimal(arr.Item(i).MCC_Sale_Return_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Item_Issue_Amount", clsCommon.myCDecimal(arr.Item(i).Item_Issue_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Item_Issue_Return_Amount", clsCommon.myCDecimal(arr.Item(i).Item_Issue_Return_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Deduction_Amount", clsCommon.myCDecimal(arr.Item(i).Deduction_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Asset_Lost_Amount", clsCommon.myCDecimal(arr.Item(i).Asset_Lost_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Credit_Note_Amount", clsCommon.myCDecimal(arr.Item(i).Credit_Note_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Compulsory_Amount", clsCommon.myCDecimal(arr.Item(i).Compulsory_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Saving_Amount", clsCommon.myCDecimal(arr.Item(i).Saving_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Payable_Amount", clsCommon.myCDecimal(arr.Item(i).Payable_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Service_Charge_Amt", clsCommon.myCDecimal(arr.Item(i).Service_Charge_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Advance_Payment_Amount", clsCommon.myCDecimal(arr.Item(i).Advance_Payment_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Advance_Payment_Amount_Knock_Off", clsCommon.myCDecimal(arr.Item(i).Advance_Payment_Amount_Knock_Off))
                     clsCommon.AddColumnsForChange(coll, "is_Hold_Payment_Process", IIf(arr.Item(i).is_Hold_Payment_Process, 1, 0))
 
                     clsCommon.AddColumnsForChange(coll, "is_Hold_Payment_Process_Saving", IIf(arr.Item(i).is_Hold_Payment_Process_Saving, 1, 0))
                     clsCommon.AddColumnsForChange(coll, "is_Hold_Payment_Process_Saving_Auto", IIf(arr.Item(i).is_Hold_Payment_Process_Saving_Auto, 1, 0))
                     clsCommon.AddColumnsForChange(coll, "is_Hold_Payment_Process_Saving_Manual", IIf(arr.Item(i).is_Hold_Payment_Process_Saving_Manual, 1, 0))
 
-                    clsCommon.AddColumnsForChange(coll, "VSP_Excess_Amount", clsCommon.myCdbl(arr.Item(i).VSP_Excess_Amount))
-                    clsCommon.AddColumnsForChange(coll, "MP_Total_Deduction", clsCommon.myCdbl(arr.Item(i).MP_Total_Deduction))
-                    clsCommon.AddColumnsForChange(coll, "NextCycleDebitNote", clsCommon.myCdbl(arr.Item(i).NextCycleDebitNote))
-                    clsCommon.AddColumnsForChange(coll, "FarmerPayment", clsCommon.myCdbl(arr.Item(i).FarmerPayment))
+                    clsCommon.AddColumnsForChange(coll, "VSP_Excess_Amount", clsCommon.myCDecimal(arr.Item(i).VSP_Excess_Amount))
+                    clsCommon.AddColumnsForChange(coll, "MP_Total_Deduction", clsCommon.myCDecimal(arr.Item(i).MP_Total_Deduction))
+                    clsCommon.AddColumnsForChange(coll, "NextCycleDebitNote", clsCommon.myCDecimal(arr.Item(i).NextCycleDebitNote))
+                    clsCommon.AddColumnsForChange(coll, "FarmerPayment", clsCommon.myCDecimal(arr.Item(i).FarmerPayment))
 
-                    clsCommon.AddColumnsForChange(coll, "FarmerMilkQty", clsCommon.myCdbl(arr.Item(i).FarmerMilkQty))
-                    clsCommon.AddColumnsForChange(coll, "FarmerSaleAmount", clsCommon.myCdbl(arr.Item(i).FarmerSaleAmount))
-                    clsCommon.AddColumnsForChange(coll, "FarmerSaleReturnAmount", clsCommon.myCdbl(arr.Item(i).FarmerSaleReturnAmount))
-                    clsCommon.AddColumnsForChange(coll, "FarmerAdjustmentAmount", clsCommon.myCdbl(arr.Item(i).FarmerAdjustmentAmount))
-                    clsCommon.AddColumnsForChange(coll, "FarmerPayableAmount", clsCommon.myCdbl(arr.Item(i).FarmerPayableAmount))
-                    clsCommon.AddColumnsForChange(coll, "PrevCycleDebitNote", clsCommon.myCdbl(arr.Item(i).PrevCycleDebitNote))
+                    clsCommon.AddColumnsForChange(coll, "FarmerMilkQty", clsCommon.myCDecimal(arr.Item(i).FarmerMilkQty))
+                    clsCommon.AddColumnsForChange(coll, "FarmerSaleAmount", clsCommon.myCDecimal(arr.Item(i).FarmerSaleAmount))
+                    clsCommon.AddColumnsForChange(coll, "FarmerSaleReturnAmount", clsCommon.myCDecimal(arr.Item(i).FarmerSaleReturnAmount))
+                    clsCommon.AddColumnsForChange(coll, "FarmerAdjustmentAmount", clsCommon.myCDecimal(arr.Item(i).FarmerAdjustmentAmount))
+                    clsCommon.AddColumnsForChange(coll, "FarmerPayableAmount", clsCommon.myCDecimal(arr.Item(i).FarmerPayableAmount))
+                    clsCommon.AddColumnsForChange(coll, "PrevCycleDebitNote", clsCommon.myCDecimal(arr.Item(i).PrevCycleDebitNote))
 
-                    clsCommon.AddColumnsForChange(coll, "PrevCycleDebitNoteMP", clsCommon.myCdbl(arr.Item(i).PrevCycleDebitNoteMP))
-                    clsCommon.AddColumnsForChange(coll, "NextCycleDebitNoteMP", clsCommon.myCdbl(arr.Item(i).NextCycleDebitNoteMP))
+                    clsCommon.AddColumnsForChange(coll, "PrevCycleDebitNoteMP", clsCommon.myCDecimal(arr.Item(i).PrevCycleDebitNoteMP))
+                    clsCommon.AddColumnsForChange(coll, "NextCycleDebitNoteMP", clsCommon.myCDecimal(arr.Item(i).NextCycleDebitNoteMP))
 
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_DETAIL", OMInsertOrUpdate.Insert, "", tran)
                 Next
@@ -3745,7 +3740,7 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                     obj = New clsPaymentProcessDetail
                     obj.PP_Detail_No = clsCommon.myCstr(dtbl.Rows(i)("PP_Detail_No"))
                     obj.Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Doc_No"))
-                    obj.Is_select = IIf(clsCommon.myCdbl(dtbl.Rows(i)("Is_select")) > 0, True, False)
+                    obj.Is_select = IIf(clsCommon.myCDecimal(dtbl.Rows(i)("Is_select")) > 0, True, False)
                     obj.SNo = clsCommon.myCstr(dtbl.Rows(i)("SNo"))
                     obj.Milk_Purchase_Invoice_No = clsCommon.myCstr(dtbl.Rows(i)("Milk_Purchase_Invoice_No"))
                     obj.Milk_Purchase_Invoice_Date = clsCommon.myCDate(dtbl.Rows(i)("Milk_Purchase_Invoice_Date"))
@@ -3778,69 +3773,69 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No ='" & doc_No & "' order by TSPL_PAYMENT
                     obj.Payment_Mode_Saving = clsCommon.myCstr(dtbl.Rows(i)("Payment_Mode_Saving"))
                     obj.Bank_Account_No_Saving = clsCommon.myCstr(dtbl.Rows(i)("Bank_Account_No_Saving"))
 
-                    obj.VSP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("VSP_Amount"))
-                    obj.Handling_Charges_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Handling_Charges_Amount"))
+                    obj.VSP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("VSP_Amount"))
+                    obj.Handling_Charges_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Handling_Charges_Amount"))
 
-                    obj.SRN_Net_Amount = clsCommon.myCdbl(dtbl.Rows(i)("SRN_Net_Amount"))
-                    obj.SRN_RO_Amount = clsCommon.myCdbl(dtbl.Rows(i)("SRN_RO_Amount"))
+                    obj.SRN_Net_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("SRN_Net_Amount"))
+                    obj.SRN_RO_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("SRN_RO_Amount"))
 
-                    obj.MP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("MP_Amount"))
-                    obj.MP_EMP = clsCommon.myCdbl(dtbl.Rows(i)("MP_EMP"))
-                    obj.MP_Incentive = clsCommon.myCdbl(dtbl.Rows(i)("MP_Incentive"))
-                    obj.MP_IncentiveEMP = clsCommon.myCdbl(dtbl.Rows(i)("MP_IncentiveEMP"))
-                    obj.MP_Net_Amount = clsCommon.myCdbl(dtbl.Rows(i)("MP_Net_Amount"))
+                    obj.MP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Amount"))
+                    obj.MP_EMP = clsCommon.myCDecimal(dtbl.Rows(i)("MP_EMP"))
+                    obj.MP_Incentive = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Incentive"))
+                    obj.MP_IncentiveEMP = clsCommon.myCDecimal(dtbl.Rows(i)("MP_IncentiveEMP"))
+                    obj.MP_Net_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Net_Amount"))
 
-                    obj.MP_VSP_Diff_Amount = clsCommon.myCdbl(dtbl.Rows(i)("MP_VSP_Diff_Amount"))
-                    obj.Milk_Qty = clsCommon.myCdbl(dtbl.Rows(i)("Milk_Qty"))
-                    obj.Milk_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Milk_Amount"))
-                    obj.Incentive_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Incentive_Amount"))
-                    obj.EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("EMP_Amount"))
-                    obj.Incentive_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Incentive_EMP_Amount"))
-                    obj.Total_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Total_EMP_Amount"))
-                    obj.Total = clsCommon.myCdbl(dtbl.Rows(i)("Total"))
-                    obj.TDS_Amount = clsCommon.myCdbl(dtbl.Rows(i)("TDS_Amount"))
-                    obj.Total_Invoice_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Total_Invoice_Amount"))
-                    obj.Vsp_Own_System_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Vsp_Own_System_Amount"))
-                    obj.Head_Load_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Head_Load_Amount"))
+                    obj.MP_VSP_Diff_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("MP_VSP_Diff_Amount"))
+                    obj.Milk_Qty = clsCommon.myCDecimal(dtbl.Rows(i)("Milk_Qty"))
+                    obj.Milk_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Milk_Amount"))
+                    obj.Incentive_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Incentive_Amount"))
+                    obj.EMP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("EMP_Amount"))
+                    obj.Incentive_EMP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Incentive_EMP_Amount"))
+                    obj.Total_EMP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Total_EMP_Amount"))
+                    obj.Total = clsCommon.myCDecimal(dtbl.Rows(i)("Total"))
+                    obj.TDS_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("TDS_Amount"))
+                    obj.Total_Invoice_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Total_Invoice_Amount"))
+                    obj.Vsp_Own_System_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Vsp_Own_System_Amount"))
+                    obj.Head_Load_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Head_Load_Amount"))
                     obj.Invoice_Deduction_Amount = clsCommon.myCstr(dtbl.Rows(i)("Invoice_Deduction_Amount"))
                     obj.Reduce_Deduc_Amt = clsCommon.myCstr(dtbl.Rows(i)("Reduce_Deduc_Amt"))
                     obj.MCC_Sale_Amount = clsCommon.myCstr(dtbl.Rows(i)("MCC_Sale_Amount"))
-                    obj.MCC_Sale_Return_Amount = clsCommon.myCdbl(dtbl.Rows(i)("MCC_Sale_Return_Amount"))
-                    obj.Item_Issue_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Item_Issue_Amount"))
-                    obj.Item_Issue_Return_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Item_Issue_Return_Amount"))
-                    obj.Deduction_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Deduction_Amount"))
-                    obj.Asset_Lost_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Asset_Lost_Amount"))
-                    obj.Credit_Note_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Credit_Note_Amount"))
+                    obj.MCC_Sale_Return_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("MCC_Sale_Return_Amount"))
+                    obj.Item_Issue_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Item_Issue_Amount"))
+                    obj.Item_Issue_Return_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Item_Issue_Return_Amount"))
+                    obj.Deduction_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Deduction_Amount"))
+                    obj.Asset_Lost_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Asset_Lost_Amount"))
+                    obj.Credit_Note_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Credit_Note_Amount"))
                     obj.Saving_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Saving_Amount"))
                     obj.Compulsory_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Compulsory_Amount"))
-                    obj.Payable_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Payable_Amount"))
-                    obj.Service_Charge_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Service_Charge_Amt"))
-                    obj.Advance_Payment_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Advance_Payment_Amount"))
-                    obj.Advance_Payment_Amount_Knock_Off = clsCommon.myCdbl(dtbl.Rows(i)("Advance_Payment_Amount_Knock_Off"))
-                    obj.is_Hold_Payment_Process = IIf(clsCommon.myCdbl(dtbl.Rows(i)("is_Hold_Payment_Process")) = 1, True, False)
+                    obj.Payable_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Payable_Amount"))
+                    obj.Service_Charge_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Service_Charge_Amt"))
+                    obj.Advance_Payment_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Advance_Payment_Amount"))
+                    obj.Advance_Payment_Amount_Knock_Off = clsCommon.myCDecimal(dtbl.Rows(i)("Advance_Payment_Amount_Knock_Off"))
+                    obj.is_Hold_Payment_Process = IIf(clsCommon.myCDecimal(dtbl.Rows(i)("is_Hold_Payment_Process")) = 1, True, False)
 
-                    obj.is_Hold_Payment_Process_Saving = IIf(clsCommon.myCdbl(dtbl.Rows(i)("is_Hold_Payment_Process_Saving")) = 1, True, False)
-                    obj.is_Hold_Payment_Process_Saving_Auto = IIf(clsCommon.myCdbl(dtbl.Rows(i)("is_Hold_Payment_Process_Saving_Auto")) = 1, True, False)
-                    obj.is_Hold_Payment_Process_Saving_Manual = IIf(clsCommon.myCdbl(dtbl.Rows(i)("is_Hold_Payment_Process_Saving_Manual")) = 1, True, False)
-                    obj.VSP_Excess_Amount = clsCommon.myCdbl(dtbl.Rows(i)("VSP_Excess_Amount"))
-                    obj.MP_Total_Deduction = clsCommon.myCdbl(dtbl.Rows(i)("MP_Total_Deduction"))
-                    obj.NextCycleDebitNote = clsCommon.myCdbl(dtbl.Rows(i)("NextCycleDebitNote"))
-                    obj.FarmerPayment = clsCommon.myCdbl(dtbl.Rows(i)("FarmerPayment"))
+                    obj.is_Hold_Payment_Process_Saving = IIf(clsCommon.myCDecimal(dtbl.Rows(i)("is_Hold_Payment_Process_Saving")) = 1, True, False)
+                    obj.is_Hold_Payment_Process_Saving_Auto = IIf(clsCommon.myCDecimal(dtbl.Rows(i)("is_Hold_Payment_Process_Saving_Auto")) = 1, True, False)
+                    obj.is_Hold_Payment_Process_Saving_Manual = IIf(clsCommon.myCDecimal(dtbl.Rows(i)("is_Hold_Payment_Process_Saving_Manual")) = 1, True, False)
+                    obj.VSP_Excess_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("VSP_Excess_Amount"))
+                    obj.MP_Total_Deduction = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Total_Deduction"))
+                    obj.NextCycleDebitNote = clsCommon.myCDecimal(dtbl.Rows(i)("NextCycleDebitNote"))
+                    obj.FarmerPayment = clsCommon.myCDecimal(dtbl.Rows(i)("FarmerPayment"))
 
-                    obj.FarmerMilkQty = clsCommon.myCdbl(dtbl.Rows(i)("FarmerMilkQty"))
-                    obj.FarmerSaleAmount = clsCommon.myCdbl(dtbl.Rows(i)("FarmerSaleAmount"))
-                    obj.FarmerSaleReturnAmount = clsCommon.myCdbl(dtbl.Rows(i)("FarmerSaleReturnAmount"))
-                    obj.FarmerAdjustmentAmount = clsCommon.myCdbl(dtbl.Rows(i)("FarmerAdjustmentAmount"))
-                    obj.FarmerPayableAmount = clsCommon.myCdbl(dtbl.Rows(i)("FarmerPayableAmount"))
-                    obj.PrevCycleDebitNote = clsCommon.myCdbl(dtbl.Rows(i)("PrevCycleDebitNote"))
+                    obj.FarmerMilkQty = clsCommon.myCDecimal(dtbl.Rows(i)("FarmerMilkQty"))
+                    obj.FarmerSaleAmount = clsCommon.myCDecimal(dtbl.Rows(i)("FarmerSaleAmount"))
+                    obj.FarmerSaleReturnAmount = clsCommon.myCDecimal(dtbl.Rows(i)("FarmerSaleReturnAmount"))
+                    obj.FarmerAdjustmentAmount = clsCommon.myCDecimal(dtbl.Rows(i)("FarmerAdjustmentAmount"))
+                    obj.FarmerPayableAmount = clsCommon.myCDecimal(dtbl.Rows(i)("FarmerPayableAmount"))
+                    obj.PrevCycleDebitNote = clsCommon.myCDecimal(dtbl.Rows(i)("PrevCycleDebitNote"))
 
-                    obj.PrevCycleDebitNoteMP = clsCommon.myCdbl(dtbl.Rows(i)("PrevCycleDebitNoteMP"))
-                    obj.NextCycleDebitNoteMP = clsCommon.myCdbl(dtbl.Rows(i)("NextCycleDebitNoteMP"))
+                    obj.PrevCycleDebitNoteMP = clsCommon.myCDecimal(dtbl.Rows(i)("PrevCycleDebitNoteMP"))
+                    obj.NextCycleDebitNoteMP = clsCommon.myCDecimal(dtbl.Rows(i)("NextCycleDebitNoteMP"))
 
-                    obj.CalFATKG = clsCommon.myCdbl(dtbl.Rows(i)("FATKg"))
-                    obj.CalFATPer = clsCommon.myCdbl(dtbl.Rows(i)("FATPer"))
-                    obj.CalSNFKg = clsCommon.myCdbl(dtbl.Rows(i)("SNFKg"))
-                    obj.CalSNFPer = clsCommon.myCdbl(dtbl.Rows(i)("SNFPer"))
+                    obj.CalFATKG = clsCommon.myCDecimal(dtbl.Rows(i)("FATKg"))
+                    obj.CalFATPer = clsCommon.myCDecimal(dtbl.Rows(i)("FATPer"))
+                    obj.CalSNFKg = clsCommon.myCDecimal(dtbl.Rows(i)("SNFKg"))
+                    obj.CalSNFPer = clsCommon.myCDecimal(dtbl.Rows(i)("SNFPer"))
                     arr.Add(obj)
                     If ApplyIndex Then
                         Dim objidx As New clsPaymentProcessIndex
@@ -3888,42 +3883,42 @@ Public Class clsPaymentProcessInvoices
     Public Payee_Joint_Branch_Code As String = ""
     Public Payee_Joint_Branch_Name As String = ""
     Public Payee_Joint_IFSC_Code As String = ""
-    Public Milk_Qty As Double = 0
-    Public Inv_Amount As Double = 0
-    Public Inv_EMP_Amount As Double = 0
-    Public Handling_Charges_Amount As Double = 0
-    Public SRN_Net_Amount As Double = 0
-    Public SRN_RO_Amount As Double = 0
-    Public Inv_Amt_EMP_Amount As Double = 0
-    Public Inv_Incentive_Amount As Double = 0
-    Public Inv_Incentive_EMP_Amount As Double = 0
-    Public Gross_Amount As Double = 0
+    Public Milk_Qty As Decimal = 0
+    Public Inv_Amount As Decimal = 0
+    Public Inv_EMP_Amount As Decimal = 0
+    Public Handling_Charges_Amount As Decimal = 0
+    Public SRN_Net_Amount As Decimal = 0
+    Public SRN_RO_Amount As Decimal = 0
+    Public Inv_Amt_EMP_Amount As Decimal = 0
+    Public Inv_Incentive_Amount As Decimal = 0
+    Public Inv_Incentive_EMP_Amount As Decimal = 0
+    Public Gross_Amount As Decimal = 0
     Public TDS_Amount As Decimal = 0
-    Public Vsp_Own_System_Amount As Double = 0
-    Public Head_Load_Amount As Double = 0
-    Public Deduction_Amount As Double = 0
+    Public Vsp_Own_System_Amount As Decimal = 0
+    Public Head_Load_Amount As Decimal = 0
+    Public Deduction_Amount As Decimal = 0
     Public Vsp_Own_System_Doc_No As String = ""
     Public Head_Load_Doc_No As String = ""
     Public Deduction_Doc_No As String = ""
-    Public Reduce_Deduc_Amt As Double = 0
+    Public Reduce_Deduc_Amt As Decimal = 0
     Public Bank_Code As String = ""
     Public Bank_Desc As String = ""
     Public Payment_Mode As String = ""
     Public Cheque_No As String = ""
-    Public Service_Charge_Amt As Double = 0
+    Public Service_Charge_Amt As Decimal = 0
     Public ActualVSPCode As String = ""
     Public ActualVSPName As String = ""
 
     Public MP_Amount As Decimal
-    Public MP_EMP As Double
-    Public MP_Incentive As Double
-    Public MP_IncentiveEMP As Double
-    Public MP_Net_Amount As Double
+    Public MP_EMP As Decimal
+    Public MP_Incentive As Decimal
+    Public MP_IncentiveEMP As Decimal
+    Public MP_Net_Amount As Decimal
 
-    Public CalFATPer As Double
-    Public CalFATKG As Double
-    Public CalSNFPer As Double
-    Public CalSNFKg As Double
+    Public CalFATPer As Decimal
+    Public CalFATKG As Decimal
+    Public CalSNFPer As Decimal
+    Public CalSNFKg As Decimal
     Public MCC_Code As String = ""
     Public Area_Location_Code As String = ""
 
@@ -3955,24 +3950,24 @@ Public Class clsPaymentProcessInvoices
                     clsCommon.AddColumnsForChange(coll, "Payee_Joint_Branch_Name", arr.Item(i).Payee_Joint_Branch_Name)
                     clsCommon.AddColumnsForChange(coll, "Payee_Joint_Ac_No", arr.Item(i).Payee_Joint_Ac_No)
                     clsCommon.AddColumnsForChange(coll, "Payee_Joint_IFSC_Code", arr.Item(i).Payee_Joint_IFSC_Code)
-                    clsCommon.AddColumnsForChange(coll, "Milk_Qty", clsCommon.myCdbl(arr.Item(i).Milk_Qty))
-                    clsCommon.AddColumnsForChange(coll, "Inv_Amount", clsCommon.myCdbl(arr.Item(i).Inv_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Inv_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Inv_EMP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Handling_Charges_Amount", clsCommon.myCdbl(arr.Item(i).Handling_Charges_Amount))
-                    clsCommon.AddColumnsForChange(coll, "SRN_Net_Amount", clsCommon.myCdbl(arr.Item(i).SRN_Net_Amount))
-                    clsCommon.AddColumnsForChange(coll, "SRN_RO_Amount", clsCommon.myCdbl(arr.Item(i).SRN_RO_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Inv_Amt_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Inv_Amt_EMP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Inv_Incentive_Amount", clsCommon.myCdbl(arr.Item(i).Inv_Incentive_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Inv_Incentive_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Inv_Incentive_EMP_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Gross_Amount", clsCommon.myCdbl(arr.Item(i).Gross_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Milk_Qty", clsCommon.myCDecimal(arr.Item(i).Milk_Qty))
+                    clsCommon.AddColumnsForChange(coll, "Inv_Amount", clsCommon.myCDecimal(arr.Item(i).Inv_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Inv_EMP_Amount", clsCommon.myCDecimal(arr.Item(i).Inv_EMP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Handling_Charges_Amount", clsCommon.myCDecimal(arr.Item(i).Handling_Charges_Amount))
+                    clsCommon.AddColumnsForChange(coll, "SRN_Net_Amount", clsCommon.myCDecimal(arr.Item(i).SRN_Net_Amount))
+                    clsCommon.AddColumnsForChange(coll, "SRN_RO_Amount", clsCommon.myCDecimal(arr.Item(i).SRN_RO_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Inv_Amt_EMP_Amount", clsCommon.myCDecimal(arr.Item(i).Inv_Amt_EMP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Inv_Incentive_Amount", clsCommon.myCDecimal(arr.Item(i).Inv_Incentive_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Inv_Incentive_EMP_Amount", clsCommon.myCDecimal(arr.Item(i).Inv_Incentive_EMP_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Gross_Amount", clsCommon.myCDecimal(arr.Item(i).Gross_Amount))
                     clsCommon.AddColumnsForChange(coll, "TDS_Amount", arr.Item(i).TDS_Amount, True)
-                    clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Amount", clsCommon.myCdbl(arr.Item(i).Vsp_Own_System_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", clsCommon.myCdbl(arr.Item(i).Head_Load_Amount))
-                    clsCommon.AddColumnsForChange(coll, "Deduction_Amount", clsCommon.myCdbl(arr.Item(i).Deduction_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Amount", clsCommon.myCDecimal(arr.Item(i).Vsp_Own_System_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", clsCommon.myCDecimal(arr.Item(i).Head_Load_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Deduction_Amount", clsCommon.myCDecimal(arr.Item(i).Deduction_Amount))
                     clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Doc_No", clsCommon.myCstr(arr.Item(i).Vsp_Own_System_Doc_No))
                     clsCommon.AddColumnsForChange(coll, "Head_Load_Doc_No", clsCommon.myCstr(arr.Item(i).Head_Load_Doc_No))
                     clsCommon.AddColumnsForChange(coll, "Deduction_Doc_No", clsCommon.myCstr(arr.Item(i).Deduction_Doc_No))
-                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCdbl(arr.Item(i).Reduce_Deduc_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCDecimal(arr.Item(i).Reduce_Deduc_Amt))
                     clsCommon.AddColumnsForChange(coll, "Bank_Code", clsCommon.myCstr(arr.Item(i).Bank_Code))
                     clsCommon.AddColumnsForChange(coll, "Bank_Desc", clsCommon.myCstr(arr.Item(i).Bank_Desc))
                     clsCommon.AddColumnsForChange(coll, "Payment_Mode", clsCommon.myCstr(arr.Item(i).Payment_Mode))
@@ -4051,42 +4046,42 @@ where TSPL_PAYMENT_PROCESS_INVOICE.Doc_No ='" & doc_No & "' order by cast(TSPL_P
                     obj.Payee_Joint_Branch_Name = clsCommon.myCstr(dtbl.Rows(i)("Payee_Joint_Branch_Name"))
                     obj.Payee_Joint_IFSC_Code = clsCommon.myCstr(dtbl.Rows(i)("Payee_Joint_IFSC_Code"))
                     obj.Payee_Joint_Ac_No = clsCommon.myCstr(dtbl.Rows(i)("Payee_Joint_Ac_No"))
-                    obj.Milk_Qty = clsCommon.myCdbl(dtbl.Rows(i)("Milk_Qty"))
-                    obj.Inv_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_Amount"))
-                    obj.Inv_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_EMP_Amount"))
-                    obj.Handling_Charges_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Handling_Charges_Amount"))
-                    obj.SRN_Net_Amount = clsCommon.myCdbl(dtbl.Rows(i)("SRN_Net_Amount"))
-                    obj.SRN_RO_Amount = clsCommon.myCdbl(dtbl.Rows(i)("SRN_RO_Amount"))
-                    obj.Inv_Amt_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_Amt_EMP_Amount"))
-                    obj.Inv_Incentive_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_Incentive_Amount"))
-                    obj.Inv_Incentive_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_Incentive_EMP_Amount"))
-                    obj.Gross_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Gross_Amount"))
+                    obj.Milk_Qty = clsCommon.myCDecimal(dtbl.Rows(i)("Milk_Qty"))
+                    obj.Inv_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Inv_Amount"))
+                    obj.Inv_EMP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Inv_EMP_Amount"))
+                    obj.Handling_Charges_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Handling_Charges_Amount"))
+                    obj.SRN_Net_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("SRN_Net_Amount"))
+                    obj.SRN_RO_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("SRN_RO_Amount"))
+                    obj.Inv_Amt_EMP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Inv_Amt_EMP_Amount"))
+                    obj.Inv_Incentive_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Inv_Incentive_Amount"))
+                    obj.Inv_Incentive_EMP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Inv_Incentive_EMP_Amount"))
+                    obj.Gross_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Gross_Amount"))
                     obj.TDS_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("TDS_Amount"))
-                    obj.Vsp_Own_System_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Vsp_Own_System_Amount"))
-                    obj.Head_Load_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Head_Load_Amount"))
-                    obj.Deduction_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Deduction_Amount"))
+                    obj.Vsp_Own_System_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Vsp_Own_System_Amount"))
+                    obj.Head_Load_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Head_Load_Amount"))
+                    obj.Deduction_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Deduction_Amount"))
                     obj.Vsp_Own_System_Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Vsp_Own_System_Doc_No"))
                     obj.Head_Load_Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Head_Load_Doc_No"))
                     obj.Deduction_Doc_No = clsCommon.myCstr(dtbl.Rows(i)("Deduction_Doc_No"))
-                    obj.Reduce_Deduc_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Reduce_Deduc_Amt"))
+                    obj.Reduce_Deduc_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Reduce_Deduc_Amt"))
                     obj.Bank_Code = clsCommon.myCstr(dtbl.Rows(i)("Bank_Code"))
                     obj.Bank_Desc = clsCommon.myCstr(dtbl.Rows(i)("Bank_Desc"))
                     obj.Payment_Mode = clsCommon.myCstr(dtbl.Rows(i)("Payment_Mode"))
                     obj.Cheque_No = clsCommon.myCstr(dtbl.Rows(i)("Cheque_No"))
-                    obj.Service_Charge_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Service_Charge_Amt"))
+                    obj.Service_Charge_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Service_Charge_Amt"))
                     obj.ActualVSPCode = clsCommon.myCstr(dtbl.Rows(i)("ActualVSPCode"))
                     obj.ActualVSPName = clsCommon.myCstr(dtbl.Rows(i)("ActualVSPName"))
 
-                    obj.MP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("MP_Amount"))
-                    obj.MP_EMP = clsCommon.myCdbl(dtbl.Rows(i)("MP_EMP"))
-                    obj.MP_Incentive = clsCommon.myCdbl(dtbl.Rows(i)("MP_Incentive"))
-                    obj.MP_IncentiveEMP = clsCommon.myCdbl(dtbl.Rows(i)("MP_IncentiveEMP"))
-                    obj.MP_Net_Amount = clsCommon.myCdbl(dtbl.Rows(i)("MP_Net_Amount"))
+                    obj.MP_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Amount"))
+                    obj.MP_EMP = clsCommon.myCDecimal(dtbl.Rows(i)("MP_EMP"))
+                    obj.MP_Incentive = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Incentive"))
+                    obj.MP_IncentiveEMP = clsCommon.myCDecimal(dtbl.Rows(i)("MP_IncentiveEMP"))
+                    obj.MP_Net_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("MP_Net_Amount"))
 
-                    obj.CalFATKG = clsCommon.myCdbl(dtbl.Rows(i)("FATKg"))
-                    obj.CalFATPer = clsCommon.myCdbl(dtbl.Rows(i)("FATPer"))
-                    obj.CalSNFKg = clsCommon.myCdbl(dtbl.Rows(i)("SNFKg"))
-                    obj.CalSNFPer = clsCommon.myCdbl(dtbl.Rows(i)("SNFPer"))
+                    obj.CalFATKG = clsCommon.myCDecimal(dtbl.Rows(i)("FATKg"))
+                    obj.CalFATPer = clsCommon.myCDecimal(dtbl.Rows(i)("FATPer"))
+                    obj.CalSNFKg = clsCommon.myCDecimal(dtbl.Rows(i)("SNFKg"))
+                    obj.CalSNFPer = clsCommon.myCDecimal(dtbl.Rows(i)("SNFPer"))
                     arr.Add(obj)
                 Next
             End If
@@ -4122,10 +4117,10 @@ Public Class clsPaymentProcessMCCSale
     Public Customer_NAME As String = ""
     Public Item_Code As String = ""
     Public Item_Desc As String = ""
-    Public Amount As Double = 0
-    Public Reduce_Deduc_Amt As Double = 0
-    Public Instalment_Amt As Double = 0
-    Public Original_Balance_Amount As Double = 0
+    Public Amount As Decimal = 0
+    Public Reduce_Deduc_Amt As Decimal = 0
+    Public Instalment_Amt As Decimal = 0
+    Public Original_Balance_Amount As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessMCCSale), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -4149,10 +4144,10 @@ Public Class clsPaymentProcessMCCSale
                     clsCommon.AddColumnsForChange(coll, "Customer_NAME", arr.Item(i).Customer_NAME)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", arr.Item(i).Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Item_Desc", arr.Item(i).Item_Desc)
-                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
-                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCdbl(arr.Item(i).Reduce_Deduc_Amt))
-                    clsCommon.AddColumnsForChange(coll, "Instalment_Amount", clsCommon.myCdbl(arr.Item(i).Instalment_Amt))
-                    clsCommon.AddColumnsForChange(coll, "Original_Balance_Amount", clsCommon.myCdbl(arr.Item(i).Original_Balance_Amount))
+                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(arr.Item(i).Amount))
+                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCDecimal(arr.Item(i).Reduce_Deduc_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Instalment_Amount", clsCommon.myCDecimal(arr.Item(i).Instalment_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Original_Balance_Amount", clsCommon.myCDecimal(arr.Item(i).Original_Balance_Amount))
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_MCC_SALE", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -4195,10 +4190,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No='" & doc_No & "' order by cast(TSPL_P
                     obj.Customer_NAME = clsCommon.myCstr(dtbl.Rows(i)("Customer_NAME"))
                     obj.Item_Code = clsCommon.myCstr(dtbl.Rows(i)("Item_Code"))
                     obj.Item_Desc = clsCommon.myCstr(dtbl.Rows(i)("Item_Desc"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
-                    obj.Reduce_Deduc_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Reduce_Deduc_Amt"))
-                    obj.Instalment_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Instalment_Amount"))
-                    obj.Original_Balance_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Original_Balance_Amount"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Amount"))
+                    obj.Reduce_Deduc_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Reduce_Deduc_Amt"))
+                    obj.Instalment_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Instalment_Amount"))
+                    obj.Original_Balance_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Original_Balance_Amount"))
                     arr.Add(obj)
                 Next
             End If
@@ -4232,8 +4227,8 @@ Public Class clsPaymentProcessItemIssue
     Public Vendor_NAME As String = ""
     Public Item_Code As String = ""
     Public Item_Desc As String = ""
-    Public Amount As Double = 0
-    Public Reduce_Deduc_Amt As Double = 0
+    Public Amount As Decimal = 0
+    Public Reduce_Deduc_Amt As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessItemIssue), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -4255,8 +4250,8 @@ Public Class clsPaymentProcessItemIssue
                     clsCommon.AddColumnsForChange(coll, "Vendor_NAME", arr.Item(i).Vendor_NAME)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", arr.Item(i).Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Item_Desc", arr.Item(i).Item_Desc)
-                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
-                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCdbl(arr.Item(i).Reduce_Deduc_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(arr.Item(i).Amount))
+                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCDecimal(arr.Item(i).Reduce_Deduc_Amt))
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_ITEM_ISSUE", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -4297,8 +4292,8 @@ where Doc_No='" & doc_No & "' order by cast(TSPL_PAYMENT_PROCESS_ITEM_ISSUE.SLNO
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_NAME"))
                     obj.Item_Code = clsCommon.myCstr(dtbl.Rows(i)("Item_Code"))
                     obj.Item_Desc = clsCommon.myCstr(dtbl.Rows(i)("Item_Desc"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
-                    obj.Reduce_Deduc_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Reduce_Deduc_Amt"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Amount"))
+                    obj.Reduce_Deduc_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Reduce_Deduc_Amt"))
                     arr.Add(obj)
                 Next
             End If
@@ -4334,8 +4329,8 @@ Public Class clsPaymentProcessItemIssueReturn
     Public Vendor_NAME As String = ""
     Public Item_Code As String = ""
     Public Item_Desc As String = ""
-    Public Amount As Double = 0
-    'Public Reduce_Deduc_Amt As Double = 0
+    Public Amount As Decimal = 0
+    'Public Reduce_Deduc_Amt As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessItemIssueReturn), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -4356,8 +4351,8 @@ Public Class clsPaymentProcessItemIssueReturn
                     clsCommon.AddColumnsForChange(coll, "Vendor_NAME", arr.Item(i).Vendor_NAME)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", arr.Item(i).Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Item_Desc", arr.Item(i).Item_Desc)
-                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
-                    'clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCdbl(arr.Item(i).Reduce_Deduc_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(arr.Item(i).Amount))
+                    'clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCDecimal(arr.Item(i).Reduce_Deduc_Amt))
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -4398,8 +4393,8 @@ where TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN.Doc_No='" & doc_No & "' order by ca
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_NAME"))
                     obj.Item_Code = clsCommon.myCstr(dtbl.Rows(i)("Item_Code"))
                     obj.Item_Desc = clsCommon.myCstr(dtbl.Rows(i)("Item_Desc"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
-                    'obj.Reduce_Deduc_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Reduce_Deduc_Amt"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Amount"))
+                    'obj.Reduce_Deduc_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Reduce_Deduc_Amt"))
                     arr.Add(obj)
                 Next
             End If
@@ -4432,8 +4427,8 @@ Public Class clsPaymentProcessDeduction
     Public Vendor_NAME As String = ""
     Public Ded_Code As String = ""
     Public Ded_Desc As String = ""
-    Public Amount As Double = 0
-    Public Reduce_Deduc_Amt As Double = 0
+    Public Amount As Decimal = 0
+    Public Reduce_Deduc_Amt As Decimal = 0
     Public Area_Location_Code As String = ""
 #End Region
 
@@ -4455,8 +4450,8 @@ Public Class clsPaymentProcessDeduction
                     clsCommon.AddColumnsForChange(coll, "Ded_Code", arr.Item(i).Ded_Code)
                     clsCommon.AddColumnsForChange(coll, "Ded_Desc", arr.Item(i).Ded_Desc)
                     'clsCommon.AddColumnsForChange(coll, "Area_Location_Code", clsCommon.myCstr(arr.Item(i).Area_Location_Code))
-                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
-                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCdbl(arr.Item(i).Reduce_Deduc_Amt))
+                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(arr.Item(i).Amount))
+                    clsCommon.AddColumnsForChange(coll, "Reduce_Deduc_Amt", clsCommon.myCDecimal(arr.Item(i).Reduce_Deduc_Amt))
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_DEDUCTION", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -4527,7 +4522,7 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                         End If
                     Catch ex As Exception
                         Dim x As Integer = i
-                        Dim y As Integer=i
+                        Dim y As Integer = i
                     End Try
 
 
@@ -4540,9 +4535,9 @@ where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No='" & doc_No & "'order by cast(TSPL_P
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_NAME"))
                     obj.Ded_Code = clsCommon.myCstr(dtbl.Rows(i)("Ded_Code"))
                     obj.Ded_Desc = clsCommon.myCstr(dtbl.Rows(i)("Ded_Desc"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Amount"))
                     'obj.Area_Location_Code = clsCommon.myCstr(dtbl.Rows(i)("Area_Location_Code"))
-                    obj.Reduce_Deduc_Amt = clsCommon.myCdbl(dtbl.Rows(i)("Reduce_Deduc_Amt"))
+                    obj.Reduce_Deduc_Amt = clsCommon.myCDecimal(dtbl.Rows(i)("Reduce_Deduc_Amt"))
                     arr.Add(obj)
                 Next
             End If
@@ -4660,7 +4655,7 @@ where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No='" & doc_No & "' order by cast(TSP
                     obj.Vendor_CODE = clsCommon.myCstr(dtbl.Rows(i)("Vendor_CODE"))
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_NAME"))
                     obj.TDS_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("TDS_Amount"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Amount"))
                     ' obj.Area_Location_Code = clsCommon.myCstr(dtbl.Rows(i)("Area_Location_Code"))
                     arr.Add(obj)
                 Next
@@ -4700,7 +4695,7 @@ Public Class clsPaymentProcessMCCSaleReturn
     Public Customer_NAME As String = ""
     Public Item_Code As String = ""
     Public Item_Desc As String = ""
-    Public Amount As Double = 0
+    Public Amount As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessMCCSaleReturn), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -4727,7 +4722,7 @@ Public Class clsPaymentProcessMCCSaleReturn
                     clsCommon.AddColumnsForChange(coll, "Customer_NAME", arr.Item(i).Customer_NAME)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", arr.Item(i).Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Item_Desc", arr.Item(i).Item_Desc)
-                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCdbl(arr.Item(i).Amount))
+                    clsCommon.AddColumnsForChange(coll, "Amount", clsCommon.myCDecimal(arr.Item(i).Amount))
                     issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PAYMENT_PROCESS_MCC_SALE_Return", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If
@@ -4771,7 +4766,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE_Return.Doc_No='" & doc_No & "' order by cast
                     obj.Customer_NAME = clsCommon.myCstr(dtbl.Rows(i)("Customer_NAME"))
                     obj.Item_Code = clsCommon.myCstr(dtbl.Rows(i)("Item_Code"))
                     obj.Item_Desc = clsCommon.myCstr(dtbl.Rows(i)("Item_Desc"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Amount"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Amount"))
                     arr.Add(obj)
                 Next
             End If
@@ -4799,10 +4794,10 @@ Public Class clsPaymentProcessAdvancePayment
     Public SNo As Integer = 0
     Public Payment_No As String = ""
     Public Vendor_Code As String = ""
-    Public Payment_Amount As Double = 0
-    Public Installment_Amount As Double = 0
-    Public Payment_Balance As Double = 0
-    Public Amount_Knock_Off As Double = 0
+    Public Payment_Amount As Decimal = 0
+    Public Installment_Amount As Decimal = 0
+    Public Payment_Balance As Decimal = 0
+    Public Amount_Knock_Off As Decimal = 0
     ''No a table column
     Public Payment_Date As String = ""
     Public Vendor_Name As String = ""
@@ -4841,16 +4836,16 @@ Public Class clsPaymentProcessAdvancePayment
                     "where TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Doc_No='" + DocNo + "' and TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Vendor_Code='" + arrPPD(i).VSP_CODE + "'" + Environment.NewLine +
                     ")x" + Environment.NewLine +
                     "order by Payment_Date "
-                    Dim KnockOffAmt As Double = arrPPD(i).Advance_Payment_Amount_Knock_Off
+                    Dim KnockOffAmt As Decimal = arrPPD(i).Advance_Payment_Amount_Knock_Off
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For Each dr As DataRow In dt.Rows
                             If KnockOffAmt <= 0 Then
                                 Exit For
                             End If
-                            Dim ApplicableAmt As Double = 0
-                            If KnockOffAmt >= clsCommon.myCdbl(dr("Payment_Balance")) Then
-                                ApplicableAmt = clsCommon.myCdbl(dr("Payment_Balance"))
+                            Dim ApplicableAmt As Decimal = 0
+                            If KnockOffAmt >= clsCommon.myCDecimal(dr("Payment_Balance")) Then
+                                ApplicableAmt = clsCommon.myCDecimal(dr("Payment_Balance"))
                             Else
                                 ApplicableAmt = KnockOffAmt
                             End If
@@ -4902,11 +4897,11 @@ where TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT.Doc_No='" & doc_No & "' order by  TSP
                     obj.Payment_Date = clsCommon.GetPrintDate(dt.Rows(i)("Payment_Date"), "dd/MM/yyyy")
                     obj.Vendor_Code = clsCommon.myCstr(dt.Rows(i)("Vendor_Code"))
                     obj.Vendor_Name = clsCommon.myCstr(dt.Rows(i)("Vendor_Name"))
-                    obj.Payment_Amount = clsCommon.myCdbl(dt.Rows(i)("Payment_Amount"))
-                    obj.Installment_Amount = clsCommon.myCdbl(dt.Rows(i)("Installment_Amount"))
-                    obj.Payment_Balance = clsCommon.myCdbl(dt.Rows(i)("Payment_Balance"))
-                    obj.Amount_Knock_Off = clsCommon.myCdbl(dt.Rows(i)("Amount_Knock_Off"))
-                    obj.No_Of_EMI = clsCommon.myCdbl(dt.Rows(i)("No_Of_EMI"))
+                    obj.Payment_Amount = clsCommon.myCDecimal(dt.Rows(i)("Payment_Amount"))
+                    obj.Installment_Amount = clsCommon.myCDecimal(dt.Rows(i)("Installment_Amount"))
+                    obj.Payment_Balance = clsCommon.myCDecimal(dt.Rows(i)("Payment_Balance"))
+                    obj.Amount_Knock_Off = clsCommon.myCDecimal(dt.Rows(i)("Amount_Knock_Off"))
+                    obj.No_Of_EMI = clsCommon.myCDecimal(dt.Rows(i)("No_Of_EMI"))
                     arr.Add(obj)
                 Next
             End If
@@ -4935,7 +4930,7 @@ Public Class clsPaymentProcessSkipDoc
     Public Source_Doc_No As String = ""
     Public Source_Doc_Type As String = ""
     Public Vendor_Code As String = ""
-    Public Balance_Amount As Double = 0
+    Public Balance_Amount As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessSkipDoc), ByVal tran As SqlTransaction) As Boolean
@@ -5005,7 +5000,7 @@ Public Class clsPaymentProcessAssetLost
     Public SNo As Integer = 0
     Public Payment_No As String = ""
     Public Vendor_Code As String = ""
-    Public Payment_Amount As Double = 0
+    Public Payment_Amount As Decimal = 0
     ''No a table column
     Public Payment_Date As String = ""
     Public Vendor_Name As String = ""
@@ -5061,7 +5056,7 @@ where TSPL_PAYMENT_PROCESS_ASSET_LOST.Doc_No='" & doc_No & "' order by TSPL_PAYM
                     obj.Payment_Date = clsCommon.GetPrintDate(dt.Rows(i)("Payment_Date"), "dd/MM/yyyy")
                     obj.Vendor_Code = clsCommon.myCstr(dt.Rows(i)("Vendor_Code"))
                     obj.Vendor_Name = clsCommon.myCstr(dt.Rows(i)("Vendor_Name"))
-                    obj.Payment_Amount = clsCommon.myCdbl(dt.Rows(i)("Payment_Amount"))
+                    obj.Payment_Amount = clsCommon.myCDecimal(dt.Rows(i)("Payment_Amount"))
                     arr.Add(obj)
                 Next
             End If
@@ -5093,7 +5088,7 @@ Public Class clsPaymentProcessSaving
     Public AP_Invoice_Date As String = "" ''Not a Table Column 
     Public Vendor_CODE As String = "" ''Not a Table Column
     Public Vendor_NAME As String = "" ''Not a Table Column
-    Public Amount As Double = 0 ''Not a Table Column
+    Public Amount As Decimal = 0 ''Not a Table Column
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessSaving), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -5167,7 +5162,7 @@ from TSPL_PAYMENT_PROCESS_SAVING left outer join TSPL_VENDOR_INVOICE_HEAD on TSP
                     obj.AP_Invoice_Date = clsCommon.myCstr(dtbl.Rows(i)("Posting_Date"))
                     obj.Vendor_CODE = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Name"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Document_Total"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Document_Total"))
                     arr.Add(obj)
                 Next
             End If
@@ -5198,7 +5193,7 @@ Public Class clsPaymentProcessCompulsory
     Public AP_Invoice_Date As String = "" ''Not a Table Column 
     Public Vendor_CODE As String = "" ''Not a Table Column
     Public Vendor_NAME As String = "" ''Not a Table Column
-    Public Amount As Double = 0 ''Not a Table Column
+    Public Amount As Decimal = 0 ''Not a Table Column
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsPaymentProcessCompulsory), Optional ByVal tran As SqlTransaction = Nothing) As Boolean
@@ -5278,7 +5273,7 @@ where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No='" & doc_No & "'"
                     obj.AP_Invoice_Date = clsCommon.myCstr(dtbl.Rows(i)("Posting_Date"))
                     obj.Vendor_CODE = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Code"))
                     obj.Vendor_NAME = clsCommon.myCstr(dtbl.Rows(i)("Vendor_Name"))
-                    obj.Amount = clsCommon.myCdbl(dtbl.Rows(i)("Document_Total"))
+                    obj.Amount = clsCommon.myCDecimal(dtbl.Rows(i)("Document_Total"))
                     arr.Add(obj)
                 Next
             End If

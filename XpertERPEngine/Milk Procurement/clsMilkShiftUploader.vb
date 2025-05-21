@@ -1521,6 +1521,9 @@ Public Class clsMilkShiftUploaderDetail
         Return SaveData(strDocNo, strMCCCode, Arr, trans, "")
     End Function
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMilkShiftUploaderDetail), ByVal trans As SqlTransaction, ByVal strTR_No As String) As Boolean
+        Return SaveData(strDocNo, strMCCCode, Arr, trans, strTR_No, False)
+    End Function
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMilkShiftUploaderDetail), ByVal trans As SqlTransaction, ByVal strTR_No As String, IsOwnBMCAdjustment As Boolean) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             Dim settMaxFATPerLimit As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, trans))
             Dim settMaxSNFPerLimit As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, trans))
@@ -1546,17 +1549,19 @@ Public Class clsMilkShiftUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "No_Of_Cans", obj.No_Of_Cans)
                 clsCommon.AddColumnsForChange(coll, "Milk_Weight", obj.Milk_Weight)
                 clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
+                If Not IsOwnBMCAdjustment Then
+                    If settMaxFATPerLimit > 0 Then
+                        If obj.FAT > settMaxFATPerLimit Then
+                            Throw New Exception("FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".")
+                        End If
+                    End If
+                    If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
+                        If obj.SNF > settMaxSNFPerLimit Then
+                            Throw New Exception("SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".")
+                        End If
+                    End If
+                End If
 
-                If settMaxFATPerLimit > 0 Then
-                    If obj.FAT > settMaxFATPerLimit Then
-                        Throw New Exception("FAT % Can't be more than " + clsCommon.myCstr(settMaxFATPerLimit) + ".")
-                    End If
-                End If
-                If settMaxSNFPerLimit > 0 AndAlso Not isPickCLRInsteadOfSNF Then
-                    If obj.SNF > settMaxSNFPerLimit Then
-                        Throw New Exception("SNF % Can't be more than " + clsCommon.myCstr(settMaxSNFPerLimit) + ".")
-                    End If
-                End If
                 clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "Reject_Type", obj.Reject_Type, True)

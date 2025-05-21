@@ -1045,15 +1045,18 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                     End If
                     strMilkType = strType
                 End If
-                If settMaxReceiveSNFPer > 0 And clsMilkSRNMCC.ObjList(0).SNF > settMaxReceiveSNFPer Then
-                    Throw New Exception("SNF % Can't be more than -" + clsCommon.myCstr(settMaxReceiveSNFPer))
+                If Not IsOwnBMCAdjustment Then
+                    If settMaxReceiveSNFPer > 0 And clsMilkSRNMCC.ObjList(0).SNF > settMaxReceiveSNFPer Then
+                        Throw New Exception("SNF % Can't be more than -" + clsCommon.myCstr(settMaxReceiveSNFPer))
+                    End If
+                    If settMaxFATPerLimit > 0 And clsMilkSRNMCC.ObjList(0).FAT > settMaxFATPerLimit Then
+                        Throw New Exception("FAT % Can't be more than -" + clsCommon.myCstr(settMaxFATPerLimit))
+                    End If
+                    If settMaxSNFPerLimit > 0 And clsMilkSRNMCC.ObjList(0).SNF > settMaxSNFPerLimit Then
+                        Throw New Exception("SNF % Can't be more than -" + clsCommon.myCstr(settMaxSNFPerLimit))
+                    End If
                 End If
-                If settMaxFATPerLimit > 0 And clsMilkSRNMCC.ObjList(0).FAT > settMaxFATPerLimit Then
-                    Throw New Exception("FAT % Can't be more than -" + clsCommon.myCstr(settMaxFATPerLimit))
-                End If
-                If settMaxSNFPerLimit > 0 And clsMilkSRNMCC.ObjList(0).SNF > settMaxSNFPerLimit Then
-                    Throw New Exception("SNF % Can't be more than -" + clsCommon.myCstr(settMaxSNFPerLimit))
-                End If
+
             End If
 
             qry = "select Case when Nature='C' then Actual_charges end as  commision_pers," _
@@ -1318,7 +1321,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                 dblSNFKG = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
             End If
 
-            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType, MarkAsSuspence)
+            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType, MarkAsSuspence, IsOwnBMCAdjustment)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
@@ -1334,7 +1337,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         End Try
     End Sub
 
-    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String, ByVal MarkAsSuspence As Boolean) As Boolean
+    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String, MarkAsSuspence As Boolean, ByVal IsOwnBMCAdjustment As Boolean) As Boolean
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No as Against_Shift_Uploader_DocNo,TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,
 TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No as Against_Uploader_DocNo ,TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 from TSPL_MILK_SRN_HEAD 
@@ -1359,7 +1362,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     End If
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
                     Arr(0).Reject_Type = strRejectType
-                    clsMilkShiftUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No)
+                    clsMilkShiftUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No, IsOwnBMCAdjustment)
                 End If
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_Uploader_TR_No")) > 0 Then
                 Dim Arr As List(Of clsMilkProcurementUploaderDetail) = clsMilkProcurementUploaderDetail.GetData(clsCommon.myCstr(dt.Rows(0)("Against_Uploader_DocNo")), " TR_No='" + clsCommon.myCstr(dt.Rows(0)("Against_Uploader_TR_No")) + "'", trans)

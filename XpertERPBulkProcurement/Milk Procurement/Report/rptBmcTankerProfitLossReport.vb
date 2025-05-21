@@ -77,17 +77,19 @@ MAX(CASE
 sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS Original_Qty,
 sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)Original_FATKg,
 sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)Original_SNFKg,
-
-
-   SUM(CASE 
-        WHEN TSPL_MILK_COLLECTION_MCC_DETAIL.Qty = 0 THEN 0 
-        ELSE CAST((TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg * 100) / TSPL_MILK_COLLECTION_MCC_DETAIL.Qty AS DECIMAL(10, 2))
-    END) AS [SNF(%)],
-
-    SUM(CASE 
-        WHEN TSPL_MILK_COLLECTION_MCC_DETAIL.Qty = 0 THEN 0 
-        ELSE CAST((TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg * 100) / TSPL_MILK_COLLECTION_MCC_DETAIL.Qty AS DECIMAL(10, 2))
-    END) AS [FAT(%)],
+    CAST(
+        ROUND(
+            CAST(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty), 0),
+            2
+        ) AS DECIMAL(18, 2)
+    ) AS [FAT(%)],
+ 
+      CAST(
+        ROUND(
+            CAST(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty), 0),
+            2
+        ) AS DECIMAL(18, 2)
+    ) AS [SNF(%)],
 
 
 max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS FLUSING,
@@ -98,9 +100,27 @@ LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETA
 left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
 " & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No)ZZZ)xxxx)"
 
-            Else
 
-                BaseQuery = "  
+            ElseIf rbtTotal.IsChecked Then
+
+                BaseQuery = "  select xz.DocumentDate,sum(ADJFATKG)ADJFATKG,sum(ADJSNFKG)ADJSNFKG,sum(ADJFATKG1)ADJFATKG1,sum(ADJSNFKG1)ADJSNFKG1,
+  max(MonthNumber)MonthNumber,max(Description)Description,max(temp)temp,max(Trip_No)Trip_No,
+max(route_code)route_code,max(Tanker_No)Tanker_No,
+ sum(QTY)QTY,sum(xz.[FAT(Kg)])[FAT(Kg)],sum(xz.Entered_SNFKg)Entered_SNFKg,
+ (CASE  WHEN sum(xz.QTY) = 0 THEN 0 ELSE CAST(sum(xz.Entered_SNFKg * 100) / sum(xz.qty) AS DECIMAL(10, 2)) END) AS Entered_Qty_snf,(CASE  WHEN sum(xz.Qty) = 0 THEN 0  ELSE CAST(sum(xz.[FAT(Kg)] * 100) / sum(xz.qty) AS DECIMAL(10, 2)) END) AS Entered_Qty_fat ,
+ sum(Original_Qty)Original_Qty,sum(Original_FATKg)Original_FATKg,sum(Original_SNFKg)Original_SNFKg,CAST(ROUND(CAST(sum(xz.Original_FATKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(xz.Original_Qty), 0),  2 ) AS DECIMAL(18, 2) ) AS [FAT(%)], CAST(ROUND( CAST(sum(xz.Original_SNFKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(xz.Original_Qty), 0),2) AS DECIMAL(18, 2)) AS [SNF(%)]
+ ,(sum(xz.QTY)-sum(xz.Original_Qty))FLUSING,(sum([FAT(Kg)])-sum(Original_FATKg)) AS FATKG,(sum(Entered_SNFKg)-sum(Original_SNFKg)) AS SNFKG from 
+(Select *,CASE WHEN ADJFATKG1 > 0 THEN 0 ELSE ADJFATKG1 END AS ADJFATKG,CASE WHEN ADJSNFKG1 > 0 THEN 0 ELSE ADJSNFKG1 END AS  ADJSNFKG from 
+(Select *,CASE WHEN FATKG > 0 THEN 0 ELSE (Original_FATKg * " + Value + "/100) + (FATKG) END AS ADJFATKG1,CASE WHEN SNFKG > 0 THEN 0 ELSE (Original_SNFKg * " + Value + "/100) + (SNFKG) END AS  ADJSNFKG1 FROM ( select  MAX(convert(Varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103)) AS DocumentDate,
+			MONTH(max(TSPL_MILK_COLLECTION_MCC.Document_Date)) AS MonthNumber, max(TSPL_TANKER_MASTER.Description)Description,max(TSPL_MILK_COLLECTION_MCC.Temp)Temp,MAX(TSPL_MILK_COLLECTION_MCC.Trip_No)Trip_No,(TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,(TSPL_MILK_COLLECTION_MCC.Route_Code)Route_Code, MAX(TSPL_MILK_COLLECTION_MCC.Entered_Qty) as QTY,MAX(TSPL_MILK_COLLECTION_MCC.Entered_FATKg) AS [FAT(Kg)],max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)Entered_SNFKg,
+MAX(CASE  WHEN TSPL_MILK_COLLECTION_MCC.Entered_Qty = 0 THEN 0 ELSE CAST((TSPL_MILK_COLLECTION_MCC.Entered_SNFKg * 100) / TSPL_MILK_COLLECTION_MCC.Entered_Qty AS DECIMAL(10,2))END) AS Entered_Qty_snf,MAX(CASE WHEN TSPL_MILK_COLLECTION_MCC.Entered_Qty = 0 THEN 0  ELSE CAST((TSPL_MILK_COLLECTION_MCC.Entered_FATKg * 100) / TSPL_MILK_COLLECTION_MCC.Entered_Qty AS DECIMAL(10, 2))END) AS Entered_Qty_fat,sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS Original_Qty,sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)Original_FATKg,sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)Original_SNFKg,
+    CAST(ROUND(CAST(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty), 0), 2 ) AS DECIMAL(18, 2)
+    ) AS [FAT(%)],CAST(ROUND(CAST(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty), 0), 2) AS DECIMAL(18, 2)) AS [SNF(%)],
+	max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS FLUSING, (max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)) AS FATKG, (max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)) AS SNFKG from TSPL_MILK_COLLECTION_MCC 
+LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
+left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No " & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No)ZZZ)xxxx)xz group by xz.DocumentDate"
+
+            Else BaseQuery = "  
 
 WITH CombinedData AS 
 (select *,CASE
@@ -138,10 +158,22 @@ END AS  ADJSNFKG1 from
         SUM(MCC_DETAIL.Qty) AS Original_Qty,
         SUM(MCC_DETAIL.FATKg) AS Original_FATKg,
         SUM(MCC_DETAIL.SNFKg) AS Original_SNFKg,
-        SUM(CASE WHEN MCC_DETAIL.Qty = 0 THEN 0
-                 ELSE CAST((MCC_DETAIL.SNFKg * 100.0) / MCC_DETAIL.Qty AS DECIMAL(10, 2)) END) AS [SNF(%)],
-        SUM(CASE WHEN MCC_DETAIL.Qty = 0 THEN 0
-                 ELSE CAST((MCC_DETAIL.FATKg * 100.0) / MCC_DETAIL.Qty AS DECIMAL(10, 2)) END) AS [FAT(%)],
+
+    	    CAST(
+        ROUND(
+            CAST(sum(MCC_DETAIL.FATKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(MCC_DETAIL.Qty), 0),
+            2
+        ) AS DECIMAL(18, 2)
+    ) AS [FAT(%)],
+ 
+      CAST(
+        ROUND(
+            CAST(sum(MCC_DETAIL.SNFKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(MCC_DETAIL.Qty), 0),
+            2
+        ) AS DECIMAL(18, 2)
+    ) AS [SNF(%)],
+
+
         MAX(MCC.Entered_Qty) - SUM(MCC_DETAIL.Qty) AS FLUSING,
         MAX(MCC.Entered_FATKg) - SUM(MCC_DETAIL.FATKg) AS FATKG,
         MAX(MCC.Entered_SNFKg) - SUM(MCC_DETAIL.SNFKg) AS SNFKG
