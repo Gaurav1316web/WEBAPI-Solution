@@ -482,6 +482,7 @@ Public Class clsDocType
     Public Const frmDeliveryOrderPSForExempted As String = "PS Delivery Order Exempted"
     Public Const frmSalesOrderProductSale As String = "Sale Order Product Sale"
     Public Const frmShipmentProductSale As String = "Shipment Product Sale"
+    Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
     Public Const frmTransferKDIl As String = "Transfer KDIL"
@@ -1228,6 +1229,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.FrmDairyGatePass, "", False, False)
             InsertDefaultValue(clsDocType.frmCustomerComplain, "", False, False)
             InsertDefaultValue(clsDocType.frmTranspoterDeductionEntry, "", False, False)
+            InsertDefaultValue(clsDocType.frmLeakedSaleReturn, "", False, True)
 
 
             InsertDefaultValue(clsDocType.rptMonthlySalesInvoice, "", False, False)

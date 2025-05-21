@@ -52,6 +52,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkAllowDecimal = New common.Controls.MyCheckBox()
         Me.chkIsRepeat = New common.Controls.MyCheckBox()
         Me.chkSFGCF = New common.Controls.MyCheckBox()
         Me.chkSkipSecurityDed = New common.Controls.MyCheckBox()
@@ -317,13 +318,13 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkAllowDecimal = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -563,7 +564,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -606,7 +606,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -767,6 +767,18 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
         '
+        'chkAllowDecimal
+        '
+        Me.chkAllowDecimal.Location = New System.Drawing.Point(961, 207)
+        Me.chkAllowDecimal.MyLinkLable1 = Nothing
+        Me.chkAllowDecimal.MyLinkLable2 = Nothing
+        Me.chkAllowDecimal.Name = "chkAllowDecimal"
+        Me.chkAllowDecimal.Size = New System.Drawing.Size(91, 18)
+        Me.chkAllowDecimal.TabIndex = 218
+        Me.chkAllowDecimal.Tag1 = Nothing
+        Me.chkAllowDecimal.Text = "Allow Decimal"
+        Me.chkAllowDecimal.Visible = False
+        '
         'chkIsRepeat
         '
         Me.chkIsRepeat.Location = New System.Drawing.Point(961, 188)
@@ -858,7 +870,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtUploaderSeq.TabIndex = 215
         Me.txtUploaderSeq.Text = "0"
         Me.txtUploaderSeq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtUploaderSeq.Value = 0R
+        Me.txtUploaderSeq.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblUploaderSeq
         '
@@ -988,7 +1000,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtDCSSeqNo.TabIndex = 209
         Me.txtDCSSeqNo.Text = "0"
         Me.txtDCSSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDCSSeqNo.Value = 0R
+        Me.txtDCSSeqNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblDCSSeqNo
         '
@@ -1092,7 +1104,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtBBValue.TabIndex = 37
         Me.txtBBValue.Text = "0"
         Me.txtBBValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBBValue.Value = 0R
+        Me.txtBBValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel30
         '
@@ -1484,7 +1496,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtMarSeqNo.TabIndex = 189
         Me.txtMarSeqNo.Text = "0"
         Me.txtMarSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMarSeqNo.Value = 0R
+        Me.txtMarSeqNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel24
         '
@@ -1690,7 +1702,7 @@ Partial Class FrmItemMasterRMOther
         Me.TxtProdTolerance.TabIndex = 45
         Me.TxtProdTolerance.Text = "0"
         Me.TxtProdTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtProdTolerance.Value = 0R
+        Me.TxtProdTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel36
         '
@@ -1737,7 +1749,7 @@ Partial Class FrmItemMasterRMOther
         Me.numMinSelfLife.TabIndex = 27
         Me.numMinSelfLife.Text = "0"
         Me.numMinSelfLife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.numMinSelfLife.Value = 0R
+        Me.numMinSelfLife.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblMinSelfLife
         '
@@ -1773,7 +1785,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCorrectionFactor.TabIndex = 42
         Me.txtCorrectionFactor.Text = "0"
         Me.txtCorrectionFactor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCorrectionFactor.Value = 0R
+        Me.txtCorrectionFactor.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel35
         '
@@ -1992,7 +2004,7 @@ Partial Class FrmItemMasterRMOther
         Me.txt_shelflife.TabIndex = 26
         Me.txt_shelflife.Text = "0"
         Me.txt_shelflife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_shelflife.Value = 0R
+        Me.txt_shelflife.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel32
         '
@@ -2028,7 +2040,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCNF_Amt.TabIndex = 39
         Me.txtCNF_Amt.Text = "0"
         Me.txtCNF_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCNF_Amt.Value = 0R
+        Me.txtCNF_Amt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel31
         '
@@ -2064,7 +2076,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtDistbtr_Amt.TabIndex = 36
         Me.txtDistbtr_Amt.Text = "0"
         Me.txtDistbtr_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDistbtr_Amt.Value = 0R
+        Me.txtDistbtr_Amt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'chkSchemeItem
         '
@@ -2113,7 +2125,7 @@ Partial Class FrmItemMasterRMOther
         Me.txt_tolerance.TabIndex = 44
         Me.txt_tolerance.Text = "0"
         Me.txt_tolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_tolerance.Value = 0R
+        Me.txt_tolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel28
         '
@@ -2302,7 +2314,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtSeqNo.TabIndex = 29
         Me.txtSeqNo.Text = "0"
         Me.txtSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSeqNo.Value = 0R
+        Me.txtSeqNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'cmbUsedAs
         '
@@ -2517,7 +2529,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtstnd_pur_rate.TabIndex = 38
         Me.txtstnd_pur_rate.Text = "0"
         Me.txtstnd_pur_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtstnd_pur_rate.Value = 0R
+        Me.txtstnd_pur_rate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel20
         '
@@ -2584,7 +2596,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtWeightValue.TabIndex = 47
         Me.txtWeightValue.Text = "0"
         Me.txtWeightValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtWeightValue.Value = 0R
+        Me.txtWeightValue.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel18
         '
@@ -2819,7 +2831,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtRate.TabIndex = 31
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0R
+        Me.txtRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblRate
         '
@@ -2855,7 +2867,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCost.TabIndex = 43
         Me.txtCost.Text = "0"
         Me.txtCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCost.Value = 0R
+        Me.txtCost.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -3302,6 +3314,7 @@ Partial Class FrmItemMasterRMOther
         Me.gvUOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUOM.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvUOM.MyExportFilePath = ""
         Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
@@ -3330,6 +3343,7 @@ Partial Class FrmItemMasterRMOther
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategory.MyExportFilePath = ""
         Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
@@ -3462,7 +3476,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtSecurityDedPer.TabIndex = 1393
         Me.txtSecurityDedPer.Text = "0"
         Me.txtSecurityDedPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSecurityDedPer.Value = 0R
+        Me.txtSecurityDedPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel42
         '
@@ -3767,7 +3781,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtWarrantyPeriod.TabIndex = 4
         Me.txtWarrantyPeriod.Text = "0"
         Me.txtWarrantyPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtWarrantyPeriod.Value = 0R
+        Me.txtWarrantyPeriod.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblWarrantyPeriod
         '
@@ -3868,7 +3882,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAssetLife.TabIndex = 3
         Me.txtAssetLife.Text = "0"
         Me.txtAssetLife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAssetLife.Value = 0R
+        Me.txtAssetLife.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtNextAutoSerialCounter
         '
@@ -3968,6 +3982,7 @@ Partial Class FrmItemMasterRMOther
         Me.gv_param.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_param.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_param.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_param.MyExportFilePath = ""
         Me.gv_param.MyStopExport = False
         Me.gv_param.Name = "gv_param"
         Me.gv_param.ShowGroupPanel = False
@@ -4012,6 +4027,7 @@ Partial Class FrmItemMasterRMOther
         Me.gvPurQCPar.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurQCPar.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPurQCPar.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvPurQCPar.MyExportFilePath = ""
         Me.gvPurQCPar.MyStopExport = False
         Me.gvPurQCPar.Name = "gvPurQCPar"
         Me.gvPurQCPar.ShowGroupPanel = False
@@ -4377,6 +4393,7 @@ Partial Class FrmItemMasterRMOther
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSchedule.MyExportFilePath = ""
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.ShowHeaderCellButtons = True
@@ -4417,6 +4434,7 @@ Partial Class FrmItemMasterRMOther
         Me.gvNOCSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNOCSchedule.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvNOCSchedule.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvNOCSchedule.MyExportFilePath = ""
         Me.gvNOCSchedule.MyStopExport = False
         Me.gvNOCSchedule.Name = "gvNOCSchedule"
         Me.gvNOCSchedule.ShowHeaderCellButtons = True
@@ -4609,18 +4627,6 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'chkAllowDecimal
-        '
-        Me.chkAllowDecimal.Location = New System.Drawing.Point(961, 207)
-        Me.chkAllowDecimal.MyLinkLable1 = Nothing
-        Me.chkAllowDecimal.MyLinkLable2 = Nothing
-        Me.chkAllowDecimal.Name = "chkAllowDecimal"
-        Me.chkAllowDecimal.Size = New System.Drawing.Size(91, 18)
-        Me.chkAllowDecimal.TabIndex = 218
-        Me.chkAllowDecimal.Tag1 = Nothing
-        Me.chkAllowDecimal.Text = "Allow Decimal"
-        Me.chkAllowDecimal.Visible = False
-        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4641,6 +4647,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipSecurityDed, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4893,7 +4900,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
