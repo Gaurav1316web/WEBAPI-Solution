@@ -870,6 +870,7 @@ Public Class RCDFDashboard
             Dim stocktransferinvoice As String = ""
             Dim statusScrap As String = ""
             Dim statusScrapInvoice As String = ""
+            Dim statusScrapreturn As String = ""
             If rdbPosted.IsChecked = True Then
                 Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=1 "
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
@@ -877,7 +878,8 @@ Public Class RCDFDashboard
                 StatusReturn = " AND TSPL_SD_SALE_RETURN_HEAD.Status=1 "
                 StatusReturn1 = " And TSPL_SCRAPSALE_HEAD_RETURN.ispost=1"
                 StatusScrap = " AND TSPL_SCRAPSALE_HEAD.ispost=1 "
-                StatusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=1 "
+                statusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=1 "
+                statusScrapreturn = " AND TSPL_SCRAPSALE_HEAD_RETURN.ispost=1 "
             ElseIf rdbUnposted.IsChecked = True Then
                 Status = " AND TSPL_SD_SHIPMENT_HEAD.Status=0 "
                 Status1 = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
@@ -886,6 +888,7 @@ Public Class RCDFDashboard
                 StatusReturn1 = " AND TSPL_SCRAPSALE_HEAD_RETURN.ispost=0 "
                 statusScrap = " AND TSPL_SCRAPSALE_HEAD.ispost=0 "
                 statusScrapInvoice = " AND TSPL_SCRAPINVOICE_HEAD.ispost=0 "
+                statusScrapreturn = " AND TSPL_SCRAPSALE_HEAD_RETURN.ispost=0 "
             ElseIf rdbAll.IsChecked = True Then
 
             End If
@@ -1100,8 +1103,10 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SCRAPSALE_DETAIL_RETURN.Unit_code
 	                                 WHERE  TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
                                      and    TSPL_SCRAPSALE_HEAD_RETURN.Return_ship_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
-									 and TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  ('" + clsCommon.myCstr(txtLocation.Value) + "') 
-                                     union all
+									 and TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code In  ('" + clsCommon.myCstr(txtLocation.Value) + "') "
+
+                    sQuery += " " + statusScrapreturn + " " + FG + " " + SFG + " " + FGSFG + ""
+                    sQuery += " union all
                                     select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
                                     WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
                                     CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
@@ -1153,7 +1158,9 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                     sQuery += " " + StatusScrapInvoice + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SCRAPINVOICE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtLocation.Value) + "')"
 
                     If rdbStockTransfer.IsChecked = True Then
-                        sQuery += "" + stocktransferinvoice + ""
+                        sQuery += "and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=1"
+                    Else
+                        sQuery += "and TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale=0"
                     End If
                     sQuery += " )XX Group by  XX.Document_Date,xx.price_CodeNon "
 
@@ -1207,10 +1214,12 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                     sQuery += " " + StatusScrap + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SCRAPSALE_HEAD.Loc_Code In  ('" + clsCommon.myCstr(txtLocation.Value) + "')"
                     If rdbStockTransfer.IsChecked = False Then
                         sQuery += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale=0 "
+                    Else
+                        sQuery += " and TSPL_SCRAPSALE_HEAD.Inter_unit_sale=1 "
                     End If
-                    If rdbStockTransfer.IsChecked = True Then
-                        sQuery += "" + Stocktransferdispatch + ""
-                    End If
+                    'If rdbStockTransfer.IsChecked = True Then
+                    '    sQuery += "" + Stocktransferdispatch + ""
+                    'End If
                     sQuery += " )XX Group by  XX.Document_Date,xx.price_CodeNon "
                     sQuery += " union all
                 select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
@@ -1221,8 +1230,9 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                 )x 
                 )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),SR_NO desc"
 
-                    dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
+                    'dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
                 End If
+                dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
             If dtFinishGoods IsNot Nothing AndAlso dtFinishGoods.Rows.Count > 0 Then
