@@ -261,7 +261,7 @@ Public Class frmNotification
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (ClsNotification.DeleteData(txtCode.Value)) Then
-                    UcAttachment1.funDelete(txtCode.Value)
+                    UcAttachment1.funDelete(txtCode.Value, False)
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Addnew()
                 End If

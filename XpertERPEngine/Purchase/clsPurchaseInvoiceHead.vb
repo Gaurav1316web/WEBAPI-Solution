@@ -195,10 +195,6 @@ Public Class clsPurchaseInvoiceHead
         If isCancel Then
             TSPL_PI_HEAD = " TSPL_PI_HEAD_Cancel_Data"
             tspl_pi_detail = " tspl_pi_detail_Cancel_Data"
-
-            'SD_SHIPMENT_HEAD = " TSPL_SD_SHIPMENT_HEAD_Cancel_Data As T
-            'SPL_SD_SHIPMENT_HEAD "
-            ' SD_SHIPMENT_DETAIL = " TSPL_SD_SHIPMENT_DETAIL_Cancel_Data As TSPL_SD_SHIPMENT_DETAIL "
         Else
             TSPL_PI_HEAD = " TSPL_PI_HEAD"
             tspl_pi_detail = " tspl_pi_detail "
@@ -232,7 +228,14 @@ Public Class clsPurchaseInvoiceHead
 					 AND convert(date,TSPL_GRN_HEAD.GRN_Date,103)<= dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.TO_DATE)")
         End If
         If objCommonVar.RCDFCFP Then
-            qry = " SELECT ss.*," + SRNQTTY + " as SRNQTTY," + SRNQTTY1stsch + " as SRNQtyInQtl1stsch,ss.RALQty - " + SRNQTTY + " as QWNSWNQTY,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from  " + tspl_pi_detail + " 
+            qry = " SELECT  "
+            If isCancel Then
+                qry += " 'Cancelled' As Report_Status, "
+            Else
+                qry += " '' As Report_Status, "
+            End If
+
+            qry += "ss.*," + SRNQTTY + " as SRNQTTY," + SRNQTTY1stsch + " as SRNQtyInQtl1stsch,ss.RALQty - " + SRNQTTY + " as QWNSWNQTY,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from  " + tspl_pi_detail + " 
                         left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No =  " + tspl_pi_detail + ".SRN_Id and TSPL_SRN_DETAIL.Item_Code =  " + tspl_pi_detail + ".Item_Code
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
                         left outer join TSPL_GRN_HEAD GG on GG.GRN_No = TSPL_SRN_DETAIL.GRN_ID
