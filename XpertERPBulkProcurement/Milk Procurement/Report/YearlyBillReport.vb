@@ -585,7 +585,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
     Sub funreset()
         EnableDisableControls(True)
         gv1.DataSource = Nothing
-        txtDCS.arrValueMember = Nothing
+        'txtDCS.arrValueMember = Nothing
         RadPageView2.SelectedPage = RadPageViewPage4
     End Sub
 
@@ -593,6 +593,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
         txtDCS.Enabled = val
         RadGroupBox11.Enabled = val
         RadGroupBox6.Enabled = val
+        RadGroupBox1.Enabled = val
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
