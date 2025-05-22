@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmUserMaster
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,16 +20,16 @@ Partial Class FrmUserMaster
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblUserCode = New common.Controls.MyLabel()
         Me.lblUserType = New common.Controls.MyLabel()
         Me.lbl1 = New common.Controls.MyLabel()
@@ -115,6 +115,9 @@ Partial Class FrmUserMaster
         Me.fndUserCode = New common.UserControls.txtNavigator()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.fndLabel4 = New common.UserControls.txtFinder()
+        Me.btnSarasPro = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.btnSarasOrder = New Telerik.WinControls.UI.RadButton()
         Me.fndEmployeeCode = New common.UserControls.txtFinder()
         Me.lblEmployeeCode = New common.Controls.MyLabel()
         Me.txtEmployeeName = New common.Controls.MyTextBox()
@@ -128,7 +131,6 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GBRoute = New System.Windows.Forms.GroupBox()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.lblLength = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCustomer = New common.UserControls.MyRadGridView()
@@ -136,6 +138,8 @@ Partial Class FrmUserMaster
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.txtProSaras = New common.UserControls.txtMultiSelectFinder()
+        Me.txtOrderSaras = New common.UserControls.txtMultiSelectFinder()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -201,6 +205,11 @@ Partial Class FrmUserMaster
         CType(Me.lblReportingPerson, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtUserName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSarasPro, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.btnSarasPro.SuspendLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSarasOrder, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.btnSarasOrder.SuspendLayout()
         CType(Me.lblEmployeeCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtEmployeeName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmployeeName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -211,7 +220,6 @@ Partial Class FrmUserMaster
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.GBRoute.SuspendLayout()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLength, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -335,16 +343,16 @@ Partial Class FrmUserMaster
         Me.ddlUserType.IsSourceFromTable = False
         Me.ddlUserType.IsSourceFromValueList = False
         Me.ddlUserType.IsUnique = False
-        RadListDataItem1.Text = "Level1"
-        RadListDataItem2.Text = "Level2"
-        RadListDataItem3.Text = "Level3"
-        RadListDataItem4.Text = "Level4"
-        RadListDataItem5.Text = "Level5"
-        Me.ddlUserType.Items.Add(RadListDataItem1)
-        Me.ddlUserType.Items.Add(RadListDataItem2)
-        Me.ddlUserType.Items.Add(RadListDataItem3)
-        Me.ddlUserType.Items.Add(RadListDataItem4)
-        Me.ddlUserType.Items.Add(RadListDataItem5)
+        RadListDataItem6.Text = "Level1"
+        RadListDataItem7.Text = "Level2"
+        RadListDataItem8.Text = "Level3"
+        RadListDataItem9.Text = "Level4"
+        RadListDataItem10.Text = "Level5"
+        Me.ddlUserType.Items.Add(RadListDataItem6)
+        Me.ddlUserType.Items.Add(RadListDataItem7)
+        Me.ddlUserType.Items.Add(RadListDataItem8)
+        Me.ddlUserType.Items.Add(RadListDataItem9)
+        Me.ddlUserType.Items.Add(RadListDataItem10)
         Me.ddlUserType.Location = New System.Drawing.Point(192, 154)
         Me.ddlUserType.MendatroryField = False
         Me.ddlUserType.MyLinkLable1 = Nothing
@@ -398,7 +406,7 @@ Partial Class FrmUserMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.munuExport})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(719, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(732, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'munuExport
@@ -514,7 +522,7 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 484)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 480)
         Me.RadGroupBox1.TabIndex = 0
         '
         'lblSubLocation
@@ -934,7 +942,7 @@ Partial Class FrmUserMaster
         Me.RadPanel1.Controls.Add(Me.fndCustCode)
         Me.RadPanel1.Controls.Add(Me.MyLabel3)
         Me.RadPanel1.Controls.Add(Me.CmbLoginType)
-        Me.RadPanel1.Location = New System.Drawing.Point(10, 378)
+        Me.RadPanel1.Location = New System.Drawing.Point(6, 377)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(578, 95)
         Me.RadPanel1.TabIndex = 1
@@ -1379,6 +1387,38 @@ Partial Class FrmUserMaster
         Me.fndLabel4.TabIndex = 5
         Me.fndLabel4.Value = ""
         '
+        'btnSarasPro
+        '
+        Me.btnSarasPro.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSarasPro.Controls.Add(Me.txtProSaras)
+        Me.btnSarasPro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSarasPro.Location = New System.Drawing.Point(484, 10)
+        Me.btnSarasPro.Name = "btnSarasPro"
+        Me.btnSarasPro.Size = New System.Drawing.Size(108, 23)
+        Me.btnSarasPro.TabIndex = 408
+        Me.btnSarasPro.Text = "Logout Saras Pro"
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(6, 12)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel16.TabIndex = 428
+        Me.MyLabel16.Text = "Sale Route"
+        '
+        'btnSarasOrder
+        '
+        Me.btnSarasOrder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSarasOrder.Controls.Add(Me.txtOrderSaras)
+        Me.btnSarasOrder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSarasOrder.Location = New System.Drawing.Point(361, 10)
+        Me.btnSarasOrder.Name = "btnSarasOrder"
+        Me.btnSarasOrder.Size = New System.Drawing.Size(117, 23)
+        Me.btnSarasOrder.TabIndex = 407
+        Me.btnSarasOrder.Text = "Logout Saras Order"
+        '
         'fndEmployeeCode
         '
         Me.fndEmployeeCode.CalculationExpression = Nothing
@@ -1552,13 +1592,15 @@ Partial Class FrmUserMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSarasPro)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSarasOrder)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGetHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(719, 663)
-        Me.SplitContainer1.SplitterDistance = 618
+        Me.SplitContainer1.Size = New System.Drawing.Size(732, 690)
+        Me.SplitContainer1.SplitterDistance = 645
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -1570,7 +1612,7 @@ Partial Class FrmUserMaster
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(719, 618)
+        Me.RadPageView1.Size = New System.Drawing.Size(732, 645)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -1582,14 +1624,14 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(698, 570)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(711, 597)
         Me.RadPageViewPage1.Text = "General"
         '
         'GBRoute
         '
         Me.GBRoute.Controls.Add(Me.txtRoute)
         Me.GBRoute.Controls.Add(Me.MyLabel16)
-        Me.GBRoute.Location = New System.Drawing.Point(3, 482)
+        Me.GBRoute.Location = New System.Drawing.Point(5, 481)
         Me.GBRoute.Name = "GBRoute"
         Me.GBRoute.Size = New System.Drawing.Size(590, 33)
         Me.GBRoute.TabIndex = 16
@@ -1608,22 +1650,12 @@ Partial Class FrmUserMaster
         Me.txtRoute.Size = New System.Drawing.Size(472, 19)
         Me.txtRoute.TabIndex = 429
         '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(6, 12)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(59, 18)
-        Me.MyLabel16.TabIndex = 428
-        Me.MyLabel16.Text = "Sale Route"
-        '
         'lblLength
         '
         Me.lblLength.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.lblLength.FieldName = Nothing
         Me.lblLength.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblLength.Location = New System.Drawing.Point(13, 521)
+        Me.lblLength.Location = New System.Drawing.Point(18, 520)
         Me.lblLength.Name = "lblLength"
         Me.lblLength.Size = New System.Drawing.Size(471, 46)
         Me.lblLength.TabIndex = 15
@@ -1656,7 +1688,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
@@ -1692,7 +1724,7 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.AllowDeleteRow = False
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvUser.MyExportFilePath = ""
         Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
@@ -1723,11 +1755,39 @@ Partial Class FrmUserMaster
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
         '
+        'txtProSaras
+        '
+        Me.txtProSaras.arrDispalyMember = Nothing
+        Me.txtProSaras.arrValueMember = Nothing
+        Me.txtProSaras.Location = New System.Drawing.Point(21, 1)
+        Me.txtProSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtProSaras.MyLinkLable1 = Me.MyLabel16
+        Me.txtProSaras.MyLinkLable2 = Nothing
+        Me.txtProSaras.MyNullText = "All"
+        Me.txtProSaras.Name = "txtProSaras"
+        Me.txtProSaras.Size = New System.Drawing.Size(75, 19)
+        Me.txtProSaras.TabIndex = 430
+        Me.txtProSaras.Visible = False
+        '
+        'txtOrderSaras
+        '
+        Me.txtOrderSaras.arrDispalyMember = Nothing
+        Me.txtOrderSaras.arrValueMember = Nothing
+        Me.txtOrderSaras.Location = New System.Drawing.Point(26, 1)
+        Me.txtOrderSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtOrderSaras.MyLinkLable1 = Me.MyLabel16
+        Me.txtOrderSaras.MyLinkLable2 = Nothing
+        Me.txtOrderSaras.MyNullText = "All"
+        Me.txtOrderSaras.Name = "txtOrderSaras"
+        Me.txtOrderSaras.Size = New System.Drawing.Size(75, 19)
+        Me.txtOrderSaras.TabIndex = 431
+        Me.txtOrderSaras.Visible = False
+        '
         'FrmUserMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(719, 683)
+        Me.ClientSize = New System.Drawing.Size(732, 710)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.fndEmployeeCode)
         Me.Controls.Add(Me.RadMenu1)
@@ -1817,6 +1877,11 @@ Partial Class FrmUserMaster
         CType(Me.lblReportingPerson, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtUserName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSarasPro, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.btnSarasPro.ResumeLayout(False)
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSarasOrder, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.btnSarasOrder.ResumeLayout(False)
         CType(Me.lblEmployeeCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtEmployeeName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEmployeeName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1829,7 +1894,6 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage1.PerformLayout()
         Me.GBRoute.ResumeLayout(False)
         Me.GBRoute.PerformLayout()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLength, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1952,5 +2016,9 @@ Partial Class FrmUserMaster
     Friend WithEvents MyLabel17 As Controls.MyLabel
     Friend WithEvents txtSubLocation As UserControls.txtFinder
     Friend WithEvents lblSubLocation As Controls.MyLabel
+    Friend WithEvents btnSarasPro As RadButton
+    Friend WithEvents btnSarasOrder As RadButton
+    Friend WithEvents txtOrderSaras As UserControls.txtMultiSelectFinder
+    Friend WithEvents txtProSaras As UserControls.txtMultiSelectFinder
 End Class
 

@@ -72,6 +72,8 @@ Public Class FrmUserMaster
             menuImport.Enabled = False
             menuExport.Enabled = False
         End If
+        btnSarasOrder.Visible = MyBase.isPostFlag
+        btnSarasPro.Visible = MyBase.isPostFlag
         '--------------------------------------------------
         btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
@@ -2976,6 +2978,35 @@ order by LEVEL"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnSarasPro_Click(sender As Object, e As EventArgs) Handles btnSarasPro.Click
+        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master  where  InActive='N' AND  ISNULL(Saras_Pro_Session_Expired,0)=0"
+
+        Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtProSaras.arrValueMember, txtProSaras.arrDispalyMember)
+
+        If clsCommon.myLen(ARR) > 0 Then
+            Dim qry As String = Nothing
+            qry = "update tspl_user_master set  Saras_PRO_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
+            Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, " Do you want to Logout This User On Sara Pro App", Me.Text)
+            End If
+        End If
+    End Sub
+
+    Private Sub btnSarasOrder_Click(sender As Object, e As EventArgs) Handles btnSarasOrder.Click
+        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
+        Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtOrderSaras.arrValueMember, txtOrderSaras.arrDispalyMember)
+
+        If clsCommon.myLen(ARR) > 0 Then
+            Dim qry As String = Nothing
+            qry = "update tspl_user_master set  Saras_order_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
+            Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, " Do you want to Logout This User On Sara order App", Me.Text)
+            End If
+        End If
     End Sub
 
 
