@@ -9097,21 +9097,30 @@ Public Class FrmUtility
                     Try
                         msg = msg.Trim()
                         OldReading += msg
-                        If OldReading.EndsWith(ChrW(2)) Then
-                            Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {ChrW(2)}, StringSplitOptions.None)
-                            If strBreak.Length > 1 Then
-                                Dim strTemp As String = strBreak(0)
-                                If clsCommon.myLen(strTemp) > 0 Then
-                                    Dim reading As String = System.Text.RegularExpressions.Regex.Replace(strTemp.Trim(), "[^0-9.]", "")
-                                    _weight = clsCommon.myCdbl(reading)
-                                    If IsNumeric(_weight) Then
-                                        _weight = _weight
-                                        clsCommon.MyMessageBoxShow(Me, _weight)
-                                    End If
-                                End If
-                                OldReading = ""
+
+                        If clsCommon.myLen(msg) > 0 Then
+                            Dim reading As String = System.Text.RegularExpressions.Regex.Replace(msg.Trim(), "[^0-9[.]", "")
+                            _weight = clsCommon.myCDecimal(reading)
+                            If IsNumeric(_weight) Then
+                                clsCommon.MyMessageBoxShow(Me, _weight)
                             End If
                         End If
+
+                        'If OldReading.EndsWith(ChrW(2)) Then
+                        '    Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {ChrW(2)}, StringSplitOptions.None)
+                        '    If strBreak.Length > 1 Then
+                        '        Dim strTemp As String = strBreak(0)
+                        '        If clsCommon.myLen(strTemp) > 0 Then
+                        '            Dim reading As String = System.Text.RegularExpressions.Regex.Replace(strTemp.Trim(), "[^0-9.]", "")
+                        '            _weight = clsCommon.myCdbl(reading)
+                        '            If IsNumeric(_weight) Then
+                        '                _weight = _weight
+                        '                clsCommon.MyMessageBoxShow(Me, _weight)
+                        '            End If
+                        '        End If
+                        '        OldReading = ""
+                        '    End If
+                        'End If
 
                         'If Not msg.EndsWith(".") Then
                         '    If Not msg.StartsWith(".") Then
