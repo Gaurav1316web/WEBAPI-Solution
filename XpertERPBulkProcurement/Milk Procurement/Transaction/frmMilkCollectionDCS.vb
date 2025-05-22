@@ -88,7 +88,6 @@ Public Class frmMilkCollectionDCS
 
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
@@ -1870,7 +1869,7 @@ where 2=2 "
         If arr Is Nothing OrElse arr.Count <= 0 Then
             Throw New Exception("Please provide document for print")
         End If
-        Dim Qry As String = " Select  (Case When TSPL_VLC_MASTER_HEAD.isOwnBMC=1 And TSPL_VLC_MASTER_HEAD.MCCOwnBMC=XXXMain.MCC_Code Then 1 Else 0 End) As OwnBMC,TSPL_COMPANY_MASTER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pincode ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email, XXXMain.Comp_Code, XXXMain.Document_No , XXXMain.Document_Date, XXXMain.Route_Code,XXXMain.ROUTE_NAME ,XXXMain.Vehicle_No , XXXMain.Tanker_No, XXXMain.MCC_Code, XXXMain.MCC_NAME, XXXMain.Mcc_Code_VLC_Uploader, XXXMain.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,XXXMain.Milk_Type As Milk_Type ,XXXMain.Dock_Collection_Milk_Type As Dock_Collection_Milk_Type , isnull ( XXXMorning.Qty,0) As Morning_Qty , isnull (XXXMorning.FAT,0) As Morning_FAT, isnull(XXXMorning.SNF,0) As Morning_SNF , isnull(XXXMorning.FATKG,0) As Morning_FATKG, isnull (XXXMorning.SNFKG,0) As Morning_SNFKG,XXXEvening.Milk_Type as Evening_Milk_Type ,XXXEvening.Dock_Collection_Milk_Type as Evening_Dock_Collection_Milk_Type , isnull (XXXEvening.Qty,0) as Evening_Qty , isnull (XXXEvening.FAT,0) as Evening_FAT, isnull(XXXEvening.SNF,0) as Evening_SNF , isnull(XXXEvening.FATKG,0) as Evening_FATKG, isnull (XXXEvening.SNFKG,0) as Evening_SNFKG                        
+        Dim Qry As String = " Select  (Case When TSPL_VLC_MASTER_HEAD.isOwnBMC=1 And TSPL_VLC_MASTER_HEAD.MCCOwnBMC=XXXMain.MCC_Code Then 1 Else 0 End) As OwnBMC,TSPL_COMPANY_MASTER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pincode ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email, XXXMain.Comp_Code, XXXMain.Document_No , XXXMain.Document_Date, XXXMain.Route_Code,XXXMain.ROUTE_NAME ,XXXMain.Vehicle_No , XXXMain.Tanker_No, XXXMain.MCC_Code, XXXMain.MCC_NAME, XXXMain.Mcc_Code_VLC_Uploader, XXXMain.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,XXXMain.Milk_Type As Milk_Type ,XXXMain.Dock_Collection_Milk_Type As Dock_Collection_Milk_Type , isnull ( XXXMorning.Qty,0) As Morning_Qty , isnull (XXXMorning.FAT,0) As Morning_FAT, isnull(XXXMorning.SNF,0) As Morning_SNF , isnull(XXXMorning.FATKG,0) As Morning_FATKG, isnull (XXXMorning.SNFKG,0) As Morning_SNFKG,XXXEvening.Milk_Type as Evening_Milk_Type ,XXXEvening.Dock_Collection_Milk_Type as Evening_Dock_Collection_Milk_Type , isnull (XXXEvening.Qty,0) as Evening_Qty , isnull (XXXEvening.FAT,0) as Evening_FAT, isnull(XXXEvening.SNF,0) as Evening_SNF , isnull(XXXEvening.FATKG,0) as Evening_FATKG, isnull (XXXEvening.SNFKG,0) as Evening_SNFKG,XXXMorning.PK_Id as MorningPK_Id,XXXEvening.PK_Id as Evening_PK_Id                        
 from (
 Select max(Comp_Code) As Comp_Code,  Document_No , max(Document_Date) As Document_Date, STRING_AGG( Route_Code, ',') as Route_Code,STRING_AGG( ROUTE_NAME, ',') as ROUTE_NAME, STRING_AGG( Vehicle_No, ',') as Vehicle_No, STRING_AGG( Tanker_No, ',') as Tanker_No , max(MCC_Code) as MCC_Code , max(MCC_NAME) as MCC_NAME, max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader , VLC_Code as VLC_Code, Milk_Type,Dock_Collection_Milk_Type  from (
 Select distinct TSPL_USER_MASTER.Comp_Code, TSPL_MILK_COLLECTION_DCS.Document_No , convert (varchar, TSPL_MILK_COLLECTION_DCS.Document_Date,103) As Document_Date , TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Vehicle_No , TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code ,TSPL_MCC_MASTER.MCC_NAME, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader , TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type
@@ -1885,8 +1884,8 @@ Left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL
 where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No In ( " + clsCommon.GetMulcallString(arr) + " ) 
 ) XXX group by XXX.Document_No,XXX.VLC_Code , XXX.Milk_Type, XXX.Dock_Collection_Milk_Type
 ) XXXMain
-Left outer join (Select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG From TSPL_MILK_COLLECTION_DCS_DETAIL  Where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No In ( " + clsCommon.GetMulcallString(arr) + " ) And TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'M') as  XXXMorning on XXXMorning.VLC_Code = XXXMain.VLC_Code And  XXXMorning.Milk_Type = XXXMain.Milk_Type And  XXXMorning.Dock_Collection_Milk_Type = XXXMain.Dock_Collection_Milk_Type and XXXMorning.Document_No= XXXMain.Document_No
-Left outer join (Select TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG From TSPL_MILK_COLLECTION_DCS_DETAIL  Where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No In ( " + clsCommon.GetMulcallString(arr) + " ) And TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'E') as  XXXEvening on XXXEvening.VLC_Code = XXXMain.VLC_Code And  XXXEvening.Milk_Type = XXXMain.Milk_Type And  XXXEvening.Dock_Collection_Milk_Type = XXXMain.Dock_Collection_Milk_Type and XXXEvening.Document_No= XXXMain.Document_No
+Left outer join (Select TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG From TSPL_MILK_COLLECTION_DCS_DETAIL  Where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No In ( " + clsCommon.GetMulcallString(arr) + " ) And TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'M') as  XXXMorning on XXXMorning.VLC_Code = XXXMain.VLC_Code And  XXXMorning.Milk_Type = XXXMain.Milk_Type And  XXXMorning.Dock_Collection_Milk_Type = XXXMain.Dock_Collection_Milk_Type and XXXMorning.Document_No= XXXMain.Document_No
+Left outer join (Select TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code ,TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type , TSPL_MILK_COLLECTION_DCS_DETAIL.Dock_Collection_Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_MILK_COLLECTION_DCS_DETAIL.FAT,TSPL_MILK_COLLECTION_DCS_DETAIL.SNF,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG From TSPL_MILK_COLLECTION_DCS_DETAIL  Where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No In ( " + clsCommon.GetMulcallString(arr) + " ) And TSPL_MILK_COLLECTION_DCS_DETAIL.Shift = 'E') as  XXXEvening on XXXEvening.VLC_Code = XXXMain.VLC_Code And  XXXEvening.Milk_Type = XXXMain.Milk_Type And  XXXEvening.Dock_Collection_Milk_Type = XXXMain.Dock_Collection_Milk_Type and XXXEvening.Document_No= XXXMain.Document_No
 Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code = XXXMain.VLC_Code
 Left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXXMain.Comp_Code order by XXXMain.Document_No,TSPL_VLC_MASTER_HEAD.isOwnBMC"
         Return Qry
@@ -1906,9 +1905,41 @@ Left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXXMain.C
 
     Public Function Print(ByVal arr As ArrayList, ByVal TranDate As DateTime)
         Try
-
             Dim qry As String = DCSTruckSheetPrint(arr)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count >= 0 Then
+                Dim arrMPKID As New List(Of Integer)
+                Dim arrEPKID As New List(Of Integer)
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If arrMPKID.Contains(clsCommon.myCDecimal(dt.Rows(ii)("MorningPK_Id"))) Then
+                        dt.Rows(ii)("Milk_Type") = DBNull.Value
+                        dt.Rows(ii)("Dock_Collection_Milk_Type") = DBNull.Value
+                        dt.Rows(ii)("Morning_Qty") = DBNull.Value
+                        dt.Rows(ii)("Morning_FAT") = DBNull.Value
+                        dt.Rows(ii)("Morning_SNF") = DBNull.Value
+                        dt.Rows(ii)("Morning_FATKG") = DBNull.Value
+                        dt.Rows(ii)("Morning_SNFKG") = DBNull.Value
+                    Else
+                        arrMPKID.Add(clsCommon.myCDecimal(dt.Rows(ii)("MorningPK_Id")))
+                    End If
+
+                    If arrEPKID.Contains(clsCommon.myCDecimal(dt.Rows(ii)("Evening_PK_Id"))) Then
+                        dt.Rows(ii)("Evening_Milk_Type") = DBNull.Value
+                        dt.Rows(ii)("Evening_Dock_Collection_Milk_Type") = DBNull.Value
+                        dt.Rows(ii)("Evening_Qty") = DBNull.Value
+                        dt.Rows(ii)("Evening_FAT") = DBNull.Value
+                        dt.Rows(ii)("Evening_SNF") = DBNull.Value
+                        dt.Rows(ii)("Evening_FATKG") = DBNull.Value
+                        dt.Rows(ii)("Evening_SNFKG") = DBNull.Value
+                    Else
+                        arrEPKID.Add(clsCommon.myCDecimal(dt.Rows(ii)("Evening_PK_Id")))
+                    End If
+                Next
+                dt.AcceptChanges()
+                arrMPKID = Nothing
+                arrEPKID = Nothing
+            End If
+
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Dim dtMain As DataTable = dt.Clone()
