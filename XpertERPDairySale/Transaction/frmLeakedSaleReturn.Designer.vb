@@ -22,9 +22,9 @@ Partial Class frmLeakedSaleReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition22 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition23 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition24 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -36,11 +36,14 @@ Partial Class frmLeakedSaleReturn
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.rpvLeaked = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.txtRemarks = New System.Windows.Forms.TextBox()
+        Me.UsLock1 = New common.usLock()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.lblRouteNo = New common.Controls.MyLabel()
+        Me.lblLocationDesc = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.lblRemarks = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtFinder()
-        Me.lblRouteNo = New common.Controls.MyLabel()
-        Me.btnCC = New Telerik.WinControls.UI.RadButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.lblRouteDesc = New common.Controls.MyLabel()
@@ -73,12 +76,10 @@ Partial Class frmLeakedSaleReturn
         Me.TxtRoundoff = New common.Controls.MyLabel()
         Me.lblInvoiceDiscAmt = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.RadLabel32 = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkDiscountOnAmt = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkDiscountOnRate = New Telerik.WinControls.UI.RadRadioButton()
-        Me.lblAddCharges1 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.txtDiscAmt = New common.MyNumBox()
         Me.RadLabel9 = New common.Controls.MyLabel()
@@ -96,6 +97,7 @@ Partial Class frmLeakedSaleReturn
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnreverse = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -106,10 +108,10 @@ Partial Class frmLeakedSaleReturn
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -145,13 +147,11 @@ Partial Class frmLeakedSaleReturn
         CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.chkDiscountOnAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDiscountOnRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblAddCharges1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,6 +169,7 @@ Partial Class frmLeakedSaleReturn
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -220,6 +221,7 @@ Partial Class frmLeakedSaleReturn
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -230,6 +232,7 @@ Partial Class frmLeakedSaleReturn
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnreverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -272,6 +275,7 @@ Partial Class frmLeakedSaleReturn
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -279,9 +283,12 @@ Partial Class frmLeakedSaleReturn
         'SplitContainer2.Panel1
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocationDesc)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblRemarks)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustomer)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.btnCC)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblRouteDesc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblRouteNo)
@@ -302,33 +309,84 @@ Partial Class frmLeakedSaleReturn
         '
         'txtRemarks
         '
-        Me.txtRemarks.CalculationExpression = Nothing
-        Me.txtRemarks.FieldCode = Nothing
-        Me.txtRemarks.FieldDesc = Nothing
-        Me.txtRemarks.FieldMaxLength = 0
-        Me.txtRemarks.FieldName = Nothing
-        Me.txtRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRemarks.isCalculatedField = False
-        Me.txtRemarks.IsSourceFromTable = False
-        Me.txtRemarks.IsSourceFromValueList = False
-        Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(84, 73)
-        Me.txtRemarks.MaxLength = 200
-        Me.txtRemarks.MendatroryField = False
-        Me.txtRemarks.MyLinkLable1 = Nothing
-        Me.txtRemarks.MyLinkLable2 = Nothing
+        Me.txtRemarks.Location = New System.Drawing.Point(572, 52)
+        Me.txtRemarks.Multiline = True
         Me.txtRemarks.Name = "txtRemarks"
-        Me.txtRemarks.ReferenceFieldDesc = Nothing
-        Me.txtRemarks.ReferenceFieldName = Nothing
-        Me.txtRemarks.ReferenceTableName = Nothing
-        Me.txtRemarks.Size = New System.Drawing.Size(348, 18)
-        Me.txtRemarks.TabIndex = 1591
+        Me.txtRemarks.Size = New System.Drawing.Size(286, 39)
+        Me.txtRemarks.TabIndex = 1597
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(514, 6)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(97, 22)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1596
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(66, 48)
+        Me.txtLocation.MendatroryField = False
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.lblRouteNo
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(187, 20)
+        Me.txtLocation.TabIndex = 1594
+        Me.txtLocation.Value = ""
+        '
+        'lblRouteNo
+        '
+        Me.lblRouteNo.FieldName = Nothing
+        Me.lblRouteNo.Location = New System.Drawing.Point(5, 27)
+        Me.lblRouteNo.Name = "lblRouteNo"
+        Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
+        Me.lblRouteNo.TabIndex = 1586
+        Me.lblRouteNo.Text = "Route No"
+        '
+        'lblLocationDesc
+        '
+        Me.lblLocationDesc.AutoSize = False
+        Me.lblLocationDesc.BorderVisible = True
+        Me.lblLocationDesc.FieldName = Nothing
+        Me.lblLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocationDesc.Location = New System.Drawing.Point(258, 51)
+        Me.lblLocationDesc.Name = "lblLocationDesc"
+        Me.lblLocationDesc.Size = New System.Drawing.Size(240, 17)
+        Me.lblLocationDesc.TabIndex = 1592
+        Me.lblLocationDesc.TextWrap = False
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(5, 48)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(49, 16)
+        Me.lblLocation.TabIndex = 1593
+        Me.lblLocation.Text = "Location"
         '
         'lblRemarks
         '
         Me.lblRemarks.FieldName = Nothing
         Me.lblRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRemarks.Location = New System.Drawing.Point(6, 76)
+        Me.lblRemarks.Location = New System.Drawing.Point(514, 52)
         Me.lblRemarks.Name = "lblRemarks"
         Me.lblRemarks.Size = New System.Drawing.Size(51, 16)
         Me.lblRemarks.TabIndex = 1590
@@ -345,7 +403,7 @@ Partial Class frmLeakedSaleReturn
         Me.txtCustomer.IsSourceFromTable = False
         Me.txtCustomer.IsSourceFromValueList = False
         Me.txtCustomer.IsUnique = False
-        Me.txtCustomer.Location = New System.Drawing.Point(84, 51)
+        Me.txtCustomer.Location = New System.Drawing.Point(65, 72)
         Me.txtCustomer.MendatroryField = False
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.lblRouteNo
@@ -356,27 +414,9 @@ Partial Class frmLeakedSaleReturn
         Me.txtCustomer.ReferenceFieldDesc = Nothing
         Me.txtCustomer.ReferenceFieldName = Nothing
         Me.txtCustomer.ReferenceTableName = Nothing
-        Me.txtCustomer.Size = New System.Drawing.Size(115, 19)
+        Me.txtCustomer.Size = New System.Drawing.Size(187, 19)
         Me.txtCustomer.TabIndex = 1589
         Me.txtCustomer.Value = ""
-        '
-        'lblRouteNo
-        '
-        Me.lblRouteNo.FieldName = Nothing
-        Me.lblRouteNo.Location = New System.Drawing.Point(5, 27)
-        Me.lblRouteNo.Name = "lblRouteNo"
-        Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
-        Me.lblRouteNo.TabIndex = 1586
-        Me.lblRouteNo.Text = "Route No"
-        '
-        'btnCC
-        '
-        Me.btnCC.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnCC.Location = New System.Drawing.Point(342, 3)
-        Me.btnCC.Name = "btnCC"
-        Me.btnCC.Size = New System.Drawing.Size(20, 21)
-        Me.btnCC.TabIndex = 1581
-        Me.btnCC.Text = "CC"
         '
         'txtDate
         '
@@ -392,7 +432,7 @@ Partial Class frmLeakedSaleReturn
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(406, 4)
+        Me.txtDate.Location = New System.Drawing.Point(370, 5)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -412,7 +452,7 @@ Partial Class frmLeakedSaleReturn
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(373, 5)
+        Me.RadLabel4.Location = New System.Drawing.Point(337, 6)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 1579
@@ -424,9 +464,9 @@ Partial Class frmLeakedSaleReturn
         Me.lblRouteDesc.BorderVisible = True
         Me.lblRouteDesc.FieldName = Nothing
         Me.lblRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteDesc.Location = New System.Drawing.Point(205, 29)
+        Me.lblRouteDesc.Location = New System.Drawing.Point(258, 29)
         Me.lblRouteDesc.Name = "lblRouteDesc"
-        Me.lblRouteDesc.Size = New System.Drawing.Size(227, 19)
+        Me.lblRouteDesc.Size = New System.Drawing.Size(239, 19)
         Me.lblRouteDesc.TabIndex = 1587
         Me.lblRouteDesc.TextWrap = False
         '
@@ -436,9 +476,9 @@ Partial Class frmLeakedSaleReturn
         Me.lblCustomerName.BorderVisible = True
         Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomerName.Location = New System.Drawing.Point(205, 52)
+        Me.lblCustomerName.Location = New System.Drawing.Point(257, 73)
         Me.lblCustomerName.Name = "lblCustomerName"
-        Me.lblCustomerName.Size = New System.Drawing.Size(227, 17)
+        Me.lblCustomerName.Size = New System.Drawing.Size(240, 17)
         Me.lblCustomerName.TabIndex = 1582
         Me.lblCustomerName.TextWrap = False
         '
@@ -453,7 +493,7 @@ Partial Class frmLeakedSaleReturn
         Me.txtRouteNo.IsSourceFromTable = False
         Me.txtRouteNo.IsSourceFromValueList = False
         Me.txtRouteNo.IsUnique = False
-        Me.txtRouteNo.Location = New System.Drawing.Point(84, 29)
+        Me.txtRouteNo.Location = New System.Drawing.Point(65, 29)
         Me.txtRouteNo.MendatroryField = False
         Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRouteNo.MyLinkLable1 = Me.lblRouteNo
@@ -464,7 +504,7 @@ Partial Class frmLeakedSaleReturn
         Me.txtRouteNo.ReferenceFieldDesc = Nothing
         Me.txtRouteNo.ReferenceFieldName = Nothing
         Me.txtRouteNo.ReferenceTableName = Nothing
-        Me.txtRouteNo.Size = New System.Drawing.Size(115, 19)
+        Me.txtRouteNo.Size = New System.Drawing.Size(187, 19)
         Me.txtRouteNo.TabIndex = 1584
         Me.txtRouteNo.Value = ""
         '
@@ -472,7 +512,7 @@ Partial Class frmLeakedSaleReturn
         '
         Me.lblcustomer.FieldName = Nothing
         Me.lblcustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblcustomer.Location = New System.Drawing.Point(5, 49)
+        Me.lblcustomer.Location = New System.Drawing.Point(5, 71)
         Me.lblcustomer.Name = "lblcustomer"
         Me.lblcustomer.Size = New System.Drawing.Size(55, 16)
         Me.lblcustomer.TabIndex = 1583
@@ -491,7 +531,7 @@ Partial Class frmLeakedSaleReturn
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(52, 3)
+        Me.txtDocNo.Location = New System.Drawing.Point(65, 6)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -500,7 +540,7 @@ Partial Class frmLeakedSaleReturn
         Me.txtDocNo.MyMaxLength = 32767
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(269, 22)
+        Me.txtDocNo.Size = New System.Drawing.Size(243, 19)
         Me.txtDocNo.TabIndex = 1578
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""
@@ -510,7 +550,7 @@ Partial Class frmLeakedSaleReturn
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(320, 3)
+        Me.btnAddNew.Location = New System.Drawing.Point(309, 6)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
         Me.btnAddNew.TabIndex = 1580
@@ -530,7 +570,7 @@ Partial Class frmLeakedSaleReturn
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition22
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -623,7 +663,7 @@ Partial Class frmLeakedSaleReturn
         Me.gvMainItem.MasterTemplate.AllowDeleteRow = False
         Me.gvMainItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMainItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMainItem.MasterTemplate.ViewDefinition = TableViewDefinition23
+        Me.gvMainItem.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.gvMainItem.MyExportFilePath = ""
         Me.gvMainItem.MyStopExport = False
         Me.gvMainItem.Name = "gvMainItem"
@@ -647,6 +687,7 @@ Partial Class frmLeakedSaleReturn
         'SplitContainer3
         '
         Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer3.Name = "SplitContainer3"
         Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -759,7 +800,7 @@ Partial Class frmLeakedSaleReturn
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition24
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -777,10 +818,8 @@ Partial Class frmLeakedSaleReturn
         Me.rpvTotal.Controls.Add(Me.TxtRoundoff)
         Me.rpvTotal.Controls.Add(Me.lblInvoiceDiscAmt)
         Me.rpvTotal.Controls.Add(Me.MyLabel9)
-        Me.rpvTotal.Controls.Add(Me.RadLabel32)
         Me.rpvTotal.Controls.Add(Me.MyLabel10)
         Me.rpvTotal.Controls.Add(Me.RadGroupBox3)
-        Me.rpvTotal.Controls.Add(Me.lblAddCharges1)
         Me.rpvTotal.Controls.Add(Me.MyLabel11)
         Me.rpvTotal.Controls.Add(Me.txtDiscAmt)
         Me.rpvTotal.Controls.Add(Me.RadLabel9)
@@ -804,7 +843,7 @@ Partial Class frmLeakedSaleReturn
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(130, 211)
+        Me.MyLabel13.Location = New System.Drawing.Point(130, 185)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel13.TabIndex = 186
@@ -816,7 +855,7 @@ Partial Class frmLeakedSaleReturn
         Me.TxtRoundoff.BorderVisible = True
         Me.TxtRoundoff.FieldName = Nothing
         Me.TxtRoundoff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtRoundoff.Location = New System.Drawing.Point(194, 210)
+        Me.TxtRoundoff.Location = New System.Drawing.Point(194, 184)
         Me.TxtRoundoff.Name = "TxtRoundoff"
         Me.TxtRoundoff.Size = New System.Drawing.Size(111, 19)
         Me.TxtRoundoff.TabIndex = 187
@@ -843,16 +882,6 @@ Partial Class frmLeakedSaleReturn
         Me.MyLabel9.Size = New System.Drawing.Size(138, 16)
         Me.MyLabel9.TabIndex = 185
         Me.MyLabel9.Text = "- Invoice Discount Amount"
-        '
-        'RadLabel32
-        '
-        Me.RadLabel32.FieldName = Nothing
-        Me.RadLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel32.Location = New System.Drawing.Point(52, 189)
-        Me.RadLabel32.Name = "RadLabel32"
-        Me.RadLabel32.Size = New System.Drawing.Size(140, 16)
-        Me.RadLabel32.TabIndex = 178
-        Me.RadLabel32.Text = "+ Total Additional Charges"
         '
         'MyLabel10
         '
@@ -895,18 +924,6 @@ Partial Class frmLeakedSaleReturn
         Me.chkDiscountOnRate.TabIndex = 0
         Me.chkDiscountOnRate.Text = "Rate"
         Me.chkDiscountOnRate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'lblAddCharges1
-        '
-        Me.lblAddCharges1.AutoSize = False
-        Me.lblAddCharges1.BorderVisible = True
-        Me.lblAddCharges1.FieldName = Nothing
-        Me.lblAddCharges1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAddCharges1.Location = New System.Drawing.Point(194, 188)
-        Me.lblAddCharges1.Name = "lblAddCharges1"
-        Me.lblAddCharges1.Size = New System.Drawing.Size(110, 18)
-        Me.lblAddCharges1.TabIndex = 171
-        Me.lblAddCharges1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'MyLabel11
         '
@@ -985,7 +1002,7 @@ Partial Class frmLeakedSaleReturn
         '
         Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(92, 232)
+        Me.RadLabel27.Location = New System.Drawing.Point(92, 206)
         Me.RadLabel27.Name = "RadLabel27"
         Me.RadLabel27.Size = New System.Drawing.Size(100, 16)
         Me.RadLabel27.TabIndex = 177
@@ -997,7 +1014,7 @@ Partial Class frmLeakedSaleReturn
         Me.lblTotRAmt.BorderVisible = True
         Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(194, 231)
+        Me.lblTotRAmt.Location = New System.Drawing.Point(194, 205)
         Me.lblTotRAmt.Name = "lblTotRAmt"
         Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt.TabIndex = 172
@@ -1121,6 +1138,17 @@ Partial Class frmLeakedSaleReturn
         Me.btnSave.TabIndex = 3
         Me.btnSave.Text = "Save"
         '
+        'btnreverse
+        '
+        Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnreverse.Location = New System.Drawing.Point(796, 9)
+        Me.btnreverse.Name = "btnreverse"
+        Me.btnreverse.Size = New System.Drawing.Size(142, 22)
+        Me.btnreverse.TabIndex = 23
+        Me.btnreverse.Text = "Reverse/ Unpost"
+        Me.btnreverse.Visible = False
+        '
         'frmLeakedSaleReturn
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1146,10 +1174,10 @@ Partial Class frmLeakedSaleReturn
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1189,14 +1217,12 @@ Partial Class frmLeakedSaleReturn
         CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
         CType(Me.chkDiscountOnAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDiscountOnRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblAddCharges1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDiscAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1214,6 +1240,7 @@ Partial Class frmLeakedSaleReturn
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1238,11 +1265,9 @@ Partial Class frmLeakedSaleReturn
     Friend WithEvents rbtnTaxable As RadRadioButton
     Friend WithEvents rpvMainItem As RadPageViewPage
     Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents txtRemarks As common.Controls.MyTextBox
     Friend WithEvents lblRemarks As common.Controls.MyLabel
     Friend WithEvents txtCustomer As common.UserControls.txtFinder
     Friend WithEvents lblRouteNo As common.Controls.MyLabel
-    Friend WithEvents btnCC As RadButton
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
     Friend WithEvents lblRouteDesc As common.Controls.MyLabel
@@ -1272,12 +1297,10 @@ Partial Class frmLeakedSaleReturn
     Friend WithEvents TxtRoundoff As common.Controls.MyLabel
     Friend WithEvents lblInvoiceDiscAmt As common.Controls.MyLabel
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
-    Friend WithEvents RadLabel32 As common.Controls.MyLabel
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents chkDiscountOnAmt As RadRadioButton
     Friend WithEvents chkDiscountOnRate As RadRadioButton
-    Friend WithEvents lblAddCharges1 As common.Controls.MyLabel
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents txtDiscAmt As common.MyNumBox
     Friend WithEvents RadLabel9 As common.Controls.MyLabel
@@ -1291,4 +1314,10 @@ Partial Class frmLeakedSaleReturn
     Friend WithEvents lblAmtWithDiscount As common.Controls.MyLabel
     Friend WithEvents RadLabel22 As common.Controls.MyLabel
     Friend WithEvents RadLabel19 As common.Controls.MyLabel
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
+    Friend WithEvents lblLocationDesc As common.Controls.MyLabel
+    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents txtRemarks As TextBox
+    Friend WithEvents btnreverse As RadButton
 End Class

@@ -5865,7 +5865,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                     End If
 
                     frm.strCurrDocNo = txtDocNo.Value
-                    frm.strCurrDocType = "MCC-MSALE"
+                    frm.strCurrDocType = "DCS-SAL-ENT"
                     frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                     frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
                     frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
