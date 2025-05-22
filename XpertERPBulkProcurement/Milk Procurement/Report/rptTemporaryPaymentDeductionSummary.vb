@@ -766,7 +766,7 @@ If AreaWiseBilling Then
                 Else
                     qry += subMCCQry1
                 End If
-                qry += " union all select'D'Type ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_DEDUCTION_MASTER.Description as Ded_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.AMOUNT as Amount,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt As ReDedctAmt
+                qry += " union all select 'D' Type ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME,TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_DEDUCTION_MASTER.Description as Ded_Desc,TSPL_PAYMENT_PROCESS_MCC_SALE.AMOUNT as Amount,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt As ReDedctAmt
                         from TSPL_PAYMENT_PROCESS_MCC_SALE 
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
                         left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no
@@ -778,8 +778,11 @@ If AreaWiseBilling Then
                     qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
                 End If
-                qry += " where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and
-                convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103)  and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS' " + whrActiveInactive + ""
+                qry += " where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No in (" + strDocNo + ")      and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS' " + whrActiveInactive + ""
+                'convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and
+                'convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103)  
+
+
                 If AreaWiseBilling = True Then
                     qry += subAreaQry
                 Else
