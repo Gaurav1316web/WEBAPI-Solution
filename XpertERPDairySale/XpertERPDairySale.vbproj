@@ -911,6 +911,12 @@
     <Compile Include="Transaction\frmDairyBookingUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmInvoiceDetails.Designer.vb">
+      <DependentUpon>FrmInvoiceDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmInvoiceDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmMultipleInvoice.designer.vb">
       <DependentUpon>frmMultipleInvoice.vb</DependentUpon>
     </Compile>
@@ -1113,6 +1119,12 @@
       <DependentUpon>frmShipmentDairy.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmShipmentDairy.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmShipmentDetails.Designer.vb">
+      <DependentUpon>frmShipmentDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmShipmentDetails.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\FrmShortCloseDODairy.Designer.vb">
@@ -1521,6 +1533,9 @@
     <EmbeddedResource Include="Transaction\frmDairyBookingUploader.resx">
       <DependentUpon>frmDairyBookingUploader.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmInvoiceDetails.resx">
+      <DependentUpon>FrmInvoiceDetails.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmMultipleInvoice.resx">
       <DependentUpon>frmMultipleInvoice.vb</DependentUpon>
     </EmbeddedResource>
@@ -1622,6 +1637,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmShipmentDairy.resx">
       <DependentUpon>frmShipmentDairy.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmShipmentDetails.resx">
+      <DependentUpon>frmShipmentDetails.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmShortCloseDODairy.resx">
       <DependentUpon>FrmShortCloseDODairy.vb</DependentUpon>

@@ -300,6 +300,7 @@ Public Class clsLeakedSaleReturnHead
                         objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
                         objTr.Total_Tax_Amt = clsCommon.myCdbl(dr("Total_Tax_Amt"))
                         objTr.Item_Net_Amt = clsCommon.myCdbl(dr("Item_Net_Amt"))
+                        objTr.Price_Code = clsCommon.myCstr(dr("Price_Code"))
                         obj.Arr.Add(objTr)
                     Next
                 End If
@@ -396,8 +397,56 @@ Public Class clsLeakedSaleReturnHead
                 objInventoryMovemnt.Basic_Cost = objTr.Item_Rate
                 objInventoryMovemnt.MRP = objTr.Item_Rate
                 objInventoryMovemnt.Add_Cost = objTr.Total_Tax_Amt
-                objInventoryMovemnt.Net_Cost = objTr.Total_Tax_Amt
+                objInventoryMovemnt.Net_Cost = objTr.Amt_Less_Discount
+                objInventoryMovemnt.FAT_Per = objTr.FAt_Per
+                objInventoryMovemnt.SNF_Per = objTr.SNF_Per
+                objInventoryMovemnt.FAT_KG = objTr.FAT_KG
+                objInventoryMovemnt.SNF_KG = objTr.SNF_KG
                 objInventoryMovemnt.Is_Scheme_Item = "N"
+                Dim qry As String = ""
+                If clsCommon.myLen(objTr.Price_Code) > 0 Then
+                    Dim arr As New clsFatSnfRateCalculator
+                    If objCommonVar.PricePlan = 6 OrElse objCommonVar.PricePlan = 7 Then
+                        qry = "select * from TSPL_MILK_PRICE_MASTER where Price_Code in (select Price_Chart_Code from TSPL_PRICE_CHART_PLANNING where Planning_Code='" & objTr.Price_Code & "')"
+                    Else
+                        qry = "select * from TSPL_MILK_PRICE_MASTER where Price_Code=" _
+                                      & " (select Distinct Price_Code from tspl_Fat_SNf_Uploader_Master where code='" & objTr.Price_Code & "')"
+                    End If
+
+                    Dim dtMilkPrice As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If objCommonVar.ApplyTransFATSNFRateForCalculateFATSNFRate Then
+                        arr = clsFatSnfRateCalculator.CalculateFATSNFRatefromTransactionPer(objTr.Qty, (objTr.Amt_Less_Discount), objTr.FAt_Per, objTr.SNF_Per, clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Snf_Ratio")))
+                    ElseIf objCommonVar.ApplyStdFATSNFRate Then
+                        arr = clsFatSnfRateCalculator.CalculateStdFATSNFRate(objTr.Qty, clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Snf_Ratio")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Milk_Rate")), objTr.FAt_Per, objTr.SNF_Per)
+                    Else
+
+                        If clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Fat_Pers")) = objTr.FAt_Per And clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Snf_Pers")) = objTr.SNF_Per Then
+                            arr = clsFatSnfRateCalculator.CalculateInonSamePercentage(objTr.Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Snf_Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Milk_Rate")))
+                        Else
+                            Try
+                                arr = clsFatSnfRateCalculator.CalculateIn(objTr.Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), objTr.FAt_Per, objTr.SNF_Per, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Milk_Rate")), objTr.Item_Rate)
+                            Catch ex As Exception
+                                If ex.Message.Contains("Same equation repeated") Then
+                                    arr = clsFatSnfRateCalculator.CalculateInonSamePercentage(objTr.Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Snf_Ratio")), objTr.Item_Rate)
+                                    If objInventoryMovemnt.FAT_KG <> 0 Then
+                                        arr.fatR = arr.FatAmt / objInventoryMovemnt.FAT_KG
+                                    End If
+                                    If objInventoryMovemnt.SNF_KG <> 0 Then
+                                        arr.snfR = arr.snfAmt / objInventoryMovemnt.SNF_KG
+                                    End If
+                                Else
+                                    Throw New Exception(ex.Message)
+                                End If
+                            End Try
+                        End If
+                    End If
+                    objInventoryMovemnt.Fat_Rate = arr.fatR
+                    objInventoryMovemnt.Fat_Amt = arr.FatAmt
+                    objInventoryMovemnt.SNF_Rate = arr.snfR
+                    objInventoryMovemnt.SNF_Amt = arr.snfAmt
+                    dtMilkPrice = Nothing
+                    arr = Nothing
+                End If
                 If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
                     objInventoryMovemnt.ItemType = "RM"
                 ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
@@ -546,6 +595,7 @@ Public Class clsLeakedSaleReturnDetail
     Public Amt_Less_Discount As Double = 0
     Public Total_Tax_Amt As Double = 0
     Public Item_Net_Amt As Double = 0
+    Public Price_Code As String = Nothing
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsLeakedSaleReturnDetail), ByVal trans As SqlTransaction) As Boolean
         Try
@@ -611,6 +661,7 @@ Public Class clsLeakedSaleReturnDetail
                     clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
                     clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
                     clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
+                    clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAKED_SALE_RETURN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If

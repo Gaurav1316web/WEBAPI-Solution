@@ -55417,7 +55417,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Diff_SNF", "Decimal(18,2) null")
             coll.Add("Diff_Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", coll, "unique(Cycle_Year,Cycle_Month,Cycle_No,VLC_Code)", True, True, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "", True)
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", coll, "", True, True, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", coll, "", True, True, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "", True)
 
 
 
