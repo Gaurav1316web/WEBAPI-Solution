@@ -5662,6 +5662,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         'XMLWriter.WriteStartDocument()
         'XMLWriter.WriteElementString("Name", strMCCMaterial)
         QryLst.Add(strPivotForFinalOuterQuery)
+        QryLst.Add(strPivotForOuterQuery)
         Return QryLst
     End Function
     Public Shared Function ReturnQueryforDocumentInfoLevel(ByVal obj As clsSaleRegisterParameterType) As ArrayList
@@ -6711,7 +6712,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         Dim strPivotForFinalOuterQuery As String = ""
         Dim qryList As ArrayList
         Dim qryListDocInfoLevel As ArrayList
-
+        Dim strPivotForOuterQuery As String = ""
 
 
         Dim strMainDocInfoLevel As String = Nothing
@@ -6726,7 +6727,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             qryList = ReturnQuery(obj)
             strMain = qryList(0)
             strPivotForFinalOuterQuery = qryList(1)
-
+            strPivotForOuterQuery = qryList(2)
         End If
 
         If obj.ReportType = "Document Info Level" Then
@@ -6885,7 +6886,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             ElseIf obj.ReportType = "Customer Wise" Then
                 ''richa ERO/24/06/19-000653 add vlc code, vlc name, only of mCC sale register report
                 If clsCommon.CompairString(obj.Program_Code, "M_SAL_Reg") = CompairStringResult.Equal Then
-                    strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Customer Code],[Customer Name],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code) AS [VLC Code] ,MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS [VLC Name] ,max([Customer Zone Code]) as [Customer Zone Code],max([Route_No]) as [Route No],max([Route_Desc]) as [Route Desc],[Item Code],[Item Name],sum(COALESCE(Quantity,0)) as [Total Quantity],COALESCE([UOM],'') as [UOM],sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum(COALESCE([FAT KG],0))+ sum(COALESCE([SNF KG],0)) as TSKG,Convert(decimal(18,2),sum([Sale Amount])) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount],sum([Total Tax Amount]) as [Total Tax Amount],Convert(decimal(18,2),sum([Total Amount] )) as [Total Amount] from (" & strMain & ") as Final " &
+                    strRunQuery = "select [Location Code],[Location Name],[Item Group Code],[Item Group Description],[Customer Group Code],[Customer Group Description],[Customer Code],[Customer Name],max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [DCS Code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code) AS [VLC Code] ,MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) AS [VLC Name] ,max([Customer Zone Code]) as [Customer Zone Code],max([Route_No]) as [Route No],max([Route_Desc]) as [Route Desc],[Item Code],[Item Name],sum(COALESCE(Quantity,0)) as [Total Quantity],COALESCE([UOM],'') as [UOM],sum(COALESCE([FAT KG],0)) as [Total FAT KG],sum(COALESCE([SNF KG],0)) as [Total SNF KG],sum(COALESCE([FAT KG],0))+ sum(COALESCE([SNF KG],0)) as TSKG,Convert(decimal(18,2),sum([Sale Amount])) as [Total Sale Amount],sum([Additional Amount]) as [Total Additional Amount]" + strPivotForOuterQuery + ",sum([Total Tax Amount]) as [Total Tax Amount],Convert(decimal(18,2),sum([Total Amount] )) as [Total Amount] from (" & strMain & ") as Final " &
                     "  LEFT OUTER JOIN TSPL_CUSTOMER_VENDOR_MAPPING ON TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code =Final.[Customer Code]" &
                     " LEFT OUTER JOIN  TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code AND TSPL_VENDOR_MASTER.Form_Type ='VSP'" &
                     " LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_MASTER.Vendor_Code" &

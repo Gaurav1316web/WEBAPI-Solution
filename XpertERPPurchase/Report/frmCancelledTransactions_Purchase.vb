@@ -147,12 +147,12 @@ Public Class frmCancelledTransactions_Purchase
             dr("Name") = "Issue/Return/Transfer"
             dt1.Rows.Add(dr)
 
-            dr = dt1.NewRow()
-            dr("Code") = "Tender"
-            dr("Name") = "Tender"
-            dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Tender"
+        'dr("Name") = "Tender"
+        'dt1.Rows.Add(dr)
 
-            cboTransaction.DataSource = dt1
+        cboTransaction.DataSource = dt1
             cboTransaction.DisplayMember = "Name"
             cboTransaction.ValueMember = "Code"
     End Sub
@@ -532,6 +532,11 @@ from TSPL_PR_HEAD_Cancel_Data
                 clsPurchasReturnHead.funStoreRequisitionPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Issue/Return/Transfer") = CompairStringResult.Equal Then
                 clsPurchasReturnHead.funIssueRetunPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Received Note") = CompairStringResult.Equal Then
+                Dim SRNNO As New ArrayList()
+                SRNNO.Add(clsDBFuncationality.getSingleValue("select Srn_no from tspl_srn_head_cancel_data where srn_no ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
+
+                clsSRNHead.funSRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), Nothing, Nothing, False, (SRNNO), Nothing, Nothing)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

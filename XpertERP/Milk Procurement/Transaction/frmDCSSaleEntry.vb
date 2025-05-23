@@ -2789,6 +2789,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         gv1.CurrentRow.Cells(colDeductionCode).Value = ""
         gv1.CurrentRow.Cells(colDeductionName).Value = ""
         gv1.CurrentRow.Cells(colRate).Value = 0
+        gv1.CurrentRow.Cells(colICode).Tag = Nothing
     End Sub
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
         For i As Integer = 0 To gv1.Rows.Count - 1

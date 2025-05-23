@@ -342,7 +342,7 @@ Public Class frmDocumentCancelledReport
                   " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location as [Bill To Location Code], TSPL_LOCATION_MASTER.Location_Desc as [Bill To Location Name] " &
                   " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.SHIP_TO_LOCATION as [Ship To Location Code], SHIP_LOC.Location_Desc as [Ship To Location Name] " &
                   " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Created_By as [Created By], convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Created_Date,103) as [Created Date] " &
-                  " ,Remarks,Description,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code  " &
+                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Remarks,Description,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code  " &
                   " Left Outer Join TSPL_LOCATION_MASTER SHIP_LOC on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.SHIP_TO_LOCATION =SHIP_LOC.Location_Code  " &
                   " WHERE ISNULL(Screen_Type,'') ='DS' and convert(date,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
                   " ORDER BY TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date, TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code "
@@ -352,7 +352,7 @@ Public Class frmDocumentCancelledReport
                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location as [Bill To Location Code], TSPL_LOCATION_MASTER.Location_Desc as [Bill To Location Name] " &
                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.SHIP_TO_LOCATION as [Ship To Location Code], SHIP_LOC.Location_Desc as [Ship To Location Name] " &
                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Created_By as [Created By], convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Created_Date,103) as [Created Date] " &
-                 " ,Remarks,Description,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code  " &
+                 " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Remarks,Description,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code  " &
                  " Left Outer Join TSPL_LOCATION_MASTER SHIP_LOC on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.SHIP_TO_LOCATION =SHIP_LOC.Location_Code  " &
                  " WHERE ISNULL(Screen_Type,'')<>'DS' and ISNULL(Trans_Type,'')='PS' and convert(date,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
                  " ORDER BY TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date, TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code "
@@ -373,7 +373,7 @@ Public Class frmDocumentCancelledReport
                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location as [Bill To Location Code], TSPL_LOCATION_MASTER.Location_Desc as [Bill To Location Name] " &
                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.SHIP_TO_LOCATION as [Ship To Location Code], SHIP_LOC.Location_Desc as [Ship To Location Name] " &
                  " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Created_By as [Created By], convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Created_Date,103) as [Created Date] " &
-                 " ,Remarks,Description,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code  " &
+                 " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Remarks,Description,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code  " &
                  " Left Outer Join TSPL_LOCATION_MASTER SHIP_LOC on TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.SHIP_TO_LOCATION =SHIP_LOC.Location_Code  " &
                  " WHERE TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.trans_type='EXP' and TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.document_type='EX' and convert(date,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
                  " ORDER BY TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date, TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code "
@@ -489,6 +489,16 @@ Public Class frmDocumentCancelledReport
             clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        Try
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Disposal Entry") = CompairStringResult.Equal Then
+                clsGRNHead.funGRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -8185,7 +8185,9 @@ Public Class frmSRN
             End If
             Dim ArrSrnNo As New ArrayList() '' Added By abhishek kumar as on 13 july 2012 For get DocNo
             ArrSrnNo.Add(StrDocNo)
-            SRNPrintOut(Nothing, Nothing, False, ArrSrnNo, Nothing, Nothing)
+            clsSRNHead.funSRNPrint(Nothing, False, txtDate.Value, Nothing, Nothing, False, ArrSrnNo, Nothing, Nothing)
+
+            'SRNPrintOut(Nothing, Nothing, False, ArrSrnNo, Nothing, Nothing)
 
             ''  commented panch raj on saying Amit Sir (print format must be same for all types of items)
 
@@ -8358,7 +8360,7 @@ Public Class frmSRN
                 " case when tax9.Tax_Recoverable='N' then TSPL_SRN_HEAD.tax9_amt else null end as Tax9NonRecoverable," &
                 " case when tax10.Tax_Recoverable='N' then TSPL_SRN_HEAD.tax10_amt else null end as Tax10NonRecoverable"
                 strquery += " ,TSPL_SRN_HEAD.Dept_desc
-,CASE WHEN TSPL_SRN_DETAIL.disc_amt>0 THEN CONVERT(DECIMAL(18,3), (case when srn_qty>0 then ((TSPL_SRN_DETAIL.amount-TSPL_SRN_DETAIL.disc_amt)/srn_qty) else 0 end)) ELSE TSPL_SRN_DETAIL.ITEM_COST END as ITEM_COST_AFTER_DISC " + Environment.NewLine +
+    ,CASE WHEN TSPL_SRN_DETAIL.disc_amt>0 THEN CONVERT(DECIMAL(18,3), (case when srn_qty>0 then ((TSPL_SRN_DETAIL.amount-TSPL_SRN_DETAIL.disc_amt)/srn_qty) else 0 end)) ELSE TSPL_SRN_DETAIL.ITEM_COST END as ITEM_COST_AFTER_DISC " + Environment.NewLine +
 "FROM  TSPL_SRN_DETAIL INNER JOIN TSPL_SRN_HEAD ON TSPL_SRN_DETAIL.SRN_No = TSPL_SRN_HEAD.SRN_No " &
     "INNER JOIN TSPL_COMPANY_MASTER ON TSPL_SRN_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code  " &
     "INNER JOIN TSPL_VENDOR_MASTER ON TSPL_SRN_HEAD.Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code " &
@@ -11768,6 +11770,7 @@ b:                          ' Next
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
 
 
     'Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged

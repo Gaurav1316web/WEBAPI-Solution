@@ -381,7 +381,7 @@ Public Class rptNewSalesReport
                 FinalQuery += " order by  Document_Date, Shift_Type "
             ElseIf rbtnRouteSummary.IsChecked Then
 
-                FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(Document_Date) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + " & TotalProdQty & " AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & " " & sumqry & "  Route_No,max(Document_Date)Document_Date,max(Shift_Type)Shift_Type,max(Cust_Code)Cust_Code,Item_Sub_Group_Type from ( " & Environment.NewLine & "" & qry & " )xx group by Route_No,Item_Sub_Group_Type,Item_Code )xxx " & Environment.NewLine & ""
+                FinalQuery = " Select  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(Document_Date) Document_Date," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + " & TotalProdQty & " AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   from ( " & Environment.NewLine & " Select  max(Days)Days,  (Route_No)Route_No,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & " " & sumqry & "  Route_No,sum(KG_QTY1)KG_QTY1,max(Document_Date)Document_Date,max(Shift_Type)Shift_Type,max(Cust_Code)Cust_Code,Item_Sub_Group_Type,Item_Sub_Group_Type as Item_Sub_Group_Type1 from ( " & Environment.NewLine & "" & qry & " )xx group by Route_No,Item_Sub_Group_Type,Item_Code )xxx " & Environment.NewLine & ""
 
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
@@ -392,7 +392,7 @@ Public Class rptNewSalesReport
                         FinalQuery += "  pivot(sum(KG_QTY1) For Item_Sub_Group_Type In (" & ItemsSubGroup & ") )As pivot_sub "
                     End If
                 End If
-                FinalQuery += " Group by Route_No ,Item_Sub_Group_Type  )XXFINAL GROUP BY Route_No "
+                FinalQuery += " Group by Route_No ,Item_Sub_Group_Type1  )XXFINAL GROUP BY Route_No "
                 FinalQuery += " order by Route_No"
             ElseIf rbtnProductSale.IsChecked Then
                 FinalQuery = "Select  (Shift_Type)Shift_Type, (convert(varchar,Document_Date,103)) Document_Date, " & qry1 & "  from ( " & Environment.NewLine & " " & sumqry & "  (Document_Date)Document_Date,(Shift_Type)Shift_Type,max(Cust_Code)Cust_Code from (" & Environment.NewLine & " " & qry & " )xx group by  Document_Date, Shift_Type,Item_Code )xxx " & Environment.NewLine & ""
