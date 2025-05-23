@@ -23,10 +23,15 @@ Partial Class YearlyBillReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyRadioButton1 = New common.Controls.MyRadioButton()
+        Me.rdbBMC = New common.Controls.MyRadioButton()
+        Me.rdbBMCDCS = New common.Controls.MyRadioButton()
+        Me.rdbDCS = New common.Controls.MyRadioButton()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbMonthCycle = New common.Controls.MyRadioButton()
         Me.rdbCycleW = New common.Controls.MyRadioButton()
@@ -49,17 +54,18 @@ Partial Class YearlyBillReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.MyRadioButton1 = New common.Controls.MyRadioButton()
-        Me.rdbBMC = New common.Controls.MyRadioButton()
-        Me.rdbBMCDCS = New common.Controls.MyRadioButton()
-        Me.rdbDCS = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView2.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbBMCDCS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.rdbMonthCycle, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,12 +87,6 @@ Partial Class YearlyBillReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbBMCDCS, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -137,6 +137,66 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage4.Text = "Filters"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.MyRadioButton1)
+        Me.RadGroupBox1.Controls.Add(Me.rdbBMC)
+        Me.RadGroupBox1.Controls.Add(Me.rdbBMCDCS)
+        Me.RadGroupBox1.Controls.Add(Me.rdbDCS)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(372, 57)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(366, 42)
+        Me.RadGroupBox1.TabIndex = 419
+        '
+        'MyRadioButton1
+        '
+        Me.MyRadioButton1.Location = New System.Drawing.Point(258, 11)
+        Me.MyRadioButton1.MyLinkLable1 = Nothing
+        Me.MyRadioButton1.MyLinkLable2 = Nothing
+        Me.MyRadioButton1.Name = "MyRadioButton1"
+        Me.MyRadioButton1.Size = New System.Drawing.Size(104, 18)
+        Me.MyRadioButton1.TabIndex = 4
+        Me.MyRadioButton1.TabStop = False
+        Me.MyRadioButton1.Text = "MonthCycleWise"
+        Me.MyRadioButton1.Visible = False
+        '
+        'rdbBMC
+        '
+        Me.rdbBMC.Location = New System.Drawing.Point(164, 11)
+        Me.rdbBMC.MyLinkLable1 = Nothing
+        Me.rdbBMC.MyLinkLable2 = Nothing
+        Me.rdbBMC.Name = "rdbBMC"
+        Me.rdbBMC.Size = New System.Drawing.Size(44, 18)
+        Me.rdbBMC.TabIndex = 3
+        Me.rdbBMC.TabStop = False
+        Me.rdbBMC.Text = "BMC"
+        '
+        'rdbBMCDCS
+        '
+        Me.rdbBMCDCS.Location = New System.Drawing.Point(81, 11)
+        Me.rdbBMCDCS.MyLinkLable1 = Nothing
+        Me.rdbBMCDCS.MyLinkLable2 = Nothing
+        Me.rdbBMCDCS.Name = "rdbBMCDCS"
+        Me.rdbBMCDCS.Size = New System.Drawing.Size(69, 18)
+        Me.rdbBMCDCS.TabIndex = 2
+        Me.rdbBMCDCS.TabStop = False
+        Me.rdbBMCDCS.Text = "BMC/DCS"
+        '
+        'rdbDCS
+        '
+        Me.rdbDCS.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbDCS.Location = New System.Drawing.Point(16, 11)
+        Me.rdbDCS.MyLinkLable1 = Nothing
+        Me.rdbDCS.MyLinkLable2 = Nothing
+        Me.rdbDCS.Name = "rdbDCS"
+        Me.rdbDCS.Size = New System.Drawing.Size(41, 18)
+        Me.rdbDCS.TabIndex = 1
+        Me.rdbDCS.Text = "DCS"
+        Me.rdbDCS.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox6
         '
@@ -329,7 +389,7 @@ Partial Class YearlyBillReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -391,67 +451,6 @@ Partial Class YearlyBillReport
         Me.btnReset.TabIndex = 160
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.MyRadioButton1)
-        Me.RadGroupBox1.Controls.Add(Me.rdbBMC)
-        Me.RadGroupBox1.Controls.Add(Me.rdbBMCDCS)
-        Me.RadGroupBox1.Controls.Add(Me.rdbDCS)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(372, 57)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(366, 42)
-        Me.RadGroupBox1.TabIndex = 419
-        Me.RadGroupBox1.Visible = False
-        '
-        'MyRadioButton1
-        '
-        Me.MyRadioButton1.Location = New System.Drawing.Point(258, 11)
-        Me.MyRadioButton1.MyLinkLable1 = Nothing
-        Me.MyRadioButton1.MyLinkLable2 = Nothing
-        Me.MyRadioButton1.Name = "MyRadioButton1"
-        Me.MyRadioButton1.Size = New System.Drawing.Size(104, 18)
-        Me.MyRadioButton1.TabIndex = 4
-        Me.MyRadioButton1.TabStop = False
-        Me.MyRadioButton1.Text = "MonthCycleWise"
-        Me.MyRadioButton1.Visible = False
-        '
-        'rdbBMC
-        '
-        Me.rdbBMC.Location = New System.Drawing.Point(164, 11)
-        Me.rdbBMC.MyLinkLable1 = Nothing
-        Me.rdbBMC.MyLinkLable2 = Nothing
-        Me.rdbBMC.Name = "rdbBMC"
-        Me.rdbBMC.Size = New System.Drawing.Size(44, 18)
-        Me.rdbBMC.TabIndex = 3
-        Me.rdbBMC.TabStop = False
-        Me.rdbBMC.Text = "BMC"
-        '
-        'rdbBMCDCS
-        '
-        Me.rdbBMCDCS.Location = New System.Drawing.Point(81, 11)
-        Me.rdbBMCDCS.MyLinkLable1 = Nothing
-        Me.rdbBMCDCS.MyLinkLable2 = Nothing
-        Me.rdbBMCDCS.Name = "rdbBMCDCS"
-        Me.rdbBMCDCS.Size = New System.Drawing.Size(69, 18)
-        Me.rdbBMCDCS.TabIndex = 2
-        Me.rdbBMCDCS.TabStop = False
-        Me.rdbBMCDCS.Text = "BMC/DCS"
-        '
-        'rdbDCS
-        '
-        Me.rdbDCS.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rdbDCS.Location = New System.Drawing.Point(16, 11)
-        Me.rdbDCS.MyLinkLable1 = Nothing
-        Me.rdbDCS.MyLinkLable2 = Nothing
-        Me.rdbDCS.Name = "rdbDCS"
-        Me.rdbDCS.Size = New System.Drawing.Size(41, 18)
-        Me.rdbDCS.TabIndex = 1
-        Me.rdbDCS.Text = "DCS"
-        Me.rdbDCS.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'YearlyBillReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -471,6 +470,13 @@ Partial Class YearlyBillReport
         Me.RadPageView2.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbBMCDCS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -494,13 +500,6 @@ Partial Class YearlyBillReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbBMCDCS, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
