@@ -130,7 +130,6 @@
     <Compile Include="Classes\clsInvestmentType.vb" />
     <Compile Include="Classes\clsItemCapacityLimitHead.vb" />
     <Compile Include="Classes\clsITSection.vb" />
-    <Compile Include="Classes\clsLeakedSaleReturnHead.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsODMaster.vb" />
     <Compile Include="Classes\clsODSheet.vb" />
