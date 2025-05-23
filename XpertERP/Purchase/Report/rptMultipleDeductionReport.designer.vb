@@ -64,6 +64,7 @@ Partial Class rptMultipleDeductionReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rdbDedWise = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -96,6 +97,7 @@ Partial Class rptMultipleDeductionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbDedWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -186,11 +188,12 @@ Partial Class rptMultipleDeductionReport
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.rdbDedWise)
         Me.GroupBox1.Controls.Add(Me.rbtnDetail)
         Me.GroupBox1.Controls.Add(Me.rbtnSummary)
         Me.GroupBox1.Location = New System.Drawing.Point(443, 20)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(146, 35)
+        Me.GroupBox1.Size = New System.Drawing.Size(262, 35)
         Me.GroupBox1.TabIndex = 1514
         Me.GroupBox1.TabStop = False
         '
@@ -484,12 +487,14 @@ Partial Class rptMultipleDeductionReport
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(764, 292)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnPrint
         '
@@ -553,6 +558,17 @@ Partial Class rptMultipleDeductionReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
+        'rdbDedWise
+        '
+        Me.rdbDedWise.Location = New System.Drawing.Point(137, 9)
+        Me.rdbDedWise.MyLinkLable1 = Nothing
+        Me.rdbDedWise.MyLinkLable2 = Nothing
+        Me.rdbDedWise.Name = "rdbDedWise"
+        Me.rdbDedWise.Size = New System.Drawing.Size(96, 18)
+        Me.rdbDedWise.TabIndex = 2
+        Me.rdbDedWise.TabStop = False
+        Me.rdbDedWise.Text = "DeductionWise"
+        '
         'rptMultipleDeductionReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -603,6 +619,7 @@ Partial Class rptMultipleDeductionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbDedWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -645,5 +662,6 @@ Partial Class rptMultipleDeductionReport
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
     Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
+    Friend WithEvents rdbDedWise As common.Controls.MyRadioButton
 End Class
 

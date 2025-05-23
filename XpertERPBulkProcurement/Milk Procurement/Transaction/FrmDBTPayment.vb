@@ -47,7 +47,7 @@ Public Class FrmDBTPayment
 
     Private Sub LoadData()
         Try
-            Dim qry As String = "select CAST(0 as Bit) as Sel,TSPL_DBT_NEFT_RCDF.PK_Id,TSPL_DBT_NEFT_RCDF.DB_Name,TSPL_MASTER.dbo.TSPL_APP_LOCATION.Code as PortNo,TSPL_DBT_NEFT_RCDF.Document_Code,TSPL_DBT_NEFT_RCDF.Document_Date,TSPL_DBT_NEFT_RCDF.From_Date,TSPL_DBT_NEFT_RCDF.To_Date,TSPL_APP_LOCATION.Apply_PD_Account,TSPL_APP_LOCATION.Apply_PD_Account_Date,TSPL_DBT_NEFT_RCDF.Sanction_Number,TSPL_DBT_NEFT_RCDF.Sanction_Date,TSPL_DBT_NEFT_RCDF.Sanction_Amount 
+            Dim qry As String = "select CAST(0 as Bit) as Sel,TSPL_DBT_NEFT_RCDF.PK_Id,TSPL_DBT_NEFT_RCDF.DB_Name,TSPL_MASTER.dbo.TSPL_APP_LOCATION.PD_Account_Prefix as PortNo,TSPL_DBT_NEFT_RCDF.Document_Code,TSPL_DBT_NEFT_RCDF.Document_Date,TSPL_DBT_NEFT_RCDF.From_Date,TSPL_DBT_NEFT_RCDF.To_Date,TSPL_APP_LOCATION.Apply_PD_Account,TSPL_APP_LOCATION.Apply_PD_Account_Date,TSPL_DBT_NEFT_RCDF.Sanction_Number,TSPL_DBT_NEFT_RCDF.Sanction_Date,TSPL_DBT_NEFT_RCDF.Sanction_Amount 
 from TSPL_DBT_NEFT_RCDF
 left outer join TSPL_MASTER.dbo.TSPL_APP_LOCATION on TSPL_MASTER.dbo.TSPL_APP_LOCATION.DataBase_Name=TSPL_DBT_NEFT_RCDF.DB_Name
 where isnull([Status],0)=0 "
@@ -217,7 +217,7 @@ where isnull([Status],0)=0 "
                 Dim strPortNo As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("PortNo").Value)
                 Dim strDOCNo As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("Document_Code").Value)
                 If clsCommon.myLen(strDBName) > 0 AndAlso clsCommon.myLen(strDOCNo) > 0 Then
-                    Dim qry As String = "select '" + strPortNo + "'+CAST(UKID as varchar)+CAST(Lot_No as varchar) as Refenceno from (
+                    Dim qry As String = "select '" + strPortNo + "'+ FORMAT(UKID, '0000')+CAST(Lot_No as varchar) as Refenceno from (
 select distinct TSPL_DBT_NEFT_DETAIL.Lot_No,TSPL_DBT_NEFT.UKID 
 from " + strDBName + ".dbo.TSPL_DBT_NEFT_DETAIL 
 left outer join " + strDBName + ".dbo.TSPL_DBT_NEFT on " + strDBName + ".dbo.TSPL_DBT_NEFT.Document_Code=" + strDBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
