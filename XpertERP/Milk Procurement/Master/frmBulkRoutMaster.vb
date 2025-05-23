@@ -10,6 +10,14 @@ Public Class FrmBulkRoutMaster
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Dim Qry As String
+    Const colLocationCode As String = "colLocationCode"
+    Const colLocationName As String = "colLocationName"
+    Const colDistance As String = "colDistance"
+    Const colSNO As String = "colSNO"
+    Const colBULKROUTEno As String = "colBULKROUTEno"
+
+
+    Dim isCellValueChangedOpen As Boolean = False
 
 #End Region
     Private Sub FrmBulkRoutMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -57,6 +65,7 @@ Public Class FrmBulkRoutMaster
         txtScheduleTime.Value = clsCommon.GETSERVERDATE()
         txtScheduleTimeM.Value = clsCommon.GETSERVERDATE()
         txtScheduleTimeE.Value = txtScheduleTimeM.Value
+        LoadBlankGrid()
     End Sub
 
 
@@ -197,6 +206,18 @@ Public Class FrmBulkRoutMaster
             If obj.Schedule_Time IsNot Nothing Then
                 txtScheduleTime.Value = obj.Schedule_Time
             End If
+
+            Dim sno As Integer = 1
+            If obj.Arr IsNot Nothing Then
+                For Each objrow As clsBulkRoutdetail In obj.Arr
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = sno
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objrow.Location_Code
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objrow.lOCATION_desc
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDistance).Value = objrow.Distance
+                    gv1.Rows.AddNew()
+                    sno += 1
+                Next
+            End If
         End If
     End Sub
     'ROUTE_NAME as [Route Name],Distance,Rate,Amount 
@@ -213,6 +234,7 @@ Public Class FrmBulkRoutMaster
                 obj.ROUTE_NAME_HINDI = txtRouteNameHindi.Text
                 obj.Distance = txtDistance.Text
                 obj.Rate = txtRate.Text
+
                 ' Ticket No : BHA/31/07/18-000204 - Weight Feild add 
                 obj.Weight = txtWeight.Text
                 Dim strDistance As Double = 0
@@ -239,6 +261,18 @@ Public Class FrmBulkRoutMaster
                 obj.Schedule_Time_Evening = txtScheduleTimeE.Value
                 obj.Schedule_Time = txtScheduleTime.Value
 
+                obj.Arr = New List(Of clsBulkRoutdetail)
+                For Each row As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsBulkRoutdetail()
+                    objTr.BULK_ROUTE_no = txtRouteNo.Value
+
+                    objTr.Location_Code = clsCommon.myCstr(row.Cells(colLocationCode).Value)
+                    objTr.Distance = clsCommon.myCDecimal(row.Cells(colDistance).Value)
+                    objTr.lOCATION_desc = clsCommon.myCstr(row.Cells(colLocationName).Value)
+                    If (clsCommon.myLen(objTr.BULK_ROUTE_no) > 0) Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
                 If (clsBulkRoutMaster.SaveData(obj)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     LoadData(obj.ROUTE_NO, NavigatorType.Current)
@@ -416,5 +450,171 @@ Public Class FrmBulkRoutMaster
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+    Sub LoadBlankGrid()
+        Dim qry As String = String.Empty
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+        Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoLineNo = New GridViewDecimalColumn()
+        repoLineNo.FormatString = ""
+        repoLineNo.HeaderText = "SNo"
+        repoLineNo.Name = colSNO
+        repoLineNo.Width = 50
+        repoLineNo.IsVisible = True
+        repoLineNo.ReadOnly = True
+        repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoLineNo)
+        Dim repoRouteNumber As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRouteNumber.FormatString = ""
+        repoRouteNumber.HeaderText = "Location Code"
+        repoRouteNumber.Name = colLocationCode
+        repoRouteNumber.HeaderImage = My.Resources.search4
+        repoRouteNumber.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoRouteNumber.Width = 100
+        repoRouteNumber.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoRouteNumber)
+        Dim repoRouteName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRouteName.FormatString = ""
+        repoRouteName.HeaderText = "Location Name"
+        repoRouteName.Name = colLocationName
+        repoRouteName.Width = 150
+        repoRouteName.IsVisible = True
+        'repoRouteName.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoRouteName)
+
+        Dim repoDistance As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDistance.FormatString = ""
+        repoDistance.HeaderText = "Distance"
+        repoDistance.Name = colDistance
+        repoDistance.Width = 150
+        repoDistance.IsVisible = True
+        'repoRouteName.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoDistance)
+        gv1.AllowAddNewRow = False
+        gv1.AllowDeleteRow = True
+        gv1.AllowRowReorder = False
+        gv1.ShowGroupPanel = False
+        gv1.EnableFiltering = False
+        gv1.EnableSorting = False
+        gv1.EnableGrouping = False
+        gv1.AllowColumnChooser = True
+        gv1.AllowColumnReorder = True
+        gv1.Rows.AddNew()
+    End Sub
+    '    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs)
+    '        Try
+    '            Dim strLocCode As String = Nothing
+
+    '            If (Not isInsideLoadData) Then
+    '                If Not isCellValueChangedOpen Then
+    '                    isCellValueChangedOpen = True
+    '                    If e.Column Is gv1.Columns(colLocationCode) Then
+    '                        'If rbtnDistributor.IsChecked Then
+
+    '                        strLocCode = clsBulkRoutMaster.getFinder1("", clsCommon.myCstr(gv1.CurrentRow.Cells(colLocationCode).Value), False)
+    '                    End If
+    '                    gv1.CurrentRow.Cells(colLocationCode).Value = strLocCode
+    '                    gv1.CurrentRow.Cells(colLocationName).Value = clsDBFuncationality.getSingleValue("SELECT TSPL_BULK_ROUTE_MASTER.Location_Code as Code,TSPL_LOCATION_MASTER.Location_Desc as Name  FROM TSPL_BULK_ROUTE_MASTER
+    'left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BULK_ROUTE_MASTER.Location_Code where TSPL_BULK_ROUTE_MASTER.Location_code='" & strLocCode & "' ")
+    '                    gv1.CurrentRow.Cells(colDistance).Value = colDistance
+    '                    isCellValueChangedOpen = False
+
+    '                End If
+    '            End If
+
+    '        Catch ex As Exception
+    '            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '            isCellValueChangedOpen = False
+    '        End Try
+    '    End Sub
+
+    'Private Sub gv1_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs)
+    '    If gv1.Rows.Count > 0 Then
+    '        If gv1.CurrentRow.Index = gv1.Rows.Count - 1 Then
+    '            gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = gv1.Rows.Count
+    '            gv1.Rows.AddNew()
+    '            gv1.CurrentRow = gv1.Rows(gv1.Rows.Count - 2)
+    '        End If
+    '    End If
+    'End Sub
+    'Private Sub gv1_UserAddedRow(sender As Object, e As GridViewRowEventArgs)
+    '    For i As Integer = 0 To gv1.Rows.Count - 1
+    '        gv1.Rows(0).Cells(0).Value = 1
+    '        If i <> 0 Then
+    '            gv1.Rows(i).Cells(colSNO).Value = i + 1
+    '        End If
+    '    Next
+    'End Sub
+    Sub RefeshSNO()
+        For ii As Integer = 1 To gv1.Rows.Count
+            gv1.Rows(ii - 1).Cells(colSNO).Value = ii
+        Next
+    End Sub
+    'Private Sub gv1_UserDeletedRow(sender As Object, e As GridViewRowEventArgs)
+    '    Try
+    '        RefeshSNO()
+    '    Catch ex As Exception
+    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+    Private Sub gv1_CellValueChanged_1(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+        Try
+            Dim strLocCode As String = Nothing
+
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gv1.Columns(colLocationCode) Then
+                        'If rbtnDistributor.IsChecked Then
+
+                        strLocCode = clsBulkRoutMaster.getFinder1("", clsCommon.myCstr(gv1.CurrentRow.Cells(colLocationCode).Value), False)
+                        gv1.CurrentRow.Cells(colLocationCode).Value = strLocCode
+
+                        gv1.CurrentRow.Cells(colLocationName).Value = clsDBFuncationality.getSingleValue("SELECT TSPL_LOCATION_MASTER.Location_Desc as Name FROM tspl_location_master where tspl_location_master.Location_code='" & strLocCode & "' ")
+                        gv1.CurrentRow.Cells(colDistance).Value = Xtra.MyNoDecimalToDecimal(gv1.CurrentRow.Cells(colDistance).Value)
+                    End If
+                    'gv1.CurrentRow.Cells(colLocationCode).Value = strLocCode
+
+                    isCellValueChangedOpen = False
+                End If
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            isCellValueChangedOpen = False
+        End Try
+    End Sub
+
+    Private Sub gv1_UserAddedRow_1(sender As Object, e As GridViewRowEventArgs) Handles gv1.UserAddedRow
+        For i As Integer = 0 To gv1.Rows.Count - 1
+            gv1.Rows(0).Cells(0).Value = 1
+            If i <> 0 Then
+                gv1.Rows(i).Cells(colSNO).Value = i + 1
+            End If
+        Next
+    End Sub
+
+    Private Sub gv1_UserDeletedRow_1(sender As Object, e As GridViewRowEventArgs) Handles gv1.UserDeletedRow
+        Try
+            RefeshSNO()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gv1_CurrentColumnChanged_1(sender As Object, e As CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
+        If gv1.Rows.Count > 0 Then
+            If gv1.CurrentRow.Index = gv1.Rows.Count - 1 Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = gv1.Rows.Count
+                gv1.Rows.AddNew()
+                gv1.CurrentRow = gv1.Rows(gv1.Rows.Count - 2)
+            End If
+        End If
     End Sub
 End Class

@@ -8965,12 +8965,10 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                 Next
                 ItemCode = clsCommon.GetMulcallString(arr)
             End If
-            clsPurchaseInvoiceHead.funPIPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, ItemCode, txtBillToLocation.Value, txtRefNo.Text, txtVendorNo.Value)
 
-            '       Dim strTabSRNTender As String = "TSPL_SRN_TENDER"
-            '       If UsLock1.Status = ERPTransactionStatus.Pending Then
-            '           strTabSRNTender = "TSPL_SRN_TENDER_CALC"
-            '       End If
+            clsPurchaseInvoiceHead.funPIPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, ItemCode, txtBillToLocation.Value, txtRefNo.Text, txtVendorNo.Value, strTabSRNTender)
+
+
             '       Dim frmCRV As New frmCrystalReportViewer()
             '       Dim qry As String = ""
             '       Dim qry1 As String = ""
