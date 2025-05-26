@@ -2078,68 +2078,68 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
 
 
                 Next
-                For n As Integer = 0 To gv1.Rows.Count - 1
-                    Try
-                        If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(n).Cells(colCustCode).Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(n).Cells(colShiftName).Value)) > 0 Then
-                            Dim strqry As String = "Select count(ShiftType) from (select ShiftType,convert(date,Document_Date ,103) as Document_Date from (select tspl_demand_booking_master.Document_Date , tspl_demand_booking_detail.ShiftType  from tspl_demand_booking_detail
-left outer join tspl_demand_booking_master on tspl_demand_booking_detail.document_no=tspl_demand_booking_master.document_no
-where convert(date,tspl_demand_booking_master.document_date,103) in ('" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)) & "','" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2)) & "','" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-3)) & "')
-and tspl_demand_booking_detail.Cust_Code='" & clsCommon.myCstr(gv1.Rows(n).Cells(colCustCode).Value) & "' and TSPL_DEMAND_BOOKING_DETAIL .ShiftType ='" & clsCommon.myCstr(gv1.Rows(n).Cells(colShiftName).Value) & "')Final 
-group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
-                            gv1.Rows(n).Cells(colBookingCreatedFor3Days).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strqry))
-                            Try
-                                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(n).Cells(colBookingCreatedFor3Days).Value), "3") = CompairStringResult.Equal Then
-                                    gv1.Rows(n).Cells(colLineNo).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colLineNo).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colLineNo).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colCustCode).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colCustCode).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colCustCode).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colCustName).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colCustName).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colCustName).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colShiftName).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colShiftName).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colShiftName).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colCrate).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colCrate).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colCrate).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colAmt).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colAmt).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colAmt).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colLitre).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colLitre).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colLitre).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colMAmt).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colMAmt).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colMAmt).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colPCount).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colPCount).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colPCount).Style.BackColor = Color.LightGreen
-                                    gv1.Rows(n).Cells(colPAmt).Style.DrawFill = True
-                                    gv1.Rows(n).Cells(colPAmt).Style.CustomizeFill = True
-                                    gv1.Rows(n).Cells(colPAmt).Style.BackColor = Color.LightGreen
-                                End If
-                            Catch ex As Exception
-                                Throw New Exception(ex.Message)
-                            End Try
-                            Try
-                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
-                                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
-                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
-                                        gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
-                                        gv1.Rows(n).Cells(dblcolumns).Style.CustomizeFill = True
-                                        gv1.Rows(n).Cells(dblcolumns).Style.BackColor = Color.LightGreen
-                                    End If
-                                Next
-                            Catch ex As Exception
-                                Throw New Exception(ex.Message)
-                            End Try
-                        End If
-                    Catch ex As Exception
-                        Throw New Exception(ex.Message)
-                    End Try
-                Next
+                '                For n As Integer = 0 To gv1.Rows.Count - 1
+                '                    Try
+                '                        If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(n).Cells(colCustCode).Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(n).Cells(colShiftName).Value)) > 0 Then
+                '                            Dim strqry As String = "Select count(ShiftType) from (select ShiftType,convert(date,Document_Date ,103) as Document_Date from (select tspl_demand_booking_master.Document_Date , tspl_demand_booking_detail.ShiftType  from tspl_demand_booking_detail
+                'left outer join tspl_demand_booking_master on tspl_demand_booking_detail.document_no=tspl_demand_booking_master.document_no
+                'where convert(date,tspl_demand_booking_master.document_date,103) in ('" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)) & "','" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2)) & "','" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-3)) & "')
+                'and tspl_demand_booking_detail.Cust_Code='" & clsCommon.myCstr(gv1.Rows(n).Cells(colCustCode).Value) & "' and TSPL_DEMAND_BOOKING_DETAIL .ShiftType ='" & clsCommon.myCstr(gv1.Rows(n).Cells(colShiftName).Value) & "')Final 
+                'group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
+                '                            gv1.Rows(n).Cells(colBookingCreatedFor3Days).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strqry))
+                '                            Try
+                '                                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(n).Cells(colBookingCreatedFor3Days).Value), "3") = CompairStringResult.Equal Then
+                '                                    gv1.Rows(n).Cells(colLineNo).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colLineNo).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colLineNo).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colCustCode).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colCustCode).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colCustCode).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colCustName).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colCustName).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colCustName).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colShiftName).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colShiftName).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colShiftName).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colCrate).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colCrate).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colCrate).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colAmt).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colAmt).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colAmt).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colLitre).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colLitre).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colLitre).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colMAmt).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colMAmt).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colMAmt).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colPCount).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colPCount).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colPCount).Style.BackColor = Color.LightGreen
+                '                                    gv1.Rows(n).Cells(colPAmt).Style.DrawFill = True
+                '                                    gv1.Rows(n).Cells(colPAmt).Style.CustomizeFill = True
+                '                                    gv1.Rows(n).Cells(colPAmt).Style.BackColor = Color.LightGreen
+                '                                End If
+                '                            Catch ex As Exception
+                '                                Throw New Exception(ex.Message)
+                '                            End Try
+                '                            Try
+                '                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+                '                                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
+                '                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
+                '                                        gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
+                '                                        gv1.Rows(n).Cells(dblcolumns).Style.CustomizeFill = True
+                '                                        gv1.Rows(n).Cells(dblcolumns).Style.BackColor = Color.LightGreen
+                '                                    End If
+                '                                Next
+                '                            Catch ex As Exception
+                '                                Throw New Exception(ex.Message)
+                '                            End Try
+                '                        End If
+                '                    Catch ex As Exception
+                '                        Throw New Exception(ex.Message)
+                '                    End Try
+                '                Next
             Else
                 Throw New Exception("No Customers found for Selected Route and City")
             End If
@@ -2922,7 +2922,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                         Throw New Exception("Decimal values are not allowed.")
                                                     End If
                                                 Else
-                                                    Dim ItemCFofDecimalUom As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                                    Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
 
                                                     If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
                                                         gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
@@ -3006,16 +3006,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
                                         TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                     Else
-                                        Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+                                        Dim ItemCrateType As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
                                         If ItemCrateType = 1 Then
                                             Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
-                                            Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                                            Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                            Dim CrateConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                            Dim ItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
                                             Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
 
                                             If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                                 If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                                    Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
                                                     'If ConvertPouchtoCrate Then
                                                     If DispatchQty > (CrateConvFactor / 2) Then
                                                         dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
@@ -3028,7 +3028,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                             Throw New Exception("Decimal values are not allowed.")
                                                         End If
                                                     Else
-                                                        Dim ItemCFofDecimalUom As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                                        Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
 
                                                         If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
                                                             gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
