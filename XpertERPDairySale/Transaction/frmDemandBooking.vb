@@ -2889,7 +2889,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                 Throw New Exception("Decimal values are not allowed.")
                                             End If
                                         Else
-                                            If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+                                            Dim ItemCFofDecimalUom As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                            If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod ItemCFofDecimalUom <> 0 Then
                                                 gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                                                 Throw New Exception("Should be in multiple of 0.5")
                                             End If
@@ -2921,9 +2922,11 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                         Throw New Exception("Decimal values are not allowed.")
                                                     End If
                                                 Else
-                                                    If DispatchQty Mod ItempouchCF <> 0 Then
+                                                    Dim ItemCFofDecimalUom As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                                    If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
                                                         gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                        Throw New Exception("Should be in multiple of " + clsCommon.myCstr(ItempouchCF))
+                                                        Throw New Exception("Should be in multiple of " + clsCommon.myCstr(ItemCFofDecimalUom))
                                                     End If
                                                 End If
                                                 If ConvertPouchtoCrate Then
@@ -3008,6 +3011,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                             Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
                                             Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
                                             Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                            Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+
                                             If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                                 If CrateConvFactor > 0 And ItemConvFactor > 0 Then
                                                     Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
@@ -3016,6 +3021,19 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                                         dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
                                                     Else
                                                         dblTotalPCrateRowWise = 0
+                                                    End If
+                                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" + obj1.itemCode + "' and  AllowEntryInDecimal=1")) = 0 Then
+                                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                            Throw New Exception("Decimal values are not allowed.")
+                                                        End If
+                                                    Else
+                                                        Dim ItemCFofDecimalUom As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                                        If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                            Throw New Exception("Should be in multiple of " + clsCommon.myCstr(ItemCFofDecimalUom))
+                                                        End If
                                                     End If
                                                     'ElseIf DontCreateForPouch Then
                                                     '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
