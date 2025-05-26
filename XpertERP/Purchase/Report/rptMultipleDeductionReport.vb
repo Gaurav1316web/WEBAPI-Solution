@@ -47,47 +47,57 @@ Public Class rptMultipleDeductionReport
             'Gv1.Columns(ii).FormatString = "{0:n2}"
         Next
 
-        Gv1.Columns("Vendor Code").IsVisible = True
-        Gv1.Columns("Vendor Code").Width = 100
-        Gv1.Columns("Vendor Code").HeaderText = "Vendor Code"
+        If rdbDedWise.IsChecked = True Then
+            Gv1.Columns("Vendor Code").IsVisible = False
+            Gv1.Columns("Vendor Name").IsVisible = False
+            Gv1.Columns("VLC Uploader Code").IsVisible = False
+            Gv1.Columns("Type").IsVisible = False
+            Gv1.Columns("Document Date").IsVisible = False
+            Gv1.Columns("Document No").IsVisible = False
+        Else
+            Gv1.Columns("Vendor Code").IsVisible = True
+            Gv1.Columns("Vendor Code").Width = 100
+            Gv1.Columns("Vendor Code").HeaderText = "Vendor Code"
 
-        Gv1.Columns("VLC Uploader Code").IsVisible = True
-        Gv1.Columns("VLC Uploader Code").Width = 100
-        Gv1.Columns("VLC Uploader Code").HeaderText = "DCS Uploader Code"
+            Gv1.Columns("VLC Uploader Code").IsVisible = True
+            Gv1.Columns("VLC Uploader Code").Width = 100
+            Gv1.Columns("VLC Uploader Code").HeaderText = "DCS Uploader Code"
 
-        Gv1.Columns("Document No").IsVisible = True
-        Gv1.Columns("Document No").Width = 100
-        Gv1.Columns("Document No").HeaderText = "Document No"
+            Gv1.Columns("Document No").IsVisible = True
+            Gv1.Columns("Document No").Width = 100
+            Gv1.Columns("Document No").HeaderText = "Document No"
 
-        Gv1.Columns("Vendor Name").IsVisible = True
-        Gv1.Columns("Vendor Name").Width = 100
-        Gv1.Columns("Vendor Name").HeaderText = "Vendor Name"
+            Gv1.Columns("Vendor Name").IsVisible = True
+            Gv1.Columns("Vendor Name").Width = 100
+            Gv1.Columns("Vendor Name").HeaderText = "Vendor Name"
 
-        Gv1.Columns("Type").IsVisible = True
-        Gv1.Columns("Type").Width = 100
-        Gv1.Columns("Type").HeaderText = "Type"
+            Gv1.Columns("Type").IsVisible = True
+            Gv1.Columns("Type").Width = 100
+            Gv1.Columns("Type").HeaderText = "Type"
 
-        Gv1.Columns("Document Date").IsVisible = True
-        Gv1.Columns("Document Date").Width = 100
-        Gv1.Columns("Document Date").HeaderText = "Document Date"
+            Gv1.Columns("Document Date").IsVisible = True
+            Gv1.Columns("Document Date").Width = 100
+            Gv1.Columns("Document Date").HeaderText = "Document Date"
 
-        Gv1.Columns("Addition").IsVisible = True
-        Gv1.Columns("Addition").Width = 100
-        Gv1.Columns("Addition").HeaderText = "Addition"
+            Gv1.Columns("Addition").IsVisible = True
+            Gv1.Columns("Addition").Width = 100
+            Gv1.Columns("Addition").HeaderText = "Addition"
 
-        Gv1.Columns("Deduction").IsVisible = True
-        Gv1.Columns("Deduction").Width = 100
-        Gv1.Columns("Deduction").HeaderText = "Deduction"
+            Gv1.Columns("Deduction").IsVisible = True
+            Gv1.Columns("Deduction").Width = 100
+            Gv1.Columns("Deduction").HeaderText = "Deduction"
 
-        Gv1.Columns("Deduction Code").IsVisible = True
-        Gv1.Columns("Deduction Code").Width = 100
-        Gv1.Columns("Deduction Code").HeaderText = "Addition/Deduction Code"
-        Gv1.MasterTemplate.Columns("Deduction Code").TextAlignment = ContentAlignment.MiddleCenter
+            Gv1.Columns("Deduction Code").IsVisible = True
+            Gv1.Columns("Deduction Code").Width = 100
+            Gv1.Columns("Deduction Code").HeaderText = "Addition/Deduction Code"
+            Gv1.MasterTemplate.Columns("Deduction Code").TextAlignment = ContentAlignment.MiddleCenter
 
-        Gv1.Columns("Deduction Desc").IsVisible = True
-        Gv1.Columns("Deduction Desc").Width = 100
-        Gv1.Columns("Deduction Desc").HeaderText = "Deduction Desc"
-        Gv1.MasterTemplate.Columns("Deduction Desc").TextAlignment = ContentAlignment.MiddleCenter
+            Gv1.Columns("Deduction Desc").IsVisible = True
+            Gv1.Columns("Deduction Desc").Width = 100
+            Gv1.Columns("Deduction Desc").HeaderText = "Deduction Desc"
+            Gv1.MasterTemplate.Columns("Deduction Desc").TextAlignment = ContentAlignment.MiddleCenter
+        End If
+
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         'Dim intCount As Integer = 0
@@ -217,7 +227,9 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
                 End If
 
 
-                If clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal AndAlso rdbDedWise.IsChecked = True Then
+                    qry = " Select max(final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.Type) as Type,max(final.Document_No) as [Document No],max(final.Document_Date) as [Document Date],final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction from ( " & strBaseqry & " )Final group by final.DeductionCode  "
+                ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal Then
                     qry = " Select final.Vendor_Code as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.Type) as Type,final.Document_No as [Document No],final.Document_Date as [Document Date],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction,final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc] from ( " & strBaseqry & " )Final group by final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode  "
                 Else
                     qry = strBaseqry

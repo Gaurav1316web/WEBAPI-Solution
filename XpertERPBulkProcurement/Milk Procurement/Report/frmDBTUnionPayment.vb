@@ -46,10 +46,10 @@ Public Class frmDBTUnionPayment
             Dim ss As String = clsCommon.GetMulcallString(txtUnion.arrValueMember)
 
             If txtUnion.arrValueMember Is Nothing Then
-                qry = " select  [TSPL_APP_LOCATION].Code as PortNo,[TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
+                qry = " select  [TSPL_APP_LOCATION].PD_Account_Prefix as PortNo,[TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
                             from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE Apply_PD_Account = 1 order by [TSPL_APP_LOCATION].Location_Name "
             Else
-                qry = " select  [TSPL_APP_LOCATION].Code as PortNo,[TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
+                qry = " select  [TSPL_APP_LOCATION].PD_Account_Prefix as PortNo,[TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name
                         from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE Apply_PD_Account = 1 and [TSPL_APP_LOCATION].DataBase_Name  in (" + ss + ") 
                         order by [TSPL_APP_LOCATION].Location_Name "
             End If
@@ -65,7 +65,7 @@ Public Class frmDBTUnionPayment
                     End If
 
                     qryies += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],FORMAT(MAX(From_Date), 'MMM/yyyy') AS Month_Year,
-                               '" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount from (
+                               '" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+FORMAT(UKID, '0000')+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount from (
                                select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
                                isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
                                [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.RCDF_Post_Date,
@@ -80,7 +80,7 @@ Public Class frmDBTUnionPayment
                                 
                                Union all
                                select 'Total' AS [Union Name],'' as Month_Year,'' as Refence_No,sum(No_Of_Record)No_Of_Record,sum(Milk_Qty)Milk_Qty,sum(Amount)Amount from (select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                               FORMAT(MAX(From_Date), 'MMM/yyyy') AS Month_Year,'" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount
+                               FORMAT(MAX(From_Date), 'MMM/yyyy') AS Month_Year,'" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+FORMAT(UKID, '0000')+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount
                                from (
                                select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
                                isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
@@ -107,7 +107,7 @@ Public Class frmDBTUnionPayment
                     End If
 
                     Baseqry1 += "  select 'Total' AS [Union Name],'' as Month_Year,'' as Refence_No,sum(No_Of_Record)No_Of_Record,sum(Milk_Qty)Milk_Qty,sum(Amount)Amount from (select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],
-                               FORMAT(MAX(From_Date), 'MMM/yyyy') AS Month_Year,'" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+CAST((UKID) as varchar)+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount
+                               FORMAT(MAX(From_Date), 'MMM/yyyy') AS Month_Year,'" + clsCommon.myCstr(dt.Rows(ii).Item("PortNo")) + "'+FORMAT(UKID, '0000')+CAST((Lot_No) as varchar) as Refence_No,count(Lot_No)No_Of_Record,SUM(Qty)Milk_Qty,sum(Amount)Amount
                                from (
                                select isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Lot_No,'')Lot_No,
                                isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.UKID,'')UKID ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,
@@ -169,7 +169,7 @@ Public Class frmDBTUnionPayment
         gv1.Columns("No_Of_Record").HeaderText = "No Of Record"
         gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
         gv1.Columns("Month_Year").HeaderText = "Month"
-        gv1.Columns("Refence_No").HeaderText = "Refence No"
+        gv1.Columns("Refence_No").HeaderText = "Reference No"
 
         'Dim item2 As New GridViewSummaryItem("No_Of_Record", "{0:0}", GridAggregateFunction.Sum)
         'Dim totalCount As Decimal = 0
