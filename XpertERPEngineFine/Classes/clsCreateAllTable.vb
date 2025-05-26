@@ -14068,6 +14068,12 @@ Public Class clsCreateAllTable
             coll.Add("Schedule_Time", "datetime NULL")
             'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULK_ROUTE_MASTER", coll, "", True, False, "", "", "", True)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("BULK_ROUTE_No", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Location_Code", "varchar(12) NULL  References TSPL_LOCATION_MASTER(Location_Code) ")
+            coll.Add("Distance", "integer NULL Default 0")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULK_ROUTE_MASTER_Location", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("ROUTE_NO", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
@@ -27468,6 +27474,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Print_UOM", "integer  null default 0")
             coll.Add("ProcessLoss_UOM", "integer  null default 0")
             coll.Add("Report_UOM", "integer  null default 0")
+            coll.Add("Decimal_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 

@@ -19,7 +19,15 @@ Public Class clsBulkRoutMaster
     Public Schedule_Time_Morning As DateTime?
     Public Schedule_Time_Evening As DateTime?
     Public Schedule_Time As DateTime?
+    Public Arr As List(Of clsBulkRoutdetail) = Nothing
 
+    Public Shared Function getFinder1(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        Dim str As String = ""
+        whrcls = "  Location_category='MCC' "
+        Dim qry As String = "select LOCATION_CODE AS CODE,LOCATION_DESC AS nAME From tspl_location_master  "
+        str = clsCommon.ShowSelectForm("SECCUSTFIND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        Return str
+    End Function
 #End Region
     Public Shared Function SaveData(ByVal obj As clsBulkRoutMaster) As Boolean
         Dim qry As String = ""
@@ -74,6 +82,8 @@ Public Class clsBulkRoutMaster
             End If
 
             clsBulkRoutMasterMCC.SaveData(obj.ROUTE_NO, obj.arrMCC, trans)
+            clsBulkRoutdetail.SaveData(obj.ROUTE_NO, obj.Arr, trans)
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ROUTE_NO, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", "TSPL_BULK_ROUTE_MASTER_MCC", "ROUTE_NO", trans)
 
             trans.Commit()
@@ -128,6 +138,8 @@ Public Class clsBulkRoutMaster
             If dt.Rows(0)("Schedule_Time") IsNot DBNull.Value Then
                 obj.Schedule_Time = clsCommon.myCDate(dt.Rows(0)("Schedule_Time"))
             End If
+            obj.Arr = clsBulkRoutdetail.GetData(obj.ROUTE_NO, Nothing)
+
         End If
         Return obj
     End Function
@@ -189,6 +201,58 @@ Public Class clsBulkRoutMasterMCC
                 arr.Add(clsCommon.myCstr(dr("MCC_Code")))
             Next
         End If
+        Return arr
+    End Function
+
+End Class
+
+Public Class clsBulkRoutdetail
+    Public BULK_ROUTE_no As String = Nothing
+    Public Location_Code As String = Nothing
+    Public Distance As Decimal = 0
+    Public lOCATION_desc As String = Nothing
+
+    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsBulkRoutdetail), ByVal trans As SqlTransaction) As Boolean
+        Try
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each obj As clsBulkRoutdetail In Arr
+                    Dim colm As New Hashtable()
+                    clsCommon.AddColumnsForChange(colm, "BULK_ROUTE_no", strCode)
+                    clsCommon.AddColumnsForChange(colm, "Location_Code", obj.Location_Code, True)
+                    clsCommon.AddColumnsForChange(colm, "Distance", obj.Distance, True)
+                    clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULK_ROUTE_MASTER_Location", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As List(Of clsBulkRoutdetail)
+        Dim arr As List(Of clsBulkRoutdetail) = Nothing
+        Try
+            Dim dt As DataTable
+            Dim strQry As String = "select BULK_ROUTE_no,Location_Code,Distance from TSPL_BULK_ROUTE_MASTER_Location where BULK_ROUTE_no='" & strDocNo & "'"
+            dt = New DataTable()
+            dt = clsDBFuncationality.GetDataTable(strQry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                arr = New List(Of clsBulkRoutdetail)
+                Dim objTr As clsBulkRoutdetail
+                For Each dr As DataRow In dt.Rows
+                    objTr = New clsBulkRoutdetail
+                    objTr.BULK_ROUTE_no = clsCommon.myCstr(dr("BULK_ROUTE_no"))
+                    objTr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
+                    objTr.lOCATION_desc = clsDBFuncationality.getSingleValue("select lOCATION_desc from tspl_location_master where Location_Code='" + clsCommon.myCstr(dr("Location_Code")) + "'", trans)
+                    objTr.Distance = clsCommon.myCDecimal(dr("Distance"))
+                    'objTr.Customer_Name = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(dr("Cust_Code")) + "'", trans)
+                    arr.Add(objTr)
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
         Return arr
     End Function
 End Class

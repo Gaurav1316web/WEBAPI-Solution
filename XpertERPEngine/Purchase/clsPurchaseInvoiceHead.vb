@@ -180,7 +180,7 @@ Public Class clsPurchaseInvoiceHead
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_PI_HEAD", "PI_No", "TSPL_PI_DETAIL", "PI_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
         Return True
     End Function
-    Public Shared Function funPIPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrDocNo As String, ByVal itemCode As String, ByVal txtBillToLocation As String, ByVal txtRefNo As String, ByVal txtVendorNo As String) As Boolean
+    Public Shared Function funPIPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrDocNo As String, ByVal itemCode As String, ByVal txtBillToLocation As String, ByVal txtRefNo As String, ByVal txtVendorNo As String, ByVal strTabSRNTender As String) As Boolean
 
         Dim frmCRV As New frmCrystalReportViewer()
         Dim qry As String = ""
@@ -189,7 +189,6 @@ Public Class clsPurchaseInvoiceHead
         Dim SHORTQTTY As String = ""
         Dim SRNQTTY As String = ""
         Dim SRNQTTY1stsch As String = ""
-        Dim strTabSRNTender As String = "TSPL_SRN_TENDER"
         Dim TSPL_PI_HEAD As String = Nothing
         Dim tspl_pi_detail As String = Nothing
         If isCancel Then
@@ -199,6 +198,10 @@ Public Class clsPurchaseInvoiceHead
             TSPL_PI_HEAD = " TSPL_PI_HEAD"
             tspl_pi_detail = " tspl_pi_detail "
         End If
+        'Dim strTabSRNTender As String = "TSPL_SRN_TENDER"
+        'If UsLock1.Status = ERPTransactionStatus.Pending Then
+        '    strTabSRNTender = "TSPL_SRN_TENDER_CALC"
+        'End If
         'If UsLock1.Status = ERPTransactionStatus.Pending Then
         '    strTabSRNTender = "TSPL_SRN_TENDER_CALC"
         'End If
