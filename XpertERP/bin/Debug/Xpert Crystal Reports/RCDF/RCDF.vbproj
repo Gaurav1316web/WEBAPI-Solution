@@ -2056,11 +2056,13 @@
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPC.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDairySaleBoothTruckSheetPouch.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptDistributorCollectionStatement.rpt" />
     <None Include="Crystal Reports\Sales Report\rptFluidMilkDemandReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassBoothSlip.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
     <None Include="Crystal Reports\Sales Report\rptHSNWiseSale.rpt" />
     <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptMilkSaleAsPerGatePass.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailItemWise.rpt" />

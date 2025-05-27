@@ -25739,6 +25739,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("RoundOffAmount", "decimal(18,2) null")
             coll.Add("No_Of_Asset", "integer null")
             coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("FILE_INFO2", "bigint NULL")
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", coll, Nothing, True, False, "", "DOC_CODE", "DOC_DATE")
