@@ -230,12 +230,22 @@ Public Class rptCollectionDataChangeReport
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
             End If
-            qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) ='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'"
-            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
-            End If
-            If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+            If PickDataFromRetestingTable Then
+                qry += " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+                End If
+            Else
+                qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) ='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'"
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+                End If
             End If
 
             qry += " ) As final where 2=2  " &
@@ -281,13 +291,24 @@ Public Class rptCollectionDataChangeReport
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ")  "
             End If
-            qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) ='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'"
-            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+            If PickDataFromRetestingTable Then
+                qry += " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and  TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+                End If
+            Else
+                qry += " and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) ='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'"
+                If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
+                End If
+                If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
+                    qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
+                End If
             End If
-            If clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal Then
-                qry += " and 2=( case when Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy") + "'  and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
-            End If
+
             If rbtnRetestingData.Checked Then
                 qry += " and TSPL_MILK_SRN_DETAIL.Retesting_FAT>0 And TSPL_MILK_SRN_DETAIL.Retesting_SNF>0 And Retesting_OR_Correction_Status>0 "
             ElseIf rbtnCorrectionData.Checked Then
