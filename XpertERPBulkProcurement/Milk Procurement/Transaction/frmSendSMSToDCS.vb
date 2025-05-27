@@ -781,7 +781,7 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
                 Throw New Exception("Please select " + TxtDCS.MyLinkLable1.Text)
             End If
             Dim qry As String = Nothing
-            qry = "Select FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
+            qry = "Select coalesce(FILE_INFO,FILE_INFO2)FILE_INFO from TSPL_MILK_PURCHASE_INVOICE_HEAD where 2=2 and  convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)>=convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
                    and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.VENDOR_INVOICE_DATE ,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)  "
             If clsCommon.myLen(TxtDCS.Value) > 0 Then
                 qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE = '" & TxtDCS.Value & "'"
