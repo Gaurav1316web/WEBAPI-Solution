@@ -2947,6 +2947,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             End If
 
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            lblOutStanding.Visible = False
+            lblOutstandingDesc.Visible = False
+            lblUnbilledMilk.Visible = False
+            lblUnbilledMilkAmt.Visible = False
+        End If
     End Sub
     Sub ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
@@ -5258,12 +5264,15 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                 ''richa VIJ/18/12/19-000123
                 ' CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                If chkDCS.Checked Then
-                    GetOutStandingBal(txtVendorNo.Value, docdate)
-                Else
-                    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    If chkDCS.Checked Then
+                        GetOutStandingBal(txtVendorNo.Value, docdate)
+                    Else
+                        CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                    End If
+                    GetUnbilledAmt(docdate, txtVendorNo.Value)
                 End If
-                GetUnbilledAmt(docdate, txtVendorNo.Value)
+
                 If chkDCS.Checked Then
                     LoadDCSData(txtVendorNo.Value, docdate)
                 Else
