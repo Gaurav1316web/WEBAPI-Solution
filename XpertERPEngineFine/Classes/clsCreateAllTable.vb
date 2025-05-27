@@ -8430,6 +8430,7 @@ Public Class clsCreateAllTable
             coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
             coll.Add("Set_Zero", "integer NOT NULL")
             coll.Add("Item_Code", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Unit_Code", "Varchar(12) null")
             coll.Add("Qty", "Decimal (18,2) NULL")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
