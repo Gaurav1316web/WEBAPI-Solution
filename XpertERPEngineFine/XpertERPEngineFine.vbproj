@@ -55,9 +55,8 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
-    <Reference Include="XpertCommon, Version=2.1.6.88, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\XPERTCOMMONNEW\common\bin\Debug\XpertCommon.dll</HintPath>
+    <Reference Include="XpertCommon">
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +129,6 @@
     <Compile Include="Classes\clsInvestmentType.vb" />
     <Compile Include="Classes\clsItemCapacityLimitHead.vb" />
     <Compile Include="Classes\clsITSection.vb" />
-    <Compile Include="Classes\clsLeakedSaleReturnHead.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsODMaster.vb" />
     <Compile Include="Classes\clsODSheet.vb" />

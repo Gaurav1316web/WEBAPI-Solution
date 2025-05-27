@@ -14,6 +14,7 @@ Public Class clsItemUOMDetails
     Public Custom_Conversion As Boolean
     Public Print_UOM As Integer = 0
     Public Report_UOM As Integer = 0
+    Public Decimal_UOM As Integer = 0
     Public RMProcessLoss_UOM As Integer = 0
 
 
@@ -66,6 +67,7 @@ Public Class clsItemUOMDetails
             clsCommon.AddColumnsForChange(coll, "Custom_Conversion", IIf(obj.Custom_Conversion, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Print_UOM", obj.Print_UOM)
             clsCommon.AddColumnsForChange(coll, "Report_UOM", obj.Report_UOM)
+            clsCommon.AddColumnsForChange(coll, "Decimal_UOM", obj.Decimal_UOM)
             clsCommon.AddColumnsForChange(coll, "ProcessLoss_UOM", obj.RMProcessLoss_UOM)
             clsCommon.AddColumnsForChange(coll, "Item_Cost", Math.Round(StockUnitItemCost * obj.Conversion_Factor, 2, MidpointRounding.AwayFromZero))
 

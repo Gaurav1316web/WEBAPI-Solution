@@ -2741,6 +2741,11 @@ a:          Dim frmFilter As New frmFilterToExport()
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
             End If
+            'Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+            'Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
+            'If IsExists = False Then
+            '    System.IO.Directory.CreateDirectory(forlderName)
+            'End If
             Dim sfd As SaveFileDialog = New SaveFileDialog()
             Dim path As String
             sfd.FileName = frm.Text

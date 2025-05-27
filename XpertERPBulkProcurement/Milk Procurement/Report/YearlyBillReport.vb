@@ -139,7 +139,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
             If dtDoc.Rows.Count > 0 Then
 
 
-                Dim Qry1 As String = "  Select
+                Dim Qry1 As String = "  Select TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,
 				                    TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,
 									 COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode) AS DCS_Addition_Deduction,
@@ -153,10 +153,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 									left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 									left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
-									
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC									
 									 Union all	
 									 
-									SELECT TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
+									SELECT TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No,COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code) AS DCS_Addition_Deduction,
 									 COALESCE(TSPL_DEDUCTION_MASTER.Description, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)  as DCSDescription,
                                     TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date
@@ -167,9 +167,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 									left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                                     left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 									union all
 
-									SELECT TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
+									SELECT TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_SAVING.Doc_No,
 									TSPL_DEDUCTION_MASTER.Code as DCS_Addition_Deduction,TSPL_DEDUCTION_MASTER.Description as DCSDescription,
 
@@ -181,9 +182,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 								    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 								    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 									union all
 
-									SELECT TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
+									SELECT TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									
 									TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,
                                     TSPL_DEDUCTION_MASTER.Code as DCS_Addition_Deduction,TSPL_DEDUCTION_MASTER.Description as DCSDescription,
@@ -195,9 +197,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 								    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction 
 								    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 									
 									union all
-									SELECT TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
+									SELECT TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No,
                                     TSPL_DEDUCTION_MASTER.Code as DCS_Addition_Deduction,TSPL_DEDUCTION_MASTER.Description as DCSDescription,
                                     TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date 
@@ -208,10 +211,10 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 								    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction 
 								    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 									
 									union all
-									Select TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,TSPL_VENDOR_MASTER.Gender,VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
+									Select TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,TSPL_VENDOR_MASTER.Gender,VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
                                    Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_HEAD.Doc_No,
                                    '' as DCS_Addition_Deduction,'' as DCSDescription,
                                     0 as Amount,0 AS VendorAmt,'' as InvoiceNo,'' as Main_VSP_Milk_AP_Invoice_No ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date
@@ -219,12 +222,13 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                    left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
-								   left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
+								   left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
+                                   left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
 
 
 
                 Dim sQuery As String = Nothing
-                If rdbSummary.IsChecked = True Then
+                If rdbSummary.IsChecked = True AndAlso rdbDCS.IsChecked = True Then
                     sQuery = "  Select VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
@@ -265,6 +269,100 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by VSP_CODE order by cast(max(DCSCode)  as int) "
+
+                ElseIf rdbSummary.IsChecked AndAlso rdbBMC.IsChecked = True Then
+                    sQuery = "  Select MCC,max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                                    sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
+                                    sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
+                                    from 
+                                   (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from (Select MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
+                                   sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,
+                                   sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " 
+                                    from(Select MCC,MCC_NAME,Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
+                                   Credit_Note_Amount, " & DescName2 & " 
+                                     from (Select MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
+                                   sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
+                                   sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount 
+                                   from (   Select MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
+                                   SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date 
+                                   from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
+                        PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by VSP_CODE )YY 
+
+                        Union all
+									Select  MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,'' as Registered_PDCS_CLUSTER,'' as Gender,VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
+                                    0 as Deduction_Amount,0 as Credit_Note_Amount," & DescName & "  ,																
+									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty
+                                    from (SELECT MAX(XX.MCC)MCC,MAX(MCC_NAME)MCC_NAME,XX.DOC_CODE,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,SUM(XX.Qty)Qty,
+                                    XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
+                                    CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty 
+                                    FROM (Select TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
+                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD from TSPL_MILK_PURCHASE_INVOICE_DETAIL
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
+                                    left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                                    left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                                    LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
+                                    where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
+                                    and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by MCC order by MCC  "
+
+                ElseIf rdbSummary.IsChecked AndAlso rdbBMCDCS.IsChecked = True Then
+                    sQuery = "    WITH BaseData AS ( Select MCC,max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                                    sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
+                                    sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
+                                    from 
+                                   (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from (Select MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
+                                   sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,
+                                   sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " 
+                                    from(Select MCC,MCC_NAME,Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
+                                   Credit_Note_Amount, " & DescName2 & " 
+                                     from (Select MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
+                                   sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
+                                   sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount 
+                                   from (   Select MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
+                                   SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date 
+                                   from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
+                        PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by VSP_CODE )YY 
+
+                        Union all
+									Select  MAX(MCC)MCC,MAX(MCC_NAME)MCC_NAME,'' as Registered_PDCS_CLUSTER,'' as Gender,VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
+                                    0 as Deduction_Amount,0 as Credit_Note_Amount," & DescName & "  ,																
+									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty
+                                    from (SELECT MAX(XX.MCC)MCC,MAX(MCC_NAME)MCC_NAME,XX.DOC_CODE,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,SUM(XX.Qty)Qty,
+                                    XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
+                                    CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty 
+                                    FROM (Select TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
+                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD from TSPL_MILK_PURCHASE_INVOICE_DETAIL
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
+                                    left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
+                                    left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                                    left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                                    LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
+                                    where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
+                                    and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
+                    If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by MCC,VSP_CODE)
+SELECT * FROM BaseData
+Union all
+SELECT MCC as MCC,max(MCC_NAME) as MCC_NAME,'' AS VSP_CODE,'Total of ' + max(MCC_NAME) AS DCSCode,'' AS VSP_NAME,'' AS Registered_PDCS_CLUSTER,
+    '' AS Gender,SUM(Milk_Qty) AS Milk_Qty,SUM(Milk_Amount) AS Milk_Amount,SUM(Head_Load_Amount) AS Head_Load_Amount,SUM(Deduction_Amount) AS Deduction_Amount,
+    SUM(Credit_Note_Amount) AS Credit_Note_Amount," & DescName4 & ",SUM(SweetQty) AS SweetQty,SUM(SourQty) AS SourQty,SUM(CurdQty) AS CurdQty,SUM(Payable_Amount) AS Payable_Amount
+FROM BaseData GROUP BY MCC order by MCC,DCSCode "
+
+
 
                 ElseIf rdbMonth.IsChecked = True Then
                     sQuery = "  Select max(Month_Name)Month_Name,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
@@ -458,7 +556,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns(ii).VisibleInColumnChooser = False
         Next
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        If rdbSummary.IsChecked = True Then
+        If rdbSummary.IsChecked = True AndAlso rdbDCS.IsChecked = True Then
             gv1.Columns("VSP_CODE").HeaderText = "VSP Code"
             gv1.Columns("VSP_CODE").IsVisible = False
             gv1.Columns("VSP_CODE").VisibleInColumnChooser = True
@@ -482,6 +580,93 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns("A").VisibleInColumnChooser = True
 
             Dim index As Integer = 5
+            For ii As Integer = index To gv1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            Next
+
+        ElseIf rdbSummary.IsChecked = True AndAlso rdbBMC.IsChecked = True Then
+            gv1.Columns("VSP_CODE").HeaderText = "VSP Code"
+            gv1.Columns("VSP_CODE").IsVisible = False
+            gv1.Columns("VSP_CODE").VisibleInColumnChooser = True
+
+            gv1.Columns("MCC").HeaderText = "MCC"
+            gv1.Columns("MCC").IsVisible = False
+            gv1.Columns("MCC").VisibleInColumnChooser = True
+
+            gv1.Columns("DCSCode").HeaderText = "DCS Code"
+            gv1.Columns("DCSCode").IsVisible = False
+            gv1.Columns("DCSCode").VisibleInColumnChooser = True
+
+            gv1.Columns("VSP_NAME").HeaderText = "DCS Name"
+            gv1.Columns("VSP_NAME").IsVisible = False
+            gv1.Columns("VSP_NAME").VisibleInColumnChooser = True
+
+            gv1.Columns("Registered_PDCS_CLUSTER").HeaderText = "Registered_PDCS_CLUSTER"
+            gv1.Columns("Registered_PDCS_CLUSTER").IsVisible = False
+            gv1.Columns("Registered_PDCS_CLUSTER").VisibleInColumnChooser = True
+
+            gv1.Columns("Gender").HeaderText = "Gender"
+            gv1.Columns("Gender").IsVisible = False
+            gv1.Columns("Gender").VisibleInColumnChooser = True
+
+            gv1.Columns("MCC_NAME").HeaderText = "MCC NAME"
+            gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+            gv1.Columns("Milk_Amount").HeaderText = "Milk Purchase"
+            gv1.Columns("Head_Load_Amount").HeaderText = "Head Load"
+            gv1.Columns("Payable_Amount").HeaderText = "Net Payable"
+            gv1.Columns("Deduction_Amount").HeaderText = "Deduction Amount"
+            gv1.Columns("Deduction_Amount").IsVisible = False
+            gv1.Columns("Deduction_Amount").VisibleInColumnChooser = True
+            gv1.Columns("Credit_Note_Amount").HeaderText = "Credit Note Amount"
+            gv1.Columns("Credit_Note_Amount").IsVisible = False
+            gv1.Columns("Credit_Note_Amount").VisibleInColumnChooser = True
+            gv1.Columns("A").HeaderText = "A"
+            gv1.Columns("A").IsVisible = False
+            gv1.Columns("A").VisibleInColumnChooser = True
+
+            Dim index As Integer = 2
+            For ii As Integer = index To gv1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            Next
+        ElseIf rdbSummary.IsChecked = True AndAlso rdbBMCDCS.IsChecked = True Then
+            gv1.Columns("VSP_CODE").HeaderText = "VSP Code"
+            gv1.Columns("VSP_CODE").IsVisible = False
+            gv1.Columns("VSP_CODE").VisibleInColumnChooser = True
+
+            gv1.Columns("MCC").HeaderText = "MCC"
+            gv1.Columns("MCC").IsVisible = False
+            gv1.Columns("MCC").VisibleInColumnChooser = True
+
+            gv1.Columns("MCC_NAME").HeaderText = "MCC_NAME"
+            gv1.Columns("MCC_NAME").IsVisible = False
+            gv1.Columns("MCC_NAME").VisibleInColumnChooser = True
+
+            gv1.Columns("DCSCode").HeaderText = "DCS Code"
+            gv1.Columns("DCSCode").IsVisible = True
+            gv1.Columns("DCSCode").VisibleInColumnChooser = True
+
+            gv1.Columns("VSP_NAME").HeaderText = "DCS Name"
+            gv1.Columns("VSP_NAME").IsVisible = True
+            gv1.Columns("VSP_NAME").VisibleInColumnChooser = True
+
+            gv1.Columns("Registered_PDCS_CLUSTER").HeaderText = "DCS Type"
+            gv1.Columns("Gender").HeaderText = "Gender"
+
+            gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
+            gv1.Columns("Milk_Amount").HeaderText = "Milk Purchase"
+            gv1.Columns("Head_Load_Amount").HeaderText = "Head Load"
+            gv1.Columns("Payable_Amount").HeaderText = "Net Payable"
+            gv1.Columns("Deduction_Amount").HeaderText = "Deduction Amount"
+            gv1.Columns("Deduction_Amount").IsVisible = False
+            gv1.Columns("Deduction_Amount").VisibleInColumnChooser = True
+            gv1.Columns("Credit_Note_Amount").HeaderText = "Credit Note Amount"
+            gv1.Columns("Credit_Note_Amount").IsVisible = False
+            gv1.Columns("Credit_Note_Amount").VisibleInColumnChooser = True
+            gv1.Columns("A").HeaderText = "A"
+            gv1.Columns("A").IsVisible = False
+            gv1.Columns("A").VisibleInColumnChooser = True
+
+            Dim index As Integer = 7
             For ii As Integer = index To gv1.Columns.Count - 1
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
             Next
@@ -585,7 +770,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
     Sub funreset()
         EnableDisableControls(True)
         gv1.DataSource = Nothing
-        txtDCS.arrValueMember = Nothing
+        'txtDCS.arrValueMember = Nothing
         RadPageView2.SelectedPage = RadPageViewPage4
     End Sub
 
@@ -593,6 +778,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
         txtDCS.Enabled = val
         RadGroupBox11.Enabled = val
         RadGroupBox6.Enabled = val
+        RadGroupBox1.Enabled = val
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -646,4 +832,19 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
         End Try
     End Sub
 
+    Private Sub rdbMonth_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbMonth.ToggleStateChanged
+        RadGroupBox1.Enabled = False
+    End Sub
+
+    Private Sub rdbSummary_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbSummary.ToggleStateChanged
+        RadGroupBox1.Enabled = True
+    End Sub
+
+    Private Sub rdbCycleW_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbCycleW.ToggleStateChanged
+        RadGroupBox1.Enabled = False
+    End Sub
+
+    Private Sub rdbMonthCycle_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbMonthCycle.ToggleStateChanged
+        RadGroupBox1.Enabled = False
+    End Sub
 End Class

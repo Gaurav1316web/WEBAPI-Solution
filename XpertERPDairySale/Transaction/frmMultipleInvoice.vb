@@ -8,6 +8,9 @@ Imports System.Net.WebClient
 Imports System.Net
 Public Class frmMultipleInvoice
     Inherits FrmMainTranScreen
+#Region "Variables"
+    Dim isInvoice As Boolean = False
+#End Region
     Public Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
@@ -31,6 +34,7 @@ Public Class frmMultipleInvoice
         AddNew()
     End Sub
     Public Sub AddNew()
+        isInvoice = False
         txtFromDate.Value = clsCommon.GETSERVERDATE().AddDays(-10)
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromShift.SelectedValue = "M"
@@ -43,6 +47,13 @@ Public Class frmMultipleInvoice
         btnLoadData.Visible = False
         btnDelete.Visible = False
         btnGo.Enabled = True
+        rgbItemType.Enabled = True
+        txtLocation.Enabled = True
+        txtCustomer.Enabled = True
+        txtToDate.Enabled = True
+        txtFromDate.Enabled = True
+        txtFromShift.Enabled = True
+        txtToShift.Enabled = True
         gv1.DataSource = Nothing
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -68,25 +79,25 @@ from TSPL_SD_SHIPMENT_HEAD
 left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
  where 2=2 "
                 Qry += "  and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No='' "
-                Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+                Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
                 If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "E") = CompairStringResult.Equal Then
-                    Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')) "
+                    Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')) "
 
                 ElseIf clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
                     Qry += " AND ( 
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
-            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
 
                 ElseIf clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                    Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
-            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+                    Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
                 End If
                 If rbtnNonTaxable.Checked Then
-                    Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' "
+                    Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
                 Else
-                    Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' "
+                    Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
                 End If
                 If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                     Qry += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in(" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
@@ -109,6 +120,13 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
                     Next
                     gv1.BestFitColumns()
                     btnGo.Enabled = False
+                    rgbItemType.Enabled = False
+                    txtLocation.Enabled = False
+                    txtCustomer.Enabled = False
+                    txtToDate.Enabled = False
+                    txtFromDate.Enabled = False
+                    txtFromShift.Enabled = False
+                    txtToShift.Enabled = False
                 Else
                     Throw New Exception("Data Not Found!")
                 End If
@@ -205,27 +223,27 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
             where Customer_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(0).Value) + "' and Route_No='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(1).Value) + "'  
              and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No='' "
 
-                    Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                    Qry += " and CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) BETWEEN '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
                     If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "E") = CompairStringResult.Equal Then
-                        Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')) "
+                        Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')) "
 
                     ElseIf clsCommon.CompairString(txtFromShift.Text, "M") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
                         Qry += " AND ( 
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
-            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
 
                     ElseIf clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                        Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
-            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
+                        Qry += " AND ( (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + FromShift + "') OR
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "')  
+            or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
                     End If
 
 
                     If rbtnNonTaxable.Checked Then
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' "
+                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
                     Else
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' "
+                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
                     End If
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -258,6 +276,7 @@ left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_IN
 where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            isInvoice = True
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
@@ -317,6 +336,35 @@ where isMultipleInvoice=1 and convert(date,document_date,103)='" + clsCommon.Get
                 LoadData()
             End If
 
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
+        Try
+            If isInvoice Then
+                If gv1.CurrentColumn Is gv1.Columns(0) Then
+                    Dim frm As New FrmInvoiceDetails()
+                    frm.strInvoiceNo = clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value)
+                    frm.strInvoiceDate = clsCommon.myCstr(gv1.CurrentRow.Cells(1).Value)
+                    frm.ShowDialog()
+                End If
+            Else
+                If gv1.CurrentColumn Is gv1.Columns(0) Then
+                    Dim frm As New frmShipmentDetails()
+                    frm.strFromDate = txtFromDate.Value
+                    frm.strToDate = txtToDate.Value
+                    frm.strFromShift = clsCommon.myCstr(txtFromShift.Text)
+                    frm.strToshift = clsCommon.myCstr(txtToShift.Text)
+                    frm.strCustCode = clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value)
+                    frm.strItemType = IIf(rbtnNonTaxable.Checked, "NT", "T")
+                    frm.strRouteNo = clsCommon.myCstr(gv1.CurrentRow.Cells(1).Value)
+                    frm.strLocation = clsCommon.myCstr(txtLocation.Value)
+                    frm.ShowDialog()
+                End If
+            End If
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

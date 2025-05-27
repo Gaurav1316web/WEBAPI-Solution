@@ -348,9 +348,10 @@ Public Class clsEmployeeSalary
               " ( " & strSelect & " ) " &
               " ) AS pvt  "
 
-        ''where 2=2 and (RESIGNATION_SUBMIT_DATE is null or ((cast('1' + '/' + datename(month,RESIGNATION_SUBMIT_DATE) + '/' + cast(Year(RESIGNATION_SUBMIT_DATE) as varchar) as date) >=convert(date,'" + SalStructDate + "',103))))
+        'where 2=2 and (RESIGNATION_SUBMIT_DATE is null or ((cast('1' + '/' + datename(month,RESIGNATION_SUBMIT_DATE) + '/' + cast(Year(RESIGNATION_SUBMIT_DATE) as varchar) as date) >=convert(date,'" + SalStructDate + "',103))))
         'strSelect = GetPayHeadCodeStringForSelect(SalStructCode)
-        transportSql.ExporttoExcelNew(qry, frm, strSelect)
+        'transportSql.ExporttoExcelNew(qry, frm, strSelect)
+        transportSql.ExporttoExcel(qry, frm)
 
         '" ORDER BY pvt.EMP_CODE;"
         Return qry

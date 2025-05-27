@@ -1402,6 +1402,16 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                 Dim FG As String = ""
                 Dim SFG As String = ""
                 Dim FGSFG As String = ""
+                Dim status As String = ""
+                If rdbPosted.IsChecked = True Then
+                    status = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 "
+
+                ElseIf rdbUnposted.IsChecked = True Then
+                    status = " AND TSPL_SPP_PRODUCTION_ENTRY.posted=0 "
+
+                ElseIf rdbAll.IsChecked = True Then
+
+                End If
                 If rdbFG.IsChecked = True Then
                     FG = " and TSPL_Item_Master.FG_for_CF_RPT=1 "
                     Itemqry = " Select Item_Code from TSPL_ITEM_MASTER WHERE FG_for_CF_RPT=1 "
@@ -1432,7 +1442,7 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
                 If Productionchk.IsChecked = True Then
                     sQuery += " ((isnull(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) as FINAL_PRODUCTION_QTY "
                 ElseIf ReprdctnChk.IsChecked = True Then
-                    sQuery += " ((isnull(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY-TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) as FINAL_PRODUCTION_QTY"
+                    sQuery += " isnull(((TSPL_SPP_PRODUCTION_ENTRY.Reprocess_H_Qty*Bag_uom.Conversion_Factor)/ ToUOM.Conversion_Factor),0) as FINAL_PRODUCTION_QTY"
                 ElseIf Prdnctnallchk.IsChecked = True Then
                     sQuery += " ((isnull(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Reprocess_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) as FINAL_PRODUCTION_QTY"
                 End If
@@ -1443,11 +1453,14 @@ and TSPL_SCRAPINVOICE_HEAD.shipment_Date <= '" + clsCommon.GetPrintDate(clsCommo
             left outer join TSPL_ITEM_MASTER on  TSPL_ITEM_MASTER.item_code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
             left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Unit_code
+            left join TSPL_ITEM_UOM_DETAIL Bag_uom on Bag_uom.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and Bag_uom.UOM_Code='bag'
 				left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.item_code and ToUOM.UOM_Code='Qtl'
-            WHERE CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'"
+            WHERE CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' 
+            and CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE='" + txtLocation.Value + "' "
                 End If
+                sQuery += " " + status + "" + FG + " " + SFG + " " + FGSFG + " "
                 sQuery += "  union all
                 select convert(date, thedate,103) as PROD_DATE,TSPL_ITEM_MASTER.Item_Code,
                 case when TSPL_ITEM_MASTER.ITEM_CODE in (" & itemNames1 & ") then  substring(TSPL_ITEM_MASTER.ITEM_CODE, 6,1) else '0' end as sr_no, 
