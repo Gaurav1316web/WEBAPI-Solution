@@ -17,6 +17,7 @@ Public Class rptCustItemWiseSaleReport
         funreset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
+        LoadQtyConversionType()
     End Sub
 
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
@@ -108,11 +109,152 @@ Public Class rptCustItemWiseSaleReport
             RouteWiseSale(False)
         ElseIf BtnCreditPartyWiseSaleAmount.IsChecked Then
             CreditPartyWiseSaleAmount(False)
+        ElseIf rbtnDistributorCollStatement.IsChecked Then
+            LoadDistributorCollStatementData(False)
+        ElseIf rbtnMilkSale.IsChecked Then
+            LoadMilkSaleData(False)
         Else
             LoadData()
         End If
     End Sub
 
+    Sub LoadDistributorCollStatementData(ByVal print As Boolean)
+        Try
+            If ddlQtyConversionType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            Dim whrcls As String = ""
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                whrcls = " And TSPL_SD_SHIPMENT_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            If txtCustomer.arrValueMember Is Nothing Then
+                clsCommon.MyMessageBoxShow(Me, "You must select at least one Customer with Distributor Collection Statement option", Me.Text)
+                Exit Sub
+            Else
+                If txtCustomer.arrValueMember.Count = 1 Then
+                    whrcls += " and Customer_Code in ( " + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + " )"
+                ElseIf txtCustomer.arrValueMember.Count > 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Customer at a time with Distributor Collection Statement option", Me.Text)
+                    Exit Sub
+                End If
+            End If
+            Dim qry As String = ""
+            qry = " Select "
+            If print Then
+                qry += "  'Qty. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,max(CompName)CompName,max(Add1)Add1, "
+            End If
+            qry += " Customer_Name,max(Item_Desc)Item_Desc,sum([Qty(M)])[Qty(M)],sum([Qty(E)])[Qty(E)],sum(Total_Qty)Total_Qty,max(case when Amount=0 then 0 else Amount/Total_Qty end) as Rate,sum(Amount)Amount  from ( SELECT tspl_customer_master.Customer_Name,TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Cust_Code,TSPL_SD_SHIPMENT_HEAD.document_date, Shift_Type, TSPL_ITEM_MASTER.Item_Desc ,
+                TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty,case when Shift_Type='AM' then round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2)else 0 end as [Qty(M)],case when Shift_Type='PM' then round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2)else 0 end as [Qty(E)],
+			    round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2) as Total_Qty,isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)Amount,TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1
+                FROM TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Left outer join tspl_customer_master on tspl_customer_master.cust_code= TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
+                Left Outer Join TSPL_COMPANY_MASTER on 1=1 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [Pouch],[LTR],[Crate] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code  where 2 = 2 and TSPL_SD_SHIPMENT_HEAD.Status = 1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "', 103) and TSPL_ITEM_MASTER.IsTaxable=0 " + whrcls + " )xx group by Customer_Name,Item_Code "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterView.Refresh()
+                gv1.GroupDescriptors.Clear()
+                gv1.EnableFiltering = True
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.DataSource = dt
+                gv1.BestFitColumns()
+                SetGridFormationn()
+                ReStoreGridLayout()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.BestFitColumns()
+                If print Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptDistributorCollectionStatement", "Distributor Collection Statement")
+                    frmCRV = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub LoadMilkSaleData(ByVal Print As Boolean)
+        Try
+            If ddlQtyConversionType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            Dim whrcls As String = ""
+
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                whrcls = " And TSPL_SD_SHIPMENT_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in ( " + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + " )"
+            End If
+
+            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Booth, "
+            qry += "TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,"
+            qry += " TSPL_SD_SHIPMENT_DETAIL.Unit_code, round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2) as Qty,TSPL_ITEM_MASTER.Sku_Seq,"
+            qry += "TSPL_CUSTOMER_MASTER.Display_Seq FROM TSPL_SD_SHIPMENT_DETAIL "
+            qry += "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SHIPMENT_HEAD.Route_No 
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
+               left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [Pouch],[LTR],[Crate] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code
+LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHIPMENT_HEAD.Comp_Code where 2 = 2  and TSPL_SD_SHIPMENT_HEAD.Status = 1 and TSPL_ITEM_MASTER.IsTaxable=0 "
+            qry += "" & whrcls & "  "
+            qry += " and Cast(TSPL_SD_SHIPMENT_HEAD.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_SD_SHIPMENT_HEAD.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+
+            qry += " ) "
+
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Print")
+                Exit Sub
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 13
+                    If ii > 1 Then
+                        FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
+                    FinalQuery += "Customer_Code,max(Route_No) as Route_No,"
+                    FinalQuery += "max(Document_Date) as Document_Date"
+                    For jj As Integer = 1 To 13
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        Dim strIUnitCode As String
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                            strIUnitCode = ""
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                            strIUnitCode = "" + ddlQtyConversionType.SelectedValue + ""
+                        End If
+                        FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
+,(sum(case when Item_Code='" + strICODE + "'  then Qty else null end )) as ItemQtyCrate_" + strJJ + ""
+                    Next
+
+                    FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount ,sum(qty)TotalQty"
+                    FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Customer_Code"
+                Next
+                dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, Nothing, "rptMilkSaleAsPerGatePass", "Milk Sale As Per Gate Pass")
+                frmCRV = Nothing
+            End If
+            Exit Sub
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub STCRegisterItemwiseSummaryPartyWise(ByVal print As Boolean)
         Try
             Dim Qry As String = ""
@@ -1470,9 +1612,39 @@ LEFT JOIN TSPL_COMPANY_MASTER
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).Width = 80
         Next
+        If rbtnDistributorCollStatement.IsChecked Then
+            If isPrint Then
+                gv1.Columns("CompName").IsVisible = False
+                gv1.Columns("Add1").IsVisible = False
+                gv1.Columns("Fromdate").IsVisible = False
+                gv1.Columns("ToDate").IsVisible = False
+                gv1.Columns("QtyConvType").IsVisible = False
+            End If
+
+            gv1.Columns("Customer_Name").HeaderText = "Customer"
+                gv1.Columns("Item_Desc").HeaderText = "Item"
+                gv1.Columns("Total_Qty").HeaderText = "Total Qty"
+                gv1.Columns("Total_Qty").FormatString = "{0:n2}"
+                gv1.Columns("Rate").FormatString = "{0:n2}"
+                gv1.Columns("Amount").FormatString = "{0:n2}"
+                gv1.Columns("Qty(M)").FormatString = "{0:n2}"
+                gv1.Columns("Qty(E)").FormatString = "{0:n2}"
+                gv1.ShowGroupPanel = False
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                Dim QtyM As New GridViewSummaryItem("Qty(M)", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(QtyM)
+                Dim QtyE As New GridViewSummaryItem("Qty(E)", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(QtyE)
+                Dim Total_Qty As New GridViewSummaryItem("Total_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(Total_Qty)
+                Dim Amount As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(Amount)
+                gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            End If
     End Sub
 
     Sub funreset()
+        ddlQtyConversionType.SelectedValue = ""
         BtnStcRegisterPartyandItemWiseSummary.IsChecked = False
         BtnStcRegisterItemWiseSummary.IsChecked = False
         BtnProductWiseSaleQuantity.IsChecked = False
@@ -1925,6 +2097,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
         '    reportSTCPartyRegister(True)
         'Else
+        isPrint = True
         If BtnProductWiseSaleQuantity.IsChecked Then
             ProductWiseSale(True)
         ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
@@ -1951,12 +2124,16 @@ LEFT JOIN TSPL_COMPANY_MASTER
             RouteWiseSale(True)
         ElseIf BtnCreditPartyWiseSaleAmount.IsChecked Then
             CreditPartyWiseSaleAmount(True)
+        ElseIf rbtnDistributorCollStatement.IsChecked Then
+            LoadDistributorCollStatementData(True)
+        ElseIf rbtnMilkSale.IsChecked Then
+            LoadMilkSaleData(True)
         Else
             isPrint = True
             LoadData()
             isPrint = False
         End If
-
+        isPrint = False
         'End If
     End Sub
 
@@ -1973,6 +2150,16 @@ LEFT JOIN TSPL_COMPANY_MASTER
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Sub LoadQtyConversionType()
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all 
+                             Select 'Ltr' as Code,'Qty in Ltr' as Name  union all 
+ Select 'Pouch' as Code,'Qty in Pouch' as Name union all 
+ Select 'Crate' as Code,'Qty in Crate' as Name "
+        ddlQtyConversionType.DataSource = clsDBFuncationality.GetDataTable(qry)
+        ddlQtyConversionType.ValueMember = "Code"
+        ddlQtyConversionType.DisplayMember = "Name"
     End Sub
 
 End Class
