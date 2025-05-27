@@ -19,6 +19,9 @@ Public Class rptGSTR
     Dim strQryGSTR As String = Nothing
     Dim isGVDoubleClick As Boolean = False
     Dim B2CDocumentAmountRange As Decimal = 0
+    Dim chkWithoutGrid As Boolean = False
+
+    Const colDummyInvoiceAmt As String = "colDummyInvoiceAmt"
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -846,8 +849,24 @@ Public Class rptGSTR
         gv2.MasterTemplate.ShowTotals = True
     End Sub
 
-    Sub FormatGridFooterDetail()
+    Sub gv3BlankGridColumns()
+        gv3.DataSource = Nothing
+        gv3.Rows.Clear()
+        gv3.Columns.Clear()
+        gv3.Refresh()
+        gv3.MasterTemplate.Refresh()
 
+        Dim repoDummyInvoiceAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoDummyInvoiceAmt.FormatString = ""
+        repoDummyInvoiceAmt.HeaderText = "Invoice Amt"
+        repoDummyInvoiceAmt.Name = colDummyInvoiceAmt
+        repoDummyInvoiceAmt.Width = 100
+        repoDummyInvoiceAmt.ReadOnly = False
+        repoDummyInvoiceAmt.IsVisible = True
+        gv3.MasterTemplate.Columns.Add(repoDummyInvoiceAmt)
+    End Sub
+
+    Sub FormatGridFooterDetail()
         gv3.TableElement.TableHeaderHeight = 25
         gv3.MasterTemplate.ShowRowHeaderColumn = False
         For ii As Integer = 0 To gv3.Columns.Count - 1
@@ -874,33 +893,43 @@ Public Class rptGSTR
             'gv3.Columns("Invoice Type").IsVisible = False
             'gv3.Columns("Invoice Type").HeaderText = "Invoice Type"
 
+            'Dim item20 As New GridViewSummaryItem(colDummyInvoiceAmt, "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item20)
+
+            'Dim summaryItem1 As New GridViewSummaryItem()
+            'summaryItem1.FormatString = "{0:F2}"
+            'summaryItem1.Name = "Invoice Amount"
+            'summaryItem1.AggregateExpression = "sum([InvoiceAmountDisc])"
+            'summaryRowItem.Add(summaryItem1)
+
             Dim item3 As New GridViewSummaryItem("Taxable Value", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
+
             Dim item4 As New GridViewSummaryItem("Taxable Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
 
 
             Dim chkPrevDoc As String = Nothing
-            'Dim item5 As GridViewSummaryItem
+
             Dim Value As Decimal = 0
-            For Each gvRow As GridViewRowInfo In gv3.Rows
-                'If clsCommon.CompairString(gvRow.Cells("Particulars").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
-                If chkPrevDoc IsNot Nothing AndAlso clsCommon.myLen(chkPrevDoc) > 0 Then
-                    If Not clsCommon.CompairString(chkPrevDoc, clsCommon.myCstr(gvRow.Cells("Document No").Value)) = CompairStringResult.Equal Then
-                        'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
-                        Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
-                    End If
-                Else
-                    Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
-                    'item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
-                End If
-                chkPrevDoc = clsCommon.myCstr(gvRow.Cells("Document No").Value)
-                'End If
-            Next
+            'For Each gvRow As GridViewRowInfo In gv3.Rows
+            '    'If clsCommon.CompairString(gvRow.Cells("Particulars").Value, "B2B Invoices - 4A, 4B, 4C, 6B, 6C") = CompairStringResult.Equal Then
+            '    If chkPrevDoc IsNot Nothing AndAlso clsCommon.myLen(chkPrevDoc) > 0 Then
+            '        If Not clsCommon.CompairString(chkPrevDoc, clsCommon.myCstr(gvRow.Cells("Document No").Value)) = CompairStringResult.Equal Then
+            '            'Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
+            '            item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+            '        End If
+            '    Else
+            '        'Value += clsCommon.myCDecimal(gvRow.Cells("Invoice Amount").Value)
+            '        item5 = New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+            '    End If
+            '    chkPrevDoc = clsCommon.myCstr(gvRow.Cells("Document No").Value)
+            '    'End If
+            'Next
             'summaryRowItem.Add(item5)
 
-            Dim item5 As New GridViewSummaryItem("Invoice Amount", Value.ToString("F2"), GridAggregateFunction.Sum)
-            summaryRowItem.Add(item5)
+            'Dim item5 As New GridViewSummaryItem("Invoice Amount", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item5)
 
 
             Dim item6 As New GridViewSummaryItem("Round Off Amount", "{0:F2}", GridAggregateFunction.Sum)
@@ -2975,6 +3004,21 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
 
                 If Not exportGSTR Then
                     dt = clsDBFuncationality.GetDataTable(qry)
+
+                    'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    '    dt.Columns.Add("InvoiceAmountDisc", GetType(Decimal))
+                    '    Dim arrInvNo As New ArrayList
+                    '    For ii As Integer = 0 To dt.Rows.Count - 1
+                    '        If Not arrInvNo.Contains(dt.Rows(ii)("Sale Invoice No")) Then
+                    '            dt.Rows(ii)("InvoiceAmountDisc") = clsCommon.myCDecimal(dt.Rows(ii)("Invoice Amount"))
+                    '            arrInvNo.Add(dt.Rows(ii)("Sale Invoice No"))
+                    '        End If
+                    '    Next
+                    '    dt.AcceptChanges()
+                    'Else
+                    '    Throw New Exception("No Data found")
+                    'End If
+
                     gv3.DataSource = Nothing
                     gv3.Rows.Clear()
                     gv3.Columns.Clear()
@@ -2983,7 +3027,28 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
                     gv3.MasterView.Refresh()
 
                     If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                        'gv3BlankGridColumns()
                         gv3.DataSource = dt
+
+                        'If btnGSTR1.IsChecked = True And chkItemWise.Checked = False Then
+                        '    Dim chkPrevDoc As String = Nothing
+                        '    Dim ii As Integer = 0
+                        '    For Each gvRows As GridViewRowInfo In gv3.Rows
+                        '        If chkPrevDoc IsNot Nothing AndAlso clsCommon.myLen(chkPrevDoc) > 0 Then
+                        '            If Not clsCommon.CompairString(chkPrevDoc, clsCommon.myCstr(gvRows.Cells("Document No").Value)) = CompairStringResult.Equal Then
+                        '                gv3.Rows(ii).Cells(colDummyInvoiceAmt).Value = clsCommon.myCDecimal(gvRows.Cells("Invoice Amount").Value)
+                        '            Else
+                        '                gv3.Rows(ii).Cells(colDummyInvoiceAmt).Value = 0
+                        '            End If
+                        '        Else
+                        '            gv3.Rows(ii).Cells(colDummyInvoiceAmt).Value = clsCommon.myCDecimal(gvRows.Cells("Invoice Amount").Value)
+                        '        End If
+                        '        chkPrevDoc = clsCommon.myCstr(gvRows.Cells("Document No").Value)
+                        '        ii += 1
+                        '    Next
+                        'End If
+
+
                         RadPageView1.SelectedPage = RadPageViewPage3
                         gv3.BestFitColumns()
                         gv3.EnableFiltering = True
@@ -4109,6 +4174,79 @@ Union All "
         End Try
     End Sub
 
+    Function GetDataWithoutGrid() As String
+        Dim Qry As String = "WITH InvoiceBase AS ( 
+    SELECT 
+        (CASE 
+            WHEN ISNULL(Against_Sale_Return_No, '') <> '' THEN Against_Sale_Return_No 
+            WHEN ISNULL(Against_Sale_No, '') <> '' THEN Against_Sale_No 
+            WHEN ISNULL(AgainstScrap, '') <> '' THEN AgainstScrap 
+            WHEN ISNULL(AgainstScrapReturn, '') <> '' THEN AgainstScrapReturn   
+            WHEN ISNULL(Against_VCGL, '') <> '' THEN Against_VCGL 
+            WHEN ISNULL(Against_MCC_Material_Sale_Return, '') <> '' THEN Against_MCC_Material_Sale_Return  
+            WHEN ISNULL(Against_Security_Receipt_No, '') <> '' THEN Against_Security_Receipt_No  
+            ELSE '' 
+        END) AS InvoiceNumber,
+        Document_Date,
+        0 AS IsCancelled
+    FROM TSPL_Customer_INVOICE_HEAD
+    WHERE CONVERT(date, Document_Date, 103) >= CONVERT(date, '" + txtFromDate.Value + "', 103) AND CONVERT(date, Document_Date, 103) <= CONVERT(date, '" + txtToDate.Value + "', 103)
+
+    UNION ALL
+
+    SELECT 
+        (CASE 
+            WHEN ISNULL(Against_Sale_Return_No, '') <> '' THEN Against_Sale_Return_No 
+            WHEN ISNULL(Against_Sale_No, '') <> '' THEN Against_Sale_No 
+            WHEN ISNULL(AgainstScrap, '') <> '' THEN AgainstScrap 
+            WHEN ISNULL(AgainstScrapReturn, '') <> '' THEN AgainstScrapReturn   
+            WHEN ISNULL(Against_VCGL, '') <> '' THEN Against_VCGL 
+            WHEN ISNULL(Against_MCC_Material_Sale_Return, '') <> '' THEN Against_MCC_Material_Sale_Return  
+            WHEN ISNULL(Against_Security_Receipt_No, '') <> '' THEN Against_Security_Receipt_No  
+            ELSE '' 
+        END) AS InvoiceNumber,
+        Document_Date,
+        1 AS IsCancelled
+    FROM TSPL_CUSTOMER_INVOICE_HEAD_Cancel_Data
+    WHERE CONVERT(date, Document_Date, 103) >= CONVERT(date, '" + txtFromDate.Value + "', 103) AND CONVERT(date, Document_Date, 103) <= CONVERT(date, '" + txtToDate.Value + "', 103)
+),
+
+SplitInvoice AS (
+    SELECT 
+        InvoiceNumber,
+        Document_Date,
+        x.value('/x[1]', 'VARCHAR(50)') AS Part1,
+        x.value('/x[2]', 'VARCHAR(50)') AS Part2,
+        x.value('/x[3]', 'VARCHAR(50)') AS Part3,IsCancelled
+		
+    FROM (
+        SELECT 
+            InvoiceNumber,
+            Document_Date,
+            CAST('<x>' + 
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(InvoiceNumber, '/', '</x><x>'),
+                        '-', '</x><x>'),
+                    ':', '</x><x>'),
+                '_', '</x><x>') 
+            + '</x>' AS XML) AS x,IsCancelled
+        FROM InvoiceBase
+    ) AS SplitXML
+)
+SELECT 
+	'Invoices for outward supply' As [Nature of Document],
+    MIN(Cast(Part3 As Varchar)) AS [Sr. No. From],
+    MAX(Cast(Part3 As Varchar)) AS [Sr. No. To],
+	Count(Part3) As [Total Number],	
+	Sum(Case When IsCancelled=1 Then 1 Else 0 End) As [Cancelled]
+FROM SplitInvoice
+--WHERE ISNUMERIC(Part3) = 1
+GROUP BY  Part1 "
+        Return Qry
+    End Function
+
 
     Sub exportExcel(ByVal dt As DataTable, ByVal filePath As String, ByVal i As Integer)
         Try
@@ -4142,6 +4280,12 @@ Union All "
                         WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                     ElseIf clsCommon.CompairString(sheetName, "hsn") = CompairStringResult.Equal AndAlso i = 13 Then
                         WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
+                    ElseIf clsCommon.CompairString(sheetname, "docs") = CompairStringResult.Equal Then
+                        If Not chkWithoutGrid Then
+                            dt = clsDBFuncationality.GetDataTable(GetDataWithoutGrid())
+                            WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
+                            chkWithoutGrid = True
+                        End If
                     End If
                     Marshal.ReleaseComObject(sheet) ' Release sheet object
                     sheet = Nothing
