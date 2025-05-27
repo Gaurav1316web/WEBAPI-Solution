@@ -360,7 +360,7 @@ Partial Class frmDocumentCancelledReport
         Me.cboTransaction.IsSourceFromTable = False
         Me.cboTransaction.IsSourceFromValueList = False
         Me.cboTransaction.IsUnique = False
-        Me.cboTransaction.Location = New System.Drawing.Point(83, 36)
+        Me.cboTransaction.Location = New System.Drawing.Point(85, 58)
         Me.cboTransaction.MendatroryField = True
         Me.cboTransaction.MyLinkLable1 = Nothing
         Me.cboTransaction.MyLinkLable2 = Nothing
@@ -375,7 +375,7 @@ Partial Class frmDocumentCancelledReport
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(8, 36)
+        Me.RadLabel1.Location = New System.Drawing.Point(10, 62)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(65, 16)
         Me.RadLabel1.TabIndex = 10
@@ -394,7 +394,7 @@ Partial Class frmDocumentCancelledReport
         Me.cboModule.IsSourceFromTable = False
         Me.cboModule.IsSourceFromValueList = False
         Me.cboModule.IsUnique = False
-        Me.cboModule.Location = New System.Drawing.Point(59, 59)
+        Me.cboModule.Location = New System.Drawing.Point(85, 34)
         Me.cboModule.MendatroryField = True
         Me.cboModule.MyLinkLable1 = Nothing
         Me.cboModule.MyLinkLable2 = Nothing
@@ -404,18 +404,16 @@ Partial Class frmDocumentCancelledReport
         Me.cboModule.ReferenceTableName = Nothing
         Me.cboModule.Size = New System.Drawing.Size(147, 20)
         Me.cboModule.TabIndex = 0
-        Me.cboModule.Visible = False
         '
         'RadLabel10
         '
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel10.Location = New System.Drawing.Point(10, 61)
+        Me.RadLabel10.Location = New System.Drawing.Point(10, 36)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(43, 16)
         Me.RadLabel10.TabIndex = 11
         Me.RadLabel10.Text = "Module"
-        Me.RadLabel10.Visible = False
         '
         'RadSplitButton1
         '

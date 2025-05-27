@@ -43,21 +43,22 @@ Public Class frmCancelledTransactions_Production
             ShowData()
         End If
     End Sub
-    Public Sub LoadModuleType()
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
 
-        dr = dt.NewRow()
-        dr("Code") = "Production"
-        dr("Name") = "Production"
-        dt.Rows.Add(dr)
+    'Public Sub LoadModuleType()
+    '    Dim dt As DataTable = New DataTable()
+    '    dt.Columns.Add("Code", GetType(String))
+    '    dt.Columns.Add("Name", GetType(String))
 
-        cboModule.DataSource = dt
-        cboModule.DisplayMember = "Name"
-        cboModule.ValueMember = "Code"
+    '    dr = dt.NewRow()
+    '    dr("Code") = "Production"
+    '    dr("Name") = "Production"
+    '    dt.Rows.Add(dr)
 
-    End Sub
+    '    cboModule.DataSource = dt
+    '    cboModule.DisplayMember = "Name"
+    '    cboModule.ValueMember = "Code"
+
+    'End Sub
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -86,60 +87,104 @@ Public Class frmCancelledTransactions_Production
         End If
     End Sub
     Sub LoadModuleProduction()
-        Dim dt1 As DataTable = New DataTable()
-        dt1.Columns.Add("Code", GetType(String))
-        dt1.Columns.Add("Name", GetType(String))
+        Try
+            Dim Qry As String = "select TSPL_PROGRAM_MASTER.Program_Code as Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as Name 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmProductionPlanningDairy + "','" + clsUserMgtCode.frmBatchOrderDairy + "','" + clsUserMgtCode.frmProcessProductionIssueEntry + "','" + clsUserMgtCode.frmProcessProductionStandardization + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmProcessProductionStageProcess + "','" + clsUserMgtCode.frmProductionEntry + "','" + clsUserMgtCode.frmAssembDis + "','" + clsUserMgtCode.frmWreckageBooking + "')
+ "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            'dr = dt.NewRow()
+            'dr("Code") = dt.Rows(0)("Code")
+            'dr("Name") = dt.Rows(0)("Name")
+            'dt.Rows.Add(dr)
 
-      
-        dr = dt1.NewRow()
-        dr("Code") = "Production Planning"
-        dr("Name") = "Production Planning"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Batch Order"
-        dr("Name") = "Batch Order"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Issue Entry"
-        dr("Name") = "Production Issue Entry"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Standardization"
-        dr("Name") = "Production Standardization"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Standardization Final QC"
-        dr("Name") = "Production Standardization Final QC"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Stage Process"
-        dr("Name") = "Stage Process"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Entry"
-        dr("Name") = "Production Entry"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Assembly Deassembly"
-        dr("Name") = "Assembly Deassembly"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Wreckage Booking"
-        dr("Name") = "Wreckage Booking"
-        dt1.Rows.Add(dr)
-
-        cboTransaction.DataSource = dt1
-        cboTransaction.DisplayMember = "Name"
-        cboTransaction.ValueMember = "Code"
+            cboTransaction.DataSource = dt
+            cboTransaction.DisplayMember = "Name"
+            cboTransaction.ValueMember = "Code"
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
+    Public Sub LoadModuleType()
+        Dim Qry As String = "select Distinct TBL_MODULE.Program_Code As [Module Code],case when len (isnull(TBL_MODULE.Re_Name,'')) > 0 then TBL_MODULE.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as [Module Name] 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModuleProductionDairy + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
+ "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'dr = dt.NewRow()
+            'dr("Module Code") = dt.Rows(0)("Module Code")
+            'dr("Module Name") = dt.Rows(0)("Module Name")
+            'dt.Rows.Add(dr)
+            cboModule.DataSource = dt
+            cboModule.DisplayMember = "Module Name"
+            cboModule.ValueMember = "Module Code"
+        End If
+
+    End Sub
+    'Sub LoadModuleProduction()
+    '    Dim dt1 As DataTable = New DataTable()
+    '    dt1.Columns.Add("Code", GetType(String))
+    '    dt1.Columns.Add("Name", GetType(String))
+
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Planning"
+    '    dr("Name") = "Production Planning"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Batch Order"
+    '    dr("Name") = "Batch Order"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Issue Entry"
+    '    dr("Name") = "Production Issue Entry"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Standardization"
+    '    dr("Name") = "Production Standardization"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Standardization Final QC"
+    '    dr("Name") = "Production Standardization Final QC"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Stage Process"
+    '    dr("Name") = "Stage Process"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Entry"
+    '    dr("Name") = "Production Entry"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Assembly Deassembly"
+    '    dr("Name") = "Assembly Deassembly"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Wreckage Booking"
+    '    dr("Name") = "Wreckage Booking"
+    '    dt1.Rows.Add(dr)
+
+    '    cboTransaction.DataSource = dt1
+    '    cboTransaction.DisplayMember = "Name"
+    '    cboTransaction.ValueMember = "Code"
+    'End Sub
 
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
         LoadTrnsListOfSelectedModeule()
