@@ -1997,11 +1997,15 @@ group by XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,
         End Try
         Return True
     End Function
-    Public Shared Function ShuffleBoothRouteData(ByVal DocDate As DateTime, ByVal ShiftType As String) As Boolean
+    Public Shared Function ShuffleBoothRouteData(ByVal DocDate As DateTime, ByVal ShiftType As String, ByVal strRoute As ArrayList) As Boolean
         Try
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
-                Dim Qry As String = "select * from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and IsIndividualCustomer=0"
+                Dim Qry As String = "select * from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and ShiftType='" + ShiftType + "' and IsIndividualCustomer=0 "
+                If strRoute.Count > 0 Then
+                    Qry += " and Route_No in(" + clsCommon.GetMulcallString(strRoute) + ") "
+                End If
+
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -2025,6 +2029,9 @@ left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Doc
  where TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code='" + clsCommon.myCstr(drDtl("cust_code")) + "' and CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(DocDate) + "'
 and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "' and Shift_Type='" + IIf(clsCommon.CompairString(ShiftType, "Morning") = CompairStringResult.Equal, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(clsCommon.CompairString(ShiftType, "Morning") = CompairStringResult.Equal, clsCommon.GetPrintDate(DocDate.AddDays(-1)), clsCommon.GetPrintDate(DocDate)) + "' then 2 else 3 end)  end) order by PK_ID desc "
                                 Dim dtBooth As DataTable = clsDBFuncationality.GetDataTable(strBoothQry, trans)
+                                If dtBooth.Rows.Count <= 0 Then
+                                    Throw New Exception("Booth Code[ " + clsCommon.myCstr(drDtl("cust_code")) + "] not Found in Booth Route Mapping")
+                                End If
                                 If Not clsCommon.CompairString(clsCommon.myCstr(dr("Route_No")), clsCommon.myCstr(dtBooth.Rows(0)("Route_NO"))) = CompairStringResult.Equal Then
                                     Dim DemandDoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(DocDate) + "' and ShiftType='" + ShiftType + "' and Route_No='" + clsCommon.myCstr(dtBooth.Rows(0)("Route_No")) + "'", trans))
                                     If clsCommon.myLen(DemandDoc) > 0 Then
