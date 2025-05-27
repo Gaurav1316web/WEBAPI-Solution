@@ -6421,7 +6421,7 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
         Try
             clsCommon.ProgressBarShow()
 
-            clsDemandBookingSale.ShuffleBoothRouteData(txtShuffleDate.Value, cmbShift.Text)
+            clsDemandBookingSale.ShuffleBoothRouteData(txtShuffleDate.Value, cmbShift.Text, txtShuffleRoute.arrValueMember)
             clsCommon.ProgressBarHide()
             clsCommon.MyMessageBoxShow(Me, "Shuffled Successffuly")
 
@@ -6443,6 +6443,17 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Co
     Private Sub rmi_Indent_Excel_Click(sender As Object, e As EventArgs) Handles rmi_Indent_Excel.Click
         Try
             exportExcel()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtShuffleRoute__My_Click(sender As Object, e As EventArgs) Handles txtShuffleRoute._My_Click
+        Try
+            Dim qry As String = ""
+            qry = " select Route_No as Code,Route_Desc from TSPL_ROUTE_MASTER where Status='A' "
+
+            txtShuffleRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("Routeno@ShuffleDemand", qry, "Code", "Code", txtShuffleRoute.arrValueMember, txtShuffleRoute.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

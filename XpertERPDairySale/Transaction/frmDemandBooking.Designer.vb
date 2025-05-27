@@ -22,10 +22,10 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gbShuffleDemand = New System.Windows.Forms.GroupBox()
@@ -126,6 +126,8 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.lblshuffleRoute = New common.Controls.MyLabel()
+        Me.txtShuffleRoute = New common.UserControls.txtMultiSelectFinder()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -221,6 +223,7 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblshuffleRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -262,6 +265,8 @@ Partial Class frmDemandBooking
         '
         'gbShuffleDemand
         '
+        Me.gbShuffleDemand.Controls.Add(Me.txtShuffleRoute)
+        Me.gbShuffleDemand.Controls.Add(Me.lblshuffleRoute)
         Me.gbShuffleDemand.Controls.Add(Me.cmbShift)
         Me.gbShuffleDemand.Controls.Add(Me.btnShuffle)
         Me.gbShuffleDemand.Controls.Add(Me.lblShift)
@@ -269,7 +274,7 @@ Partial Class frmDemandBooking
         Me.gbShuffleDemand.Controls.Add(Me.txtShuffleDate)
         Me.gbShuffleDemand.Location = New System.Drawing.Point(1139, 63)
         Me.gbShuffleDemand.Name = "gbShuffleDemand"
-        Me.gbShuffleDemand.Size = New System.Drawing.Size(181, 100)
+        Me.gbShuffleDemand.Size = New System.Drawing.Size(181, 121)
         Me.gbShuffleDemand.TabIndex = 1472
         Me.gbShuffleDemand.TabStop = False
         Me.gbShuffleDemand.Text = "Shuffle Demand"
@@ -289,10 +294,10 @@ Partial Class frmDemandBooking
         Me.cmbShift.IsSourceFromTable = False
         Me.cmbShift.IsSourceFromValueList = False
         Me.cmbShift.IsUnique = False
-        RadListDataItem1.Text = "Morning"
-        RadListDataItem2.Text = "Evening"
-        Me.cmbShift.Items.Add(RadListDataItem1)
-        Me.cmbShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Morning"
+        RadListDataItem4.Text = "Evening"
+        Me.cmbShift.Items.Add(RadListDataItem3)
+        Me.cmbShift.Items.Add(RadListDataItem4)
         Me.cmbShift.Location = New System.Drawing.Point(55, 40)
         Me.cmbShift.MendatroryField = True
         Me.cmbShift.MyLinkLable1 = Nothing
@@ -307,7 +312,7 @@ Partial Class frmDemandBooking
         'btnShuffle
         '
         Me.btnShuffle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShuffle.Location = New System.Drawing.Point(18, 66)
+        Me.btnShuffle.Location = New System.Drawing.Point(23, 88)
         Me.btnShuffle.Name = "btnShuffle"
         Me.btnShuffle.Size = New System.Drawing.Size(154, 26)
         Me.btnShuffle.TabIndex = 152
@@ -1208,7 +1213,7 @@ Partial Class frmDemandBooking
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -1238,7 +1243,7 @@ Partial Class frmDemandBooking
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1525,6 +1530,29 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
+        'lblshuffleRoute
+        '
+        Me.lblshuffleRoute.FieldName = Nothing
+        Me.lblshuffleRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblshuffleRoute.Location = New System.Drawing.Point(6, 64)
+        Me.lblshuffleRoute.Name = "lblshuffleRoute"
+        Me.lblshuffleRoute.Size = New System.Drawing.Size(36, 18)
+        Me.lblshuffleRoute.TabIndex = 1524
+        Me.lblshuffleRoute.Text = "Route"
+        '
+        'txtShuffleRoute
+        '
+        Me.txtShuffleRoute.arrDispalyMember = Nothing
+        Me.txtShuffleRoute.arrValueMember = Nothing
+        Me.txtShuffleRoute.Location = New System.Drawing.Point(54, 64)
+        Me.txtShuffleRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShuffleRoute.MyLinkLable1 = Me.lblshuffleRoute
+        Me.txtShuffleRoute.MyLinkLable2 = Nothing
+        Me.txtShuffleRoute.MyNullText = "All"
+        Me.txtShuffleRoute.Name = "txtShuffleRoute"
+        Me.txtShuffleRoute.Size = New System.Drawing.Size(120, 20)
+        Me.txtShuffleRoute.TabIndex = 1523
+        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1643,6 +1671,7 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblshuffleRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1748,5 +1777,7 @@ Partial Class frmDemandBooking
     Friend WithEvents txtShuffleDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnShuffle As RadButton
     Friend WithEvents cmbShift As common.Controls.MyComboBox
+    Friend WithEvents txtShuffleRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblshuffleRoute As common.Controls.MyLabel
 End Class
 
