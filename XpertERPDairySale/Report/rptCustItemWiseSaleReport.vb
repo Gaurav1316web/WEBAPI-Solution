@@ -312,7 +312,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 RadPageView1.SelectedPage = RadPageViewPage2
                 If print Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptStockStatement", "Stock Statement")
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptStockStatementBKN", "Stock Statement")
                     frmCRV = Nothing
                 End If
             Else
