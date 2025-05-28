@@ -30340,6 +30340,9 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
                         clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Distributor_commission_Head drop constraint " & QryForeign & "")
                     End If
                 End If
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_DISTRIBUTOR_COMMISSION_HEAD set Item_Type='M' where Item_Type is null")
+                clsDBFuncationality.ExecuteNonQuery("update TSPL_DISTRIBUTOR_ROUTE set ItemType='M' where ItemType is null or ItemType='Both'")
+
             Catch ex As Exception
             End Try
 
