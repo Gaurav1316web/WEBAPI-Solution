@@ -71,6 +71,12 @@ Public Class rptCustItemWiseSaleReport
             VarID += "_RWS"
         ElseIf BtnCreditPartyWiseSaleAmount.IsChecked Then
             VarID += "_CPWSA"
+        ElseIf rbtnDistributorCollStatement.IsChecked Then
+            VarID += "_DSTC"
+        ElseIf rbtnMilkSale.IsChecked Then
+            VarID += "_MLKS"
+        ElseIf rbtnStockStatement.IsChecked Then
+            VarID += "_STOCK"
         End If
         If rbtnDetail.IsChecked Then
             VarID += "_DE"
@@ -83,6 +89,8 @@ Public Class rptCustItemWiseSaleReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         GetReportID()
+        Dim viewBlank As New TableViewDefinition()
+        gv1.ViewDefinition = viewBlank
         If BtnProductWiseSaleQuantity.IsChecked Then
             ProductWiseSale(False)
         ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked Then
@@ -113,6 +121,8 @@ Public Class rptCustItemWiseSaleReport
             LoadDistributorCollStatementData(False)
         ElseIf rbtnMilkSale.IsChecked Then
             LoadMilkSaleData(False)
+        ElseIf rbtnStockStatement.IsChecked Then
+            LoadStockStatementData(False)
         Else
             LoadData()
         End If
@@ -251,6 +261,63 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 frmCRV = Nothing
             End If
             Exit Sub
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub LoadStockStatementData(ByVal print As Boolean)
+        Try
+            Dim whrcls As String = ""
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                whrcls = " And TSPL_SD_SHIPMENT_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                whrcls = " And TSPL_LOCATION_MASTER.Location_Code In (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") "
+            End If
+
+            Dim qry As String = ""
+            qry = " Select "
+            If print Then
+                qry += "  TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate ,"
+            End If
+            qry += " *,OPBal+Production_In_Qty+Other_In_Qty-Sale_Qty-STC_Qty-Production_Out_Qty-Other_Out_Qty as Closing_Qty, Inter_Union_Sale FROM ( select row_number() OVER( order by  itEM_CODE) as Sno,MAX(Item_Desc) as Item_Desc,max(case when PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'  AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN Report_UOM ELSE '' end )as Report_UOM , sum(STOCK_QTY * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [OPBal]  , 
+            sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Production_In_Qty,SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD' or Trans_Type= 'SRN' OR Trans_Type='FS-SR') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Other_In_Qty  ,
+            sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='FS-SH' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Sale_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='ITransfer' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS STC_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Production_Out_Qty,
+            SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Other_Out_Qty,sum(Inter_Union_Sale)Inter_Union_Sale from (  " + Environment.NewLine + "  select case when isnull(tspl_customer_master.CFP_Unit,0)=1 then Stock_Qty else 0 end as Inter_Union_Sale,qty,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView',
+            case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end as Main_Location_Code,MainLocationTable.Location_Desc as MainLocationDesc, InventroyMovement.Location_Code,TSPL_LOCATION_MASTER.Location_Desc AS [Loc Desp],SourceCode,SourceName,SourceType ,InventroyMovement.Item_Code, InventroyMovement.MRP ,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Is_Sub_Location, InventroyMovement.Stock_UOM,InventroyMovement.Stock_Qty,isnull((InventroyMovement.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Report_UOM_Qty,Report_UOM.UOM_Code as Report_UOM, (case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then InventroyMovement.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then InventroyMovement.LIFO_Cost else InventroyMovement.Avg_Cost end end ) as Cost,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code 
+            from  ( select qty,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT ) InventroyMovement 
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code  left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code  left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and  TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=InventroyMovement.Item_Code and tspl_item_uom_detail.UOM_Code= InventroyMovement.Stock_UOM  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  Report_UOM ON InventroyMovement.Item_Code = Report_UOM.item_code 
+             left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=InventroyMovement.Trans_Type  left outer join TSPL_ADJUSTMENT_HEADER ON TSPL_ADJUSTMENT_HEADER.Adjustment_No=InventroyMovement.Source_Doc_No   left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=InventroyMovement.Source_Doc_No
+			left outer join tspl_customer_master  on tspl_customer_master.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y' and tspl_item_master.Item_Type='F' " + whrcls + " ) xx group by Item_Code ) xxx Left Outer Join TSPL_COMPANY_MASTER on 1=1"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gv1.DataSource = Nothing
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterView.Refresh()
+                gv1.GroupDescriptors.Clear()
+                gv1.ShowGroupPanel = False
+                gv1.EnableFiltering = True
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.DataSource = dt
+                gv1.BestFitColumns()
+                SetGridFormationn()
+                View()
+                ReStoreGridLayout()
+                'gv1.BestFitColumns()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                If print Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptStockStatement", "Stock Statement")
+                    frmCRV = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found")
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1622,28 +1689,97 @@ LEFT JOIN TSPL_COMPANY_MASTER
             End If
 
             gv1.Columns("Customer_Name").HeaderText = "Customer"
-                gv1.Columns("Item_Desc").HeaderText = "Item"
-                gv1.Columns("Total_Qty").HeaderText = "Total Qty"
-                gv1.Columns("Total_Qty").FormatString = "{0:n2}"
-                gv1.Columns("Rate").FormatString = "{0:n2}"
-                gv1.Columns("Amount").FormatString = "{0:n2}"
-                gv1.Columns("Qty(M)").FormatString = "{0:n2}"
-                gv1.Columns("Qty(E)").FormatString = "{0:n2}"
-                gv1.ShowGroupPanel = False
-                Dim summaryRowItem As New GridViewSummaryRowItem()
-                Dim QtyM As New GridViewSummaryItem("Qty(M)", "{0:F2}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(QtyM)
-                Dim QtyE As New GridViewSummaryItem("Qty(E)", "{0:F2}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(QtyE)
-                Dim Total_Qty As New GridViewSummaryItem("Total_Qty", "{0:F2}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(Total_Qty)
-                Dim Amount As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(Amount)
-                gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.Columns("Item_Desc").HeaderText = "Item"
+            gv1.Columns("Total_Qty").HeaderText = "Total Qty"
+            gv1.Columns("Total_Qty").FormatString = "{0:n2}"
+            gv1.Columns("Rate").FormatString = "{0:n2}"
+            gv1.Columns("Amount").FormatString = "{0:n2}"
+            gv1.Columns("Qty(M)").FormatString = "{0:n2}"
+            gv1.Columns("Qty(E)").FormatString = "{0:n2}"
+            gv1.ShowGroupPanel = False
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim QtyM As New GridViewSummaryItem("Qty(M)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(QtyM)
+            Dim QtyE As New GridViewSummaryItem("Qty(E)", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(QtyE)
+            Dim Total_Qty As New GridViewSummaryItem("Total_Qty", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Total_Qty)
+            Dim Amount As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Amount)
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        ElseIf rbtnStockStatement.IsChecked Then
+            gv1.Columns("Item_Desc").HeaderText = "Item"
+            gv1.Columns("Report_UOM").HeaderText = "UNIT"
+            gv1.Columns("OPBal").HeaderText = "Opening Stock"
+            gv1.Columns("Production_In_Qty").HeaderText = "Production "
+            gv1.Columns("Other_In_Qty").HeaderText = "Other"
+            gv1.Columns("Production_Out_Qty").HeaderText = "Production "
+            gv1.Columns("Other_Out_Qty").HeaderText = "Other"
+            gv1.Columns("Sale_Qty").HeaderText = "Sale "
+            gv1.Columns("STC_Qty").HeaderText = "STC"
+            gv1.Columns("Closing_Qty").HeaderText = "Closing Stock"
+            gv1.Columns("Inter_Union_Sale").HeaderText = "Inter Union Sale"
+            If isPrint Then
+                gv1.Columns("CompName").IsVisible = False
+                gv1.Columns("Add1").IsVisible = False
+                gv1.Columns("Fromdate").IsVisible = False
+                gv1.Columns("ToDate").IsVisible = False
             End If
+            Dim index As Integer = 0
+            If isPrint Then
+                index = 8
+            Else
+                index = 3
+            End If
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            For ii As Integer = index To gv1.Rows.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            Next
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        End If
     End Sub
 
+    Sub View()
+        If gv1.Rows.Count > 0 Then
+            Dim view As New ColumnGroupsViewDefinition()
+
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Sno").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Item_Desc").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Report_UOM").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("OPBal").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Received From"))
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Production_In_Qty").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Other_In_Qty").Name)
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Sale_Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("STC_Qty").Name)
+
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Transfer back to"))
+            view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Production_Out_Qty").Name)
+            view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("Other_Out_Qty").Name)
+
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Closing_Qty").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Inter_Union_Sale").Name)
+            gv1.ViewDefinition = view
+        End If
+    End Sub
     Sub funreset()
+        Dim viewBlank As New TableViewDefinition()
+        gv1.ViewDefinition = viewBlank
         ddlQtyConversionType.SelectedValue = ""
         BtnStcRegisterPartyandItemWiseSummary.IsChecked = False
         BtnStcRegisterItemWiseSummary.IsChecked = False
@@ -1662,6 +1798,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
         gv1.DataSource = Nothing
         rbtnDocumentDate.IsChecked = True
         rbtnDetail.IsChecked = True
+        txtLocation.arrValueMember = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -2128,6 +2265,8 @@ LEFT JOIN TSPL_COMPANY_MASTER
             LoadDistributorCollStatementData(True)
         ElseIf rbtnMilkSale.IsChecked Then
             LoadMilkSaleData(True)
+        ElseIf rbtnStockStatement.IsChecked Then
+            LoadStockStatementData(True)
         Else
             isPrint = True
             LoadData()
@@ -2162,5 +2301,30 @@ LEFT JOIN TSPL_COMPANY_MASTER
         ddlQtyConversionType.DisplayMember = "Name"
     End Sub
 
+    Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
+        Try
+            Dim qry As String = "select TSPL_LOCATION_MASTER.Location_Code as Code,TSPL_LOCATION_MASTER.Location_Desc as Name from TSPL_LOCATION_MASTER  "
+            txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("LocFilter", qry, "Code", "Name", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged
+        If rbtnStockStatement.IsChecked Then
+            txtLocation.Visible = True
+            lblLocation.Visible = True
+            btnGo.Enabled = True
+            RadSplitButton1.Enabled = True
+        ElseIf rbtnMilkSale.IsChecked Then
+            btnGo.Enabled = False
+            RadSplitButton1.Enabled = False
+        Else
+            btnGo.Enabled = True
+            RadSplitButton1.Enabled = True
+            txtLocation.Visible = False
+            lblLocation.Visible = False
+        End If
+    End Sub
 End Class
 
