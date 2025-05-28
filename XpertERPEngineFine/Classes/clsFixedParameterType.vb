@@ -1332,10 +1332,10 @@ Public Class clsFixedParameterType
     Public Const FinancialImpactForTPT = "Financial Impact For TPT"
     Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
     Public Const FinancialImpactForSecurity = "Financial Impact For Security"
-
-
-
     Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
+    Public Const QuickDemandUOMCrate = "Quick Demand UOM Crate"
+    Public Const QuickDemandUOMPouch = "Quick Demand UOM Pouch"
+    Public Const QuickDemandUOMLtr = "Quick Demand UOM Ltr"
 End Class
 Public Class clsFixedParameterCode
     Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
@@ -2817,6 +2817,9 @@ Public Class clsFixedParameterCode
     Public Const FinancialImpactForDistributor = "Financial Impact For Distributor"
     Public Const FinancialImpactForSecurity = "Financial Impact For Security"
     Public Const ShowAndSaveCrystalReportActionType = "Show And Save Crystal Report Action Type"
+    Public Const QuickDemandUOMCrate = "Quick Demand UOM Crate"
+    Public Const QuickDemandUOMPouch = "Quick Demand UOM Pouch"
+    Public Const QuickDemandUOMLtr = "Quick Demand UOM Ltr"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4466,6 +4469,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMCrate, clsFixedParameterCode.QuickDemandUOMCrate, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMPouch, clsFixedParameterCode.QuickDemandUOMPouch, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, "0", "0:Off, 1:On;")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6316,5 +6322,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForDistributor, clsFixedParameterCode.FinancialImpactForDistributor, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.FinancialImpactForSecurity, clsFixedParameterCode.FinancialImpactForSecurity, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMCrate, clsFixedParameterCode.QuickDemandUOMCrate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMPouch, clsFixedParameterCode.QuickDemandUOMPouch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, EnumControlType.CheckBox)
     End Sub
 End Class

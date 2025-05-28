@@ -33,7 +33,8 @@ Public Class frmDocumentCancelledReport
         'LoadModuleType()
         dtpFromDate.Value = clsCommon.GETSERVERDATE()
         dtpToDate.Value = clsCommon.GETSERVERDATE()
-        LoadModuleTransaction()
+        'LoadModuleTransaction()
+        LoadModuleType()
         'If clsCommon.myLen(ModuleName) > 0 Then
         '    cboModule.SelectedValue = ModuleName
         '    cboTransaction.SelectedValue = Transaction
@@ -42,21 +43,23 @@ Public Class frmDocumentCancelledReport
         '    ShowData()
         'End If
     End Sub
-    Public Sub LoadModuleType()
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
 
-        dr = dt.NewRow()
-        dr("Code") = "Dairy Sale"
-        dr("Name") = "Dairy Sale"
-        dt.Rows.Add(dr)
 
-        cboModule.DataSource = dt
-        cboModule.DisplayMember = "Name"
-        cboModule.ValueMember = "Code"
+    'Public Sub LoadModuleType()
+    '    Dim dt As DataTable = New DataTable()
+    '    dt.Columns.Add("Code", GetType(String))
+    '    dt.Columns.Add("Name", GetType(String))
 
-    End Sub
+    '    dr = dt.NewRow()
+    '    dr("Code") = "Dairy Sale"
+    '    dr("Name") = "Dairy Sale"
+    '    dt.Rows.Add(dr)
+
+    '    cboModule.DataSource = dt
+    '    cboModule.DisplayMember = "Name"
+    '    cboModule.ValueMember = "Code"
+
+    'End Sub
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -160,7 +163,12 @@ Public Class frmDocumentCancelledReport
     End Sub
 
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
-        LoadTrnsListOfSelectedModeule()
+        'LoadTrnsListOfSelectedModeule()
+        Try
+            LoadTrnsListOfSelectedModeule()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Public Sub LoadTrnsListOfSelectedModeule()
@@ -168,9 +176,53 @@ Public Class frmDocumentCancelledReport
         '    cboTransaction.DataSource = Nothing
         '    LoadModuleProduction()
         'End If
+        cboTransaction.DataSource = Nothing
+        LoadModuleDocumnet()
+    End Sub
+    Sub LoadModuleDocumnet()
+        Try
+            Dim Qry As String = "select TSPL_PROGRAM_MASTER.Program_Code as Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as Name 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "')
+ "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            'dr = dt.NewRow()
+            'dr("Code") = dt.Rows(0)("Code")
+            'dr("Name") = dt.Rows(0)("Name")
+            'dt.Rows.Add(dr)
+
+            cboTransaction.DataSource = dt
+            cboTransaction.DisplayMember = "Name"
+            cboTransaction.ValueMember = "Code"
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Public Sub LoadModuleType()
+        Dim Qry As String = "select Distinct TBL_MODULE.Program_Code As [Module Code],case when len (isnull(TBL_MODULE.Re_Name,'')) > 0 then TBL_MODULE.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as [Module Name] 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModuleFixedAsset + "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "','" + clsUserMgtCode.ModuleProductSale + "','" + clsUserMgtCode.ModuleSaleDairy + "','" + clsUserMgtCode.ModuleJobWorkInWard + "','" + clsUserMgtCode.ModuleMaterial + "','" + clsUserMgtCode.ModulePurchase + "','" + clsUserMgtCode.ModuleSalesNew + "','" + clsUserMgtCode.ModuleService + "','" + clsUserMgtCode.ModuleReceivable + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
+ "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'dr = dt.NewRow()
+            'dr("Module Code") = dt.Rows(0)("Module Code")
+            'dr("Module Name") = dt.Rows(0)("Module Name")
+            'dt.Rows.Add(dr)
+            cboModule.DataSource = dt
+            cboModule.DisplayMember = "Module Name"
+            cboModule.ValueMember = "Module Code"
+        End If
 
     End Sub
-
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -304,7 +356,7 @@ Public Class frmDocumentCancelledReport
                 " and convert(date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
                 " and TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.document_type='EX' and TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.trans_type='EXP' " &
                 " ORDER BY TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "AR Document") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
             qry = "Select TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_No  as [Document Id],convert(varchar,TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_Date ,103) as [Document Date] " &
                   ",TSPL_Customer_Invoice_Head_CANCEL_DATA.Customer_Code as [Customer Code],TSPL_Customer_Invoice_Head_CANCEL_DATA.Customer_Name as [Customer Name] " &
                   ", TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_Type as [Document Type] " &
@@ -494,8 +546,9 @@ Public Class frmDocumentCancelledReport
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Disposal Entry") = CompairStringResult.Equal Then
-                clsGRNHead.funGRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
+                clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

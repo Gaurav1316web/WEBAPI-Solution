@@ -71,7 +71,12 @@ Public Class frmSendBillToDCS
                 Throw New Exception("This functionality is not for you.")
             End If
             Dim qry As String = ReturnDCSQry()
-            qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null "
+            'If chkInactive.Checked = True Then
+            '    qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null  "
+            'Else
+            qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is null "
+            'End If
+
             If txtMultDCS.arrValueMember IsNot Nothing AndAlso txtMultDCS.arrValueMember.Count > 0 Then
                 qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE IN (" & clsCommon.GetMulcallString(txtMultDCS.arrValueMember) & ")"
             End If
@@ -87,6 +92,7 @@ Public Class frmSendBillToDCS
                 clsCommon.MyMessageBoxShow(Me, "Bill Print Successfully Done.", Me.Text)
                 CalculateSendOrRemainingBill()
                 txtMultDCS.arrValueMember = Nothing
+                chkInactive.Checked = False
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -100,13 +106,29 @@ Public Class frmSendBillToDCS
 
     Private Sub ProcessFile(dr As DataRow)
         Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(dr("Doc_No")) + "'", clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True, "", False)
-        If PDFPath IsNot Nothing AndAlso clsCommon.myLen(PDFPath) > 0 Then
+        Dim qry1 As String = " Select FILE_INFO,FILE_INFO2 from TSPL_MILK_PURCHASE_INVOICE_HEAD where DOC_CODE= '" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
+            Dim fileInfo2 As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO2"))
+            If clsCommon.myLen(fileInfo) > 0 OrElse clsCommon.myLen(fileInfo) > 0 Then
+                Exit Sub
+            End If
+            If PDFPath IsNot Nothing AndAlso clsCommon.myLen(PDFPath) > 0 Then
             Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), clsUserMgtCode.frmMilkPurchaseInvoice, clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")))
             If FileNo > 0 Then
-                Dim qry As String = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry)
+                    If chkInactive.Checked = True Then
+                        Dim qry As String = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO2=" + clsCommon.myCstr(FileNo) + ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry)
+                    Else
+                        Dim qry As String = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry)
+                    End If
             End If
-            SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+
+
+        End If
+        SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
         Else
             clsCommon.MyMessageBoxShow(Me, "Empty File Path", Me.Text)
         End If
@@ -188,7 +210,7 @@ Public Class frmSendBillToDCS
     Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
         Try
             If clsCommon.myLen(fndPaymentProcessDocNo.Value) > 0 Then
-                Dim qry As String = "Select Doc_No As [Document Code], VSP_CODE As [DCS Code],	VSP_NAME As [DCS Name], VLC_CODE_Uploader As [DCS Uploader Code],Zone_Code As [Zone] from (" + ReturnDCSQry() + " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null )xxx"
+                Dim qry As String = "Select Doc_No As [Document Code], VSP_CODE As [DCS Code],	VSP_NAME As [DCS Name], VLC_CODE_Uploader As [DCS Uploader Code],Zone_Code As [Zone] from (" + ReturnDCSQry() + " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is null )xxx"
                 txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "DCS@", qry, "DCS Code", "", txtMultDCS.arrValueMember, Nothing)
             Else
                 clsCommon.MyMessageBoxShow(Me, "Fill Document Code.", Me.Text)
@@ -200,8 +222,15 @@ Public Class frmSendBillToDCS
 
     Public Sub CalculateSendOrRemainingBill()
         Try
-            txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is Not null ) xxx"))
-            txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null ) xxx"))
+            'If chkInactive.Checked = True Then
+            txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and (TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is not null or TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is not null)  ) xxx"))
+                txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is null ) xxx"))
+            'Else
+            '    txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and (TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is not null or TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO2 is not null) ) xxx"))
+            '    txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null ) xxx"))
+            'End If
+            'txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is Not null ) xxx"))
+            'txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null ) xxx"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

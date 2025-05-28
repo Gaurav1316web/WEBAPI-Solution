@@ -1792,13 +1792,13 @@ ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX6) = 'TCS' THEN (TSPL_DEMAND_BOOK
 ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX9_Amt) ELSE (CASE WHEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10) = 'TCS' THEN (TSPL_DEMAND_BOOKING_DETAIL.TAX10_Amt) ELSE 0 END) END) END) END) END) END) END) END) END) END 
     AS TCSAmount
 from "
-                If objCommonVar.ApplyBoothRouteMapping Then
-                    BaseQry += " TSPL_BOOTH_ROUTE_MAPPING_HEAD
-  left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No
-  left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code "
-                Else
-                    BaseQry += " TSPL_CUSTOMER_MASTER "
-                End If
+                '              If objCommonVar.ApplyBoothRouteMapping Then
+                '                  BaseQry += " TSPL_BOOTH_ROUTE_MAPPING_HEAD
+                'left join TSPL_BOOTH_ROUTE_MAPPING_DETAIL on TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=TSPL_BOOTH_ROUTE_MAPPING_HEAD.Document_No
+                'left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code "
+                '              Else
+                BaseQry += " TSPL_CUSTOMER_MASTER "
+                'End If
 
                 BaseQry += " Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
 Left Join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
@@ -1824,15 +1824,15 @@ where 2=2 "
 
                 BaseQry += " and 2= (case when TSPL_DEMAND_BOOKING_MASTER.ShiftType='" + strShift + "' and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' then 2 else 3 end) "
 
-                If objCommonVar.ApplyBoothRouteMapping Then
-                    BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=(select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
-left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
-where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and TSPL_Booth_Route_Mapping_Head.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") 
-and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and Shift_Type='" + IIf(strShift = "Morning", "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(strShift = "Morning", clsCommon.GetPrintDate(DocDate.AddDays(-1)), clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy")) + "' then 2 else 3 end)  end) order by Document_No desc)"
-                    BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
-                Else
-                    BaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
-                End If
+                '                If objCommonVar.ApplyBoothRouteMapping Then
+                '                    BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Document_No=(select top 1 TSPL_Booth_Route_Mapping_Head.Document_No from TSPL_Booth_Route_Mapping_Head
+                'left join TSPL_Booth_Route_Mapping_Detail on TSPL_Booth_Route_Mapping_Detail.Document_No=TSPL_Booth_Route_Mapping_Head.Document_No
+                'where CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and TSPL_Booth_Route_Mapping_Head.Route_No IN (" + clsCommon.GetMulcallString(ArrRoute) + ") 
+                'and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)='" + clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy") + "' and Shift_Type='" + IIf(strShift = "Morning", "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,TSPL_Booth_Route_Mapping_Head.Supply_Date,103)<='" + IIf(strShift = "Morning", clsCommon.GetPrintDate(DocDate.AddDays(-1)), clsCommon.GetPrintDate(DocDate, "dd/MMM/yyyy")) + "' then 2 else 3 end)  end) order by Document_No desc)"
+                '                    BaseQry += " and TSPL_BOOTH_ROUTE_MAPPING_DETAIL.Booth_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
+                '                Else
+                BaseQry += " and TSPL_CUSTOMER_MASTER.Cust_Code Not In (Select Cust_Code from TSPL_DEMAND_BOOKING_DETAIL Where Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No) "
+                'End If
                 BaseQry += " )XXFinal "
             End If
             BaseQry += "  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq 

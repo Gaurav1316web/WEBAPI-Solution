@@ -10,6 +10,7 @@ Public Class clsDemandSheet
     Public Route_No As String = Nothing
     Public Set_Zero As Decimal = 0
     Public Item_Code As String = Nothing
+    Public Unit_Code As String = Nothing
     Public Qty As Decimal = 0
 
     Public Arr As List(Of clsDemandSheetDetails) = Nothing
@@ -30,7 +31,7 @@ Public Class clsDemandSheet
     Public Function SaveData(ByVal obj As clsDemandSheet, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim colCount As Decimal = 0
-            Dim StrQry As String = "select Count(*) from TSPL_DEMAND_SHEET where convert(date, DEMAND_Date,103)='" + clsCommon.GetPrintDate(obj.DEMAND_Date, "dd/MMM/yyyy") + "' and ShiftType='" + obj.ShiftType + "' and Item_Code='" + obj.Item_Code + "' and Cust_Code='" + obj.Cust_Code + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
+            Dim StrQry As String = "select Count(*) from TSPL_DEMAND_SHEET where convert(date, DEMAND_Date,103)='" + clsCommon.GetPrintDate(obj.DEMAND_Date, "dd/MMM/yyyy") + "' and ShiftType='" + obj.ShiftType + "' and Item_Code='" + obj.Item_Code + "' and Unit_Code='" + obj.Unit_Code + "' and Cust_Code='" + obj.Cust_Code + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
             colCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry, trans))
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "DEMAND_Date", clsCommon.GetPrintDate(obj.DEMAND_Date, "dd/MMM/yyyy"))
@@ -39,6 +40,7 @@ Public Class clsDemandSheet
             clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No)
             clsCommon.AddColumnsForChange(coll, "Set_Zero", obj.Set_Zero)
             clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+            clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
             clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -47,7 +49,7 @@ Public Class clsDemandSheet
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_SHEET", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_SHEET", OMInsertOrUpdate.Update, "TSPL_DEMAND_SHEET.DEMAND_Date='" + clsCommon.GetPrintDate(obj.DEMAND_Date) + "' and TSPL_DEMAND_SHEET.ShiftType='" + obj.ShiftType + "' and TSPL_DEMAND_SHEET.Item_Code='" + obj.Item_Code + "'  and TSPL_DEMAND_SHEET.Cust_Code='" + obj.Cust_Code + "'  and Created_By='" + objCommonVar.CurrentUserCode + "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_SHEET", OMInsertOrUpdate.Update, "TSPL_DEMAND_SHEET.DEMAND_Date='" + clsCommon.GetPrintDate(obj.DEMAND_Date) + "' and TSPL_DEMAND_SHEET.ShiftType='" + obj.ShiftType + "' and TSPL_DEMAND_SHEET.Item_Code='" + obj.Item_Code + "' and TSPL_DEMAND_SHEET.Unit_Code='" + obj.Unit_Code + "'  and TSPL_DEMAND_SHEET.Cust_Code='" + obj.Cust_Code + "'  and Created_By='" + objCommonVar.CurrentUserCode + "'", trans)
             End If
 
 
@@ -70,7 +72,7 @@ Public Class clsDemandSheet
 
                     obj.Cust_Code = clsCommon.myCstr(objdr("Cust_Code"))
 
-                    StrQry = " select Cust_Code,Route_No,Set_Zero,Item_Code,Qty from TSPL_Demand_Sheet where DEMAND_Date='" + clsCommon.GetPrintDate(CurrDate) + "' and ShiftType='" + Shift + "' and Created_By='" + CurrUser + "' and Cust_Code='" + obj.Cust_Code + "'"
+                    StrQry = " select Cust_Code,Route_No,Set_Zero,Item_Code,Unit_Code,Qty from TSPL_Demand_Sheet where DEMAND_Date='" + clsCommon.GetPrintDate(CurrDate) + "' and ShiftType='" + Shift + "' and Created_By='" + CurrUser + "' and Cust_Code='" + obj.Cust_Code + "'"
                     Dim dt1 As DataTable = New DataTable()
                     dt1 = clsDBFuncationality.GetDataTable(StrQry, trans)
                     If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
@@ -83,6 +85,7 @@ Public Class clsDemandSheet
                             objTr.Set_Zero = clsCommon.myCdbl(dr("Set_Zero"))
                             objTr.Cust_Code = clsCommon.myCstr(dr("Cust_Code"))
                             objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                            objTr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
                             objTr.Qty = clsCommon.myCdbl(dr("Qty"))
                             obj.Arr.Add(objTr)
 
@@ -193,6 +196,7 @@ Public Class clsDemandSheetDetails
     Public Cust_Code As String = Nothing
     Public Route_No As String = Nothing
     Public Item_Code As String = Nothing
+    Public Unit_Code As String = Nothing
     Public Set_Zero As Decimal = 0
     Public Qty As Decimal = 0
 End Class

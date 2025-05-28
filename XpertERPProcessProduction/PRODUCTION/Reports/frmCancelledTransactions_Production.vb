@@ -43,21 +43,22 @@ Public Class frmCancelledTransactions_Production
             ShowData()
         End If
     End Sub
-    Public Sub LoadModuleType()
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
 
-        dr = dt.NewRow()
-        dr("Code") = "Production"
-        dr("Name") = "Production"
-        dt.Rows.Add(dr)
+    'Public Sub LoadModuleType()
+    '    Dim dt As DataTable = New DataTable()
+    '    dt.Columns.Add("Code", GetType(String))
+    '    dt.Columns.Add("Name", GetType(String))
 
-        cboModule.DataSource = dt
-        cboModule.DisplayMember = "Name"
-        cboModule.ValueMember = "Code"
+    '    dr = dt.NewRow()
+    '    dr("Code") = "Production"
+    '    dr("Name") = "Production"
+    '    dt.Rows.Add(dr)
 
-    End Sub
+    '    cboModule.DataSource = dt
+    '    cboModule.DisplayMember = "Name"
+    '    cboModule.ValueMember = "Code"
+
+    'End Sub
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -86,60 +87,104 @@ Public Class frmCancelledTransactions_Production
         End If
     End Sub
     Sub LoadModuleProduction()
-        Dim dt1 As DataTable = New DataTable()
-        dt1.Columns.Add("Code", GetType(String))
-        dt1.Columns.Add("Name", GetType(String))
+        Try
+            Dim Qry As String = "select TSPL_PROGRAM_MASTER.Program_Code as Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as Name 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmProductionPlanningDairy + "','" + clsUserMgtCode.frmBatchOrderDairy + "','" + clsUserMgtCode.frmProcessProductionIssueEntry + "','" + clsUserMgtCode.frmProcessProductionStandardization + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmProcessProductionStageProcess + "','" + clsUserMgtCode.frmProductionEntry + "','" + clsUserMgtCode.frmAssembDis + "','" + clsUserMgtCode.frmWreckageBooking + "')
+ "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            'dr = dt.NewRow()
+            'dr("Code") = dt.Rows(0)("Code")
+            'dr("Name") = dt.Rows(0)("Name")
+            'dt.Rows.Add(dr)
 
-      
-        dr = dt1.NewRow()
-        dr("Code") = "Production Planning"
-        dr("Name") = "Production Planning"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Batch Order"
-        dr("Name") = "Batch Order"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Issue Entry"
-        dr("Name") = "Production Issue Entry"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Standardization"
-        dr("Name") = "Production Standardization"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Standardization Final QC"
-        dr("Name") = "Production Standardization Final QC"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Stage Process"
-        dr("Name") = "Stage Process"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Production Entry"
-        dr("Name") = "Production Entry"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Assembly Deassembly"
-        dr("Name") = "Assembly Deassembly"
-        dt1.Rows.Add(dr)
-
-        dr = dt1.NewRow()
-        dr("Code") = "Wreckage Booking"
-        dr("Name") = "Wreckage Booking"
-        dt1.Rows.Add(dr)
-
-        cboTransaction.DataSource = dt1
-        cboTransaction.DisplayMember = "Name"
-        cboTransaction.ValueMember = "Code"
+            cboTransaction.DataSource = dt
+            cboTransaction.DisplayMember = "Name"
+            cboTransaction.ValueMember = "Code"
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
+    Public Sub LoadModuleType()
+        Dim Qry As String = "select Distinct TBL_MODULE.Program_Code As [Module Code],case when len (isnull(TBL_MODULE.Re_Name,'')) > 0 then TBL_MODULE.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as [Module Name] 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModuleProductionDairy + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
+ "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'dr = dt.NewRow()
+            'dr("Module Code") = dt.Rows(0)("Module Code")
+            'dr("Module Name") = dt.Rows(0)("Module Name")
+            'dt.Rows.Add(dr)
+            cboModule.DataSource = dt
+            cboModule.DisplayMember = "Module Name"
+            cboModule.ValueMember = "Module Code"
+        End If
+
+    End Sub
+    'Sub LoadModuleProduction()
+    '    Dim dt1 As DataTable = New DataTable()
+    '    dt1.Columns.Add("Code", GetType(String))
+    '    dt1.Columns.Add("Name", GetType(String))
+
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Planning"
+    '    dr("Name") = "Production Planning"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Batch Order"
+    '    dr("Name") = "Batch Order"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Issue Entry"
+    '    dr("Name") = "Production Issue Entry"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Standardization"
+    '    dr("Name") = "Production Standardization"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Standardization Final QC"
+    '    dr("Name") = "Production Standardization Final QC"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Stage Process"
+    '    dr("Name") = "Stage Process"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Production Entry"
+    '    dr("Name") = "Production Entry"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Assembly Deassembly"
+    '    dr("Name") = "Assembly Deassembly"
+    '    dt1.Rows.Add(dr)
+
+    '    dr = dt1.NewRow()
+    '    dr("Code") = "Wreckage Booking"
+    '    dr("Name") = "Wreckage Booking"
+    '    dt1.Rows.Add(dr)
+
+    '    cboTransaction.DataSource = dt1
+    '    cboTransaction.DisplayMember = "Name"
+    '    cboTransaction.ValueMember = "Code"
+    'End Sub
 
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
         LoadTrnsListOfSelectedModeule()
@@ -195,17 +240,17 @@ Public Class frmCancelledTransactions_Production
                 arrSelectedUser = arrUser
             End If
 
-            If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Production") = CompairStringResult.Equal Then
-                gv1.DataSource = Nothing
-                FillProduction()
-            End If
+            'If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Production") = CompairStringResult.Equal Then
+            '    gv1.DataSource = Nothing
+            FillProduction()
+            ' End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub FillProduction()
-        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Planning") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmProductionPlanningSTD) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = " Select TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Plan_Code as [Document Id],convert(varchar,TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Plan_Date ,103) as [Document Date]," &
             " TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Section_Code as [Section Code] ,TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Created_By as [Created By],convert(varchar,TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Created_Date,103) as [Created Date],'' as Description,TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Cancel_On,103) as [Cancelled Date] from TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA " &
@@ -222,7 +267,7 @@ Public Class frmCancelledTransactions_Production
                 qry += " and TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
             qry += " ORDER BY TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Plan_Date,TSPL_PP_PRODUCTION_PLAN_HEAD_CANCEL_DATA.Plan_Code "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Standardization") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmProcessProductionStandardization) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = " Select TSPL_PP_STANDARDIZATION_HEAD_CANCEL_DATA.Standardization_Code  as [Document Id],convert(varchar,TSPL_PP_STANDARDIZATION_HEAD_CANCEL_DATA.Standardization_Date ,103) as [Document Date]," &
                 " TSPL_PP_STANDARDIZATION_HEAD_CANCEL_DATA.Child_Batch_Code as [Child Batch Code],TSPL_PP_STANDARDIZATION_HEAD_CANCEL_DATA.Main_Batch_Code as [Main Batch Code] ," &
@@ -246,7 +291,7 @@ Public Class frmCancelledTransactions_Production
 
             qry += "  ORDER BY TSPL_PP_STANDARDIZATION_HEAD_CANCEL_DATA.Standardization_Date,TSPL_PP_STANDARDIZATION_HEAD_CANCEL_DATA.Standardization_Code "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Standardization Final QC") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ProcessProductionStandardizationFinalQC) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = " Select TSPL_PP_STD_FINALQC_HEAD_CANCEL_DATA.QC_Code  as [Document Id],convert(varchar,TSPL_PP_STD_FINALQC_HEAD_CANCEL_DATA.QC_Date ,103) as [Document Date]," &
                 " TSPL_PP_STD_FINALQC_HEAD_CANCEL_DATA.Child_Batch_Code as [Child Batch Code],TSPL_PP_STD_FINALQC_HEAD_CANCEL_DATA.Main_Batch_Code as [Main Batch Code] ," &
@@ -270,7 +315,7 @@ Public Class frmCancelledTransactions_Production
 
             qry += "  ORDER BY TSPL_PP_STD_FINALQC_HEAD_CANCEL_DATA.QC_Date,TSPL_PP_STD_FINALQC_HEAD_CANCEL_DATA.QC_Code "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Stage Process") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmProcessProductionStageProcess) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = " Select TSPL_PP_STAGE_PROCESS_HEAD_CANCEL_DATA.STAGE_PROCESS_CODE as[Document Id],convert(varchar,TSPL_PP_STAGE_PROCESS_HEAD_CANCEL_DATA.STAGE_PROCESS_DATE ,103) as [Document Date], " &
                 " TSPL_PP_STAGE_PROCESS_HEAD_CANCEL_DATA.Section_Stage_Map_Code as [Section Stage Map Code],TSPL_PP_STAGE_PROCESS_HEAD_CANCEL_DATA.Main_Batch_Code as [Main Batch Code] , " &
@@ -287,7 +332,7 @@ Public Class frmCancelledTransactions_Production
             End If
 
             qry += " ORDER BY TSPL_PP_STAGE_PROCESS_HEAD_CANCEL_DATA.STAGE_PROCESS_CODE,TSPL_PP_STAGE_PROCESS_HEAD_CANCEL_DATA.STAGE_PROCESS_DATE "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Assembly Deassembly") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmAssembDis) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "  Select TSPL_PROD_ASSEMBLIES_Cancel_Data.CODE  as [Document Id],convert(varchar,TSPL_PROD_ASSEMBLIES_Cancel_Data.ASSEMBLY_DATE ,103) as [Document Date],  " &
             " TSPL_PROD_ASSEMBLIES_Cancel_Data.LOCATION_CODE  as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_PROD_ASSEMBLIES_Cancel_Data.TRANSACTION_TYPE  as [TRANSACTION TYPE],  " &
@@ -308,7 +353,7 @@ Public Class frmCancelledTransactions_Production
                 qry += " and TSPL_PROD_ASSEMBLIES_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
             qry += " ORDER BY TSPL_PROD_ASSEMBLIES_Cancel_Data.ASSEMBLY_DATE, TSPL_PROD_ASSEMBLIES_Cancel_Data.CODE "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Wreckage Booking") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmWreckageBooking) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = " Select TSPL_WRECKAGE_ENTRY_Cancel_Data.WRECKAGE_ENTRY_CODE as[Document Id],convert(varchar,TSPL_WRECKAGE_ENTRY_Cancel_Data.PROD_DATE ,103) as [Document Date], " &
             " TSPL_WRECKAGE_ENTRY_Cancel_Data.LOCATION_CODE  as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_WRECKAGE_ENTRY_Cancel_Data.Section_Stage_Map_Code as [Section Stage Map Code], " &
@@ -333,7 +378,7 @@ Public Class frmCancelledTransactions_Production
             qry += " ORDER BY TSPL_WRECKAGE_ENTRY_Cancel_Data.PROD_DATE, TSPL_WRECKAGE_ENTRY_Cancel_Data.WRECKAGE_ENTRY_CODE "
 
             ''''''''''''''''''''''''''''''''''''''
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Batch Order") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmBatchOrderDairy) = CompairStringResult.Equal Then
 
             gv1.DataSource = Nothing
             qry = "Select TSPL_PP_BATCH_ORDER_HEAD_CANCEL_DATA.BATCH_CODE as[Document Id],convert(varchar,TSPL_PP_BATCH_ORDER_HEAD_CANCEL_DATA.BATCH_DATE ,103) as [Document Date] " &
@@ -354,7 +399,7 @@ Public Class frmCancelledTransactions_Production
 
             qry += " ORDER BY TSPL_PP_BATCH_ORDER_HEAD_CANCEL_DATA.BATCH_CODE,TSPL_PP_BATCH_ORDER_HEAD_CANCEL_DATA.BATCH_DATE "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Issue Entry") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmProcessProductionIssueEntry) = CompairStringResult.Equal Then
 
             gv1.DataSource = Nothing
             qry = "Select TSPL_PP_ISSUE_HEAD_CANCEL_DATA.ISSUE_CODE as[Document Id],convert(varchar,TSPL_PP_ISSUE_HEAD_CANCEL_DATA.ISSUE_DATE ,103) as [Document Date]" &
@@ -373,7 +418,7 @@ Public Class frmCancelledTransactions_Production
 
             qry += " ORDER BY TSPL_PP_ISSUE_HEAD_CANCEL_DATA.ISSUE_CODE,TSPL_PP_ISSUE_HEAD_CANCEL_DATA.ISSUE_DATE "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Production Entry") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmProductionEntry) = CompairStringResult.Equal Then
 
             gv1.DataSource = Nothing
             qry = "Select TSPL_PP_PRODUCTION_ENTRY_CANCEL_DATA.PROD_ENTRY_CODE as[Document Id],convert(varchar,TSPL_PP_PRODUCTION_ENTRY_CANCEL_DATA.PROD_DATE ,103) as [Document Date] " &
@@ -469,6 +514,19 @@ Public Class frmCancelledTransactions_Production
         chkLocAll.CheckState = CheckState.Checked
         ChkUserAll.CheckState = CheckState.Checked
         gv1.DataSource = Nothing
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        Try
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmProductionPlanningSTD) = CompairStringResult.Equal Then
+                clsProductionPlanning.funPPPrint(MyBase.Form_ID, True, Nothing, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmAssembDis) = CompairStringResult.Equal Then
+                clsProductionPlanning.funAssembDisPrint(MyBase.Form_ID, True, Nothing, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
     End Sub
 End Class
 
