@@ -63,7 +63,7 @@ Public Class frmDemandUploader
         txtLocation.Enabled = flag
         rgbShift.Enabled = flag
         rgbEntryUOM.Enabled = flag
-        'btnExport.Enabled = flag
+        btnExport.Enabled = flag
     End Sub
     Private Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
         Try
@@ -472,6 +472,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
         Try
             transportSql.exportdata(gv1, "", "Demand Uploader", ,, False, False, True)
+            btnExport.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
