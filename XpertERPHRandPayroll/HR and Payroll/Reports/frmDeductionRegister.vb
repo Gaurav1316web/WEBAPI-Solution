@@ -555,7 +555,7 @@ Public Class frmDeductionRegister
             Dim totalVgsli As Double = 0
             Dim qry As String = "  select GS.Pay_Period_Code as [Pay Period],Final.* from (SELECT Sex,
                  LIC_No, Policy_No,isnull(kkk_id,'') as [KKK Id],
-                 SALARY_GENERATION_CODE,EMP_CODE AS EMP_CODE,EMPLOYEE_NAME,FATHERS_NAME AS [Father Name],Birth_date AS [Date of Birth],Joining_date as [Joining Date],LOCATION_DESC AS Location, SUM(gsli) AS vgsli FROM (SELECT ACD.SEX,acd.kkk_id,
+                 SALARY_GENERATION_CODE,EMP_CODE AS EMP_CODE,EMPLOYEE_NAME,FATHERS_NAME AS [Father Name],DESIGNATION,Birth_date AS [Date of Birth],Joining_date as [Joining Date],LOCATION_DESC AS Location, SUM(gsli) AS vgsli FROM (SELECT ACD.SEX,acd.kkk_id,
                  ACD.LIC_No,acd.Policy_No,
                  ACD.SALARY_GENERATION_CODE,ACD.EMP_CODE,ACD.PAY_HEAD_CODE,EMPLOYEE_NAME,FATHERS_NAME,[Working City],Birth_date,Joining_date,Designation,Department,LOCATION_DESC,DEVISION_NAME, BANK_NAME, Bank_Branch,Bank_Branch_Name,PAYMENT_MODE, ACD.PAYPERIOD_DAYS, ACD.PRESENT_DAYS, ACD.PAYABLE_DAYS, ACD.HOLIDAY_DAYS,ACD.WEEKLY_OFF_DAYS,ACD.LEAVE_DAYS ,PF_NO,ESI_NO,BANK_ACC_NO,RELIEVING_DATE,ACD.OT_HOURS, CASE WHEN  ACD.PAY_HEAD_CODE ='" + fndDeductioncode.Value + "' THEN acd.ACTUAL_AMOUNT else 0 END  AS gsli FROM  ( SELECT T2.SEX,T2.kkk_id,
                  t2.LIC_No,t2.Policy_No,
@@ -643,6 +643,10 @@ Public Class frmDeductionRegister
         gv1.Columns("Father Name").HeaderText = "Father Name"
         gv1.Columns("Father Name").Width = 200
         gv1.Columns("Father Name").IsVisible = True
+
+        gv1.Columns("DESIGNATION").HeaderText = "DESIGNATION"
+        gv1.Columns("DESIGNATION").Width = 200
+        gv1.Columns("DESIGNATION").IsVisible = True
 
         gv1.Columns("Sex").HeaderText = "Gender"
         gv1.Columns("Sex").IsVisible = True

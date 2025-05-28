@@ -196,7 +196,7 @@ Public Class SaleEinvoiceReport
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.DO_Item_Type) = 'T' THEN 'Taxable'  
                            WHEN max(TSPL_SD_SHIPMENT_HEAD.DO_Item_Type) ='NT' THEN 'Non-Taxable' 
                            END AS [Invoice Type],
-                           max(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) AS [Invoice Value],
+                           max(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt) AS [Invoice Value],Max(isnull(TSPL_ROUTE_MASTER.Zone_Code,''))as Zone_Code,
                            max(TSPL_SD_SALE_INVOICE_HEAD.Route_No) as [Route No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo) AS [EwayBillNo],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate) AS [EwayBillDate],
@@ -301,7 +301,7 @@ Public Class SaleEinvoiceReport
                                 TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
                                 CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date, 103) AS [Invoice Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.DO_Item_Type = 'T' THEN 'Taxable'WHEN TSPL_SD_SHIPMENT_HEAD.DO_Item_Type = 'NT' THEN 'Non-Taxable' 
-                                END AS [Invoice Type],
+                                END AS [Invoice Type],isnull(TSPL_ROUTE_MASTER.Zone_Code,'')as Zone_Code,
                                 TSPL_SD_SALE_INVOICE_HEAD.Route_No as [Route No],
                                 tspl_item_master.Item_Code as [Item Code],
                                 tspl_item_master.Item_Desc as [Item Name],
@@ -603,7 +603,9 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Invoice Value").HeaderText = "Invoice Value"
                 gvData.Columns("Invoice Value").Width = 100
                 gvData.Columns("Invoice Value").IsVisible = True
-
+                gvData.Columns("Zone_Code").HeaderText = "Zone Code"
+                gvData.Columns("Zone_Code").Width = 100
+                gvData.Columns("Zone_Code").IsVisible = True
                 gvData.Columns("Route No").HeaderText = "Route No"
                 gvData.Columns("Route No").Width = 100
                 gvData.Columns("Route No").IsVisible = True
@@ -725,6 +727,9 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("Invoice Type").HeaderText = "Invoice Type"
                 gvData.Columns("Invoice Type").Width = 100
                 gvData.Columns("Invoice Type").IsVisible = True
+                gvData.Columns("Zone_Code").HeaderText = "Zone Code"
+                gvData.Columns("Zone_Code").Width = 100
+                gvData.Columns("Zone_Code").IsVisible = True
 
                 gvData.Columns("Route No").HeaderText = "Route No"
                 gvData.Columns("Route No").Width = 100
