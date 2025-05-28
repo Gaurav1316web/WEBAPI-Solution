@@ -23,6 +23,8 @@ Public Class rptBmcTankerProfitLossReport
             Dim Baseqry1 As String = ""
 
             Dim whrcls As String = ""
+            Dim whrclsD As String = ""
+
             whrcls = "where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
                 whrcls += "  and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
@@ -31,10 +33,37 @@ Public Class rptBmcTankerProfitLossReport
             If txtTanker.arrValueMember IsNot Nothing AndAlso txtTanker.arrValueMember.Count > 0 Then
                 whrcls += " and TSPL_MILK_COLLECTION_MCC.Tanker_No in (" + clsCommon.GetMulcallString(txtTanker.arrValueMember) + ")"
             End If
+            whrclsD = "where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                whrclsD += "  and Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+
+            End If
+            If txtTanker.arrValueMember IsNot Nothing AndAlso txtTanker.arrValueMember.Count > 0 Then
+                whrclsD += " and tm.Tanker_No in (" + clsCommon.GetMulcallString(txtTanker.arrValueMember) + ")"
+            End If
             If rbtSummary.IsChecked Then
 
 
-                BaseQuery = " (Select *,CASE
+                BaseQuery = " 
+ 
+  select max(zzzz.DocumentDate)DocumentDate,max(Route_Code)Route_Code,max(tanker_no)tanker_no,sum(zzzz.QTY)Entered_Qty 
+ ,sum([FAT(Kg)])[FAT(Kg)],sum(Entered_SNFKg)Entered_SNFKg,
+  (SUM([FAT(Kg)])*100/ SUM(QTY))as Entered_Qty_snf,
+  	(Sum(Entered_SNFKg)*100/SUM(qty)) as Entered_Qty_fat
+ ,sum(Original_Qty)Original_Qty,sum(Original_FATKg)Original_FATKg,sum(Original_SNFKg)Original_SNFKg,
+ (SUM(Original_FATKg)*100/ SUM(Original_Qty))as [SNF(%)],
+  (SUM(Original_SNFKg)*100/ SUM(Original_Qty))as [Fat(%)],
+ sum(FLUSING)FLUSING
+ ,sum(FATKG)FATKG,sum(SNFKG)SNFKG,
+ 	(sum(Original_FATKg) * 0.25/100) + sum(FATKG) as ADJFATKG,
+	(sum(Original_SNFKg) * 0.25/100) + sum(SNFKG) as ADJSNFKG,
+	(sum(Original_FATKg) * 0.25/100) + sum(FATKG) as ADJFATKG1,
+	(sum(Original_SNFKg) * 0.25/100) + sum(SNFKG) as ADJSNFKG1
+ ,max(trip_no)trip_no,max(temp)temp,max(MonthNumber)MonthNumber,max(Description)Description
+ from 
+
+
+(Select *,CASE
     WHEN ADJFATKG1 > 0 THEN 0
     ELSE ADJFATKG1
 END AS ADJFATKG,
@@ -98,15 +127,16 @@ max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Q
 from TSPL_MILK_COLLECTION_MCC 
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
 left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
-" & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No)ZZZ)xxxx)"
+" & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,Document_Date)ZZZ)xxxx)zzzz group by zzzz.Route_Code,zzzz.Tanker_No"
 
 
             ElseIf rbtTotal.IsChecked Then
 
                 BaseQuery = "  select xz.DocumentDate,sum(ADJFATKG)ADJFATKG,sum(ADJSNFKG)ADJSNFKG,sum(ADJFATKG1)ADJFATKG1,sum(ADJSNFKG1)ADJSNFKG1,
-  max(MonthNumber)MonthNumber,max(Description)Description,max(temp)temp,max(Trip_No)Trip_No,
+  max(MonthNumber)MonthNumber,max(Description)Description,
+max(temp)temp,max(Trip_No)Trip_No,
 max(route_code)route_code,max(Tanker_No)Tanker_No,
- sum(QTY)QTY,sum(xz.[FAT(Kg)])[FAT(Kg)],sum(xz.Entered_SNFKg)Entered_SNFKg,
+ sum(QTY)Entered_Qty,sum(xz.[FAT(Kg)])[FAT(Kg)],sum(xz.Entered_SNFKg)Entered_SNFKg,
  (CASE  WHEN sum(xz.QTY) = 0 THEN 0 ELSE CAST(sum(xz.Entered_SNFKg * 100) / sum(xz.qty) AS DECIMAL(10, 2)) END) AS Entered_Qty_snf,(CASE  WHEN sum(xz.Qty) = 0 THEN 0  ELSE CAST(sum(xz.[FAT(Kg)] * 100) / sum(xz.qty) AS DECIMAL(10, 2)) END) AS Entered_Qty_fat ,
  sum(Original_Qty)Original_Qty,sum(Original_FATKg)Original_FATKg,sum(Original_SNFKg)Original_SNFKg,CAST(ROUND(CAST(sum(xz.Original_FATKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(xz.Original_Qty), 0),  2 ) AS DECIMAL(18, 2) ) AS [FAT(%)], CAST(ROUND( CAST(sum(xz.Original_SNFKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(xz.Original_Qty), 0),2) AS DECIMAL(18, 2)) AS [SNF(%)]
  ,(sum(xz.QTY)-sum(xz.Original_Qty))FLUSING,(sum([FAT(Kg)])-sum(Original_FATKg)) AS FATKG,(sum(Entered_SNFKg)-sum(Original_SNFKg)) AS SNFKG from 
@@ -120,7 +150,8 @@ MAX(CASE  WHEN TSPL_MILK_COLLECTION_MCC.Entered_Qty = 0 THEN 0 ELSE CAST((TSPL_M
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
 left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No " & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No)ZZZ)xxxx)xz group by xz.DocumentDate"
 
-            Else BaseQuery = "  
+            Else
+                BaseQuery = "  
 
 WITH CombinedData AS 
 (select *,CASE
@@ -148,7 +179,7 @@ END AS  ADJSNFKG1 from
         MAX(MCC.Trip_No) AS Trip_No,
         MCC.Tanker_No,
         MCC.Route_Code,
-        MAX(MCC.Entered_Qty) AS QTY,
+        MAX(MCC.Entered_Qty) AS Entered_Qty,
         MAX(MCC.Entered_FATKg) AS [FAT(Kg)],
         MAX(MCC.Entered_SNFKg) AS Entered_SNFKg,
         MAX(CASE WHEN MCC.Entered_Qty = 0 THEN 0
@@ -183,7 +214,7 @@ END AS  ADJSNFKG1 from
         ON MCC_DETAIL.Document_No = MCC.Document_No
     LEFT JOIN TSPL_TANKER_MASTER TM
         ON TM.Tanker_No = MCC.Tanker_No
-" & whrcls & "
+" & whrclsD & "
       GROUP BY MCC.Tanker_No, MCC.Route_Code, MCC.Document_Date
 )xx)xxx)
 SELECT 
@@ -194,7 +225,7 @@ SELECT
     Trip_No,
     Tanker_No,
     Route_Code,
-    QTY,
+    Entered_Qty,
     [FAT(Kg)],
     Entered_SNFKg,
     Entered_Qty_snf,
@@ -207,7 +238,7 @@ SELECT
     FLUSING,
     FATKG,
     SNFKG,
-    0 AS SortOrder,ADJFATKG,ADJFATKG1,ADJSNFKG,ADJSNFKG1
+    0 AS SortOrder,0 as ADJFATKG,ADJFATKG1,0 as ADJSNFKG,0 as ADJSNFKG1
 FROM CombinedData
 
 UNION ALL
@@ -220,21 +251,26 @@ SELECT
     NULL AS Trip_No,
     Tanker_No,
     Route_Code,
-    SUM(QTY),
+     SUM(Entered_Qty),
     SUM([FAT(Kg)]),
     SUM(Entered_SNFKg),
-	SUM(Entered_Qty_snf),
-	SUM(Entered_Qty_fat),
+	(Sum(Entered_SNFKg)*100/SUM(Entered_Qty)) as Entered_Qty_snf,
+
+	 (SUM([FAT(Kg)])*100/ SUM(Entered_Qty))as Entered_Qty_fat,
     SUM(Original_Qty),
     SUM(Original_FATKg),
     SUM(Original_SNFKg),
-	sum([SNF(%)]),
-	sum([Fat(%)]),
-    SUM(FLUSING),
+ (SUM(Original_SNFKg)*100/ SUM(Original_Qty))as [SNF(%)] ,
+
+(SUM(Original_FATKg)*100/ SUM(Original_Qty))as [Fat(%)],
+     SUM(FLUSING),
     SUM(FATKG),
     SUM(SNFKG),
-    1 AS SortOrder
-	,sum(ADJFATKG),sum(ADJFATKG1),sum(ADJSNFKG),sum(ADJSNFKG1)
+    1 AS SortOrder,
+	(sum(Original_FATKg) *  " + Value + "/100) + sum(FATKG) as ADJFATKG,
+	(sum(Original_SNFKg) * " + Value + "/100) + sum(SNFKG) as ADJSNFKG,
+		(sum(Original_FATKg) * " + Value + "/100) + sum(FATKG) as ADJFATKG1,
+	(sum(Original_SNFKg) * " + Value + "/100) + sum(SNFKG) as ADJSNFKG1
 FROM CombinedData
 GROUP BY Tanker_No, Route_Code
 
@@ -288,21 +324,43 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             'gv1.Columns("Document_No").HeaderText = "Document No."
+
             gv1.Columns("DocumentDate").IsVisible = True
-            gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
-            gv1.Columns("MonthNumber").IsVisible = False
+                gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
+
+
+                'gv1.Columns("DocumentDate").IsVisible = True
+                'gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
+                gv1.Columns("MonthNumber").IsVisible = False
             gv1.Columns("MonthNumber").HeaderText = "Month Number"
 
+            If rbtTotal.IsChecked Then
+                gv1.Columns("Trip_No").IsVisible = False
+                gv1.Columns("Trip_No").HeaderText = "Trip No"
+                gv1.Columns("ROUTE_CODE").IsVisible = False
+                gv1.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
+                gv1.Columns("Tanker_No").IsVisible = False
+                gv1.Columns("Tanker_No").HeaderText = "Tanker No"
+                gv1.Columns("Temp").IsVisible = False
+                gv1.Columns("Temp").HeaderText = "Temp"
+                gv1.Columns("Description").IsVisible = False
+                gv1.Columns("Description").HeaderText = "Transporter"
+            Else
+                gv1.Columns("Trip_No").IsVisible = False
+                gv1.Columns("Trip_No").HeaderText = "Trip No"
+                gv1.Columns("ROUTE_CODE").IsVisible = True
+                gv1.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
+                gv1.Columns("Tanker_No").IsVisible = True
+                gv1.Columns("Tanker_No").HeaderText = "Tanker No"
+                gv1.Columns("Temp").IsVisible = True
+                gv1.Columns("Temp").HeaderText = "Temp"
+                gv1.Columns("Description").IsVisible = True
+                gv1.Columns("Description").HeaderText = "Transporter"
+            End If
 
-            gv1.Columns("Trip_No").IsVisible = True
-            gv1.Columns("Trip_No").HeaderText = "Trip No"
-            gv1.Columns("ROUTE_CODE").IsVisible = True
-            gv1.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
-            gv1.Columns("Tanker_No").IsVisible = True
-            gv1.Columns("Tanker_No").HeaderText = "Tanker No"
 
-            gv1.Columns("Qty").IsVisible = True
-            gv1.Columns("Qty").HeaderText = "Qty"
+            gv1.Columns("Entered_Qty").IsVisible = True
+            gv1.Columns("Entered_Qty").HeaderText = "Quantity"
             gv1.Columns("Entered_snfKg").IsVisible = True
             gv1.Columns("Entered_snfKg").HeaderText = "Snf(Kg)"
 
@@ -341,21 +399,30 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             gv1.Columns("SNFKG").IsVisible = True
             gv1.Columns("SNFKG").HeaderText = "SNFKG"
 
-            gv1.Columns("Description").IsVisible = True
-            gv1.Columns("Description").HeaderText = "Transporter"
-            gv1.Columns("Temp").IsVisible = True
-            gv1.Columns("Temp").HeaderText = "Temp"
+
+
 
             gv1.Columns("ADJFATKG1").IsVisible = False
             gv1.Columns("ADJFATKG1").HeaderText = "FAT(KG)"
             gv1.Columns("ADJSNFKG1").IsVisible = False
-            gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
+            'gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
 
+            'gv1.Columns("ADJFATKG").VisibleInColumnChooser = false
 
-            gv1.Columns("ADJFATKG").IsVisible = True
-            gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
-            gv1.Columns("ADJSNFKG").IsVisible = True
-            gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+            If rbtDetail.IsChecked Then
+                gv1.Columns("ADJFATKG").IsVisible = True
+                gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
+                gv1.Columns("ADJSNFKG1").IsVisible = True
+                gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
+            Else
+                gv1.Columns("ADJSNFKG1").IsVisible = True
+                gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
+                gv1.Columns("ADJFATKG").VisibleInColumnChooser = True
+                gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
+                gv1.Columns("ADJSNFKG").VisibleInColumnChooser = True
+                gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+            End If
+
 
 
         Next
@@ -363,8 +430,9 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             Dim summaryRowItemB As New GridViewSummaryRowItem()
 
             'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
-            Dim QTY As New GridViewSummaryItem("QTY", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItemB.Add(QTY)
+
+            Dim Entered_FatKg As New GridViewSummaryItem("FAT(Kg)", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Entered_FatKg)
             Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(Entered_SNFKg)
             Dim Entered_Qty_snf As New GridViewSummaryItem("Entered_Qty_snf", "{0:n2}", GridAggregateFunction.Sum)
@@ -373,12 +441,19 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             summaryRowItemB.Add(Entered_Qty_fat)
             Dim Original_Qty As New GridViewSummaryItem("Original_Qty", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(Original_Qty)
+            Dim QTY As New GridViewSummaryItem("Entered_Qty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(QTY)
+
             Dim Original_FATKg As New GridViewSummaryItem("Original_FATKg", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(Original_FATKg)
             Dim Original_SNFKg As New GridViewSummaryItem("Original_SNFKg", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(Original_SNFKg)
             Dim FLUSING As New GridViewSummaryItem("FLUSING", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(FLUSING)
+            Dim FATKG As New GridViewSummaryItem("FATKG", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(FATKG)
+            Dim SNFKG As New GridViewSummaryItem("SNFKG", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(SNFKG)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
         End If
@@ -392,6 +467,7 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             view.ColumnGroups.Add(New GridViewColumnGroup(" "))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
             'If rdbDetails.Checked = True Then
+
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("DocumentDate").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Trip_No").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("ROUTE_CODE").Name)
@@ -412,18 +488,18 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Original_Qty").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Original_FATKg").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
             view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Milk Recieved at MAIN Q.C. LAB(B)"))
             view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("QTY").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_QTY").Name)
 
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(Kg)").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_SNFKg").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_snf").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_fat").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_snf").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_Qty").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_FATKg").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
@@ -442,7 +518,7 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJFATKG").Name)
 
-            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJSNFKG").Name)
+            view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJSNFKG1").Name)
             'End If
             gv1.ViewDefinition = view
         End If
@@ -450,6 +526,7 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
     Private Sub rptBmcTankerProfitLossReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
         txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        txtPercentage.Text = "0.25"
     End Sub
 
     Private Sub txtTankerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTankerNo._MYValidating
@@ -523,6 +600,10 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
         gv1.Rows.Clear()
         gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+        txtRoute.Enabled = True
+        txtTanker.Enabled = True
+        MyLabel3.Visible = True
+        MyLabel2.Visible = True
     End Sub
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -555,5 +636,28 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtTotal_Click(sender As Object, e As EventArgs) Handles rbtTotal.Click
+
+        txtRoute.Enabled = False
+            MyLabel3.Enabled = False
+            txtTanker.Enabled = False
+            MyLabel2.Enabled = False
+
+    End Sub
+
+    Private Sub rbtDetail_Click(sender As Object, e As EventArgs) Handles rbtDetail.Click
+        txtRoute.Enabled = True
+        MyLabel3.Enabled = True
+        txtTanker.Enabled = True
+        MyLabel2.Enabled = True
+    End Sub
+
+    Private Sub rbtSummary_Click(sender As Object, e As EventArgs) Handles rbtSummary.Click
+        txtRoute.Enabled = True
+        MyLabel3.Enabled = True
+        txtTanker.Enabled = True
+        MyLabel2.Enabled = True
     End Sub
 End Class
