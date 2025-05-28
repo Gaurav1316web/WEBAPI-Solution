@@ -1482,7 +1482,7 @@ Public Class clsDCSSaleEntry
                 TotalTaxQry += "  ,sum(case when Type='" + dt.Rows(ii)("Type") + "' and Is_TCS='" + dt.Rows(ii)("Is_TCS") + "' then TAX_Amt else 0 end) as DTax" + clsCommon.myCstr(ii + 1) + "_Amt,max(case when Type='" + dt.Rows(ii)("Type") + "' and Is_TCS='" + dt.Rows(ii)("Is_TCS") + "' then TaxRate else 0 end) as DTax" + clsCommon.myCstr(ii + 1) + "_Rate, max(case when Type='" + dt.Rows(ii)("Type") + "' and Is_TCS='" + dt.Rows(ii)("Is_TCS") + "' then Type else '' end) as tax" + clsCommon.myCstr(ii + 1) + "Type "
             Next
             For ii As Integer = dt.Rows.Count + 1 To 10
-                TotalTaxQry += ",'' as tax" + clsCommon.myCstr(ii) + "Type,0 as DTax" + clsCommon.myCstr(ii) + "_Rate "
+                TotalTaxQry += ",'' as tax" + clsCommon.myCstr(ii) + "Type,0 as DTax" + clsCommon.myCstr(ii) + "_Rate,0 as DTax" + clsCommon.myCstr(ii) + "_Amt "
             Next
 
         End If

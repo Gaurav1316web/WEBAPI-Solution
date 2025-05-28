@@ -48,7 +48,72 @@ Public Class clsProductionPlanning
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsProductionPlanning
         Return GetData(strCode, NavType, Nothing)
     End Function
+    Public Shared Function funAssembDisPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
+        Dim TSPL_PROD_ASSEMBLIES As String = Nothing
+        Dim TSPL_PROD_ASSEMBLIES_ITEM_DETAIL As String = Nothing
+        'Dim dt As DataTable = Nothing
+        If isCancel Then
+            TSPL_PROD_ASSEMBLIES = "TSPL_PROD_ASSEMBLIES_cancel_data"
+            TSPL_PROD_ASSEMBLIES_ITEM_DETAIL = "TSPL_PROD_ASSEMBLIES_ITEM_DETAIL_cancel_data"
+        Else
+            TSPL_PROD_ASSEMBLIES = "TSPL_PROD_ASSEMBLIES"
+            TSPL_PROD_ASSEMBLIES_ITEM_DETAIL = "TSPL_PROD_ASSEMBLIES_ITEM_DETAIL"
 
+        End If
+        Dim qry As String = ""
+        qry = " Select "
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+
+        qry += "'" & objCommonVar.CurrentCompanyName & "' as Company_Name , " + TSPL_PROD_ASSEMBLIES + ".CODE as AssemblyCode,Convert(varchar," + TSPL_PROD_ASSEMBLIES + ".ASSEMBLY_DATE,103) as Assemblydate ," + TSPL_PROD_ASSEMBLIES + ".Main_Item_Code,"
+        qry += " " + TSPL_PROD_ASSEMBLIES + ".Serial_No as MainSerialNo," + TSPL_PROD_ASSEMBLIES_ITEM_DETAIL + ".LINE_NO as SL_No," + TSPL_PROD_ASSEMBLIES_ITEM_DETAIL + ".CONSM_ITEM_CODE as ItemCode, "
+        qry += " TSPL_ITEM_MASTER.Item_Desc as ItemDesc ," + TSPL_PROD_ASSEMBLIES_ITEM_DETAIL + ".Serial_No as SerialNo," + TSPL_PROD_ASSEMBLIES + ".Modified_By as ModifiedBy," + TSPL_PROD_ASSEMBLIES + ".Created_By as CreatedBy from " + TSPL_PROD_ASSEMBLIES_ITEM_DETAIL + "  Left Outer Join " + TSPL_PROD_ASSEMBLIES + " on " + TSPL_PROD_ASSEMBLIES + ".CODE=" + TSPL_PROD_ASSEMBLIES_ITEM_DETAIL + ".ASSEMBLY_CODE Left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=" + TSPL_PROD_ASSEMBLIES_ITEM_DETAIL + ".CONSM_ITEM_CODE"
+        qry += " where 2=2"
+
+        If StrCode <> "" Then
+            qry += " and   " + TSPL_PROD_ASSEMBLIES + ".CODE='" & StrCode & "' "
+        End If
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim frmCRV As New frmCrystalReportViewer()
+        frmCRV.funreport(Form_ID, CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
+        frmCRV = Nothing
+        Return False
+    End Function
+    Public Shared Function funPPPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal TXTcODE As String) As Boolean
+        Dim TSPL_MF_PRODUCTION_PLAN_HEAD As String = Nothing
+        Dim TSPL_MF_BATCH_PP_DETAIL As String = Nothing
+
+        If isCancel Then
+
+        Else
+
+        End If
+
+        Dim qry As String = ""
+            qry += " SELECT  T2.PROD_PLAN_CODE,convert(VARCHAR,T2.PLANNING_DATE,103) AS PLANNING_DATE,  T1.PRODUCTION_LINE_CODE,T4.PRODUCTION_LINE_NAME,T1.ITEM_CODE AS "
+            qry += " MAIN_ITEM_CODE,T5.Item_Desc AS MAIN_ITEM_DESC,T6.Class_Code AS PACKAGE,T7.Class_Code AS FLAVOUR, "
+            qry += " T3.MIN_QUANTITY AS MIN_QTY,T3.MAX_QUANTITY AS MAX_QTY,CONVERT(varchar(5),T3.START_TIME,108) AS START_TIME,T3.SPEED , "
+            qry += " (CONVERT(VARCHAR,T2.PLANNING_DATE ,103) + ' ' + CONVERT(varchar(5),T3.END_TIME,108)) AS STOP_TIME,T3.REASON, ('" & objCommonVar.CurrentCompanyName & "')  AS COMPANY_NAME  FROM TSPL_MF_PROD_PLAN_DETAIL T1 INNER JOIN "
+            qry += " TSPL_MF_PRODUCTION_PLAN_HEAD T2 ON T1.PROD_PLAN_CODE=T2.PROD_PLAN_CODE  "
+            qry += " LEFT JOIN TSPL_MF_BATCH_PP_DETAIL T3 ON T2.PROD_PLAN_CODE=T3.PROD_PLAN_CODE "
+            qry += " LEFT JOIN TSPL_MF_PRODUCTION_LINES T4 ON T1.PRODUCTION_LINE_CODE=T4.PRODUCTION_LINE_CODE "
+            qry += " LEFT JOIN TSPL_ITEM_MASTER T5 ON T1.ITEM_CODE=T5.Item_Code "
+            qry += " LEFT JOIN (SELECT ITEM_CODE,CLASS_CODE,CLASS_DESC FROM TSPL_ITEM_details WHERE Class_Name='SIZE') T6 ON T1.ITEM_CODE=T6.Item_Code "
+            qry += " LEFT JOIN (SELECT ITEM_CODE,CLASS_CODE,CLASS_DESC FROM TSPL_ITEM_details WHERE Class_Name='FLAVOUR') T7 ON T1.ITEM_CODE=T7.Item_Code "
+            qry += " WHERE 2=2"
+            If TXTcODE <> "" Then
+                qry += " AND  T2.PROD_PLAN_CODE='" & clsCommon.myCstr(TXTcODE) & "' "
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionPlan", "Production Plan")
+            frmCRV = Nothing
+
+            Return True
+    End Function
     Public Shared Function GetItemBalance(ByVal Location_Code As String, ByVal Item_Code As String, ByVal Unit_Code As String) As Double
         Dim qty As Double = 0
 

@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,8 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.ddlQtyConversionType = New common.Controls.MyComboBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -87,6 +89,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlQtyConversionType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -214,6 +217,8 @@ Partial Class rptCustItemWiseSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtLocation)
+        Me.RadGroupBox1.Controls.Add(Me.lblLocation)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
         Me.RadGroupBox1.Controls.Add(Me.ddlQtyConversionType)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox3)
@@ -234,6 +239,29 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(801, 276)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'txtLocation
+        '
+        Me.txtLocation.arrDispalyMember = Nothing
+        Me.txtLocation.arrValueMember = Nothing
+        Me.txtLocation.Location = New System.Drawing.Point(94, 126)
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Nothing
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyNullText = "All"
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.Size = New System.Drawing.Size(243, 19)
+        Me.txtLocation.TabIndex = 452
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(5, 126)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(49, 18)
+        Me.lblLocation.TabIndex = 451
+        Me.lblLocation.Text = "Location"
         '
         'MyLabel5
         '
@@ -277,7 +305,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox3.Controls.Add(Me.rbtnDocumentDate)
         Me.RadGroupBox3.Controls.Add(Me.rbtnSupplyDate)
         Me.RadGroupBox3.HeaderText = "Date"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(8, 167)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(8, 193)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(331, 37)
@@ -340,7 +368,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.rbtnMilkSale.MyLinkLable1 = Nothing
         Me.rbtnMilkSale.MyLinkLable2 = Nothing
         Me.rbtnMilkSale.Name = "rbtnMilkSale"
-        Me.rbtnMilkSale.Size = New System.Drawing.Size(65, 18)
+        Me.rbtnMilkSale.Size = New System.Drawing.Size(151, 18)
         Me.rbtnMilkSale.TabIndex = 413
         Me.rbtnMilkSale.TabStop = False
         Me.rbtnMilkSale.Text = "Milk Sale As Per Gate Pass"
@@ -516,7 +544,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
         Me.RadGroupBox2.HeaderText = "Report Type"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 127)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 153)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(331, 37)
@@ -715,7 +743,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -811,6 +839,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlQtyConversionType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -915,5 +944,7 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents ddlQtyConversionType As common.Controls.MyComboBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents rbtnMilkSale As common.Controls.MyRadioButton
+    Friend WithEvents txtLocation As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblLocation As common.Controls.MyLabel
 End Class
 
