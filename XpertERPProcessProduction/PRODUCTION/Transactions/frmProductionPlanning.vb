@@ -1113,28 +1113,33 @@ Public Class frmProductionPlanning
     End Sub
     Sub funPrint()
         Try
-            Dim qry As String = ""
-            qry += " SELECT  T2.PROD_PLAN_CODE,convert(VARCHAR,T2.PLANNING_DATE,103) AS PLANNING_DATE,  T1.PRODUCTION_LINE_CODE,T4.PRODUCTION_LINE_NAME,T1.ITEM_CODE AS "
-            qry += " MAIN_ITEM_CODE,T5.Item_Desc AS MAIN_ITEM_DESC,T6.Class_Code AS PACKAGE,T7.Class_Code AS FLAVOUR, "
-            qry += " T3.MIN_QUANTITY AS MIN_QTY,T3.MAX_QUANTITY AS MAX_QTY,CONVERT(varchar(5),T3.START_TIME,108) AS START_TIME,T3.SPEED , "
-            qry += " (CONVERT(VARCHAR,T2.PLANNING_DATE ,103) + ' ' + CONVERT(varchar(5),T3.END_TIME,108)) AS STOP_TIME,T3.REASON, ('" & objCommonVar.CurrentCompanyName & "')  AS COMPANY_NAME  FROM TSPL_MF_PROD_PLAN_DETAIL T1 INNER JOIN "
-            qry += " TSPL_MF_PRODUCTION_PLAN_HEAD T2 ON T1.PROD_PLAN_CODE=T2.PROD_PLAN_CODE  "
-            qry += " LEFT JOIN TSPL_MF_BATCH_PP_DETAIL T3 ON T2.PROD_PLAN_CODE=T3.PROD_PLAN_CODE "
-            qry += " LEFT JOIN TSPL_MF_PRODUCTION_LINES T4 ON T1.PRODUCTION_LINE_CODE=T4.PRODUCTION_LINE_CODE "
-            qry += " LEFT JOIN TSPL_ITEM_MASTER T5 ON T1.ITEM_CODE=T5.Item_Code "
-            qry += " LEFT JOIN (SELECT ITEM_CODE,CLASS_CODE,CLASS_DESC FROM TSPL_ITEM_details WHERE Class_Name='SIZE') T6 ON T1.ITEM_CODE=T6.Item_Code "
-            qry += " LEFT JOIN (SELECT ITEM_CODE,CLASS_CODE,CLASS_DESC FROM TSPL_ITEM_details WHERE Class_Name='FLAVOUR') T7 ON T1.ITEM_CODE=T7.Item_Code "
-            qry += " WHERE 2=2"
-            If txtCode.Value <> "" Then
-                qry += " AND  T2.PROD_PLAN_CODE='" & clsCommon.myCstr(txtCode.Value) & "' "
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionPlan", "Production Plan")
-            frmCRV = Nothing
+            clsProductionPlanning.funPPPrint(MyBase.Form_ID, False, Nothing, txtCode.Value)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        'Try
+        '    Dim qry As String = ""
+        '    qry += " SELECT  T2.PROD_PLAN_CODE,convert(VARCHAR,T2.PLANNING_DATE,103) AS PLANNING_DATE,  T1.PRODUCTION_LINE_CODE,T4.PRODUCTION_LINE_NAME,T1.ITEM_CODE AS "
+        '    qry += " MAIN_ITEM_CODE,T5.Item_Desc AS MAIN_ITEM_DESC,T6.Class_Code AS PACKAGE,T7.Class_Code AS FLAVOUR, "
+        '    qry += " T3.MIN_QUANTITY AS MIN_QTY,T3.MAX_QUANTITY AS MAX_QTY,CONVERT(varchar(5),T3.START_TIME,108) AS START_TIME,T3.SPEED , "
+        '    qry += " (CONVERT(VARCHAR,T2.PLANNING_DATE ,103) + ' ' + CONVERT(varchar(5),T3.END_TIME,108)) AS STOP_TIME,T3.REASON, ('" & objCommonVar.CurrentCompanyName & "')  AS COMPANY_NAME  FROM TSPL_MF_PROD_PLAN_DETAIL T1 INNER JOIN "
+        '    qry += " TSPL_MF_PRODUCTION_PLAN_HEAD T2 ON T1.PROD_PLAN_CODE=T2.PROD_PLAN_CODE  "
+        '    qry += " LEFT JOIN TSPL_MF_BATCH_PP_DETAIL T3 ON T2.PROD_PLAN_CODE=T3.PROD_PLAN_CODE "
+        '    qry += " LEFT JOIN TSPL_MF_PRODUCTION_LINES T4 ON T1.PRODUCTION_LINE_CODE=T4.PRODUCTION_LINE_CODE "
+        '    qry += " LEFT JOIN TSPL_ITEM_MASTER T5 ON T1.ITEM_CODE=T5.Item_Code "
+        '    qry += " LEFT JOIN (SELECT ITEM_CODE,CLASS_CODE,CLASS_DESC FROM TSPL_ITEM_details WHERE Class_Name='SIZE') T6 ON T1.ITEM_CODE=T6.Item_Code "
+        '    qry += " LEFT JOIN (SELECT ITEM_CODE,CLASS_CODE,CLASS_DESC FROM TSPL_ITEM_details WHERE Class_Name='FLAVOUR') T7 ON T1.ITEM_CODE=T7.Item_Code "
+        '    qry += " WHERE 2=2"
+        '    If txtCode.Value <> "" Then
+        '        qry += " AND  T2.PROD_PLAN_CODE='" & clsCommon.myCstr(txtCode.Value) & "' "
+        '    End If
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '    Dim frmCRV As New frmCrystalReportViewer()
+        '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionPlan", "Production Plan")
+        '    frmCRV = Nothing
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 
     Private Sub txtloc_code__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtloc_code._MYValidating

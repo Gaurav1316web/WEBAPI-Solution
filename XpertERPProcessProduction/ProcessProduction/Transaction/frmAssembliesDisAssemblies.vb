@@ -2366,19 +2366,21 @@ Public Class frmAssembDis
     End Sub
     Public Sub funPrint(ByVal StrCode As String)
         Try
-            Dim qry As String = ""
-            qry = " Select  '" & objCommonVar.CurrentCompanyName & "' as Company_Name , TSPL_PROD_ASSEMBLIES.CODE as AssemblyCode,Convert(varchar,TSPL_PROD_ASSEMBLIES.ASSEMBLY_DATE,103) as Assemblydate ,TSPL_PROD_ASSEMBLIES.Main_Item_Code,"
-            qry += " TSPL_PROD_ASSEMBLIES.Serial_No as MainSerialNo,TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.LINE_NO as SL_No,TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.CONSM_ITEM_CODE as ItemCode, "
-            qry += " TSPL_ITEM_MASTER.Item_Desc as ItemDesc ,TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.Serial_No as SerialNo,TSPL_PROD_ASSEMBLIES.Modified_By as ModifiedBy,TSPL_PROD_ASSEMBLIES.Created_By as CreatedBy from TSPL_PROD_ASSEMBLIES_ITEM_DETAIL  Left Outer Join TSPL_PROD_ASSEMBLIES on TSPL_PROD_ASSEMBLIES.CODE=TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.ASSEMBLY_CODE Left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.CONSM_ITEM_CODE"
-            qry += " where 2=2"
+            clsProductionPlanning.funAssembDisPrint(MyBase.Form_ID, False, dtp_AssembleDate.Value, txtCode.Value)
 
-            If StrCode <> "" Then
-                qry += " and  TSPL_PROD_ASSEMBLIES.CODE='" & StrCode & "' "
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
-            frmCRV = Nothing
+            'Dim qry As String = ""
+            'qry = " Select  '" & objCommonVar.CurrentCompanyName & "' as Company_Name , TSPL_PROD_ASSEMBLIES.CODE as AssemblyCode,Convert(varchar,TSPL_PROD_ASSEMBLIES.ASSEMBLY_DATE,103) as Assemblydate ,TSPL_PROD_ASSEMBLIES.Main_Item_Code,"
+            'qry += " TSPL_PROD_ASSEMBLIES.Serial_No as MainSerialNo,TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.LINE_NO as SL_No,TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.CONSM_ITEM_CODE as ItemCode, "
+            'qry += " TSPL_ITEM_MASTER.Item_Desc as ItemDesc ,TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.Serial_No as SerialNo,TSPL_PROD_ASSEMBLIES.Modified_By as ModifiedBy,TSPL_PROD_ASSEMBLIES.Created_By as CreatedBy from TSPL_PROD_ASSEMBLIES_ITEM_DETAIL  Left Outer Join TSPL_PROD_ASSEMBLIES on TSPL_PROD_ASSEMBLIES.CODE=TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.ASSEMBLY_CODE Left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PROD_ASSEMBLIES_ITEM_DETAIL.CONSM_ITEM_CODE"
+            'qry += " where 2=2"
+
+            'If StrCode <> "" Then
+            '    qry += " and  TSPL_PROD_ASSEMBLIES.CODE='" & StrCode & "' "
+            'End If
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'Dim frmCRV As New frmCrystalReportViewer()
+            'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
+            'frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

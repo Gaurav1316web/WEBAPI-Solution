@@ -356,7 +356,7 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                 " and convert(date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
                 " and TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.document_type='EX' and TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.trans_type='EXP' " &
                 " ORDER BY TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_date,TSPL_SD_SALE_INVOICE_HEAD_CANCEL_DATA.Document_code "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "AR Document") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
             qry = "Select TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_No  as [Document Id],convert(varchar,TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_Date ,103) as [Document Date] " &
                   ",TSPL_Customer_Invoice_Head_CANCEL_DATA.Customer_Code as [Customer Code],TSPL_Customer_Invoice_Head_CANCEL_DATA.Customer_Name as [Customer Name] " &
                   ", TSPL_Customer_Invoice_Head_CANCEL_DATA.Document_Type as [Document Type] " &
@@ -546,8 +546,9 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Disposal Entry") = CompairStringResult.Equal Then
-                clsGRNHead.funGRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
+                clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
