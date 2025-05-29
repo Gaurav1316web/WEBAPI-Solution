@@ -388,7 +388,7 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                   " From TSPL_JOBWORK_BILLING_HEAD_CANCEL_DATA   Left Outer Join TSPL_LOCATION_MASTER  On TSPL_JOBWORK_BILLING_HEAD_CANCEL_DATA.Loc_Code  =TSPL_LOCATION_MASTER.Location_Code " &
                   " WHERE  convert(date,TSPL_JOBWORK_BILLING_HEAD_CANCEL_DATA.Document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_JOBWORK_BILLING_HEAD_CANCEL_DATA.Document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
                   " Order BY TSPL_JOBWORK_BILLING_HEAD_CANCEL_DATA.Document_date,TSPL_JOBWORK_BILLING_HEAD_CANCEL_DATA.Document_Code "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Dairy Sale Return") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
             qry = "Select TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_Code as [Document Id],convert(varchar,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Document_date ,103) as  " &
                   " [Document Date],TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Against_Invoice_No as [Against Invoice No] " &
                   " ,TSPL_SD_SALE_RETURN_HEAD_CANCEL_DATA.Bill_To_Location as [Bill To Location Code], TSPL_LOCATION_MASTER.Location_Desc as [Bill To Location Name] " &
@@ -561,6 +561,8 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                 clsReceiptInvoiceHead.funARInvoicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FrmVendorService) = CompairStringResult.Equal Then
                 clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
+                clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
 
             End If
         Catch ex As Exception
