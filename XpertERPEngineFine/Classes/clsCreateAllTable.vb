@@ -24694,6 +24694,7 @@ Public Class clsCreateAllTable
             coll.Add("Suspence", "integer null")
             coll.Add("Suspence_VLC_Code", "Varchar(30) null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
             coll.Add("Suspence_Remarks", "varchar(200) NULL")
+            coll.Add("Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "", True)
 
 
@@ -25067,6 +25068,7 @@ Public Class clsCreateAllTable
             coll.Add("Exclude_Head", "int Null")
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
             coll.Add("Include_In_Dripping_Entry", "int Null")
+            coll.Add("Default_Adulteration", "int Null")
             'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MILK_REJECT_TYPE", coll, "", True, False, "", "", "", True)
 
