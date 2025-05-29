@@ -323,7 +323,85 @@ Public Class clsVedorInvoiceHead
     Public Saving As Integer = 0
     Public arrSecurityAdjustment As ArrayList = Nothing
 #End Region
+    Public Shared Function funVendorServicePrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrDocNo As String) As Boolean
+        Dim TSPL_VENDOR_INVOICE_HEAD As String = Nothing
+        Dim TSPL_VENDOR_INVOICE_detail As String = Nothing
+        If isCancel Then
+            TSPL_VENDOR_INVOICE_HEAD = "TSPL_VENDOR_INVOICE_HEAD_Cancel_data"
+            TSPL_VENDOR_INVOICE_detail = "TSPL_VENDOR_INVOICE_detail_cancel_data"
+        Else
+            TSPL_VENDOR_INVOICE_HEAD = "TSPL_VENDOR_INVOICE_HEAD"
+            TSPL_VENDOR_INVOICE_detail = "TSPL_VENDOR_INVOICE_detail"
+        End If
 
+
+        Dim qry As String = " select " + TSPL_VENDOR_INVOICE_HEAD + ".IsEInvoice,"
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+
+        qry += "" + TSPL_VENDOR_INVOICE_HEAD + ".Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(" + TSPL_VENDOR_INVOICE_HEAD + ".document_no,4) as Gatepass ," + TSPL_VENDOR_INVOICE_HEAD + ".Loc_Code as from_location ,TSPL_VENDOR_MASTER.GSTFinalNo as Cust_GstInNo," + TSPL_VENDOR_INVOICE_HEAD + ".document_no
+         , cast(
+        " + TSPL_VENDOR_INVOICE_HEAD + ".BarCode_Img as image
+      ) As BarCode_Img ," + TSPL_VENDOR_INVOICE_detail + ".Discount,	" + TSPL_VENDOR_INVOICE_detail + ".Amount_less_Discount	," + TSPL_VENDOR_INVOICE_detail + ".TAX1	," + TSPL_VENDOR_INVOICE_detail + ".TAX1_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX1_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX2,	" + TSPL_VENDOR_INVOICE_detail + ".TAX2_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX2_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX3	," + TSPL_VENDOR_INVOICE_detail + ".TAX3_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX3_Amt	," + TSPL_VENDOR_INVOICE_detail + ".TAX4,	" + TSPL_VENDOR_INVOICE_detail + ".TAX4_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX4_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX5,	" + TSPL_VENDOR_INVOICE_detail + ".TAX5_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX5_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX6,	" + TSPL_VENDOR_INVOICE_detail + ".TAX6_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX6_Amt	," + TSPL_VENDOR_INVOICE_detail + ".TAX7,	" + TSPL_VENDOR_INVOICE_detail + ".TAX7_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX7_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX8,	" + TSPL_VENDOR_INVOICE_detail + ".TAX8_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX8_Amt	," + TSPL_VENDOR_INVOICE_detail + ".TAX9,	" + TSPL_VENDOR_INVOICE_detail + ".TAX9_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX9_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".TAX10,	" + TSPL_VENDOR_INVOICE_detail + ".TAX10_Rate,	" + TSPL_VENDOR_INVOICE_detail + ".TAX10_Amt,	" + TSPL_VENDOR_INVOICE_detail + ".Total_Tax,	" + TSPL_VENDOR_INVOICE_detail + ".Total_Amount	," + TSPL_VENDOR_INVOICE_detail + ".Remarks,	" + TSPL_VENDOR_INVOICE_detail + ".Comments	,	" + TSPL_VENDOR_INVOICE_detail + ".Invoice_Type,	" + TSPL_VENDOR_INVOICE_detail + ".Landed_Amount
+	  ," + TSPL_VENDOR_INVOICE_HEAD + ".IRN_No," + TSPL_VENDOR_INVOICE_HEAD + ".Ack_No," + TSPL_VENDOR_INVOICE_HEAD + ".Ack_Date," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Invoice_No," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Invoice_Date," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Name," + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Code," + TSPL_VENDOR_INVOICE_detail + ".AddChargeDesc," + TSPL_VENDOR_INVOICE_detail + ".Amount
+		,tspl_company_master.comp_Name, " + TSPL_VENDOR_INVOICE_detail + ".GL_Account_Code," + TSPL_VENDOR_INVOICE_detail + ".GL_Account_Desc,
+      TSPL_COMPANY_MASTER.Add1 as Comp_Add1, 
+      TSPL_COMPANY_MASTER.Add2 as Comp_Add2, 
+      TSPL_COMPANY_MASTER.Add3 as Comp_Add3, 
+      TSPL_COMPANY_MASTER.Email as Comp_Email, 
+      TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1, 
+      TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, 
+      TSPL_COMPANY_MASTER.Pan_No as Comp_Pan_No, 
+      cast(
+        TSPL_COMPANY_MASTER.Logo_Img as image
+      ) as Logo_Img, 
+      cast(
+        TSPL_COMPANY_MASTER.Logo_Img2 as image
+      ) as Logo_Img2, 
+      TSPL_COMPANY_MASTER.GSTREg_No as Comp_GSTREg_No, 
+      TSPL_COMPANY_MASTER.CINNO as Comp_CINNO, 
+      TSPL_COMPANY_MASTER.Access_Officer as Comp_Access_Officer , TSPL_LOCATION_MASTER.accountholdername, 
+      TSPL_LOCATION_MASTER.Bank, 
+      TSPL_LOCATION_MASTER.Branch, 
+      TSPL_LOCATION_MASTER.ACType, 
+      TSPL_LOCATION_MASTER.bankaccno, 
+      TSPL_LOCATION_MASTER.bankifsccode ,
+	  TSPL_LOCATION_MASTER.Pin_Code as PinNo,
+	  TSPL_LOCATION_MASTER.Phone1 as LPhone,
+	  TSPL_LOCATION_MASTER.Registration_Number as Registration_No,TSPL_LOCATION_MASTER.GSTNO as From_Loc_GstinNo, TSPL_LOCATION_MASTER.HOAdd1 as frmHO1, 
+      TSPL_LOCATION_MASTER.HOAdd2 as frmHO2, TSPL_LOCATION_MASTER.Location_Desc as [From Location Desc], 
+      (
+        TSPL_LOCATION_MASTER.Add1 + TSPL_LOCATION_MASTER.Add2 + TSPL_LOCATION_MASTER.Add3 + TSPL_LOCATION_MASTER.Add4
+      ) as [From Address], 
+     
+      TSPL_LOCATION_MASTER.TIN_No, 
+      TSPL_LOCATION_MASTER.CST_No, 
+	  TSPL_VENDOR_MASTER.Pin_Code as [To Pin Code], 
+	  TSPL_VENDOR_MASTER.PAN as Cust_Pan,
+      TSPL_VENDOR_MASTER.TIN_No as [To TIN No], 
+      TSPL_VENDOR_MASTER.CST as [To CST No], 
+      TSPL_VENDOR_MASTER.Phone1 as [To phone], 
+      TSPL_LOCATION_MASTER.State as From_State  from " + TSPL_VENDOR_INVOICE_HEAD + "
+	  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=" + TSPL_VENDOR_INVOICE_HEAD + ".Comp_Code
+	  left  join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code=" + TSPL_VENDOR_INVOICE_HEAD + ".Loc_Code and TSPL_LOCATION_MASTER.IsEinvoice=1
+	  --left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code = " + TSPL_VENDOR_INVOICE_HEAD + ".Loc_code and TSPL_LOCATION_MASTER.isEinvoice=1
+	  inner join " + TSPL_VENDOR_INVOICE_detail + " on " + TSPL_VENDOR_INVOICE_detail + ".document_no=" + TSPL_VENDOR_INVOICE_HEAD + ".document_no
+	 -- inner join tspl_customer_master on tspl_customer_master.Cust_Code=" + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Code
+	  inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=" + TSPL_VENDOR_INVOICE_HEAD + ".Vendor_Code
+	  left join TSPL_Additional_Charges on TSPL_Additional_Charges.Code=" + TSPL_VENDOR_INVOICE_detail + ".AddChargeCode  where " + TSPL_VENDOR_INVOICE_HEAD + ".Document_No ='" + StrDocNo + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
+            frmCRV = Nothing
+        Else
+            clsCommon.MyMessageBoxShow("No Data Found")
+        End If
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As clsVedorInvoiceHead, ByVal isNewEntry As Boolean, Optional ByVal IsDirectEntry As Boolean = False) As Boolean
         Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -1689,126 +1767,126 @@ Public Class clsVedorInvoiceHead
             End If
 
             qry = "Select TSPL_VENDOR_INVOICE_DETAIL.*,TSPL_SAC_MASTER.Code as SAC_Code,TSPL_SAC_MASTER.Description as SAC_Name,TSPL_TDS_DEDUCTION_HEAD.Description as Deduction_Name,TSPL_TDS_DEDUCTION_HEAD.TDS_Section as Deduction_Section,TSPL_ACQUISITION_DETAIL.Asset_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DEDUCTION_MASTER.Description end as DEDUCTION_DESC_New from TSPL_VENDOR_INVOICE_DETAIL left outer join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_VENDOR_INVOICE_DETAIL.Deduction_Code left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode left join TSPL_ACQUISITION_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Asset_Code=TSPL_ACQUISITION_DETAIL.Asset_Code left outer join TSPL_SAC_MASTER on TSPL_SAC_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.SAC_Code where Document_No='" + strDocumentNo + "' ORDER BY Detail_Line_No"
-                dt = New DataTable()
-                dt = clsDBFuncationality.GetDataTable(qry, trans)
-                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                    obj.Arr = New List(Of clsVedorInvoiceDetail)
-                    Dim objTr As clsVedorInvoiceDetail
-                    For Each dr As DataRow In dt.Rows
-                        objTr = New clsVedorInvoiceDetail
+            dt = New DataTable()
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj.Arr = New List(Of clsVedorInvoiceDetail)
+                Dim objTr As clsVedorInvoiceDetail
+                For Each dr As DataRow In dt.Rows
+                    objTr = New clsVedorInvoiceDetail
 
-                        '**********************************************************************
-                        objTr.chrgcatcode = clsCommon.myCstr(dr("charge_cat_code"))
-                        objTr.chrgcatdesc = clsCommon.myCstr(dr("charge_cat_desc"))
-                        objTr.chritemcode = clsCommon.myCstr(dr("item_code"))
-                        objTr.chritemdesc = clsCommon.myCstr(dr("item_desc"))
-                        objTr.chrgcatvalue = clsCommon.myCstr(dr("charge_cat_charges"))
-                        '*****************************************************************
-                        objTr.DeductionCode = clsCommon.myCstr(dr("DeductionCode"))
-                        objTr.DeductionDesc = clsCommon.myCstr(dr("DEDUCTION_DESC_New"))
+                    '**********************************************************************
+                    objTr.chrgcatcode = clsCommon.myCstr(dr("charge_cat_code"))
+                    objTr.chrgcatdesc = clsCommon.myCstr(dr("charge_cat_desc"))
+                    objTr.chritemcode = clsCommon.myCstr(dr("item_code"))
+                    objTr.chritemdesc = clsCommon.myCstr(dr("item_desc"))
+                    objTr.chrgcatvalue = clsCommon.myCstr(dr("charge_cat_charges"))
+                    '*****************************************************************
+                    objTr.DeductionCode = clsCommon.myCstr(dr("DeductionCode"))
+                    objTr.DeductionDesc = clsCommon.myCstr(dr("DEDUCTION_DESC_New"))
 
-                        ''richa agarwal
-                        objTr.AgainstPayment_No = clsCommon.myCstr(dr("AgainstPayment_No"))
-                        objTr.Payment_Amount = clsCommon.myCdbl(dr("Payment_Amount"))
-                        objTr.TDS_Per = clsCommon.myCdbl(dr("TDS_Per"))
-                        objTr.SAC_Code = clsCommon.myCstr(dr("SAC_Code"))
-                        objTr.SAC_Name = clsCommon.myCstr(dr("SAC_Name"))
-                        '--------------------------
+                    ''richa agarwal
+                    objTr.AgainstPayment_No = clsCommon.myCstr(dr("AgainstPayment_No"))
+                    objTr.Payment_Amount = clsCommon.myCdbl(dr("Payment_Amount"))
+                    objTr.TDS_Per = clsCommon.myCdbl(dr("TDS_Per"))
+                    objTr.SAC_Code = clsCommon.myCstr(dr("SAC_Code"))
+                    objTr.SAC_Name = clsCommon.myCstr(dr("SAC_Name"))
+                    '--------------------------
 
-                        objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
-                        objTr.Detail_Line_No = clsCommon.myCstr(dr("Detail_Line_No"))
+                    objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                    objTr.Detail_Line_No = clsCommon.myCstr(dr("Detail_Line_No"))
 
-                        objTr.Deduction_Code = clsCommon.myCstr(dr("Deduction_Code"))
-                        objTr.Deduction_Name = clsCommon.myCstr(dr("Deduction_Name"))
-                        objTr.Deduction_Section = clsCommon.myCstr(dr("Deduction_Section"))
-                        objTr.DCS_Addition_Deduction = clsCommon.myCstr(dr("DCS_Addition_Deduction"))
-                        objTr.GL_Account_Code = clsCommon.myCstr(dr("GL_Account_Code"))
-                        objTr.GL_Account_Desc = clsCommon.myCstr(dr("GL_Account_Desc"))
-                        objTr.Amount = clsCommon.myCdbl(dr("Amount"))
-                        objTr.Discount_Per = clsCommon.myCdbl(dr("Discount_Per"))
-                        objTr.Discount = clsCommon.myCdbl(dr("Discount"))
-                        objTr.Amount_less_Discount = clsCommon.myCdbl(dr("Amount_less_Discount"))
+                    objTr.Deduction_Code = clsCommon.myCstr(dr("Deduction_Code"))
+                    objTr.Deduction_Name = clsCommon.myCstr(dr("Deduction_Name"))
+                    objTr.Deduction_Section = clsCommon.myCstr(dr("Deduction_Section"))
+                    objTr.DCS_Addition_Deduction = clsCommon.myCstr(dr("DCS_Addition_Deduction"))
+                    objTr.GL_Account_Code = clsCommon.myCstr(dr("GL_Account_Code"))
+                    objTr.GL_Account_Desc = clsCommon.myCstr(dr("GL_Account_Desc"))
+                    objTr.Amount = clsCommon.myCdbl(dr("Amount"))
+                    objTr.Discount_Per = clsCommon.myCdbl(dr("Discount_Per"))
+                    objTr.Discount = clsCommon.myCdbl(dr("Discount"))
+                    objTr.Amount_less_Discount = clsCommon.myCdbl(dr("Amount_less_Discount"))
 
-                        objTr.Taxable_Amount = clsCommon.myCdbl(dr("Taxable_Amount"))
-                        objTr.Taxable_Amount_Per = clsCommon.myCdbl(dr("Taxable_Amount_Per"))
+                    objTr.Taxable_Amount = clsCommon.myCdbl(dr("Taxable_Amount"))
+                    objTr.Taxable_Amount_Per = clsCommon.myCdbl(dr("Taxable_Amount_Per"))
 
-                        objTr.TAX1 = clsCommon.myCstr(dr("TAX1"))
-                        objTr.TAX1_Rate = clsCommon.myCdbl(dr("TAX1_Rate"))
-                        objTr.TAX1_Amt = clsCommon.myCdbl(dr("TAX1_Amt"))
-                        objTr.TAX2 = clsCommon.myCstr(dr("TAX2"))
-                        objTr.TAX2_Rate = clsCommon.myCdbl(dr("TAX2_Rate"))
-                        objTr.TAX2_Amt = clsCommon.myCdbl(dr("TAX2_Amt"))
-                        objTr.TAX3 = clsCommon.myCstr(dr("TAX3"))
-                        objTr.TAX3_Rate = clsCommon.myCdbl(dr("TAX3_Rate"))
-                        objTr.TAX3_Amt = clsCommon.myCdbl(dr("TAX3_Amt"))
-                        objTr.TAX4 = clsCommon.myCstr(dr("TAX4"))
-                        objTr.TAX4_Rate = clsCommon.myCdbl(dr("TAX4_Rate"))
-                        objTr.TAX4_Amt = clsCommon.myCdbl(dr("TAX4_Amt"))
-                        objTr.TAX5 = clsCommon.myCstr(dr("TAX5"))
-                        objTr.TAX5_Rate = clsCommon.myCdbl(dr("TAX5_Rate"))
-                        objTr.TAX5_Amt = clsCommon.myCdbl(dr("TAX5_Amt"))
-                        objTr.TAX6 = clsCommon.myCstr(dr("TAX6"))
-                        objTr.TAX6_Rate = clsCommon.myCdbl(dr("TAX6_Rate"))
-                        objTr.TAX6_Amt = clsCommon.myCdbl(dr("TAX6_Amt"))
-                        objTr.TAX7 = clsCommon.myCstr(dr("TAX7"))
-                        objTr.TAX7_Rate = clsCommon.myCdbl(dr("TAX7_Rate"))
-                        objTr.TAX7_Amt = clsCommon.myCdbl(dr("TAX7_Amt"))
-                        objTr.TAX8 = clsCommon.myCstr(dr("TAX8"))
-                        objTr.TAX8_Rate = clsCommon.myCdbl(dr("TAX8_Rate"))
-                        objTr.TAX8_Amt = clsCommon.myCdbl(dr("TAX8_Amt"))
-                        objTr.TAX9 = clsCommon.myCstr(dr("TAX9"))
-                        objTr.TAX9_Rate = clsCommon.myCdbl(dr("TAX9_Rate"))
-                        objTr.TAX9_Amt = clsCommon.myCdbl(dr("TAX9_Amt"))
-                        objTr.TAX10 = clsCommon.myCstr(dr("TAX10"))
-                        objTr.TAX10_Rate = clsCommon.myCdbl(dr("TAX10_Rate"))
-                        objTr.TAX10_Amt = clsCommon.myCdbl(dr("TAX10_Amt"))
-                        objTr.Total_Tax = clsCommon.myCdbl(dr("Total_Tax"))
-                        objTr.Total_Amount = clsCommon.myCdbl(dr("Total_Amount"))
-                        objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
-                        objTr.Comments = clsCommon.myCstr(dr("Comments"))
-                        objTr.AddChargeCode = clsCommon.myCstr(dr("AddChargeCode"))
-                        objTr.AddChargeDesc = clsCommon.myCstr(dr("AddChargeDesc"))
-                        objTr.is_Unclaimed_Tax = IIf(clsCommon.myCdbl(dr("is_Unclaimed_Tax") = 1), True, False)
-                        objTr.Invoice_No = clsCommon.myCstr(dr("Invoice_No"))
-                        objTr.Invoice_Type = clsCommon.myCstr(dr("Invoice_Type"))
-                        objTr.Landed_Amount = clsCommon.myCdbl(dr("Landed_Amount"))
-                        objTr.Item_Rate = clsCommon.myCdbl(dr("Item_Rate"))
-                        objTr.Abatement_Per = clsCommon.myCdbl(dr("Abatement_Per"))
-                        objTr.Abatement_Amt = clsCommon.myCdbl(dr("Abatement_Amt"))
+                    objTr.TAX1 = clsCommon.myCstr(dr("TAX1"))
+                    objTr.TAX1_Rate = clsCommon.myCdbl(dr("TAX1_Rate"))
+                    objTr.TAX1_Amt = clsCommon.myCdbl(dr("TAX1_Amt"))
+                    objTr.TAX2 = clsCommon.myCstr(dr("TAX2"))
+                    objTr.TAX2_Rate = clsCommon.myCdbl(dr("TAX2_Rate"))
+                    objTr.TAX2_Amt = clsCommon.myCdbl(dr("TAX2_Amt"))
+                    objTr.TAX3 = clsCommon.myCstr(dr("TAX3"))
+                    objTr.TAX3_Rate = clsCommon.myCdbl(dr("TAX3_Rate"))
+                    objTr.TAX3_Amt = clsCommon.myCdbl(dr("TAX3_Amt"))
+                    objTr.TAX4 = clsCommon.myCstr(dr("TAX4"))
+                    objTr.TAX4_Rate = clsCommon.myCdbl(dr("TAX4_Rate"))
+                    objTr.TAX4_Amt = clsCommon.myCdbl(dr("TAX4_Amt"))
+                    objTr.TAX5 = clsCommon.myCstr(dr("TAX5"))
+                    objTr.TAX5_Rate = clsCommon.myCdbl(dr("TAX5_Rate"))
+                    objTr.TAX5_Amt = clsCommon.myCdbl(dr("TAX5_Amt"))
+                    objTr.TAX6 = clsCommon.myCstr(dr("TAX6"))
+                    objTr.TAX6_Rate = clsCommon.myCdbl(dr("TAX6_Rate"))
+                    objTr.TAX6_Amt = clsCommon.myCdbl(dr("TAX6_Amt"))
+                    objTr.TAX7 = clsCommon.myCstr(dr("TAX7"))
+                    objTr.TAX7_Rate = clsCommon.myCdbl(dr("TAX7_Rate"))
+                    objTr.TAX7_Amt = clsCommon.myCdbl(dr("TAX7_Amt"))
+                    objTr.TAX8 = clsCommon.myCstr(dr("TAX8"))
+                    objTr.TAX8_Rate = clsCommon.myCdbl(dr("TAX8_Rate"))
+                    objTr.TAX8_Amt = clsCommon.myCdbl(dr("TAX8_Amt"))
+                    objTr.TAX9 = clsCommon.myCstr(dr("TAX9"))
+                    objTr.TAX9_Rate = clsCommon.myCdbl(dr("TAX9_Rate"))
+                    objTr.TAX9_Amt = clsCommon.myCdbl(dr("TAX9_Amt"))
+                    objTr.TAX10 = clsCommon.myCstr(dr("TAX10"))
+                    objTr.TAX10_Rate = clsCommon.myCdbl(dr("TAX10_Rate"))
+                    objTr.TAX10_Amt = clsCommon.myCdbl(dr("TAX10_Amt"))
+                    objTr.Total_Tax = clsCommon.myCdbl(dr("Total_Tax"))
+                    objTr.Total_Amount = clsCommon.myCdbl(dr("Total_Amount"))
+                    objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
+                    objTr.Comments = clsCommon.myCstr(dr("Comments"))
+                    objTr.AddChargeCode = clsCommon.myCstr(dr("AddChargeCode"))
+                    objTr.AddChargeDesc = clsCommon.myCstr(dr("AddChargeDesc"))
+                    objTr.is_Unclaimed_Tax = IIf(clsCommon.myCdbl(dr("is_Unclaimed_Tax") = 1), True, False)
+                    objTr.Invoice_No = clsCommon.myCstr(dr("Invoice_No"))
+                    objTr.Invoice_Type = clsCommon.myCstr(dr("Invoice_Type"))
+                    objTr.Landed_Amount = clsCommon.myCdbl(dr("Landed_Amount"))
+                    objTr.Item_Rate = clsCommon.myCdbl(dr("Item_Rate"))
+                    objTr.Abatement_Per = clsCommon.myCdbl(dr("Abatement_Per"))
+                    objTr.Abatement_Amt = clsCommon.myCdbl(dr("Abatement_Amt"))
 
-                        objTr.Reverse_Charge_Per = clsCommon.myCdbl(dr("Reverse_Charge_Per"))
-                        objTr.Reverse_Charge_Amount = clsCommon.myCdbl(dr("Reverse_Charge_Amount"))
+                    objTr.Reverse_Charge_Per = clsCommon.myCdbl(dr("Reverse_Charge_Per"))
+                    objTr.Reverse_Charge_Amount = clsCommon.myCdbl(dr("Reverse_Charge_Amount"))
 
-                        objTr.TAX1_Base_Amt = clsCommon.myCdbl(dr("TAX1_Base_Amt"))
-                        objTr.TAX2_Base_Amt = clsCommon.myCdbl(dr("TAX2_Base_Amt"))
-                        objTr.TAX3_Base_Amt = clsCommon.myCdbl(dr("TAX3_Base_Amt"))
-                        objTr.TAX4_Base_Amt = clsCommon.myCdbl(dr("TAX4_Base_Amt"))
-                        objTr.TAX5_Base_Amt = clsCommon.myCdbl(dr("TAX5_Base_Amt"))
-                        objTr.TAX6_Base_Amt = clsCommon.myCdbl(dr("TAX6_Base_Amt"))
-                        objTr.TAX7_Base_Amt = clsCommon.myCdbl(dr("TAX7_Base_Amt"))
-                        objTr.TAX8_Base_Amt = clsCommon.myCdbl(dr("TAX8_Base_Amt"))
-                        objTr.TAX9_Base_Amt = clsCommon.myCdbl(dr("TAX9_Base_Amt"))
-                        objTr.TAX10_Base_Amt = clsCommon.myCdbl(dr("TAX10_Base_Amt"))
-                        ''shivani
-                        objTr.Hirerachy_Code = clsCommon.myCstr(dr("Hirerachy_Code"))
-                        objTr.Cost_Centre_Code = clsCommon.myCstr(dr("Cost_Centre_Code"))
-                        objTr.Hirerachy_Code1 = clsCommon.myCstr(dr("Hirerachy_Code1"))
-                        objTr.Hirerachy_Code2 = clsCommon.myCstr(dr("Hirerachy_Code2"))
-                        objTr.Hirerachy_Code3 = clsCommon.myCstr(dr("Hirerachy_Code3"))
-                        objTr.Hirerachy_Code4 = clsCommon.myCstr(dr("Hirerachy_Code4"))
-                        '' PanchRaj
-                        objTr.Item_Type = clsCommon.myCstr(dr("Item_Type"))
-                        objTr.Asset_Code = clsCommon.myCstr(dr("Asset_Code"))
-                        objTr.Asset_Desc = clsCommon.myCstr(dr("Asset_Name"))
-                        objTr.PK_Id = clsCommon.myCdbl(dr("PK_Id"))
-                        If obj.is_Secondary_Transporter_Deduction Then
-                            objTr.arrSTDed = clsAPSecondaryTranporterDeductionDetail.GetData(objTr.Document_No, objTr.PK_Id, trans)
-                        End If
-                        obj.Arr.Add(objTr)
-                    Next
-                End If
+                    objTr.TAX1_Base_Amt = clsCommon.myCdbl(dr("TAX1_Base_Amt"))
+                    objTr.TAX2_Base_Amt = clsCommon.myCdbl(dr("TAX2_Base_Amt"))
+                    objTr.TAX3_Base_Amt = clsCommon.myCdbl(dr("TAX3_Base_Amt"))
+                    objTr.TAX4_Base_Amt = clsCommon.myCdbl(dr("TAX4_Base_Amt"))
+                    objTr.TAX5_Base_Amt = clsCommon.myCdbl(dr("TAX5_Base_Amt"))
+                    objTr.TAX6_Base_Amt = clsCommon.myCdbl(dr("TAX6_Base_Amt"))
+                    objTr.TAX7_Base_Amt = clsCommon.myCdbl(dr("TAX7_Base_Amt"))
+                    objTr.TAX8_Base_Amt = clsCommon.myCdbl(dr("TAX8_Base_Amt"))
+                    objTr.TAX9_Base_Amt = clsCommon.myCdbl(dr("TAX9_Base_Amt"))
+                    objTr.TAX10_Base_Amt = clsCommon.myCdbl(dr("TAX10_Base_Amt"))
+                    ''shivani
+                    objTr.Hirerachy_Code = clsCommon.myCstr(dr("Hirerachy_Code"))
+                    objTr.Cost_Centre_Code = clsCommon.myCstr(dr("Cost_Centre_Code"))
+                    objTr.Hirerachy_Code1 = clsCommon.myCstr(dr("Hirerachy_Code1"))
+                    objTr.Hirerachy_Code2 = clsCommon.myCstr(dr("Hirerachy_Code2"))
+                    objTr.Hirerachy_Code3 = clsCommon.myCstr(dr("Hirerachy_Code3"))
+                    objTr.Hirerachy_Code4 = clsCommon.myCstr(dr("Hirerachy_Code4"))
+                    '' PanchRaj
+                    objTr.Item_Type = clsCommon.myCstr(dr("Item_Type"))
+                    objTr.Asset_Code = clsCommon.myCstr(dr("Asset_Code"))
+                    objTr.Asset_Desc = clsCommon.myCstr(dr("Asset_Name"))
+                    objTr.PK_Id = clsCommon.myCdbl(dr("PK_Id"))
+                    If obj.is_Secondary_Transporter_Deduction Then
+                        objTr.arrSTDed = clsAPSecondaryTranporterDeductionDetail.GetData(objTr.Document_No, objTr.PK_Id, trans)
+                    End If
+                    obj.Arr.Add(objTr)
+                Next
             End If
-            Return obj
+        End If
+        Return obj
     End Function
 
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal strRefDocNo As String) As Boolean
@@ -4850,7 +4928,7 @@ from TSPL_VENDOR_INVOICE_SECURITY_REFUND
 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_SECURITY_REFUND.Against_Security
 where TSPL_VENDOR_INVOICE_HEAD.Vendor_Code='" + Vendorcode + "' and TSPL_VENDOR_INVOICE_SECURITY_REFUND.AP_Invoice_No not in ('" + currDocNo + "')
 ) xx group by Document_No having sum(Document_Total*RI)>0 and sum(Chk)>0  order by max(Posting_Date)"
-            Return qry
+        Return qry
     End Function
 End Class
 
