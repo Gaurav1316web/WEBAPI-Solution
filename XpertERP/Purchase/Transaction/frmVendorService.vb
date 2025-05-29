@@ -4376,56 +4376,58 @@ Public Class FrmVendorService
                 common.clsCommon.MyMessageBoxShow("Document No not found to print", Me.Text)
             End If
             Dim strDocNo As String = clsCommon.myCstr(txtDocNo.Value)
-            Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.IsEInvoice,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(TSPL_VENDOR_INVOICE_HEAD.document_no,4) as Gatepass ,TSPL_VENDOR_INVOICE_HEAD.Loc_Code as from_location ,TSPL_VENDOR_MASTER.GSTFinalNo as Cust_GstInNo,TSPL_VENDOR_INVOICE_HEAD.document_no
- , cast(
-        TSPL_VENDOR_INVOICE_HEAD.BarCode_Img as image
-      ) As BarCode_Img ,TSPL_VENDOR_INVOICE_DETAIL.Discount,	TSPL_VENDOR_INVOICE_DETAIL.Amount_less_Discount	,TSPL_VENDOR_INVOICE_DETAIL.TAX1	,TSPL_VENDOR_INVOICE_DETAIL.TAX1_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX2,	TSPL_VENDOR_INVOICE_DETAIL.TAX2_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX3	,TSPL_VENDOR_INVOICE_DETAIL.TAX3_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX4,	TSPL_VENDOR_INVOICE_DETAIL.TAX4_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX5,	TSPL_VENDOR_INVOICE_DETAIL.TAX5_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX6,	TSPL_VENDOR_INVOICE_DETAIL.TAX6_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX7,	TSPL_VENDOR_INVOICE_DETAIL.TAX7_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX8,	TSPL_VENDOR_INVOICE_DETAIL.TAX8_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX9,	TSPL_VENDOR_INVOICE_DETAIL.TAX9_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX10,	TSPL_VENDOR_INVOICE_DETAIL.TAX10_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt,	TSPL_VENDOR_INVOICE_DETAIL.Total_Tax,	TSPL_VENDOR_INVOICE_DETAIL.Total_Amount	,TSPL_VENDOR_INVOICE_DETAIL.Remarks,	TSPL_VENDOR_INVOICE_DETAIL.Comments	,	TSPL_VENDOR_INVOICE_DETAIL.Invoice_Type,	TSPL_VENDOR_INVOICE_DETAIL.Landed_Amount
-	  ,TSPL_VENDOR_INVOICE_HEAD.IRN_No,TSPL_VENDOR_INVOICE_HEAD.Ack_No,TSPL_VENDOR_INVOICE_HEAD.Ack_Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_DETAIL.AddChargeDesc,TSPL_VENDOR_INVOICE_DETAIL.Amount
-		,tspl_company_master.comp_Name, TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc,
-      TSPL_COMPANY_MASTER.Add1 as Comp_Add1, 
-      TSPL_COMPANY_MASTER.Add2 as Comp_Add2, 
-      TSPL_COMPANY_MASTER.Add3 as Comp_Add3, 
-      TSPL_COMPANY_MASTER.Email as Comp_Email, 
-      TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1, 
-      TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, 
-      TSPL_COMPANY_MASTER.Pan_No as Comp_Pan_No, 
-      cast(
-        TSPL_COMPANY_MASTER.Logo_Img as image
-      ) as Logo_Img, 
-      cast(
-        TSPL_COMPANY_MASTER.Logo_Img2 as image
-      ) as Logo_Img2, 
-      TSPL_COMPANY_MASTER.GSTREg_No as Comp_GSTREg_No, 
-      TSPL_COMPANY_MASTER.CINNO as Comp_CINNO, 
-      TSPL_COMPANY_MASTER.Access_Officer as Comp_Access_Officer , TSPL_LOCATION_MASTER.accountholdername, 
-      TSPL_LOCATION_MASTER.Bank, 
-      TSPL_LOCATION_MASTER.Branch, 
-      TSPL_LOCATION_MASTER.ACType, 
-      TSPL_LOCATION_MASTER.bankaccno, 
-      TSPL_LOCATION_MASTER.bankifsccode ,
-	  TSPL_LOCATION_MASTER.Pin_Code as PinNo,
-	  TSPL_LOCATION_MASTER.Phone1 as LPhone,
-	  TSPL_LOCATION_MASTER.Registration_Number as Registration_No,TSPL_LOCATION_MASTER.GSTNO as From_Loc_GstinNo, TSPL_LOCATION_MASTER.HOAdd1 as frmHO1, 
-      TSPL_LOCATION_MASTER.HOAdd2 as frmHO2, TSPL_LOCATION_MASTER.Location_Desc as [From Location Desc], 
-      (
-        TSPL_LOCATION_MASTER.Add1 + TSPL_LOCATION_MASTER.Add2 + TSPL_LOCATION_MASTER.Add3 + TSPL_LOCATION_MASTER.Add4
-      ) as [From Address], 
-     
-      TSPL_LOCATION_MASTER.TIN_No, 
-      TSPL_LOCATION_MASTER.CST_No, 
-	  TSPL_VENDOR_MASTER.Pin_Code as [To Pin Code], 
-	  TSPL_VENDOR_MASTER.PAN as Cust_Pan,
-      TSPL_VENDOR_MASTER.TIN_No as [To TIN No], 
-      TSPL_VENDOR_MASTER.CST as [To CST No], 
-      TSPL_VENDOR_MASTER.Phone1 as [To phone], 
-      TSPL_LOCATION_MASTER.State as From_State  from TSPL_VENDOR_INVOICE_HEAD
-	  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code
-	  left  join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code=TSPL_VENDOR_INVOICE_HEAD.Loc_Code and TSPL_LOCATION_MASTER.IsEinvoice=1
-	  --left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code = TSPL_VENDOR_Invoice_Head.Loc_code and TSPL_LOCATION_MASTER.isEinvoice=1
-	  inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
-	 -- inner join tspl_customer_master on tspl_customer_master.Cust_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-	  inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-	  left join TSPL_Additional_Charges on TSPL_Additional_Charges.Code=TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode  where TSPL_VENDOR_INVOICE_HEAD.Document_No ='" + strDocNo + "' "
+            clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
+
+            '           Dim qry As String = " select TSPL_VENDOR_INVOICE_HEAD.IsEInvoice,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date, TSPL_Additional_Charges.SAC_Code,(TSPL_VENDOR_MASTER.Add1+' '+TSPL_VENDOR_MASTER.ADD2+' '+TSPL_VENDOR_MASTER.Add3) AS ADD1,TSPL_VENDOR_MASTER.PAN ,TSPL_VENDOR_MASTER.Pin_Code,TSPL_VENDOR_MASTER.State_Code,TSPL_VENDOR_MASTER.GSTFinalNo,TSPL_VENDOR_MASTER.City_Code_Desc,right(TSPL_VENDOR_INVOICE_HEAD.document_no,4) as Gatepass ,TSPL_VENDOR_INVOICE_HEAD.Loc_Code as from_location ,TSPL_VENDOR_MASTER.GSTFinalNo as Cust_GstInNo,TSPL_VENDOR_INVOICE_HEAD.document_no
+            ', cast(
+            '       TSPL_VENDOR_INVOICE_HEAD.BarCode_Img as image
+            '     ) As BarCode_Img ,TSPL_VENDOR_INVOICE_DETAIL.Discount,	TSPL_VENDOR_INVOICE_DETAIL.Amount_less_Discount	,TSPL_VENDOR_INVOICE_DETAIL.TAX1	,TSPL_VENDOR_INVOICE_DETAIL.TAX1_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX1_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX2,	TSPL_VENDOR_INVOICE_DETAIL.TAX2_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX2_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX3	,TSPL_VENDOR_INVOICE_DETAIL.TAX3_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX3_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX4,	TSPL_VENDOR_INVOICE_DETAIL.TAX4_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX4_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX5,	TSPL_VENDOR_INVOICE_DETAIL.TAX5_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX5_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX6,	TSPL_VENDOR_INVOICE_DETAIL.TAX6_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX6_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX7,	TSPL_VENDOR_INVOICE_DETAIL.TAX7_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX7_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX8,	TSPL_VENDOR_INVOICE_DETAIL.TAX8_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX8_Amt	,TSPL_VENDOR_INVOICE_DETAIL.TAX9,	TSPL_VENDOR_INVOICE_DETAIL.TAX9_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX9_Amt,	TSPL_VENDOR_INVOICE_DETAIL.TAX10,	TSPL_VENDOR_INVOICE_DETAIL.TAX10_Rate,	TSPL_VENDOR_INVOICE_DETAIL.TAX10_Amt,	TSPL_VENDOR_INVOICE_DETAIL.Total_Tax,	TSPL_VENDOR_INVOICE_DETAIL.Total_Amount	,TSPL_VENDOR_INVOICE_DETAIL.Remarks,	TSPL_VENDOR_INVOICE_DETAIL.Comments	,	TSPL_VENDOR_INVOICE_DETAIL.Invoice_Type,	TSPL_VENDOR_INVOICE_DETAIL.Landed_Amount
+            '  ,TSPL_VENDOR_INVOICE_HEAD.IRN_No,TSPL_VENDOR_INVOICE_HEAD.Ack_No,TSPL_VENDOR_INVOICE_HEAD.Ack_Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_DETAIL.AddChargeDesc,TSPL_VENDOR_INVOICE_DETAIL.Amount
+            '	,tspl_company_master.comp_Name, TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Code,TSPL_VENDOR_INVOICE_DETAIL.GL_Account_Desc,
+            '     TSPL_COMPANY_MASTER.Add1 as Comp_Add1, 
+            '     TSPL_COMPANY_MASTER.Add2 as Comp_Add2, 
+            '     TSPL_COMPANY_MASTER.Add3 as Comp_Add3, 
+            '     TSPL_COMPANY_MASTER.Email as Comp_Email, 
+            '     TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1, 
+            '     TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, 
+            '     TSPL_COMPANY_MASTER.Pan_No as Comp_Pan_No, 
+            '     cast(
+            '       TSPL_COMPANY_MASTER.Logo_Img as image
+            '     ) as Logo_Img, 
+            '     cast(
+            '       TSPL_COMPANY_MASTER.Logo_Img2 as image
+            '     ) as Logo_Img2, 
+            '     TSPL_COMPANY_MASTER.GSTREg_No as Comp_GSTREg_No, 
+            '     TSPL_COMPANY_MASTER.CINNO as Comp_CINNO, 
+            '     TSPL_COMPANY_MASTER.Access_Officer as Comp_Access_Officer , TSPL_LOCATION_MASTER.accountholdername, 
+            '     TSPL_LOCATION_MASTER.Bank, 
+            '     TSPL_LOCATION_MASTER.Branch, 
+            '     TSPL_LOCATION_MASTER.ACType, 
+            '     TSPL_LOCATION_MASTER.bankaccno, 
+            '     TSPL_LOCATION_MASTER.bankifsccode ,
+            '  TSPL_LOCATION_MASTER.Pin_Code as PinNo,
+            '  TSPL_LOCATION_MASTER.Phone1 as LPhone,
+            '  TSPL_LOCATION_MASTER.Registration_Number as Registration_No,TSPL_LOCATION_MASTER.GSTNO as From_Loc_GstinNo, TSPL_LOCATION_MASTER.HOAdd1 as frmHO1, 
+            '     TSPL_LOCATION_MASTER.HOAdd2 as frmHO2, TSPL_LOCATION_MASTER.Location_Desc as [From Location Desc], 
+            '     (
+            '       TSPL_LOCATION_MASTER.Add1 + TSPL_LOCATION_MASTER.Add2 + TSPL_LOCATION_MASTER.Add3 + TSPL_LOCATION_MASTER.Add4
+            '     ) as [From Address], 
+
+            '     TSPL_LOCATION_MASTER.TIN_No, 
+            '     TSPL_LOCATION_MASTER.CST_No, 
+            '  TSPL_VENDOR_MASTER.Pin_Code as [To Pin Code], 
+            '  TSPL_VENDOR_MASTER.PAN as Cust_Pan,
+            '     TSPL_VENDOR_MASTER.TIN_No as [To TIN No], 
+            '     TSPL_VENDOR_MASTER.CST as [To CST No], 
+            '     TSPL_VENDOR_MASTER.Phone1 as [To phone], 
+            '     TSPL_LOCATION_MASTER.State as From_State  from TSPL_VENDOR_INVOICE_HEAD
+            '  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VENDOR_INVOICE_HEAD.Comp_Code
+            '  left  join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code=TSPL_VENDOR_INVOICE_HEAD.Loc_Code and TSPL_LOCATION_MASTER.IsEinvoice=1
+            '  --left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code = TSPL_VENDOR_Invoice_Head.Loc_code and TSPL_LOCATION_MASTER.isEinvoice=1
+            '  inner join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
+            ' -- inner join tspl_customer_master on tspl_customer_master.Cust_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+            '  inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+            '  left join TSPL_Additional_Charges on TSPL_Additional_Charges.Code=TSPL_VENDOR_INVOICE_DETAIL.AddChargeCode  where TSPL_VENDOR_INVOICE_HEAD.Document_No ='" + strDocNo + "' "
             'Dim Arr As New ArrayList
             'Arr.Add(txtDocNo.Value)
             'frmRptAPInvoice.PrintData("", "", True, Arr, False, Nothing, False, Nothing)
@@ -4481,14 +4483,14 @@ Public Class FrmVendorService
             'Else
             '    frmCRV.funsubreport(CrystalReportFolder.Purchase, qry, qry1, "rptAPInvoice", "AP Invoice", "AP_InvoiceDetails.rpt", clsCommon.myCDate(txtDate.Value))
             'End If rptVendorServiceInvoice_RCDFCF
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-            End If
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            '    Dim frmCRV As New frmCrystalReportViewer()
+            '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptVendorServiceInvoice_RCDFCF", "VendorService")
+            '    frmCRV = Nothing
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

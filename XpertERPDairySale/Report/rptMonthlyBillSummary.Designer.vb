@@ -22,9 +22,14 @@ Partial Class rptMonthlyBillSummary
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnItemTypeBoth = New common.Controls.MyRadioButton()
+        Me.rbtnItemTypeTaxable = New common.Controls.MyRadioButton()
+        Me.rbtnItemTypeNonTaxable = New common.Controls.MyRadioButton()
         Me.chkExcludeShift = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnCustomerWise = New common.Controls.MyRadioButton()
@@ -46,16 +51,21 @@ Partial Class rptMonthlyBillSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnItemTypeBoth = New common.Controls.MyRadioButton()
-        Me.rbtnItemTypeTaxable = New common.Controls.MyRadioButton()
-        Me.rbtnItemTypeNonTaxable = New common.Controls.MyRadioButton()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvData = New common.UserControls.MyRadGridView()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnItemTypeTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,11 +87,11 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnItemTypeTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,6 +108,8 @@ Partial Class rptMonthlyBillSummary
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnprintDetail)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -109,10 +121,11 @@ Partial Class rptMonthlyBillSummary
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(901, 413)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -133,6 +146,54 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(880, 365)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeBoth)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeTaxable)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeNonTaxable)
+        Me.RadGroupBox2.HeaderText = "Item Type"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(306, 52)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(281, 40)
+        Me.RadGroupBox2.TabIndex = 449
+        Me.RadGroupBox2.Text = "Item Type"
+        '
+        'rbtnItemTypeBoth
+        '
+        Me.rbtnItemTypeBoth.Location = New System.Drawing.Point(195, 16)
+        Me.rbtnItemTypeBoth.MyLinkLable1 = Nothing
+        Me.rbtnItemTypeBoth.MyLinkLable2 = Nothing
+        Me.rbtnItemTypeBoth.Name = "rbtnItemTypeBoth"
+        Me.rbtnItemTypeBoth.Size = New System.Drawing.Size(44, 18)
+        Me.rbtnItemTypeBoth.TabIndex = 393
+        Me.rbtnItemTypeBoth.TabStop = False
+        Me.rbtnItemTypeBoth.Text = "Both"
+        '
+        'rbtnItemTypeTaxable
+        '
+        Me.rbtnItemTypeTaxable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnItemTypeTaxable.Location = New System.Drawing.Point(41, 16)
+        Me.rbtnItemTypeTaxable.MyLinkLable1 = Nothing
+        Me.rbtnItemTypeTaxable.MyLinkLable2 = Nothing
+        Me.rbtnItemTypeTaxable.Name = "rbtnItemTypeTaxable"
+        Me.rbtnItemTypeTaxable.Size = New System.Drawing.Size(58, 18)
+        Me.rbtnItemTypeTaxable.TabIndex = 393
+        Me.rbtnItemTypeTaxable.Text = "Taxable"
+        Me.rbtnItemTypeTaxable.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnItemTypeNonTaxable
+        '
+        Me.rbtnItemTypeNonTaxable.Location = New System.Drawing.Point(105, 16)
+        Me.rbtnItemTypeNonTaxable.MyLinkLable1 = Nothing
+        Me.rbtnItemTypeNonTaxable.MyLinkLable2 = Nothing
+        Me.rbtnItemTypeNonTaxable.Name = "rbtnItemTypeNonTaxable"
+        Me.rbtnItemTypeNonTaxable.Size = New System.Drawing.Size(84, 18)
+        Me.rbtnItemTypeNonTaxable.TabIndex = 393
+        Me.rbtnItemTypeNonTaxable.TabStop = False
+        Me.rbtnItemTypeNonTaxable.Text = "Non-Taxable"
         '
         'chkExcludeShift
         '
@@ -340,7 +401,7 @@ Partial Class rptMonthlyBillSummary
         'btnprintDetail
         '
         Me.btnprintDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnprintDetail.Location = New System.Drawing.Point(111, 7)
+        Me.btnprintDetail.Location = New System.Drawing.Point(421, 7)
         Me.btnprintDetail.Name = "btnprintDetail"
         Me.btnprintDetail.Size = New System.Drawing.Size(80, 18)
         Me.btnprintDetail.TabIndex = 166
@@ -359,69 +420,65 @@ Partial Class rptMonthlyBillSummary
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(194, 7)
+        Me.btnReset.Location = New System.Drawing.Point(215, 7)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(68, 18)
         Me.btnReset.TabIndex = 166
         Me.btnReset.Text = "Reset"
-        Me.btnReset.Visible = False
         '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(12, 7)
+        Me.btnPrint.Location = New System.Drawing.Point(113, 7)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(96, 18)
         Me.btnPrint.TabIndex = 165
         Me.btnPrint.Text = "Print"
         '
-        'RadGroupBox2
+        'RadPageViewPage2
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeBoth)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeTaxable)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnItemTypeNonTaxable)
-        Me.RadGroupBox2.HeaderText = "Item Type"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(306, 52)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(281, 40)
-        Me.RadGroupBox2.TabIndex = 449
-        Me.RadGroupBox2.Text = "Item Type"
+        Me.RadPageViewPage2.Controls.Add(Me.gvData)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(880, 365)
+        Me.RadPageViewPage2.Text = "Report"
         '
-        'rbtnItemTypeBoth
+        'gvData
         '
-        Me.rbtnItemTypeBoth.Location = New System.Drawing.Point(195, 16)
-        Me.rbtnItemTypeBoth.MyLinkLable1 = Nothing
-        Me.rbtnItemTypeBoth.MyLinkLable2 = Nothing
-        Me.rbtnItemTypeBoth.Name = "rbtnItemTypeBoth"
-        Me.rbtnItemTypeBoth.Size = New System.Drawing.Size(44, 18)
-        Me.rbtnItemTypeBoth.TabIndex = 393
-        Me.rbtnItemTypeBoth.TabStop = False
-        Me.rbtnItemTypeBoth.Text = "Both"
+        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvData.Location = New System.Drawing.Point(0, 0)
         '
-        'rbtnItemTypeTaxable
         '
-        Me.rbtnItemTypeTaxable.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnItemTypeTaxable.Location = New System.Drawing.Point(41, 16)
-        Me.rbtnItemTypeTaxable.MyLinkLable1 = Nothing
-        Me.rbtnItemTypeTaxable.MyLinkLable2 = Nothing
-        Me.rbtnItemTypeTaxable.Name = "rbtnItemTypeTaxable"
-        Me.rbtnItemTypeTaxable.Size = New System.Drawing.Size(58, 18)
-        Me.rbtnItemTypeTaxable.TabIndex = 393
-        Me.rbtnItemTypeTaxable.Text = "Taxable"
-        Me.rbtnItemTypeTaxable.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
-        'rbtnItemTypeNonTaxable
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MyExportFilePath = ""
+        Me.gvData.MyStopExport = False
+        Me.gvData.Name = "gvData"
+        Me.gvData.ShowHeaderCellButtons = True
+        Me.gvData.Size = New System.Drawing.Size(880, 365)
+        Me.gvData.TabIndex = 1
+        Me.gvData.VarID = ""
         '
-        Me.rbtnItemTypeNonTaxable.Location = New System.Drawing.Point(105, 16)
-        Me.rbtnItemTypeNonTaxable.MyLinkLable1 = Nothing
-        Me.rbtnItemTypeNonTaxable.MyLinkLable2 = Nothing
-        Me.rbtnItemTypeNonTaxable.Name = "rbtnItemTypeNonTaxable"
-        Me.rbtnItemTypeNonTaxable.Size = New System.Drawing.Size(84, 18)
-        Me.rbtnItemTypeNonTaxable.TabIndex = 393
-        Me.rbtnItemTypeNonTaxable.TabStop = False
-        Me.rbtnItemTypeNonTaxable.Text = "Non-Taxable"
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Location = New System.Drawing.Point(10, 7)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(96, 18)
+        Me.btnGo.TabIndex = 169
+        Me.btnGo.Text = ">>>"
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Location = New System.Drawing.Point(289, 8)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(111, 18)
+        Me.btnExport.TabIndex = 170
+        Me.btnExport.Text = "Export To Excel"
         '
         'rptMonthlyBillSummary
         '
@@ -442,6 +499,12 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnItemTypeTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -466,12 +529,11 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnItemTypeTaxable, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -505,4 +567,8 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents rbtnItemTypeBoth As common.Controls.MyRadioButton
     Friend WithEvents rbtnItemTypeTaxable As common.Controls.MyRadioButton
     Friend WithEvents rbtnItemTypeNonTaxable As common.Controls.MyRadioButton
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents gvData As common.UserControls.MyRadGridView
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents btnExport As RadButton
 End Class
