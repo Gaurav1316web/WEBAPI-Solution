@@ -993,6 +993,7 @@ Public Class FrmPendingAproval
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
 
         If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
+
             lblCustomer.Visible = True
             txtCustomer.Visible = True
         Else
@@ -1028,7 +1029,22 @@ Public Class FrmPendingAproval
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal Then
             cboTransaction.DataSource = Nothing
             LaodModuleDairySale()
-            'btnPost.Enabled = False
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+                lblCustomer.Text = "Route"
+                gbStatus.Text = "Shift "
+                rbtnStatusPending.Text = "Morning"
+                rbtnStatusPosted.Text = "Evening"
+                RadLabel3.Visible = False
+                dtpToDate.Visible = False
+
+            Else
+                lblCustomer.Text = "Customer"
+                gbStatus.Text = "Status"
+                rbtnStatusPending.Text = "Pending"
+                rbtnStatusPosted.Text = "Posted"
+                RadLabel3.Visible = True
+                dtpToDate.Visible = True
+            End If
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Tax Deducted At Source") = CompairStringResult.Equal Then
             cboTransaction.DataSource = Nothing
             LaodModuleTaxDeductedAtSource()
@@ -4225,16 +4241,19 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     "Left Outer Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No =TSPL_DEMAND_BOOKING_MASTER.Route_No   " &
                     "Left Outer Join TSPL_LOCATION_MASTER on TSPL_DEMAND_BOOKING_MASTER.Location_Code=TSPL_LOCATION_MASTER.Location_Code" &
                     " WHERE  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
-                    "convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+                    "convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpFromDate.Value + "',103) "
                     If rbtnStatusPending.IsChecked = True Then
-                        qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 0 "
+                        qry += " and TSPL_DEMAND_BOOKING_MASTER.ShiftType ='Morning' and TSPL_DEMAND_BOOKING_MASTER.Posted = 0 "
                         Isrefreshed = False
                     Else
-                        qry += "  and TSPL_DEMAND_BOOKING_MASTER.Posted = 1"
+                        qry += "  and TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening' and TSPL_DEMAND_BOOKING_MASTER.Posted = 0 "
                         Isrefreshed = True
                     End If
                     If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                         qry += " and TSPL_DEMAND_BOOKING_MASTER.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+                    End If
+                    If txtCustomer.arrValueMember IsNot Nothing Then
+                        qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
                     End If
                     If ChkAllowBulkPosting.Equals(0) Then
                         If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
@@ -6243,8 +6262,14 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
 
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
         Dim strQry As String = ""
-        strQry = " select Cust_Code as [code],Customer_Name as [Name] from TSPL_CUSTOMER_MASTER"
-        txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
+        If clsCommon.CompairString(cboTransaction.Text, "Demand") = CompairStringResult.Equal Then
+            strQry = " Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
+        Else
+            strQry = " select Cust_Code as [code],Customer_Name as [Name] from TSPL_CUSTOMER_MASTER"
+            txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
+        End If
+
     End Sub
 
 
