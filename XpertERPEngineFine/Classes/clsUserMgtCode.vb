@@ -2297,6 +2297,7 @@ Public Class clsUserMgtCode
     Public Const frmReviseMilkBill As String = "REV-MLK-BLL"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
     Public Const frmPaymentProcessFarmer As String = "Pay-Pro-Fa"
+    Public Const BMC_Transporter_Bill As String = "BMC-TRN-BLL"
 
     '===========================
     '--------------------------Reports-------------------------------------'
