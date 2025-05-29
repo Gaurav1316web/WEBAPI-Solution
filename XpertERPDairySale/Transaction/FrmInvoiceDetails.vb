@@ -96,7 +96,7 @@ group by xx.Document_Code,xx.Item_Code
 left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        frmCRV.funsubreportWithdt("", CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptMultipleInvoice", "Bill of Supply", "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptMultipleInvoice", "Bill of Supply", "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
 
                     End If
                 Else

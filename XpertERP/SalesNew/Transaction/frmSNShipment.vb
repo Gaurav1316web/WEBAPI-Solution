@@ -8075,7 +8075,7 @@ Public Class frmSNShipment
                                                         where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strDocNo + "'
                                                         group by TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code"
                     Dim dtItemSummary As DataTable = clsDBFuncationality.GetDataTable(QryItemSummary)
-                    strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                    strrptpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
                 End If
                 Exit Sub
             End If

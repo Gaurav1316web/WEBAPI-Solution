@@ -6194,13 +6194,13 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                                                         group by TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code"
                     Dim dtItemSummary As DataTable = clsDBFuncationality.GetDataTable(QryItemSummary)
                     If printnew = True Then
-                        strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                        strrptpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
                     Else
                         'strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoiceParty", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
                         If btnprint = True Then
-                            strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoicePartySummary", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                            strrptpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoicePartySummary", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
                         Else
-                            strrptpath = frmCRV.funsubreportWithdt(isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoicePartyAnnexure", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
+                            strrptpath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptProductSaleInvoicePartyAnnexure", "Tax Invoice", clsCommon.myCDate(dt.Rows(0)("InvoiceDate")), "rptSubItemSummary.rpt", dtItemSummary)
                         End If
                     End If
                 End If

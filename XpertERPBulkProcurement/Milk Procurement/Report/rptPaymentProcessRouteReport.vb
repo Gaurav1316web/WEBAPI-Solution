@@ -3705,9 +3705,9 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 If isPrintGo Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWiseALW", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWiseALW", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
                     Else
-                        frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", "rptSubDCSSummaryDayWise", dtSubDayWiseReport)
                     End If
                     frmCRV = Nothing
                 Else
@@ -4016,7 +4016,7 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryRouteWiseReport", "")
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryRouteWiseReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -4370,9 +4370,9 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrintUDP_OR_RJS", "")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrintUDP_OR_RJS", "")
                 Else
-                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSWiseAvgFatSnfPrint", "")
                 End If
 
                 frmCRV = Nothing
