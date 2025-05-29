@@ -53,8 +53,12 @@ Public Class frmAutoAdditionDeductionReport
             TemplateGridview = Gv1
             Dim Qry As String = " Select * "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-                Qry += " ,case when ([Addition/Deduction Amount] - FloR) > 0.5 then cast (ROUND([Addition/Deduction Amount],0)as int) 
-                          else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] "
+                'Qry += " ,case when ([Addition/Deduction Amount] - FloR) > 0.5 then cast (ROUND([Addition/Deduction Amount],0)as int) 
+                '          else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] "
+
+                Qry += " , case when ([Addition/Deduction Amount] - FloR) > 0.5 And ([Addition/Deduction Amount] - FloR) < 0.6 then cast(ROUND([Addition/Deduction Amount],2)as int) 
+      when ([Addition/Deduction Amount] - FloR) > 0.5 Then cast(ROUND([Addition/Deduction Amount],0)as int)
+ else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] "
             Else
                 Qry += " ,ceiling((xx.[Addition/Deduction Amount])) As [Addition/Deduction AmountR] "
             End If
