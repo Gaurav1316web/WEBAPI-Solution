@@ -22,7 +22,7 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -60,7 +60,6 @@ Partial Class FrmMCCMilkRegister
         Me.rbtnRoute = New System.Windows.Forms.RadioButton()
         Me.rbtnBMC = New System.Windows.Forms.RadioButton()
         Me.rbtnDCS = New System.Windows.Forms.RadioButton()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnZoneWise = New System.Windows.Forms.RadioButton()
         Me.rbtnCollectionSummary = New System.Windows.Forms.RadioButton()
@@ -124,7 +123,6 @@ Partial Class FrmMCCMilkRegister
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
         CType(Me.chkDateShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer2.SuspendLayout()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -207,7 +205,6 @@ Partial Class FrmMCCMilkRegister
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
-        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
@@ -429,9 +426,9 @@ Partial Class FrmMCCMilkRegister
         Me.chkRouteWiseDateWise.AutoSize = True
         Me.chkRouteWiseDateWise.Location = New System.Drawing.Point(13, 71)
         Me.chkRouteWiseDateWise.Name = "chkRouteWiseDateWise"
-        Me.chkRouteWiseDateWise.Size = New System.Drawing.Size(143, 17)
+        Me.chkRouteWiseDateWise.Size = New System.Drawing.Size(124, 17)
         Me.chkRouteWiseDateWise.TabIndex = 396
-        Me.chkRouteWiseDateWise.Text = "Route Wise & Date Wise"
+        Me.chkRouteWiseDateWise.Text = "Route && Date Wise"
         Me.chkRouteWiseDateWise.UseVisualStyleBackColor = True
         '
         'chkRouteWisePrint
@@ -625,19 +622,6 @@ Partial Class FrmMCCMilkRegister
         Me.rbtnDCS.TabStop = True
         Me.rbtnDCS.Text = "DCS Wise"
         Me.rbtnDCS.UseVisualStyleBackColor = True
-        '
-        'SplitContainer2
-        '
-        Me.SplitContainer2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer2.Location = New System.Drawing.Point(3, 279)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        Me.SplitContainer2.Size = New System.Drawing.Size(1141, 54)
-        Me.SplitContainer2.SplitterDistance = 25
-        Me.SplitContainer2.TabIndex = 331
         '
         'RadGroupBox3
         '
@@ -911,7 +895,8 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1114,7 +1099,6 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
         CType(Me.chkDateShift, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer2.ResumeLayout(False)
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -1188,7 +1172,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents rbtnRoute As RadioButton
     Friend WithEvents rbtnBMC As RadioButton
     Friend WithEvents rbtnDCS As RadioButton
-    Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents RadGroupBox6 As RadGroupBox
     Friend WithEvents chkRouteShiftWise As CheckBox
     Friend WithEvents chkDairyMilkReportPrint As CheckBox

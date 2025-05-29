@@ -13,6 +13,8 @@ Public Class frmMilkCollectionDCS
     Const ColSNo As String = "ColSNo"
     Const colMilkType As String = "colMilkType"
     Const colDocCollectionMilkType As String = "colDocCollectionMilkType"
+    Const colRoute As String = "colRoute"
+    Const colRouteName As String = "colRouteName"
     Const colVLCUploaderCode As String = "colVLCUploaderCode"
     Const colVLCCode As String = "colVLCCode"
     Const colVLCName As String = "colVLCName"
@@ -85,9 +87,17 @@ Public Class frmMilkCollectionDCS
             btnImport.Enabled = False
             btnExport.Enabled = False
         End If
-
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)
+        coll.Add("Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Default_Adulteration", "int Null")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MILK_REJECT_TYPE", coll, "", True, False, "", "", "", True)
+
+
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
@@ -245,6 +255,27 @@ Public Class frmMilkCollectionDCS
         repoComboBox.IsVisible = objCommonVar.DisplayTypeInMilkReceipt
         gv1.MasterTemplate.Columns.Add(repoComboBox)
 
+
+        Dim repoTextBox As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Route"
+        repoTextBox.Name = colRoute
+        repoTextBox.IsVisible = False
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.ReadOnly = False
+        repoTextBox.Width = 100
+        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal)
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Route Name"
+        repoTextBox.Name = colRouteName
+        repoTextBox.Width = 100
+        repoTextBox.ReadOnly = True
+        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal)
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
+
         Dim repoTextBox2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTextBox2.FormatString = ""
         repoTextBox2.HeaderText = "DCS/PDCS Code"
@@ -254,7 +285,7 @@ Public Class frmMilkCollectionDCS
         repoTextBox2.Width = 150
         gv1.MasterTemplate.Columns.Add(repoTextBox2)
 
-        Dim repoTextBox As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTextBox = New GridViewTextBoxColumn()
         repoTextBox.FormatString = ""
         repoTextBox.HeaderText = "DCS/PDCS Code"
         repoTextBox.Name = colVLCCode
@@ -670,6 +701,8 @@ Public Class frmMilkCollectionDCS
                     isCellValueChangedOpen = True
                     If e.Column Is gv1.Columns(colVLCUploaderCode) Then
                         OpenVLCFinder(False)
+                    ElseIf e.Column Is gv1.Columns(colRoute) Then
+                        OpenRouteFinder(False)
                     ElseIf e.Column Is gv1.Columns(colEveningFATPerNoDecimal) Then
                         gv1.CurrentRow.Cells(colEveningFATPer).Value = Xtra.MyNoDecimalToOneDecimal(gv1.CurrentRow.Cells(colEveningFATPerNoDecimal).Value)
                         Dim CalSettMaxFATPerLimit As Decimal = GetCalSettMaxFATPerLimit()
@@ -788,7 +821,18 @@ Public Class frmMilkCollectionDCS
             Return settMaxFATPerLimit
         End If
     End Function
-
+    Sub OpenRouteFinder(ByVal isButtonClick As Boolean)
+        Dim arrRoute As New ArrayList
+        For ii As Integer = 0 To gv2.Rows.Count - 1
+            If Not arrRoute.Contains(clsCommon.myCstr(gv2.Rows(ii).Cells("Route_Code").Value).ToUpper()) Then
+                arrRoute.Add(clsCommon.myCstr(gv2.Rows(ii).Cells("Route_Code").Value).ToUpper())
+            End If
+        Next
+        Dim qry As String = "select ROUTE_NO as Code,ROUTE_NAME as Name from TSPL_BULK_ROUTE_MASTER "
+        Dim whrCls As String = " ROUTE_NO in (" + clsCommon.GetMulcallString(arrRoute) + ") "
+        gv1.CurrentRow.Cells(colRoute).Value = clsCommon.ShowSelectForm("mcd@rof", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colRoute).Value), "", isButtonClick)
+        gv1.CurrentRow.Cells(colRouteName).Value = clsBulkRoutMaster.GetName(gv1.CurrentRow.Cells(colRoute).Value)
+    End Sub
     Sub OpenVLCFinder(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtMCC.Tag) <= 0 Then
             txtMCC.Focus()
@@ -835,10 +879,20 @@ Public Class frmMilkCollectionDCS
     Private Function AllowToSave() As Boolean
         'Prevent future date transaction
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
-            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
             txtDate.Focus()
-            Return False
+            Throw New Exception("Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
         End If
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
+                    If clsCommon.myLen(gv1.Rows(ii).Cells(colRoute).Value) <= 0 Then
+                        Throw New Exception("Please select Route at row no [ " + clsCommon.myCstr(ii + 1) + " ]")
+                    End If
+                End If
+            Next
+        End If
+
         UpdateAllTotal()
         Return True
     End Function
@@ -915,6 +969,7 @@ Public Class frmMilkCollectionDCS
                         Dim objTr As New clsMilkCollectionDCSDetail()
                         objTr.SNo = ii + 1
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
+                        objTr.Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colRoute).Value)
                         objTr.Shift = "E"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
@@ -947,6 +1002,7 @@ Public Class frmMilkCollectionDCS
                         Dim objTr As New clsMilkCollectionDCSDetail()
                         objTr.SNo = ii + 1
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
+                        objTr.Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colRoute).Value)
                         objTr.Shift = "M"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
@@ -1007,6 +1063,8 @@ Public Class frmMilkCollectionDCS
                             PreviousSNo = objTr.SNo
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkType).Value = objTr.Milk_Type
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRoute).Value = objTr.Route_Code
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value = objTr.Route_Name
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colDocCollectionMilkType).Value = objTr.Dock_Collection_Milk_Type
                             If obj.Status = ERPTransactionStatus.Approved AndAlso objTr.Suspence Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCCode).Value = objTr.Suspence_VLC_Code
@@ -1017,8 +1075,8 @@ Public Class frmMilkCollectionDCS
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Value = objTr.VLC_Name
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCUploaderCode).Value = objTr.VLC_Uploader_Code
                             End If
-
                         End If
+
                         If clsCommon.CompairString(objTr.Shift, "E") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningPKID).Value = objTr.PK_Id
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningQty).Value = objTr.Qty
@@ -1049,7 +1107,6 @@ Public Class frmMilkCollectionDCS
                 For ii As Integer = 0 To gv1.Rows.Count - 1
                     gv1.Rows(ii).Cells(colOwnDCS).Value = clsfrmVLCMaster.IsOwnBMC(clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value), clsCommon.myCstr(txtMCC.Tag), Nothing)
                 Next
-
                 UpdateAllTotal()
             End If
         Catch ex As Exception
@@ -1129,6 +1186,22 @@ Public Class frmMilkCollectionDCS
             If intCurrRow = gv1.Rows.Count - 1 Then
                 gv1.Rows.AddNew()
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkType).Value = "Good"
+                Try
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRoute).Value = clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 2).Cells(colRoute).Value)
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value = clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 2).Cells(colRouteName).Value)
+                    Try
+                        If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colRoute).Value) <= 0 Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRoute).Value = clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 3).Cells(colRoute).Value)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value = clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 3).Cells(colRouteName).Value)
+                        End If
+                        If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 2).Cells(colRoute).Value) <= 0 Then
+                            gv1.Rows(gv1.Rows.Count - 2).Cells(colRoute).Value = clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colRoute).Value)
+                            gv1.Rows(gv1.Rows.Count - 2).Cells(colRouteName).Value = clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value)
+                        End If
+                    Catch ex As Exception
+                    End Try
+                Catch ex As Exception
+                End Try
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
             End If
         End If
@@ -1214,6 +1287,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                 Else
                     gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
                 End If
+            ElseIf gv1.CurrentCell.ColumnInfo.Name = colRoute Then
+                gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colDocCollectionMilkType Then
                 gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colVLCUploaderCode Then
@@ -1412,6 +1487,8 @@ where 2=2 "
                 qry += ")"
             End If
             gv2.DataSource = Nothing
+
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 txtDate.Enabled = False
@@ -1483,6 +1560,7 @@ where 2=2 "
                 gv2.Columns("FATKG").HeaderText = "FAT KG"
                 gv2.Columns("SNF").HeaderText = "SNF %"
                 gv2.Columns("SNFKG").HeaderText = "SNF KG"
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

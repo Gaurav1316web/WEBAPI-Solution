@@ -868,6 +868,10 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, Remark, False)
     End Sub
     Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String, ByVal MarkAsSuspence As Boolean)
+        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, Remark, MarkAsSuspence, False, "")
+    End Sub
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String, ByVal MarkAsSuspence As Boolean, ByVal MarkAsAdulteration As Boolean, ByVal SuspenceRemarks As String)
+        Dim strRouteCode As String = ""
         Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Trans)) > 0)
         Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, Trans)) > 0)
         Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
@@ -927,15 +931,31 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
             If objCommonVar.DisplayTypeInMilkReceipt Then
                 objHead.Dock_Collection_Milk_Type = strType
             End If
-            If MarkAsSuspence Then
-                qry = "select VLC_Code_VLC_Uploader,VLC_Code,VLC_Name from TSPL_VLC_MASTER_HEAD where IsSuspense=1"
+            If MarkAsSuspence OrElse MarkAsAdulteration Then
+                qry = "select VLC_Code_VLC_Uploader,VLC_Code,VLC_Name,Route_Code from TSPL_VLC_MASTER_HEAD where IsSuspense=1"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     CorrTypeSRNVLC = True
                     strVLCUploaderCode = clsCommon.myCstr(dt.Rows(0)("VLC_Code_VLC_Uploader"))
+                    If MarkAsAdulteration Then
+                        MarkAsSuspence = True
+                        strRouteCode = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+                        If clsCommon.myLen(strRouteCode) <= 0 Then
+                            Throw New Exception("Please set route of dcs [" + strVLCUploaderCode + "]")
+                        End If
+                        qry = "select Code from TSPL_MILK_REJECT_TYPE where isnull(Default_Adulteration,0)=1"
+                        dt = clsDBFuncationality.GetDataTable(qry, Trans)
+                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                            Throw New Exception("Please set the default Adulteration of milk reject")
+                        End If
+                        strRejectType = clsCommon.myCstr(dt.Rows(0)("Code"))
+                        CorrTypeSRNFATSNF = True
+                    End If
                 Else
                     Throw New Exception("Please make suspence DCS")
                 End If
+            Else
+                SuspenceRemarks = ""
             End If
             If CorrTypeSRNQty Then
                 Dim dblLTRQty As Decimal = 0
@@ -985,6 +1005,9 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                 objHead.VLC_CODE = clsCommon.myCstr(dtTemp.Rows(0)("VLC_Code"))
                 objHead.VSP_CODE = clsCommon.myCstr(dtTemp.Rows(0)("VSP_Code"))
                 objHead.ROUTE_CODE = clsCommon.myCstr(dtTemp.Rows(0)("Route_Code"))
+                If clsCommon.myLen(strRouteCode) > 0 Then
+                    objHead.ROUTE_CODE = strRouteCode
+                End If
 
                 If clsCommon.myLen(objHead.VLC_CODE) <= 0 Then
                     Throw New Exception("Not a Valid VLC Uploader Code:" + strVLCUploaderCode)
@@ -1321,7 +1344,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                 dblSNFKG = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
             End If
 
-            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType, MarkAsSuspence, IsOwnBMCAdjustment)
+            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType, MarkAsSuspence, IsOwnBMCAdjustment, SuspenceRemarks, strRouteCode)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
@@ -1337,7 +1360,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         End Try
     End Sub
 
-    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String, MarkAsSuspence As Boolean, ByVal IsOwnBMCAdjustment As Boolean) As Boolean
+    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String, MarkAsSuspence As Boolean, ByVal IsOwnBMCAdjustment As Boolean, ByVal SuspenceRemarks As String, ByVal strRouteCode As String) As Boolean
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No as Against_Shift_Uploader_DocNo,TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,
 TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No as Against_Uploader_DocNo ,TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 from TSPL_MILK_SRN_HEAD 
@@ -1362,6 +1385,9 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     End If
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
                     Arr(0).Reject_Type = strRejectType
+                    If clsCommon.myLen(strRouteCode) > 0 Then
+                        Arr(0).BULK_ROUTE_NO = strRouteCode
+                    End If
                     clsMilkShiftUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No, IsOwnBMCAdjustment)
                 End If
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_Uploader_TR_No")) > 0 Then
@@ -1382,6 +1408,9 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     End If
                     Arr(0).Reject_Type = strRejectType
                     intAgainst_Milk_Collection_DCS_Detail = Arr(0).Against_Milk_Collection_DCS_Detail
+                    If clsCommon.myLen(strRouteCode) > 0 Then
+                        Arr(0).Bulk_Route_Code = strRouteCode
+                    End If
                     clsMilkProcurementUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No)
                 End If
             End If
@@ -1409,7 +1438,11 @@ and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNF=TSPL_MILK_COLLECTION_DCS_D
                     If MarkAsSuspence Then
                         Arr(0).Suspence_VLC_Code = Arr(0).VLC_Code
                         Arr(0).Suspence = MarkAsSuspence
-                        Arr(0).Suspence_Remarks = "Marked as Suspence from Milk Correction by " + objCommonVar.CurrentUserCode + " "
+                        If clsCommon.myLen(SuspenceRemarks) > 0 Then
+                            Arr(0).Suspence_Remarks = SuspenceRemarks
+                        Else
+                            Arr(0).Suspence_Remarks = "Marked as Suspence from Milk Correction by " + objCommonVar.CurrentUserCode + " "
+                        End If
                     End If
 
                     If corrTypeSRNQty Then
@@ -1427,6 +1460,9 @@ and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNF=TSPL_MILK_COLLECTION_DCS_D
                         Arr(0).SNFKG = dblSNFKG
                     End If
                     Arr(0).Milk_Type = strRejectType
+                    If clsCommon.myLen(strRouteCode) > 0 Then
+                        Arr(0).Route_Code = strRouteCode
+                    End If
 
                     clsMilkCollectionDCSDetail.SaveData(Arr(0).Document_No, Arr, trans, Arr(0).PK_Id, False, True)
                 End If
