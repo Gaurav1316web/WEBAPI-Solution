@@ -29,6 +29,8 @@ Partial Class frmMilkRejectType
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkDefaultAdulteration = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkDrippingEntry = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblDescriptionhindi = New common.Controls.MyLabel()
         Me.txtDescriptionhindi = New common.Controls.MyTextBox()
         Me.txtPrefix = New common.MyNumBox()
@@ -59,11 +61,12 @@ Partial Class frmMilkRejectType
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
-        Me.chkDrippingEntry = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkDefaultAdulteration, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDrippingEntry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,7 +95,6 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDrippingEntry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -145,6 +147,7 @@ Partial Class frmMilkRejectType
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkDefaultAdulteration)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkDrippingEntry)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblDescriptionhindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescriptionhindi)
@@ -179,11 +182,27 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.SplitterDistance = 321
         Me.SplitContainer1.TabIndex = 1
         '
+        'chkDefaultAdulteration
+        '
+        Me.chkDefaultAdulteration.Location = New System.Drawing.Point(388, 34)
+        Me.chkDefaultAdulteration.Name = "chkDefaultAdulteration"
+        Me.chkDefaultAdulteration.Size = New System.Drawing.Size(122, 18)
+        Me.chkDefaultAdulteration.TabIndex = 1038
+        Me.chkDefaultAdulteration.Text = "Default Adulteration"
+        '
+        'chkDrippingEntry
+        '
+        Me.chkDrippingEntry.Location = New System.Drawing.Point(388, 7)
+        Me.chkDrippingEntry.Name = "chkDrippingEntry"
+        Me.chkDrippingEntry.Size = New System.Drawing.Size(144, 18)
+        Me.chkDrippingEntry.TabIndex = 1037
+        Me.chkDrippingEntry.Text = "Include In Dripping Entry"
+        '
         'lblDescriptionhindi
         '
         Me.lblDescriptionhindi.FieldName = Nothing
         Me.lblDescriptionhindi.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblDescriptionhindi.Location = New System.Drawing.Point(8, 61)
+        Me.lblDescriptionhindi.Location = New System.Drawing.Point(8, 60)
         Me.lblDescriptionhindi.Name = "lblDescriptionhindi"
         Me.lblDescriptionhindi.Size = New System.Drawing.Size(93, 18)
         Me.lblDescriptionhindi.TabIndex = 1036
@@ -239,13 +258,13 @@ Partial Class frmMilkRejectType
         Me.txtPrefix.TabIndex = 1033
         Me.txtPrefix.Text = "0"
         Me.txtPrefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPrefix.Value = 0R
+        Me.txtPrefix.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(8, 266)
+        Me.MyLabel4.Location = New System.Drawing.Point(8, 263)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(35, 16)
         Me.MyLabel4.TabIndex = 1034
@@ -294,7 +313,7 @@ Partial Class frmMilkRejectType
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(8, 89)
+        Me.MyLabel3.Location = New System.Drawing.Point(8, 87)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(87, 16)
         Me.MyLabel3.TabIndex = 1030
@@ -384,13 +403,13 @@ Partial Class frmMilkRejectType
         Me.txtSNo.TabIndex = 1027
         Me.txtSNo.Text = "0"
         Me.txtSNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNo.Value = 0R
+        Me.txtSNo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(11, 193)
+        Me.MyLabel1.Location = New System.Drawing.Point(8, 188)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel1.TabIndex = 1028
@@ -400,7 +419,7 @@ Partial Class frmMilkRejectType
         '
         Me.Lbl_Type.FieldName = Nothing
         Me.Lbl_Type.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Type.Location = New System.Drawing.Point(11, 215)
+        Me.Lbl_Type.Location = New System.Drawing.Point(8, 214)
         Me.Lbl_Type.Name = "Lbl_Type"
         Me.Lbl_Type.Size = New System.Drawing.Size(31, 16)
         Me.Lbl_Type.TabIndex = 1026
@@ -477,7 +496,7 @@ Partial Class frmMilkRejectType
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(11, 140)
+        Me.MyLabel2.Location = New System.Drawing.Point(8, 139)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel2.TabIndex = 79
@@ -510,13 +529,13 @@ Partial Class frmMilkRejectType
         Me.txtApplicablePer.TabIndex = 2
         Me.txtApplicablePer.Text = "0"
         Me.txtApplicablePer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtApplicablePer.Value = 0R
+        Me.txtApplicablePer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblNoOfCans
         '
         Me.lblNoOfCans.FieldName = Nothing
         Me.lblNoOfCans.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblNoOfCans.Location = New System.Drawing.Point(8, 115)
+        Me.lblNoOfCans.Location = New System.Drawing.Point(8, 113)
         Me.lblNoOfCans.Name = "lblNoOfCans"
         Me.lblNoOfCans.Size = New System.Drawing.Size(91, 16)
         Me.lblNoOfCans.TabIndex = 37
@@ -526,7 +545,7 @@ Partial Class frmMilkRejectType
         '
         Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblDescription.Location = New System.Drawing.Point(8, 35)
+        Me.lblDescription.Location = New System.Drawing.Point(8, 34)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(63, 18)
         Me.lblDescription.TabIndex = 6
@@ -550,7 +569,7 @@ Partial Class frmMilkRejectType
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 30
+        Me.txtCode.MyMaxLength = 5
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(262, 21)
@@ -561,7 +580,7 @@ Partial Class frmMilkRejectType
         '
         Me.lblAdvanceCode.FieldName = Nothing
         Me.lblAdvanceCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblAdvanceCode.Location = New System.Drawing.Point(11, 9)
+        Me.lblAdvanceCode.Location = New System.Drawing.Point(8, 7)
         Me.lblAdvanceCode.Name = "lblAdvanceCode"
         Me.lblAdvanceCode.Size = New System.Drawing.Size(32, 18)
         Me.lblAdvanceCode.TabIndex = 2
@@ -603,14 +622,6 @@ Partial Class frmMilkRejectType
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
-        'chkDrippingEntry
-        '
-        Me.chkDrippingEntry.Location = New System.Drawing.Point(388, 7)
-        Me.chkDrippingEntry.Name = "chkDrippingEntry"
-        Me.chkDrippingEntry.Size = New System.Drawing.Size(144, 18)
-        Me.chkDrippingEntry.TabIndex = 1037
-        Me.chkDrippingEntry.Text = "Include In Dripping Entry"
-        '
         'frmMilkRejectType
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -630,6 +641,8 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkDefaultAdulteration, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDrippingEntry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).EndInit()
@@ -659,7 +672,6 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDrippingEntry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -703,5 +715,6 @@ Partial Class frmMilkRejectType
     Friend WithEvents txtDescriptionhindi As common.Controls.MyTextBox
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents chkDrippingEntry As RadCheckBox
+    Friend WithEvents chkDefaultAdulteration As RadCheckBox
 End Class
 

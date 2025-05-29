@@ -23,12 +23,14 @@ Partial Class rptBmcTankerProfitLossReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtPercentage = New System.Windows.Forms.TextBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtTotal = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtDetail = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtSummary = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtTanker = New common.UserControls.txtMultiSelectFinder()
@@ -50,16 +52,16 @@ Partial Class rptBmcTankerProfitLossReport
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.rbtTotal = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rbtTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,8 +80,6 @@ Partial Class rptBmcTankerProfitLossReport
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -143,6 +143,15 @@ Partial Class rptBmcTankerProfitLossReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 354)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(618, 32)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(44, 18)
+        Me.MyLabel4.TabIndex = 414
+        Me.MyLabel4.Text = "Percent"
+        '
         'txtPercentage
         '
         Me.txtPercentage.Location = New System.Drawing.Point(663, 30)
@@ -163,6 +172,15 @@ Partial Class rptBmcTankerProfitLossReport
         Me.RadGroupBox1.Size = New System.Drawing.Size(265, 43)
         Me.RadGroupBox1.TabIndex = 412
         Me.RadGroupBox1.Text = "Data Type"
+        '
+        'rbtTotal
+        '
+        Me.rbtTotal.Location = New System.Drawing.Point(185, 12)
+        Me.rbtTotal.Name = "rbtTotal"
+        Me.rbtTotal.Size = New System.Drawing.Size(45, 18)
+        Me.rbtTotal.TabIndex = 412
+        Me.rbtTotal.TabStop = False
+        Me.rbtTotal.Text = "Total"
         '
         'rbtDetail
         '
@@ -377,7 +395,7 @@ Partial Class rptBmcTankerProfitLossReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -434,24 +452,6 @@ Partial Class rptBmcTankerProfitLossReport
         Me.btnGo.TabIndex = 157
         Me.btnGo.Text = ">>>"
         '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(618, 32)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(44, 18)
-        Me.MyLabel4.TabIndex = 414
-        Me.MyLabel4.Text = "Percent"
-        '
-        'rbtTotal
-        '
-        Me.rbtTotal.Location = New System.Drawing.Point(185, 12)
-        Me.rbtTotal.Name = "rbtTotal"
-        Me.rbtTotal.Size = New System.Drawing.Size(45, 18)
-        Me.rbtTotal.TabIndex = 412
-        Me.rbtTotal.TabStop = False
-        Me.rbtTotal.Text = "Total"
-        '
         'rptBmcTankerProfitLossReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -471,9 +471,11 @@ Partial Class rptBmcTankerProfitLossReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.rbtTotal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -493,8 +495,6 @@ Partial Class rptBmcTankerProfitLossReport
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtTotal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

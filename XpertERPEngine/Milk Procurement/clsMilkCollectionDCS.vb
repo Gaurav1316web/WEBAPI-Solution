@@ -293,6 +293,7 @@ and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(
                     objtr.Dock_Collection_Milk_Type = objDCSTr.Dock_Collection_Milk_Type
                     objtr.Dock_Collection_Milk_Type_Auto = False
                     objtr.Against_Milk_Collection_DCS_Detail = objDCSTr.PK_Id
+                    objtr.BULK_ROUTE_NO = objDCSTr.Route_Code
                     If Not clsCommon.CompairString(objDCSTr.Milk_Type, "Good") = CompairStringResult.Equal Then
                         objtr.Reject_Type = objDCSTr.Milk_Type
                         objtr.Reject_Defaulter = "VSP"
@@ -303,7 +304,12 @@ and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(
                             objM.Shift_Date = objDCS.Document_Date
                             objM.Shift = objDCSTr.Shift
                             objM.MCC_Code = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
-                            objM.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+                            If clsCommon.myLen(objDCSTr.Route_Code) > 0 Then
+                                objM.Raj_Bulk_Route_Code = objDCSTr.Route_Code
+                            Else
+                                objM.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+                            End If
+
                             objM.Raj_Truck_no = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
                             objM.Raj_Late = clsCommon.myCDecimal(dt.Rows(0)("Late"))
                             objM.Raj_Entered_Qty = clsCommon.myCDecimal(dt.Rows(0)("Qty"))
@@ -323,7 +329,12 @@ and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(
                             End If
                             objE.Shift = objDCSTr.Shift
                             objE.MCC_Code = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
-                            objE.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+                            If clsCommon.myLen(objDCSTr.Route_Code) > 0 Then
+                                objE.Raj_Bulk_Route_Code = objDCSTr.Route_Code
+                            Else
+                                objE.Raj_Bulk_Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+                            End If
+
                             objE.Raj_Truck_no = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
                             objE.Raj_Late = clsCommon.myCDecimal(dt.Rows(0)("Late"))
                             objE.Raj_Entered_Qty = clsCommon.myCDecimal(dt.Rows(0)("Qty"))
@@ -354,6 +365,9 @@ and convert(date, Shift_Date,103)=convert(date, '" + clsCommon.GetPrintDate(IIf(
                     objTrMilkPro.Dock_Collection_Milk_Type = objDCSTr.Dock_Collection_Milk_Type
                     objTrMilkPro.Dock_Collection_Milk_Type_Auto = False
                     objTrMilkPro.Against_Milk_Collection_DCS_Detail = objDCSTr.PK_Id
+                    If clsCommon.myLen(objDCSTr.Route_Code) > 0 Then
+                        objTrMilkPro.Bulk_Route_Code = objDCSTr.Route_Code
+                    End If
                     If clsCommon.CompairString(objDCSTr.Milk_Type, "Good") = CompairStringResult.Equal Then
                         If objMilkPro Is Nothing Then
                             objMilkPro = New clsMilkProcurementUploaderHead()
@@ -597,6 +611,8 @@ Public Class clsMilkCollectionDCSDetail
     Public VLC_Uploader_Code As String ''Not a Table Column
     Public VLC_Code As String
     Public VLC_Name As String ''Not a Table Column
+    Public Route_Code As String
+    Public Route_Name As String ''Not a Table Column
     Public Shift As String
     Public Milk_Type As String
     Public Dock_Collection_Milk_Type As String
@@ -778,6 +794,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
         clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
         clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
+        clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
         clsCommon.AddColumnsForChange(coll, "Shift", obj.Shift)
         If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal OrElse clsCommon.myLen(obj.Milk_Type) <= 0 Then
             obj.Milk_Type = "Good" ''To Handle Case sensitivity
@@ -803,9 +820,10 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsMilkCollectionDCSDetail)
         Dim arr As List(Of clsMilkCollectionDCSDetail) = Nothing
-        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_DCS_DETAIL.*,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
 FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_DCS_DETAIL.Route_Code 
 where  TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strPONo + "' "
         If clsCommon.myLen(strExtraWhrclas) > 0 Then
             qry += " and " + strExtraWhrclas
@@ -824,6 +842,8 @@ where  TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strPONo + "' "
                 objTr.VLC_Uploader_Code = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                 objTr.VLC_Code = clsCommon.myCstr(dr("VLC_Code"))
                 objTr.VLC_Name = clsCommon.myCstr(dr("VLC_Name"))
+                objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
+                objTr.Route_Name = clsCommon.myCstr(dr("ROUTE_NAME"))
                 objTr.Qty = clsCommon.myCdbl(dr("Qty"))
                 objTr.FAT = clsCommon.myCdbl(dr("FAT"))
                 objTr.SNF = clsCommon.myCdbl(dr("SNF"))

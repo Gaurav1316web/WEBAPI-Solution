@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.IO
 Public Class clsDCSSaleEntry
 #Region "Variables"
     Public Is_CashSale As String = "N"
@@ -877,19 +878,36 @@ Public Class clsDCSSaleEntry
 
         Return obj
     End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    Public Shared Sub UpdateFileInfo(ByVal FormId As String, ByVal strDocNo As String)
         Try
-            PostData(FormId, strDocNo, trans)
-            trans.Commit()
+            Dim qry As String = "select Document_Code,Document_Date from TSPL_DCS_SALE_ENTRY where Document_Code='" + strDocNo + "' and FILE_INFO is null"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    Dim PDFPath As String = funPrint(FormId, False, clsCommon.myCDate(dt.Rows(0)("Document_Date")), strDocNo, True)
+                    Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), FormId, strDocNo)
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        If FileNo > 0 Then
+                            qry = " UPDATE TSPL_DCS_SALE_ENTRY set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where Document_Code='" + strDocNo + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        End If
+                        trans.Commit()
+                    Catch ex As Exception
+                        trans.Rollback()
+                        Throw New Exception(ex.Message)
+                    End Try
+                Next
+            End If
+
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
-        Return True
-    End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoForRecreatedOnly As String = Nothing) As Boolean
-
+    End Sub
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, Optional ByVal strVoucherNoForRecreatedOnly As String = Nothing) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim GeneratePDFForMobile As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, trans))
         Try
             Dim isSaved As Boolean = True
             If (clsCommon.myLen(strDocNo) <= 0) Then
@@ -1318,7 +1336,6 @@ Public Class clsDCSSaleEntry
                 clsMCCMaterialSale.PostData(clsUserMgtCode.frmDCSSaleEntry, objShipment.Document_Code, trans)
             Next
 
-
             qry = "Update TSPL_DCS_SALE_ENTRY set "
             If clsCommon.myLen(obj.Against_Sales_Order) = 0 Then
                 obj.Against_Sales_Order = "NULL"
@@ -1328,9 +1345,19 @@ Public Class clsDCSSaleEntry
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = " update TSPL_BATCH_ITEM set In_Out_Type='X' where Document_Type='DCS-SAL-ENT' and Document_Code='" + strDocNo + "' "
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            trans.Commit()
 
+            If GeneratePDFForMobile = 1 Then
+                For ii As Integer = 0 To Arr.Keys.Count - 1
+                    Dim objShipment As clsMCCMaterialSale = Arr.Item(Arr.Keys(ii))
+                    clsMCCMaterialSale.UpdateFileInfo(clsUserMgtCode.frmMCCMaterial, objShipment.Document_Code)
+                Next
+            ElseIf GeneratePDFForMobile = 2 Then
+                UpdateFileInfo(FormId, strDocNo)
+            End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DCS_SALE_ENTRY", "Document_Code", trans)
         Catch ex As Exception
+            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -1569,19 +1596,28 @@ ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As Co
         Qry += " left join ( " + IIf(clsCommon.myLen(TotalTaxQry) > 0, TotalTaxQry, " select '' as DOCUMENT_CODE,0 as DTax1_Amt,0 as DTax1_Rate,'' as tax1Type,0 as DTax2_Amt,0 as DTax2_Rate,'' as tax2Type,0 as DTax3_Amt,0 as DTax3_Rate,'' as tax3Type,0 as DTax4_Amt,0 as DTax4_Rate,'' as tax4Type,0 as DTax5_Amt,0 as DTax5_Rate,'' as tax5Type,0 as	DTax6_Amt,0 as DTax6_Rate,'' as	tax6Type,0 as	DTax7_Amt,0 as DTax7_Rate,	'' as tax7Type	,0 as	DTax8_Amt,0 as DTax8_Rate,'' as tax8Type,0 as	DTax9_Amt,0 as DTax9_Rate,'' as	tax9Type,0 as	DTax10_Amt,0 as	DTax10_Rate,'' as	tax10Type ") + " from ( " + TaxQry + " )xxxx )as tabTax on tabTax.DOCUMENT_CODE= xx.DocNo"
         Return Qry
     End Function
-    Public Shared Function funPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String) As Boolean
+    Public Shared Function funPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String, GetPDFPath As Boolean) As String
+        Dim PdfPath As String = ""
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetAttachQry(isCancel, strDate, strCode))
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntry", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                If GetPDFPath Then
+                    PdfPath = frmCRV.funsubreportWithdt(Form_ID, GetPDFPath, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntry", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                Else
+                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDCSSaleEntry", "DCS Sale Entry", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                End If
                 frmCRV = Nothing
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-        Return True
+        If GetPDFPath Then
+            Return PdfPath
+        Else
+            Return True
+        End If
     End Function
 
 End Class

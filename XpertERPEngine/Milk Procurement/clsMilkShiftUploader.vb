@@ -581,7 +581,12 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                     objMilkSRNHead.VLC_DOC_CODE = objtr.VLC_Code
                     objMilkSRNHead.VEHICLE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Vehicle_Code"))
                     objMilkSRNHead.VLC_CODE = objtr.VLC_Code
-                    objMilkSRNHead.ROUTE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Route_Code"))
+                    If clsCommon.myLen(objtr.BULK_ROUTE_NO) > 0 Then
+                        objMilkSRNHead.ROUTE_CODE = objtr.BULK_ROUTE_NO
+                    Else
+                        objMilkSRNHead.ROUTE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Route_Code"))
+                    End If
+
                     objMilkSRNHead.VSP_CODE = clsCommon.myCstr(dtVLC.Rows(0)("VSP_Code"))
                     objMilkSRNHead.TransPorter = clsCommon.myCstr(dtVLC.Rows(0)("TransporterCode"))
                     objMilkSRNHead.Dock_Collection_Milk_Type = strDockCollectionMilkType

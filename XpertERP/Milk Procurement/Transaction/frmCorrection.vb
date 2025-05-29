@@ -141,7 +141,14 @@ Public Class frmCorrection
                 btnTankerMilkExport.Visible = True
                 btnTankerMilkImport.Visible = True
                 chkMarkAsSuspence.Visible = False
+                chkMarkAsAdulteration.Visible = False
             End If
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                chkMarkAsAdulteration.Visible = True
+
+            End If
+
             If clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 isCorrection = 1
             ElseIf clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
@@ -466,6 +473,15 @@ Public Class frmCorrection
                     chkAddMissingSample.Checked = False
                 End If
             Else
+                If clsCommon.myLen(txtSuspenceRemarks.Text) <= 0 Then
+                    If chkMarkAsAdulteration.Checked Then
+                        txtSuspenceRemarks.Focus()
+                        Throw New Exception("Please fill remarks")
+                    Else
+                        txtSuspenceRemarks.Text = ""
+                    End If
+                End If
+
                 Dim CorrTypeSRNQty As Boolean = True
                 Dim CorrTypeSRNFATSNF As Boolean = True
                 Dim CorrTypeSRNVLC As Boolean = True
@@ -498,7 +514,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                 End If
                 Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
                 Try
-                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), Remark, chkMarkAsSuspence.Checked)
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), Remark, chkMarkAsSuspence.Checked, chkMarkAsAdulteration.Checked, txtSuspenceRemarks.Text)
                     tran.Commit()
                 Catch ex As Exception
                     tran.Rollback()
@@ -1830,5 +1846,8 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
     End Sub
 
-
+    Private Sub chkMarkAsAdulteration_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkMarkAsAdulteration.ToggleStateChanged
+        txtSuspenceRemarks.Visible = chkMarkAsAdulteration.Checked
+        RadLabel14.Visible = chkMarkAsAdulteration.Checked
+    End Sub
 End Class

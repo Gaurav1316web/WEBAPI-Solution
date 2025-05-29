@@ -16,6 +16,7 @@ Public Class clsMilkRejectType
     Public Include_In_DBT As Boolean
     Public Exclude_Head As Boolean
     Public Include_In_Dripping_Entry As Boolean
+    Public Default_Adulteration As Boolean = False
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsMilkRejectType) As Boolean
@@ -26,6 +27,11 @@ Public Class clsMilkRejectType
         If clsCommon.myLen(qry1) > 0 Then
             isNewEntry = False
         End If
+
+        If obj.Default_Adulteration Then
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_MILK_REJECT_TYPE set Default_Adulteration=0  ", trans)
+        End If
+
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Include_In_DBT", IIf(obj.Include_In_DBT, 1, 0), True)
@@ -41,6 +47,7 @@ Public Class clsMilkRejectType
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Include_In_Dripping_Entry", IIf(obj.Include_In_Dripping_Entry, 1, 0), True)
+            clsCommon.AddColumnsForChange(coll, "Default_Adulteration", IIf(obj.Default_Adulteration, 1, 0), True)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -89,6 +96,7 @@ Public Class clsMilkRejectType
             obj.Applicable_Per = clsCommon.myCdbl(dt.Rows(0)("Applicable_Per"))
             obj.Include_In_DBT = (clsCommon.myCdbl(dt.Rows(0)("Include_In_DBT")) = 1)
             obj.Include_In_Dripping_Entry = (clsCommon.myCdbl(dt.Rows(0)("Include_In_Dripping_Entry")) = 1)
+            obj.Default_Adulteration = (clsCommon.myCdbl(dt.Rows(0)("Default_Adulteration")) = 1)
             obj.Exclude_Head = (clsCommon.myCdbl(dt.Rows(0)("Exclude_Head")) = 1)
             obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
             obj.SNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))
@@ -105,14 +113,16 @@ Public Class clsMilkRejectType
         Dim qry As String = ""
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            qry = "select top 1 Reject_Type from tspl_milk_reject_detail where Reject_Type='" + strCode + "'"
+            qry = "select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where Reject_Type='" + strCode + "'
+union all
+select 1 from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where Reject_Type='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Reject Type - " + strCode + " is used so can not delete it.")
+            End If
+
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_REJECT_TYPE", "Code", tran)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_REJECT_TYPE", "Code", tran)
-
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Throw New Exception("Reject Type - " + strCode + " is used in milk reject so can not delete it.")
-            End If
 
             qry = "Delete from TSPL_MILK_REJECT_TYPE where TSPL_MILK_REJECT_TYPE.Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)

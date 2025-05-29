@@ -62,6 +62,7 @@ Public Class frmMilkRejectType
             obj.Type = clsCommon.myCstr(cboType.SelectedValue)
             obj.SNo = txtSNo.Value
             obj.Prefix = txtPrefix.Value
+            obj.Default_Adulteration = chkDefaultAdulteration.Checked
             If (clsMilkRejectType.SaveData(obj)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -103,6 +104,7 @@ Public Class frmMilkRejectType
             cboType.SelectedValue = obj.Type
             txtSNo.Value = obj.SNo
             txtPrefix.Value = obj.Prefix
+            chkDefaultAdulteration.Checked = obj.Default_Adulteration
         End If
     End Sub
 
@@ -119,6 +121,11 @@ Public Class frmMilkRejectType
         End If
         If clsCommon.myLen(txtCode.Value) > 20 Then
             clsCommon.MyMessageBoxShow(Me, "Length is greater then 20.", Me.Text)
+            txtCode.Focus()
+            Return False
+        End If
+        If clsCommon.myLen(txtItem.Value) <= 0 Then
+            myMessages.blankValue(Me, "Item", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -205,6 +212,7 @@ Public Class frmMilkRejectType
         rbtnPer.IsChecked = True
         chkIncludeInDBT.Checked = False
         chkDrippingEntry.Checked = False
+        chkDefaultAdulteration.Checked = False
     End Sub
 
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

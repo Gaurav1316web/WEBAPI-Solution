@@ -1037,9 +1037,9 @@ Public Class frmRMProcessLoss
             dt2 = clsDBFuncationality.GetDataTable(strqry)
             If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                 If Detail = True Then
-                    frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreport", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreport", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
                 Else
-                    frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreportDetail", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dt1, "rptRMProcessLossreportDetail", "", Nothing, "PMstockConsumption.rpt", "Production.rpt", dt2)
 
                 End If
             Else

@@ -598,7 +598,12 @@ where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.
                             objMilkSRNHead.VLC_DOC_CODE = objtr.VLC_Code
                             objMilkSRNHead.VEHICLE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Vehicle_Code"))
                             objMilkSRNHead.VLC_CODE = objtr.VLC_Code
-                            objMilkSRNHead.ROUTE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Route_Code"))
+                            If clsCommon.myLen(objtr.Bulk_Route_Code) > 0 Then
+                                objMilkSRNHead.ROUTE_CODE = objtr.Bulk_Route_Code
+                            Else
+                                objMilkSRNHead.ROUTE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Route_Code"))
+                            End If
+
                             objMilkSRNHead.VSP_CODE = clsCommon.myCstr(dtVLC.Rows(0)("VSP_Code"))
                             objMilkSRNHead.TransPorter = clsCommon.myCstr(dtVLC.Rows(0)("TransporterCode"))
                             objMilkSRNHead.Dock_Collection_Milk_Type = strDockCollectionMilkType

@@ -5015,7 +5015,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     'End If
                     '=============================================
                     If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                        clsMCCMaterialSale.funPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
+                        clsMCCMaterialSale.funPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, False)
                         'funPrint()
                     End If
                 End If
@@ -6088,7 +6088,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
-                clsMCCMaterialSale.funPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
+                clsMCCMaterialSale.funPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, False)
                 'funPrint()
             End If
         Catch ex As Exception
