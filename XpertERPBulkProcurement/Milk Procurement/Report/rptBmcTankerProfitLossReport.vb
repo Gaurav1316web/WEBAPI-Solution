@@ -48,11 +48,11 @@ Public Class rptBmcTankerProfitLossReport
  
   select max(zzzz.DocumentDate)DocumentDate,max(Route_Code)Route_Code,max(tanker_no)tanker_no,sum(zzzz.QTY)Entered_Qty 
  ,sum([FAT(Kg)])[FAT(Kg)],sum(Entered_SNFKg)Entered_SNFKg,
-  (SUM([FAT(Kg)])*100/ SUM(QTY))as Entered_Qty_snf,
-  	(Sum(Entered_SNFKg)*100/SUM(qty)) as Entered_Qty_fat
+  cast(SUM([FAT(Kg)])*100/ SUM(QTY) as decimal (10,2))as Entered_Qty_snf,
+  CAST	(Sum(Entered_SNFKg)*100/SUM(qty) as decimal(10,2)) as Entered_Qty_fat
  ,sum(Original_Qty)Original_Qty,sum(Original_FATKg)Original_FATKg,sum(Original_SNFKg)Original_SNFKg,
- (SUM(Original_FATKg)*100/ SUM(Original_Qty))as [SNF(%)],
-  (SUM(Original_SNFKg)*100/ SUM(Original_Qty))as [Fat(%)],
+ cast(SUM(Original_FATKg)*100/ SUM(Original_Qty)as decimal(10,2))as [SNF(%)],
+  cast(SUM(Original_SNFKg)*100/ SUM(Original_Qty)as decimal(10,2))as [Fat(%)],
  sum(FLUSING)FLUSING
  ,sum(FATKG)FATKG,sum(SNFKG)SNFKG,
  	(sum(Original_FATKg) * 0.25/100) + sum(FATKG) as ADJFATKG,
@@ -148,7 +148,7 @@ MAX(CASE  WHEN TSPL_MILK_COLLECTION_MCC.Entered_Qty = 0 THEN 0 ELSE CAST((TSPL_M
     ) AS [FAT(%)],CAST(ROUND(CAST(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg) AS DECIMAL(18, 3)) * 100.0 / NULLIF(sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty), 0), 2) AS DECIMAL(18, 2)) AS [SNF(%)],
 	max(TSPL_MILK_COLLECTION_MCC.Entered_Qty)- sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS FLUSING, (max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)) AS FATKG, (max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)) AS SNFKG from TSPL_MILK_COLLECTION_MCC 
 LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
-left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No " & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No)ZZZ)xxxx)xz group by xz.DocumentDate"
+left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No " & whrcls & " GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,Document_Date)ZZZ)xxxx)xz group by xz.DocumentDate order by DocumentDate"
 
             Else
                 BaseQuery = "  
@@ -254,23 +254,39 @@ SELECT
      SUM(Entered_Qty),
     SUM([FAT(Kg)]),
     SUM(Entered_SNFKg),
-	(Sum(Entered_SNFKg)*100/SUM(Entered_Qty)) as Entered_Qty_snf,
+	CAST(SUM(Entered_SNFKg) * 100.0 / NULLIF(SUM(Entered_Qty), 0) AS DECIMAL(18, 2)) AS Entered_Qty_snf,
 
-	 (SUM([FAT(Kg)])*100/ SUM(Entered_Qty))as Entered_Qty_fat,
+		CAST(SUM([FAT(Kg)]) * 100.0 / NULLIF(SUM(Entered_Qty), 0) AS DECIMAL(18, 2)) AS Entered_Qty_fat,
     SUM(Original_Qty),
     SUM(Original_FATKg),
     SUM(Original_SNFKg),
- (SUM(Original_SNFKg)*100/ SUM(Original_Qty))as [SNF(%)] ,
+ CAST (SUM(Original_SNFKg)*100/ NULLIF(SUM(Original_Qty),0) AS DECIMAL(18, 2))as [SNF(%)] ,
 
-(SUM(Original_FATKg)*100/ SUM(Original_Qty))as [Fat(%)],
+  CAST (SUM(Original_FATKg)*100/ NULLIF(SUM(Original_Qty),0) AS DECIMAL(18, 2))as [Fat(%)] ,
      SUM(FLUSING),
     SUM(FATKG),
     SUM(SNFKG),
     1 AS SortOrder,
-	(sum(Original_FATKg) *  " + Value + "/100) + sum(FATKG) as ADJFATKG,
-	(sum(Original_SNFKg) * " + Value + "/100) + sum(SNFKG) as ADJSNFKG,
-		(sum(Original_FATKg) * " + Value + "/100) + sum(FATKG) as ADJFATKG1,
-	(sum(Original_SNFKg) * " + Value + "/100) + sum(SNFKG) as ADJSNFKG1
+	
+
+	 CASE
+    WHEN (SUM(Original_FATKg) *  " + Value + " / 100) + SUM(FATKG) > 0 THEN 0
+    ELSE (SUM(Original_FATKg) *  " + Value + " / 100) + SUM(FATKG)
+  END AS ADJFATKG,
+		 CASE
+    WHEN (SUM(Original_SNFKg) *  " + Value + " / 100) + SUM(SNFKG) > 0 THEN 0
+    ELSE (SUM(Original_SNFKg) *  " + Value + " / 100) + SUM(SNFKG)
+  END AS ADJSNFKG,
+  		 CASE
+    WHEN (SUM(Original_FATKg) *  " + Value + " / 100) + SUM(FATKG) > 0 THEN 0
+    ELSE (SUM(Original_FATKg) *  " + Value + "/ 100) + SUM(FATKG)
+  END AS ADJFATKG1,
+		 CASE
+    WHEN (SUM(Original_SNFKg) * " + Value + " / 100) + SUM(SNFKG) > 0 THEN 0
+    ELSE (SUM(Original_SNFKg) *  " + Value + " / 100) + SUM(SNFKG)
+  END AS ADJSNFKG1
+
+
 FROM CombinedData
 GROUP BY Tanker_No, Route_Code
 

@@ -187,7 +187,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "','" + clsUserMgtCode.FrmVendorService + "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "','" + clsUserMgtCode.FrmVendorService + "','" + clsUserMgtCode.ReceiptEntry + "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -563,6 +563,8 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                 clsVedorInvoiceHead.funVendorServicePrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
                 clsDSSalesReturnHead.funsaleReturnDairyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+                'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.ReceiptEntry) = CompairStringResult.Equal Then
+                '    clsReceiptDettail.funReceiptEntryPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing, Nothing, Nothing)
 
             End If
         Catch ex As Exception
