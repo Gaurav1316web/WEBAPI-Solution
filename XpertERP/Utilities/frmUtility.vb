@@ -13,7 +13,7 @@ Public Class FrmUtility
     'Public strVendorCode As String = ""
     Dim objDocSeq As New clsDocumentSequence
     Dim iiDeadlockErrors As Integer
-
+    Dim GeneratePDFForMobile As Integer
 #End Region
     Private Sub btnCreateAdjustment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateAdjustment.Click
         CreateAdjustmentForNegativeBalance(False)
@@ -122,7 +122,8 @@ Public Class FrmUtility
 
     Private Sub FrmUtility_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         DeleteTempData = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, Nothing)) = 1)
-
+        GeneratePDFForMobile = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, Nothing))
+        txtDCSSaleDocument.arrValueMember = Nothing
         txtRetestingDate.Value = clsCommon.GETSERVERDATE()
         txtAddBatchExpiryDate.Value = txtRetestingDate.Value
         txtAddBatchMfgDate.Value = txtRetestingDate.Value
@@ -26867,6 +26868,42 @@ where TSPL_INVENTORY_MOVEMENT.item_Code='" + txtAddBatchItem.Value + "' and Tab_
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtDCSSaleDocument__My_Click(sender As Object, e As EventArgs) Handles txtDCSSaleDocument._My_Click
+        Try
+            Dim qry As String = ""
+            If GeneratePDFForMobile = 1 Then
+                qry = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as DocumentCode,CONVERT(varchar, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer],TSPL_CUSTOMER_master.Customer_Name as [Customer Name] ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code],TSPL_VLC_MASTER_HEAD.VLC_Code as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_CUSTOMER_master on TSPL_CUSTOMER_master.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code  
+                left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO is null and TSPL_SD_SALE_INVOICE_HEAD.status=1 order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date  "
+
+            ElseIf GeneratePDFForMobile = 2 Then
+                qry = "select TSPL_DCS_SALE_ENTRY.Document_Code as DocumentCode,CONVERT(varchar, TSPL_DCS_SALE_ENTRY.Document_Date,103) as Date,TSPL_DCS_SALE_ENTRY.Customer_Code as [Customer],TSPL_CUSTOMER_master.Customer_Name as [Customer Name] ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader Code],TSPL_VLC_MASTER_HEAD.VLC_Code as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] from TSPL_DCS_SALE_ENTRY left outer join TSPL_CUSTOMER_master on TSPL_CUSTOMER_master.Cust_Code = TSPL_DCS_SALE_ENTRY.Customer_Code  
+                left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where  TSPL_DCS_SALE_ENTRY.FILE_INFO is null and TSPL_DCS_SALE_ENTRY.status =1 order by TSPL_DCS_SALE_ENTRY.Document_Date  "
+            End If
+            txtDCSSaleDocument.arrValueMember = clsCommon.ShowMultipleSelectForm("DCSSaleDocFilter", qry, "DocumentCode", "", txtDCSSaleDocument.arrValueMember, txtDCSSaleDocument.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtGenerateDCSSalePDFForMobile_Click(sender As Object, e As EventArgs) Handles txtGenerateDCSSalePDFForMobile.Click
+        Try
+            If txtDCSSaleDocument.arrValueMember IsNot Nothing AndAlso txtDCSSaleDocument.arrValueMember.Count > 0 Then
+                For ii As Integer = 0 To txtDCSSaleDocument.arrValueMember.Count - 1
+                    If GeneratePDFForMobile = 1 Then
+                        clsMCCMaterialSale.UpdateFileInfo(clsUserMgtCode.frmMCCMaterial, txtDCSSaleDocument.arrValueMember(ii))
+                    ElseIf GeneratePDFForMobile = 2 Then
+                        clsDCSSaleEntry.UpdateFileInfo(clsUserMgtCode.frmDCSSaleEntry, txtDCSSaleDocument.arrValueMember(ii))
+                    End If
+                Next
+                clsCommon.MyMessageBoxShow(Me, "Updated Successfully.", Me.Text)
+                txtDCSSaleDocument.arrValueMember = Nothing
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 End Class
 Public Class clsDCDetail

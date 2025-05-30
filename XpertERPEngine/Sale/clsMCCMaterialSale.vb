@@ -2710,7 +2710,7 @@ Public Class clsMCCMaterialSale
         If clsERPFuncationality.GetQRCodeStatus(strDate) = True AndAlso EnableDynamicQRCodeForB2CInvoice = True AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EInvoice_Type from  TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No = '" + strCode + "'")), "BC") = CompairStringResult.Equal Then
             isShowQRcode = 1
         End If
-        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select  (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
+        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select TabBatch.Batch_No, (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
 ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
         If isCancel Then
             Qry += " 'Cancelled' As Report_Status,"
@@ -2823,7 +2823,11 @@ ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As Co
         Qry += " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code "
         Qry += " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State " &
         " LEFT OUTER JOIN TSPL_STATE_MASTER StateMasterForLocation ON StateMasterForLocation.State_Code=TSPL_LOCATION_MASTER.State " &
-        " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code "
+        " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code 
+left join ( select Document_Code,Parent_Line_No, STRING_AGG(Batch_No +' -'+convert(varchar(10),Qty)+'', ',') as Batch_No from(
+SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='MCC-MSALE'
+)x group by Document_Code,Parent_Line_No                
+) TabBatch On TabBatch.Document_Code= TSPL_SD_SHIPMENT_head.Document_Code And TabBatch.Parent_Line_No = TSPL_SD_SHIPMENT_DETAIL.Line_No"
         Qry += "  where 2=2 "
         Qry += "  and  TSPL_SD_SHIPMENT_HEAD.Document_Code = '" + strCode + "' )xx "
         Return Qry
@@ -2833,7 +2837,7 @@ ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As Co
         Try
             '====================================================
             'Dim strUrl As String = "upi://pay?pa=1234566@ICIC12345.ifsc.npci&pn=TEST&mc=0000&tr=API123456&am=10000&mam=10000&cu=INR&mode=01&b2cSellerGstin=29AABCT1332L000&b2cUPIID=null&b2cBankAcNo=1234566&b2cIFSCCode=ICIC12345&b2cInvNo=API123456&b2cInvDate=10-06-2021&b2cCGSTAmount=0&b2cSGSTAmount=0&b2cIGSTAmount=0&b2cCESS=0&size=150"
-            'Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(strUrl)
+            'Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMy    QCCode(strUrl)
             'clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No='" & txtDocNo.Value & "'")
             '===================================================
             Dim TaxGroup As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Group from TSPL_SD_SHIPMENT_HEAD_Cancel_Data where Document_Code = '" + strCode + "'"))
