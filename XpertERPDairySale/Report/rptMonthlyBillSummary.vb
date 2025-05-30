@@ -13,6 +13,7 @@ Public Class rptMonthlyBillSummary
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtMultiCustomer.arrValueMember = Nothing
         TxtRoute.arrValueMember = Nothing
+        gvData.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
         ' rbtnDocumentdate.IsChecked = True
         rbtnDateWise.IsChecked = False
@@ -25,7 +26,7 @@ Public Class rptMonthlyBillSummary
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-    Sub Print()
+    Sub Print(ByVal isprint As Boolean)
         Try
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
@@ -35,6 +36,7 @@ Public Class rptMonthlyBillSummary
             Dim Route As String = ""
             Dim maxroute As String = ""
             Dim Group As String = ""
+            Dim order As String = ""
             Dim fromdate As Date = txtfDate.Value.AddDays(1)
             Dim todate As Date = txtToDate.Value.AddDays(-1)
             If rbtnSupplydate.IsChecked Then
@@ -56,10 +58,12 @@ Public Class rptMonthlyBillSummary
             If rbtnrouteWise.IsChecked Then
                 maxroute = " Route_No, "
                 Group += " GROUP BY 
-                        Item_Code,Route_No,cust_Code,ReportRate ORDER BY Supply_Date,Shift_Type "
+                        Item_Code,Route_No,cust_Code,ReportRate "
+                order += " ORDER BY Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, "
-                Group += "GROUP BY  Item_Code,cust_Code,ReportRate ORDER BY Supply_Date,Shift_Type"
+                Group += "GROUP BY  Item_Code,cust_Code,ReportRate "
+                order += " ORDER BY Supply_Date,Shift_Type"
             End If
             If rbtnCustomerWise.IsChecked Then
                 Route = ",max(Routes)Routes"
@@ -550,15 +554,61 @@ where 2=2 "
   ) Final  " + forCustomerWise + "where " + whr + " " + Group + "
 
   "
+            If Not isprint Then
+                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code,FinalXX.Route_No,FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
+from(
+select FinalQ.*,
+case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
+case when FinalQ.Taxtype1='M' then 'Mandi Tax' else (case when FinalQ.Taxtype2='M' then 'Mandi Tax' else(case when FinalQ.Taxtype3='M' then 'Mandi Tax' else(case when FinalQ.Taxtype4='M' then 'Mandi Tax' else(case when FinalQ.Taxtype5='M' then 'Mandi Tax' else'' end)end)end)end)end as Mandi_Tax,
+case when FinalQ.Taxtype1='CGST' then 'CGST' else (case when FinalQ.Taxtype2='CGST' then 'CGST' else(case when FinalQ.Taxtype3='CGST' then 'CGST' else(case when FinalQ.Taxtype4='CGST' then 'CGST' else(case when FinalQ.Taxtype5='CGST' then 'CGST' else'' end)end)end)end)end as CGST,
+case when FinalQ.Taxtype1='SGST' then 'SGST' else (case when FinalQ.Taxtype2='SGST' then 'SGST' else(case when FinalQ.Taxtype3='SGST' then 'SGST' else(case when FinalQ.Taxtype4='SGST' then 'SGST' else(case when FinalQ.Taxtype5='SGST' then 'SGST' else'' end)end)end)end)end as SGST,
+case when FinalQ.Taxtype1='TCS' then 'TCS' else (case when FinalQ.Taxtype2='TCS' then 'TCS' else(case when FinalQ.Taxtype3='TCS' then 'TCS' else(case when FinalQ.Taxtype4='TCS' then 'TCS' else(case when FinalQ.Taxtype5='TCS' then 'TCS' else'' end)end)end)end)end as TCS,
+
+case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as KKF_Rate,
+case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as Mandi_Rate,
+case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as CGST_Rate,
+case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as SGST_Rate,
+case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.TAX1_Rate,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
+
+case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as KKF_Amt,
+case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as Mandi_Amt,
+case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as CGST_Amt,
+case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as SGST_Amt,
+case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt
+
+from( " + qry + " )FinalQ )FinalXX " + order
+            Else
+                qry += order
+            End If
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If rbtnrouteWise.IsChecked Then
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummary", "")
-                ElseIf rbtnCustomerWise.IsChecked Then
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryCustomerWise", "")
+                If isprint Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If rbtnrouteWise.IsChecked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummary", "")
+                    ElseIf rbtnCustomerWise.IsChecked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryCustomerWise", "")
+                    End If
+                    frmCRV = Nothing
+                Else
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gvData.GroupDescriptors.Clear()
+                    gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                    gvData.DataSource = dt
+
+
+                    gvData.AutoExpandGroups = True
+                    gvData.ShowGroupPanel = True
+                    gvData.ShowRowHeaderColumn = False
+                    gvData.AllowAddNewRow = False
+                    gvData.AllowDeleteRow = False
+                    gvData.EnableFiltering = True
+                    gvData.ShowFilteringRow = True
+                    SetGridFormat()
+                    SetGridFormationOFGV1()
+                    gvData.BestFitColumns()
                 End If
-                frmCRV = Nothing
+
             Else
                 clsCommon.MyMessageBoxShow("No data found")
             End If
@@ -566,12 +616,207 @@ where 2=2 "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub SetGridFormat()
+        Try
+            gvData.AutoExpandGroups = True
+            gvData.ShowGroupPanel = True
+            gvData.ShowRowHeaderColumn = False
+            gvData.AllowAddNewRow = False
+            gvData.AllowDeleteRow = False
+            gvData.EnableFiltering = True
+            gvData.ShowFilteringRow = True
+            For ii As Integer = 0 To gvData.Columns.Count - 1
+                gvData.Columns(ii).ReadOnly = True
+                gvData.Columns(ii).IsVisible = False
+                gvData.Columns(ii).BestFit()
+            Next
 
+            If rbtnDateWise.IsChecked Then
+                gvData.Columns("Supply_Date").HeaderText = "Supply Date"
+                gvData.Columns("Supply_Date").Width = 100
+                gvData.Columns("Supply_Date").IsVisible = True
+                gvData.Columns("Shift_Type").HeaderText = "Shift Type"
+                gvData.Columns("Shift_Type").Width = 100
+                gvData.Columns("Shift_Type").IsVisible = True
+            Else
+                gvData.Columns("FromDate").HeaderText = "From Date"
+                gvData.Columns("FromDate").Width = 100
+                gvData.Columns("FromDate").IsVisible = True
+                gvData.Columns("todate").HeaderText = "To Date"
+                gvData.Columns("todate").Width = 100
+                gvData.Columns("todate").IsVisible = True
+            End If
+
+
+
+            gvData.Columns("cust_Code").HeaderText = "Customer Code"
+            gvData.Columns("cust_Code").Width = 100
+            gvData.Columns("cust_Code").IsVisible = True
+
+            gvData.Columns("Customer_Name").HeaderText = "Customer Name"
+            gvData.Columns("Customer_Name").Width = 100
+            gvData.Columns("Customer_Name").IsVisible = True
+
+            gvData.Columns("Zone_Code").HeaderText = "Zone Code"
+            gvData.Columns("Zone_Code").Width = 100
+            gvData.Columns("Zone_Code").IsVisible = True
+
+            gvData.Columns("Route_No").HeaderText = "Route_No"
+            gvData.Columns("Route_No").Width = 100
+            gvData.Columns("Route_No").IsVisible = True
+
+            gvData.Columns("Item_Code").HeaderText = "Item_Code"
+            gvData.Columns("Item_Code").Width = 100
+            gvData.Columns("Item_Code").IsVisible = True
+
+            gvData.Columns("Item_Desc").HeaderText = "Item Desc"
+            gvData.Columns("Item_Desc").Width = 100
+            gvData.Columns("Item_Desc").IsVisible = True
+
+            gvData.Columns("UOM_Code").HeaderText = "UOM Code"
+            gvData.Columns("UOM_Code").Width = 150
+            gvData.Columns("UOM_Code").IsVisible = True
+            gvData.Columns("ReportRate").HeaderText = "Rate"
+            gvData.Columns("ReportRate").Width = 100
+            gvData.Columns("ReportRate").IsVisible = True
+            gvData.Columns("QtyAccToReportUOM").HeaderText = "Qty"
+            gvData.Columns("QtyAccToReportUOM").Width = 100
+            gvData.Columns("QtyAccToReportUOM").IsVisible = True
+            gvData.Columns("Base_Amt").HeaderText = "Base Amt"
+            gvData.Columns("Base_Amt").Width = 100
+            gvData.Columns("Base_Amt").IsVisible = True
+
+
+            gvData.Columns("KKF").HeaderText = "KKF"
+            gvData.Columns("KKF").Width = 100
+            gvData.Columns("KKF").IsVisible = True
+
+            gvData.Columns("KKF_Rate").HeaderText = "KKF %"
+            gvData.Columns("KKF_Rate").Width = 100
+            gvData.Columns("KKF_Rate").IsVisible = True
+
+            gvData.Columns("KKF_Amt").HeaderText = "KKF Amt"
+            gvData.Columns("KKF_Amt").Width = 100
+            gvData.Columns("KKF_Amt").IsVisible = True
+
+            gvData.Columns("Mandi_Tax").HeaderText = "Mandi"
+            gvData.Columns("Mandi_Tax").Width = 100
+            gvData.Columns("Mandi_Tax").IsVisible = True
+
+            gvData.Columns("Mandi_Rate").HeaderText = "Mandi %"
+            gvData.Columns("Mandi_Rate").Width = 100
+            gvData.Columns("Mandi_Rate").IsVisible = True
+
+            gvData.Columns("Mandi_Amt").HeaderText = "Mandi Amt"
+            gvData.Columns("Mandi_Amt").Width = 100
+            gvData.Columns("Mandi_Amt").IsVisible = True
+            gvData.Columns("Taxable_Amt").HeaderText = "Taxable Amt"
+            gvData.Columns("Taxable_Amt").Width = 100
+            gvData.Columns("Taxable_Amt").IsVisible = True
+
+            gvData.Columns("CGST").HeaderText = "CGST"
+            gvData.Columns("CGST").Width = 100
+            gvData.Columns("CGST").IsVisible = True
+            gvData.Columns("CGST_Rate").HeaderText = "CGST"
+            gvData.Columns("CGST_Rate").Width = 100
+            gvData.Columns("CGST_Rate").IsVisible = True
+            gvData.Columns("CGST_Amt").HeaderText = "CGST"
+            gvData.Columns("CGST_Amt").Width = 100
+            gvData.Columns("CGST_Amt").IsVisible = True
+            gvData.Columns("SGST").HeaderText = "SGST"
+            gvData.Columns("SGST").Width = 100
+            gvData.Columns("SGST").IsVisible = True
+            gvData.Columns("SGST_Rate").HeaderText = "SGST %"
+            gvData.Columns("SGST_Rate").Width = 100
+            gvData.Columns("SGST_Rate").IsVisible = True
+            gvData.Columns("SGST_Amt").HeaderText = "SGST Amt"
+            gvData.Columns("SGST_Amt").Width = 100
+            gvData.Columns("SGST_Amt").IsVisible = True
+            gvData.Columns("TCS").HeaderText = "TCS"
+            gvData.Columns("TCS").Width = 100
+            gvData.Columns("TCS").IsVisible = True
+            gvData.Columns("TCS_Rate").HeaderText = "TCS %"
+            gvData.Columns("TCS_Rate").Width = 100
+            gvData.Columns("TCS_Rate").IsVisible = True
+            gvData.Columns("TCS_Amt").HeaderText = "TCS Amt"
+            gvData.Columns("TCS_Amt").Width = 100
+            gvData.Columns("TCS_Amt").IsVisible = True
+
+            gvData.Columns("TotalAmt").HeaderText = "Total Amt"
+            gvData.Columns("TotalAmt").Width = 100
+            gvData.Columns("TotalAmt").IsVisible = True
+
+
+
+
+            'Dim summaryRowItem As New GridViewSummaryRowItem()
+            'Dim item1 As New GridViewSummaryItem("INWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item1)
+            'Dim item2 As New GridViewSummaryItem("OUTWARDQTYReportUom", "{0:n2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item2)
+            'gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
+
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetGridFormationOFGV1()
+        gvData.TableElement.TableHeaderHeight = 40
+        gvData.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To gvData.Columns.Count - 1
+            gvData.Columns(ii).ReadOnly = True
+
+        Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        ' gvData.GroupDescriptors.Add(New GridGroupByExpression("Route as RouteName format ""{0}: {1}"" Group By Route"))
+
+        'For i As Integer = 10 To gvData.Columns.Count - 1
+        '    Dim aa = gvData.Columns(i).HeaderText()
+        '    Dim item8 As New GridViewSummaryItem("[Total Amount]", "{0:F2}", GridAggregateFunction.Sum)
+        '    summaryRowItem.Add(item8)
+
+        'Next
+        'Dim aa = gvData.Columns(i).HeaderText()
+        Dim item81 As New GridViewSummaryItem("QtyAccToReportUOM", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item81)
+
+        Dim item82 As New GridViewSummaryItem("KKF_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item82)
+
+        Dim item83 As New GridViewSummaryItem("Mandi_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item83)
+
+        Dim item84 As New GridViewSummaryItem("CGST_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item84)
+
+        Dim item85 As New GridViewSummaryItem("SGST_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item85)
+
+        Dim item86 As New GridViewSummaryItem("TCS_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item86)
+
+        Dim item87 As New GridViewSummaryItem("TotalAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item87)
+
+        gvData.ShowGroupPanel = True
+        gvData.MasterTemplate.AutoExpandGroups = True
+
+        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        gvData.MasterTemplate.ShowTotals = True
+        'ReStoreGridLayout()
+
+    End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If rbtnDateWise.IsChecked Then
-            PrintDateWise()
+            PrintDateWise(True)
         Else
-            Print()
+            Print(True)
         End If
         ' Print()
     End Sub
@@ -579,7 +824,7 @@ where 2=2 "
     Private Sub btnprintDetail_Click(sender As Object, e As EventArgs) Handles btnprintDetail.Click
         DetailData()
     End Sub
-    Sub PrintDateWise()
+    Sub PrintDateWise(ByVal isPrint As Boolean)
         Try
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
@@ -589,6 +834,7 @@ where 2=2 "
             Dim Route As String = ""
             Dim maxroute As String = ""
             Dim Group As String = ""
+            Dim order As String = ""
             Dim fromdate As Date = txtfDate.Value.AddDays(1)
             Dim todate As Date = txtToDate.Value.AddDays(-1)
             If rbtnSupplydate.IsChecked Then
@@ -610,10 +856,12 @@ where 2=2 "
             If rbtnrouteWise.IsChecked Then
                 maxroute = " Route_No, "
                 Group += " GROUP BY 
-                        Document_Date,Item_Code,Route_No,cust_Code,ReportRate ORDER BY Supply_Date,Shift_Type "
+                        Document_Date,Item_Code,Route_No,cust_Code,ReportRate "
+                order += " ORDER BY Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, "
-                Group += "GROUP BY  Document_Date,Item_Code,cust_Code,ReportRate ORDER BY Supply_Date,Shift_Type"
+                Group += "GROUP BY  Document_Date,Item_Code,cust_Code,ReportRate "
+                order += " ORDER BY Supply_Date,Shift_Type "
             End If
             If rbtnCustomerWise.IsChecked Then
                 Route = ",max(Routes)Routes"
@@ -1105,16 +1353,61 @@ Where 2=2 "
        where 2=2 " + whrcls + " ) AS Main_Final 
       left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = Main_Final.comp_code  
   ) Final  " + forCustomerWise + "where " + whr + " " + Group + ""
+            If Not isPrint Then
+                qry = " select FinalXX.Supply_Date,FinalXX.Shift_Type,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code,FinalXX.Route_No,FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
+from(
+select FinalQ.*,
+case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
+case when FinalQ.Taxtype1='M' then 'Mandi Tax' else (case when FinalQ.Taxtype2='M' then 'Mandi Tax' else(case when FinalQ.Taxtype3='M' then 'Mandi Tax' else(case when FinalQ.Taxtype4='M' then 'Mandi Tax' else(case when FinalQ.Taxtype5='M' then 'Mandi Tax' else'' end)end)end)end)end as Mandi_Tax,
+case when FinalQ.Taxtype1='CGST' then 'CGST' else (case when FinalQ.Taxtype2='CGST' then 'CGST' else(case when FinalQ.Taxtype3='CGST' then 'CGST' else(case when FinalQ.Taxtype4='CGST' then 'CGST' else(case when FinalQ.Taxtype5='CGST' then 'CGST' else'' end)end)end)end)end as CGST,
+case when FinalQ.Taxtype1='SGST' then 'SGST' else (case when FinalQ.Taxtype2='SGST' then 'SGST' else(case when FinalQ.Taxtype3='SGST' then 'SGST' else(case when FinalQ.Taxtype4='SGST' then 'SGST' else(case when FinalQ.Taxtype5='SGST' then 'SGST' else'' end)end)end)end)end as SGST,
+case when FinalQ.Taxtype1='TCS' then 'TCS' else (case when FinalQ.Taxtype2='TCS' then 'TCS' else(case when FinalQ.Taxtype3='TCS' then 'TCS' else(case when FinalQ.Taxtype4='TCS' then 'TCS' else(case when FinalQ.Taxtype5='TCS' then 'TCS' else'' end)end)end)end)end as TCS,
 
+case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as KKF_Rate,
+case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as Mandi_Rate,
+case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as CGST_Rate,
+case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as SGST_Rate,
+case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.TAX1_Rate,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
+
+case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as KKF_Amt,
+case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as Mandi_Amt,
+case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as CGST_Amt,
+case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as SGST_Amt,
+case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt
+
+from(" + qry + ")FinalQ )FinalXX " + order
+            Else
+                qry += order
+            End If
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If rbtnrouteWise.IsChecked Then
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryDateRoutewise", "")
-                ElseIf rbtnCustomerWise.IsChecked Then
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryDateCustomerWise", "")
+                If isPrint Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    If rbtnrouteWise.IsChecked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryDateRoutewise", "")
+                    ElseIf rbtnCustomerWise.IsChecked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryDateCustomerWise", "")
+                    End If
+                    frmCRV = Nothing
+                Else
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gvData.GroupDescriptors.Clear()
+                    gvData.MasterTemplate.SummaryRowsBottom.Clear()
+                    gvData.DataSource = dt
+
+
+                    gvData.AutoExpandGroups = True
+                    gvData.ShowGroupPanel = True
+                    gvData.ShowRowHeaderColumn = False
+                    gvData.AllowAddNewRow = False
+                    gvData.AllowDeleteRow = False
+                    gvData.EnableFiltering = True
+                    gvData.ShowFilteringRow = True
+                    SetGridFormat()
+                    SetGridFormationOFGV1()
+                    gvData.BestFitColumns()
                 End If
-                frmCRV = Nothing
+
             Else
                 clsCommon.MyMessageBoxShow("No data found")
             End If
@@ -1625,6 +1918,34 @@ GROUP BY
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        reset()
 
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        PageSetupReport_ID = MyBase.Form_ID
+        TemplateGridview = gvData
+        If rbtnDateWise.IsChecked Then
+            PrintDateWise(False)
+        Else
+            Print(False)
+        End If
+    End Sub
+    Private Sub LoadData()
+
+    End Sub
+
+    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
+        Try
+            If gvData.Rows.Count > 0 Then
+                transportSql.QuickExportToExcel(gvData, "", Me.Text)
+            Else
+                Throw New Exception("No Data Found")
+
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

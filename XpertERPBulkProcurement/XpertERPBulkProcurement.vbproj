@@ -309,6 +309,12 @@
     <Compile Include="Milk Procurement\Report\YearlyBillReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\BMC Transporter Bill.Designer.vb">
+      <DependentUpon>BMC Transporter Bill.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\BMC Transporter Bill.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmReviseMilkBill.Designer.vb">
       <DependentUpon>frmReviseMilkBill.vb</DependentUpon>
     </Compile>

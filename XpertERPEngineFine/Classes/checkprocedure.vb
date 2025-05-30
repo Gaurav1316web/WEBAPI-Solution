@@ -1713,7 +1713,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SendDBTToJanaadhar, "Send DBT To Janaadhar", "1.17.02.49", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, "Send SMS to Mobile", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "Exception", "Tanker P/L SMS", "Tanker QC SMS", "", "", False, "")
         InsertDefaultValue(clsUserMgtCode.frmReviseMilkBill, "Revise Milk Bill", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "Exception", "Tanker P/L SMS", "Tanker QC SMS", "", "", False, "")
-
+        InsertDefaultValue(clsUserMgtCode.BMC_Transporter_Bill, "BMC Transporter Bill", "1.17.02.55", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
