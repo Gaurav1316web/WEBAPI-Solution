@@ -19053,7 +19053,7 @@ Public Class clsCreateAllTable
             coll.Add("Against_ECollect", "integer NULL")
             coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             coll.Add("Route_Code", "varchar(20) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, True, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TagType", "char(1)  null")
@@ -19080,7 +19080,7 @@ Public Class clsCreateAllTable
             coll.Add("AutoId", "int  NOT NULL")
             coll.Add("Hirerachy_Level_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
             coll.Add("Cost_Center_Fin_Code", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_DETAIL", coll, Nothing, True, False, "TSPL_RECEIPT_HEADER", "Receipt_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_DETAIL", coll, Nothing, True, True, "TSPL_RECEIPT_HEADER", "Receipt_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Receipt_No", "varchar(30)  NOT NULL References TSPL_RECEIPT_HEADER(Receipt_No)")

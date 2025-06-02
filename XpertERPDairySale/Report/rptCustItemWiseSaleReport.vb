@@ -18,6 +18,7 @@ Public Class rptCustItemWiseSaleReport
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         LoadQtyConversionType()
+        LoadDefaultReportUOMType()
     End Sub
 
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
@@ -138,6 +139,9 @@ Public Class rptCustItemWiseSaleReport
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
                 whrcls = " And TSPL_SD_SHIPMENT_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
             End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in ( " + clsCommon.GetMulcallString(txtRoute.arrValueMember) + " )"
+            End If
             If txtCustomer.arrValueMember Is Nothing Then
                 clsCommon.MyMessageBoxShow(Me, "You must select at least one Customer with Distributor Collection Statement option", Me.Text)
                 Exit Sub
@@ -188,6 +192,87 @@ Public Class rptCustItemWiseSaleReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub LoadMilkSaleData2(ByVal Print As Boolean)
+        Try
+            If ddlQtyConversionType.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
+            Dim whrcls As String = ""
+
+            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                whrcls = " And TSPL_DEMAND_BOOKING_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code in ( " + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + " )"
+            End If
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in ( " + clsCommon.GetMulcallString(txtRoute.arrValueMember) + " )"
+            End If
+
+            Dim qry As String = " ( SELECT TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+    TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, round((isnull(TSPL_SD_SHIPMENT_BOOKING_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2) as Qty,TSPL_ITEM_MASTER.Sku_Seq,TSPL_CUSTOMER_MASTER.Display_Seq FROM TSPL_SD_SHIPMENT_BOOKING_DETAIL  
+    left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+    left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+    left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+     Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No 		
+    			left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_Code  left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [Pouch],[LTR],[Crate] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code
+    left outer join TSPL_COMPANY_MASTER on 1=1 where 2 = 2  and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and TSPL_ITEM_MASTER.IsTaxable=0 "
+            qry += "" & whrcls & "  "
+            qry += " and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+
+            qry += " ) "
+
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Print")
+                Exit Sub
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+                For ii As Integer = 1 To dtItems.Rows.Count Step 13
+                    If ii > 1 Then
+                        FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                    End If
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
+                    FinalQuery += "Cust_Code,max(Route_No) as Route_No,"
+                    FinalQuery += "max(Document_Date) as Document_Date"
+                    For jj As Integer = 1 To 12
+                        Dim strJJ As String = clsCommon.myCstr(jj)
+                        Dim strICODE As String = ""
+                        Dim strIShortDesc As String = ""
+                        Dim strIUnitCode As String
+                        If (ii + jj - 1) > dtItems.Rows.Count Then
+                            strICODE = ""
+                            strIShortDesc = ""
+                            strIUnitCode = "-"
+                        Else
+                            strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                            strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
+                            strIUnitCode = "" + ddlQtyConversionType.SelectedValue + ""
+                        End If
+                        FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
+    ,(sum(case when Item_Code='" + strICODE + "'  then Qty else 0 end )) as ItemQtyCrateTotal_" + strJJ + "
+    ,Case when (sum(case when Item_Code='" + strICODE + "' then convert(decimal(18,2),Qty) else null end )) is null then '-' ELSE  convert(varchar,sum(case when Item_Code='" + strICODE + "'  then convert(decimal(18,2),Qty) else null end))
+    End   As ItemQtyCrate_" + strJJ + ""
+                    Next
+
+                    FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount ,sum(qty)TotalQty"
+                    FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Cust_Code order by Booth"
+                Next
+                dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, Nothing, "rptMilkSaleAsPerGatePass", "Milk Sale As Per Gate Pass")
+                frmCRV = Nothing
+            End If
+            Exit Sub
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
     Sub LoadMilkSaleData(ByVal Print As Boolean)
         Try
             If ddlQtyConversionType.SelectedIndex = 0 Then
@@ -203,7 +288,11 @@ Public Class rptCustItemWiseSaleReport
                 whrcls += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in ( " + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + " )"
             End If
 
-            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Booth, "
+            If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in ( " + clsCommon.GetMulcallString(txtRoute.arrValueMember) + " )"
+            End If
+
+            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, "
             qry += "TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
 TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,"
             qry += " TSPL_SD_SHIPMENT_DETAIL.Unit_code, round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2) as Qty,TSPL_ITEM_MASTER.Sku_Seq,"
@@ -223,8 +312,6 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 clsCommon.MyMessageBoxShow("No Data Found to Print")
                 Exit Sub
             ElseIf dtPrint.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-
                 Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
                 Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
                 For ii As Integer = 1 To dtItems.Rows.Count Step 13
@@ -234,7 +321,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
                     FinalQuery += "Customer_Code,max(Route_No) as Route_No,"
                     FinalQuery += "max(Document_Date) as Document_Date"
-                    For jj As Integer = 1 To 13
+                    For jj As Integer = 1 To 12
                         Dim strJJ As String = clsCommon.myCstr(jj)
                         Dim strICODE As String = ""
                         Dim strIShortDesc As String = ""
@@ -242,21 +329,23 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                         If (ii + jj - 1) > dtItems.Rows.Count Then
                             strICODE = ""
                             strIShortDesc = ""
-                            strIUnitCode = ""
+                            strIUnitCode = "-"
                         Else
                             strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
                             strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Short_Description"))
                             strIUnitCode = "" + ddlQtyConversionType.SelectedValue + ""
                         End If
                         FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,'" + strIUnitCode + "' as Item_Unit_code_" + strJJ + "
-,(sum(case when Item_Code='" + strICODE + "'  then Qty else null end )) as ItemQtyCrate_" + strJJ + ""
+    ,(sum(case when Item_Code='" + strICODE + "'  then Qty else 0 end )) as ItemQtyCrateTotal_" + strJJ + "
+    ,Case when (sum(case when Item_Code='" + strICODE + "' then convert(decimal(18,2),Qty) else null end )) is null then '-' ELSE  convert(varchar,sum(case when Item_Code='" + strICODE + "'  then convert(decimal(18,2),Qty) else null end))
+    End   As ItemQtyCrate_" + strJJ + ""
                     Next
 
                     FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount ,sum(qty)TotalQty"
-                    FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Customer_Code"
+                    FinalQuery += ",max(Display_Seq) as Display_Seq from ( select xx.*	from CTERawData xx ) x group by Customer_Code order by Booth"
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
-
+                Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, Nothing, "rptMilkSaleAsPerGatePass", "Milk Sale As Per Gate Pass")
                 frmCRV = Nothing
             End If
@@ -265,12 +354,15 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub LoadStockStatementData(ByVal print As Boolean)
         Try
+            If ddlDefaultReportUOM.SelectedIndex = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select Quantity conversion type", Me.Text)
+                Exit Sub
+            End If
             Dim whrcls As String = ""
             If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                whrcls = " And TSPL_SD_SHIPMENT_DETAIL.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+                whrcls = " And InventroyMovement.Item_Code In (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
             End If
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 whrcls = " And TSPL_LOCATION_MASTER.Location_Code In (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") "
@@ -281,13 +373,13 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
             If print Then
                 qry += "  TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate ,"
             End If
-            qry += " *,OPBal+Production_In_Qty+Other_In_Qty-Sale_Qty-STC_Qty-Production_Out_Qty-Other_Out_Qty as Closing_Qty, Inter_Union_Sale FROM ( select row_number() OVER( order by  itEM_CODE) as Sno,MAX(Item_Desc) as Item_Desc,max(case when PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "'  AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN Report_UOM ELSE '' end )as Report_UOM , sum(STOCK_QTY * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [OPBal]  , 
-            sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Production_In_Qty,SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD' or Trans_Type= 'SRN' OR Trans_Type='FS-SR') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Other_In_Qty  ,
-            sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='FS-SH' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Sale_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='ITransfer' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS STC_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Production_Out_Qty,
-            SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Other_Out_Qty,sum(Inter_Union_Sale)Inter_Union_Sale from (  " + Environment.NewLine + "  select case when isnull(tspl_customer_master.CFP_Unit,0)=1 then Stock_Qty else 0 end as Inter_Union_Sale,qty,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView',
+            qry += " *,OPBal+Production_In_Qty+Other_In_Qty-Sale_Qty-STC_Qty-Production_Out_Qty-Other_Out_Qty as Closing_Qty, Inter_Union_Sale FROM ( select row_number() OVER( order by  itEM_CODE) as Sno,MAX(Item_Desc) as Item_Desc,max(Report_UOM)as Report_UOM , sum(STOCK_QTY * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [OPBal]  , 
+            sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Production_In_Qty,SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD' or Trans_Type= 'SRN' OR Trans_Type='FS-SR') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Other_In_Qty  ,
+            sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='FS-SH' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Sale_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='ITransfer' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS STC_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Production_Out_Qty,
+            SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Other_Out_Qty,sum(Inter_Union_Sale)Inter_Union_Sale from (  " + Environment.NewLine + "  select case when isnull(tspl_customer_master.CFP_Unit,0)=1 then Stock_Qty else 0 end as Inter_Union_Sale,qty,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView',
             case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end as Main_Location_Code,MainLocationTable.Location_Desc as MainLocationDesc, InventroyMovement.Location_Code,TSPL_LOCATION_MASTER.Location_Desc AS [Loc Desp],SourceCode,SourceName,SourceType ,InventroyMovement.Item_Code, InventroyMovement.MRP ,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Is_Sub_Location, InventroyMovement.Stock_UOM,InventroyMovement.Stock_Qty,isnull((InventroyMovement.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Report_UOM_Qty,Report_UOM.UOM_Code as Report_UOM, (case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then InventroyMovement.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then InventroyMovement.LIFO_Cost else InventroyMovement.Avg_Cost end end ) as Cost,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code 
             from  ( select qty,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT ) InventroyMovement 
-            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code  left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code  left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and  TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=InventroyMovement.Item_Code and tspl_item_uom_detail.UOM_Code= InventroyMovement.Stock_UOM  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  Report_UOM ON InventroyMovement.Item_Code = Report_UOM.item_code 
+            left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code  left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code  left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and  TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=InventroyMovement.Item_Code and tspl_item_uom_detail.UOM_Code= InventroyMovement.Stock_UOM  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON InventroyMovement.Item_Code = Report_UOM.item_code 
              left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=InventroyMovement.Trans_Type  left outer join TSPL_ADJUSTMENT_HEADER ON TSPL_ADJUSTMENT_HEADER.Adjustment_No=InventroyMovement.Source_Doc_No   left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=InventroyMovement.Source_Doc_No
 			left outer join tspl_customer_master  on tspl_customer_master.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y' and tspl_item_master.Item_Type='F' " + whrcls + " ) xx group by Item_Code ) xxx Left Outer Join TSPL_COMPANY_MASTER on 1=1"
 
@@ -1637,7 +1729,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                    and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                     LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " ) xx 
                 GROUP BY Item_Code"
-            dt = clsDBFuncationality.GetDataTable(qry)
+            dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If Print = False Then
@@ -1678,6 +1770,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).Width = 80
+            gv1.Columns(ii).FormatString = "{0:n2}"
         Next
         If rbtnDistributorCollStatement.IsChecked Then
             If isPrint Then
@@ -1780,7 +1873,6 @@ LEFT JOIN TSPL_COMPANY_MASTER
     Sub funreset()
         Dim viewBlank As New TableViewDefinition()
         gv1.ViewDefinition = viewBlank
-        ddlQtyConversionType.SelectedValue = ""
         BtnStcRegisterPartyandItemWiseSummary.IsChecked = False
         BtnStcRegisterItemWiseSummary.IsChecked = False
         BtnProductWiseSaleQuantity.IsChecked = False
@@ -1799,7 +1891,21 @@ LEFT JOIN TSPL_COMPANY_MASTER
         rbtnDocumentDate.IsChecked = True
         rbtnDetail.IsChecked = True
         txtLocation.arrValueMember = Nothing
+        ddlQtyConversionType.SelectedValue = ""
+        txtRoute.arrValueMember = Nothing
+        rbtnDistributorCollStatement.IsChecked = False
+        rbtnMilkSale.IsChecked = False
+        rbtnStockStatement.IsChecked = False
+        lblRoute.Visible = False
+        txtRoute.Visible = False
+        lblLocation.Visible = False
+        txtLocation.Visible = False
+        lblQtyConv.Visible = False
+        ddlQtyConversionType.Visible = False
+        ddlDefaultReportUOM.Visible = False
         RadPageView1.SelectedPage = RadPageViewPage1
+        btnGo.Enabled = True
+        RadSplitButton1.Enabled = True
     End Sub
 
     Private Sub EnableDisableControls(ByVal val As Boolean)
@@ -2300,6 +2406,14 @@ LEFT JOIN TSPL_COMPANY_MASTER
         ddlQtyConversionType.ValueMember = "Code"
         ddlQtyConversionType.DisplayMember = "Name"
     End Sub
+    Sub LoadDefaultReportUOMType()
+        Dim qry As String = "select '' as Code, '<--Select-->' as Name union all 
+                             Select 'Default_UOM' as Code,'Default UOM' as Name  union all 
+         Select 'Report_UOM' as Code,'Report UOM' as Name  "
+        ddlDefaultReportUOM.DataSource = clsDBFuncationality.GetDataTable(qry)
+        ddlDefaultReportUOM.ValueMember = "Code"
+        ddlDefaultReportUOM.DisplayMember = "Name"
+    End Sub
 
     Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
         Try
@@ -2310,21 +2424,53 @@ LEFT JOIN TSPL_COMPANY_MASTER
         End Try
     End Sub
 
-    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged
+    Private Sub rbtnStockStatement_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnStockStatement.ToggleStateChanged, rbtnMilkSale.ToggleStateChanged, rbtnDistributorCollStatement.ToggleStateChanged
         If rbtnStockStatement.IsChecked Then
             txtLocation.Visible = True
             lblLocation.Visible = True
             btnGo.Enabled = True
             RadSplitButton1.Enabled = True
+            txtRoute.Visible = False
+            lblRoute.Visible = False
+            lblQtyConv.Visible = True
+            ddlQtyConversionType.Visible = False
+            ddlDefaultReportUOM.Visible = True
         ElseIf rbtnMilkSale.IsChecked Then
             btnGo.Enabled = False
             RadSplitButton1.Enabled = False
+            txtRoute.Visible = True
+            lblRoute.Visible = True
+            lblQtyConv.Visible = True
+            ddlQtyConversionType.Visible = True
+            ddlDefaultReportUOM.Visible = False
+        ElseIf rbtnDistributorCollStatement.IsChecked Then
+            txtRoute.Visible = True
+            lblRoute.Visible = True
+            btnGo.Enabled = True
+            RadSplitButton1.Enabled = True
+            lblQtyConv.Visible = True
+            ddlQtyConversionType.Visible = True
+            ddlDefaultReportUOM.Visible = False
         Else
             btnGo.Enabled = True
             RadSplitButton1.Enabled = True
             txtLocation.Visible = False
             lblLocation.Visible = False
+            txtRoute.Visible = False
+            lblRoute.Visible = False
+            lblQtyConv.Visible = False
+            ddlQtyConversionType.Visible = False
+            ddlDefaultReportUOM.Visible = False
         End If
+    End Sub
+
+    Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
+        Try
+            Dim qry As String = "select Route_No as Code,Route_Desc as Name from TSPL_ROUTE_MASTER  "
+            txtRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteFilter", qry, "Code", "Name", txtRoute.arrValueMember, txtRoute.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 
