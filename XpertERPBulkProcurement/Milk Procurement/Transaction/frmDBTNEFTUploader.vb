@@ -389,7 +389,10 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 gv.Columns(ii).FormatString = ""
                 gv.Columns(ii).BestFit()
             Next
-            gv.Columns("PK_Id").IsVisible = False
+            If gv.Columns.Contains("PK_Id") Then
+                gv.Columns("PK_Id").IsVisible = False
+            End If
+
             For ii As Integer = 0 To dtPerforma.Rows.Count - 1
                 If clsCommon.CompairString(gv.Name, "gvFarmer") = CompairStringResult.Equal Then
                     If clsCommon.CompairString(clsCommon.myCstr(dtPerforma.Rows(ii)("NEFT_Col_Name")), clsDBTNEFTPerforma.colAgainstMPIncetive) = CompairStringResult.Equal Then
