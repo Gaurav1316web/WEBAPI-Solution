@@ -1,5 +1,4 @@
-﻿Imports System.Data.SqlClient
-Imports common
+﻿Imports common
 Imports Telerik
 
 Public Class frmHeadLoadMaster
@@ -17,6 +16,7 @@ Public Class frmHeadLoadMaster
     Const colHeadLoadBasis As String = "Head Load Basis"
     Const colHeadLoadRate As String = "Head Load Rate"
     Const colCycleFrequency As String = "Cycle Frequency"
+    Const colDeductionPer As String = "colDeductionPer"
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
     Dim OwnBMCDCS As Boolean = False
@@ -24,6 +24,11 @@ Public Class frmHeadLoadMaster
 #End Region
 
     Private Sub frmHeadLoadMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Deduction_Per", "Decimal(18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD_DCS", coll, "", True, False, "", "", "", True)
+
+
         SetUserMgmtNew()
         OwnBMCDCS = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowOwnBMCDCS, clsFixedParameterCode.ShowOwnBMCDCS, Nothing)) > 0)
 
@@ -31,6 +36,7 @@ Public Class frmHeadLoadMaster
         btnPost.Visible = True
         btnPost.Enabled = False
         txtRate.Enabled = False
+        txtOwnBMCDeduction.Enabled = False
         If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
             LoadData(clsCommon.myCstr(txtDocumentNo.Value), NavigatorType.Current)
         End If
@@ -207,22 +213,16 @@ Public Class frmHeadLoadMaster
                     Dim objTr As New clsHeadLoadDCS()
                     objTr.VLC_CODE = clsCommon.myCstr((grow.Cells("DCS Code").Value))
                     objTr.Head_Load_Basis = clsCommon.myCstr(grow.Cells("Head Load Basis").Value)
-                    'If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Head Load Basis").Value), "Rate/Kg") = CompairStringResult.Equal Then
-                    '    objTr.Head_Load_Basis = "K"
-                    'Else
-                    '    objTr.Head_Load_Basis = "L"
-                    'End If
+
                     If clsCommon.myLen(grow.Cells("Cycle Frequency").Value) > 0 Then
                         objTr.Cycle_Frequency = clsCommon.myCdbl((grow.Cells("Cycle Frequency").Value))
                     End If
-                    If grow.Cells("Head Load Rate").Value IsNot Nothing Then
+                    If clsCommon.myCDecimal(grow.Cells("Head Load Rate").Value) > 0 Then
                         objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
-
+                        objTr.Deduction_Per = clsCommon.myCDecimal((grow.Cells(colDeductionPer).Value))
                         obj.Arr.Add(objTr)
                     End If
-
                 Next
-
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
@@ -245,7 +245,8 @@ Public Class frmHeadLoadMaster
         txtRate.Value = 0
         txtRate.Enabled = False
         txtCycleFrequency.Enabled = True
-        txtRate.Value = 0
+        txtOwnBMCDeduction.Value = 0
+        txtOwnBMCDeduction.Enabled = False
         chkRate.Checked = False
         LoadBlankGrid()
         isInsideLoadData = False
@@ -421,27 +422,30 @@ Public Class frmHeadLoadMaster
                 Exit Sub
             End If
             If txtDocumentNo.Value = "Default" Then
-                str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
-        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name],Head_Load_Basis  as [Head Load Basis] , TSPL_HEAD_LOAD_DCS.Head_Load_Rate as [Head Load Rate]
-          from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
-         left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
+                str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name],Head_Load_Basis  as [Head Load Basis] , TSPL_HEAD_LOAD_DCS.Head_Load_Rate as [Head Load Rate]
+from TSPL_HEAD_LOAD_DCS  
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
+left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC 
+where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
             Else
-                str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
-        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name]
-          from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
-         left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
+                str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name]
+from TSPL_HEAD_LOAD_DCS  
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
+left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC 
+where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
             End If
         Else
-            str = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],
-    TSPL_MCC_MASTER.MCC_Code_VLC_Uploader As [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code As [BMC Code] , TSPL_MCC_MASTER.MCC_NAME As [BMC Name]  From TSPL_VLC_MASTER_HEAD
-     Left  Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where 2=2 "
-
-            If Not OwnBMCDCS Then
+            str = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],TSPL_MCC_MASTER.MCC_Code_VLC_Uploader As [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code As [BMC Code] , TSPL_MCC_MASTER.MCC_NAME As [BMC Name]  
+From TSPL_VLC_MASTER_HEAD
+Left  Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC 
+where 2=2 "
+            If chkOwnBMCDeduction.Checked Then
+                str += " and TSPL_VLC_MASTER_HEAD.isOwnBMC = 1 "
+            ElseIf Not OwnBMCDCS Then
                 str += " and TSPL_VLC_MASTER_HEAD.isOwnBMC = 0 "
             End If
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
-
         If dt.Rows.Count > 0 Then
             gv1.DataSource = dt
             gv1.AutoExpandGroups = True
@@ -452,7 +456,6 @@ Public Class frmHeadLoadMaster
             gv1.BestFitColumns()
             FormatGrid(isLoadData)
         End If
-
     End Sub
 
     Private Sub FormatGrid(isLoadData As Boolean)
@@ -498,19 +501,26 @@ Public Class frmHeadLoadMaster
             repoCycleFrequency.ShowUpDownButtons = False
             repoCycleFrequency.FormatString = ""
 
+            Dim repoDeductionPer As GridViewDecimalColumn = New GridViewDecimalColumn()
+            repoDeductionPer.HeaderText = "Deduction %"
+            repoDeductionPer.Name = colDeductionPer
+            repoDeductionPer.Width = 100
+            repoDeductionPer.ReadOnly = False
+            repoDeductionPer.ShowUpDownButtons = False
+            repoDeductionPer.FormatString = ""
+
             If isLoadData = False Then
                 gv1.MasterTemplate.Columns.Insert(6, repoHeadLoadBasis)
-
                 gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadRate)
                 gv1.MasterTemplate.Columns.Insert(8, repoCycleFrequency)
+                gv1.MasterTemplate.Columns.Insert(9, repoDeductionPer)
             Else
                 gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadBasis)
                 gv1.MasterTemplate.Columns.Insert(8, repoHeadLoadRate)
                 gv1.MasterTemplate.Columns.Insert(9, repoCycleFrequency)
+                gv1.MasterTemplate.Columns.Insert(10, repoDeductionPer)
             End If
-
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select  Head_Load_Basis, Head_Load_Rate as [Head Load Rate], Cycle_Frequency as [Cycle Frequency] ,VLC_CODE from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select  Head_Load_Basis, Head_Load_Rate as [Head Load Rate], Cycle_Frequency as [Cycle Frequency] ,VLC_CODE,Deduction_Per from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii As Integer = 0 To gv1.Rows.Count - 1
                     For jj As Integer = 0 To dt.Rows.Count - 1
@@ -518,31 +528,34 @@ Public Class frmHeadLoadMaster
                             gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(jj)("Head_Load_Basis"))
                             gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCDecimal(dt.Rows(jj)("Head Load Rate"))
                             gv1.Rows(ii).Cells("Cycle Frequency").Value = clsCommon.myCdbl(dt.Rows(jj)("Cycle Frequency"))
+                            gv1.Rows(ii).Cells(colDeductionPer).Value = clsCommon.myCDecimal(dt.Rows(jj)("Deduction_Per"))
                             Exit For
                         Else
-
                             gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.SelectedValue
                             gv1.Rows(ii).Cells("Cycle Frequency").Value = txtCycleFrequency.Value
                             If chkRate.Checked Then
                                 gv1.Rows(ii).Cells("Head Load Rate").Value = txtRate.Value
-
                             Else
                                 txtRate.Value = 0
                                 gv1.Rows(ii).Cells("Head Load Rate").Value = 0.00
-
                             End If
-
+                            If chkOwnBMCDeduction.Checked Then
+                                gv1.Rows(ii).Cells(colDeductionPer).Value = txtOwnBMCDeduction.Value
+                            Else
+                                gv1.Rows(ii).Cells(colDeductionPer).Value = 0.00
+                            End If
                         End If
                     Next
                 Next
             Else
                 For ii As Integer = 0 To gv1.Rows.Count - 1
-
                     gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.SelectedValue
                     gv1.Rows(ii).Cells("Cycle Frequency").Value = txtCycleFrequency.Value
                     If chkRate.Checked Then
                         gv1.Rows(ii).Cells("Head Load Rate").Value = txtRate.Value
-
+                    End If
+                    If chkOwnBMCDeduction.Checked Then
+                        gv1.Rows(ii).Cells(colDeductionPer).Value = txtOwnBMCDeduction.Value
                     End If
                 Next
             End If
@@ -694,6 +707,13 @@ Public Class frmHeadLoadMaster
         End If
     End Sub
 
+    Private Sub chkOwnBMCDeduction_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkOwnBMCDeduction.ToggleStateChanged
+        If chkRate.Checked Then
+            txtOwnBMCDeduction.Enabled = True
+        Else
+            txtOwnBMCDeduction.Enabled = False
+        End If
+    End Sub
     Private Sub btnReverseUnpost_Click_(sender As Object, e As EventArgs) Handles btnReverseUnpost.Click
         Try
             If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then

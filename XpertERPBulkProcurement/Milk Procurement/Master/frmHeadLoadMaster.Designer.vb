@@ -29,6 +29,7 @@ Partial Class frmHeadLoadMaster
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
@@ -49,6 +50,8 @@ Partial Class frmHeadLoadMaster
         Me.txtstartDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.ApplyInGrid = New System.Windows.Forms.GroupBox()
+        Me.txtOwnBMCDeduction = New common.MyNumBox()
+        Me.chkOwnBMCDeduction = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblCycleFrequency = New common.Controls.MyLabel()
         Me.txtCycleFrequency = New common.MyNumBox()
         Me.txtRate = New common.MyNumBox()
@@ -57,13 +60,13 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis = New common.Controls.MyComboBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.rbtnDetails = New common.Controls.MyRadioButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,6 +85,8 @@ Partial Class frmHeadLoadMaster
         CType(Me.txtstartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ApplyInGrid.SuspendLayout()
+        CType(Me.txtOwnBMCDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkOwnBMCDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCycleFrequency, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCycleFrequency, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,7 +95,6 @@ Partial Class frmHeadLoadMaster
         CType(Me.cmbHeadLoadBasis, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDetails, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,6 +158,17 @@ Partial Class frmHeadLoadMaster
         Me.SplitContainer1.SplitterDistance = 371
         Me.SplitContainer1.SplitterWidth = 3
         Me.SplitContainer1.TabIndex = 3
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(770, 5)
+        Me.btnHistory.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(72, 22)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
         '
         'btnReverseUnpost
         '
@@ -269,7 +284,7 @@ Partial Class frmHeadLoadMaster
         '
         '
         Me.txtDescription.RootElement.StretchVertically = True
-        Me.txtDescription.Size = New System.Drawing.Size(423, 18)
+        Me.txtDescription.Size = New System.Drawing.Size(769, 18)
         Me.txtDescription.TabIndex = 3
         '
         'RadLabel3
@@ -326,7 +341,7 @@ Partial Class frmHeadLoadMaster
         Me.lblStatus.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(103, 19)
+        Me.lblStatus.Size = New System.Drawing.Size(171, 19)
         Me.lblStatus.Status = common.ERPTransactionStatus.Pending
         Me.lblStatus.TabIndex = 30
         '
@@ -342,14 +357,15 @@ Partial Class frmHeadLoadMaster
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(641, 51)
+        Me.btnGo.Location = New System.Drawing.Point(799, 48)
         Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(48, 18)
+        Me.btnGo.Size = New System.Drawing.Size(76, 33)
         Me.btnGo.TabIndex = 155
         Me.btnGo.Text = ">>"
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtDescription)
         Me.Panel1.Controls.Add(Me.txtstartDate)
         Me.Panel1.Controls.Add(Me.MyLabel7)
         Me.Panel1.Controls.Add(Me.ApplyInGrid)
@@ -361,7 +377,6 @@ Partial Class frmHeadLoadMaster
         Me.Panel1.Controls.Add(Me.RadLabel4)
         Me.Panel1.Controls.Add(Me.RadLabel1)
         Me.Panel1.Controls.Add(Me.txtDocumentNo)
-        Me.Panel1.Controls.Add(Me.txtDescription)
         Me.Panel1.Controls.Add(Me.btnAddNew)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
@@ -412,23 +427,62 @@ Partial Class frmHeadLoadMaster
         '
         'ApplyInGrid
         '
+        Me.ApplyInGrid.Controls.Add(Me.txtOwnBMCDeduction)
+        Me.ApplyInGrid.Controls.Add(Me.chkOwnBMCDeduction)
         Me.ApplyInGrid.Controls.Add(Me.lblCycleFrequency)
         Me.ApplyInGrid.Controls.Add(Me.txtCycleFrequency)
         Me.ApplyInGrid.Controls.Add(Me.txtRate)
         Me.ApplyInGrid.Controls.Add(Me.chkRate)
         Me.ApplyInGrid.Controls.Add(Me.MyLabel1)
         Me.ApplyInGrid.Controls.Add(Me.cmbHeadLoadBasis)
-        Me.ApplyInGrid.Location = New System.Drawing.Point(6, 46)
+        Me.ApplyInGrid.Location = New System.Drawing.Point(6, 41)
         Me.ApplyInGrid.Name = "ApplyInGrid"
-        Me.ApplyInGrid.Size = New System.Drawing.Size(615, 34)
+        Me.ApplyInGrid.Size = New System.Drawing.Size(787, 39)
         Me.ApplyInGrid.TabIndex = 1090
         Me.ApplyInGrid.TabStop = False
+        '
+        'txtOwnBMCDeduction
+        '
+        Me.txtOwnBMCDeduction.BackColor = System.Drawing.Color.Transparent
+        Me.txtOwnBMCDeduction.CalculationExpression = Nothing
+        Me.txtOwnBMCDeduction.DecimalPlaces = 2
+        Me.txtOwnBMCDeduction.FieldCode = Nothing
+        Me.txtOwnBMCDeduction.FieldDesc = Nothing
+        Me.txtOwnBMCDeduction.FieldMaxLength = 0
+        Me.txtOwnBMCDeduction.FieldName = Nothing
+        Me.txtOwnBMCDeduction.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtOwnBMCDeduction.isCalculatedField = False
+        Me.txtOwnBMCDeduction.IsSourceFromTable = False
+        Me.txtOwnBMCDeduction.IsSourceFromValueList = False
+        Me.txtOwnBMCDeduction.IsUnique = False
+        Me.txtOwnBMCDeduction.Location = New System.Drawing.Point(516, 13)
+        Me.txtOwnBMCDeduction.MaxLength = 6
+        Me.txtOwnBMCDeduction.MendatroryField = False
+        Me.txtOwnBMCDeduction.MyLinkLable1 = Nothing
+        Me.txtOwnBMCDeduction.MyLinkLable2 = Nothing
+        Me.txtOwnBMCDeduction.Name = "txtOwnBMCDeduction"
+        Me.txtOwnBMCDeduction.ReferenceFieldDesc = Nothing
+        Me.txtOwnBMCDeduction.ReferenceFieldName = Nothing
+        Me.txtOwnBMCDeduction.ReferenceTableName = Nothing
+        Me.txtOwnBMCDeduction.Size = New System.Drawing.Size(74, 21)
+        Me.txtOwnBMCDeduction.TabIndex = 1096
+        Me.txtOwnBMCDeduction.Text = "0"
+        Me.txtOwnBMCDeduction.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtOwnBMCDeduction.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'chkOwnBMCDeduction
+        '
+        Me.chkOwnBMCDeduction.Location = New System.Drawing.Point(374, 14)
+        Me.chkOwnBMCDeduction.Name = "chkOwnBMCDeduction"
+        Me.chkOwnBMCDeduction.Size = New System.Drawing.Size(137, 18)
+        Me.chkOwnBMCDeduction.TabIndex = 1095
+        Me.chkOwnBMCDeduction.Text = "Own BMC Deduction %"
         '
         'lblCycleFrequency
         '
         Me.lblCycleFrequency.FieldName = Nothing
         Me.lblCycleFrequency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCycleFrequency.Location = New System.Drawing.Point(400, 3)
+        Me.lblCycleFrequency.Location = New System.Drawing.Point(598, 15)
         Me.lblCycleFrequency.Name = "lblCycleFrequency"
         Me.lblCycleFrequency.Size = New System.Drawing.Size(91, 16)
         Me.lblCycleFrequency.TabIndex = 1094
@@ -448,7 +502,7 @@ Partial Class frmHeadLoadMaster
         Me.txtCycleFrequency.IsSourceFromTable = False
         Me.txtCycleFrequency.IsSourceFromValueList = False
         Me.txtCycleFrequency.IsUnique = False
-        Me.txtCycleFrequency.Location = New System.Drawing.Point(504, 2)
+        Me.txtCycleFrequency.Location = New System.Drawing.Point(694, 13)
         Me.txtCycleFrequency.MaxLength = 6
         Me.txtCycleFrequency.MendatroryField = False
         Me.txtCycleFrequency.MyLinkLable1 = Nothing
@@ -457,7 +511,7 @@ Partial Class frmHeadLoadMaster
         Me.txtCycleFrequency.ReferenceFieldDesc = Nothing
         Me.txtCycleFrequency.ReferenceFieldName = Nothing
         Me.txtCycleFrequency.ReferenceTableName = Nothing
-        Me.txtCycleFrequency.Size = New System.Drawing.Size(101, 21)
+        Me.txtCycleFrequency.Size = New System.Drawing.Size(82, 21)
         Me.txtCycleFrequency.TabIndex = 1093
         Me.txtCycleFrequency.Text = "0"
         Me.txtCycleFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -477,7 +531,7 @@ Partial Class frmHeadLoadMaster
         Me.txtRate.IsSourceFromTable = False
         Me.txtRate.IsSourceFromValueList = False
         Me.txtRate.IsUnique = False
-        Me.txtRate.Location = New System.Drawing.Point(293, 2)
+        Me.txtRate.Location = New System.Drawing.Point(293, 13)
         Me.txtRate.MaxLength = 6
         Me.txtRate.MendatroryField = False
         Me.txtRate.MyLinkLable1 = Nothing
@@ -494,7 +548,7 @@ Partial Class frmHeadLoadMaster
         '
         'chkRate
         '
-        Me.chkRate.Location = New System.Drawing.Point(246, 3)
+        Me.chkRate.Location = New System.Drawing.Point(246, 14)
         Me.chkRate.Name = "chkRate"
         Me.chkRate.Size = New System.Drawing.Size(42, 18)
         Me.chkRate.TabIndex = 1090
@@ -504,7 +558,7 @@ Partial Class frmHeadLoadMaster
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(1, 4)
+        Me.MyLabel1.Location = New System.Drawing.Point(1, 15)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel1.TabIndex = 1089
@@ -531,7 +585,7 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis.Items.Add(RadListDataItem1)
         Me.cmbHeadLoadBasis.Items.Add(RadListDataItem2)
         Me.cmbHeadLoadBasis.Items.Add(RadListDataItem3)
-        Me.cmbHeadLoadBasis.Location = New System.Drawing.Point(100, 2)
+        Me.cmbHeadLoadBasis.Location = New System.Drawing.Point(100, 13)
         Me.cmbHeadLoadBasis.MendatroryField = True
         Me.cmbHeadLoadBasis.MyLinkLable1 = Me.MyLabel1
         Me.cmbHeadLoadBasis.MyLinkLable2 = Nothing
@@ -587,17 +641,6 @@ Partial Class frmHeadLoadMaster
         Me.rbtnDetails.TabStop = False
         Me.rbtnDetails.Text = "Details"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(770, 5)
-        Me.btnHistory.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(72, 22)
-        Me.btnHistory.TabIndex = 11
-        Me.btnHistory.Text = "History"
-        '
         'frmHeadLoadMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -619,6 +662,7 @@ Partial Class frmHeadLoadMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
@@ -639,6 +683,8 @@ Partial Class frmHeadLoadMaster
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ApplyInGrid.ResumeLayout(False)
         Me.ApplyInGrid.PerformLayout()
+        CType(Me.txtOwnBMCDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkOwnBMCDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCycleFrequency, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCycleFrequency, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -647,7 +693,6 @@ Partial Class frmHeadLoadMaster
         CType(Me.cmbHeadLoadBasis, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDetails, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -684,6 +729,8 @@ Partial Class frmHeadLoadMaster
     Friend WithEvents txtCycleFrequency As common.MyNumBox
     Friend WithEvents lblCycleFrequency As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents txtOwnBMCDeduction As common.MyNumBox
+    Friend WithEvents chkOwnBMCDeduction As RadCheckBox
 End Class
 
 
