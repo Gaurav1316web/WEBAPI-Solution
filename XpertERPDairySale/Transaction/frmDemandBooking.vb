@@ -3093,15 +3093,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                                 Throw New Exception("Please Enter Valid Qty for " + obj1.ShortDesc)
                                             End If
                                         End If
-                                        'ElseIf DontCreateForPouch Then
-                                        '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
-                                        'Else
-                                        '    If DispatchQty > (CrateConvFactor / 2) Then
-                                        '        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
-                                        '    Else
-                                        '        dblTotalCrateRowWise = 0
-                                        '    End If
-                                        'End If
+
                                     End If
                                 End If
                                 dblTotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
