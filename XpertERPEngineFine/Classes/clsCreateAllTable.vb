@@ -57001,6 +57001,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Head_Load_Basis", "varchar(1) NULL")
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
             coll.Add("Cycle_Frequency", "integer null")
+            coll.Add("Deduction_Per", "Decimal(18,2) NULL")
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_HEAD_LOAD_DCS", coll, "", True, False, "", "", "", True)
 
