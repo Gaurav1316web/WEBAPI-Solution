@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
     Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
     Public Const ImportorExport As String = "Password for Import/Export"
@@ -1339,6 +1340,7 @@ Public Class clsFixedParameterType
     Public Const QuickDemandUOMLtr = "Quick Demand UOM Ltr"
 End Class
 Public Class clsFixedParameterCode
+    Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
     Public Const B2CDocumentAmountRange As String = "B2C Document Amount Range"
     Public Const TuneTime As String = "Tune Time"
     Public Const ApplySendApprovalSetting As String = "Apply Send Approval Setting"
@@ -2900,7 +2902,8 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, "250000", "Define Document Amount Range For B2C Large/Small")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, "100000", "Define Document Amount Range For Other State B2C Large/Small")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, "250000", "Define Document Amount Range For Same State B2C Large/Small")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TuneTime, "NA", "NA [27-Mar-2025 12:00:00AM to 27-Mar-2025 11:59:59PM]; 06:00:00AM [27-Mar-2025 06:00:00AM to 28-Mar-2025 05:59:59AM]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.ViewDCSMilkPurchaseRegister, "0", "0:OFF,1:ON;Show DCS Milk Purchase register on APP")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, "50", "It Should above 50")
@@ -4506,6 +4509,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.DCSWiseFilterEnableOnSavingCheck, clsFixedParameterCode.DCSWiseFilterEnableOnSavingCheck, EnumControlType.CheckBox)
