@@ -1001,6 +1001,10 @@ Public Class clsMccMaster
         Return issaved
     End Function
 
+    Friend Shared Function GetSiloCapacity(mCC_CODE As String, tran As SqlTransaction) As Decimal
+        Return clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Silo_Area from TSPL_Silo_Detail where Prog_Code='MCC-MST' and Trans_Code='" + mCC_CODE + "'", tran))
+    End Function
+
     Public Shared Function GetBankDetails(ByVal StrVendorName As String) As clsMccMaster
         Dim obj As clsMccMaster = Nothing
         'Dim sQuery As String = "select vm.Bank_Code,bm.Bank_Name,bm.IFSC_Code,Account_No,bm.Branch_Code,bm.Branch_Name,bm.CITY_Code,City_Name,bm.State_Code," _
