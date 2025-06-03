@@ -196,6 +196,193 @@ Public Class FrmPaymentNew
 
 
     Private Sub FrmPaymentNew_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Transport_Id", "varchar(12) null")
+        coll.Add("Debit_Account", "Varchar(50) null")
+        coll.Add("Credit_Account", "Varchar(50) null")
+        coll.Add("Balance_Amt", "Decimal(18,2) null")
+        coll.Add("FIFO_Balance", "Decimal(18,2) not null default 0.00")
+        coll.Add("QuickEntryNo", "varchar(30) Null ")
+        coll.Add("LoadOutNo", "varchar(30) Null ")
+        coll.Add("Salesman_Code", "varchar(30) Null ")
+        coll.Add("Salesman_Name", "varchar(200) Null ")
+        coll.Add("Route_NO", "varchar(30) Null ")
+        coll.Add("Route_Description", "varchar(200) Null ")
+        coll.Add("Location_Code", "varchar(30) Null ")
+        coll.Add("Location_Description", "varchar(200) Null ")
+        coll.Add("IsRecoCleared", "char(1) not Null default 'N' ")
+        coll.Add("IsChkReverse", "char(1) not Null default 'N' ")
+        coll.Add("Loadout_No", "varchar(30) Null ")
+        coll.Add("Bank_Charges_Ac", "Varchar(50) null")
+        coll.Add("Bank_Charges", "Decimal(18,2) null")
+        coll.Add("CURRENCY_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_CURRENCY_MASTER(CURRENCY_CODE) ")
+        coll.Add("ConvRate", "Decimal(18,6) NOT NULL DEFAULT 1")
+        coll.Add("ApplicableFrom", "DATE NULL")
+        coll.Add("BASE_CURRENCY_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_CURRENCY_MASTER(CURRENCY_CODE) ")
+        coll.Add("PAYMENT_AMOUNT_BASE_CURRENCY", "Decimal(18,2) NOT NULL DEFAULT 0")
+        coll.Add("EXCHANGE_LOSS_AMT", "Decimal(18,2) NOT NULL DEFAULT 0")
+        coll.Add("EXCHANGE_GAIN_AMT", "Decimal(18,2) NOT NULL DEFAULT 0")
+        coll.Add("EXCHANGE_LOSS_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+        coll.Add("EXCHANGE_GAIN_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+        coll.Add("ConvRateOld", "Decimal(18,6) NOT NULL DEFAULT 1")
+        coll.Add("CFormRecd", "char(1)  Null default 'N'")
+        coll.Add("CForm_InvoiceNo", "varchar(30) Null ")
+        coll.Add("EMP_CODE", "VARCHAR(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+        coll.Add("PROJECT_CODE", "Varchar(30) NULL References TSPL_PJC_PROJECT(PROJECT_CODE)")
+        coll.Add("PDC_Cheque", "char(1) Not Null default 'N'")
+        coll.Add("Document_No", "Varchar(30) null References TSPL_PJC_EXPENSE_HEADER(Document_No)")
+        coll.Add("CHECK_PRINT", "INT Not Null default 0")
+        coll.Add("CHECK_CODE", "VARCHAR(30) NULL REFERENCES TSPL_BANK_CHECK_PRINTING(CHECK_CODE)")
+        coll.Add("memorandum_amt", "float NOT NULL DEFAULT 0")
+        coll.Add("Applied_Payment", "char(30) NOT NULL Default ''")
+        coll.Add("Account_Payee", "BIT NOT NULL DEFAULT 0")
+        coll.Add("PurchaseOrder_No", "Varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+        coll.Add("Is_Security", "INTEGER NOT NULL DEFAULT 0")
+        coll.Add("Is_Retention", "INTEGER NOT NULL DEFAULT 0")
+        coll.Add("Account_Payee_Name", "varchar(200) Null ")
+        coll.Add("Total_Security_Amount", "Decimal(18,2) NOT NULL DEFAULT 0")
+        coll.Add("Location_GL_Code", "varchar(12) NULL")
+        coll.Add("Advance_Against_Salary", "BIT NOT NULL DEFAULT 0")
+        coll.Add("is_Opening", "integer not null default 0")
+        coll.Add("Payment_No", "varchar(30)  NOT NULL PRIMARY KEY ")
+        coll.Add("Payment_Date", "datetime  NOT NULL")
+        coll.Add("Payment_Post_Date", "datetime NULL")
+        coll.Add("Bank_Code", "varchar(12)  NOT NULL REFERENCES TSPL_BANK_MASTER (BANK_CODE)")
+        coll.Add("Payment_Type", "char(2)  NOT NULL")
+        coll.Add("Vendor_Code", "varchar(12) NULL")
+        coll.Add("Vendor_Name", "varchar(200) NULL")
+        coll.Add("Remit_To", "varchar(60) NULL")
+        coll.Add("Entry_Desc", "varchar(250) NULL")
+        coll.Add("Reference", "varchar(100) NULL")
+        coll.Add("Narration", "varchar(200) NULL")
+        coll.Add("Payment_Code", "varchar(12)  NOT NULL")
+        coll.Add("Cheque_No", "varchar(20) NULL")
+        coll.Add("Cheque_Date", "date NULL")
+        coll.Add("Payment_Amount", "decimal (18,2)  NOT NULL")
+        coll.Add("Vendor_Account_Set", "varchar(12)  NOT NULL")
+        coll.Add("TDS_Amount", "decimal (18,2) NULL")
+        coll.Add("Total_Prepayment", "decimal (18,2) NULL")
+        coll.Add("Apply_By", "varchar(30) NULL")
+        coll.Add("Apply_To", "varchar(30) NULL")
+        coll.Add("Posted", "char(1) NULL")
+        coll.Add("Created_By", "varchar(12)  NOT NULL")
+        coll.Add("Created_Date", "datetime  NOT NULL")
+        coll.Add("Modify_By", "varchar(12)  NOT NULL")
+        coll.Add("Modify_Date", "datetime  NOT NULL")
+        coll.Add("Level1_User_code", "varchar(12) NULL")
+        coll.Add("Level2_User_code", "varchar(12) NULL")
+        coll.Add("Level3_User_code", "varchar(12) NULL")
+        coll.Add("Level4_User_code", "varchar(12) NULL")
+        coll.Add("Level5_User_code", "varchar(12) NULL")
+        coll.Add("Comp_Code", "varchar(8)  NOT NULL")
+        coll.Add("Total_Applied_Amount", "decimal (18,2) NULL")
+        coll.Add("Loan_Code", "varchar(30) NULL REFERENCES TSPL_LOAN_APPLICATION (Loan_Code)")
+        coll.Add("Against_TDS_PAYMENT_No", "varchar(30) NULL references TSPL_TDS_Payment_Header(Document_No) ")
+        coll.Add("IsApplyDocAuto", "int not null default 0")
+        coll.Add("Interest_Rate", "decimal(18,2) NULL")
+        coll.Add("No_Of_EMI", "decimal(18,2) NULL")
+        coll.Add("PurchaseOrder_No_GST", "Varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+        coll.Add("Tax_Group", "varchar(12) NULL")
+        coll.Add("PurchaseOrder_Amount", "float not null default 0")
+        coll.Add("Tax_Amount_Advance", "float not null default 0")
+        coll.Add("PurchaseOrder_Add_Amount", "float not null default 0")
+        coll.Add("PO_Location_Code", "varchar(12) NULL")
+        coll.Add("TAX1", "varchar(12) NULL")
+        coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX1_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX2", "varchar(12) NULL")
+        coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX2_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX3", "varchar(12) NULL")
+        coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX3_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX4", "varchar(12) NULL")
+        coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX4_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX5", "varchar(12) NULL")
+        coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX5_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX6", "varchar(12) NULL")
+        coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX7", "varchar(12) NULL")
+        coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX8", "varchar(12) NULL")
+        coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX9", "varchar(12) NULL")
+        coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX10", "varchar(12) NULL")
+        coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+        coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
+        coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+        coll.Add("GSTRegistered", "Integer not null default 1")
+        coll.Add("Tax_Group_BankCharges", "Varchar(12)  NULL ")
+        coll.Add("Bank_Charges_Tax", "decimal(18, 2) NULL")
+        coll.Add("Employee_Type", "char(5) null")
+        coll.Add("Employee_Advance_Type", "char(5) null")
+        coll.Add("WaveOFFBankCharges", "char(1) null ")
+        coll.Add("Against_Salary_Generation_Code", "Varchar(30) null references TSPL_GENERATE_SALARY(SALARY_GENERATION_CODE)")
+        coll.Add("DateAndTime", "DATETIME NULL")
+        coll.Add("TapalNo", "VARCHAR(100) NULL")
+        coll.Add("MP_Code_For_Advance", "Varchar(30) null References TSPL_MP_MASTER(MP_Code)")
+        coll.Add("isReceipt", "Integer not null default 0")
+        coll.Add("isFarmerLoanPayment", "Integer not null default 0")
+        coll.Add("Vendor_Bank_Code", "varchar(50) NULL")
+        coll.Add("Vendor_Bank_Name", "varchar(50) NULL ")
+        coll.Add("Vendor_IFSC_Code", "varchar(50) NULL")
+        coll.Add("Vendor_Branch_Name", "varchar(150) NULL")
+        coll.Add("Vendor_Bank_ACNo", "varchar(50) NULL")
+        coll.Add("Against_VSP_Asset_Lost", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
+        coll.Add("Saving", "INTEGER NULL")
+        coll.Add("TDS_Provision", "INTEGER not null default 0")
+        coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, True, "", "Payment_No", "Payment_Date", True)
+
+
+        ''UDL/24/07/18-000208 richa add foreign key with payment no.
+        coll = New Dictionary(Of String, String)()
+        coll.Add("ESI_WCT_Percentage", "decimal(18,2) not null default 0.0")
+        coll.Add("Post", "char(1)  not null default 'N'")
+        coll.Add("Settlement_code", "varchar(50) null")
+        coll.Add("Settlement_Description", "varchar(100) null")
+        coll.Add("EXPENSE_CODE", "VARCHAR(30)  NULL References TSPL_EXPENSE_MASTER(EXPENSE_CODE)")
+        coll.Add("ConvRateOld", "Decimal(18,6) NOT NULL DEFAULT 1")
+        coll.Add("Security_Amount", "Decimal(18,2) NOT NULL DEFAULT 0")
+        coll.Add("AP_Invoice_No", "varchar(100) null")
+        coll.Add("Payment_No", "varchar(30) not null References TSPL_PAYMENT_HEADER(Payment_No)")
+        coll.Add("Payment_Line_No", "int  NOT NULL")
+        coll.Add("Apply", "char(1) NULL")
+        coll.Add("Payment_Type", "char(2) NULL")
+        coll.Add("Document_No", "varchar(30) NULL")
+        coll.Add("Vendor_Invoice_No", "varchar(30) NULL")
+        coll.Add("Pending_Balance", "decimal (18,2)  NOT NULL")
+        coll.Add("Applied_Amount", "decimal (18,2)  NOT NULL")
+        coll.Add("Original_Invoice_Amt", "decimal (18,2) NULL")
+        coll.Add("TDS_Amount", "decimal (18,2) NULL")
+        coll.Add("Net_Balance", "decimal (18,2) NULL")
+        coll.Add("Account_Code", "varchar(50) NULL")
+        coll.Add("Description", "varchar(100) NULL")
+        coll.Add("Remarks", "varchar(100) NULL")
+        coll.Add("Comment", "varchar(100) NULL")
+        coll.Add("Hirerachy_Level_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
+        coll.Add("Cost_Center_Fin_Code", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_DETAIL", coll, Nothing, True, True, "TSPL_PAYMENT_HEADER", "Payment_No", "", True)
+
+        '' PJC tables ends here
         Try
             ERPStartDate = clsCommon.myCDate(objCommonVar.ERPStartDate)
         Catch ex As Exception
@@ -4178,67 +4365,70 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
         DocDate = Nothing
         DocDate = dtpPayment.Value
         If clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlPaymentType.SelectedValue), "AV") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtPONo_GST.Value)) > 0 Then
-            Dim StrQuery As String = Nothing
-            StrQuery = "select TSPL_VENDOR_MASTER.State_Code as Vendor_StateCode,TSPL_LOCATION_MASTER.State AS Location_State, TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST, '' as EwayBillNo,'' as Electronic_Ref_No,'' AS Vechil_No,null as SupllyDate,TSPL_PAYMENT_HEADER.Payment_No,convert(varchar,TSPL_PAYMENT_HEADER.Payment_Date,103) as Payment_Date,TSPL_PAYMENT_HEADER.Payment_Amount + isnull(TSPL_PAYMENT_HEADER.TDS_Amount ,0) as Payment_Amount, TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_COMPANY_MASTER.Comp_Name,Comp_State_Master.State_Name as Comp_State," &
-            " COMP_Address=TSPL_COMPANY_MASTER.Add1 + CASE WHEN ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add2 WHEN ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add3 END ," &
-            " TSPL_COMPANY_MASTER.Pan_No as Comp_PanNo,TSPL_COMPANY_MASTER.GSTReg_No  as Comp_GSTIN_NO ,Comp_State_Master.GST_STATE_Code as Comp_GST_StateCode," &
-            " Loc_Address=TSPL_LOCATION_MASTER.Add1 + CASE WHEN ISNULL(TSPL_LOCATION_MASTER.Add2,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add2 WHEN ISNULL(TSPL_LOCATION_MASTER.Add3,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add3  END ," &
-            " Receiver_Add=Ship_to_Location_master.Add1 + CASE WHEN ISNULL(Ship_to_Location_master.Add2,'')<>'' THEN ','+Ship_to_Location_master.Add2 WHEN ISNULL(Ship_to_Location_master.Add3,'')<>'' THEN ','+Ship_to_Location_master.Add3  END, " &
-            " ISNULL(TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location,'') AS Ship_To_Location,	" &
-            " case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_Location_master.GSTNO else TSPL_LOCATION_MASTER.GSTNO  end as Loc_GSTIN_NO ," &
-            " case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_State_Master.STATE_NAME else Location_State_Master.STATE_NAME end as Loc_State," &
-            " case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_State_Master.GST_STATE_Code else Location_State_Master.GST_STATE_Code end as Loc_GST_StateCode," &
-            " TSPL_VENDOR_MASTER.Vendor_Name as  Supplier_Name,Vendor_State_Master.STATE_NAME as Supl_State,Vendor_State_Master.GST_STATE_Code as Sup_GST_State , " &
-            " Supplier_Add=TSPL_VENDOR_MASTER.Add1 + CASE WHEN ISNULL(TSPL_VENDOR_MASTER.Add2,'')<>'' THEN ','+TSPL_VENDOR_MASTER.Add2 WHEN ISNULL(TSPL_VENDOR_MASTER.Add3,'')<>'' THEN ','+TSPL_VENDOR_MASTER.Add3  END," &
-            " (case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_Location_master.Location_Desc else TSPL_LOCATION_MASTER.Location_Desc end )as Place_of_Supply," &
-            " TSPL_VENDOR_MASTER.GSTFinalNo as Supl_GSTIN_NO,TSPL_PURCHASE_ORDER_HEAD.Mode_Of_Transport,TSPL_LOCATION_MASTER.Location_Desc," &
-            " TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_PAYMENT_DETAIL_GST.Qty,TSPL_PAYMENT_DETAIL_GST.Unit_code,TSPL_PAYMENT_DETAIL_GST.Item_Cost," &
-            " TSPL_PAYMENT_DETAIL_GST.Amount,TSPL_PAYMENT_DETAIL_GST.PaymentAdvance,TSPL_PAYMENT_DETAIL_GST.PaymentTotalTax,TSPL_PAYMENT_DETAIL_GST.PaymentTotalAdvanceAmt, " &
-            " DTAX1.Type AS TAX1,DTAX2.TYPE AS TAX2,DTAX3.TYPE AS TAX3,DTAX4.Type AS TAX4,DTAX5.TYPE AS TAX5,DTAX6.TYPE AS TAX6,DTAX7.TYPE AS TAX7,DTAX8.TYPE AS TAX8,DTAX9.TYPE AS TAX9,DTAX10.Type AS TAX10," &
-            " isnull(TSPL_PAYMENT_DETAIL_GST.TAX1_Amt_Payment,0) as TAX1_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX1_Rate,0) as TAX1_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX2_Amt_Payment,0) as TAX2_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX2_Rate,0) as TAX2_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX3_Amt_Payment,0) as TAX3_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX3_Rate,0) as TAX3_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX4_Amt_Payment,0) as TAX4_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX4_Rate,0) as TAX4_Rate,isnull(TSPL_PAYMENT_DETAIL_GST.TAX5_Amt_Payment,0) as TAX5_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX5_Rate,0) as TAX5_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX6_Amt_Payment,0) as TAX6_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX6_Rate,0) as TAX6_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX7_Amt_Payment,0) as TAX7_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX7_Rate,0) as TAX7_Rate, isnull(TSPL_PAYMENT_DETAIL_GST.TAX8_Amt_Payment,0) as TAX8_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX8_Rate,0) as TAX8_Rate , isnull(TSPL_PAYMENT_DETAIL_GST.TAX9_Amt_Payment,0) as TAX9_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX9_Rate,0) as TAX9_Rate,isnull(TSPL_PAYMENT_DETAIL_GST.TAX10_Amt_Payment,0) as TAX10_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX10_Rate,0) as TAX10_Rate ," &
-            " DTAX1.TYPE AS Tax1Type,DTAX2.TYPE AS Tax2Type,DTAX3.TYPE AS Tax3Type,DTAX4.TYPE AS Tax4Type,DTAX5.TYPE AS Tax5Type,DTAX6.TYPE AS Tax6Type,DTAX7.TYPE AS Tax7Type,DTAX8.TYPE AS Tax8Type,DTAX9.TYPE AS Tax9Type,DTAX10.TYPE AS Tax10Type," &
-            " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2 ," &
-            " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4 ," &
-            " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt5,0) as Add_Charge_Amt5 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt6,0) as Add_Charge_Amt6 ," &
-            " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt7,0) as Add_Charge_Amt7 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt8,0) as Add_Charge_Amt8 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt9,0) as Add_Charge_Amt9,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt10,0) as Add_Charge_Amt10," &
-            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name1,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name2," &
-            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name3,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name4," &
-            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name5,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name6," &
-            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name7,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name8," &
-            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name9,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name10 " &
-            " from TSPL_PAYMENT_HEADER left join TSPL_PAYMENT_DETAIL_GST on TSPL_PAYMENT_HEADER.Payment_No =TSPL_PAYMENT_DETAIL_GST.Payment_No " &
-            " left join TSPL_COMPANY_MASTER on TSPL_PAYMENT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
-            " left join TSPL_ITEM_MASTER on TSPL_PAYMENT_DETAIL_GST.item_code=TSPL_ITEM_MASTER.Item_Code " &
-            " left join TSPL_STATE_MASTER as Comp_State_Master on TSPL_COMPANY_MASTER.State=Comp_State_Master.STATE_CODE" &
-            " left join TSPL_VENDOR_MASTER on TSPL_PAYMENT_HEADER.Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code " &
-            " left join TSPL_STATE_MASTER AS Vendor_State_Master on TSPL_VENDOR_MASTER.State_Code=Vendor_State_Master.STATE_CODE " &
-            " left join TSPL_PURCHASE_ORDER_HEAD on TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST=TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No" &
-            " left join TSPL_LOCATION_MASTER on TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code" &
-            " left join TSPL_STATE_MASTER Location_State_Master on TSPL_LOCATION_MASTER.state= Location_State_Master.STATE_CODE " &
-              " LEFT JOIN TSPL_LOCATION_MASTER Ship_to_Location_master on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_to_Location_master.Location_Code" &
-            "  left outer join TSPL_STATE_MASTER as Ship_to_State_Master on Ship_to_Location_master.State=Ship_to_State_Master.STATE_CODE " &
-            " LEFT JOIN TSPL_TAX_MASTER DTAX1 ON DTAX1.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX1 " &
-        " LEFT JOIN TSPL_TAX_MASTER DTAX2 ON DTAX2.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX2 " &
-        " LEFT JOIN TSPL_TAX_MASTER DTAX3 ON DTAX3.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX3 " &
-        " LEFT JOIN TSPL_TAX_MASTER DTAX4 ON DTAX4.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX4 " &
-        " LEFT JOIN TSPL_TAX_MASTER DTAX5 ON DTAX5.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX5 " &
-        " LEFT JOIN TSPL_TAX_MASTER DTAX6 ON DTAX6.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX6 " &
-        " LEFT JOIN TSPL_TAX_MASTER DTAX7 ON DTAX7.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX7 " &
-         " LEFT JOIN TSPL_TAX_MASTER DTAX8 ON DTAX8.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX8 " &
-          " LEFT JOIN TSPL_TAX_MASTER DTAX9 ON DTAX9.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX9 " &
-          " LEFT JOIN TSPL_TAX_MASTER DTAX10 ON DTAX10.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX10 " &
-            " WHERE TSPL_PAYMENT_HEADER.Payment_No='" + txtPaymentNo.Value + "'"
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
-            If dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Location_State"))) = CompairStringResult.Equal Then
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_SGST_CGST", "Payment Voucher", DocDate)
-                Else
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_IGST", "Payment Voucher", DocDate)
-                End If
-                frmCRV = Nothing
-            End If
+            clsPaymentHeader.funPaymentEntyPrint(MyBase.Form_ID, False, DocDate, txtPaymentNo.Value)
+
+            '    Dim StrQuery As String = Nothing
+            '    StrQuery = "select TSPL_VENDOR_MASTER.State_Code as Vendor_StateCode,TSPL_LOCATION_MASTER.State AS Location_State, TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST, '' as EwayBillNo,'' as Electronic_Ref_No,'' AS Vechil_No,null as SupllyDate,TSPL_PAYMENT_HEADER.Payment_No,convert(varchar,TSPL_PAYMENT_HEADER.Payment_Date,103) as Payment_Date,TSPL_PAYMENT_HEADER.Payment_Amount + isnull(TSPL_PAYMENT_HEADER.TDS_Amount ,0) as Payment_Amount, TSPL_PAYMENT_HEADER.Vendor_Name,TSPL_COMPANY_MASTER.Comp_Name,Comp_State_Master.State_Name as Comp_State," &
+            '    " COMP_Address=TSPL_COMPANY_MASTER.Add1 + CASE WHEN ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add2 WHEN ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add3 END ," &
+            '    " TSPL_COMPANY_MASTER.Pan_No as Comp_PanNo,TSPL_COMPANY_MASTER.GSTReg_No  as Comp_GSTIN_NO ,Comp_State_Master.GST_STATE_Code as Comp_GST_StateCode," &
+            '    " Loc_Address=TSPL_LOCATION_MASTER.Add1 + CASE WHEN ISNULL(TSPL_LOCATION_MASTER.Add2,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add2 WHEN ISNULL(TSPL_LOCATION_MASTER.Add3,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add3  END ," &
+            '    " Receiver_Add=Ship_to_Location_master.Add1 + CASE WHEN ISNULL(Ship_to_Location_master.Add2,'')<>'' THEN ','+Ship_to_Location_master.Add2 WHEN ISNULL(Ship_to_Location_master.Add3,'')<>'' THEN ','+Ship_to_Location_master.Add3  END, " &
+            '    " ISNULL(TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location,'') AS Ship_To_Location,	" &
+            '    " case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_Location_master.GSTNO else TSPL_LOCATION_MASTER.GSTNO  end as Loc_GSTIN_NO ," &
+            '    " case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_State_Master.STATE_NAME else Location_State_Master.STATE_NAME end as Loc_State," &
+            '    " case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_State_Master.GST_STATE_Code else Location_State_Master.GST_STATE_Code end as Loc_GST_StateCode," &
+            '    " TSPL_VENDOR_MASTER.Vendor_Name as  Supplier_Name,Vendor_State_Master.STATE_NAME as Supl_State,Vendor_State_Master.GST_STATE_Code as Sup_GST_State , " &
+            '    " Supplier_Add=TSPL_VENDOR_MASTER.Add1 + CASE WHEN ISNULL(TSPL_VENDOR_MASTER.Add2,'')<>'' THEN ','+TSPL_VENDOR_MASTER.Add2 WHEN ISNULL(TSPL_VENDOR_MASTER.Add3,'')<>'' THEN ','+TSPL_VENDOR_MASTER.Add3  END," &
+            '    " (case when isnull(Ship_to_Location_master.Location_Desc,'')<>'' then Ship_to_Location_master.Location_Desc else TSPL_LOCATION_MASTER.Location_Desc end )as Place_of_Supply," &
+            '    " TSPL_VENDOR_MASTER.GSTFinalNo as Supl_GSTIN_NO,TSPL_PURCHASE_ORDER_HEAD.Mode_Of_Transport,TSPL_LOCATION_MASTER.Location_Desc," &
+            '    " TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_PAYMENT_DETAIL_GST.Qty,TSPL_PAYMENT_DETAIL_GST.Unit_code,TSPL_PAYMENT_DETAIL_GST.Item_Cost," &
+            '    " TSPL_PAYMENT_DETAIL_GST.Amount,TSPL_PAYMENT_DETAIL_GST.PaymentAdvance,TSPL_PAYMENT_DETAIL_GST.PaymentTotalTax,TSPL_PAYMENT_DETAIL_GST.PaymentTotalAdvanceAmt, " &
+            '    " DTAX1.Type AS TAX1,DTAX2.TYPE AS TAX2,DTAX3.TYPE AS TAX3,DTAX4.Type AS TAX4,DTAX5.TYPE AS TAX5,DTAX6.TYPE AS TAX6,DTAX7.TYPE AS TAX7,DTAX8.TYPE AS TAX8,DTAX9.TYPE AS TAX9,DTAX10.Type AS TAX10," &
+            '    " isnull(TSPL_PAYMENT_DETAIL_GST.TAX1_Amt_Payment,0) as TAX1_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX1_Rate,0) as TAX1_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX2_Amt_Payment,0) as TAX2_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX2_Rate,0) as TAX2_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX3_Amt_Payment,0) as TAX3_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX3_Rate,0) as TAX3_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX4_Amt_Payment,0) as TAX4_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX4_Rate,0) as TAX4_Rate,isnull(TSPL_PAYMENT_DETAIL_GST.TAX5_Amt_Payment,0) as TAX5_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX5_Rate,0) as TAX5_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX6_Amt_Payment,0) as TAX6_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX6_Rate,0) as TAX6_Rate,  isnull(TSPL_PAYMENT_DETAIL_GST.TAX7_Amt_Payment,0) as TAX7_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX7_Rate,0) as TAX7_Rate, isnull(TSPL_PAYMENT_DETAIL_GST.TAX8_Amt_Payment,0) as TAX8_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX8_Rate,0) as TAX8_Rate , isnull(TSPL_PAYMENT_DETAIL_GST.TAX9_Amt_Payment,0) as TAX9_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX9_Rate,0) as TAX9_Rate,isnull(TSPL_PAYMENT_DETAIL_GST.TAX10_Amt_Payment,0) as TAX10_Amt, isnull(TSPL_PAYMENT_DETAIL_GST.TAX10_Rate,0) as TAX10_Rate ," &
+            '    " DTAX1.TYPE AS Tax1Type,DTAX2.TYPE AS Tax2Type,DTAX3.TYPE AS Tax3Type,DTAX4.TYPE AS Tax4Type,DTAX5.TYPE AS Tax5Type,DTAX6.TYPE AS Tax6Type,DTAX7.TYPE AS Tax7Type,DTAX8.TYPE AS Tax8Type,DTAX9.TYPE AS Tax9Type,DTAX10.TYPE AS Tax10Type," &
+            '    " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2 ," &
+            '    " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4 ," &
+            '    " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt5,0) as Add_Charge_Amt5 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt6,0) as Add_Charge_Amt6 ," &
+            '    " isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt7,0) as Add_Charge_Amt7 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt8,0) as Add_Charge_Amt8 ,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt9,0) as Add_Charge_Amt9,isnull(TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt10,0) as Add_Charge_Amt10," &
+            '    " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name1,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name2," &
+            '    " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name3,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name4," &
+            '    " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name5,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name6," &
+            '    " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name7,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name8," &
+            '    " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name9,TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name10 " &
+            '    " from TSPL_PAYMENT_HEADER left join TSPL_PAYMENT_DETAIL_GST on TSPL_PAYMENT_HEADER.Payment_No =TSPL_PAYMENT_DETAIL_GST.Payment_No " &
+            '    " left join TSPL_COMPANY_MASTER on TSPL_PAYMENT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
+            '    " left join TSPL_ITEM_MASTER on TSPL_PAYMENT_DETAIL_GST.item_code=TSPL_ITEM_MASTER.Item_Code " &
+            '    " left join TSPL_STATE_MASTER as Comp_State_Master on TSPL_COMPANY_MASTER.State=Comp_State_Master.STATE_CODE" &
+            '    " left join TSPL_VENDOR_MASTER on TSPL_PAYMENT_HEADER.Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code " &
+            '    " left join TSPL_STATE_MASTER AS Vendor_State_Master on TSPL_VENDOR_MASTER.State_Code=Vendor_State_Master.STATE_CODE " &
+            '    " left join TSPL_PURCHASE_ORDER_HEAD on TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST=TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No" &
+            '    " left join TSPL_LOCATION_MASTER on TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code" &
+            '    " left join TSPL_STATE_MASTER Location_State_Master on TSPL_LOCATION_MASTER.state= Location_State_Master.STATE_CODE " &
+            '      " LEFT JOIN TSPL_LOCATION_MASTER Ship_to_Location_master on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_to_Location_master.Location_Code" &
+            '    "  left outer join TSPL_STATE_MASTER as Ship_to_State_Master on Ship_to_Location_master.State=Ship_to_State_Master.STATE_CODE " &
+            '    " LEFT JOIN TSPL_TAX_MASTER DTAX1 ON DTAX1.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX1 " &
+            '" LEFT JOIN TSPL_TAX_MASTER DTAX2 ON DTAX2.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX2 " &
+            '" LEFT JOIN TSPL_TAX_MASTER DTAX3 ON DTAX3.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX3 " &
+            '" LEFT JOIN TSPL_TAX_MASTER DTAX4 ON DTAX4.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX4 " &
+            '" LEFT JOIN TSPL_TAX_MASTER DTAX5 ON DTAX5.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX5 " &
+            '" LEFT JOIN TSPL_TAX_MASTER DTAX6 ON DTAX6.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX6 " &
+            '" LEFT JOIN TSPL_TAX_MASTER DTAX7 ON DTAX7.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX7 " &
+            ' " LEFT JOIN TSPL_TAX_MASTER DTAX8 ON DTAX8.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX8 " &
+            '  " LEFT JOIN TSPL_TAX_MASTER DTAX9 ON DTAX9.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX9 " &
+            '  " LEFT JOIN TSPL_TAX_MASTER DTAX10 ON DTAX10.Tax_Code=TSPL_PAYMENT_DETAIL_GST.TAX10 " &
+            '    " WHERE TSPL_PAYMENT_HEADER.Payment_No='" + txtPaymentNo.Value + "'"
+
+            '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
+            '    If dt.Rows.Count > 0 Then
+            '        Dim frmCRV As New frmCrystalReportViewer()
+            '        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Vendor_StateCode")), clsCommon.myCstr(dt.Rows(0)("Location_State"))) = CompairStringResult.Equal Then
+            '            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_SGST_CGST", "Payment Voucher", DocDate)
+            '        Else
+            '            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptPaymentVoucher_IGST", "Payment Voucher", DocDate)
+            '        End If
+            '        frmCRV = Nothing
+            '    End If
         Else
             Dim frm As New FrmPaymentEntry
             FrmPaymentEntry.strCode = txtPaymentNo.Value
