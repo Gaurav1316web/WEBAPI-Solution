@@ -33135,6 +33135,147 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             clsDBFuncationality.ExecuteNonQuery(qry)
             qry = "update TSPL_SD_SALE_INVOICE_DETAIL set Item_Net_Amt=Amt_Less_Discount+Total_Tax_Amt"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            Try
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(TABLE_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE DATA_TYPE = 'decimal' AND NUMERIC_PRECISION = 18 AND NUMERIC_SCALE = 2 AND TABLE_NAME = 'tspl_Customer_Invoice_detail' and COLUMN_NAME='Tax1_Amt' ")) > 0 Then
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax1_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax2_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax3_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax4_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax5_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax6_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax7_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax8_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax9_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_detail alter column tax10_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax1_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax2_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax3_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax4_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax5_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax6_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax7_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax8_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax9_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table TSPL_SD_Sale_Invoice_Detail alter column tax10_Base_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax2_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax3_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax4_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax5_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax1_Amt decimal(18,6) null 	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax6_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax7_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax8_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax9_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax10_Amt decimal(18,6) null	"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax1_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax2_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax3_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax4_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax5_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax6_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax7_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax8_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax9_Rate decimal(18,4) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax10_Rate decimal(18,4) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax1_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax2_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax3_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax4_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax5_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax6_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax7_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax8_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax9_Base_Amt decimal(18,6) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "alter table tspl_Customer_Invoice_detail alter column tax10_Base_Amt decimal(18,6) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "UPDATE tspl_sd_sale_Invoice_detail
+SET tspl_sd_sale_Invoice_detail.TAX1_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt,tspl_sd_sale_Invoice_detail.TAX1_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX1_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX2_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt,tspl_sd_sale_Invoice_detail.TAX2_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX2_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX3_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt,tspl_sd_sale_Invoice_detail.TAX3_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX3_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX4_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt,tspl_sd_sale_Invoice_detail.TAX4_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX4_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX5_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt,tspl_sd_sale_Invoice_detail.TAX5_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX5_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX6_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt,tspl_sd_sale_Invoice_detail.TAX6_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX6_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX7_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt,tspl_sd_sale_Invoice_detail.TAX7_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX7_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX8_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX8_Amt,tspl_sd_sale_Invoice_detail.TAX8_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX8_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX9_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX9_Amt,tspl_sd_sale_Invoice_detail.TAX9_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX9_Base_Amt,
+tspl_sd_sale_Invoice_detail.TAX10_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt,tspl_sd_sale_Invoice_detail.TAX10_Base_Amt = TSPL_SD_SHIPMENT_DETAIL.TAX10_Base_Amt
+FROM tspl_sd_sale_Invoice_detail
+inner JOIN TSPL_SD_SHIPMENT_DETAIL ON tspl_sd_sale_Invoice_detail.Shipment_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE and  tspl_sd_sale_Invoice_detail.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code and  tspl_sd_sale_Invoice_detail.Unit_code = TSPL_SD_SHIPMENT_DETAIL.Unit_code"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "UPDATE tspl_Customer_Invoice_detail
+SET tspl_Customer_Invoice_detail.TAX1_Amt = tspl_sd_sale_Invoice_detail.TAX1_Amt,tspl_Customer_Invoice_detail.TAX1_base_Amt = tspl_sd_sale_Invoice_detail.TAX1_Base_Amt,
+tspl_Customer_Invoice_detail.TAX2_Amt = tspl_sd_sale_Invoice_detail.TAX2_Amt,tspl_Customer_Invoice_detail.TAX2_Base_Amt = tspl_sd_sale_Invoice_detail.TAX2_Base_Amt,
+tspl_Customer_Invoice_detail.TAX3_Amt = tspl_sd_sale_Invoice_detail.TAX3_Amt,tspl_Customer_Invoice_detail.TAX3_Base_Amt = tspl_sd_sale_Invoice_detail.TAX3_Base_Amt,
+tspl_Customer_Invoice_detail.TAX4_Amt = tspl_sd_sale_Invoice_detail.TAX4_Amt,tspl_Customer_Invoice_detail.TAX4_Base_Amt = tspl_sd_sale_Invoice_detail.TAX4_Base_Amt,
+tspl_Customer_Invoice_detail.TAX5_Amt = tspl_sd_sale_Invoice_detail.TAX5_Amt,tspl_Customer_Invoice_detail.TAX5_Base_Amt = tspl_sd_sale_Invoice_detail.TAX5_Base_Amt,
+tspl_Customer_Invoice_detail.TAX6_Amt = tspl_sd_sale_Invoice_detail.TAX6_Amt,tspl_Customer_Invoice_detail.TAX6_Base_Amt = tspl_sd_sale_Invoice_detail.TAX6_Base_Amt,
+tspl_Customer_Invoice_detail.TAX7_Amt = tspl_sd_sale_Invoice_detail.TAX7_Amt,tspl_Customer_Invoice_detail.TAX7_Base_Amt = tspl_sd_sale_Invoice_detail.TAX7_Base_Amt,
+tspl_Customer_Invoice_detail.TAX8_Amt = tspl_sd_sale_Invoice_detail.TAX8_Amt,tspl_Customer_Invoice_detail.TAX8_Base_Amt = tspl_sd_sale_Invoice_detail.TAX8_Base_Amt,
+tspl_Customer_Invoice_detail.TAX9_Amt = tspl_sd_sale_Invoice_detail.TAX9_Amt,tspl_Customer_Invoice_detail.TAX9_Base_Amt = tspl_sd_sale_Invoice_detail.TAX9_Base_Amt,
+tspl_Customer_Invoice_detail.TAX10_Amt = tspl_sd_sale_Invoice_detail.TAX10_Amt,tspl_Customer_Invoice_detail.TAX10_Base_Amt = tspl_sd_sale_Invoice_detail.TAX10_Base_Amt
+
+FROM TSPL_Customer_Invoice_Head
+left join tspl_Customer_Invoice_detail on tspl_Customer_Invoice_detail.Document_No=TSPL_Customer_Invoice_Head.Document_No
+inner JOIN tspl_sd_sale_Invoice_detail ON TSPL_Customer_Invoice_Head.Against_Sale_No = tspl_sd_sale_Invoice_detail.DOCUMENT_CODE and  tspl_Customer_Invoice_detail.SNo = tspl_sd_sale_Invoice_detail.Line_No"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                End If
+
+            Catch ex As Exception
+
+            End Try
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
@@ -33421,6 +33562,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_HEAD alter column Security_TotalAmt decimal(18,6)")
             Catch ex As Exception
             End Try
+
 
             coll = New Dictionary(Of String, String)
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SALE_RETURN_HEAD(DOCUMENT_CODE)")

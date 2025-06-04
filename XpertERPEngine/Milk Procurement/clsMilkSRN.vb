@@ -108,6 +108,12 @@ Public Class clsMilkSRNMCC
     End Function
 
     Private Shared Sub SetHeadLoad(obj As clsMilkSRNMCC, objTR As clsMilkSRNMCCDetail, trans As SqlTransaction)
+        objTR.Head_Load_Amount_Exact = 0
+        objTR.Head_Load_Rate = 0
+        objTR.Head_Load_Amount = 0
+        objTR.Head_Load_Type = ""
+        objTR.Head_Load_Cycle = 0
+
         Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
         Dim qry As String = "select DistanceKM_Head_Load from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.VSP_CODE + "'"
         Dim dclDistanceKM As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
@@ -126,13 +132,7 @@ Public Class clsMilkSRNMCC
             qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + qry + "' "
             ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
         End If
-        If ExcluetHeadLoad Then
-            objTR.Head_Load_Amount_Exact = 0
-            objTR.Head_Load_Rate = 0
-            objTR.Head_Load_Amount = 0
-            objTR.Head_Load_Type = ""
-            objTR.Head_Load_Cycle = 0
-        Else
+        If Not ExcluetHeadLoad Then
             Dim objHeadLoad As New clsHeadLoadDCS()
             objHeadLoad = clsHeadLoadDCS.GetDcsData(obj.VLC_CODE, obj.DOC_DATE, trans)
             objTR.Head_Load_Rate = objHeadLoad.Head_Load_Rate
