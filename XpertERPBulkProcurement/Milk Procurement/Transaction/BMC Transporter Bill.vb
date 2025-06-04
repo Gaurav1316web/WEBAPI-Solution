@@ -6,4 +6,639 @@ Imports System.Text.RegularExpressions
 
 Public Class BMC_Transporter_Bill
     Inherits FrmMainTranScreen
+
+#Region "Variables"
+    Private isNewEntry As Boolean = False
+    Const colDate As String = "colDate"
+    Const colDocumentNo As String = "colDocumentNo"
+    Const ColCategory As String = "ColCategory"
+    Const ColTrip As String = "ColTrip"
+    Const ColKM As String = "ColKM"
+    Const ColQuantity As String = "ColQuantity"
+    Const ColAmount As String = "ColAmount"
+    Const ColDiesel As String = "ColDiesel"
+    Const ColStation As String = "ColStation"
+    Const ColStation2 As String = "ColStation2"
+    Const ColStation3 As String = "ColStation3"
+    Const ColStation4 As String = "ColStation4"
+    Const ColGPSKM As String = "ColGPSKM"
+    Dim TotalAmount As Decimal = 0
+    Dim TotalDiesel As Decimal = 0
+    Dim TotalQuantity As Decimal = 0
+    Dim TotalBMCQuantity As Decimal = 0
+    Dim Total_Toll_Tax As Decimal = 0
+    Dim Total_Ice_Charge As Decimal = 0
+    Dim Total_BMC_TOTAL As Decimal = 0
+    Dim Total_fat_snf_shortage As Decimal = 0
+    Dim Total_Amount As Decimal = 0
+
+#End Region
+
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+
+
+    Private Sub txtTankerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTankerNo._MYValidating
+        Dim qry As String = "SELECT Distinct TSPL_MILK_COLLECTION_MCC.Tanker_No as [Tanker No] FROM TSPL_MILK_COLLECTION_MCC "
+        txtTankerNo.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Tanker No", "", txtTankerNo.Value, "", isButtonClicked)
+        lblTankerDesc.Text = clsDBFuncationality.getSingleValue(" select Tanker_Name from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
+        Dim qry1 As String = clsDBFuncationality.getSingleValue(" select Tanker_Transporter_Code from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
+        txtTransporter.Text = clsDBFuncationality.getSingleValue(" select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + qry1 + "'")
+        TxtBarelCap.Text = clsDBFuncationality.getSingleValue(" select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='" + txtTankerNo.Value + "'")
+    End Sub
+
+    Private Sub BMC_Transporter_Bill_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
+        coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
+        coll.Add("Document_Date", "datetime NOT NULL")
+        coll.Add("From_Date", "datetime NOT NULL")
+        coll.Add("To_Date", "datetime NOT NULL")
+        coll.Add("Status", "integer null")
+        coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
+        'coll.Add("Transporter_Name", "varchar(60) NULL")
+        coll.Add("Toll_Tax", "decimal(18,2) NULL ")
+        coll.Add("Ice_Charge", "decimal(18,2) NULL ")
+        coll.Add("Fat_Shortage", "decimal(18,2) NULL ")
+        coll.Add("Snf_Shortage", "decimal(18,2) NULL ")
+        coll.Add("Fat_Snf_Shortage", "decimal(18,2) NULL ") 'fat and snf shortage to be added
+        coll.Add("Fat_Rate", "decimal(18,2) NULL ")
+        coll.Add("Snf_Rate", "decimal(18,2) NULL ")
+        coll.Add("Tanker_Capacity", "decimal(18,2) NULL ")
+        coll.Add("KM_Rate", "decimal(18,2) NULL ")
+        coll.Add("Total_Amount", "decimal(18,2) NULL ")
+        coll.Add("Gross_Amount", "decimal(18,2) NULL ")
+        coll.Add("Diesel_Rate_Plus", "decimal(18,2) NULL ")
+        coll.Add("Diesel_Rate_Minus", "decimal(18,2) NULL ")
+        coll.Add("Total_Diesel", "decimal (18,2) NULL")
+        coll.Add("Prorata_Amt", "decimal (18,2) NULL")
+        coll.Add("Total_Before_Calc", "decimal (18,2) NULL")
+        coll.Add("Created_By", "varchar(12)  NOT NULL")
+        coll.Add("Created_Date", "datetime  NOT NULL")
+        coll.Add("Modify_By", "varchar(12)  NOT NULL")
+        coll.Add("Modify_Date", "datetime NOT NULL")
+        coll.Add("Posted_By", "varchar(12) NULL")
+        coll.Add("Posted_Date", "datetime null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
+        coll.Add("Document_Code", "varchar(30) NOT NULL References TSPL_BMC_TRANSPORTER_BILL_HEAD(Document_Code)")
+        coll.Add("MCC_Document_Code", "varchar(30) NOT NULL UNIQUE References TSPL_MILK_COLLECTION_MCC(Document_No)")
+        'coll.Add("Document_Date", "datetime NOT NULL")
+        'coll.Add("Category", "varchar(40)  NOT NULL")
+        coll.Add("Station_1", "varchar(40)  NULL")
+        coll.Add("Station_2", "varchar(40)  NULL")
+        coll.Add("Station_3", "varchar(40)  NULL")
+        coll.Add("Station_4", "varchar(40)  NULL")
+        coll.Add("Trip", "decimal (18,2) NULL")
+        coll.Add("GPS_KM", "decimal (18,2) NULL")
+        coll.Add("KM", "decimal (18,2) NULL") ' add gps km column
+        coll.Add("Quantity_KG", "decimal (18,2) NULL")
+        coll.Add("Amount", "decimal (18,2) NULL")
+        coll.Add("Diesel_RD", "decimal (18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", coll, Nothing, True, False, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", "", True)
+
+
+        SetUserMgmtNew()
+        RadPageView1.SelectedPage = RadPageViewPage1
+        LoadBlankGrid()
+        AddNew()
+        RadGroupBox3.Enabled = False
+
+    End Sub
+
+    Sub LoadBlankGrid()
+        Dim qry As String = String.Empty
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+
+        Dim repoDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDate.FormatString = ""
+        repoDate.HeaderText = "Date"
+        repoDate.Name = colDate
+        repoDate.Width = 150
+        repoDate.ReadOnly = False
+        repoDate.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoDate)
+
+        Dim repoDocumentNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDocumentNo.FormatString = ""
+        repoDocumentNo.HeaderText = "Document No"
+        repoDocumentNo.Name = colDocumentNo
+        repoDocumentNo.Width = 150
+        repoDocumentNo.IsVisible = False
+        gv1.MasterTemplate.Columns.Add(repoDocumentNo)
+
+        Dim repoCategory As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCategory.FormatString = ""
+        repoCategory.HeaderText = "Category"
+        repoCategory.Name = ColCategory
+        repoCategory.Width = 150
+        repoCategory.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoCategory)
+
+        Dim repoStation As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoStation.FormatString = ""
+        repoStation.HeaderText = "Station"
+        repoStation.Name = ColStation
+        repoStation.Width = 150
+        repoStation.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoStation)
+
+        Dim repoStation2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoStation2.FormatString = ""
+        repoStation2.HeaderText = "Station 2"
+        repoStation2.Name = ColStation2
+        repoStation2.Width = 150
+        repoStation2.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoStation2)
+
+        Dim repoStation3 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoStation3.FormatString = ""
+        repoStation3.HeaderText = "Station 3"
+        repoStation3.Name = ColStation3
+        repoStation3.Width = 150
+        repoStation3.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoStation3)
+
+        Dim repoStation4 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoStation4.FormatString = ""
+        repoStation4.HeaderText = "Station 4"
+        repoStation4.Name = ColStation4
+        repoStation4.Width = 150
+        repoStation4.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoStation4)
+
+        Dim repoTrip As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTrip.FormatString = ""
+        repoTrip.HeaderText = "Trip"
+        repoTrip.Name = ColTrip
+        repoTrip.Width = 150
+        repoTrip.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoTrip)
+
+        Dim repoKM As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoKM = New GridViewDecimalColumn()
+        repoKM.FormatString = ""
+        repoKM.HeaderText = "KM"
+        repoKM.WrapText = True
+        repoKM.Name = ColKM
+        repoKM.Width = 150
+        repoKM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoKM.VisibleInColumnChooser = False
+        repoKM.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoKM)
+
+        Dim repoGPSKM As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoGPSKM = New GridViewDecimalColumn()
+        repoGPSKM.FormatString = ""
+        repoGPSKM.HeaderText = "GPSKM"
+        repoGPSKM.WrapText = True
+        repoGPSKM.Name = ColGPSKM
+        repoGPSKM.Width = 150
+        repoGPSKM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoGPSKM.VisibleInColumnChooser = False
+        repoGPSKM.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoGPSKM)
+
+        Dim repoQuantity As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoQuantity = New GridViewDecimalColumn()
+        repoQuantity.FormatString = ""
+        repoQuantity.HeaderText = "Quantity(KG)"
+        repoQuantity.WrapText = True
+        repoQuantity.Name = ColQuantity
+        repoQuantity.Width = 150
+        repoQuantity.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoQuantity.VisibleInColumnChooser = False
+        repoQuantity.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoQuantity)
+
+        Dim repoAmount As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoAmount = New GridViewDecimalColumn()
+        repoAmount.FormatString = ""
+        repoAmount.HeaderText = "Amount"
+        repoAmount.WrapText = True
+        repoAmount.Name = ColAmount
+        repoAmount.Width = 150
+        repoAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoAmount.VisibleInColumnChooser = False
+        repoAmount.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoAmount)
+
+        Dim repoDiesel As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoDiesel = New GridViewDecimalColumn()
+        repoDiesel.FormatString = ""
+        repoDiesel.HeaderText = "Diesel(RD)"
+        repoDiesel.WrapText = True
+        repoDiesel.Name = ColDiesel
+        repoDiesel.Width = 150
+        repoDiesel.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDiesel.VisibleInColumnChooser = False
+        repoDiesel.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDiesel)
+
+        gv1.AllowDeleteRow = True
+        gv1.AllowAddNewRow = False
+        gv1.ShowGroupPanel = False
+        gv1.AllowColumnReorder = False
+        gv1.AllowRowReorder = False
+        gv1.EnableSorting = False
+        gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gv1.MasterTemplate.ShowRowHeaderColumn = False
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.Rows.AddNew()
+
+    End Sub
+
+    Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
+        AddNew()
+    End Sub
+
+    Sub AddNew()
+        BlankAllControls()
+        LoadBlankGrid()
+    End Sub
+
+    Sub BlankAllControls()
+        txtDocNo.Value = ""
+        txtTankerNo.Value = ""
+        lblTankerDesc.Text = ""
+        txtDate.Value = clsCommon.GETSERVERDATE()
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate.Value = clsCommon.GETSERVERDATE()
+        TxtDieselMinus.Text = ""
+        txtDieselplus.Text = ""
+        TxtTollTax.Text = ""
+        TxtIceCharge.Text = ""
+        TxtKMRate.Text = ""
+        TxtRateprorata.Text = ""
+        TxtTDR.Text = ""
+        TxtTankerprorata.Text = ""
+        TxtBarelCap.Text = ""
+        txtFatShortage.Text = ""
+        TxtSnfShortage.Text = ""
+        TxtFatRate.Text = ""
+        TxtSnfRate.Text = ""
+        TxtGrossAmount.Text = ""
+        TxtTotalFatSnfShortage.Text = ""
+        TxtTotalIceCharge.Text = ""
+        TxtTotalTollTax.Text = ""
+        TxtTotalAmount.Text = ""
+        TxtBMCProrataamt.Text = ""
+        TxtBMCDiesel.Text = ""
+        TxtBMCTotal.Text = ""
+        isNewEntry = True
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        loadGridData()
+        FatSnfShortageDetail()
+        Total_Toll_Tax = TxtTotalTollTax.Text
+        Total_Ice_Charge = TxtTotalIceCharge.Text
+        Total_BMC_TOTAL = TxtBMCTotal.Text
+        Total_fat_snf_shortage = TxtTotalFatSnfShortage.Text
+        TxtTotalAmount.Text = (Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
+        Total_Amount = TxtTotalAmount.Text
+        TxtGrossAmount.Text = (Total_Amount + Total_fat_snf_shortage)
+    End Sub
+    Sub FatSnfShortageDetail()
+        Try
+            Dim qry As String = ""
+            qry = " select (sum(Original_FATKg) * 0.25/100) + sum(FATKG) as ADJFATKG,(sum(Original_SNFKg) * 0.25/100) + sum(SNFKG) as ADJSNFKG from 
+                (Select * from 
+                (Select * FROM 
+                ( select MAX(convert(Varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103)) AS DocumentDate,
+                (TSPL_MILK_COLLECTION_MCC.Tanker_No)Tanker_No,(TSPL_MILK_COLLECTION_MCC.Route_Code)Route_Code,
+                sum(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) AS Original_Qty,
+                sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)Original_FATKg,
+                sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)Original_SNFKg,
+ (max(TSPL_MILK_COLLECTION_MCC.Entered_FATKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKg)) AS FATKG,
+ (max(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg)-sum(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKg)) AS SNFKG
+from TSPL_MILK_COLLECTION_MCC 
+LEFT OUTER JOIN TSPL_MILK_COLLECTION_MCC_DETAIL ON TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No
+left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
+where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'01/10/2024',103) and convert(date,Document_Date,103) <=convert(date,'10/10/2024' ,103)  and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('RJ14GL6597') GROUP BY Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,Document_Date)ZZZ)xxxx)zzzz group by zzzz.Route_Code,zzzz.Tanker_No"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            Dim negativeFatKg As Decimal = 0
+            Dim negativeSnfKg As Decimal = 0
+            For Each row As DataRow In dt.Rows
+                If clsCommon.myCdbl(row("ADJFATKG")) < 0 Then
+                    negativeFatKg += clsCommon.myCdbl(row("ADJFATKG"))
+                End If
+                If clsCommon.myCdbl(row("ADJSNFKG")) < 0 Then
+                    negativeSnfKg += clsCommon.myCdbl(row("ADJSNFKG"))
+                End If
+            Next
+            txtFatShortage.Text = negativeFatKg
+            TxtSnfShortage.Text = negativeSnfKg
+            TxtTotalFatSnfShortage.Text = negativeFatKg + negativeSnfKg
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub loadGridData()
+        Try
+            Dim qry As String = ""
+            Dim qry1 As String = ""
+            Dim qry2 As String = ""
+
+            If clsCommon.myLen(txtDieselplus.Text) = 0 AndAlso clsCommon.myLen(TxtDieselMinus.Text) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Enter Diesel Amount", Me.Text)
+                txtDieselplus.Focus()
+                Exit Sub
+            End If
+            If clsCommon.myLen(TxtKMRate.Text) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Enter KMRate Amount", Me.Text)
+                TxtKMRate.Focus()
+                Exit Sub
+            End If
+
+            qry = " SELECT TSPL_MILK_COLLECTION_MCC.Document_No,Cast(TSPL_MILK_COLLECTION_MCC.Document_Date as Date)Document_Date,Route_Code,Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance FROM TSPL_MILK_COLLECTION_MCC  
+                    left outer join TSPL_TANKER_MASTER ON TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
+                    left outer join TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+                    where convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'01/Oct/2024',103)
+                    and  convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert(date,'01/Oct/2024',103) and TSPL_MILK_COLLECTION_MCC.Tanker_No='RJ14GL6597'  "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            qry1 = " Select max(Distance)Distance from TSPL_BULK_ROUTE_MASTER where Tanker_No='RJ02GA0843' "
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            qry2 = " Select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='RJ02GA0843' "
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry2)
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                gv1.CurrentRow.Cells(colDocumentNo).Value = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
+                gv1.CurrentRow.Cells(colDate).Value = clsCommon.myCstr(dt.Rows(ii)("Document_Date"))
+                gv1.CurrentRow.Cells(ColCategory).Value = "BMC"
+                gv1.CurrentRow.Cells(ColTrip).Value = clsCommon.myCstr(dt.Rows(ii)("Trip_No"))
+                gv1.CurrentRow.Cells(ColKM).Value = clsCommon.myCdbl(dt.Rows(ii)("Distance"))
+                gv1.CurrentRow.Cells(ColQuantity).Value = clsCommon.myCdbl(dt.Rows(ii)("Storage_Capacity"))
+                gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(TxtKMRate.Text))
+                If clsCommon.myLen(txtDieselplus.Text) > 0 Then
+                    gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(txtDieselplus.Text))
+                Else
+                    gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(TxtDieselMinus.Text))
+                End If
+                gv1.Rows.AddNew()
+            Next
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtTollTax_TextChanged(sender As Object, e As EventArgs) Handles TxtTollTax.TextChanged
+        Dim fromDate As Date = txtFromDate.Value
+        Dim toDate As Date = txtToDate.Value
+        Dim totalDays As Integer = DateDiff(DateInterval.Day, fromDate, toDate) + 1
+        'Console.WriteLine("Total Days (exclusive): " & totalDays)
+
+        'TxtTotalTollTax.Text = clsCommon.myCdbl(TxtTollTax.Text * totalDays)
+        Dim iceCharge As Double
+        If Double.TryParse(TxtTollTax.Text, iceCharge) Then
+            TxtTotalTollTax.Text = clsCommon.myCdbl(iceCharge * totalDays).ToString()
+        Else
+            TxtTotalTollTax.Text = "0"
+        End If
+
+    End Sub
+
+    Private Sub TxtIceCharge_TextChanged(sender As Object, e As EventArgs) Handles TxtIceCharge.TextChanged
+        Dim fromDate As Date = txtFromDate.Value
+        Dim toDate As Date = txtToDate.Value
+        Dim totalDays As Integer = DateDiff(DateInterval.Day, fromDate, toDate) + 1
+        'Console.WriteLine("Total Days (exclusive): " & totalDays)
+
+        'TxtTotalIceCharge.Text = clsCommon.myCdbl(TxtIceCharge.Text * totalDays)
+        ' Check if input is a valid number
+        Dim iceCharge As Double
+        If Double.TryParse(TxtIceCharge.Text, iceCharge) Then
+            TxtTotalIceCharge.Text = clsCommon.myCdbl(iceCharge * totalDays).ToString()
+        Else
+            TxtTotalIceCharge.Text = "0"
+        End If
+    End Sub
+
+    Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged
+        RadGroupBox3.Enabled = True
+    End Sub
+
+    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+        UpdateCurrentRow(gv1.CurrentRow.Index)
+    End Sub
+
+    Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Try
+            TotalDiesel += gv1.CurrentRow.Cells(ColDiesel).Value
+            TotalAmount += gv1.CurrentRow.Cells(ColAmount).Value
+            TotalQuantity += gv1.CurrentRow.Cells(ColQuantity).Value
+
+            TxtBMCProrataamt.Text = TotalAmount
+            TxtBMCDiesel.Text = TotalDiesel
+            If TotalDiesel < 0 Then
+                TxtBMCTotal.Text = (TotalAmount + TotalDiesel)
+                'TxtBMCTotal.Text = TotalBMCQuantity
+            Else
+                TxtBMCTotal.Text = (TotalAmount - TotalDiesel)
+                'TxtBMCTotal.Text = TotalBMCQuantity
+            End If
+
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        SaveData(False)
+    End Sub
+    Function AllowToSave() As Boolean
+        Try
+            Return True
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Return False
+        End Try
+    End Function
+    Sub SaveData(ByVal isPost As Boolean)
+        Try
+            If (AllowToSave()) Then
+                Dim obj As New clsBMCTransporterBill()
+                obj.Document_Code = txtDocNo.Value
+                obj.Document_Date = txtDate.Value
+                obj.From_Date = txtFromDate.Value
+                obj.To_Date = txtToDate.Value
+                obj.Tanker_No = txtTankerNo.Value
+                obj.Toll_Tax = clsCommon.myCdbl(TxtTotalTollTax.Text)
+                obj.Ice_Charge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
+                obj.Fat_Shortage = clsCommon.myCdbl(txtFatShortage.Text)
+                obj.Snf_Shortage = clsCommon.myCdbl(TxtSnfShortage.Text)
+                obj.Fat_Snf_Shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
+                obj.Fat_Rate = clsCommon.myCdbl(TxtFatRate.Text)
+                obj.Snf_Rate = clsCommon.myCdbl(TxtSnfRate.Text)
+                obj.Tanker_Capacity = clsCommon.myCdbl(TxtBarelCap.Text)
+                obj.KM_Rate = clsCommon.myCdbl(TxtKMRate.Text)
+                obj.Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
+                obj.Gross_Amount = clsCommon.myCdbl(TxtGrossAmount.Text)
+                obj.Diesel_Rate_Plus = clsCommon.myCdbl(txtDieselplus.Text)
+                obj.Diesel_Rate_Minus = clsCommon.myCdbl(TxtDieselMinus.Text)
+                obj.Total_Diesel = clsCommon.myCdbl(TxtBMCDiesel.Text)
+                obj.Prorata_Amt = clsCommon.myCdbl(TxtBMCProrataamt.Text)
+                obj.Total_Before_Calc = clsCommon.myCdbl(TxtBMCTotal.Text)
+
+
+                obj.Arr = New List(Of clsBMCTransporterBillDetail)
+                For Each grow As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsBMCTransporterBillDetail()
+                    objTr.MCC_Document_Code = clsCommon.myCstr(grow.Cells(colDocumentNo).Value)
+                    objTr.Station_1 = clsCommon.myCstr(grow.Cells(ColStation).Value)
+                    objTr.Station_2 = clsCommon.myCstr(grow.Cells(ColStation2).Value)
+                    objTr.Station_3 = clsCommon.myCstr(grow.Cells(ColStation3).Value)
+                    objTr.Station_4 = clsCommon.myCstr(grow.Cells(ColStation4).Value)
+                    objTr.Trip = clsCommon.myCdbl(grow.Cells(ColTrip).Value)
+                    objTr.GPS_KM = clsCommon.myCdbl(grow.Cells(ColGPSKM).Value)
+                    objTr.KM = clsCommon.myCdbl(grow.Cells(ColKM).Value)
+                    objTr.Quantity_KG = clsCommon.myCdbl(grow.Cells(ColQuantity).Value)
+                    objTr.Amount = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
+                    objTr.Diesel_RD = clsCommon.myCdbl(grow.Cells(ColDiesel).Value)
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colDocumentNo).Value)) > 0 Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
+
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    If Not isPost Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    End If
+                    'LoadData(obj.Document_Code, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub LoadData(ByVal strDocumentNo As String, NavType As common.NavigatorType)
+        Try
+            isNewEntry = False
+            btnSave.Enabled = True
+            btnPost.Enabled = True
+            btnDelete.Enabled = True
+            btnSave.Text = "Update"
+            txtDocNo.MyReadOnly = True
+            BlankAllControls()
+            LoadBlankGrid()
+
+            Dim obj As New clsBMCTransporterBill()
+            obj = clsBMCTransporterBill.GetData(strDocumentNo, NavType, True, Nothing)
+
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
+                If obj.Status = ERPTransactionStatus.Approved Then
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    btnDelete.Enabled = False
+                End If
+
+                UsLock1.Status = obj.Status
+                txtDocNo.Value = obj.Document_Code
+                txtDate.Value = obj.Document_Date
+                txtFromDate.Value = obj.From_Date
+                txtToDate.Value = obj.To_Date
+                txtTankerNo.Value = obj.Tanker_No
+                TxtTotalTollTax.Text = obj.Toll_Tax
+                TxtTotalIceCharge.Text = obj.Ice_Charge
+                txtFatShortage.Text = obj.Fat_Shortage
+                TxtSnfShortage.Text = obj.Snf_Shortage
+                TxtTotalFatSnfShortage.Text = obj.Fat_Snf_Shortage
+                TxtFatRate.Text = obj.Fat_Rate
+                TxtSnfRate.Text = obj.Snf_Rate
+                TxtBarelCap.Text = obj.Tanker_Capacity
+                TxtKMRate.Text = obj.KM_Rate
+                TxtTotalAmount.Text = obj.Total_Amount
+                TxtGrossAmount.Text = obj.Gross_Amount
+                txtDieselplus.Text = obj.Diesel_Rate_Plus
+                TxtDieselMinus.Text = obj.Diesel_Rate_Minus
+                TxtBMCDiesel.Text = obj.Total_Diesel
+                TxtBMCTotal.Text = obj.Total_Before_Calc
+                TxtBMCProrataamt.Text = obj.Prorata_Amt
+
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtDocNo.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        DeleteData()
+    End Sub
+
+    Sub DeleteData()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+            End If
+            If (clsBMCTransporterBill.DeleteData(txtDocNo.Value)) Then
+                saveCancelLog(Reason, "Delete", Nothing)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                AddNew()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+
+    Sub PostData()
+        Try
+            Dim msg As String = ""
+            Dim qry As String = ""
+            Dim dt As DataTable = Nothing
+            If (myMessages.postConfirm()) Then
+                If Not AllowToSave() Then
+                    Exit Sub
+                End If
+                SaveData(True)
+                If (clsBMCTransporterBill.PostData(txtDocNo.Value)) Then
+                    msg = "Successfully Posted"
+                End If
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
