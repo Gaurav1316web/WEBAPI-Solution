@@ -22,14 +22,14 @@ Partial Class FrmPaymentNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -63,6 +63,10 @@ Partial Class FrmPaymentNew
         Me.lblCurrency = New common.Controls.MyLabel()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.pnlLocation = New System.Windows.Forms.Panel()
+        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
+        Me.txtLocationPrefixName = New common.Controls.MyLabel()
+        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.pnlCform = New System.Windows.Forms.Panel()
         Me.chkCForm = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel18 = New common.Controls.MyLabel()
@@ -208,10 +212,6 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.pnlLocation = New System.Windows.Forms.Panel()
-        Me.RadLabel23 = New Telerik.WinControls.UI.RadLabel()
-        Me.txtLocationPrefixName = New common.Controls.MyLabel()
-        Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -249,6 +249,9 @@ Partial Class FrmPaymentNew
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        Me.pnlLocation.SuspendLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCform.SuspendLayout()
         CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -381,9 +384,6 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlLocation.SuspendLayout()
-        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -798,7 +798,7 @@ Partial Class FrmPaymentNew
         Me.txtConversionRate.TabIndex = 3
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtTotalPaymentBaseCurr
         '
@@ -825,7 +825,7 @@ Partial Class FrmPaymentNew
         Me.txtTotalPaymentBaseCurr.TabIndex = 9
         Me.txtTotalPaymentBaseCurr.Text = "0"
         Me.txtTotalPaymentBaseCurr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalPaymentBaseCurr.Value = 0R
+        Me.txtTotalPaymentBaseCurr.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -1010,6 +1010,61 @@ Partial Class FrmPaymentNew
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1212, 228)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'pnlLocation
+        '
+        Me.pnlLocation.Controls.Add(Me.RadLabel23)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
+        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
+        Me.pnlLocation.Location = New System.Drawing.Point(5, 203)
+        Me.pnlLocation.Name = "pnlLocation"
+        Me.pnlLocation.Size = New System.Drawing.Size(599, 23)
+        Me.pnlLocation.TabIndex = 12149
+        '
+        'RadLabel23
+        '
+        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
+        Me.RadLabel23.Name = "RadLabel23"
+        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
+        Me.RadLabel23.TabIndex = 12145
+        Me.RadLabel23.Text = "Location"
+        '
+        'txtLocationPrefixName
+        '
+        Me.txtLocationPrefixName.AutoSize = False
+        Me.txtLocationPrefixName.BorderVisible = True
+        Me.txtLocationPrefixName.FieldName = Nothing
+        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefixName.Location = New System.Drawing.Point(217, 3)
+        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
+        Me.txtLocationPrefixName.Size = New System.Drawing.Size(373, 18)
+        Me.txtLocationPrefixName.TabIndex = 12146
+        '
+        'txtLocationPrefix
+        '
+        Me.txtLocationPrefix.CalculationExpression = Nothing
+        Me.txtLocationPrefix.FieldCode = Nothing
+        Me.txtLocationPrefix.FieldDesc = Nothing
+        Me.txtLocationPrefix.FieldMaxLength = 0
+        Me.txtLocationPrefix.FieldName = Nothing
+        Me.txtLocationPrefix.isCalculatedField = False
+        Me.txtLocationPrefix.IsSourceFromTable = False
+        Me.txtLocationPrefix.IsSourceFromValueList = False
+        Me.txtLocationPrefix.IsUnique = False
+        Me.txtLocationPrefix.Location = New System.Drawing.Point(89, 2)
+        Me.txtLocationPrefix.MendatroryField = True
+        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationPrefix.MyLinkLable1 = Nothing
+        Me.txtLocationPrefix.MyLinkLable2 = Nothing
+        Me.txtLocationPrefix.MyReadOnly = False
+        Me.txtLocationPrefix.MyShowMasterFormButton = False
+        Me.txtLocationPrefix.Name = "txtLocationPrefix"
+        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
+        Me.txtLocationPrefix.ReferenceFieldName = Nothing
+        Me.txtLocationPrefix.ReferenceTableName = Nothing
+        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
+        Me.txtLocationPrefix.TabIndex = 12144
+        Me.txtLocationPrefix.Value = ""
         '
         'pnlCform
         '
@@ -1237,10 +1292,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeAdvanceType.IsSourceFromTable = False
         Me.ddlEmployeeAdvanceType.IsSourceFromValueList = False
         Me.ddlEmployeeAdvanceType.IsUnique = False
-        RadListDataItem5.Text = "Yes"
-        RadListDataItem6.Text = "No"
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem5)
-        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem1)
+        Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem2)
         Me.ddlEmployeeAdvanceType.Location = New System.Drawing.Point(980, 157)
         Me.ddlEmployeeAdvanceType.MendatroryField = True
         Me.ddlEmployeeAdvanceType.MyLinkLable1 = Me.MyLabel14
@@ -1325,10 +1380,10 @@ Partial Class FrmPaymentNew
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem1)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(982, 135)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -1490,7 +1545,7 @@ Partial Class FrmPaymentNew
         Me.txtNoOfEMI.TabIndex = 29
         Me.txtNoOfEMI.Text = "0"
         Me.txtNoOfEMI.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfEMI.Value = 0R
+        Me.txtNoOfEMI.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel11
         '
@@ -1528,7 +1583,7 @@ Partial Class FrmPaymentNew
         Me.txtInterestRate.TabIndex = 27
         Me.txtInterestRate.Text = "0"
         Me.txtInterestRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtInterestRate.Value = 0R
+        Me.txtInterestRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel8
         '
@@ -1768,7 +1823,7 @@ Partial Class FrmPaymentNew
         Me.txtBankCharges.TabIndex = 18
         Me.txtBankCharges.Text = "0"
         Me.txtBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBankCharges.Value = 0R
+        Me.txtBankCharges.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblLoadOutNo
         '
@@ -1833,7 +1888,7 @@ Partial Class FrmPaymentNew
         Me.txtPaymentAmt.TabIndex = 25
         Me.txtPaymentAmt.Text = "0"
         Me.txtPaymentAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPaymentAmt.Value = 0R
+        Me.txtPaymentAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'pnlVendor
         '
@@ -2421,7 +2476,8 @@ Partial Class FrmPaymentNew
         Me.gvDetails.MasterTemplate.EnableFiltering = True
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetails.MyExportFilePath = ""
         Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2741,7 +2797,8 @@ Partial Class FrmPaymentNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTaxDetail.MyExportFilePath = ""
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2768,7 +2825,8 @@ Partial Class FrmPaymentNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2916,7 +2974,8 @@ Partial Class FrmPaymentNew
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3104,61 +3163,6 @@ Partial Class FrmPaymentNew
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'pnlLocation
-        '
-        Me.pnlLocation.Controls.Add(Me.RadLabel23)
-        Me.pnlLocation.Controls.Add(Me.txtLocationPrefixName)
-        Me.pnlLocation.Controls.Add(Me.txtLocationPrefix)
-        Me.pnlLocation.Location = New System.Drawing.Point(5, 203)
-        Me.pnlLocation.Name = "pnlLocation"
-        Me.pnlLocation.Size = New System.Drawing.Size(599, 23)
-        Me.pnlLocation.TabIndex = 12149
-        '
-        'RadLabel23
-        '
-        Me.RadLabel23.Location = New System.Drawing.Point(3, 3)
-        Me.RadLabel23.Name = "RadLabel23"
-        Me.RadLabel23.Size = New System.Drawing.Size(49, 18)
-        Me.RadLabel23.TabIndex = 12145
-        Me.RadLabel23.Text = "Location"
-        '
-        'txtLocationPrefixName
-        '
-        Me.txtLocationPrefixName.AutoSize = False
-        Me.txtLocationPrefixName.BorderVisible = True
-        Me.txtLocationPrefixName.FieldName = Nothing
-        Me.txtLocationPrefixName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefixName.Location = New System.Drawing.Point(217, 3)
-        Me.txtLocationPrefixName.Name = "txtLocationPrefixName"
-        Me.txtLocationPrefixName.Size = New System.Drawing.Size(373, 18)
-        Me.txtLocationPrefixName.TabIndex = 12146
-        '
-        'txtLocationPrefix
-        '
-        Me.txtLocationPrefix.CalculationExpression = Nothing
-        Me.txtLocationPrefix.FieldCode = Nothing
-        Me.txtLocationPrefix.FieldDesc = Nothing
-        Me.txtLocationPrefix.FieldMaxLength = 0
-        Me.txtLocationPrefix.FieldName = Nothing
-        Me.txtLocationPrefix.isCalculatedField = False
-        Me.txtLocationPrefix.IsSourceFromTable = False
-        Me.txtLocationPrefix.IsSourceFromValueList = False
-        Me.txtLocationPrefix.IsUnique = False
-        Me.txtLocationPrefix.Location = New System.Drawing.Point(89, 2)
-        Me.txtLocationPrefix.MendatroryField = True
-        Me.txtLocationPrefix.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocationPrefix.MyLinkLable1 = Nothing
-        Me.txtLocationPrefix.MyLinkLable2 = Nothing
-        Me.txtLocationPrefix.MyReadOnly = False
-        Me.txtLocationPrefix.MyShowMasterFormButton = False
-        Me.txtLocationPrefix.Name = "txtLocationPrefix"
-        Me.txtLocationPrefix.ReferenceFieldDesc = Nothing
-        Me.txtLocationPrefix.ReferenceFieldName = Nothing
-        Me.txtLocationPrefix.ReferenceTableName = Nothing
-        Me.txtLocationPrefix.Size = New System.Drawing.Size(124, 18)
-        Me.txtLocationPrefix.TabIndex = 12144
-        Me.txtLocationPrefix.Value = ""
-        '
         'FrmPaymentNew
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3214,6 +3218,10 @@ Partial Class FrmPaymentNew
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        Me.pnlLocation.ResumeLayout(False)
+        Me.pnlLocation.PerformLayout()
+        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlCform.ResumeLayout(False)
         Me.pnlCform.PerformLayout()
         CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3356,10 +3364,6 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlLocation.ResumeLayout(False)
-        Me.pnlLocation.PerformLayout()
-        CType(Me.RadLabel23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLocationPrefixName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

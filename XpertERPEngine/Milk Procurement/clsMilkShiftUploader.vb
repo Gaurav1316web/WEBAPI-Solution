@@ -762,48 +762,48 @@ and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)
                     End If
 
                     objMilkSRNDetail.Service_Charge_Type = clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type"))
-                    '==================Head Load==========================
-                    Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
-                    Dim dclDistanceKM As Decimal = clsCommon.myCdbl(dtVLC.Rows(0)("DistanceKM_Head_Load"))
-                    If dclDistanceKM = 0 Then
-                        dclDistanceKM = 1
-                    End If
-                    Dim ExcluetHeadLoad As Boolean = False
-                    If clsCommon.myLen(objtr.Reject_Type) > 0 Then
-                        qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + objtr.Reject_Type + "' "
-                        ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
-                    End If
-                    If ExcluetHeadLoad Then
-                        objMilkSRNDetail.Head_Load_Rate = 0
-                        objMilkSRNDetail.Head_Load_Amount_Exact = 0
-                        objMilkSRNDetail.Head_Load_Amount = 0
-                        objMilkSRNDetail.Head_Load_Type = ""
-                    Else
-                        Dim objHeadLoad As New clsHeadLoadDCS()
-                        objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
-                        objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
-                        objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
-                        objMilkSRNDetail.Head_Load_Cycle = 0
-                        objMilkSRNDetail.Head_Load_Amount_Exact = 0
-                        If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
-                            If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
-                                objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
-                            End If
-                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
-                            If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
-                                objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
-                            End If
-                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
-                            objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency))
-                            objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
-                        ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
-                            objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
-                            objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
-                        End If
-                        objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Amount_Exact, 2)
-                    End If
+                    ''''==================Head Load==========================
+                    ''Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
+                    ''Dim dclDistanceKM As Decimal = clsCommon.myCdbl(dtVLC.Rows(0)("DistanceKM_Head_Load"))
+                    ''If dclDistanceKM = 0 Then
+                    ''    dclDistanceKM = 1
+                    ''End If
+                    ''Dim ExcluetHeadLoad As Boolean = False
+                    ''If clsCommon.myLen(objtr.Reject_Type) > 0 Then
+                    ''    qry = "select ISNULL(Exclude_Head,0) as Exclude_Head from TSPL_MILK_REJECT_TYPE where Code='" + objtr.Reject_Type + "' "
+                    ''    ExcluetHeadLoad = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+                    ''End If
+                    ''If ExcluetHeadLoad Then
+                    ''    objMilkSRNDetail.Head_Load_Rate = 0
+                    ''    objMilkSRNDetail.Head_Load_Amount_Exact = 0
+                    ''    objMilkSRNDetail.Head_Load_Amount = 0
+                    ''    objMilkSRNDetail.Head_Load_Type = ""
+                    ''Else
+                    ''    Dim objHeadLoad As New clsHeadLoadDCS()
+                    ''    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNHead.VLC_CODE, dtShiftDate, trans)
+                    ''    objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
+                    ''    objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                    ''    objMilkSRNDetail.Head_Load_Cycle = 0
+                    ''    objMilkSRNDetail.Head_Load_Amount_Exact = 0
+                    ''    If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
+                    ''        If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
+                    ''            objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                    ''        End If
+                    ''    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                    ''        If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
+                    ''            objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 6)
+                    ''        End If
+                    ''    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CK") = CompairStringResult.Equal Then
+                    ''        objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty, objHeadLoad.Cycle_Frequency))
+                    ''        objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
+                    ''    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "CL") = CompairStringResult.Equal Then
+                    ''        objMilkSRNDetail.Head_Load_Cycle = Math.Ceiling(clsCommon.myCDivide(objMilkSRNDetail.ACC_Qty_LTR, objHeadLoad.Cycle_Frequency))
+                    ''        objMilkSRNDetail.Head_Load_Amount_Exact = Math.Round(objMilkSRNDetail.Head_Load_Cycle * objHeadLoad.Head_Load_Rate, 6)
+                    ''    End If
+                    ''    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.Head_Load_Amount_Exact, 2)
+                    ''End If
 
-                    '============================================
+                    ''''============================================
                     '==================Own Asset==========================
                     If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
                         objMilkSRNDetail.Own_Asset_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.Own_Asset_Rate, 2)

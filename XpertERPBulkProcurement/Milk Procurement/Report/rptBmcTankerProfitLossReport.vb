@@ -48,17 +48,31 @@ Public Class rptBmcTankerProfitLossReport
  
   select max(zzzz.DocumentDate)DocumentDate,max(Route_Code)Route_Code,max(tanker_no)tanker_no,sum(zzzz.QTY)Entered_Qty 
  ,sum([FAT(Kg)])[FAT(Kg)],sum(Entered_SNFKg)Entered_SNFKg,
-  cast(SUM([FAT(Kg)])*100/ SUM(QTY) as decimal (10,2))as Entered_Qty_snf,
-  CAST	(Sum(Entered_SNFKg)*100/SUM(qty) as decimal(10,2)) as Entered_Qty_fat
+  cast(SUM([FAT(Kg)])*100/ SUM(QTY) as decimal (10,2))as Entered_Qty_fat,
+  CAST	(Sum(Entered_SNFKg)*100/SUM(qty) as decimal(10,2)) as Entered_Qty_snf
  ,sum(Original_Qty)Original_Qty,sum(Original_FATKg)Original_FATKg,sum(Original_SNFKg)Original_SNFKg,
- cast(SUM(Original_FATKg)*100/ SUM(Original_Qty)as decimal(10,2))as [SNF(%)],
-  cast(SUM(Original_SNFKg)*100/ SUM(Original_Qty)as decimal(10,2))as [Fat(%)],
+ cast(SUM(Original_FATKg)*100/ SUM(Original_Qty)as decimal(10,2)) as [Fat(%)],
+  cast(SUM(Original_SNFKg)*100/ SUM(Original_Qty)as decimal(10,2))as [SNF(%)],
  sum(FLUSING)FLUSING
  ,sum(FATKG)FATKG,sum(SNFKG)SNFKG,
- 	(sum(Original_FATKg) * 0.25/100) + sum(FATKG) as ADJFATKG,
-	(sum(Original_SNFKg) * 0.25/100) + sum(SNFKG) as ADJSNFKG,
-	(sum(Original_FATKg) * 0.25/100) + sum(FATKG) as ADJFATKG1,
-	(sum(Original_SNFKg) * 0.25/100) + sum(SNFKG) as ADJSNFKG1
+ 
+ CASE
+    WHEN (SUM(Original_FATKg) *  0.25 / 100) + SUM(FATKG) > 0 THEN 0
+    ELSE (SUM(Original_FATKg) *  0.25 / 100) + SUM(FATKG)
+  END AS ADJFATKG,
+		 CASE
+    WHEN (SUM(Original_SNFKg) *  0.25 / 100) + SUM(SNFKG) > 0 THEN 0
+    ELSE (SUM(Original_SNFKg) *  0.25 / 100) + SUM(SNFKG)
+  END AS ADJSNFKG,
+  		 CASE
+    WHEN (SUM(Original_FATKg) *  0.25 / 100) + SUM(FATKG) > 0 THEN 0
+    ELSE (SUM(Original_FATKg) *  0.25/ 100) + SUM(FATKG)
+  END AS ADJFATKG1,
+		 CASE
+    WHEN (SUM(Original_SNFKg) * 0.25 / 100) + SUM(SNFKG) > 0 THEN 0
+    ELSE (SUM(Original_SNFKg) *  0.25 / 100) + SUM(SNFKG)
+  END AS ADJSNFKG1
+
  ,max(trip_no)trip_no,max(temp)temp,max(MonthNumber)MonthNumber,max(Description)Description
  from 
 

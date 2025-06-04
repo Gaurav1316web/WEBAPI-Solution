@@ -28877,7 +28877,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Saving", "INTEGER NULL")
             coll.Add("TDS_Provision", "INTEGER not null default 0")
             coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, False, "", "Payment_No", "Payment_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, True, "", "Payment_No", "Payment_Date", True)
             '' PJC tables ends here
 
             coll = New Dictionary(Of String, String)()
@@ -28911,7 +28911,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Comment", "varchar(100) NULL")
             coll.Add("Hirerachy_Level_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
             coll.Add("Cost_Center_Fin_Code", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_HEADER", "Payment_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_DETAIL", coll, Nothing, True, True, "TSPL_PAYMENT_HEADER", "Payment_No", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Payment_No", "Varchar(30) not null References TSPL_PAYMENT_HEADER(Payment_No)")
