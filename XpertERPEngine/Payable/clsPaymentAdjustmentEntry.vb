@@ -171,6 +171,48 @@ Public Class clsPaymentAdjustmentEntry
         End Try
         Return True
     End Function
+    Public Shared Function funPaymentAdjEntryPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrDocNo As String) As Boolean
+        Dim TSPL_Payment_Adjustment_Detail As String = Nothing
+        Dim TSPL_Payment_Adjustment_Header As String = Nothing
+        If isCancel Then
+            TSPL_Payment_Adjustment_Header = "TSPL_Payment_Adjustment_Header_cancel_data"
+
+            TSPL_Payment_Adjustment_Detail = "TSPL_Payment_Adjustment_Detail_Cancel_Data"
+        Else
+            TSPL_Payment_Adjustment_Detail = "TSPL_Payment_Adjustment_Detail"
+            TSPL_Payment_Adjustment_Header = "TSPL_Payment_Adjustment_Header"
+        End If
+
+        If clsCommon.myLen(StrDocNo) > 0 Then
+            Dim qry As String
+            qry = "select "
+            If isCancel Then
+                qry += " 'Cancelled' As Report_Status, "
+            Else
+                qry += " '' As Report_Status, "
+            End If
+            qry += "finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select case when xx.Is_Post='Y' then 'Y' else 'N' end as Is_Post  , xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Vendor_No ,xx.Vendor_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " &
+                  " (SELECT " + TSPL_Payment_Adjustment_Header + ".Is_Post,  " + TSPL_Payment_Adjustment_Detail + ".Adjustment_No  ,Adjustment_Date," + TSPL_Payment_Adjustment_Header + ".Vendor_No ,(select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code =" + TSPL_Payment_Adjustment_Header + ".Vendor_No )as Vendor_Name," + TSPL_Payment_Adjustment_Detail + ".Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt," + TSPL_Payment_Adjustment_Header + " .Comp_Code," + TSPL_Payment_Adjustment_Header + " .Doc_No  FROM " + TSPL_Payment_Adjustment_Detail + " left outer join " + TSPL_Payment_Adjustment_Header + " on  " + TSPL_Payment_Adjustment_Detail + ".Adjustment_No = " + TSPL_Payment_Adjustment_Header + " .Adjustment_No   where " + TSPL_Payment_Adjustment_Detail + ".Adjustment_No ='" + StrDocNo + "'" &
+                   " union all " &
+                   " select " + TSPL_Payment_Adjustment_Header + ".Is_Post, " + TSPL_Payment_Adjustment_Header + ".Adjustment_No ," + TSPL_Payment_Adjustment_Header + ".Adjustment_Date  ," + TSPL_Payment_Adjustment_Header + ".Vendor_No,(select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code =" + TSPL_Payment_Adjustment_Header + ".Vendor_No )as Vendor_Name,(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code  =TSPL_VENDOR_MASTER.Vendor_Account) as Acct,(select Description from TSPL_GL_ACCOUNTS where Account_Code =(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code =TSPL_VENDOR_MASTER.Vendor_Account))as AcctDesc,0 as DbtAmt," + TSPL_Payment_Adjustment_Header + ".Adjustment_Amount as CrAmt ," + TSPL_Payment_Adjustment_Header + " .Comp_Code," + TSPL_Payment_Adjustment_Header + " .Doc_No from " + TSPL_Payment_Adjustment_Header + " left outer join TSPL_VENDOR_MASTER on " + TSPL_Payment_Adjustment_Header + ".Vendor_No =TSPL_VENDOR_MASTER.Vendor_Code where Adjustment_No ='" + StrDocNo + "' ) as xx )as finalQry left outer join TSPL_COMPANY_MASTER on finalQry .Comp_Code =TSPL_COMPANY_MASTER .Comp_Code "
+            Try
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                Else
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
+                    frmCRV = Nothing
+                End If
+            Catch ex As Exception
+                myMessages.myExceptions(ex)
+            End Try
+
+
+        End If
+        Return True
+
+    End Function
     Public Shared Function DeleteData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
@@ -179,6 +221,8 @@ Public Class clsPaymentAdjustmentEntry
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "TSPL_Payment_Adjustment_Detail", "Adjustment_No", trans)
+
             Dim qry As String = ""
             qry = "delete from TSPL_Payment_Adjustment_Detail where Adjustment_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

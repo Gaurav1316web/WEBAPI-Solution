@@ -356,12 +356,12 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             'gv1.Columns("Document_No").HeaderText = "Document No."
 
             gv1.Columns("DocumentDate").IsVisible = True
-                gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
+            gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
 
 
-                'gv1.Columns("DocumentDate").IsVisible = True
-                'gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
-                gv1.Columns("MonthNumber").IsVisible = False
+            'gv1.Columns("DocumentDate").IsVisible = True
+            'gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
+            gv1.Columns("MonthNumber").IsVisible = False
             gv1.Columns("MonthNumber").HeaderText = "Month Number"
 
             If rbtTotal.IsChecked Then
@@ -431,6 +431,8 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
 
 
 
+            'gv1.Columns("ADJFATKG1").VisibleInColumnChooser = True
+            'gv1.Columns("ADJSNFKG1").VisibleInColumnChooser = True
 
             gv1.Columns("ADJFATKG1").IsVisible = False
             gv1.Columns("ADJFATKG1").HeaderText = "FAT(KG)"
@@ -445,12 +447,16 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
                 gv1.Columns("ADJSNFKG1").IsVisible = True
                 gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
             Else
-                gv1.Columns("ADJSNFKG1").IsVisible = True
-                gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
-                gv1.Columns("ADJFATKG").VisibleInColumnChooser = True
+                'gv1.Columns("ADJSNFKG1").IsVisible = False
+                'gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
+                'gv1.Columns("ADJFATKG").IsVisible = True
+                'gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
+                'gv1.Columns("ADJSNFKG").IsVisible = True
+                'gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+                gv1.Columns("ADJFATKG").IsVisible = False
                 gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
-                gv1.Columns("ADJSNFKG").VisibleInColumnChooser = True
-                gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+                gv1.Columns("ADJSNFKG1").IsVisible = False
+                gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
             End If
 
 
@@ -543,8 +549,12 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FATKG").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SNFKG").Name)
 
+            If rbtDetail.IsChecked Then
+                view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
+            Else
+                view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
+            End If
             view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJFATKG").Name)
 
@@ -671,9 +681,9 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
     Private Sub rbtTotal_Click(sender As Object, e As EventArgs) Handles rbtTotal.Click
 
         txtRoute.Enabled = False
-            MyLabel3.Enabled = False
-            txtTanker.Enabled = False
-            MyLabel2.Enabled = False
+        MyLabel3.Enabled = False
+        txtTanker.Enabled = False
+        MyLabel2.Enabled = False
 
     End Sub
 
@@ -690,4 +700,8 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
         txtTanker.Enabled = True
         MyLabel2.Enabled = True
     End Sub
+
+
+
+
 End Class
