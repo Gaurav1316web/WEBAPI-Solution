@@ -241,9 +241,9 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_
 
 
                     If rbtnNonTaxable.Checked Then
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
+                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
                     Else
-                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
+                        Qry += " and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
                     End If
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
