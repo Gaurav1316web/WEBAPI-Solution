@@ -23,13 +23,13 @@ Partial Class FrmUserMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblUserCode = New common.Controls.MyLabel()
         Me.lblUserType = New common.Controls.MyLabel()
         Me.lbl1 = New common.Controls.MyLabel()
@@ -116,8 +116,10 @@ Partial Class FrmUserMaster
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.fndLabel4 = New common.UserControls.txtFinder()
         Me.btnSarasPro = New Telerik.WinControls.UI.RadButton()
+        Me.txtProSaras = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.btnSarasOrder = New Telerik.WinControls.UI.RadButton()
+        Me.txtOrderSaras = New common.UserControls.txtMultiSelectFinder()
         Me.fndEmployeeCode = New common.UserControls.txtFinder()
         Me.lblEmployeeCode = New common.Controls.MyLabel()
         Me.txtEmployeeName = New common.Controls.MyTextBox()
@@ -138,8 +140,6 @@ Partial Class FrmUserMaster
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.txtProSaras = New common.UserControls.txtMultiSelectFinder()
-        Me.txtOrderSaras = New common.UserControls.txtMultiSelectFinder()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -343,16 +343,16 @@ Partial Class FrmUserMaster
         Me.ddlUserType.IsSourceFromTable = False
         Me.ddlUserType.IsSourceFromValueList = False
         Me.ddlUserType.IsUnique = False
-        RadListDataItem6.Text = "Level1"
-        RadListDataItem7.Text = "Level2"
-        RadListDataItem8.Text = "Level3"
-        RadListDataItem9.Text = "Level4"
-        RadListDataItem10.Text = "Level5"
-        Me.ddlUserType.Items.Add(RadListDataItem6)
-        Me.ddlUserType.Items.Add(RadListDataItem7)
-        Me.ddlUserType.Items.Add(RadListDataItem8)
-        Me.ddlUserType.Items.Add(RadListDataItem9)
-        Me.ddlUserType.Items.Add(RadListDataItem10)
+        RadListDataItem1.Text = "Level1"
+        RadListDataItem2.Text = "Level2"
+        RadListDataItem3.Text = "Level3"
+        RadListDataItem4.Text = "Level4"
+        RadListDataItem5.Text = "Level5"
+        Me.ddlUserType.Items.Add(RadListDataItem1)
+        Me.ddlUserType.Items.Add(RadListDataItem2)
+        Me.ddlUserType.Items.Add(RadListDataItem3)
+        Me.ddlUserType.Items.Add(RadListDataItem4)
+        Me.ddlUserType.Items.Add(RadListDataItem5)
         Me.ddlUserType.Location = New System.Drawing.Point(192, 154)
         Me.ddlUserType.MendatroryField = False
         Me.ddlUserType.MyLinkLable1 = Nothing
@@ -1354,6 +1354,7 @@ Partial Class FrmUserMaster
         'btnnew
         '
         Me.btnnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnnew.Image = Global.XpertERPEngine.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnnew.Location = New System.Drawing.Point(306, 4)
         Me.btnnew.Name = "btnnew"
@@ -1398,6 +1399,20 @@ Partial Class FrmUserMaster
         Me.btnSarasPro.TabIndex = 408
         Me.btnSarasPro.Text = "Logout Saras Pro"
         '
+        'txtProSaras
+        '
+        Me.txtProSaras.arrDispalyMember = Nothing
+        Me.txtProSaras.arrValueMember = Nothing
+        Me.txtProSaras.Location = New System.Drawing.Point(21, 1)
+        Me.txtProSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtProSaras.MyLinkLable1 = Me.MyLabel16
+        Me.txtProSaras.MyLinkLable2 = Nothing
+        Me.txtProSaras.MyNullText = "All"
+        Me.txtProSaras.Name = "txtProSaras"
+        Me.txtProSaras.Size = New System.Drawing.Size(75, 19)
+        Me.txtProSaras.TabIndex = 430
+        Me.txtProSaras.Visible = False
+        '
         'MyLabel16
         '
         Me.MyLabel16.FieldName = Nothing
@@ -1418,6 +1433,20 @@ Partial Class FrmUserMaster
         Me.btnSarasOrder.Size = New System.Drawing.Size(117, 23)
         Me.btnSarasOrder.TabIndex = 407
         Me.btnSarasOrder.Text = "Logout Saras Order"
+        '
+        'txtOrderSaras
+        '
+        Me.txtOrderSaras.arrDispalyMember = Nothing
+        Me.txtOrderSaras.arrValueMember = Nothing
+        Me.txtOrderSaras.Location = New System.Drawing.Point(26, 1)
+        Me.txtOrderSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtOrderSaras.MyLinkLable1 = Me.MyLabel16
+        Me.txtOrderSaras.MyLinkLable2 = Nothing
+        Me.txtOrderSaras.MyNullText = "All"
+        Me.txtOrderSaras.Name = "txtOrderSaras"
+        Me.txtOrderSaras.Size = New System.Drawing.Size(75, 19)
+        Me.txtOrderSaras.TabIndex = 431
+        Me.txtOrderSaras.Visible = False
         '
         'fndEmployeeCode
         '
@@ -1670,7 +1699,7 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(113.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(698, 475)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(711, 597)
         Me.RadPageViewPage2.Text = "Customer Mapping"
         '
         'gvCustomer
@@ -1688,14 +1717,14 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCustomer.ShowGroupPanel = False
         Me.gvCustomer.ShowHeaderCellButtons = True
-        Me.gvCustomer.Size = New System.Drawing.Size(698, 475)
+        Me.gvCustomer.Size = New System.Drawing.Size(711, 597)
         Me.gvCustomer.TabIndex = 1
         Me.gvCustomer.TabStop = False
         Me.gvCustomer.VarID = ""
@@ -1706,7 +1735,7 @@ Partial Class FrmUserMaster
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(87.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(698, 495)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(711, 597)
         Me.RadPageViewPage3.Text = "User Mapping"
         '
         'gvUser
@@ -1724,14 +1753,14 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.AllowDeleteRow = False
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvUser.MyExportFilePath = ""
         Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
         Me.gvUser.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvUser.ShowGroupPanel = False
         Me.gvUser.ShowHeaderCellButtons = True
-        Me.gvUser.Size = New System.Drawing.Size(698, 495)
+        Me.gvUser.Size = New System.Drawing.Size(711, 597)
         Me.gvUser.TabIndex = 2
         Me.gvUser.TabStop = False
         Me.gvUser.VarID = ""
@@ -1754,34 +1783,6 @@ Partial Class FrmUserMaster
         Me.RadButton1.Size = New System.Drawing.Size(134, 23)
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
-        '
-        'txtProSaras
-        '
-        Me.txtProSaras.arrDispalyMember = Nothing
-        Me.txtProSaras.arrValueMember = Nothing
-        Me.txtProSaras.Location = New System.Drawing.Point(21, 1)
-        Me.txtProSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtProSaras.MyLinkLable1 = Me.MyLabel16
-        Me.txtProSaras.MyLinkLable2 = Nothing
-        Me.txtProSaras.MyNullText = "All"
-        Me.txtProSaras.Name = "txtProSaras"
-        Me.txtProSaras.Size = New System.Drawing.Size(75, 19)
-        Me.txtProSaras.TabIndex = 430
-        Me.txtProSaras.Visible = False
-        '
-        'txtOrderSaras
-        '
-        Me.txtOrderSaras.arrDispalyMember = Nothing
-        Me.txtOrderSaras.arrValueMember = Nothing
-        Me.txtOrderSaras.Location = New System.Drawing.Point(26, 1)
-        Me.txtOrderSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtOrderSaras.MyLinkLable1 = Me.MyLabel16
-        Me.txtOrderSaras.MyLinkLable2 = Nothing
-        Me.txtOrderSaras.MyNullText = "All"
-        Me.txtOrderSaras.Name = "txtOrderSaras"
-        Me.txtOrderSaras.Size = New System.Drawing.Size(75, 19)
-        Me.txtOrderSaras.TabIndex = 431
-        Me.txtOrderSaras.Visible = False
         '
         'FrmUserMaster
         '

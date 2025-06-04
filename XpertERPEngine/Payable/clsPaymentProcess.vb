@@ -1738,7 +1738,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             ")xx inner join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=xx.Payment_No"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''UpdateAR Invoice balance amount for MCC Sale/MCC Sale Return
-            qry = "update TSPL_Customer_Invoice_Head set Balance_Amt=xx.BalanceAmt from (" + Environment.NewLine +
+            qry = "update TSPL_Customer_Invoice_Head set Balance_Amt=Balance_Amt+xx.BalanceAmt from (" + Environment.NewLine +
             " select AR_Invoice_No,(Amount-Reduce_Deduc_Amt) as BalanceAmt  from TSPL_PAYMENT_PROCESS_MCC_SALE where Doc_No='" + strDocNo + "'" + Environment.NewLine +
             " union all " + Environment.NewLine +
             " select AR_Invoice_No,(Amount-Reduce_Deduc_Amt) as BalanceAmt  from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN where Doc_No='" + strDocNo + "' " + Environment.NewLine +
