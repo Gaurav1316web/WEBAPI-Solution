@@ -41,6 +41,9 @@ Public Class clsBulkRoutMaster
         Dim qry1 As String = "Delete from TSPL_BULK_ROUTE_MASTER_MCC where ROUTE_NO='" & obj.ROUTE_NO & "' "
         clsDBFuncationality.ExecuteNonQuery(qry1, trans)
 
+        Dim qry2 As String = "Delete from TSPL_BULK_ROUTE_MASTER_LOCATION where BULK_ROUTE_No='" & obj.ROUTE_NO & "' "
+        clsDBFuncationality.ExecuteNonQuery(qry2, trans)
+
         qry1 = clsDBFuncationality.getSingleValue("Select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" & obj.ROUTE_NO & "' ", trans)
         If clsCommon.myLen(qry1) > 0 Then
             isNewEntry = False
@@ -220,6 +223,7 @@ Public Class clsBulkRoutdetail
                     clsCommon.AddColumnsForChange(colm, "BULK_ROUTE_no", strCode)
                     clsCommon.AddColumnsForChange(colm, "Location_Code", obj.Location_Code, True)
                     clsCommon.AddColumnsForChange(colm, "Distance", obj.Distance, True)
+
                     clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULK_ROUTE_MASTER_Location", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If

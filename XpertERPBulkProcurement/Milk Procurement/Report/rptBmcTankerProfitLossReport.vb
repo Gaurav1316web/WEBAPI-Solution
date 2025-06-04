@@ -449,10 +449,14 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             Else
                 'gv1.Columns("ADJSNFKG1").IsVisible = False
                 'gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
-                gv1.Columns("ADJFATKG").IsVisible = True
+                'gv1.Columns("ADJFATKG").IsVisible = True
+                'gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
+                'gv1.Columns("ADJSNFKG").IsVisible = True
+                'gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+                gv1.Columns("ADJFATKG").IsVisible = False
                 gv1.Columns("ADJFATKG").HeaderText = "FAT(KG)"
-                gv1.Columns("ADJSNFKG").IsVisible = True
-                gv1.Columns("ADJSNFKG").HeaderText = "SNF(KG)"
+                gv1.Columns("ADJSNFKG1").IsVisible = False
+                gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
             End If
 
 
