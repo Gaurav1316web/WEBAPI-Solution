@@ -321,13 +321,11 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
         Dim objTr As New clsPaymentDetail()
         Dim isProgressBarShownLocal As Boolean = False
         Dim arrARForSameMCCSaleAndReturn As New Dictionary(Of String, Decimal)
-
         Try
             If obj.ArrPPDetail IsNot Nothing And obj.ArrPPDetail.Count > 0 Then
                 If obj.isPrePosted = 0 Then
                     Throw New Exception("Transaction should be Pre posted")
                 End If
-
                 DisCCodeForArAdj = clsFixedParameter.GetData(clsFixedParameterType.DiscountCodeForArAdj, clsFixedParameterCode.DiscountCodeForArAdj, trans)
                 If clsCommon.myLen(DisCCodeForArAdj) <= 0 Then
                     Throw New Exception("Please Map Discount code from Sale setting")
@@ -567,13 +565,12 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                             objPayAdj.SaveData(objPayAdj, True, trans)
                                             clsPaymentAdjustmentEntry.FunPost(objPayAdj.Adjustment_No, trans)
                                             arrCreditNoteAdjustAmt.Add(DocNo, tAmt)
-                                            If AmtToAdjustInCreditNote = 0 Then
-                                                Exit For
-                                            End If
+                                            'If AmtToAdjustInCreditNote = 0 Then
+                                            '    Exit For
+                                            'End If
                                         End If
                                     End If
                                 End If
-
                             End If
                         End If
 
@@ -4452,7 +4449,7 @@ Public Class clsPaymentProcessDeduction
                 For i = 0 To arr.Count - 1
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Doc_No", DocNo)
-                    clsCommon.AddColumnsForChange(coll, "SLNO", arr.Item(i).SLNO)
+                    clsCommon.AddColumnsForChange(coll, "SLNO", i + 1)
                     clsCommon.AddColumnsForChange(coll, "AP_Invoice_No", arr.Item(i).AP_Invoice_No)
                     clsCommon.AddColumnsForChange(coll, "AP_Invoice_Date", arr.Item(i).AP_Invoice_Date)
                     clsCommon.AddColumnsForChange(coll, "Vendor_CODE", arr.Item(i).Vendor_CODE)
