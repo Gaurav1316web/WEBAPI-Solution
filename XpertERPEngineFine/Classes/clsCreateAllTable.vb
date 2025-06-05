@@ -5715,7 +5715,7 @@ Public Class clsCreateAllTable
             coll.Add("TapalNo", "VARCHAR(100) NULL")
             coll.Add("FarmerInVendor", "varchar(20) null")
             coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Head", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Head", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) References TSPL_VCGL_Head(Document_No)")
@@ -5728,7 +5728,7 @@ Public Class clsCreateAllTable
             coll.Add("GL_Account_Code", "varchar(50) null")
             coll.Add("GL_Account_Desc", "varchar(100) null")
             coll.Add("Remarks", "varchar(200) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Detail", coll, Nothing, True, False, "TSPL_VCGL_Head", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Detail", coll, Nothing, True, True, "TSPL_VCGL_Head", "Document_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("JOB_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY")

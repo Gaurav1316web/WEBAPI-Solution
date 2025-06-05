@@ -58,6 +58,49 @@ Public Class frmVCGLEntry
 
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_No", "varchar(30) not null Primary Key")
+        coll.Add("Description", "varchar(500) Null")
+        coll.Add("Document_Date", "Datetime not null")
+        coll.Add("Document_Type", "char(2) not null")
+        coll.Add("Location_Segment", "varchar(10) not null")
+        coll.Add("VC_Code", "varchar(20) not null")
+        coll.Add("VC_Name", "varchar(200) null")
+        coll.Add("Remarks", "varchar(200) null")
+        coll.Add("Posting_Date", "Datetime null")
+        coll.Add("Tot_Dr_Amount", "decimal(18, 2) NULL")
+        coll.Add("Tot_Cr_Amount", "decimal(18, 2) NULL")
+        coll.Add("Amount_Type", "char(2) not null")
+        coll.Add("Amount", "decimal(18, 2) NULL")
+        coll.Add("On_Hold", "integer not null default 0")
+        coll.Add("Status", "integer not null default 0")
+        coll.Add("GL_Account_Code", "varchar(50) null")
+        coll.Add("Is_Empty", "Integer not null default 0")
+        coll.Add("Created_By", "varchar(12) null")
+        coll.Add("Created_Date", "Datetime not null")
+        coll.Add("Modify_By", "varchar(12) null")
+        coll.Add("Modify_Date", "Datetime not null")
+        coll.Add("Comp_Code", "varchar(12) null")
+        coll.Add("DateAndTime", "DATETIME NULL")
+        coll.Add("TapalNo", "VARCHAR(100) NULL")
+        coll.Add("FarmerInVendor", "varchar(20) null")
+        coll.Add("Location_Code_Prefix", " VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Head", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_No", "varchar(30) References TSPL_VCGL_Head(Document_No)")
+        coll.Add("Line_No", "integer null")
+        coll.Add("Row_Type", "varchar(10) not null")
+        coll.Add("VCGL_Code", "varchar(50) null")
+        coll.Add("VCGL_Name", "varchar(100) null")
+        coll.Add("Dr_Amount", "decimal(18, 2) NULL")
+        coll.Add("Cr_Amount", "decimal(18, 2) NULL")
+        coll.Add("GL_Account_Code", "varchar(50) null")
+        coll.Add("GL_Account_Desc", "varchar(100) null")
+        coll.Add("Remarks", "varchar(200) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VCGL_Detail", coll, Nothing, True, True, "TSPL_VCGL_Head", "Document_No", "", True)
         'Dim coll As Dictionary(Of String, String)
         'coll = New Dictionary(Of String, String)()
         'coll.Add("FarmerInVendor", "varchar(20) null")
@@ -957,24 +1000,27 @@ Public Class frmVCGLEntry
                 common.clsCommon.MyMessageBoxShow(Me, "Select the Document No.", Me.Text)
                 Exit Sub
             End If
+
             Dim CompAdd As String = clsDBFuncationality.getSingleValue("select top(1) Add1+' '+Add2+' '+Add3  from TSPL_LOCATION_MASTER  where Location_Type ='Physical' and Loc_Segment_Code  = '" + LocSeg + "' ")
-            Dim qry As String
-            qry = " select TSPL_VCGL_Head.GL_Account_Code,TSPL_GL_ACCOUNTS.Description AS GL_Account_Desc ,tspl_location_master.add1 as Loc_Add1,tspl_location_master.Add2 as Loc_Add2,tspl_location_master.add3 as Loc_Add3, Document_No, TSPL_VCGL_Head.description,convert(varchar(12),Document_Date,103) as date,Location_Segment as unit,VC_Code vccode,VC_Name as vcname,Remarks ,case when Amount_Type='Cr' then Amount else 0 end as Debit,case when Amount_Type='Dr' then Amount else 0 end as credit,TSPL_VCGL_Head.Created_By,TSPL_COMPANY_MASTER.Comp_Name,tspl_company_Master.add1 +case when len(tspl_company_Master.add2)>0 then ', '+tspl_company_Master.add2 else '' end +case when LEN(isnull(tspl_company_Master.Add3,''))>0 then ', '+isnull(tspl_company_Master.Add3,'') else ' ' end as Add1,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 " & _
-                  " ,TSPL_VCGL_Head.TapalNo,TSPL_VCGL_Head.DateAndTime from TSPL_VCGL_Head LEFT OUTER JOIN TSPL_GL_ACCOUNTS  ON TSPL_GL_ACCOUNTS.Account_Code =TSPL_VCGL_Head.GL_Account_Code left outer join TSPL_COMPANY_MASTER on TSPL_VCGL_Head.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code" & _
-                    " left outer join tspl_location_master on tspl_location_master.Location_Code =TSPL_VCGL_Head.location_segment  " & _
-                  " where Document_No='" + StrCode + "' " & _
-                  " union all " & _
-                  " select TSPL_VCGL_Detail.GL_Account_Code ,TSPL_VCGL_Detail.GL_Account_Desc , tspl_location_master.add1 as Loc_Add1,tspl_location_master.Add2 as Loc_Add2,tspl_location_master.add3 as Loc_Add3,  TSPL_VCGL_Detail.Document_No, description,convert(varchar(12),TSPL_VCGL_Head.Document_Date,103) as date,TSPL_VCGL_Head.Location_Segment as unit,TSPL_VCGL_Detail.VCGL_Code as vccode,TSPL_VCGL_Detail.VCGL_Name as vcname,TSPL_VCGL_Detail.Remarks,Dr_Amount as Debit ,Cr_Amount as Credit,TSPL_VCGL_Head.Created_By,TSPL_COMPANY_MASTER.Comp_Name,'" + CompAdd + "' as Add1,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_VCGL_Head.TapalNo,TSPL_VCGL_Head.DateAndTime   from TSPL_VCGL_Detail  " & _
-                  " left outer join TSPL_VCGL_Head on TSPL_VCGL_Detail.Document_No=TSPL_VCGL_Head.Document_No  " & _
-                  " left outer join TSPL_COMPANY_MASTER on TSPL_VCGL_Head.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  " & _
-                   " left outer join tspl_location_master on tspl_location_master.Location_Code =TSPL_VCGL_Head.location_segment  " & _
-                  " where TSPL_VCGL_Head.Document_No='" + StrCode + "' "
+            clsVCGLHead.funVCGLPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, CompAdd)
+
+            'Dim qry As String
+            'qry = " select TSPL_VCGL_Head.GL_Account_Code,TSPL_GL_ACCOUNTS.Description AS GL_Account_Desc ,tspl_location_master.add1 as Loc_Add1,tspl_location_master.Add2 as Loc_Add2,tspl_location_master.add3 as Loc_Add3, Document_No, TSPL_VCGL_Head.description,convert(varchar(12),Document_Date,103) as date,Location_Segment as unit,VC_Code vccode,VC_Name as vcname,'' as Remarks ,case when Amount_Type='Cr' then Amount else 0 end as Debit,case when Amount_Type='Dr' then Amount else 0 end as credit,TSPL_VCGL_Head.Created_By,TSPL_COMPANY_MASTER.Comp_Name,tspl_company_Master.add1 +case when len(tspl_company_Master.add2)>0 then ', '+tspl_company_Master.add2 else '' end +case when LEN(isnull(tspl_company_Master.Add3,''))>0 then ', '+isnull(tspl_company_Master.Add3,'') else ' ' end as Add1,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 " &
+            '      " ,TSPL_VCGL_Head.TapalNo,TSPL_VCGL_Head.DateAndTime from TSPL_VCGL_Head LEFT OUTER JOIN TSPL_GL_ACCOUNTS  ON TSPL_GL_ACCOUNTS.Account_Code =TSPL_VCGL_Head.GL_Account_Code left outer join TSPL_COMPANY_MASTER on TSPL_VCGL_Head.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code" &
+            '        " left outer join tspl_location_master on tspl_location_master.Location_Code =TSPL_VCGL_Head.location_segment  " &
+            '      " where Document_No='" + StrCode + "' " &
+            '      " union all " &
+            '      " select TSPL_VCGL_Detail.GL_Account_Code ,TSPL_VCGL_Detail.GL_Account_Desc , tspl_location_master.add1 as Loc_Add1,tspl_location_master.Add2 as Loc_Add2,tspl_location_master.add3 as Loc_Add3,  TSPL_VCGL_Detail.Document_No, description,convert(varchar(12),TSPL_VCGL_Head.Document_Date,103) as date,TSPL_VCGL_Head.Location_Segment as unit,TSPL_VCGL_Detail.VCGL_Code as vccode,TSPL_VCGL_Detail.VCGL_Name as vcname,TSPL_VCGL_Detail.Remarks,Dr_Amount as Debit ,Cr_Amount as Credit,TSPL_VCGL_Head.Created_By,TSPL_COMPANY_MASTER.Comp_Name,'" + CompAdd + "' as Add1,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_VCGL_Head.TapalNo,TSPL_VCGL_Head.DateAndTime   from TSPL_VCGL_Detail  " &
+            '      " left outer join TSPL_VCGL_Head on TSPL_VCGL_Detail.Document_No=TSPL_VCGL_Head.Document_No  " &
+            '      " left outer join TSPL_COMPANY_MASTER on TSPL_VCGL_Head.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  " &
+            '       " left outer join tspl_location_master on tspl_location_master.Location_Code =TSPL_VCGL_Head.location_segment  " &
+            '      " where TSPL_VCGL_Head.Document_No='" + StrCode + "' "
 
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "VCGLVoucher", "Journal Voucher")
-            frmCRV = Nothing
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'Dim frmCRV As New frmCrystalReportViewer()
+            'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, dt, "VCGLVoucher", "Journal Voucher")
+            'frmCRV = Nothing
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

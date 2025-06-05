@@ -33,7 +33,41 @@ Public Class clsJournalEntryHeader
     Public ProgramCode As String = ""
 
 #End Region
+    Public Shared Function funJournalEntryPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
+        Dim TSPL_JOURNAL_MASTER As String = Nothing
+        Dim TSPL_JOURNAL_DETAILS As String = Nothing
+        If isCancel Then
+            TSPL_JOURNAL_MASTER = "TSPL_JOURNAL_MASTER_cancel_data"
+            TSPL_JOURNAL_DETAILS = "TSPL_JOURNAL_DETAILS_cancel_data"
+        Else
+            TSPL_JOURNAL_MASTER = "TSPL_JOURNAL_MASTER"
+            TSPL_JOURNAL_DETAILS = "TSPL_JOURNAL_DETAILS"
+        End If
+        Dim strQuery As String = "  SELECT " + TSPL_JOURNAL_MASTER + ".Source_Narration, "
+        If isCancel Then
+            strQuery += " 'Cancelled' As Report_Status, "
+        Else
+            strQuery += " '' As Report_Status, "
+        End If
+        strQuery += "" + TSPL_JOURNAL_MASTER + ".Source_Type, " + TSPL_JOURNAL_MASTER + ".CustVend_Code,CASE WHEN ISNULL(" + TSPL_JOURNAL_MASTER + ".Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(" + TSPL_JOURNAL_MASTER + ".Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME ELSE " + TSPL_JOURNAL_MASTER + ".CustVend_Name end AS CustVend_Name, " + TSPL_JOURNAL_MASTER + ".Voucher_No,  convert(varchar(15)," + TSPL_JOURNAL_MASTER + ".Voucher_Date,103) as Voucher_Date,     case when  " + TSPL_JOURNAL_MASTER + ".CustVend_Code='' then   " + TSPL_JOURNAL_MASTER + ".Voucher_Desc else " + TSPL_JOURNAL_MASTER + ".Voucher_Desc+'  for ' +" + TSPL_JOURNAL_MASTER + ".CustVend_Code+' - '+  CASE WHEN ISNULL(" + TSPL_JOURNAL_MASTER + ".Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(" + TSPL_JOURNAL_MASTER + ".Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME  end end as Voucher_Desc, " &
+            "   " + TSPL_JOURNAL_MASTER + ".Source_Code," + TSPL_JOURNAL_MASTER + ".Source_Desc, " + TSPL_JOURNAL_MASTER + ".Source_doc_No,convert(varchar(15)," + TSPL_JOURNAL_MASTER + ".Source_Doc_Date,103) as Source_Doc_Date," + TSPL_JOURNAL_MASTER + ".Posting_Date, " + TSPL_JOURNAL_MASTER + ".Total_Debit_Amt, " &
+            "   " + TSPL_JOURNAL_MASTER + ".Total_Credit_Amt, " + TSPL_JOURNAL_DETAILS + ".Account_code, " + TSPL_JOURNAL_DETAILS + ".Account_Desc,  " &
+            "   " + TSPL_JOURNAL_DETAILS + ".Amount ,case when Amount>=0 then  Amount else 0 end as DrAmt,case when Amount<0 then -1 * Amount else 0 end as CrAmt, " + TSPL_JOURNAL_DETAILS + ".Description, " + TSPL_JOURNAL_DETAILS + ".Reference,  " &
+            "   " + TSPL_JOURNAL_DETAILS + ".Posting_Date AS [Dtline PostDt], " + TSPL_JOURNAL_DETAILS + ".Detail_Line_No, " &
+            " " + TSPL_JOURNAL_MASTER + ".Created_By, Case When Authorized='A' Then " + TSPL_JOURNAL_MASTER + ".Modify_By else '' End as Modify_By, TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 ,(SELECT     CASE WHEN " + TSPL_JOURNAL_MASTER + ".Authorized = 'N' THEN 'OPEN' WHEN " + TSPL_JOURNAL_MASTER + ".Authorized = 'A' THEN 'Authorize' END" &
+            "  AS Expr1) AS Status, " + TSPL_JOURNAL_MASTER + ".Remarks ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name, TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as HIRERACHY_LEVEL " &
+            "  ," + TSPL_JOURNAL_MASTER + ".TapalNo," + TSPL_JOURNAL_MASTER + ".DateAndTime FROM         " + TSPL_JOURNAL_MASTER + " INNER JOIN " + TSPL_JOURNAL_DETAILS + " ON " + TSPL_JOURNAL_MASTER + ".Journal_No = " + TSPL_JOURNAL_DETAILS + ".Journal_No  " &
+            "  AND  " + TSPL_JOURNAL_MASTER + ".Voucher_No = " + TSPL_JOURNAL_DETAILS + ".Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =" + TSPL_JOURNAL_MASTER + ".Comp_Code   left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=" + TSPL_JOURNAL_DETAILS + ".Cost_Centre_Code " &
+            " left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code=" + TSPL_JOURNAL_DETAILS + ".Hirerachy_Code " &
+            "  left outer join  tspl_customer_master on tspl_customer_master.cust_code  =" + TSPL_JOURNAL_MASTER + ".CustVend_Code" &
+            " left outer join  TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_CODE  =" + TSPL_JOURNAL_MASTER + ".CustVend_Code " &
+            " where " + TSPL_JOURNAL_MASTER + ".Voucher_No = '" + StrCode + "'  order by Detail_Line_No "
 
+        Dim frmCRV As New frmCrystalReportViewer()
+        frmCRV.funreport(Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
+        frmCRV = Nothing
+        Return True
+    End Function
     Public Shared Function fnAutoGenerateNo(ByVal trans As SqlTransaction, ByVal TranDate As Date) As String
         Return fnAutoGenerateNo(trans, TranDate, False, "")
     End Function

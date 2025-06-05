@@ -187,7 +187,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "','" + clsUserMgtCode.FrmVendorService + "','" + clsUserMgtCode.ReceiptEntry + "','" + clsUserMgtCode.PaymentEntryNew + "','" + clsUserMgtCode.PaymentAdjustmentEntry + "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "','" + clsUserMgtCode.FrmVendorService + "','" + clsUserMgtCode.ReceiptEntry + "','" + clsUserMgtCode.PaymentEntryNew + "','" + clsUserMgtCode.PaymentAdjustmentEntry + "','" + clsUserMgtCode.journalEntry + "','" + clsUserMgtCode.mbtnVCGLEntry + "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -208,7 +208,7 @@ from TSPL_PROGRAM_MASTER
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
-and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModuleFixedAsset + "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "','" + clsUserMgtCode.ModuleProductSale + "','" + clsUserMgtCode.ModuleSaleDairy + "','" + clsUserMgtCode.ModuleJobWorkInWard + "','" + clsUserMgtCode.ModuleMaterial + "','" + clsUserMgtCode.ModulePurchase + "','" + clsUserMgtCode.ModuleSalesNew + "','" + clsUserMgtCode.ModuleService + "','" + clsUserMgtCode.ModuleReceivable + "','" + clsUserMgtCode.ModulePayable + "') 
+and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModuleFixedAsset + "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "','" + clsUserMgtCode.ModuleProductSale + "','" + clsUserMgtCode.ModuleSaleDairy + "','" + clsUserMgtCode.ModuleJobWorkInWard + "','" + clsUserMgtCode.ModuleMaterial + "','" + clsUserMgtCode.ModulePurchase + "','" + clsUserMgtCode.ModuleSalesNew + "','" + clsUserMgtCode.ModuleService + "','" + clsUserMgtCode.ModuleReceivable + "','" + clsUserMgtCode.ModulePayable + "','" + clsUserMgtCode.ModuleGL + "') 
 and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
  "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -464,6 +464,25 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                  " From TSPL_Payment_Adjustment_Header_cancel_data  " &
                  " Where Convert(Date, TSPL_Payment_Adjustment_Header_cancel_data.Adjustment_Date,103) >= Convert(Date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_Payment_Adjustment_Header_cancel_data.Adjustment_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
                  " ORDER BY TSPL_Payment_Adjustment_Header_cancel_data.Adjustment_Date, TSPL_Payment_Adjustment_Header_cancel_data.Adjustment_No "
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.journalEntry) = CompairStringResult.Equal Then
+            qry = "Select TSPL_JOURNAL_MASTER_Cancel_Data.Voucher_No as [Document Id] " &
+                 ",convert(varchar,TSPL_JOURNAL_MASTER_Cancel_Data.Voucher_Date ,103) as [Document Date], " &
+                 "'' as [Location Code], '' as [Location Name],TSPL_JOURNAL_MASTER_Cancel_Data.Created_By as [Created By] " &
+                 ", convert(varchar,TSPL_JOURNAL_MASTER_Cancel_Data.Created_Date,103) as [Created Date] ,'' as Description,TSPL_JOURNAL_MASTER_Cancel_Data.Cancel_By as [Cancelled By],convert(varchar,TSPL_JOURNAL_MASTER_Cancel_Data.Cancel_On,103) as [Cancelled Date]  " &
+                 " From TSPL_JOURNAL_MASTER_Cancel_Data  " &
+                 " Where Convert(Date, TSPL_JOURNAL_MASTER_Cancel_Data.Voucher_Date,103) >= Convert(Date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_JOURNAL_MASTER_Cancel_Data.Voucher_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
+                 " ORDER BY TSPL_JOURNAL_MASTER_Cancel_Data.Voucher_Date, TSPL_JOURNAL_MASTER_Cancel_Data.Voucher_No "
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnVCGLEntry) = CompairStringResult.Equal Then
+            qry = "Select TSPL_VCGL_Head_CANCEL_DATA.Document_No as [Document Id] " &
+                 ",convert(varchar,TSPL_VCGL_Head_CANCEL_DATA.Document_Date ,103) as [Document Date], " &
+                 "'' as [Location Code], '' as [Location Name],TSPL_VCGL_Head_CANCEL_DATA.Created_By as [Created By] " &
+                 ", convert(varchar,TSPL_VCGL_Head_CANCEL_DATA.Created_Date,103) as [Created Date] ,'' as Description,TSPL_VCGL_Head_CANCEL_DATA.Cancel_By as [Cancelled By],convert(varchar,TSPL_VCGL_Head_CANCEL_DATA.Cancel_On,103) as [Cancelled Date]  " &
+                 " From TSPL_VCGL_Head_CANCEL_DATA  " &
+                 " Where Convert(Date, TSPL_VCGL_Head_CANCEL_DATA.Document_Date,103) >= Convert(Date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_VCGL_Head_CANCEL_DATA.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
+                 " ORDER BY TSPL_VCGL_Head_CANCEL_DATA.Document_Date, TSPL_VCGL_Head_CANCEL_DATA.Document_No "
+
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -585,6 +604,10 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                 clsPaymentHeader.funPaymentEntyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.PaymentAdjustmentEntry) = CompairStringResult.Equal Then
                 clsPaymentAdjustmentEntry.funPaymentAdjEntryPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.journalEntry) = CompairStringResult.Equal Then
+                clsJournalEntryHeader.funJournalEntryPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnVCGLEntry) = CompairStringResult.Equal Then
+                clsVCGLHead.funVCGLPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing)
 
             End If
         Catch ex As Exception

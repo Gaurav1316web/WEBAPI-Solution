@@ -584,6 +584,8 @@ Public Class frmJournalEntry
         If btnSave.Text = "Save" AndAlso clsCommon.myLen(FormID) <= 0 Then
             Return
         Else
+            clsJournalEntryHeader.funJournalEntryPrint(MyBase.Form_ID, False, dtVoucher.Value, fndVoucher.Value)
+
             ''Dim strQuery As String = " SELECT TSPL_JOURNAL_MASTER.Voucher_No, TSPL_JOURNAL_MASTER.Voucher_Date, TSPL_JOURNAL_MASTER.Voucher_Desc, " & _
             ''        "   TSPL_JOURNAL_MASTER.Source_Code, TSPL_JOURNAL_MASTER.Source_doc_No,TSPL_JOURNAL_MASTER.Posting_Date, TSPL_JOURNAL_MASTER.Total_Debit_Amt, " & _
             ''        "   TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Account_code, TSPL_JOURNAL_DETAILS.Account_Desc,  " & _
@@ -596,25 +598,25 @@ Public Class frmJournalEntry
 
 
             ''RICHA KDI/11/07/18-000401 PICK CUSTOMER OR VENDOR NAME FROM THEIR MASTER TABLE
-            Dim strQuery As String = "  SELECT TSPL_JOURNAL_MASTER.Source_Narration, TSPL_JOURNAL_MASTER.Source_Type, TSPL_JOURNAL_MASTER.CustVend_Code,CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME ELSE TSPL_JOURNAL_MASTER.CustVend_Name end AS CustVend_Name, TSPL_JOURNAL_MASTER.Voucher_No,  convert(varchar(15),TSPL_JOURNAL_MASTER.Voucher_Date,103) as Voucher_Date,     case when  TSPL_JOURNAL_MASTER.CustVend_Code='' then   TSPL_JOURNAL_MASTER.Voucher_Desc else TSPL_JOURNAL_MASTER.Voucher_Desc+'  for ' +TSPL_JOURNAL_MASTER.CustVend_Code+' - '+  CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME  end end as Voucher_Desc, " &
-            "   TSPL_JOURNAL_MASTER.Source_Code,TSPL_JOURNAL_MASTER.Source_Desc, TSPL_JOURNAL_MASTER.Source_doc_No,convert(varchar(15),TSPL_JOURNAL_MASTER.Source_Doc_Date,103) as Source_Doc_Date,TSPL_JOURNAL_MASTER.Posting_Date, TSPL_JOURNAL_MASTER.Total_Debit_Amt, " &
-            "   TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Account_code, TSPL_JOURNAL_DETAILS.Account_Desc,  " &
-            "   TSPL_JOURNAL_DETAILS.Amount ,case when Amount>=0 then  Amount else 0 end as DrAmt,case when Amount<0 then -1 * Amount else 0 end as CrAmt, TSPL_JOURNAL_DETAILS.Description, TSPL_JOURNAL_DETAILS.Reference,  " &
-            "   TSPL_JOURNAL_DETAILS.Posting_Date AS [Dtline PostDt], TSPL_JOURNAL_DETAILS.Detail_Line_No, " &
-            " TSPL_JOURNAL_MASTER.Created_By, Case When Authorized='A' Then TSPL_JOURNAL_MASTER.Modify_By else '' End as Modify_By, TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 ,(SELECT     CASE WHEN TSPL_JOURNAL_MASTER.Authorized = 'N' THEN 'OPEN' WHEN TSPL_JOURNAL_MASTER.Authorized = 'A' THEN 'Authorize' END" &
-            "  AS Expr1) AS Status, TSPL_JOURNAL_MASTER.Remarks ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name, TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as HIRERACHY_LEVEL " &
-            "  ,TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime FROM         TSPL_JOURNAL_MASTER INNER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No  " &
-            "  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code   left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_JOURNAL_DETAILS.Cost_Centre_Code " &
-            " left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code=TSPL_JOURNAL_DETAILS.Hirerachy_Code " &
-            "  left outer join  tspl_customer_master on tspl_customer_master.cust_code  =TSPL_JOURNAL_MASTER.CustVend_Code" &
-            " left outer join  TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_CODE  =TSPL_JOURNAL_MASTER.CustVend_Code " &
-            " where TSPL_JOURNAL_MASTER.Voucher_No = '" + StrCode + "'  order by Detail_Line_No "
+            'Dim strQuery As String = "  SELECT TSPL_JOURNAL_MASTER.Source_Narration, TSPL_JOURNAL_MASTER.Source_Type, TSPL_JOURNAL_MASTER.CustVend_Code,CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME ELSE TSPL_JOURNAL_MASTER.CustVend_Name end AS CustVend_Name, TSPL_JOURNAL_MASTER.Voucher_No,  convert(varchar(15),TSPL_JOURNAL_MASTER.Voucher_Date,103) as Voucher_Date,     case when  TSPL_JOURNAL_MASTER.CustVend_Code='' then   TSPL_JOURNAL_MASTER.Voucher_Desc else TSPL_JOURNAL_MASTER.Voucher_Desc+'  for ' +TSPL_JOURNAL_MASTER.CustVend_Code+' - '+  CASE WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='C' THEN TSPL_CUSTOMER_MASTER.CUSTOMER_NAME  WHEN ISNULL(TSPL_JOURNAL_MASTER.Source_Type,'')='V' THEN TSPL_VENDOR_MASTER.VENDOR_NAME  end end as Voucher_Desc, " &
+            '"   TSPL_JOURNAL_MASTER.Source_Code,TSPL_JOURNAL_MASTER.Source_Desc, TSPL_JOURNAL_MASTER.Source_doc_No,convert(varchar(15),TSPL_JOURNAL_MASTER.Source_Doc_Date,103) as Source_Doc_Date,TSPL_JOURNAL_MASTER.Posting_Date, TSPL_JOURNAL_MASTER.Total_Debit_Amt, " &
+            '"   TSPL_JOURNAL_MASTER.Total_Credit_Amt, TSPL_JOURNAL_DETAILS.Account_code, TSPL_JOURNAL_DETAILS.Account_Desc,  " &
+            '"   TSPL_JOURNAL_DETAILS.Amount ,case when Amount>=0 then  Amount else 0 end as DrAmt,case when Amount<0 then -1 * Amount else 0 end as CrAmt, TSPL_JOURNAL_DETAILS.Description, TSPL_JOURNAL_DETAILS.Reference,  " &
+            '"   TSPL_JOURNAL_DETAILS.Posting_Date AS [Dtline PostDt], TSPL_JOURNAL_DETAILS.Detail_Line_No, " &
+            '" TSPL_JOURNAL_MASTER.Created_By, Case When Authorized='A' Then TSPL_JOURNAL_MASTER.Modify_By else '' End as Modify_By, TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 ,(SELECT     CASE WHEN TSPL_JOURNAL_MASTER.Authorized = 'N' THEN 'OPEN' WHEN TSPL_JOURNAL_MASTER.Authorized = 'A' THEN 'Authorize' END" &
+            '"  AS Expr1) AS Status, TSPL_JOURNAL_MASTER.Remarks ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code ,TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Name, TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code,TSPL_HIRERACHY_LEVEL_MASTER.Description as HIRERACHY_LEVEL " &
+            '"  ,TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime FROM         TSPL_JOURNAL_MASTER INNER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Journal_No = TSPL_JOURNAL_DETAILS.Journal_No  " &
+            '"  AND  TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No  left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code  =TSPL_JOURNAL_MASTER.Comp_Code   left outer join TSPL_COST_CENTRE_FINANCIAL on TSPL_COST_CENTRE_FINANCIAL.Cost_Center_Fin_Code=TSPL_JOURNAL_DETAILS.Cost_Centre_Code " &
+            '" left outer join TSPL_HIRERACHY_LEVEL_MASTER on TSPL_HIRERACHY_LEVEL_MASTER.Hirerachy_Code=TSPL_JOURNAL_DETAILS.Hirerachy_Code " &
+            '"  left outer join  tspl_customer_master on tspl_customer_master.cust_code  =TSPL_JOURNAL_MASTER.CustVend_Code" &
+            '" left outer join  TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_CODE  =TSPL_JOURNAL_MASTER.CustVend_Code " &
+            '" where TSPL_JOURNAL_MASTER.Voucher_No = '" + StrCode + "'  order by Detail_Line_No "
 
 
 
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
-            frmCRV = Nothing
+            'Dim frmCRV As New frmCrystalReportViewer()
+            'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.GeneralLedger, clsDBFuncationality.GetDataTable(strQuery), "crptGLVoucher", "Journal Voucher Report")
+            'frmCRV = Nothing
         End If
     End Sub
     Public Sub PrintDataAll(ByVal StrCode As String, ByVal StrSourceDocCode As String)
@@ -1269,6 +1271,7 @@ Public Class frmJournalEntry
     Public Sub funDelete()
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, fndVoucher.Value, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
 
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_DETAILS_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
             connectSql.RunSpTransaction(trans, "sp_TSPL_JOURNAL_MASTER_DELETE", New SqlParameter("@Voucher_No", fndVoucher.Value))
