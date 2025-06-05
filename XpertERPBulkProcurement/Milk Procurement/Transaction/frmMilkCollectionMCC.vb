@@ -59,6 +59,9 @@ Public Class frmMilkCollectionMCC
     Dim arrExistCols As New List(Of String)
     Dim dtDefault As DataTable = Nothing
 
+    Dim settSNFDecimalPlace As Integer = 0
+    Dim settFATDecimalPlace As Integer = 0
+
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
     Public Sub SetUserMgmtNew()
@@ -117,6 +120,10 @@ Public Class frmMilkCollectionMCC
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         SettShowSampleNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, Nothing)) = 1)
         SettShowTemprature = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, Nothing)) = 1)
+
+        settFATDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, Nothing))
+        settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, Nothing))
+
         MyBase.SetUserMgmt(MyBase.Form_ID)
         If clsCommon.CompairString(clsUserMgtCode.MilkCollectionMCCGateEntry, MyBase.Form_ID) = CompairStringResult.Equal Then
             intFormType = 2
@@ -668,7 +675,7 @@ Public Class frmMilkCollectionMCC
 
         gv1.MasterTemplate.Columns.Add(repoNumBox)
         repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n2}"
+        repoNumBox.FormatString = "{0:n" + clsCommon.myCstr(settFATDecimalPlace) + "}"
         repoNumBox.HeaderText = "FAT %"
         repoNumBox.Name = colFATPer
         repoNumBox.Width = 100
@@ -676,14 +683,14 @@ Public Class frmMilkCollectionMCC
         repoNumBox.Maximum = 15
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
+        repoNumBox.DecimalPlaces = settFATDecimalPlace
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 0) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n2}"
+        repoNumBox.FormatString = "{0:n" + clsCommon.myCstr(settSNFDecimalPlace) + "}"
         repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "CLR %", "SNF %")
         repoNumBox.Name = colSNFPer
         repoNumBox.Width = 100
@@ -691,7 +698,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 15)
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
+        repoNumBox.DecimalPlaces = settSNFDecimalPlace
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 0) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
