@@ -27036,7 +27036,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Is_JobWork", "integer not null default 0")
             coll.Add("Against_Transfer_In_Return_Doc_No", "Varchar(30) null ")
             coll.Add("Against_PurchaseReturn_No", "Varchar(30) null References TSPL_PR_HEAD(PR_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_HEADER", coll, Nothing, True, False, "", "Adjustment_No", "Adjustment_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_HEADER", coll, Nothing, True, True, "", "Adjustment_No", "Adjustment_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Adjustment_No", "varchar(30)  NOT NULL")
@@ -27079,7 +27079,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("MCC_Price_Code", "Varchar(30) null References TSPL_MILK_PRICE_MASTER(Price_Code)")
             coll.Add("Bulk_Price_Code", "Varchar(30) null References TSPL_Bulk_Price_MASTER(Price_Code)")
             coll.Add("Bin_No", "varchar(50) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_DETAIL", coll, Nothing, True, False, "TSPL_ADJUSTMENT_HEADER", "Adjustment_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_DETAIL", coll, Nothing, True, True, "TSPL_ADJUSTMENT_HEADER", "Adjustment_No", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Type", "varchar(50) null")
