@@ -42,7 +42,36 @@ Public Class clsMilkCollectionMCC
     Public Remark As String
 
 
-
+    Public Shared Function funCancelPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
+        Dim TSPL_MILK_COLLECTION_MCC As String = Nothing
+        Dim TSPL_MILK_COLLECTION_MCC_DETAIL As String = Nothing
+        If isCancel Then
+            TSPL_MILK_COLLECTION_MCC = "TSPL_MILK_COLLECTION_MCC_cancel_data"
+            TSPL_MILK_COLLECTION_MCC_DETAIL = "TSPL_MILK_COLLECTION_MCC_DETAIL_cancel_data"
+        Else
+            TSPL_MILK_COLLECTION_MCC = "TSPL_MILK_COLLECTION_MCC"
+            TSPL_MILK_COLLECTION_MCC_DETAIL = "TSPL_MILK_COLLECTION_MCC_DETAIL"
+        End If
+        Dim qry = " select TSPL_COMPANY_MASTER.Comp_Code , "
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+        qry += "TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pan_No ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email ," + TSPL_MILK_COLLECTION_MCC + ".Document_No,convert (varchar, " + TSPL_MILK_COLLECTION_MCC + ".Document_Date,103) as Document_Date, " + TSPL_MILK_COLLECTION_MCC + ".Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME , " + TSPL_MILK_COLLECTION_MCC + ".Tanker_No, " + TSPL_MILK_COLLECTION_MCC + ".Vehicle_No , " + TSPL_MILK_COLLECTION_MCC + ".Entered_Qty , " + TSPL_MILK_COLLECTION_MCC + ".Entered_FATKg, " + TSPL_MILK_COLLECTION_MCC + ".Entered_SNFKg , " + TSPL_MILK_COLLECTION_MCC + ".Status , " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".SNo , " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".MCC_Code , TSPL_MCC_MASTER.MCC_NAME," + TSPL_MILK_COLLECTION_MCC_DETAIL + ".Milk_Type, " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".Qty , " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".FAT , " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".SNF , " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".FATKG , " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".SNFKG
+                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from " + TSPL_MILK_COLLECTION_MCC_DETAIL + " 
+                        left outer join " + TSPL_MILK_COLLECTION_MCC + " on " + TSPL_MILK_COLLECTION_MCC + ".Document_No = " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".Document_No
+                        left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code = " + TSPL_MILK_COLLECTION_MCC + ".Created_By
+                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_USER_MASTER.Comp_Code
+                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = " + TSPL_MILK_COLLECTION_MCC + ".Route_Code
+                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = " + TSPL_MILK_COLLECTION_MCC_DETAIL + ".MCC_Code
+                         where " + TSPL_MILK_COLLECTION_MCC + ".Document_No = '" + StrCode + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim frmCRV As New frmCrystalReportViewer()
+        frmCRV.funreport(Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(strDate))
+        frmCRV = Nothing
+        Return True
+    End Function
 
 #End Region
 
@@ -227,6 +256,8 @@ where 2=2"
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_COLLECTION_MCC", "Document_No", "TSPL_MILK_COLLECTION_MCC_DETAIL", "Document_No", trans)
+
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_MILK_COLLECTION_MCC set operation_type='Deleted' where Document_No='" + strCode + "'", trans)
             HistoryUpdate(strCode, trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strCode + "'", trans)
