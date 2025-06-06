@@ -238,6 +238,182 @@ Public Class FrmReceipttNew
 
     Private Sub FrmReceipt_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            Dim coll As Dictionary(Of String, String)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("UnApplied_Balance", "decimal(18,2) null")
+            coll.Add("UnApplied_No", "varchar(30) Null ")
+            coll.Add("Payer", "Varchar(100) null")
+            coll.Add("FIFO_Balance", "Decimal(18,2) not null default 0.00")
+            coll.Add("QuickEntryNo", "varchar(30) Null ")
+            coll.Add("SecurityDeposit", "char(1) not null default 'N' ")
+            coll.Add("IsRecoCleared", "char(1) not Null default 'N' ")
+            coll.Add("IsChkReverse", "char(1) not Null default 'N' ")
+            coll.Add("IsSalesmanType", "char(1) not Null default 'N' ")
+            coll.Add("Salesman_Code", "varchar(30) Null ")
+            coll.Add("Salesman_Name", "varchar(200) Null ")
+            coll.Add("Cheque_From", "varchar(100) Null ")
+            coll.Add("Loadout_No", "varchar(30) Null ")
+
+            coll.Add("CURRENCY_CODE", "VARCHAR(30) NOT NULL DEFAULT 'INR' REFERENCES TSPL_CURRENCY_MASTER(CURRENCY_CODE) ")
+            coll.Add("ConvRate", "Decimal(18,6) NOT NULL DEFAULT 1")
+            coll.Add("ApplicableFrom", "DATE NULL")
+            coll.Add("BASE_CURRENCY_CODE", "VARCHAR(30)  NOT NULL DEFAULT 'INR' REFERENCES TSPL_CURRENCY_MASTER(CURRENCY_CODE) ")
+            coll.Add("RECEIVED_AMOUNT_BASE_CURRENCY", "Decimal(18,2) NOT NULL DEFAULT 0")
+            coll.Add("EXCHANGE_LOSS_AMT", "Decimal(18,2) NOT NULL DEFAULT 0")
+            coll.Add("EXCHANGE_GAIN_AMT", "Decimal(18,2) NOT NULL DEFAULT 0")
+            coll.Add("EXCHANGE_LOSS_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+            coll.Add("EXCHANGE_GAIN_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+            coll.Add("ConvRateOld", "Decimal(18,6) NOT NULL DEFAULT 1")
+
+            coll.Add("CFormRecd", "char(1)  Null default 'N'")
+            coll.Add("CForm_InvoiceNo", "varchar(30) Null ")
+            coll.Add("PROJECT_ID", "Varchar(30) NULL References TSPL_PJC_PROJECT(PROJECT_CODE)")
+            coll.Add("IsParentCust", "int NOT NULL DEFAULT 0")
+            coll.Add("CHECK_PRINT", "INT Not Null default 0")
+            coll.Add("CHECK_CODE", "VARCHAR(30) NULL REFERENCES TSPL_BANK_CHECK_PRINTING(CHECK_CODE)")
+            coll.Add("AUTO_GEN_BT_ENTRY", "BIT Not Null default 0")
+            coll.Add("TO_BANK_CODE", "VARCHAR(12)  null REFERENCES TSPL_BANK_MASTER(BANK_CODE)")
+            coll.Add("Transfer_No", "VARCHAR(30)  null REFERENCES TSPL_BANK_TRANSFER(Transfer_No)")
+            coll.Add("From_Branch", "VARCHAR(50) NULL ")
+            coll.Add("memorandum_amt", "float NOT NULL DEFAULT 0")
+            coll.Add("Applied_Receipt", "VARCHAR(30) NOT NULL Default '' ")
+            coll.Add("SaleOrderNo", "Varchar(30) null References TSPL_SD_SALES_ORDER_HEAD(Document_Code)")
+            coll.Add("SecurityDepositType", "char(1)  Null ")
+            coll.Add("Against_CSA_Transfer_Code", "varchar(30) NULL")
+            coll.Add("Booking_Code", "Varchar(30) null References TSPL_BOOKING_MASTER_PRODUCTSALE(Document_Code)")
+            coll.Add("Location_GL_Code", "varchar(12) NULL")
+            coll.Add("is_Opening", "integer not null default 0")
+            coll.Add("Receipt_No", "varchar(30)  NOT NULL PRIMARY KEY ")
+            coll.Add("Receipt_Date", "date NULL")
+            coll.Add("Receipt_Post_Date", "date NULL")
+            coll.Add("Entry_Desc", "varchar(500) NULL")
+            coll.Add("Bank_Code", "varchar(12)  NOT NULL REFERENCES TSPL_BANK_MASTER (BANK_CODE)")
+            coll.Add("Receipt_Type", "char(1)  NOT NULL")
+            coll.Add("Cust_Code", "varchar(12)  NOT NULL")
+            coll.Add("Customer_Name", "varchar(50)  NOT NULL")
+            coll.Add("Reference", "varchar(100) NULL")
+            coll.Add("Narration", "varchar(200) NULL")
+            coll.Add("Payment_Code", "varchar(12)  NOT NULL")
+            coll.Add("Cheque_No", "varchar(20) NULL")
+            coll.Add("Cheque_Date", "varchar(10) NULL")
+            coll.Add("Receipt_Amount", "decimal (18,2)  NOT NULL")
+            coll.Add("Cust_Account", "varchar(12)  NOT NULL")
+            coll.Add("Apply_By", "varchar(30) NULL")
+            coll.Add("Apply_To", "varchar(30) NULL")
+            coll.Add("Posted", "char(1) NULL")
+            coll.Add("Created_By", "varchar(12)  NOT NULL")
+            coll.Add("Created_Date", "varchar(50)  NOT NULL")
+            coll.Add("Modify_By", "varchar(12)  NOT NULL")
+            coll.Add("Modify_Date", "varchar(10)  NOT NULL")
+            coll.Add("Level1_User_code", "varchar(12) NULL")
+            coll.Add("Level2_User_code", "varchar(12) NULL")
+            coll.Add("Level3_User_code", "varchar(12) NULL")
+            coll.Add("Level4_User_code", "varchar(12) NULL")
+            coll.Add("Level5_User_code", "varchar(12) NULL")
+            coll.Add("Comp_Code", "varchar(8)  NOT NULL")
+            coll.Add("Balance_Amt", "decimal (18,2) NULL")
+            coll.Add("Document_No", "varchar(100) NULL")
+            coll.Add("UnApply_Amt", "decimal (18,2) NULL")
+            coll.Add("Dr_Account", "varchar(50) NULL")
+            coll.Add("Cr_Account", "varchar(50) NULL")
+            coll.Add("Foreign_Bank_Charges_Amt", "float not null default 0")
+            coll.Add("Bank_Charges_Amt", "float not null default 0")
+            coll.Add("OTP", "varchar(12) NULL")
+            coll.Add("Distr_Code", "varchar(12) null REFERENCES TSPL_SECONDARY_CUSTOMER_MASTER(Cust_Code)")
+            coll.Add("IsApplyDocAuto", "int not null default 0")
+            coll.Add("Delivery_Code_PS", "Varchar(30) null")
+            coll.Add("Tax_Group", "varchar(12) NULL")
+            coll.Add("Delivery_order_Amount", "float not null default 0")
+            coll.Add("Tax_Amount_Advance", "float not null default 0")
+            coll.Add("DO_Total_Add_Amount", "float not null default 0")
+            coll.Add("TAX1", "varchar(12) NULL")
+            coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX1_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX2", "varchar(12) NULL")
+            coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX2_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX3", "varchar(12) NULL")
+            coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX3_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX4", "varchar(12) NULL")
+            coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX4_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX5", "varchar(12) NULL")
+            coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX5_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX6", "varchar(12) NULL")
+            coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX7", "varchar(12) NULL")
+            coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX8", "varchar(12) NULL")
+            coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX9", "varchar(12) NULL")
+            coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX10", "varchar(12) NULL")
+            coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+            coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
+            coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+            coll.Add("SO_Location_Code", "Varchar(12) NULL References TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("ReceiptAgainstSO_DO", "varchar(5) NULL")
+            coll.Add("cheque_in_favour_of", "varchar(500) NULL")
+            coll.Add("AC_Payee", "INT Null default 0")
+            coll.Add("Set_Off_Date", "Datetime NULL")
+            coll.Add("SetOffSkipJE", "Bit Null ")
+            coll.Add("IsAutoApplyDoc_Refund", "int not null default 0")
+            coll.Add("DateAndTime", "DATETIME NULL")
+            coll.Add("TapalNo", "VARCHAR(100) NULL")
+            coll.Add("Rec_Route_Code", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
+            coll.Add("Rec_Zone_Code", "varchar(30) NULL REFERENCES TSPL_ZONE_MASTER(Zone_Code)")
+            coll.Add("isCardSale", "integer not null default 0")
+            coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
+            coll.Add("Online_Transaction_ID", "varchar(50) NULL")
+            coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
+            coll.Add("Against_ECollect", "integer NULL")
+            coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
+            coll.Add("Route_Code", "varchar(20) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, True, "", "Receipt_No", "Receipt_Date", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("TagType", "char(1)  null")
+            coll.Add("Posted", "char(1)  not null default 'N'")
+            coll.Add("Document_Date", "date null")
+            coll.Add("ConvRateOld", "Decimal(18,6) NOT NULL DEFAULT 1")
+            coll.Add("Child_Cust_Code", "Varchar(12) NULL References TSPL_CUSTOMER_MASTER(Cust_Code)")
+            coll.Add("Receipt_No", "varchar(30)  NOT NULL")
+            coll.Add("Receipt_Line_No", "int  NOT NULL")
+            coll.Add("Apply", "char(1) NULL")
+            coll.Add("Receipt_Type", "char(1) NULL")
+            coll.Add("Document_No", "varchar(30) NULL")
+            coll.Add("Original_Amt", "decimal (18,2) NULL")
+            coll.Add("Pending_Balance", "decimal (18,2) NULL")
+            coll.Add("Applied_Amount", "decimal (18,2)  NOT NULL")
+            coll.Add("Account_Code", "varchar(50) NULL")
+            coll.Add("Description", "varchar(100) NULL")
+            coll.Add("Remarks", "varchar(100) NULL")
+            coll.Add("Comment", "varchar(100) NULL")
+            coll.Add("Shipment_No", "varchar(30) NULL")
+            coll.Add("Adjustment_Account", "varchar(100) NULL")
+            coll.Add("Adjustment_Cost", "decimal (18,2) NULL")
+            coll.Add("Adjustment_No", "varchar(50) NULL")
+            coll.Add("AutoId", "int  NOT NULL")
+            coll.Add("Hirerachy_Level_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
+            coll.Add("Cost_Center_Fin_Code", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_DETAIL", coll, Nothing, True, True, "TSPL_RECEIPT_HEADER", "Receipt_No", "", True)
+
+
             ERPStartDate = objCommonVar.ERPStartDate
 
         Catch ex As Exception
@@ -4474,7 +4650,9 @@ Public Class FrmReceipttNew
 
     Sub PrintData()
         Try
-
+            Dim DocDate As Date?
+            DocDate = Nothing
+            DocDate = dtRcpt.Value
             Dim arrreceipt As New ArrayList()
             If fndRcptNo.Value <> "" Then
                 arrreceipt.Add(fndRcptNo.Value)
@@ -4482,120 +4660,127 @@ Public Class FrmReceipttNew
                 clsCommon.MyMessageBoxShow(Me, "Please select Receipt No.", Me.Text)
                 Exit Sub
             End If
-            Dim DocDate As Date?
-            DocDate = Nothing
-            DocDate = dtRcpt.Value
-            'If clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0 OrElse clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0 OrElse clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
-            If (clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0) OrElse (clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0) OrElse ((clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0) Then
-                'Dim ChkAscTaxType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT type  FROM TSPL_TAX_MASTER where Tax_Code in(select TAX_Code from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + txtTaxGroup.Value + "' ) "))
-                'Dim ChkDescTaxType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT type  FROM TSPL_TAX_MASTER where Tax_Code in(select TAX_Code from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + txtTaxGroup.Value + "' ) ORDER BY TSPL_TAX_MASTER.Tax_Code  desc "))
-                Dim arr As New ArrayList()
-                Dim dttype As New DataTable()
-                dttype = clsDBFuncationality.GetDataTable("SELECT type  FROM TSPL_TAX_MASTER where Tax_Code in(select TAX_Code from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + txtTaxGroup.Value + "' ) ")
-                If dttype IsNot Nothing AndAlso dttype.Rows.Count > 0 Then
-                    For Each dr As DataRow In dttype.Rows
-                        arr.Add(clsCommon.myCstr(dr("type").ToString()))
-                    Next
-                End If
-                Dim StrQuery As String = Nothing
-                StrQuery = "select  isnull(TSPL_SD_SALES_ORDER_HEAD.Document_Code,'') as SO_Code,isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'') as DO_Code, isnull(TSPL_RECEIPT_HEADER.Applied_Receipt,'') as Applied_Receipt,convert(varchar,Against_Receipt_Header.Receipt_Date,103) as Against_ReceiptDate,TSPL_STATE_MASTER.STATE_NAME as CustomerStateName, TSPL_STATE_MASTER.Is_GST_UT, " &
-                    " (case when isnull(Sales_Order_Location.state,'')<>'' then Sales_Order_Location.state when isnull(TSPL_LOCATION_MASTER.state,'')<>'' then TSPL_LOCATION_MASTER.state else NormalLocation.State end )as Location_State ," &
-                    " (case when isnull(Sales_Order_State.GST_STATE_Code,'')<>'' then Sales_Order_State.GST_STATE_Code when  isnull(tspl_state_master_for_location_state.GST_STATE_Code,'')<>'' then tspl_state_master_for_location_state.GST_STATE_Code else Normal_loc_gstState.GST_STATE_Code end ) as LOC_GST_State_Code," &
-                    " (case when ISNULL(Sales_Order_Location.GSTNO,'')<>'' then Sales_Order_Location.GSTNO when ISNULL(TSPL_LOCATION_MASTER.GSTNO,'')<>'' then TSPL_LOCATION_MASTER.GSTNO else NormalLocation.GSTNO  end) as Comp_GSTIN_NO, " &
-                    " TSPL_CUSTOMER_MASTER.state AS Customer_State, tspl_company_master.state as Comp_State, TSPL_CITY_MASTER.City_Name as Customer_city," &
-                    " TSPL_RECeIPT_HEADER.Delivery_Code_PS,'' AS Electronic_Ref_No,TSPL_CUSTOMER_MASTER.Customer_Name,(CASE WHEN  ISNULL(TSPL_CUSTOMER_MASTER.Add1,'')<>'' THEN TSPL_CUSTOMER_MASTER.Add1   WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add2,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add2  WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add3,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add3  END ) AS Cust_Address,TSPL_STATE_MASTER.STATE_NAME as Customer_State,TSPL_STATE_MASTER.GST_STATE_Code as Cust_GST_StateCode,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN_NO, " &
-                    " TSPL_COMPANY_MASTER.Comp_Name,COMP_Address=TSPL_COMPANY_MASTER.Add1 + CASE WHEN ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add2 WHEN ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add3  END ," &
-                    " SO_Address=Sales_Order_Location.Add1 + CASE WHEN ISNULL(Sales_Order_Location.Add2,'')<>'' THEN ','+Sales_Order_Location.Add2 WHEN ISNULL(Sales_Order_Location.Add3,'')<>'' THEN ','+Sales_Order_Location.Add3  END ," &
-                    " DO_Address=(case when isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'')<>'' then TSPL_LOCATION_MASTER.Add1 + CASE WHEN ISNULL(TSPL_LOCATION_MASTER.Add2,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add2 WHEN ISNULL(TSPL_LOCATION_MASTER.Add3,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add3 END  else  NormalLocation.Add1 + CASE WHEN ISNULL(NormalLocation.Add2,'')<>'' THEN ','+NormalLocation.Add2 WHEN ISNULL(NormalLocation.Add3,'')<>'' THEN ','+NormalLocation.Add3 end end )  ," &
-                    " TSPL_COMPANY_MASTER.Pan_No as Comp_PanNo,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Receipt_No," &
-                    " CONVERT(VARCHAR,TSPL_RECEIPT_HEADER.Receipt_Date,103) AS Receipt_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_RECEIPT_DETAIL_GST.Qty,TSPL_RECEIPT_DETAIL_GST.Unit_code,TSPL_RECEIPT_DETAIL_GST.Item_Cost,TSPL_RECEIPT_DETAIL_GST.Amount,TSPL_RECEIPT_DETAIL_GST.ReceiptAdvance,TSPL_RECEIPT_DETAIL_GST.ReceiptTotalTax,TSPL_RECEIPT_DETAIL_GST.ReceiptTotalAdvanceAmt,TSPL_RECEIPT_HEADER.Receipt_Type, "
+            If clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0 OrElse clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0 OrElse clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
 
-                If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
-                    StrQuery += " isnull(TSPL_RECEIPT_HEADER.TAX1_Amt,0) as TAX1_Amt, isnull(TSPL_RECEIPT_HEADER.TAX1_Rate,0) as TAX1_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX2_Amt,0) as TAX2_Amt, isnull(TSPL_RECEIPT_HEADER.TAX2_Rate,0) as TAX2_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX3_Amt,0) as TAX3_Amt, isnull(TSPL_RECEIPT_HEADER.TAX3_Rate,0) as TAX3_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX4_Amt,0) as TAX4_Amt, isnull(TSPL_RECEIPT_HEADER.TAX4_Rate,0) as TAX4_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX5_Amt,0) as TAX5_Amt, isnull(TSPL_RECEIPT_HEADER.TAX5_Rate,0) as TAX5_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX6_Amt,0) as TAX6_Amt, isnull(TSPL_RECEIPT_HEADER.TAX6_Rate,0) as TAX6_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX7_Amt,0) as TAX7_Amt, isnull(TSPL_RECEIPT_HEADER.TAX7_Rate,0) as TAX7_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX8_Amt,0) as TAX8_Amt, isnull(TSPL_RECEIPT_HEADER.TAX8_Rate,0) as TAX8_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX9_Amt,0) as TAX9_Amt, isnull(TSPL_RECEIPT_HEADER.TAX9_Rate,0) as TAX9_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX10_Amt,0) as TAX10_Amt, isnull(TSPL_RECEIPT_HEADER.TAX10_Rate,0) as TAX10_Rate "
-                Else
-                    StrQuery += " isnull(TSPL_RECEIPT_DETAIL_GST.TAX1_Amt_Receipt,0) as TAX1_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX1_Rate,0) as TAX1_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX2_Amt_Receipt,0) as TAX2_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX2_Rate,0) as TAX2_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX3_Amt_Receipt,0) as TAX3_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX3_Rate,0) as TAX3_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX4_Amt_Receipt,0) as TAX4_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX4_Rate,0) as TAX4_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX5_Amt_Receipt,0) as TAX5_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX5_Rate,0) as TAX5_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX6_Amt_Receipt,0) as TAX6_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX6_Rate,0) as TAX6_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX7_Amt_Receipt,0) as TAX7_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX7_Rate,0) as TAX7_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX8_Amt_Receipt,0) as TAX8_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX8_Rate,0) as TAX8_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX9_Amt_Receipt,0) as TAX9_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX9_Rate,0) as TAX9_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX10_Amt_Receipt,0) as TAX10_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX10_Rate,0) as TAX10_Rate "
-
-                End If
-                If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 Then
-                    StrQuery += " ,'Receiving location' as Caption,TSPL_RECEIPT_HEADER.Location_GL_Code as Location,NormalLocation.Location_Code,NormalLocation.Location_Desc,NormalLocation.Add1,NormalLocation.Add2,NormalLocation.Add3,NormalLocation.Add4 "
-                End If
-
-                StrQuery += " ,tax1.Type as TAX1,tax2.Type as TAX2,tax3.Type as TAX3,tax4.Type as TAX4,tax5.Type as TAX5,tax6.Type as TAX6,tax7.Type as TAX7,tax8.Type as TAX8,tax9.Type as TAX9,tax10.Type as TAX10 " &
-                " from TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_DETAIL_GST ON TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL_GST.Receipt_No " &
-                " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RECEIPT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
-                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
-                " left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE " &
-                "  left outer join TSPL_CITY_MASTER on TSPL_CUSTOMER_MASTER.City_Code =TSPL_CITY_MASTER.City_Code " &
-                " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_RECEIPT_DETAIL_GST.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
-                " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " &
-                " left join TSPL_LOCATION_MASTER ON TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code " &
-                " left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state "
-
-                If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
-                    StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_HEADER.tax1=tax1.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_HEADER.tax2=tax2.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_HEADER.tax3=tax3.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_HEADER.tax4=tax4.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_HEADER.tax5=tax5.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_HEADER.tax6=tax6.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_HEADER.tax7=tax7.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_HEADER.tax8=tax8.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_HEADER.tax9=tax9.Tax_Code " &
-    " left join TSPL_TAX_MASTER as tax10 on TSPL_RECEIPT_HEADER.tax10=tax10.Tax_Code "
-
-                Else
-                    StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_DETAIL_GST.tax1=tax1.Tax_Code " &
-              " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_DETAIL_GST.tax2=tax2.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_DETAIL_GST.tax3=tax3.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_DETAIL_GST.tax4=tax4.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_DETAIL_GST.tax5=tax5.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_DETAIL_GST.tax6=tax6.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_DETAIL_GST.tax7=tax7.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_DETAIL_GST.tax8=tax8.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_DETAIL_GST.tax9=tax9.Tax_Code" &
-              " left join TSPL_TAX_MASTER as tax10 on TSPL_RECEIPT_DETAIL_GST.tax10=tax10.Tax_Code"
-
-                End If
-
-                ' If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 Then
-                StrQuery += " left join (select top 1 * from TSPL_LOCATION_MASTER where Loc_Segment_Code='" + txtlocation.Value + "') as NormalLocation on NormalLocation.Loc_Segment_Code=TSPL_RECEIPT_HEADER.Location_GL_Code " &
-                    " 	left join TSPL_STATE_MASTER as Normal_loc_gstState on Normal_loc_gstState.STATE_CODE=NormalLocation.State "
-                'End If
-
-                StrQuery += " left join TSPL_RECEIPT_HEADER  as Against_Receipt_Header on TSPL_RECEIPT_HEADER.Applied_Receipt=Against_Receipt_Header.Receipt_No  " &
-                " left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_SD_SALES_ORDER_HEAD.Document_Code" &
-                " left outer join TSPL_LOCATION_MASTER as Sales_Order_Location on TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location = Sales_Order_Location.location_Code " &
-                " left outer join TSPL_STATE_MASTER as Sales_Order_State on Sales_Order_Location.State =Sales_Order_State.STATE_CODE " &
-                                " where TSPL_RECEIPT_HEADER.Receipt_No='" + fndRcptNo.Value + "'"
-
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
-                If dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    If arr.Contains("CGST") OrElse arr.Contains("SGST") Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_SGST_CGST", "Receipt Voucher", DocDate)
-                    ElseIf arr.Contains("UGST") Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_UGST", "Receipt Voucher", DocDate)
-                    ElseIf arr.Contains("IGST") Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_IGST", "Receipt Voucher", DocDate)
-                    End If
-
-                    'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Customer_State")), clsCommon.myCstr(dt.Rows(0)("Location_State"))) = CompairStringResult.Equal Then
-                    '    If clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("Is_GST_UT")), 1) = CompairStringResult.Equal Then
-                    '        frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_UGST", "Receipt Voucher", DocDate)
-                    '    Else
-                    '        frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_SGST_CGST", "Receipt Voucher", DocDate)
-                    '    End If
-
-                    'Else
-                    '    frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_IGST", "Receipt Voucher", DocDate)
-                    'End If
-                    ''frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher", "Receipt Voucher", DocDate)
-                    frmCRV = Nothing
-                End If
+                clsReceiptDettail.funReceiptEntryPrint(MyBase.Form_ID, False, dtRcpt.Value, fndRcptNo.Value, ddlTransType.SelectedValue, txtTaxGroup.Value, arrreceipt, txtlocation.Value)
             Else
                 Dim frm As New Frmreceiptvoucher2(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
                 frm.PrintData(Nothing, Nothing, Nothing, arrreceipt, Nothing, Nothing, Nothing, Nothing)
             End If
+            '        Dim DocDate As Date?
+            '        DocDate = Nothing
+            '        DocDate = dtRcpt.Value
+            '        'If clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0 OrElse clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0 OrElse clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
+            '        If (clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0) OrElse (clsERPFuncationality.GetGSTStatus(DocDate) = True AndAlso clsCommon.CompairString(clsCommon.myCstr(ddlTransType.SelectedValue), "F") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(txtDONo.Value)) > 0) OrElse ((clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0) Then
+            '            'Dim ChkAscTaxType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT type  FROM TSPL_TAX_MASTER where Tax_Code in(select TAX_Code from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + txtTaxGroup.Value + "' ) "))
+            '            'Dim ChkDescTaxType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT type  FROM TSPL_TAX_MASTER where Tax_Code in(select TAX_Code from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + txtTaxGroup.Value + "' ) ORDER BY TSPL_TAX_MASTER.Tax_Code  desc "))
+            '            Dim arr As New ArrayList()
+            '            Dim dttype As New DataTable()
+            '            dttype = clsDBFuncationality.GetDataTable("SELECT type  FROM TSPL_TAX_MASTER where Tax_Code in(select TAX_Code from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code='" + txtTaxGroup.Value + "' ) ")
+            '            If dttype IsNot Nothing AndAlso dttype.Rows.Count > 0 Then
+            '                For Each dr As DataRow In dttype.Rows
+            '                    arr.Add(clsCommon.myCstr(dr("type").ToString()))
+            '                Next
+            '            End If
+            '            Dim StrQuery As String = Nothing
+            '            StrQuery = "select  isnull(TSPL_SD_SALES_ORDER_HEAD.Document_Code,'') as SO_Code,isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'') as DO_Code, isnull(TSPL_RECEIPT_HEADER.Applied_Receipt,'') as Applied_Receipt,convert(varchar,Against_Receipt_Header.Receipt_Date,103) as Against_ReceiptDate,TSPL_STATE_MASTER.STATE_NAME as CustomerStateName, TSPL_STATE_MASTER.Is_GST_UT, " &
+            '                " (case when isnull(Sales_Order_Location.state,'')<>'' then Sales_Order_Location.state when isnull(TSPL_LOCATION_MASTER.state,'')<>'' then TSPL_LOCATION_MASTER.state else NormalLocation.State end )as Location_State ," &
+            '                " (case when isnull(Sales_Order_State.GST_STATE_Code,'')<>'' then Sales_Order_State.GST_STATE_Code when  isnull(tspl_state_master_for_location_state.GST_STATE_Code,'')<>'' then tspl_state_master_for_location_state.GST_STATE_Code else Normal_loc_gstState.GST_STATE_Code end ) as LOC_GST_State_Code," &
+            '                " (case when ISNULL(Sales_Order_Location.GSTNO,'')<>'' then Sales_Order_Location.GSTNO when ISNULL(TSPL_LOCATION_MASTER.GSTNO,'')<>'' then TSPL_LOCATION_MASTER.GSTNO else NormalLocation.GSTNO  end) as Comp_GSTIN_NO, " &
+            '                " TSPL_CUSTOMER_MASTER.state AS Customer_State, tspl_company_master.state as Comp_State, TSPL_CITY_MASTER.City_Name as Customer_city," &
+            '                " TSPL_RECeIPT_HEADER.Delivery_Code_PS,'' AS Electronic_Ref_No,TSPL_CUSTOMER_MASTER.Customer_Name,(CASE WHEN  ISNULL(TSPL_CUSTOMER_MASTER.Add1,'')<>'' THEN TSPL_CUSTOMER_MASTER.Add1   WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add2,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add2  WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add3,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add3  END ) AS Cust_Address,TSPL_STATE_MASTER.STATE_NAME as Customer_State,TSPL_STATE_MASTER.GST_STATE_Code as Cust_GST_StateCode,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN_NO, " &
+            '                " TSPL_COMPANY_MASTER.Comp_Name,COMP_Address=TSPL_COMPANY_MASTER.Add1 + CASE WHEN ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add2 WHEN ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add3  END ," &
+            '                " SO_Address=Sales_Order_Location.Add1 + CASE WHEN ISNULL(Sales_Order_Location.Add2,'')<>'' THEN ','+Sales_Order_Location.Add2 WHEN ISNULL(Sales_Order_Location.Add3,'')<>'' THEN ','+Sales_Order_Location.Add3  END ," &
+            '                " DO_Address=(case when isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'')<>'' then TSPL_LOCATION_MASTER.Add1 + CASE WHEN ISNULL(TSPL_LOCATION_MASTER.Add2,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add2 WHEN ISNULL(TSPL_LOCATION_MASTER.Add3,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add3 END  else  NormalLocation.Add1 + CASE WHEN ISNULL(NormalLocation.Add2,'')<>'' THEN ','+NormalLocation.Add2 WHEN ISNULL(NormalLocation.Add3,'')<>'' THEN ','+NormalLocation.Add3 end end )  ," &
+            '                " TSPL_COMPANY_MASTER.Pan_No as Comp_PanNo,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Receipt_No," &
+            '                " CONVERT(VARCHAR,TSPL_RECEIPT_HEADER.Receipt_Date,103) AS Receipt_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_RECEIPT_DETAIL_GST.Qty,TSPL_RECEIPT_DETAIL_GST.Unit_code,TSPL_RECEIPT_DETAIL_GST.Item_Cost,TSPL_RECEIPT_DETAIL_GST.Amount,TSPL_RECEIPT_DETAIL_GST.ReceiptAdvance,TSPL_RECEIPT_DETAIL_GST.ReceiptTotalTax,TSPL_RECEIPT_DETAIL_GST.ReceiptTotalAdvanceAmt,TSPL_RECEIPT_HEADER.Receipt_Type, "
+
+            '            If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
+            '                StrQuery += " isnull(TSPL_RECEIPT_HEADER.TAX1_Amt,0) as TAX1_Amt, isnull(TSPL_RECEIPT_HEADER.TAX1_Rate,0) as TAX1_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX2_Amt,0) as TAX2_Amt, isnull(TSPL_RECEIPT_HEADER.TAX2_Rate,0) as TAX2_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX3_Amt,0) as TAX3_Amt, isnull(TSPL_RECEIPT_HEADER.TAX3_Rate,0) as TAX3_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX4_Amt,0) as TAX4_Amt, isnull(TSPL_RECEIPT_HEADER.TAX4_Rate,0) as TAX4_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX5_Amt,0) as TAX5_Amt, isnull(TSPL_RECEIPT_HEADER.TAX5_Rate,0) as TAX5_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX6_Amt,0) as TAX6_Amt, isnull(TSPL_RECEIPT_HEADER.TAX6_Rate,0) as TAX6_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX7_Amt,0) as TAX7_Amt, isnull(TSPL_RECEIPT_HEADER.TAX7_Rate,0) as TAX7_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX8_Amt,0) as TAX8_Amt, isnull(TSPL_RECEIPT_HEADER.TAX8_Rate,0) as TAX8_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX9_Amt,0) as TAX9_Amt, isnull(TSPL_RECEIPT_HEADER.TAX9_Rate,0) as TAX9_Rate,  isnull(TSPL_RECEIPT_HEADER.TAX10_Amt,0) as TAX10_Amt, isnull(TSPL_RECEIPT_HEADER.TAX10_Rate,0) as TAX10_Rate "
+            '            Else
+            '                StrQuery += " isnull(TSPL_RECEIPT_DETAIL_GST.TAX1_Amt_Receipt,0) as TAX1_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX1_Rate,0) as TAX1_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX2_Amt_Receipt,0) as TAX2_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX2_Rate,0) as TAX2_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX3_Amt_Receipt,0) as TAX3_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX3_Rate,0) as TAX3_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX4_Amt_Receipt,0) as TAX4_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX4_Rate,0) as TAX4_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX5_Amt_Receipt,0) as TAX5_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX5_Rate,0) as TAX5_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX6_Amt_Receipt,0) as TAX6_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX6_Rate,0) as TAX6_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX7_Amt_Receipt,0) as TAX7_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX7_Rate,0) as TAX7_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX8_Amt_Receipt,0) as TAX8_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX8_Rate,0) as TAX8_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX9_Amt_Receipt,0) as TAX9_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX9_Rate,0) as TAX9_Rate,  isnull(TSPL_RECEIPT_DETAIL_GST.TAX10_Amt_Receipt,0) as TAX10_Amt, isnull(TSPL_RECEIPT_DETAIL_GST.TAX10_Rate,0) as TAX10_Rate "
+
+            '            End If
+            '            If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 Then
+            '                StrQuery += " ,'Receiving location' as Caption,TSPL_RECEIPT_HEADER.Location_GL_Code as Location,NormalLocation.Location_Code,NormalLocation.Location_Desc,NormalLocation.Add1,NormalLocation.Add2,NormalLocation.Add3,NormalLocation.Add4 "
+            '            End If
+
+            '            StrQuery += " ,tax1.Type as TAX1,tax2.Type as TAX2,tax3.Type as TAX3,tax4.Type as TAX4,tax5.Type as TAX5,tax6.Type as TAX6,tax7.Type as TAX7,tax8.Type as TAX8,tax9.Type as TAX9,tax10.Type as TAX10 " &
+            '            " from TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_DETAIL_GST ON TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL_GST.Receipt_No " &
+            '            " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RECEIPT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
+            '            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+            '            " left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE " &
+            '            "  left outer join TSPL_CITY_MASTER on TSPL_CUSTOMER_MASTER.City_Code =TSPL_CITY_MASTER.City_Code " &
+            '            " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_RECEIPT_DETAIL_GST.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+            '            " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " &
+            '            " left join TSPL_LOCATION_MASTER ON TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code " &
+            '            " left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state "
+
+            '            If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
+            '                StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_HEADER.tax1=tax1.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_HEADER.tax2=tax2.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_HEADER.tax3=tax3.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_HEADER.tax4=tax4.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_HEADER.tax5=tax5.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_HEADER.tax6=tax6.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_HEADER.tax7=tax7.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_HEADER.tax8=tax8.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_HEADER.tax9=tax9.Tax_Code " &
+            '" left join TSPL_TAX_MASTER as tax10 on TSPL_RECEIPT_HEADER.tax10=tax10.Tax_Code "
+
+            '            Else
+            '                StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_DETAIL_GST.tax1=tax1.Tax_Code " &
+            '          " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_DETAIL_GST.tax2=tax2.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_DETAIL_GST.tax3=tax3.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_DETAIL_GST.tax4=tax4.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_DETAIL_GST.tax5=tax5.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_DETAIL_GST.tax6=tax6.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_DETAIL_GST.tax7=tax7.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_DETAIL_GST.tax8=tax8.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_DETAIL_GST.tax9=tax9.Tax_Code" &
+            '          " left join TSPL_TAX_MASTER as tax10 on TSPL_RECEIPT_DETAIL_GST.tax10=tax10.Tax_Code"
+
+            '            End If
+
+            '            ' If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 Then
+            '            StrQuery += " left join (select top 1 * from TSPL_LOCATION_MASTER where Loc_Segment_Code='" + txtlocation.Value + "') as NormalLocation on NormalLocation.Loc_Segment_Code=TSPL_RECEIPT_HEADER.Location_GL_Code " &
+            '                " 	left join TSPL_STATE_MASTER as Normal_loc_gstState on Normal_loc_gstState.STATE_CODE=NormalLocation.State "
+            '            'End If
+
+            '            StrQuery += " left join TSPL_RECEIPT_HEADER  as Against_Receipt_Header on TSPL_RECEIPT_HEADER.Applied_Receipt=Against_Receipt_Header.Receipt_No  " &
+            '            " left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_SD_SALES_ORDER_HEAD.Document_Code" &
+            '            " left outer join TSPL_LOCATION_MASTER as Sales_Order_Location on TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location = Sales_Order_Location.location_Code " &
+            '            " left outer join TSPL_STATE_MASTER as Sales_Order_State on Sales_Order_Location.State =Sales_Order_State.STATE_CODE " &
+            '                            " where TSPL_RECEIPT_HEADER.Receipt_No='" + fndRcptNo.Value + "'"
+
+            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
+            '            If dt.Rows.Count > 0 Then
+            '                Dim frmCRV As New frmCrystalReportViewer()
+            '                If arr.Contains("CGST") OrElse arr.Contains("SGST") Then
+            '                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_SGST_CGST", "Receipt Voucher", DocDate)
+            '                ElseIf arr.Contains("UGST") Then
+            '                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_UGST", "Receipt Voucher", DocDate)
+            '                ElseIf arr.Contains("IGST") Then
+            '                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_IGST", "Receipt Voucher", DocDate)
+            '                End If
+
+            '                'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Customer_State")), clsCommon.myCstr(dt.Rows(0)("Location_State"))) = CompairStringResult.Equal Then
+            '                '    If clsCommon.CompairString(clsCommon.myCdbl(dt.Rows(0)("Is_GST_UT")), 1) = CompairStringResult.Equal Then
+            '                '        frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_UGST", "Receipt Voucher", DocDate)
+            '                '    Else
+            '                '        frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_SGST_CGST", "Receipt Voucher", DocDate)
+            '                '    End If
+
+            '                'Else
+            '                '    frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher_IGST", "Receipt Voucher", DocDate)
+            '                'End If
+            '                ''frmCrystalReportViewer.funreport(CrystalReportFolder.SalesReport, dt, "RptReceiptVoucher", "Receipt Voucher", DocDate)
+            '                frmCRV = Nothing
+            '            End If
+            '        Else
+            '            Dim frm As New Frmreceiptvoucher2(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
+            '            frm.PrintData(Nothing, Nothing, Nothing, arrreceipt, Nothing, Nothing, Nothing, Nothing)
+            '        End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
