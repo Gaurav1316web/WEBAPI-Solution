@@ -42,21 +42,21 @@ Public Class frmCancelledTransactions_Purchase
             ShowData()
         End If
     End Sub
-    Public Sub LoadModuleType()
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
+    'Public Sub LoadModuleType()
+    '    Dim dt As DataTable = New DataTable()
+    '    dt.Columns.Add("Code", GetType(String))
+    '    dt.Columns.Add("Name", GetType(String))
 
-        dr = dt.NewRow()
-        dr("Code") = "Purchase"
-        dr("Name") = "Purchase"
-        dt.Rows.Add(dr)
+    '    dr = dt.NewRow()
+    '    dr("Code") = "Purchase"
+    '    dr("Name") = "Purchase"
+    '    dt.Rows.Add(dr)
 
-        cboModule.DataSource = dt
-        cboModule.DisplayMember = "Name"
-        cboModule.ValueMember = "Code"
+    '    cboModule.DataSource = dt
+    '    cboModule.DisplayMember = "Name"
+    '    cboModule.ValueMember = "Code"
 
-    End Sub
+    'End Sub
     Private Sub LOCATIONRIGTHS()
         Dim obj As New clsMCCCodes()
         Try
@@ -84,77 +84,98 @@ Public Class frmCancelledTransactions_Purchase
             Throw New Exception("Permission Denied")
         End If
     End Sub
+    Public Sub LoadModuleType()
+        Dim Qry As String = "select Distinct TBL_MODULE.Program_Code As [Module Code],case when len (isnull(TBL_MODULE.Re_Name,'')) > 0 then TBL_MODULE.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as [Module Name] 
+from TSPL_PROGRAM_MASTER
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+and TBL_MODULE.Program_Code in ('" + clsUserMgtCode.ModulePurchase + "') 
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') 
+ "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            'dr = dt.NewRow()
+            'dr("Module Code") = dt.Rows(0)("Module Code")
+            'dr("Module Name") = dt.Rows(0)("Module Name")
+            'dt.Rows.Add(dr)
+            cboModule.DataSource = dt
+            cboModule.DisplayMember = "Module Name"
+            cboModule.ValueMember = "Module Code"
+        End If
+
+    End Sub
     Sub LoadModuleProduction()
-        'Try
-        '            Dim Qry As String = "select TSPL_PROGRAM_MASTER.Program_Code as Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as Name 
-        'from TSPL_PROGRAM_MASTER
-        'left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
-        'left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
-        'Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
-        'and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-        'and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmStoreRequistion + "','" + clsUserMgtCode.mbtnGRN + "','" + clsUserMgtCode.mbtnMRN + "','" + clsUserMgtCode.mbtnPurchaseInvoice + "','" + clsUserMgtCode.mbtnPurchaseReturn + "','" + clsUserMgtCode.mbtnIssueReturn + "')
-        ' "
-        '            dt = clsDBFuncationality.GetDataTable(Qry)
-        '            'dr = dt.NewRow()
-        '            'dr("Code") = dt.Rows(0)("Code")
-        '            'dr("Name") = dt.Rows(0)("Name")
-        '            'dt.Rows.Add(dr)
+        Try
+            Dim Qry As String = "select TSPL_PROGRAM_MASTER.Program_Code as Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end  as Name 
+        from TSPL_PROGRAM_MASTER
+        left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('SM')) as TBL_SMODULE on TBL_SMODULE.Program_Code = TSPL_PROGRAM_MASTER.Parent_Code
+        left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
+        Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
+        and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
+        and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmStoreRequistion + "','" + clsUserMgtCode.mbtnGRN + "','" + clsUserMgtCode.mbtnMRN + "','" + clsUserMgtCode.mbtnSRN + "','" + clsUserMgtCode.mbtnPurchaseInvoice + "','" + clsUserMgtCode.mbtnPurchaseReturn + "','" + clsUserMgtCode.mbtnPurchaseRequistion + "','" + clsUserMgtCode.mbtnIssueReturn + "','" + clsUserMgtCode.mbtnGatePass + "')
+         "
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            'dr = dt.NewRow()
+            'dr("Code") = dt.Rows(0)("Code")
+            'dr("Name") = dt.Rows(0)("Name")
+            'dt.Rows.Add(dr)
 
-        '            cboTransaction.DataSource = dt
-        '            cboTransaction.DisplayMember = "Name"
-        '            cboTransaction.ValueMember = "Code"
-        '        Catch ex As Exception
-        '            Throw New Exception(ex.Message)
-        '        End Try
-        Dim dt1 As DataTable = New DataTable()
-            dt1.Columns.Add("Code", GetType(String))
-            dt1.Columns.Add("Name", GetType(String))
-
-            dr = dt1.NewRow()
-            dr("Code") = "Store Requisition"
-            dr("Name") = "Store Requisition"
-            dt1.Rows.Add(dr)
-
-            dr = dt1.NewRow()
-            dr("Code") = "Gate Received Note"
-            dr("Name") = "Gate Received Note"
-            dt1.Rows.Add(dr)
-
-            dr = dt1.NewRow()
-            dr("Code") = "Material Received Note"
-            dr("Name") = "Material Received Note"
-            dt1.Rows.Add(dr)
-
-            dr = dt1.NewRow()
-            dr("Code") = "Store Received Note"
-            dr("Name") = "Store Received Note"
-            dt1.Rows.Add(dr)
-
-
-            dr = dt1.NewRow()
-            dr("Code") = "Purchase Invoice"
-            dr("Name") = "Purchase Invoice"
-            dt1.Rows.Add(dr)
-
-            dr = dt1.NewRow()
-            dr("Code") = "Purchase Return"
-            dr("Name") = "Purchase Return"
-            dt1.Rows.Add(dr)
-
-
-            dr = dt1.NewRow()
-            dr("Code") = "Issue/Return/Transfer"
-            dr("Name") = "Issue/Return/Transfer"
-            dt1.Rows.Add(dr)
-
-        'dr = dt1.NewRow()
-        'dr("Code") = "Tender"
-        'dr("Name") = "Tender"
-        'dt1.Rows.Add(dr)
-
-        cboTransaction.DataSource = dt1
+            cboTransaction.DataSource = dt
             cboTransaction.DisplayMember = "Name"
             cboTransaction.ValueMember = "Code"
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        'Dim dt1 As DataTable = New DataTable()
+        '    dt1.Columns.Add("Code", GetType(String))
+        '    dt1.Columns.Add("Name", GetType(String))
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Store Requisition"
+        '    dr("Name") = "Store Requisition"
+        '    dt1.Rows.Add(dr)
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Gate Received Note"
+        '    dr("Name") = "Gate Received Note"
+        '    dt1.Rows.Add(dr)
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Material Received Note"
+        '    dr("Name") = "Material Received Note"
+        '    dt1.Rows.Add(dr)
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Store Received Note"
+        '    dr("Name") = "Store Received Note"
+        '    dt1.Rows.Add(dr)
+
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Purchase Invoice"
+        '    dr("Name") = "Purchase Invoice"
+        '    dt1.Rows.Add(dr)
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Purchase Return"
+        '    dr("Name") = "Purchase Return"
+        '    dt1.Rows.Add(dr)
+
+
+        '    dr = dt1.NewRow()
+        '    dr("Code") = "Issue/Return/Transfer"
+        '    dr("Name") = "Issue/Return/Transfer"
+        '    dt1.Rows.Add(dr)
+
+        ''dr = dt1.NewRow()
+        ''dr("Code") = "Tender"
+        ''dr("Name") = "Tender"
+        ''dt1.Rows.Add(dr)
+
+        'cboTransaction.DataSource = dt1
+        '    cboTransaction.DisplayMember = "Name"
+        '    cboTransaction.ValueMember = "Code"
     End Sub
 
     Private Sub cboModule_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Data.PositionChangedEventArgs) Handles cboModule.SelectedIndexChanged
@@ -237,7 +258,7 @@ Public Class frmCancelledTransactions_Purchase
                 arrSelectedUser = arrUser
             End If
 
-            If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Purchase") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModulePurchase) = CompairStringResult.Equal Then
                 gv1.DataSource = Nothing
                 FillPurchase()
             End If
@@ -247,7 +268,7 @@ Public Class frmCancelledTransactions_Purchase
     End Sub
 
     Sub FillPurchase()
-        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Gate Received Note") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnGRN) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_GRN_HEAD_Cancel_Data.GRN_NO as [Document Id],convert(varchar,TSPL_GRN_HEAD_Cancel_Data.GRN_date ,103) as [Document Date]
                     ,TSPL_GRN_HEAD_Cancel_Data.Against_Requisition as [Against Requisition],TSPL_GRN_HEAD_Cancel_Data.Against_PO as [Against PO] 
@@ -269,7 +290,7 @@ Public Class frmCancelledTransactions_Purchase
                 qry += " and TSPL_GRN_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
             qry += " ORDER BY TSPL_GRN_HEAD_Cancel_Data.GRN_DATE,TSPL_GRN_HEAD_Cancel_Data.GRN_NO "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Material Received Note") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnMRN) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_MRN_HEAD_Cancel_Data.MRN_NO as [Document Id],convert(varchar,TSPL_MRN_HEAD_Cancel_Data.MRN_date ,103) as [Document Date]
                     ,TSPL_MRN_HEAD_Cancel_Data.Against_PO as [Against PO] ,TSPL_MRN_HEAD_Cancel_Data.Against_GRN as [Against GRN]
@@ -291,7 +312,7 @@ Public Class frmCancelledTransactions_Purchase
             End If
 
             qry += " ORDER BY TSPL_MRN_HEAD_Cancel_Data.MRN_DATE,TSPL_MRN_HEAD_Cancel_Data.MRN_NO "
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Received Note") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_SRN_HEAD_Cancel_Data.SRN_NO as [Document Id],convert(varchar,TSPL_SRN_HEAD_Cancel_Data.SRN_date ,103) as [Document Date]
                     ,TSPL_SRN_HEAD_Cancel_Data.Against_PO as [Against PO] ,TSPL_SRN_HEAD_Cancel_Data.Against_GRN as [Against GRN]
@@ -315,7 +336,7 @@ from TSPL_SRN_HEAD_Cancel_Data
             End If
             qry += " ORDER BY TSPL_SRN_HEAD_Cancel_Data.SRN_DATE,TSPL_SRN_HEAD_Cancel_Data.SRN_NO "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Requisition") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmStoreRequistion) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id as [Document Id],convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) as [Document Date]
                     ,TSPL_REQUISITION_HEAD_Cancel_Data.Location as [Location Code]
@@ -340,7 +361,7 @@ from TSPL_SRN_HEAD_Cancel_Data
             End If
             qry += " ORDER BY TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Issue/Return/Transfer") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnIssueReturn) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_IssueReturn_HEAD_Cancel_Data.Doc_No as [Document Id],convert(varchar,TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Date ,103) as [Document Date]
                     ,TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Type as [Document Type]                 
@@ -369,7 +390,7 @@ from TSPL_SRN_HEAD_Cancel_Data
             End If
             qry += " ORDER BY TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Date,TSPL_IssueReturn_HEAD_Cancel_Data.Doc_No "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Invoice") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseInvoice) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_PI_HEAD_Cancel_Data.PI_No as [Document Id],convert(varchar,TSPL_PI_HEAD_Cancel_Data.PI_Date ,103) as [Document Date]                
                     ,TSPL_PI_HEAD_Cancel_Data.Bill_To_Location as [Location Code]
@@ -400,7 +421,7 @@ from TSPL_PI_HEAD_Cancel_Data
             End If
             qry += " ORDER BY TSPL_PI_HEAD_Cancel_Data.PI_Date,TSPL_PI_HEAD_Cancel_Data.PI_No "
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Return") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseReturn) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
             qry = "Select TSPL_PR_HEAD_Cancel_Data.PR_No as [Document Id],convert(varchar,TSPL_PR_HEAD_Cancel_Data.PR_Date ,103) as [Document Date]                
                     ,TSPL_PR_HEAD_Cancel_Data.Bill_To_Location as [Location Code]
@@ -430,9 +451,52 @@ from TSPL_PR_HEAD_Cancel_Data
             qry += " ORDER BY TSPL_PR_HEAD_Cancel_Data.PR_Date,TSPL_PR_HEAD_Cancel_Data.PR_No "
 
 
-        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Tender") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
             gv1.DataSource = Nothing
-            qry = " "
+            qry = "Select TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id as [Document Id],convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) as [Document Date]                
+                    ,TSPL_REQUISITION_HEAD_Cancel_Data.Location as [Location Code]
+                    ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_REQUISITION_HEAD_Cancel_Data.Created_By as [Created By]
+                    ,convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Created_Date,103) as [Created Date]
+                ,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date],'' as Description
+from TSPL_REQUISITION_HEAD_Cancel_Data 
+                    Left Outer Join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD_Cancel_Data.Location  =TSPL_LOCATION_MASTER.Location_Code 
+                     WHERE  convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+
+            If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            End If
+            If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            Else
+                qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            End If
+            qry += " ORDER BY TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id "
+
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnGatePass) = CompairStringResult.Equal Then
+            gv1.DataSource = Nothing
+            qry = "Select TSPL_RGP_HEAD_cancel_data.RGP_No as [Document Id],convert(varchar,TSPL_RGP_HEAD_cancel_data.RGP_Date ,103) as [Document Date]                
+                    ,TSPL_RGP_HEAD_cancel_data.Location as [Location Code]
+                    ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_RGP_HEAD_cancel_data.Created_By as [Created By]
+                    ,convert(varchar,TSPL_RGP_HEAD_cancel_data.Created_Date,103) as [Created Date]
+                ,Cancel_By as [Cancelled By],
+					Cancel_On as [Cancelled Date],'' as Description
+from TSPL_RGP_HEAD_cancel_data 
+                    Left Outer Join TSPL_LOCATION_MASTER  on TSPL_RGP_HEAD_cancel_data.Location  =TSPL_LOCATION_MASTER.Location_Code 
+                     WHERE  convert(date,TSPL_RGP_HEAD_cancel_data.RGP_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_RGP_HEAD_cancel_data.RGP_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+
+            If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                qry += " and TSPL_RGP_HEAD_cancel_data.Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            End If
+            If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                qry += " and TSPL_RGP_HEAD_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            Else
+                qry += " and TSPL_RGP_HEAD_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            End If
+            qry += " ORDER BY TSPL_RGP_HEAD_cancel_data.RGP_Date,TSPL_RGP_HEAD_cancel_data.RGP_No "
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -512,13 +576,13 @@ from TSPL_PR_HEAD_Cancel_Data
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Gate Received Note") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnGRN) = CompairStringResult.Equal Then
                 clsGRNHead.funGRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Material Received Note") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnMRN) = CompairStringResult.Equal Then
                 clsMRNHead.funMRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
                 'ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Return") = CompairStringResult.Equal Then
                 'clsPurchasReturnHead.funPRPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Invoice") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseInvoice) = CompairStringResult.Equal Then
 
                 Dim ItemCode As New List(Of String)
                 'ItemCode = clsCommon.myCstr(clsDBFuncationality.("select Item_Code from TSPL_PI_DETAIL_Cancel_Data where PI_No ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
@@ -526,17 +590,24 @@ from TSPL_PR_HEAD_Cancel_Data
                 ItemCode.Add(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_PI_DETAIL_Cancel_Data where PI_No ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
 
                 clsPurchaseInvoiceHead.funPIPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.GetMulcallString(ItemCode), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Location Code").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Ref_No").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Vendor Code").Value), Nothing)
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Purchase Return") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseReturn) = CompairStringResult.Equal Then
                 clsPurchasReturnHead.funPRPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), Nothing, Nothing)
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Requisition") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmStoreRequistion) = CompairStringResult.Equal Then
                 clsPurchasReturnHead.funStoreRequisitionPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Issue/Return/Transfer") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnIssueReturn) = CompairStringResult.Equal Then
                 clsPurchasReturnHead.funIssueRetunPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Received Note") = CompairStringResult.Equal Then
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
+                clsRequistionHead.funPurchaseReqPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False, False)
+
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
                 Dim SRNNO As New ArrayList()
                 SRNNO.Add(clsDBFuncationality.getSingleValue("select Srn_no from tspl_srn_head_cancel_data where srn_no ='" + clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value) + "'"))
 
                 clsSRNHead.funSRNPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), Nothing, Nothing, False, (SRNNO), Nothing, Nothing)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnGatePass) = CompairStringResult.Equal Then
+                clsRGPHead.funRGPPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False, Nothing, Nothing, False)
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

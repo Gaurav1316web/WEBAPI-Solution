@@ -21944,7 +21944,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Repair", "integer NULL")
             coll.Add("Is_Against_CC_Transfer", "int default 0")
             coll.Add("To_Location_Code", "varchar(12) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_HEAD", coll, Nothing, True, False, "", "RGP_No", "RGP_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_HEAD", coll, Nothing, True, True, "", "RGP_No", "RGP_Date")
 
 
 
@@ -21978,7 +21978,7 @@ Public Class clsCreateAllTable
             coll.Add("BOM_Code", "varchar(30) null")
             coll.Add("Main_PO_Icode", "varchar(50) null References TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Penalty_Cost", "decimal(18, 2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_DETAIL", coll, Nothing, True, False, "TSPL_RGP_HEAD", "RGP_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_DETAIL", coll, Nothing, True, True, "TSPL_RGP_HEAD", "RGP_No", "")
             qry = " ALTER TABLE TSPL_RGP_DETAIL ALTER COLUMN Item_Cost Decimal(18,3)"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
