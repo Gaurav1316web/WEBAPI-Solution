@@ -23,11 +23,11 @@ Partial Class frmMultipleInvoice
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -43,6 +43,7 @@ Partial Class frmMultipleInvoice
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnNonTaxable = New System.Windows.Forms.RadioButton()
         Me.rbtnTaxable = New System.Windows.Forms.RadioButton()
@@ -64,7 +65,11 @@ Partial Class frmMultipleInvoice
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.rgbDocFinder = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblInvoiceno = New common.Controls.MyLabel()
+        Me.txtInvoiceNo = New common.UserControls.txtNavigator()
+        Me.btnCancel = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrintMultipleInvoice = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -82,6 +87,7 @@ Partial Class frmMultipleInvoice
         CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbItemType.SuspendLayout()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,7 +99,11 @@ Partial Class frmMultipleInvoice
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbDocFinder, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbDocFinder.SuspendLayout()
+        CType(Me.lblInvoiceno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintMultipleInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -134,7 +144,7 @@ Partial Class frmMultipleInvoice
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(882, 417)
+        Me.Panel1.Size = New System.Drawing.Size(1232, 417)
         Me.Panel1.TabIndex = 4
         '
         'SplitContainer1
@@ -153,11 +163,13 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintMultipleInvoice)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(882, 417)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1232, 417)
         Me.SplitContainer1.SplitterDistance = 385
         Me.SplitContainer1.TabIndex = 1
         '
@@ -171,6 +183,7 @@ Partial Class frmMultipleInvoice
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.rgbDocFinder)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnLoadData)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtToShift)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromShift)
@@ -190,7 +203,7 @@ Partial Class frmMultipleInvoice
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(882, 385)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1232, 385)
         Me.SplitContainer2.SplitterDistance = 77
         Me.SplitContainer2.TabIndex = 0
         '
@@ -198,7 +211,7 @@ Partial Class frmMultipleInvoice
         '
         Me.btnLoadData.Location = New System.Drawing.Point(553, 10)
         Me.btnLoadData.Name = "btnLoadData"
-        Me.btnLoadData.Size = New System.Drawing.Size(181, 28)
+        Me.btnLoadData.Size = New System.Drawing.Size(139, 28)
         Me.btnLoadData.TabIndex = 1529
         Me.btnLoadData.Text = "Load Multiple Invoice"
         '
@@ -208,10 +221,10 @@ Partial Class frmMultipleInvoice
         Me.txtToShift.AutoCompleteValueMember = Nothing
         Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.txtToShift.Items.Add(RadListDataItem1)
-        Me.txtToShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.txtToShift.Items.Add(RadListDataItem3)
+        Me.txtToShift.Items.Add(RadListDataItem4)
         Me.txtToShift.Location = New System.Drawing.Point(340, 7)
         Me.txtToShift.Name = "txtToShift"
         Me.txtToShift.Size = New System.Drawing.Size(52, 20)
@@ -223,10 +236,10 @@ Partial Class frmMultipleInvoice
         Me.txtFromShift.AutoCompleteValueMember = Nothing
         Me.txtFromShift.DropDownAnimationEnabled = True
         Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.txtFromShift.Items.Add(RadListDataItem3)
-        Me.txtFromShift.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.txtFromShift.Items.Add(RadListDataItem5)
+        Me.txtFromShift.Items.Add(RadListDataItem6)
         Me.txtFromShift.Location = New System.Drawing.Point(159, 7)
         Me.txtFromShift.Name = "txtFromShift"
         Me.txtFromShift.Size = New System.Drawing.Size(44, 20)
@@ -335,9 +348,19 @@ Partial Class frmMultipleInvoice
         '
         Me.btnGo.Location = New System.Drawing.Point(553, 42)
         Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(181, 28)
+        Me.btnGo.Size = New System.Drawing.Size(139, 28)
         Me.btnGo.TabIndex = 1452
         Me.btnGo.Text = ">>>"
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(398, 7)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 58
         '
         'rgbItemType
         '
@@ -429,9 +452,9 @@ Partial Class frmMultipleInvoice
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
-        Me.gv1.Size = New System.Drawing.Size(882, 304)
+        Me.gv1.Size = New System.Drawing.Size(1232, 304)
         Me.gv1.TabIndex = 0
         '
         'btnDelete
@@ -468,7 +491,7 @@ Partial Class frmMultipleInvoice
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(809, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1159, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 20)
         Me.btnClose.TabIndex = 11
@@ -479,7 +502,7 @@ Partial Class frmMultipleInvoice
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem6})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(882, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1232, 20)
         Me.RadMenu1.TabIndex = 3
         '
         'RadMenuItem3
@@ -533,21 +556,69 @@ Partial Class frmMultipleInvoice
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'btnAddNew
+        'rgbDocFinder
         '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(398, 7)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
-        Me.btnAddNew.TabIndex = 58
+        Me.rgbDocFinder.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbDocFinder.Controls.Add(Me.lblInvoiceno)
+        Me.rgbDocFinder.Controls.Add(Me.txtInvoiceNo)
+        Me.rgbDocFinder.HeaderText = ""
+        Me.rgbDocFinder.Location = New System.Drawing.Point(709, 7)
+        Me.rgbDocFinder.Name = "rgbDocFinder"
+        Me.rgbDocFinder.Size = New System.Drawing.Size(430, 66)
+        Me.rgbDocFinder.TabIndex = 1530
+        '
+        'lblInvoiceno
+        '
+        Me.lblInvoiceno.FieldName = Nothing
+        Me.lblInvoiceno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInvoiceno.Location = New System.Drawing.Point(15, 10)
+        Me.lblInvoiceno.Name = "lblInvoiceno"
+        Me.lblInvoiceno.Size = New System.Drawing.Size(60, 16)
+        Me.lblInvoiceno.TabIndex = 47
+        Me.lblInvoiceno.Text = "Invoice No"
+        '
+        'txtInvoiceNo
+        '
+        Me.txtInvoiceNo.FieldName = Nothing
+        Me.txtInvoiceNo.Location = New System.Drawing.Point(79, 6)
+        Me.txtInvoiceNo.MendatroryField = False
+        Me.txtInvoiceNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtInvoiceNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtInvoiceNo.MyLinkLable1 = Me.lblInvoiceno
+        Me.txtInvoiceNo.MyLinkLable2 = Nothing
+        Me.txtInvoiceNo.MyMaxLength = 30
+        Me.txtInvoiceNo.MyReadOnly = False
+        Me.txtInvoiceNo.Name = "txtInvoiceNo"
+        Me.txtInvoiceNo.Size = New System.Drawing.Size(252, 20)
+        Me.txtInvoiceNo.TabIndex = 46
+        Me.txtInvoiceNo.TabStop = False
+        Me.txtInvoiceNo.Value = ""
+        '
+        'btnCancel
+        '
+        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCancel.Location = New System.Drawing.Point(243, 5)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(65, 20)
+        Me.btnCancel.TabIndex = 14
+        Me.btnCancel.Text = "Cancel"
+        '
+        'btnPrintMultipleInvoice
+        '
+        Me.btnPrintMultipleInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintMultipleInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintMultipleInvoice.Location = New System.Drawing.Point(313, 5)
+        Me.btnPrintMultipleInvoice.Name = "btnPrintMultipleInvoice"
+        Me.btnPrintMultipleInvoice.Size = New System.Drawing.Size(136, 20)
+        Me.btnPrintMultipleInvoice.TabIndex = 15
+        Me.btnPrintMultipleInvoice.Text = "Print Multiple Invoice"
         '
         'frmMultipleInvoice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(882, 437)
+        Me.ClientSize = New System.Drawing.Size(1232, 437)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -575,6 +646,7 @@ Partial Class frmMultipleInvoice
         CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbItemType.ResumeLayout(False)
         Me.rgbItemType.PerformLayout()
@@ -587,7 +659,12 @@ Partial Class frmMultipleInvoice
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbDocFinder, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbDocFinder.ResumeLayout(False)
+        Me.rgbDocFinder.PerformLayout()
+        CType(Me.lblInvoiceno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintMultipleInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -631,5 +708,10 @@ Partial Class frmMultipleInvoice
     Friend WithEvents lblfromDate As common.Controls.MyLabel
     Friend WithEvents btnLoadData As RadButton
     Friend WithEvents btnDelete As RadButton
+    Friend WithEvents rgbDocFinder As RadGroupBox
+    Friend WithEvents lblInvoiceno As common.Controls.MyLabel
+    Friend WithEvents txtInvoiceNo As common.UserControls.txtNavigator
+    Friend WithEvents btnCancel As RadButton
+    Friend WithEvents btnPrintMultipleInvoice As RadButton
 End Class
 
