@@ -105,6 +105,113 @@ Public Class frmAdjustmentStore
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Adjustment_No", "varchar(30)  NOT NULL PRIMARY KEY ")
+        coll.Add("Reference", "varchar(100) NULL")
+        coll.Add("Description", "varchar(300) NULL")
+        coll.Add("Posted", "char(1) NULL")
+        coll.Add("Created_By", "varchar(12)  NOT NULL")
+        coll.Add("Modify_By", "varchar(12)  NOT NULL")
+        coll.Add("Comp_Code", "varchar(8)  NOT NULL")
+        coll.Add("Against_Item_Stock_Conv_Doc", "varchar(30) NULL")
+        coll.Add("Reference_Document", "Varchar(30) null")
+        coll.Add("Document_No", "Varchar(30) null")
+        coll.Add("Unit_Code", "Varchar(12) null")
+        coll.Add("ItemType", "char(2) null")
+        coll.Add("EMP_CODE", "Varchar(12) null")
+        coll.Add("EMP_NAME", "Varchar(50) null")
+        coll.Add("Customer_CODE", "Varchar(12) null")
+        coll.Add("Customer_NAME", "Varchar(50) null")
+        coll.Add("Created_time", "Varchar(10) null")
+        coll.Add("Modified_Time", "Varchar(10) null")
+        coll.Add("Vehicle_Code", "Varchar(12) null")
+        coll.Add("Vehicle_No", "Varchar(30) null")
+        coll.Add("Challan_No", "Varchar(30) null")
+        coll.Add("Challan_date", "Datetime null")
+        coll.Add("GateEntry_No", "Varchar(30) null")
+        coll.Add("GateEntry_Date", "Datetime null")
+        coll.Add("Loc_Code", "Varchar(12) null")
+        coll.Add("Loc_Desc", "Varchar(50) null")
+        coll.Add("Trans_Type", "Varchar(5) null")
+        coll.Add("Adjustment_Date", "Datetime null")
+        coll.Add("Posting_Date", "Datetime null")
+        coll.Add("Created_Date", "Datetime null")
+        coll.Add("Modify_Date", "Datetime null")
+        coll.Add("EntryDateTime", "datetime default null")
+        coll.Add("GateEnt_No", "Varchar(50) null")
+        coll.Add("Is_Imported", "Int NOT NULL Default 0")
+        coll.Add("Stock_Type", "Char(1) Not NUll Default ''")
+        coll.Add("Third_Party_Location", "char(1) Not Null Default 'N'")
+        coll.Add("IsMilkType", "integer not null default 0")
+        coll.Add("MainLocationCode", "Varchar(12) null")
+        coll.Add("MainLocationDesc", "Varchar(50) null")
+        coll.Add("Against_Item_Stock_Conversion", "Varchar(30) null References TSPL_Item_Stock_Conversion_Head(Doc_No)")
+        coll.Add("Against_Bulk_Srn_PI_adjustment", "Varchar(30) null ")
+        coll.Add("Against_AP_Invoice_No", "Varchar(30) null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
+        coll.Add("Against_Physical_Stock_No", "varchar(50) null")
+        coll.Add("Auto_Gen_Againnt_PI_No", "Varchar(30) null References TSPL_PI_HEAD(PI_No)")
+        coll.Add("Against_Transfer_In_Doc_No", "Varchar(30) null ")
+        coll.Add("Against_Tanker_Dispatch_Doc_No", "Varchar(30) null")
+
+        coll.Add("FromLocation", "Varchar(30) null ")
+        coll.Add("ToLocation", "Varchar(30) null")
+        coll.Add("isAutoCreatedByMilkTransferIn", "integer not null default 0")
+
+        coll.Add("Against_PI_No_Difference", "Varchar(30) null References TSPL_PI_HEAD(PI_No)")
+        coll.Add("Against_PI_No_Difference_Rejected", "Varchar(30) null References TSPL_PI_HEAD(PI_No)")
+        coll.Add("AdjustType", "Varchar(10) null")
+        coll.Add("Adjustment_Type", "varchar(3) null")
+        coll.Add("Adjustment_Specification", "varchar(200) null")
+        coll.Add("Is_JobWork", "integer not null default 0")
+        coll.Add("Against_Transfer_In_Return_Doc_No", "Varchar(30) null ")
+        coll.Add("Against_PurchaseReturn_No", "Varchar(30) null References TSPL_PR_HEAD(PR_No)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_HEADER", coll, Nothing, True, True, "", "Adjustment_No", "Adjustment_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Adjustment_No", "varchar(30)  NOT NULL")
+        coll.Add("Adjustment_Line_No", "int  NOT NULL")
+        coll.Add("Item_Code", "varchar(50)  NOT NULL REFERENCES TSPL_ITEM_MASTER (Item_Code)")
+        coll.Add("Item_Description", "varchar(100) NULL")
+        coll.Add("Adjustment_Type", "char(2)  NOT NULL")
+        coll.Add("Location_Code", "varchar(12)  NOT NULL")
+        coll.Add("Item_Quantity", "decimal (18,2) NULL")
+        coll.Add("Item_Cost", "decimal (18,2) NULL")
+        coll.Add("Unit_Code", "varchar(12) NULL")
+        coll.Add("Account_Code", "varchar(50) NULL")
+        coll.Add("Account_Description", "varchar(100) NULL")
+        coll.Add("Remarks", "varchar(100) NULL")
+        coll.Add("Comments", "varchar(100) NULL")
+        coll.Add("MFG_Date", "date NULL")
+        coll.Add("Batch_No", "varchar(30)  NOT NULL")
+        coll.Add("Expiry_Date", "date NULL")
+        coll.Add("Breakage", "decimal (18,2) NULL")
+        coll.Add("Item_Type", "char(22) NULL")
+        coll.Add("MRP", "Decimal(18,2) null")
+        coll.Add("ItemType", "char(22) null")
+        coll.Add("BreakageType", "Varchar(20) null")
+        coll.Add("Breakage_Cost", "decimal(18,0) null")
+        coll.Add("LeakageQty", "Decimal(18,2) null")
+        coll.Add("Basic_Price", "Decimal(18,2) null")
+        coll.Add("Bar_Code", "Varchar(30) null References TSPL_ITEM_BARCODE(Bar_Code)")
+        coll.Add("Item_Status", "varchar(3) Not Null Default 'NEW'")
+        coll.Add("FAT_Pers", "float NULL")
+        coll.Add("FAT_KG", "float NULL")
+        coll.Add("SNF_Pers", "float NULL")
+        coll.Add("SNF_KG", "float NULL")
+        coll.Add("Unit_Cost", "decimal(18,0) Default 0")
+
+        coll.Add("Fat_Rate", "float not null default 0")
+        coll.Add("SNF_Rate", "float not null default 0")
+        coll.Add("Fat_Amt", "float not null default 0")
+        coll.Add("SNF_Amt", "float not null default 0")
+        coll.Add("Price_Type", "varchar(30) Null ")
+        coll.Add("MCC_Price_Code", "Varchar(30) null References TSPL_MILK_PRICE_MASTER(Price_Code)")
+        coll.Add("Bulk_Price_Code", "Varchar(30) null References TSPL_Bulk_Price_MASTER(Price_Code)")
+        coll.Add("Bin_No", "varchar(50) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ADJUSTMENT_DETAIL", coll, Nothing, True, True, "TSPL_ADJUSTMENT_HEADER", "Adjustment_No", "", True)
+
         isInsideLoadForm = True
         settPickCostFromItemMaster = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickCostFromItemMaster, clsFixedParameterCode.PickCostFromItemMaster, Nothing)) = 1)
         settEditItemCost = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EditItemCost, clsFixedParameterCode.EditItemCost, Nothing)) = 1)
@@ -2819,170 +2926,172 @@ Public Class frmAdjustmentStore
 
     Public Sub PrintData(ByVal strAdjustmentNo As String, ByVal IsPreprinted As Boolean, ByVal IsEmpty As Boolean)
         Try
-            Dim frmCRV As New frmCrystalReportViewer()
-            Dim qry As String = "select TSPL_ADJUSTMENT_DETAIL.Adjustment_Type  from TSPL_ADJUSTMENT_DETAIL left outer join TSPL_ADJUSTMENT_HEADER   on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No where TSPL_ADJUSTMENT_HEADER.Adjustment_No='" + strAdjustmentNo + "' and TSPL_ADJUSTMENT_HEADER.ItemType='E' and TSPL_ADJUSTMENT_DETAIL.Adjustment_Line_No=1"
-            Dim TransType As String = clsDBFuncationality.getSingleValue("select TSPL_ADJUSTMENT_HEADER.Trans_Type  from TSPL_ADJUSTMENT_HEADER  where TSPL_ADJUSTMENT_HEADER.Adjustment_No='" + strAdjustmentNo + "'")
-            If (clsCommon.CompairString(TransType, "Out") = CompairStringResult.Equal) Then
-                TransType = "Out"
-            Else
-                TransType = "In"
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                qry = "select Head.Adjustment_No as [Adjustment No], Head.Adjustment_Date as [Adjustment Date],Head.Description as [Description], Head.Reference_Document AS [Reference Document], Head.Document_No as [Document No],detail.Item_Code as [Item Code], detail.Item_Description as [Item Description], Location.Location_Desc as [Location], CASE when detail.Adjustment_Type='BI' then 'Both Increase' else CASE when detail.Adjustment_Type='BD' then 'Both Decrease' else CASE when detail.Adjustment_Type='QI' then 'Quantity Increase' else CASE when detail.Adjustment_Type='QD' then 'Quantity Decrease' else CASE when detail.Adjustment_Type='CI' then 'Cost Increase' else CASE when detail.Adjustment_Type='CD' then 'Cost Decrease' end end end end end end  as [Adjustment Type],detail.Item_Quantity as [Quantity], detail.Item_Cost as [Cost Adjustment], detail.Breakage as [Breakage Quantity],detail.Breakage_Cost as [Breakage Cost], detail.mrp as [MRP], detail.Unit_Code as [UOM], detail.MFG_Date as [MFG Date],detail.Batch_No as [Batch No], detail.Expiry_Date  as [Exp. Date],Location.Location_Desc as [Location], TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, (Location.Add1+(case when len(Location.Add2)>0 then ', 'else '' end )+Location.Add2+(case when len(Location.Add3)>0 then ', 'else '' end )+Location.Add3+(case when len(Location.Add4)>0 then ', 'else '' end )+Location.Add4+(case when len(Location.City_Code )>0 then ', 'else '' end ) + '' +TSPL_TDS_STATE_MASTER.State_Name ) as [Add1],head.created_by as [Created by],head.modify_by as [Modified by] from TSPL_ADJUSTMENT_HEADER as Head left outer join TSPL_ADJUSTMENT_DETAIL as detail on head.Adjustment_No = detail.Adjustment_No Left Outer JOIN TSPL_COMPANY_MASTER ON Head.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_LOCATION_MASTER as Location on detail.Location_Code=Location.Location_Code Left Outer Join TSPL_TDS_STATE_MASTER on Location .State=TSPL_TDS_STATE_MASTER.State_Code  where Head.Adjustment_No='" + strAdjustmentNo + "' order by detail.Adjustment_Line_No "
-                dt = clsDBFuncationality.GetDataTable(qry)
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustment", "Adjustment Detail")
-            Else
-                If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Adjustment_Type")), "BD") = CompairStringResult.Equal And IsPreprinted = True Then
-                    ''For both Decrese or Empty Issue/Sent
+            ClsAdjustments.funAdjStorePrint(MyBase.Form_ID, False, txtDate.Value, txtAdjustmentNo.Value, IsPreprinted, IsEmpty)
 
-                    If IsPreprinted Then
-                        qry = "select TSPL_ADJUSTMENT_HEADER.Adjustment_No,(TSPL_ADJUSTMENT_HEADER.Adjustment_Date+' '+TSPL_ADJUSTMENT_HEADER.created_time) as Adjustment_Date ,TSPL_ADJUSTMENT_HEADER.Customer_CODE,TSPL_ADJUSTMENT_HEADER.Customer_NAME,TSPL_CUSTOMER_MASTER.Lst_No,TSPL_ADJUSTMENT_DETAIL.Item_Code,TSPL_ADJUSTMENT_DETAIL.Item_Description,TSPL_ADJUSTMENT_DETAIL.Item_Quantity,TSPL_ADJUSTMENT_DETAIL.mrp,TSPL_ADJUSTMENT_DETAIL.Item_Cost,TSPL_ADJUSTMENT_HEADER.Vehicle_No " & _
-                    " from TSPL_ADJUSTMENT_DETAIL" & _
-                    " left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No" & _
-                    " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_ADJUSTMENT_HEADER.Customer_CODE" & _
-                    " where TSPL_ADJUSTMENT_HEADER.Adjustment_No='" + strAdjustmentNo + "' ORDER by TSPL_ADJUSTMENT_DETAIL.Adjustment_Line_No"
-                        dt = clsDBFuncationality.GetDataTable(qry)
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomIssue", "Adjustment Detail")
-                    Else
-                        ''For both Increase OR Receipt Challan
-                        Dim strReportName As String = "EMPTY RECEIPT CHALLAN"
-                        Dim strACaption As String = "From"
-                        Dim strIssueCaption As String = "Empty Receipt"
-                        Dim strDateCaption As String = "Receipt Date"
-                        qry = "select max(Tin_No) as  Tin_No,max(CST_LST) as CST_LST,max(Ecc_No) as Ecc_No,max(Comp_Name) as Comp_Name,max(CompAddress) as CompAddress,Adjustment_No,MAX(Adjustment_Date) as Adjustment_Date,MAX(Customer_NAME) as Customer_NAME, " & _
-                        "MAX(Description) as Description,Item_Code,MAX(Item_Description) as Item_Desc, SUM(ISNULL( FCS,0)) as FCS, " & _
-                        "SUM(isnull(FBS,0))as FBS, SUM(ISNULL( FSH,0)) as FSH, SUM(ISNULL( ConvQty,0)) as ECS, SUM(ISNULL( EBS,0)) as EBS, " & _
-                        "SUM(Leak_Qty) as HF,SUM(Breakage) as Burst,SUM(Short_Qty) as Short, SUM(Amount ) as Amount, " & _
-                        "'EMPTY RECEIPT CHALLAN' as ReportName,'From' as ACaption,'Empty Receipt' as EmptyCaption,'Receipt Date' as DateCaption, " & _
-                        "max(SalesManName) as SalesManName,max(Challan_No) as Challan_No,max(Challan_date) as Challan_date, " & _
-                        "max(Vehicle_No) as Vehicle_No ,MAX(Add1) as Add1,max(Add2) as Add2,max(Add3) as Add3, " & _
-                        "max(City_Name) as City_Name,max(State_Name) as State_Name,0 as ChipBT,sum(isnull(Breakage,0)) as Breakage," & _
-                        "sum(isnull(Short_Qty,0)) as Short_Qty,0 as NSBT,0 as HfilledBT,0 as burstBT,0 as Expdt,0 as UnloadBKG, " & _
-                        "0 as TRLkg,0 as TRBkg,0 as rust,0 as dirty,0 as MRP,max(Document_No) as  Document_No,max(Docdate) as Docdate,MAX([Created by]) as [Created by],MAX([Modified by]) as [Modified by]  from ( " & _
-                        "SELECT  Item_Quantity/Conversion_Factor as ConvQty,TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.CST_LST, TSPL_COMPANY_MASTER.Ecc_No, TSPL_COMPANY_MASTER.Comp_Name,  (Case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else TSPL_COMPANY_MASTER.Add1 + case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else ', '+ TSPL_COMPANY_MASTER.Add2 + Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else TSPL_COMPANY_MASTER.Add3 End End End) AS CompAddress, " & _
-                        "TSPL_ADJUSTMENT_HEADER.Adjustment_No, TSPL_ADJUSTMENT_HEADER.Adjustment_Date, TSPL_ADJUSTMENT_HEADER.Customer_NAME," & _
-                        "TSPL_ADJUSTMENT_HEADER.Description, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description, " & _
-                        "TSPL_ADJUSTMENT_DETAIL.Unit_Code, CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FC' THEN Item_Quantity END AS FCS, " & _
-                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FB' THEN Item_Quantity END AS FBS, " & _
-                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'SH' THEN Item_Quantity END AS FSH,  " & _
-                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EC' THEN Item_Quantity END AS ECS, " & _
-                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EB' THEN Item_Quantity END AS EBS, 0 AS Leak_Qty, TSPL_ADJUSTMENT_DETAIL.Breakage, " & _
-                        "0 AS Short_Qty, CASE WHEN TSPL_CUSTOMER_MASTER.Cust_Type_Code NOT IN ('F', 'S') THEN " & _
-                        "(ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0)  + ISNULL(TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0)) ELSE " & _
-                        "ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) END AS Amount,TSPL_ADJUSTMENT_HEADER.EMP_NAME AS SalesManName, " & _
-                        "TSPL_ADJUSTMENT_HEADER.Challan_No, " & _
-                        "TSPL_ADJUSTMENT_HEADER.Challan_date, TSPL_ADJUSTMENT_HEADER.Vehicle_No, TSPL_CUSTOMER_MASTER.Add1, " & _
-                        "TSPL_CUSTOMER_MASTER.Add2, TSPL_CUSTOMER_MASTER.Add3, TSPL_CITY_MASTER.City_Name, " & _
-                        "TSPL_TDS_STATE_MASTER.State_Name, TSPL_ADJUSTMENT_HEADER.Document_No,case when Reference_Document='Sale Invoice' then " & _
-                        "Sale_Invoice_Date else Transfer_Date end as Docdate,TSPL_ADJUSTMENT_HEADER.created_by as [Created by],TSPL_ADJUSTMENT_HEADER.modify_by as [Modified by] FROM TSPL_TRANSFER_HEAD RIGHT OUTER JOIN " & _
-                        "TSPL_ADJUSTMENT_HEADER ON TSPL_TRANSFER_HEAD.Transfer_No = TSPL_ADJUSTMENT_HEADER.Document_No LEFT OUTER JOIN " & _
-                        "TSPL_SALE_INVOICE_HEAD ON TSPL_ADJUSTMENT_HEADER.Document_No = TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No RIGHT OUTER JOIN " & _
-                        "TSPL_ADJUSTMENT_DETAIL ON TSPL_ADJUSTMENT_HEADER.Adjustment_No = TSPL_ADJUSTMENT_DETAIL.Adjustment_No LEFT OUTER JOIN " & _
-                        "TSPL_CUSTOMER_MASTER   ON TSPL_ADJUSTMENT_HEADER.Customer_CODE = TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN " & _
-                        "TSPL_CITY_MASTER ON TSPL_CITY_MASTER.City_Code = TSPL_CUSTOMER_MASTER.City_Code LEFT OUTER JOIN " & _
-                        "TSPL_TDS_STATE_MASTER ON TSPL_TDS_STATE_MASTER.State_Code = TSPL_CUSTOMER_MASTER.State  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_ADJUSTMENT_HEADER.Comp_Code  left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ADJUSTMENT_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code  and TSPL_ADJUSTMENT_DETAIL.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code " & _
-                        "WHERE (TSPL_ADJUSTMENT_HEADER.Adjustment_No = '" + strAdjustmentNo + "')  " & _
-                         ") xxx group by Adjustment_No,Item_Code order by Item_Desc"
-                        dt = clsDBFuncationality.GetDataTable(qry)
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyOutward", "Empty Issue Challan")
-                    End If
+            '            Dim frmCRV As New frmCrystalReportViewer()
+            '            Dim qry As String = "select TSPL_ADJUSTMENT_DETAIL.Adjustment_Type  from TSPL_ADJUSTMENT_DETAIL left outer join TSPL_ADJUSTMENT_HEADER   on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No where TSPL_ADJUSTMENT_HEADER.Adjustment_No='" + strAdjustmentNo + "' and TSPL_ADJUSTMENT_HEADER.ItemType='E' and TSPL_ADJUSTMENT_DETAIL.Adjustment_Line_No=1"
+            '            Dim TransType As String = clsDBFuncationality.getSingleValue("select TSPL_ADJUSTMENT_HEADER.Trans_Type  from TSPL_ADJUSTMENT_HEADER  where TSPL_ADJUSTMENT_HEADER.Adjustment_No='" + strAdjustmentNo + "'")
+            '            If (clsCommon.CompairString(TransType, "Out") = CompairStringResult.Equal) Then
+            '                TransType = "Out"
+            '            Else
+            '                TransType = "In"
+            '            End If
+            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            '            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            '                qry = "select Head.Adjustment_No as [Adjustment No], Head.Adjustment_Date as [Adjustment Date],Head.Description as [Description], Head.Reference_Document AS [Reference Document], Head.Document_No as [Document No],detail.Item_Code as [Item Code], detail.Item_Description as [Item Description], Location.Location_Desc as [Location], CASE when detail.Adjustment_Type='BI' then 'Both Increase' else CASE when detail.Adjustment_Type='BD' then 'Both Decrease' else CASE when detail.Adjustment_Type='QI' then 'Quantity Increase' else CASE when detail.Adjustment_Type='QD' then 'Quantity Decrease' else CASE when detail.Adjustment_Type='CI' then 'Cost Increase' else CASE when detail.Adjustment_Type='CD' then 'Cost Decrease' end end end end end end  as [Adjustment Type],detail.Item_Quantity as [Quantity], detail.Item_Cost as [Cost Adjustment], detail.Breakage as [Breakage Quantity],detail.Breakage_Cost as [Breakage Cost], detail.mrp as [MRP], detail.Unit_Code as [UOM], detail.MFG_Date as [MFG Date],detail.Batch_No as [Batch No], detail.Expiry_Date  as [Exp. Date],Location.Location_Desc as [Location], TSPL_COMPANY_MASTER.Comp_Name as compname,TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, (Location.Add1+(case when len(Location.Add2)>0 then ', 'else '' end )+Location.Add2+(case when len(Location.Add3)>0 then ', 'else '' end )+Location.Add3+(case when len(Location.Add4)>0 then ', 'else '' end )+Location.Add4+(case when len(Location.City_Code )>0 then ', 'else '' end ) + '' +TSPL_TDS_STATE_MASTER.State_Name ) as [Add1],head.created_by as [Created by],head.modify_by as [Modified by] from TSPL_ADJUSTMENT_HEADER as Head left outer join TSPL_ADJUSTMENT_DETAIL as detail on head.Adjustment_No = detail.Adjustment_No Left Outer JOIN TSPL_COMPANY_MASTER ON Head.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_LOCATION_MASTER as Location on detail.Location_Code=Location.Location_Code Left Outer Join TSPL_TDS_STATE_MASTER on Location .State=TSPL_TDS_STATE_MASTER.State_Code  where Head.Adjustment_No='" + strAdjustmentNo + "' order by detail.Adjustment_Line_No "
+            '                dt = clsDBFuncationality.GetDataTable(qry)
+            '                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, "crptAdjustment", "Adjustment Detail")
+            '            Else
+            '                If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Adjustment_Type")), "BD") = CompairStringResult.Equal And IsPreprinted = True Then
+            '                    ''For both Decrese or Empty Issue/Sent
+
+            '                    If IsPreprinted Then
+            '                        qry = "select TSPL_ADJUSTMENT_HEADER.Adjustment_No,(TSPL_ADJUSTMENT_HEADER.Adjustment_Date+' '+TSPL_ADJUSTMENT_HEADER.created_time) as Adjustment_Date ,TSPL_ADJUSTMENT_HEADER.Customer_CODE,TSPL_ADJUSTMENT_HEADER.Customer_NAME,TSPL_CUSTOMER_MASTER.Lst_No,TSPL_ADJUSTMENT_DETAIL.Item_Code,TSPL_ADJUSTMENT_DETAIL.Item_Description,TSPL_ADJUSTMENT_DETAIL.Item_Quantity,TSPL_ADJUSTMENT_DETAIL.mrp,TSPL_ADJUSTMENT_DETAIL.Item_Cost,TSPL_ADJUSTMENT_HEADER.Vehicle_No " & _
+            '                    " from TSPL_ADJUSTMENT_DETAIL" & _
+            '                    " left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_ADJUSTMENT_DETAIL.Adjustment_No" & _
+            '                    " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_ADJUSTMENT_HEADER.Customer_CODE" & _
+            '                    " where TSPL_ADJUSTMENT_HEADER.Adjustment_No='" + strAdjustmentNo + "' ORDER by TSPL_ADJUSTMENT_DETAIL.Adjustment_Line_No"
+            '                        dt = clsDBFuncationality.GetDataTable(qry)
+            '                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomIssue", "Adjustment Detail")
+            '                    Else
+            '                        ''For both Increase OR Receipt Challan
+            '                        Dim strReportName As String = "EMPTY RECEIPT CHALLAN"
+            '                        Dim strACaption As String = "From"
+            '                        Dim strIssueCaption As String = "Empty Receipt"
+            '                        Dim strDateCaption As String = "Receipt Date"
+            '                        qry = "select max(Tin_No) as  Tin_No,max(CST_LST) as CST_LST,max(Ecc_No) as Ecc_No,max(Comp_Name) as Comp_Name,max(CompAddress) as CompAddress,Adjustment_No,MAX(Adjustment_Date) as Adjustment_Date,MAX(Customer_NAME) as Customer_NAME, " & _
+            '                        "MAX(Description) as Description,Item_Code,MAX(Item_Description) as Item_Desc, SUM(ISNULL( FCS,0)) as FCS, " & _
+            '                        "SUM(isnull(FBS,0))as FBS, SUM(ISNULL( FSH,0)) as FSH, SUM(ISNULL( ConvQty,0)) as ECS, SUM(ISNULL( EBS,0)) as EBS, " & _
+            '                        "SUM(Leak_Qty) as HF,SUM(Breakage) as Burst,SUM(Short_Qty) as Short, SUM(Amount ) as Amount, " & _
+            '                        "'EMPTY RECEIPT CHALLAN' as ReportName,'From' as ACaption,'Empty Receipt' as EmptyCaption,'Receipt Date' as DateCaption, " & _
+            '                        "max(SalesManName) as SalesManName,max(Challan_No) as Challan_No,max(Challan_date) as Challan_date, " & _
+            '                        "max(Vehicle_No) as Vehicle_No ,MAX(Add1) as Add1,max(Add2) as Add2,max(Add3) as Add3, " & _
+            '                        "max(City_Name) as City_Name,max(State_Name) as State_Name,0 as ChipBT,sum(isnull(Breakage,0)) as Breakage," & _
+            '                        "sum(isnull(Short_Qty,0)) as Short_Qty,0 as NSBT,0 as HfilledBT,0 as burstBT,0 as Expdt,0 as UnloadBKG, " & _
+            '                        "0 as TRLkg,0 as TRBkg,0 as rust,0 as dirty,0 as MRP,max(Document_No) as  Document_No,max(Docdate) as Docdate,MAX([Created by]) as [Created by],MAX([Modified by]) as [Modified by]  from ( " & _
+            '                        "SELECT  Item_Quantity/Conversion_Factor as ConvQty,TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.CST_LST, TSPL_COMPANY_MASTER.Ecc_No, TSPL_COMPANY_MASTER.Comp_Name,  (Case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else TSPL_COMPANY_MASTER.Add1 + case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else ', '+ TSPL_COMPANY_MASTER.Add2 + Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else TSPL_COMPANY_MASTER.Add3 End End End) AS CompAddress, " & _
+            '                        "TSPL_ADJUSTMENT_HEADER.Adjustment_No, TSPL_ADJUSTMENT_HEADER.Adjustment_Date, TSPL_ADJUSTMENT_HEADER.Customer_NAME," & _
+            '                        "TSPL_ADJUSTMENT_HEADER.Description, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description, " & _
+            '                        "TSPL_ADJUSTMENT_DETAIL.Unit_Code, CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FC' THEN Item_Quantity END AS FCS, " & _
+            '                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FB' THEN Item_Quantity END AS FBS, " & _
+            '                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'SH' THEN Item_Quantity END AS FSH,  " & _
+            '                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EC' THEN Item_Quantity END AS ECS, " & _
+            '                        "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EB' THEN Item_Quantity END AS EBS, 0 AS Leak_Qty, TSPL_ADJUSTMENT_DETAIL.Breakage, " & _
+            '                        "0 AS Short_Qty, CASE WHEN TSPL_CUSTOMER_MASTER.Cust_Type_Code NOT IN ('F', 'S') THEN " & _
+            '                        "(ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0)  + ISNULL(TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0)) ELSE " & _
+            '                        "ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) END AS Amount,TSPL_ADJUSTMENT_HEADER.EMP_NAME AS SalesManName, " & _
+            '                        "TSPL_ADJUSTMENT_HEADER.Challan_No, " & _
+            '                        "TSPL_ADJUSTMENT_HEADER.Challan_date, TSPL_ADJUSTMENT_HEADER.Vehicle_No, TSPL_CUSTOMER_MASTER.Add1, " & _
+            '                        "TSPL_CUSTOMER_MASTER.Add2, TSPL_CUSTOMER_MASTER.Add3, TSPL_CITY_MASTER.City_Name, " & _
+            '                        "TSPL_TDS_STATE_MASTER.State_Name, TSPL_ADJUSTMENT_HEADER.Document_No,case when Reference_Document='Sale Invoice' then " & _
+            '                        "Sale_Invoice_Date else Transfer_Date end as Docdate,TSPL_ADJUSTMENT_HEADER.created_by as [Created by],TSPL_ADJUSTMENT_HEADER.modify_by as [Modified by] FROM TSPL_TRANSFER_HEAD RIGHT OUTER JOIN " & _
+            '                        "TSPL_ADJUSTMENT_HEADER ON TSPL_TRANSFER_HEAD.Transfer_No = TSPL_ADJUSTMENT_HEADER.Document_No LEFT OUTER JOIN " & _
+            '                        "TSPL_SALE_INVOICE_HEAD ON TSPL_ADJUSTMENT_HEADER.Document_No = TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No RIGHT OUTER JOIN " & _
+            '                        "TSPL_ADJUSTMENT_DETAIL ON TSPL_ADJUSTMENT_HEADER.Adjustment_No = TSPL_ADJUSTMENT_DETAIL.Adjustment_No LEFT OUTER JOIN " & _
+            '                        "TSPL_CUSTOMER_MASTER   ON TSPL_ADJUSTMENT_HEADER.Customer_CODE = TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN " & _
+            '                        "TSPL_CITY_MASTER ON TSPL_CITY_MASTER.City_Code = TSPL_CUSTOMER_MASTER.City_Code LEFT OUTER JOIN " & _
+            '                        "TSPL_TDS_STATE_MASTER ON TSPL_TDS_STATE_MASTER.State_Code = TSPL_CUSTOMER_MASTER.State  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_ADJUSTMENT_HEADER.Comp_Code  left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ADJUSTMENT_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code  and TSPL_ADJUSTMENT_DETAIL.Unit_Code=TSPL_ITEM_UOM_DETAIL.UOM_Code " & _
+            '                        "WHERE (TSPL_ADJUSTMENT_HEADER.Adjustment_No = '" + strAdjustmentNo + "')  " & _
+            '                         ") xxx group by Adjustment_No,Item_Code order by Item_Desc"
+            '                        dt = clsDBFuncationality.GetDataTable(qry)
+            '                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "rptEmptyOutward", "Empty Issue Challan")
+            '                    End If
 
 
-                Else
-                    ''For both Increase OR Receipt Challan
-                    qry = "select '" & TransType & "' as TransType,MAX(LocAdd) as LocAdd,max(Route_Desc) as Route_Desc,MAX(GPCode) as GPCode,max(Transporter_Name) as Transporter_Name,SUM(RGB) as RGB,SUM(Pet) as Pet,SUM(FSHBreakage) as ShellBreak, " & _
-                    "max(Tin_No) as  Tin_No,max(CST_LST) as CST_LST,max(Ecc_No) as Ecc_No,max(Comp_Name) as Comp_Name,max(CompAddress) as CompAddress,Adjustment_No,MAX(Adjustment_Date) as Adjustment_Date,MAX(Customer_NAME) as Customer_NAME, " & _
-                    "MAX(Description) as Description,Item_Code,MAX(Item_Description) as Item_Desc, SUM(ISNULL( FCS,0)) as FCS, " & _
-                    "SUM(isnull(FBS,0))as FBS, SUM(ISNULL( FSH,0)) as FSH, SUM(ISNULL( ECS,0)) as ECS, SUM(ISNULL( EBS,0)) as EBS, " & _
-                    "SUM(Leak_Qty) as HF,SUM(Breakage) as Burst,SUM(Short_Qty) as Short, SUM(Amount ) as Amount, " & _
-                    "'EMPTY RECEIPT CHALLAN' as ReportName,'From' as ACaption,'Empty Receipt' as EmptyCaption,'Receipt Date' as DateCaption, " & _
-                    "max(SalesManName) as SalesManName,max(Challan_No) as Challan_No,max(Challan_date) as Challan_date, " & _
-                    "max(Vehicle_No) as Vehicle_No ,MAX(Add1) as Add1,max(Add2) as Add2,max(Add3) as Add3, " & _
-                    "max(City_Name) as City_Name,max(State_Name) as State_Name,0 as ChipBT,sum(isnull(Breakage,0)) as Breakage," & _
-                    "sum(isnull(Short_Qty,0)) as Short_Qty,0 as NSBT,0 as HfilledBT,0 as burstBT,0 as Expdt,0 as UnloadBKG, " & _
-                    "0 as TRLkg,0 as TRBkg,0 as rust,0 as dirty,0 as MRP,max(Document_No) as  Document_No,max(Docdate) as Docdate, MAX(locPin) as locPin, MAX(locTinNo) as locTinNo, MAX(locCSTNo) as locCSTNo, MAX(locName) as locName,MAX([Created by]) as [Created by],MAX([Modified by]) as [Modified by] " & _
-"from ( " & _
-                    "SELECT   (TSPL_LOCATION_MASTER.Add1 + case When TSPL_LOCATION_MASTER.Add2='' Then '' else ', '+ TSPL_LOCATION_MASTER.Add2 End + Case When TSPL_LOCATION_MASTER.Add3='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add3 end + Case When TSPL_LOCATION_MASTER.Add4='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add4 end ) as LocAdd, " & _
-                    "case when TSPL_SALE_INVOICE_HEAD.Route_Desc='' then TSPL_SALE_INVOICE_HEAD.Cust_Name else TSPL_SALE_INVOICE_HEAD.Route_Desc end as Route_Desc, " & _
-                            " TSPL_GATEPASS_DETAIL.GPCode as GPCode,Transporter_Name,0 as RGB,0 as Pet,case when TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'SH' THEN Breakage else  0 END AS FSHBreakage , " & _
-                            "TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.CST_LST, TSPL_COMPANY_MASTER.Ecc_No, TSPL_COMPANY_MASTER.Comp_Name,  (Case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else TSPL_COMPANY_MASTER.Add1 + case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else ', '+ TSPL_COMPANY_MASTER.Add2 + Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else TSPL_COMPANY_MASTER.Add3 End End End) AS CompAddress, " & _
-                            "TSPL_ADJUSTMENT_HEADER.Adjustment_No, TSPL_ADJUSTMENT_HEADER.Adjustment_Date, TSPL_ADJUSTMENT_HEADER.Customer_NAME," & _
-                            "TSPL_ADJUSTMENT_HEADER.Description, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description, " & _
-                            "TSPL_ADJUSTMENT_DETAIL.Unit_Code, CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FC' THEN Item_Quantity END AS FCS, " & _
-                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FB' THEN Item_Quantity END AS FBS, " & _
-                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'SH' THEN Item_Quantity END AS FSH,  " & _
-                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EC' THEN Item_Quantity END AS ECS, " & _
-                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EB' THEN Item_Quantity END AS EBS, 0 AS Leak_Qty, " & _
-                            "case when TSPL_ADJUSTMENT_DETAIL.Unit_Code='EC' then Breakage  else Breakage end as Breakage, " & _
-                            "0 AS Short_Qty, CASE WHEN TSPL_CUSTOMER_MASTER.Cust_Type_Code NOT IN ('F', 'S') THEN " & _
-                            "(ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0)  + ISNULL(TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0)) ELSE " & _
-                            "ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) END AS Amount,TSPL_ADJUSTMENT_HEADER.EMP_NAME AS SalesManName, " & _
-                            "TSPL_ADJUSTMENT_HEADER.Challan_No, " & _
-                            "TSPL_ADJUSTMENT_HEADER.Challan_date, TSPL_ADJUSTMENT_HEADER.Vehicle_No, TSPL_CUSTOMER_MASTER.Add1, " & _
-                            "TSPL_CUSTOMER_MASTER.Add2, TSPL_CUSTOMER_MASTER.Add3, TSPL_CITY_MASTER.City_Name, " & _
-                            "TSPL_TDS_STATE_MASTER.State_Name, TSPL_ADJUSTMENT_HEADER.Document_No,case when Reference_Document='Sale Invoice' then " & _
-                            "Sale_Invoice_Date else Transfer_Date end as Docdate, TSPL_LOCATION_MASTER.Pin_Code as locPin, TSPL_LOCATION_MASTER.TIN_No as locTinNo, TSPL_LOCATION_MASTER.CST_No as locCSTNo, TSPL_LOCATION_MASTER.Location_Desc as locName ,TSPL_ADJUSTMENT_HEADER.created_by as [Created by],TSPL_ADJUSTMENT_HEADER.modify_by as [Modified by] FROM TSPL_TRANSFER_HEAD RIGHT OUTER JOIN " & _
-                            "TSPL_ADJUSTMENT_HEADER ON TSPL_TRANSFER_HEAD.Transfer_No = TSPL_ADJUSTMENT_HEADER.Document_No LEFT OUTER JOIN " & _
-                            "TSPL_SALE_INVOICE_HEAD ON TSPL_ADJUSTMENT_HEADER.Document_No = TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No RIGHT OUTER JOIN " & _
-                            "TSPL_ADJUSTMENT_DETAIL ON TSPL_ADJUSTMENT_HEADER.Adjustment_No = TSPL_ADJUSTMENT_DETAIL.Adjustment_No LEFT OUTER JOIN " & _
-                            "TSPL_CUSTOMER_MASTER   ON TSPL_ADJUSTMENT_HEADER.Customer_CODE = TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN " & _
-                            "TSPL_CITY_MASTER ON TSPL_CITY_MASTER.City_Code = TSPL_CUSTOMER_MASTER.City_Code LEFT OUTER JOIN " & _
-                            "TSPL_TDS_STATE_MASTER ON TSPL_TDS_STATE_MASTER.State_Code = TSPL_CUSTOMER_MASTER.State  LEFT OUTER JOIN " & _
-                            "TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_ADJUSTMENT_HEADER.Comp_Code  " & _
-                            " left outer join TSPL_VEHICLE_MASTER on TSPL_SALE_INVOICE_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id  left outer join " & _
-                            " TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id  left outer join " & _
-                            " TSPL_ITEM_UOM_DETAIL on TSPL_ADJUSTMENT_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code   " & _
-                            " left outer join TSPL_GATEPASS_DETAIL on TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_GATEPASS_DETAIL.DocNo " & _
-                            " left outer join TSPL_LOCATION_MASTER on TSPL_ADJUSTMENT_HEADER.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
-                            " WHERE (TSPL_ADJUSTMENT_HEADER.Adjustment_No = '" + strAdjustmentNo + "') and (TSPL_ITEM_UOM_DETAIL.UOM_Code='EB' or TSPL_ITEM_UOM_DETAIL.UOM_Code='SH')  "
-                    If IsPreprinted Then
-                        qry += " union all " & _
-                       "SELECT   (TSPL_LOCATION_MASTER.Add1 + case When TSPL_LOCATION_MASTER.Add2='' Then '' else ', '+ TSPL_LOCATION_MASTER.Add2 End + Case When TSPL_LOCATION_MASTER.Add3='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add3 end + Case When TSPL_LOCATION_MASTER.Add4='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add4 end ) as LocAdd, " & _
-                       "case when TSPL_SALE_INVOICE_HEAD.Route_Desc='' then TSPL_SALE_INVOICE_HEAD.Cust_Name else TSPL_SALE_INVOICE_HEAD.Route_Desc end as Route_Desc, " & _
-                       "isnull(GPCode,'') as GPCode,Transporter_Name,case when TSPL_SALE_INVOICE_DETAIL.Empty_Value > 0 then " & _
-                       "convert(decimal(18,2),(Invoice_Qty/Conversion_Factor)) else 0 end as RGB , " & _
-                       "case when TSPL_SALE_INVOICE_DETAIL.Empty_Value > 0 then 0 else convert(decimal(18,2),(Invoice_Qty/Conversion_Factor))  end as Pet , " & _
-                       "0 AS FSHBreakage ,'' as Tin_No, '' as CST_LST, '' as Ecc_No, '' as Comp_Name,  '' AS CompAddress, " & _
-                       "TSPL_ADJUSTMENT_HEADER.Adjustment_No, TSPL_ADJUSTMENT_HEADER.Adjustment_Date, " & _
-                       "TSPL_ADJUSTMENT_HEADER.Customer_NAME,TSPL_ADJUSTMENT_HEADER.Description, " & _
-                       "'' as Item_Code, '' as Item_Description, '' as Unit_Code,0 AS FCS, 0 AS FBS, 0 AS FSH, " & _
-                       "0 AS ECS, 0 AS EBS, 0 AS Leak_Qty, 0 as Breakage, 0 AS Short_Qty, 0 AS Amount, " & _
-                       "TSPL_ADJUSTMENT_HEADER.EMP_NAME AS SalesManName, TSPL_ADJUSTMENT_HEADER.Challan_No, " & _
-                       "TSPL_ADJUSTMENT_HEADER.Challan_date, TSPL_ADJUSTMENT_HEADER.Vehicle_No, " & _
-                       "'' as Add1, '' as Add2, '' as Add3, '' as City_Name, '' as State_Name, " & _
-                       "TSPL_ADJUSTMENT_HEADER.Document_No,case when Reference_Document='Sale Invoice' then Sale_Invoice_Date else null end as Docdate , '' as  locPin, '' as locTinNo, '' as locCSTNo, '' as locName " & _
-                       ",TSPL_ADJUSTMENT_HEADER.created_by as [Created by],TSPL_ADJUSTMENT_HEADER.modify_by as [Modified by] from TSPL_ADJUSTMENT_HEADER inner join TSPL_SALE_INVOICE_HEAD on " & _
-                       "TSPL_ADJUSTMENT_HEADER.Document_No=TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No left outer join " & _
-                       "TSPL_SALE_INVOICE_DETAIL on TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_SALE_INVOICE_DETAIL.Sale_Invoice_No left outer join " & _
-                       "TSPL_ITEM_UOM_DETAIL on TSPL_SALE_INVOICE_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " & _
-                       "TSPL_SALE_INVOICE_DETAIL.Unit_code=TSPL_ITEM_UOM_DETAIL.UOM_Code left outer join TSPL_VEHICLE_MASTER on " & _
-                       "TSPL_SALE_INVOICE_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id  left outer join TSPL_TRANSPORT_MASTER on " & _
-                       "TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id left outer join TSPL_GATEPASS_DETAIL on " & _
-                       "TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_GATEPASS_DETAIL.DocNo   " & _
-                       " left outer join TSPL_LOCATION_MASTER on TSPL_ADJUSTMENT_HEADER.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
-                       "WHERE (TSPL_ADJUSTMENT_HEADER.Adjustment_No = '" + strAdjustmentNo + "') "
-                    End If
-                    qry += ") xxx group by Adjustment_No,Item_Code order by Item_Desc"
-                    dt = clsDBFuncationality.GetDataTable(qry)
-                    If IsEmpty Then
-                        If IsPreprinted Then
-                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptAdjustmentCustomReceiptGun", "Adjustment Detail")
-                        Else
+            '                Else
+            '                    ''For both Increase OR Receipt Challan
+            '                    qry = "select '" & TransType & "' as TransType,MAX(LocAdd) as LocAdd,max(Route_Desc) as Route_Desc,MAX(GPCode) as GPCode,max(Transporter_Name) as Transporter_Name,SUM(RGB) as RGB,SUM(Pet) as Pet,SUM(FSHBreakage) as ShellBreak, " & _
+            '                    "max(Tin_No) as  Tin_No,max(CST_LST) as CST_LST,max(Ecc_No) as Ecc_No,max(Comp_Name) as Comp_Name,max(CompAddress) as CompAddress,Adjustment_No,MAX(Adjustment_Date) as Adjustment_Date,MAX(Customer_NAME) as Customer_NAME, " & _
+            '                    "MAX(Description) as Description,Item_Code,MAX(Item_Description) as Item_Desc, SUM(ISNULL( FCS,0)) as FCS, " & _
+            '                    "SUM(isnull(FBS,0))as FBS, SUM(ISNULL( FSH,0)) as FSH, SUM(ISNULL( ECS,0)) as ECS, SUM(ISNULL( EBS,0)) as EBS, " & _
+            '                    "SUM(Leak_Qty) as HF,SUM(Breakage) as Burst,SUM(Short_Qty) as Short, SUM(Amount ) as Amount, " & _
+            '                    "'EMPTY RECEIPT CHALLAN' as ReportName,'From' as ACaption,'Empty Receipt' as EmptyCaption,'Receipt Date' as DateCaption, " & _
+            '                    "max(SalesManName) as SalesManName,max(Challan_No) as Challan_No,max(Challan_date) as Challan_date, " & _
+            '                    "max(Vehicle_No) as Vehicle_No ,MAX(Add1) as Add1,max(Add2) as Add2,max(Add3) as Add3, " & _
+            '                    "max(City_Name) as City_Name,max(State_Name) as State_Name,0 as ChipBT,sum(isnull(Breakage,0)) as Breakage," & _
+            '                    "sum(isnull(Short_Qty,0)) as Short_Qty,0 as NSBT,0 as HfilledBT,0 as burstBT,0 as Expdt,0 as UnloadBKG, " & _
+            '                    "0 as TRLkg,0 as TRBkg,0 as rust,0 as dirty,0 as MRP,max(Document_No) as  Document_No,max(Docdate) as Docdate, MAX(locPin) as locPin, MAX(locTinNo) as locTinNo, MAX(locCSTNo) as locCSTNo, MAX(locName) as locName,MAX([Created by]) as [Created by],MAX([Modified by]) as [Modified by] " & _
+            '"from ( " & _
+            '                    "SELECT   (TSPL_LOCATION_MASTER.Add1 + case When TSPL_LOCATION_MASTER.Add2='' Then '' else ', '+ TSPL_LOCATION_MASTER.Add2 End + Case When TSPL_LOCATION_MASTER.Add3='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add3 end + Case When TSPL_LOCATION_MASTER.Add4='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add4 end ) as LocAdd, " & _
+            '                    "case when TSPL_SALE_INVOICE_HEAD.Route_Desc='' then TSPL_SALE_INVOICE_HEAD.Cust_Name else TSPL_SALE_INVOICE_HEAD.Route_Desc end as Route_Desc, " & _
+            '                            " TSPL_GATEPASS_DETAIL.GPCode as GPCode,Transporter_Name,0 as RGB,0 as Pet,case when TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'SH' THEN Breakage else  0 END AS FSHBreakage , " & _
+            '                            "TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.CST_LST, TSPL_COMPANY_MASTER.Ecc_No, TSPL_COMPANY_MASTER.Comp_Name,  (Case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else TSPL_COMPANY_MASTER.Add1 + case When ISNULL(TSPL_COMPANY_MASTER.Add1,'')='' Then '' Else ', '+ TSPL_COMPANY_MASTER.Add2 + Case When ISNULL(TSPL_COMPANY_MASTER.Add3,'')='' Then '' Else TSPL_COMPANY_MASTER.Add3 End End End) AS CompAddress, " & _
+            '                            "TSPL_ADJUSTMENT_HEADER.Adjustment_No, TSPL_ADJUSTMENT_HEADER.Adjustment_Date, TSPL_ADJUSTMENT_HEADER.Customer_NAME," & _
+            '                            "TSPL_ADJUSTMENT_HEADER.Description, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description, " & _
+            '                            "TSPL_ADJUSTMENT_DETAIL.Unit_Code, CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FC' THEN Item_Quantity END AS FCS, " & _
+            '                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'FB' THEN Item_Quantity END AS FBS, " & _
+            '                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'SH' THEN Item_Quantity END AS FSH,  " & _
+            '                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EC' THEN Item_Quantity END AS ECS, " & _
+            '                            "CASE WHEN TSPL_ADJUSTMENT_DETAIL.Unit_Code = 'EB' THEN Item_Quantity END AS EBS, 0 AS Leak_Qty, " & _
+            '                            "case when TSPL_ADJUSTMENT_DETAIL.Unit_Code='EC' then Breakage  else Breakage end as Breakage, " & _
+            '                            "0 AS Short_Qty, CASE WHEN TSPL_CUSTOMER_MASTER.Cust_Type_Code NOT IN ('F', 'S') THEN " & _
+            '                            "(ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0)  + ISNULL(TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0)) ELSE " & _
+            '                            "ISNULL(TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) END AS Amount,TSPL_ADJUSTMENT_HEADER.EMP_NAME AS SalesManName, " & _
+            '                            "TSPL_ADJUSTMENT_HEADER.Challan_No, " & _
+            '                            "TSPL_ADJUSTMENT_HEADER.Challan_date, TSPL_ADJUSTMENT_HEADER.Vehicle_No, TSPL_CUSTOMER_MASTER.Add1, " & _
+            '                            "TSPL_CUSTOMER_MASTER.Add2, TSPL_CUSTOMER_MASTER.Add3, TSPL_CITY_MASTER.City_Name, " & _
+            '                            "TSPL_TDS_STATE_MASTER.State_Name, TSPL_ADJUSTMENT_HEADER.Document_No,case when Reference_Document='Sale Invoice' then " & _
+            '                            "Sale_Invoice_Date else Transfer_Date end as Docdate, TSPL_LOCATION_MASTER.Pin_Code as locPin, TSPL_LOCATION_MASTER.TIN_No as locTinNo, TSPL_LOCATION_MASTER.CST_No as locCSTNo, TSPL_LOCATION_MASTER.Location_Desc as locName ,TSPL_ADJUSTMENT_HEADER.created_by as [Created by],TSPL_ADJUSTMENT_HEADER.modify_by as [Modified by] FROM TSPL_TRANSFER_HEAD RIGHT OUTER JOIN " & _
+            '                            "TSPL_ADJUSTMENT_HEADER ON TSPL_TRANSFER_HEAD.Transfer_No = TSPL_ADJUSTMENT_HEADER.Document_No LEFT OUTER JOIN " & _
+            '                            "TSPL_SALE_INVOICE_HEAD ON TSPL_ADJUSTMENT_HEADER.Document_No = TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No RIGHT OUTER JOIN " & _
+            '                            "TSPL_ADJUSTMENT_DETAIL ON TSPL_ADJUSTMENT_HEADER.Adjustment_No = TSPL_ADJUSTMENT_DETAIL.Adjustment_No LEFT OUTER JOIN " & _
+            '                            "TSPL_CUSTOMER_MASTER   ON TSPL_ADJUSTMENT_HEADER.Customer_CODE = TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN " & _
+            '                            "TSPL_CITY_MASTER ON TSPL_CITY_MASTER.City_Code = TSPL_CUSTOMER_MASTER.City_Code LEFT OUTER JOIN " & _
+            '                            "TSPL_TDS_STATE_MASTER ON TSPL_TDS_STATE_MASTER.State_Code = TSPL_CUSTOMER_MASTER.State  LEFT OUTER JOIN " & _
+            '                            "TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_ADJUSTMENT_HEADER.Comp_Code  " & _
+            '                            " left outer join TSPL_VEHICLE_MASTER on TSPL_SALE_INVOICE_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id  left outer join " & _
+            '                            " TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id  left outer join " & _
+            '                            " TSPL_ITEM_UOM_DETAIL on TSPL_ADJUSTMENT_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code   " & _
+            '                            " left outer join TSPL_GATEPASS_DETAIL on TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_GATEPASS_DETAIL.DocNo " & _
+            '                            " left outer join TSPL_LOCATION_MASTER on TSPL_ADJUSTMENT_HEADER.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+            '                            " WHERE (TSPL_ADJUSTMENT_HEADER.Adjustment_No = '" + strAdjustmentNo + "') and (TSPL_ITEM_UOM_DETAIL.UOM_Code='EB' or TSPL_ITEM_UOM_DETAIL.UOM_Code='SH')  "
+            '                    If IsPreprinted Then
+            '                        qry += " union all " & _
+            '                       "SELECT   (TSPL_LOCATION_MASTER.Add1 + case When TSPL_LOCATION_MASTER.Add2='' Then '' else ', '+ TSPL_LOCATION_MASTER.Add2 End + Case When TSPL_LOCATION_MASTER.Add3='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add3 end + Case When TSPL_LOCATION_MASTER.Add4='' Then '' Else ', '+ TSPL_LOCATION_MASTER.Add4 end ) as LocAdd, " & _
+            '                       "case when TSPL_SALE_INVOICE_HEAD.Route_Desc='' then TSPL_SALE_INVOICE_HEAD.Cust_Name else TSPL_SALE_INVOICE_HEAD.Route_Desc end as Route_Desc, " & _
+            '                       "isnull(GPCode,'') as GPCode,Transporter_Name,case when TSPL_SALE_INVOICE_DETAIL.Empty_Value > 0 then " & _
+            '                       "convert(decimal(18,2),(Invoice_Qty/Conversion_Factor)) else 0 end as RGB , " & _
+            '                       "case when TSPL_SALE_INVOICE_DETAIL.Empty_Value > 0 then 0 else convert(decimal(18,2),(Invoice_Qty/Conversion_Factor))  end as Pet , " & _
+            '                       "0 AS FSHBreakage ,'' as Tin_No, '' as CST_LST, '' as Ecc_No, '' as Comp_Name,  '' AS CompAddress, " & _
+            '                       "TSPL_ADJUSTMENT_HEADER.Adjustment_No, TSPL_ADJUSTMENT_HEADER.Adjustment_Date, " & _
+            '                       "TSPL_ADJUSTMENT_HEADER.Customer_NAME,TSPL_ADJUSTMENT_HEADER.Description, " & _
+            '                       "'' as Item_Code, '' as Item_Description, '' as Unit_Code,0 AS FCS, 0 AS FBS, 0 AS FSH, " & _
+            '                       "0 AS ECS, 0 AS EBS, 0 AS Leak_Qty, 0 as Breakage, 0 AS Short_Qty, 0 AS Amount, " & _
+            '                       "TSPL_ADJUSTMENT_HEADER.EMP_NAME AS SalesManName, TSPL_ADJUSTMENT_HEADER.Challan_No, " & _
+            '                       "TSPL_ADJUSTMENT_HEADER.Challan_date, TSPL_ADJUSTMENT_HEADER.Vehicle_No, " & _
+            '                       "'' as Add1, '' as Add2, '' as Add3, '' as City_Name, '' as State_Name, " & _
+            '                       "TSPL_ADJUSTMENT_HEADER.Document_No,case when Reference_Document='Sale Invoice' then Sale_Invoice_Date else null end as Docdate , '' as  locPin, '' as locTinNo, '' as locCSTNo, '' as locName " & _
+            '                       ",TSPL_ADJUSTMENT_HEADER.created_by as [Created by],TSPL_ADJUSTMENT_HEADER.modify_by as [Modified by] from TSPL_ADJUSTMENT_HEADER inner join TSPL_SALE_INVOICE_HEAD on " & _
+            '                       "TSPL_ADJUSTMENT_HEADER.Document_No=TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No left outer join " & _
+            '                       "TSPL_SALE_INVOICE_DETAIL on TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_SALE_INVOICE_DETAIL.Sale_Invoice_No left outer join " & _
+            '                       "TSPL_ITEM_UOM_DETAIL on TSPL_SALE_INVOICE_DETAIL.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " & _
+            '                       "TSPL_SALE_INVOICE_DETAIL.Unit_code=TSPL_ITEM_UOM_DETAIL.UOM_Code left outer join TSPL_VEHICLE_MASTER on " & _
+            '                       "TSPL_SALE_INVOICE_HEAD.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id  left outer join TSPL_TRANSPORT_MASTER on " & _
+            '                       "TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id left outer join TSPL_GATEPASS_DETAIL on " & _
+            '                       "TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_GATEPASS_DETAIL.DocNo   " & _
+            '                       " left outer join TSPL_LOCATION_MASTER on TSPL_ADJUSTMENT_HEADER.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+            '                       "WHERE (TSPL_ADJUSTMENT_HEADER.Adjustment_No = '" + strAdjustmentNo + "') "
+            '                    End If
+            '                    qry += ") xxx group by Adjustment_No,Item_Code order by Item_Desc"
+            '                    dt = clsDBFuncationality.GetDataTable(qry)
+            '                    If IsEmpty Then
+            '                        If IsPreprinted Then
+            '                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x12, "crptAdjustmentCustomReceiptGun", "Adjustment Detail")
+            '                        Else
 
-                            If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "guntur") = CompairStringResult.Equal) Then
-                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptGuntur", "Adjustment Detail")
-                            Else
-                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptVizag", "Adjustment Detail")
+            '                            If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "guntur") = CompairStringResult.Equal) Then
+            '                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptGuntur", "Adjustment Detail")
+            '                            Else
+            '                                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.NA, "crptAdjustmentCustomReceiptVizag", "Adjustment Detail")
 
-                            End If
-                        End If
-                    Else
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomReceipt", "Adjustment Detail")
-                    End If
-                End If
-            End If
-            frmCRV = Nothing
+            '                            End If
+            '                        End If
+            '                    Else
+            '                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.InventoryReport, dt, EnumTecxpertPaperSize.PaperSize10x6, "crptAdjustmentCustomReceipt", "Adjustment Detail")
+            '                    End If
+            '                End If
+            '            End If
+            '            frmCRV = Nothing
         Catch ex As Exception
             RadMessageBox.Show(ex.Message)
         End Try
@@ -5740,4 +5849,6 @@ Public Class frmAdjustmentStore
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+
 End Class

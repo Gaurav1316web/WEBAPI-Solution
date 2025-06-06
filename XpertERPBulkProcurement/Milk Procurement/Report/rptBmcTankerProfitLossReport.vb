@@ -434,12 +434,10 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             'gv1.Columns("ADJFATKG1").VisibleInColumnChooser = True
             'gv1.Columns("ADJSNFKG1").VisibleInColumnChooser = True
 
-            gv1.Columns("ADJFATKG1").IsVisible = False
-            gv1.Columns("ADJFATKG1").HeaderText = "FAT(KG)"
-            gv1.Columns("ADJSNFKG1").IsVisible = False
-            'gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
+            'gv1.Columns("ADJFATKG1").IsVisible = False
+            'gv1.Columns("ADJFATKG1").HeaderText = "FAT(KG)"
+            'gv1.Columns("ADJSNFKG1").IsVisible = False
 
-            'gv1.Columns("ADJFATKG").VisibleInColumnChooser = false
 
             If rbtDetail.IsChecked Then
                 gv1.Columns("ADJFATKG").IsVisible = True
@@ -548,18 +546,18 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FLUSING").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("FATKG").Name)
             view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns("SNFKG").Name)
+            ' If rbtDetail.IsChecked Then
+            view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
 
-            If rbtDetail.IsChecked Then
-                view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
-            Else
-                view.ColumnGroups.Add(New GridViewColumnGroup("Losses Above PEMISSIBLE"))
+            'End If
 
-            End If
-            view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+            'view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJFATKG").Name)
 
             view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("ADJSNFKG1").Name)
             'End If
+
             gv1.ViewDefinition = view
         End If
     End Sub

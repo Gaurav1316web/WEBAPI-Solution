@@ -29,7 +29,50 @@ Public Class clsVCGLHead
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Arr As List(Of clsVCGLDetail) = Nothing
 #End Region
+    Public Shared Function funVCGLPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String, ByVal CompAdd As String) As Boolean
+        Dim TSPL_VCGL_Head As String = Nothing
+        Dim TSPL_VCGL_Detail As String = Nothing
+        If isCancel Then
+            TSPL_VCGL_Head = "TSPL_VCGL_Head_CANCEL_DATA"
+            TSPL_VCGL_Detail = "TSPL_VCGL_Detail_CANCEL_DATA"
+        Else
+            TSPL_VCGL_Head = "TSPL_VCGL_Head"
+            TSPL_VCGL_Detail = "TSPL_VCGL_Detail"
+        End If
 
+
+        Dim qry As String
+        qry = " select " + TSPL_VCGL_Head + ".GL_Account_Code,"
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+        qry += " TSPL_GL_ACCOUNTS.Description AS GL_Account_Desc ,tspl_location_master.add1 as Loc_Add1,tspl_location_master.Add2 as Loc_Add2,tspl_location_master.add3 as Loc_Add3, Document_No, " + TSPL_VCGL_Head + ".description,convert(varchar(12),Document_Date,103) as date,Location_Segment as unit,VC_Code vccode,VC_Name as vcname,'' as Remarks ,case when Amount_Type='Cr' then Amount else 0 end as Debit,case when Amount_Type='Dr' then Amount else 0 end as credit," + TSPL_VCGL_Head + ".Created_By,TSPL_COMPANY_MASTER.Comp_Name,tspl_company_Master.add1 +case when len(tspl_company_Master.add2)>0 then ', '+tspl_company_Master.add2 else '' end +case when LEN(isnull(tspl_company_Master.Add3,''))>0 then ', '+isnull(tspl_company_Master.Add3,'') else ' ' end as Add1,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2 " &
+                  " ," + TSPL_VCGL_Head + ".TapalNo," + TSPL_VCGL_Head + ".DateAndTime from " + TSPL_VCGL_Head + " LEFT OUTER JOIN TSPL_GL_ACCOUNTS  ON TSPL_GL_ACCOUNTS.Account_Code =" + TSPL_VCGL_Head + ".GL_Account_Code left outer join TSPL_COMPANY_MASTER on " + TSPL_VCGL_Head + ".Comp_Code=TSPL_COMPANY_MASTER.Comp_Code" &
+                    " left outer join tspl_location_master on tspl_location_master.Location_Code =" + TSPL_VCGL_Head + ".location_segment  " &
+                  " where Document_No='" + StrCode + "' " &
+                  " union all " &
+                  " select " + TSPL_VCGL_Detail + ".GL_Account_Code , "
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+
+        qry += "       " + TSPL_VCGL_Detail + ".GL_Account_Desc , tspl_location_master.add1 as Loc_Add1,tspl_location_master.Add2 as Loc_Add2,tspl_location_master.add3 as Loc_Add3,   " + TSPL_VCGL_Detail + ".Document_No, description,convert(varchar(12)," + TSPL_VCGL_Head + ".Document_Date,103) as date," + TSPL_VCGL_Head + ".Location_Segment as unit, " + TSPL_VCGL_Detail + ".VCGL_Code as vccode, " + TSPL_VCGL_Detail + ".VCGL_Name as vcname, " + TSPL_VCGL_Detail + ".Remarks,Dr_Amount as Debit ,Cr_Amount as Credit," + TSPL_VCGL_Head + ".Created_By,TSPL_COMPANY_MASTER.Comp_Name,'" + CompAdd + "' as Add1,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2," + TSPL_VCGL_Head + ".TapalNo," + TSPL_VCGL_Head + ".DateAndTime   from  " + TSPL_VCGL_Detail + "  " &
+                  " left outer join " + TSPL_VCGL_Head + " on  " + TSPL_VCGL_Detail + ".Document_No=" + TSPL_VCGL_Head + ".Document_No  " &
+                  " left outer join TSPL_COMPANY_MASTER on " + TSPL_VCGL_Head + ".Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  " &
+                   " left outer join tspl_location_master on tspl_location_master.Location_Code =" + TSPL_VCGL_Head + ".location_segment  " &
+                  " where " + TSPL_VCGL_Head + ".Document_No='" + StrCode + "' "
+
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim frmCRV As New frmCrystalReportViewer()
+        frmCRV.funreport(Form_ID, CrystalReportFolder.GeneralLedger, dt, "VCGLVoucher", "Journal Voucher")
+        frmCRV = Nothing
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As clsVCGLHead, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -809,8 +852,10 @@ Public Class clsVCGLHead
                 If (clsCommon.myLen(obj.Posting_Date) > 0) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
-                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", "TSPL_REMITTANCE", "Document_No", trans)
+                clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_VCGL_Head", "Document_No", "TSPL_VCGL_Detail", "Document_No", trans)
+
                 Dim qry As String = "delete from TSPL_VCGL_Detail where Document_No='" + strDocNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_REMITTANCE where Document_No='" + strDocNo + "'"
