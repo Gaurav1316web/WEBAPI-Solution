@@ -1312,9 +1312,22 @@ Public Class FrmPendingAproval
             If dt Is Nothing OrElse dt.Rows.Count = 0 Then
                 gv1.DataSource = Nothing
                 If rbtnStatusPending.IsChecked = True Then
-                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPending.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Pending")
+                    If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+                        common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPending.Text + "' Data For Date '" + dtpFromDate.Value.Date + "'", caption:="Morning")
+
+                    Else
+                        common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPending.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Pending")
+
+                    End If
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPosted.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Posted")
+                    If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+                        common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPosted.Text + "' Data For Date '" + dtpFromDate.Value.Date + "' ", caption:="Evening")
+
+                    Else
+                        common.clsCommon.MyMessageBoxShow(Me, "There Is No '" + rbtnStatusPosted.Text + "' Data Between The Dates '" + dtpFromDate.Value.Date + "' And '" + dtpToDate.Value.Date + "' ", caption:="Posted")
+
+                    End If
+
                 End If
                 Return
             End If
@@ -6249,6 +6262,22 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             ChkMilkType.Visible = True
         Else
             ChkMilkType.Visible = False
+        End If
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+            lblCustomer.Text = "Route"
+            gbStatus.Text = "Shift "
+            rbtnStatusPending.Text = "Morning"
+            rbtnStatusPosted.Text = "Evening"
+            RadLabel3.Visible = False
+            dtpToDate.Visible = False
+
+        Else
+            lblCustomer.Text = "Customer"
+            gbStatus.Text = "Status"
+            rbtnStatusPending.Text = "Pending"
+            rbtnStatusPosted.Text = "Posted"
+            RadLabel3.Visible = True
+            dtpToDate.Visible = True
         End If
     End Sub
 

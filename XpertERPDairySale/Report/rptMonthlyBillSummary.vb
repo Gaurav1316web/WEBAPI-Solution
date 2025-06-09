@@ -536,7 +536,7 @@ left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Cod
 left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_sale_invoice_DETAIL.Item_Code = ItemConvinUOM.Item_Code  and TSPL_SD_sale_invoice_DETAIL.Unit_code = ItemConvinUOM.UOM_Code 
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.Comp_Code 
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
-left outer join TSPL_Route_Master on TSPL_Route_Master.Route_No = TSPL_CUSTOMER_MASTER.Route_No 
+left outer join TSPL_Route_Master on TSPL_Route_Master.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
 LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
 left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
