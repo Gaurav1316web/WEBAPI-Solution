@@ -153,8 +153,8 @@ Public Class clsBMCTransporterBill
             qry = "Select TSPL_BMC_TRANSPORTER_BILL_DETAIL.* from TSPL_BMC_TRANSPORTER_BILL_DETAIL 
                    where TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code='" + obj.Document_Code + "' ORDER BY TSPL_BMC_TRANSPORTER_BILL_DETAIL.PK_ID"
             obj.ArrDT = clsDBFuncationality.GetDataTable(qry, trans)
-            If Not isGetDT Then
-                If (obj.ArrDT IsNot Nothing AndAlso obj.ArrDT.Rows.Count > 0) Then
+
+            If (obj.ArrDT IsNot Nothing AndAlso obj.ArrDT.Rows.Count > 0) Then
                     obj.Arr = New List(Of clsBMCTransporterBillDetail)
                     For Each dr As DataRow In obj.ArrDT.Rows
                         Dim objTr As New clsBMCTransporterBillDetail
@@ -175,8 +175,8 @@ Public Class clsBMCTransporterBill
                         obj.Arr.Add(objTr)
                     Next
                 End If
+
             End If
-        End If
         Return obj
     End Function
 
@@ -222,7 +222,7 @@ Public Class clsBMCTransporterBill
         Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            isSaved = clsTransferToSaving.PostData(strDocNo, trans)
+            isSaved = clsBMCTransporterBill.PostData(strDocNo, trans)
             If isSaved Then
                 trans.Commit()
             Else
@@ -251,7 +251,7 @@ Public Class clsBMCTransporterBill
             Throw New Exception("Already Post on :" + obj.Posted_Date)
         End If
 
-        CreateAPInvoiceHeader(obj, trans)
+        'CreateAPInvoiceHeader(obj, trans)
         qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), "dd/MMM/yyyy hh:mm:ss tt") + "',Status=1 ,Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", trans)
@@ -261,6 +261,89 @@ Public Class clsBMCTransporterBill
     End Function
 
     Private Shared Function CreateAPInvoiceHeader(ByVal obj As clsBMCTransporterBill, ByVal trans As SqlTransaction) As Boolean
+        Dim VendAccSet As String = String.Empty
+
+        For Each objTr As clsBMCTransporterBillDetail In obj.Arr
+            Dim objVendInv As New clsVedorInvoiceHead()
+            objVendInv.Invoice_Entry_Date = obj.Document_Date
+            objVendInv.Document_Type = "I"
+            objVendInv.Invoice_Type = "AP"
+            objVendInv.Document_Total = objTr.Amount
+            objVendInv.Posting_Date = obj.Document_Date
+            objVendInv.Vendor_Invoice_Date = obj.Document_Date
+            objVendInv.Description = "BMC Transporter Bill Debit Note"
+            objVendInv.RefDocNo = objTr.Document_Code
+            objVendInv.RefDocType = "TP_BL"
+            objVendInv.Balance_Amt = objTr.Amount
+            objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
+
+            '' Detail Level Saving
+            Dim objVendInvTR As clsVedorInvoiceDetail = New clsVedorInvoiceDetail()
+            objVendInvTR.Amount = objTr.Amount
+            objVendInvTR.Amount_less_Discount = objTr.Amount
+            objVendInvTR.Total_Amount = objTr.Amount
+            objVendInv.Arr.Add(objVendInvTR)
+
+            objVendInv.SaveData(objVendInv, True, trans)
+            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+
+            objVendInv.Document_No = ""
+            objVendInv.SaveData(objVendInv, True, trans)
+            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+        Next
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim Qry As String = "Select Posted_Date from TSPL_BMC_TRANSPORTER_BILL_HEAD WHERE Document_Code='" + strDocNo + "'"
+            If clsCommon.myLen(clsDBFuncationality.getSingleValue(Qry, trans)) <= 0 Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+
+            Dim obj As clsBMCTransporterBill = clsBMCTransporterBill.GetData(strDocNo, NavigatorType.Current, False, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                Throw New Exception("No Data found to Reverse And UnPost")
+            End If
+
+            'For Each objtr As clsBMCTransporterBillDetail In obj.Arr
+            '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where Against_TransferToSavingPKID= " + clsCommon.myCstr(objtr.PK_ID) + "", trans)
+            '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '        For Each dr As DataRow In dt.Rows
+            '            Dim strAPDocCode As String = clsCommon.myCstr(dr("Document_No"))
+            '            If clsCommon.myLen(strAPDocCode) > 0 Then
+            '                Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_DEDUCTION where AP_Invoice_No='" + strAPDocCode + "'", trans)
+            '                If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+            '                    Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Deduction ")
+            '                End If
+            '                dtCheck = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where AP_Invoice_No='" + strAPDocCode + "'", trans)
+            '                If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+            '                    Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Addition")
+            '                End If
+            '                clsVedorInvoiceHead.ReverseAndUnpost(strAPDocCode, trans)
+            '                clsVedorInvoiceHead.DeleteData(strAPDocCode, trans)
+            '            End If
+            '        Next
+            '    End If
+            'Next
+
+            Qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_By=null,Posted_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "',Status=0 where Document_Code='" + strDocNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 End Class

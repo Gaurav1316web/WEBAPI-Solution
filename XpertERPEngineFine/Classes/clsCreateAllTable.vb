@@ -21944,7 +21944,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Repair", "integer NULL")
             coll.Add("Is_Against_CC_Transfer", "int default 0")
             coll.Add("To_Location_Code", "varchar(12) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_HEAD", coll, Nothing, True, False, "", "RGP_No", "RGP_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_HEAD", coll, Nothing, True, True, "", "RGP_No", "RGP_Date")
 
 
 
@@ -21978,7 +21978,7 @@ Public Class clsCreateAllTable
             coll.Add("BOM_Code", "varchar(30) null")
             coll.Add("Main_PO_Icode", "varchar(50) null References TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Penalty_Cost", "decimal(18, 2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_DETAIL", coll, Nothing, True, False, "TSPL_RGP_HEAD", "RGP_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_DETAIL", coll, Nothing, True, True, "TSPL_RGP_HEAD", "RGP_No", "")
             qry = " ALTER TABLE TSPL_RGP_DETAIL ALTER COLUMN Item_Cost Decimal(18,3)"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
@@ -24586,7 +24586,7 @@ Public Class clsCreateAllTable
             coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
             coll.Add("Remark", "varchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             '    qry = "CREATE UNIQUE INDEX Unique_DCS_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC  (Against_DCS_Multiple_Days) WHERE Against_DCS_Multiple_Days IS NOT NULL;"
@@ -24637,7 +24637,7 @@ Public Class clsCreateAllTable
             coll.Add("Retesting_By", "varchar(12)  NULL")
             coll.Add("Retesting_Date", "Datetime  NULL")
             coll.Add("Remark", "varchar(200) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, True, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_By varchar(12) NULL")
             '    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MILK_COLLECTION_MCC_DETAIL add Retesting_Date Datetime NULL")
@@ -24730,7 +24730,7 @@ Public Class clsCreateAllTable
             coll.Add("Raj_Entered_FATKg", "Decimal(18,3) null")
             coll.Add("Raj_Entered_SNFKg", "Decimal(18,3) null")
             ' coll.Add("Tanker_No", "varchar(30) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Shift_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", coll, Nothing, True, True, "", "Document_No", "Shift_Date", True)
             clsDBFuncationality.ExecuteNonQuery(qry)
             coll("Document_No") = "Varchar(30) null"
             coll("MCC_Code") = "Varchar(30) null"
@@ -24755,7 +24755,7 @@ Public Class clsCreateAllTable
             coll.Add("BULK_ROUTE_NO", "Varchar(30)  null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("QAT", "Integer null")
             coll.Add("Tanker_No", "varchar(30) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", coll, Nothing, True, True, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "", True)
             clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll.Item("Document_No") = "Varchar(30) not null"

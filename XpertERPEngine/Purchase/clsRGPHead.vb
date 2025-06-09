@@ -71,7 +71,78 @@ Public Class clsRGPHead
     Public AMC_Ref_No As String = Nothing
     Public Is_Repair As Boolean = False
 #End Region
+    Public Shared Function funRGPPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String, ByVal chlCust As Boolean, ByVal type As String, ByVal strDep As String, ByVal chkAgainst_Sale As Boolean) As Boolean
+        'Dim type As String = cboDocType.Text
+        'Dim strDep As String = txtDepartment.Value
+        'If clsCommon.myLen(txtDepartment.Value) > 0 Then
+        '    strDep = " Seg_No  ='3' and "
+        'Else
+        '    strDep = ""
+        'End If
+        Dim TSPL_RGP_HEAD As String = Nothing
+        Dim TSPL_RGP_DETAIL As String = Nothing
+        If isCancel Then
+            TSPL_RGP_HEAD = "TSPL_RGP_HEAD_cancel_data"
+            TSPL_RGP_DETAIL = "TSPL_RGP_DETAIL_cancel_data"
+        Else
+            TSPL_RGP_HEAD = "TSPL_RGP_HEAD"
+            TSPL_RGP_DETAIL = "TSPL_RGP_DETAIL"
+        End If
+        '---------------------------------------------------------------
+        Dim VendorCustomerGSTNo As String = String.Empty
+        Dim VendorCustomerGSTNoForJoin As String = String.Empty
+        If chkAgainst_Sale = False And chlCust = False Then
+            VendorCustomerGSTNo = " TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO "
+            VendorCustomerGSTNoForJoin = " TSPL_VENDOR_MASTER.State_Code "
+        Else
+            VendorCustomerGSTNo = " tspl_customer_master.GSTNO AS Vendor_GSTIN_NO "
+            VendorCustomerGSTNoForJoin = " tspl_customer_master.State "
+        End If
+        '-----------------------------------------------------------------
+        Dim strqry As String = "SELECT " + TSPL_RGP_HEAD + ".Is_Against_CC_Transfer, " + TSPL_RGP_HEAD + ".To_Location_Code,TSPL_LOCATION_MASTER_To.Location_Desc as To_Location_Desc,"
+        If isCancel Then
+            strqry += " 'Cancelled' As Report_Status, "
+        Else
+            strqry += " '' As Report_Status, "
+        End If
+        strqry += "TSPL_LOCATION_MASTER_To.Add1 as To_Location_Add1, TSPL_LOCATION_MASTER_To.add2 as To_Location_Add2,TSPL_LOCATION_MASTER_To.add3 as To_Location_Add3, TSPL_LOCATION_MASTER_To.City_Code as To_Location_City_code, TSPL_LOCATION_MASTER_To.State  as To_Location_State_code, TSPL_LOCATION_MASTER_To.Pin_Code as To_Location_Pin,TSPL_LOCATION_MASTER_To.GSTNO as To_Location_GSTNO,tspl_state_master_To_location_state.GST_STATE_Code AS To_Location_GST_StateCode, " + TSPL_RGP_HEAD + ".Man_po_no,convert(varchar," + TSPL_RGP_HEAD + ".man_po_date,103) as man_po_date," + TSPL_RGP_HEAD + ".po_id,convert(varchar,tspl_purchase_order_head.purchaseorder_date,103) as purchaseorder_date," + TSPL_RGP_HEAD + ".AMC_Ref_No, TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ," + VendorCustomerGSTNo + ",TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode, TSPL_LOCATION_MASTER.Tin_No as location_tin_no, TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end   as Location_address, " + TSPL_RGP_HEAD + ".Created_By," + TSPL_RGP_HEAD + ".Modify_By, (select emp_name from TSPL_EMPLOYEE_MASTER where EMP_CODE =" + TSPL_RGP_HEAD + " .Delivered_By )as DeliverdBy ," + TSPL_RGP_HEAD + ".RGP_No," + TSPL_RGP_HEAD + ".VehicleNo, convert(Varchar," + TSPL_RGP_HEAD + ".RGP_Date,103) as RGP_Date , " + TSPL_RGP_HEAD + ".Doc_Type, " + TSPL_RGP_HEAD + ".Vendor_Code, " &
+                     " " + TSPL_RGP_HEAD + ".Vendor_Name, " + TSPL_RGP_HEAD + ".VehicleNo, " + TSPL_RGP_HEAD + ".GPNo, " + TSPL_RGP_HEAD + ".GPDate, " + TSPL_RGP_HEAD + ".Reason, " &
+                     " " + TSPL_RGP_HEAD + ".Remarks, " + TSPL_RGP_HEAD + ".Posting_Date, " + TSPL_RGP_HEAD + ".comp_code, " + TSPL_RGP_HEAD + ".Location,TSPL_LOCATION_MASTER.Location_Desc , " + TSPL_RGP_HEAD + ".Mode_Of_Transport, " + TSPL_RGP_HEAD + ".Cash_Memo_Detail, " &
+                     " " + TSPL_RGP_HEAD + ".Document_Amount," + TSPL_RGP_HEAD + ".Created_By, TSPL_COMPANY_MASTER.Comp_Name, tspl_company_Master.add1 +case when len(tspl_company_Master.add2)>0 then ', '+tspl_company_Master.add2 else '' end +case when LEN(isnull(tspl_company_Master.Add3,''))>0 then ', '+isnull(tspl_company_Master.Add3,'') else ' ' end   as Add1" &
+                     " , TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.Logo_Img, " &
+                     " TSPL_COMPANY_MASTER.Logo_Img2, " + TSPL_RGP_DETAIL + ".Line_No, " + TSPL_RGP_DETAIL + ".Item_Code, " + TSPL_RGP_DETAIL + ".Item_Desc, " &
+                     " " + TSPL_RGP_DETAIL + ".RGP_Qty, " + TSPL_RGP_DETAIL + ".Unit_code, " + TSPL_RGP_DETAIL + ".Item_Cost, " + TSPL_RGP_DETAIL + ".Amount, " + TSPL_RGP_DETAIL + ".Specification "
 
+        If chkAgainst_Sale = False And chlCust = False Then
+            strqry += ", TSPL_VENDOR_MASTER.Add1 AS venadd1, TSPL_VENDOR_MASTER.Add2 AS venadd2, TSPL_VENDOR_MASTER.Add3 AS venadd3,TSPL_VENDOR_MASTER.Tin_No as VenTINNO, " &
+                     " TSPL_VENDOR_MASTER.City_Code_Desc as vencity,TSPL_VENDOR_MASTER.Lst_No,TSPL_VENDOR_MASTER.CST"
+        Else
+            strqry += " , TSPL_CUSTOMER_MASTER.Customer_Name ,ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')+ Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End as Customer_Phone ,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end   as Customer_address,TSPL_CUSTOMER_MASTER.Tin_No as customer_Tin_No,TSPL_CUSTOMER_MASTER.Remarks1  +case when len(TSPL_CUSTOMER_MASTER.Remarks2 )>0 then ', '+TSPL_CUSTOMER_MASTER.Remarks2 else ''  end   as Customer_Remarks,TSPL_CUSTOMER_MASTER.Add1 AS venadd1, TSPL_CUSTOMER_MASTER.Add2 AS venadd2, TSPL_CUSTOMER_MASTER.Add3 AS venadd3,TSPL_CUSTOMER_MASTER.Tin_No as VenTINNO,  TSPL_CITY_MASTER.City_Name as vencity,TSPL_CUSTOMER_MASTER.Lst_No "
+        End If
+        strqry += " ,'" + type + "' as RGPType ,TSPL_GL_SEGMENT_CODE.Description as Department,case when  " + TSPL_RGP_HEAD + ".billing='Y' then 'Yes' when  " + TSPL_RGP_HEAD + ".billing='N' then 'No' else '' end as Billing," + TSPL_RGP_DETAIL + " .Approx_Cost," + TSPL_RGP_HEAD + ".Road_Permit_No, convert(date," + TSPL_RGP_HEAD + ".RoadPermit_Date)as RoadPermit_Date,IsNull(" + TSPL_RGP_DETAIL + ".Penalty_Cost,0)Penalty_Cost  "
+        strqry += " FROM " + TSPL_RGP_HEAD + " INNER JOIN "
+        strqry += " " + TSPL_RGP_DETAIL + " ON " + TSPL_RGP_HEAD + ".RGP_No = " + TSPL_RGP_DETAIL + ".RGP_No  "
+        If chkAgainst_Sale = False And chlCust = False Then
+            strqry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON " + TSPL_RGP_HEAD + ".Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code  "
+        Else
+            strqry += " LEFT OUTER JOIN tspl_customer_master ON " + TSPL_RGP_HEAD + ".Vendor_Code = tspl_customer_master.cust_code  "
+            strqry += " left outer JOIN tspl_city_master ON tspl_customer_master.city_code = tspl_city_master.city_code  "
+        End If
+        strqry += "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON " + TSPL_RGP_HEAD + ".comp_code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_LOCATION_MASTER on " + TSPL_RGP_HEAD + ".Location=TSPL_LOCATION_MASTER .Location_Code LEFT OUTER JOIN  TSPL_GL_SEGMENT_CODE on " + TSPL_RGP_HEAD + ".Department = TSPL_GL_SEGMENT_CODE.Segment_code   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= " + TSPL_RGP_DETAIL + ".Item_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_STATE_MASTER on " + VendorCustomerGSTNoForJoin + " = TSPL_STATE_MASTER.State_Code left join tspl_purchase_order_head on tspl_purchase_order_head.purchaseorder_no=" + TSPL_RGP_HEAD + ".po_id   left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_To on " + TSPL_RGP_HEAD + ".To_Location_Code=TSPL_LOCATION_MASTER_To .Location_Code left outer join tspl_state_master as tspl_state_master_To_location_state on  tspl_state_master_To_location_state.state_code=TSPL_LOCATION_MASTER_To.state  where   " & strDep & " " + TSPL_RGP_HEAD + ".RGP_No='" + StrCode + "'   "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
+        '--- Field Approx.Cost , RoadPermit and subreport Added by shivani---'
+        Dim frmCRV As New frmCrystalReportViewer()
+        If (type = "Returnable Gate Pass") Then
+            ' PurchaseOrderViewer.funreport(dt, "rptRGPNew", "RGP Report") 
+            frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
+        Else
+            'PurchaseOrderViewer.funreport(dt, "rptNRGP", "NRGP Report")
+            frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
+        End If
+        frmCRV = Nothing
+
+        Return True
+    End Function
     Public Shared Function HistoryUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_RGP_HEAD", "RGP_No", "TSPL_RGP_DETAIL", "RGP_No", trans)
         Return True
@@ -1201,6 +1272,7 @@ Public Class clsRGPHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_RGP_HEAD", "RGP_No", "TSPL_RGP_DETAIL", "RGP_No", trans)
 
                 clsSerializeInvenotry.DeleteData(obj.Doc_Type, obj.RGP_No, trans)
 

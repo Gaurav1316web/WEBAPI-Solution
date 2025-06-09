@@ -246,12 +246,102 @@ Public Class frmRGP
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+
         'Dim coll As Dictionary(Of String, String)
         'coll = New Dictionary(Of String, String)()
         'coll.Add("Is_Against_CC_Transfer", "int default 0")
         'coll.Add("To_Location_Code", "varchar(12) NULL")
         'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_HEAD", coll, Nothing, False, False)
+        coll = New Dictionary(Of String, String)
+        coll.Add("RGP_No", "varchar(30) NOT NULL Primary Key")
+        coll.Add("RGP_Date", "varchar(10) NOT NULL")
+        coll.Add("Doc_Type", "Varchar(5) NULL")
+        coll.Add("Location", "varchar(12) NULL")
+        coll.Add("Vendor_Code", "varchar(12) NOT NULL")
+        coll.Add("Vendor_Name", "varchar(200) NULL")
+        coll.Add("Delivered_By", "varchar(12) NULL") 'Employee who taking the items.
+        coll.Add("VehicleNo", "Varchar(50) NULL")
+        coll.Add("GPNo", "Varchar(50) NULL")
+        coll.Add("GPDate", "Date NULL")
+        coll.Add("Reason", "varchar(200) NULL")
+        coll.Add("Remarks", "varchar(200) NULL")
+        coll.Add("comp_code", "Varchar(8) NOT NULL")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Varchar(10) NOT NULL")
+        coll.Add("Modify_By", "varchar(12) NOT NULL")
+        coll.Add("Modify_Date", "Varchar(10) NOT NULL")
+        coll.Add("Status", "integer not null default 0")
+        coll.Add("On_Hold", "integer not null default 0")
+        coll.Add("Posting_Date", "Varchar(10) NULL")
+        coll.Add("Document_Amount", "decimal(18, 2) NULL")
+        coll.Add("Department", "varchar(12) NULL")
+        coll.Add("Billing", "char(1)  NULL")
+        coll.Add("Against_Sale", "int default 0")
+        coll.Add("Is_Non_Inventory", "int default 0")
+        coll.Add("Mode_Of_Transport", "varchar(50) NULL")
+        coll.Add("CostCentre", "varchar(12) NULL")
+        coll.Add("CostCentreDesc", "varchar(50) NULL")
+        coll.Add("Cash_Memo_Detail", "varchar(50) NULL")
+        coll.Add("Against_Customer", "int default 0")
+        coll.Add("IsThirdParty", "char(1) default 'N'")
+        coll.Add("SRN_Location_Code", "varchar(12)")
+        coll.Add("InvoiceNo", "varchar(50) NULL")
+        coll.Add("PartyName", "varchar(50) NULL")
+        coll.Add("PartyAddress", "varchar(100) NULL")
+        coll.Add("DispatchDate", "date NULL")
+        coll.Add("Against_JobWork", "int not null default 0")
+        coll.Add("Against_NRGP", "VARCHAR(30) NOT NULL DEFAULT ''")
+        coll.Add("Is_Rejected", "integer not null default 0")
+        'coll.Add("SRN_No", "Varchar(30) null References TSPL_SRN_HEAD(SRN_No)") ''Column is after TSPL_SRN_HEAD
+        coll.Add("Item_Conversion_Type", "char(1) NULL")
+        coll.Add("PO_Id", "Varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+        coll.Add("GRNo", "Varchar(50) NULL")
+        coll.Add("GR_Date", "Date NULL")
+        coll.Add("Road_Permit_No", "varchar(50) null")
+        coll.Add("RoadPermit_Date", "Date NULL")
+        coll.Add("Against_BOM", "integer not null default 0")
+        coll.Add("Against_As_It_Is", "integer not null default 0")
+        coll.Add("Against_Schedule_Code", "varchar(50) null References TSPL_PO_SCH_HEAD(Document_Code)")
+        'stuti
+        coll.Add("JVDisplayType", "integer not null default 0")
+        '====end here======
+        coll.Add("Against_RGP", "VARCHAR(30) NOT NULL DEFAULT ''")
+        coll.Add("AMC_Ref_No", "Varchar(50) NULL")
+        coll.Add("Man_Po_No", "Varchar(50) NULL")
+        coll.Add("Man_PO_Date", "Date NULL")
+        coll.Add("Is_Repair", "integer NULL")
+        coll.Add("Is_Against_CC_Transfer", "int default 0")
+        coll.Add("To_Location_Code", "varchar(12) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_HEAD", coll, Nothing, True, True, "", "RGP_No", "RGP_Date")
 
+        coll = New Dictionary(Of String, String)
+        coll.Add("RGP_No", "Varchar(30) not null References TSPL_RGP_HEAD(RGP_No)")
+        coll.Add("Line_No", "integer not null default 0")
+        coll.Add("Item_Code", "varchar(50) NOT NULL")
+        coll.Add("Item_Desc", "varchar(100) NULL")
+        coll.Add("RGP_Qty", "decimal(18, 2) NULL")
+        coll.Add("Unit_code", "varchar(12) NULL")
+        coll.Add("Item_Cost", "decimal(18, 2) NULL")
+        coll.Add("Amount", "decimal(18, 2) NULL")
+        coll.Add("Last_RGP_No", "varchar(30) NULL")
+        coll.Add("Last_RGP_Date", "varchar(12) NULL")
+        coll.Add("Specification", "VARCHAR(100) ")
+        coll.Add("Security_Amount", "decimal(18, 2) NULL default 0")
+        coll.Add("FOC", "varchar(3) NULL ")
+        coll.Add("CHEQUE_NO", "varchar(30) NULL ")
+        coll.Add("CHEQUE_DATE", "date null")
+        coll.Add("serial_no", "varchar(50)")
+        coll.Add("agreement_no", "varchar(30) null")
+        coll.Add("MRP", "float")
+        coll.Add("PO_Id", "Varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+        coll.Add("Approx_Cost", "decimal(18, 2) NULL")
+        coll.Add("Against_Schedule_Code", "varchar(50) null References TSPL_PO_SCH_HEAD(Document_Code)")
+        coll.Add("PO_Sch_Qty", "float null")
+        coll.Add("BOM_Code", "varchar(30) null")
+        coll.Add("Main_PO_Icode", "varchar(50) null References TSPL_ITEM_MASTER(Item_Code)")
+        coll.Add("Penalty_Cost", "decimal(18, 2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RGP_DETAIL", coll, Nothing, True, True, "TSPL_RGP_HEAD", "RGP_No", "")
         SetUserMgmtNew()
         lblNrgpReq.Visible = False
         nrgpReqFnd.Visible = False
@@ -2498,7 +2588,6 @@ Public Class frmRGP
     End Sub
     Public Sub print()
         Try
-            '========update by preeti Against Ticket No[BHA/22/05/18-000032]
             Dim type As String = cboDocType.Text
             Dim strDep As String = txtDepartment.Value
             If clsCommon.myLen(txtDepartment.Value) > 0 Then
@@ -2506,52 +2595,62 @@ Public Class frmRGP
             Else
                 strDep = ""
             End If
-            '---------------------------------------------------------------
-            Dim VendorCustomerGSTNo As String = String.Empty
-            Dim VendorCustomerGSTNoForJoin As String = String.Empty
-            If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
-                VendorCustomerGSTNo = " TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO "
-                VendorCustomerGSTNoForJoin = " TSPL_VENDOR_MASTER.State_Code "
-            Else
-                VendorCustomerGSTNo = " tspl_customer_master.GSTNO AS Vendor_GSTIN_NO "
-                VendorCustomerGSTNoForJoin = " tspl_customer_master.State "
-            End If
-            '-----------------------------------------------------------------
-            Dim strqry As String = "SELECT TSPL_RGP_HEAD.Is_Against_CC_Transfer, TSPL_RGP_HEAD.To_Location_Code,TSPL_LOCATION_MASTER_To.Location_Desc as To_Location_Desc,TSPL_LOCATION_MASTER_To.Add1 as To_Location_Add1, TSPL_LOCATION_MASTER_To.add2 as To_Location_Add2,TSPL_LOCATION_MASTER_To.add3 as To_Location_Add3, TSPL_LOCATION_MASTER_To.City_Code as To_Location_City_code, TSPL_LOCATION_MASTER_To.State  as To_Location_State_code, TSPL_LOCATION_MASTER_To.Pin_Code as To_Location_Pin,TSPL_LOCATION_MASTER_To.GSTNO as To_Location_GSTNO,tspl_state_master_To_location_state.GST_STATE_Code AS To_Location_GST_StateCode, tspl_rgp_head.Man_po_no,convert(varchar,tspl_rgp_head.man_po_date,103) as man_po_date,tspl_rgp_head.po_id,convert(varchar,tspl_purchase_order_head.purchaseorder_date,103) as purchaseorder_date,tspl_rgp_head.AMC_Ref_No, TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ," + VendorCustomerGSTNo + ",TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode, TSPL_LOCATION_MASTER.Tin_No as location_tin_no, TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end   as Location_address, TSPL_RGP_HEAD.Created_By,TSPL_RGP_HEAD.Modify_By, (select emp_name from TSPL_EMPLOYEE_MASTER where EMP_CODE =TSPL_RGP_HEAD .Delivered_By )as DeliverdBy ,TSPL_RGP_HEAD.RGP_No,TSPL_RGP_HEAD.VehicleNo, convert(Varchar,TSPL_RGP_HEAD.RGP_Date,103) as RGP_Date , TSPL_RGP_HEAD.Doc_Type, TSPL_RGP_HEAD.Vendor_Code, " &
-                     " TSPL_RGP_HEAD.Vendor_Name, TSPL_RGP_HEAD.VehicleNo, TSPL_RGP_HEAD.GPNo, TSPL_RGP_HEAD.GPDate, TSPL_RGP_HEAD.Reason, " &
-                     " TSPL_RGP_HEAD.Remarks, TSPL_RGP_HEAD.Posting_Date, TSPL_RGP_HEAD.comp_code, TSPL_RGP_HEAD.Location,TSPL_LOCATION_MASTER.Location_Desc , TSPL_RGP_HEAD.Mode_Of_Transport, TSPL_RGP_HEAD.Cash_Memo_Detail, " &
-                     " TSPL_RGP_HEAD.Document_Amount,TSPL_RGP_HEAD.Created_By, TSPL_COMPANY_MASTER.Comp_Name, tspl_company_Master.add1 +case when len(tspl_company_Master.add2)>0 then ', '+tspl_company_Master.add2 else '' end +case when LEN(isnull(tspl_company_Master.Add3,''))>0 then ', '+isnull(tspl_company_Master.Add3,'') else ' ' end   as Add1" &
-                     " , TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.Logo_Img, " &
-                     " TSPL_COMPANY_MASTER.Logo_Img2, TSPL_RGP_DETAIL.Line_No, TSPL_RGP_DETAIL.Item_Code, TSPL_RGP_DETAIL.Item_Desc, " &
-                     " TSPL_RGP_DETAIL.RGP_Qty, TSPL_RGP_DETAIL.Unit_code, TSPL_RGP_DETAIL.Item_Cost, TSPL_RGP_DETAIL.Amount, TSPL_RGP_DETAIL.Specification "
+            clsRGPHead.funRGPPrint(MyBase.Form_ID, False, txtDocNo.Value, txtDate.Value, chlCust.Checked, type, strDep, chkAgainst_Sale.Checked)
 
-            If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
-                strqry += ", TSPL_VENDOR_MASTER.Add1 AS venadd1, TSPL_VENDOR_MASTER.Add2 AS venadd2, TSPL_VENDOR_MASTER.Add3 AS venadd3,TSPL_VENDOR_MASTER.Tin_No as VenTINNO, " &
-                     " TSPL_VENDOR_MASTER.City_Code_Desc as vencity,TSPL_VENDOR_MASTER.Lst_No,TSPL_VENDOR_MASTER.CST"
-            Else
-                strqry += " , TSPL_CUSTOMER_MASTER.Customer_Name ,ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')+ Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End as Customer_Phone ,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end   as Customer_address,TSPL_CUSTOMER_MASTER.Tin_No as customer_Tin_No,TSPL_CUSTOMER_MASTER.Remarks1  +case when len(TSPL_CUSTOMER_MASTER.Remarks2 )>0 then ', '+TSPL_CUSTOMER_MASTER.Remarks2 else ''  end   as Customer_Remarks,TSPL_CUSTOMER_MASTER.Add1 AS venadd1, TSPL_CUSTOMER_MASTER.Add2 AS venadd2, TSPL_CUSTOMER_MASTER.Add3 AS venadd3,TSPL_CUSTOMER_MASTER.Tin_No as VenTINNO,  TSPL_CITY_MASTER.City_Name as vencity,TSPL_CUSTOMER_MASTER.Lst_No "
-            End If
-            strqry += " ,'" + type + "' as RGPType ,TSPL_GL_SEGMENT_CODE.Description as Department,case when  TSPL_RGP_HEAD.billing='Y' then 'Yes' when  TSPL_RGP_HEAD.billing='N' then 'No' else '' end as Billing,TSPL_RGP_DETAIL.Approx_Cost,TSPL_RGP_HEAD.Road_Permit_No, convert(date,TSPL_RGP_HEAD.RoadPermit_Date)as RoadPermit_Date,IsNull(TSPL_RGP_DETAIL.Penalty_Cost,0)Penalty_Cost  "
-            strqry += " FROM TSPL_RGP_HEAD INNER JOIN "
-            strqry += " TSPL_RGP_DETAIL ON TSPL_RGP_HEAD.RGP_No = TSPL_RGP_DETAIL.RGP_No  "
-            If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
-                strqry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_RGP_HEAD.Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code  "
-            Else
-                strqry += " LEFT OUTER JOIN tspl_customer_master ON TSPL_RGP_HEAD.Vendor_Code = tspl_customer_master.cust_code  "
-                strqry += " left outer JOIN tspl_city_master ON tspl_customer_master.city_code = tspl_city_master.city_code  "
-            End If
-            strqry += "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RGP_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_LOCATION_MASTER on TSPL_RGP_HEAD.Location=TSPL_LOCATION_MASTER .Location_Code LEFT OUTER JOIN  TSPL_GL_SEGMENT_CODE on TSPL_RGP_HEAD.Department = TSPL_GL_SEGMENT_CODE.Segment_code   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_RGP_DETAIL.Item_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_STATE_MASTER on " + VendorCustomerGSTNoForJoin + " = TSPL_STATE_MASTER.State_Code left join tspl_purchase_order_head on tspl_purchase_order_head.purchaseorder_no=TSPL_RGP_HEAD.po_id   left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_To on TSPL_RGP_HEAD.To_Location_Code=TSPL_LOCATION_MASTER_To .Location_Code left outer join tspl_state_master as tspl_state_master_To_location_state on  tspl_state_master_To_location_state.state_code=TSPL_LOCATION_MASTER_To.state  where   " & strDep & " TSPL_RGP_HEAD.RGP_No='" + txtDocNo.Value + "'   "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
-            '--- Field Approx.Cost , RoadPermit and subreport Added by shivani---'
-            Dim frmCRV As New frmCrystalReportViewer()
-            If (type = "Returnable Gate Pass") Then
-                ' PurchaseOrderViewer.funreport(dt, "rptRGPNew", "RGP Report") 
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
-            Else
-                'PurchaseOrderViewer.funreport(dt, "rptNRGP", "NRGP Report")
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
-            End If
-            frmCRV = Nothing
+            '========update by preeti Against Ticket No[BHA/22/05/18-000032]
+            'Dim type As String = cboDocType.Text
+            'Dim strDep As String = txtDepartment.Value
+            'If clsCommon.myLen(txtDepartment.Value) > 0 Then
+            '    strDep = " Seg_No  ='3' and "
+            'Else
+            '    strDep = ""
+            'End If
+            ''---------------------------------------------------------------
+            'Dim VendorCustomerGSTNo As String = String.Empty
+            'Dim VendorCustomerGSTNoForJoin As String = String.Empty
+            'If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
+            '    VendorCustomerGSTNo = " TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO "
+            '    VendorCustomerGSTNoForJoin = " TSPL_VENDOR_MASTER.State_Code "
+            'Else
+            '    VendorCustomerGSTNo = " tspl_customer_master.GSTNO AS Vendor_GSTIN_NO "
+            '    VendorCustomerGSTNoForJoin = " tspl_customer_master.State "
+            'End If
+            ''-----------------------------------------------------------------
+            'Dim strqry As String = "SELECT TSPL_RGP_HEAD.Is_Against_CC_Transfer, TSPL_RGP_HEAD.To_Location_Code,TSPL_LOCATION_MASTER_To.Location_Desc as To_Location_Desc,TSPL_LOCATION_MASTER_To.Add1 as To_Location_Add1, TSPL_LOCATION_MASTER_To.add2 as To_Location_Add2,TSPL_LOCATION_MASTER_To.add3 as To_Location_Add3, TSPL_LOCATION_MASTER_To.City_Code as To_Location_City_code, TSPL_LOCATION_MASTER_To.State  as To_Location_State_code, TSPL_LOCATION_MASTER_To.Pin_Code as To_Location_Pin,TSPL_LOCATION_MASTER_To.GSTNO as To_Location_GSTNO,tspl_state_master_To_location_state.GST_STATE_Code AS To_Location_GST_StateCode, tspl_rgp_head.Man_po_no,convert(varchar,tspl_rgp_head.man_po_date,103) as man_po_date,tspl_rgp_head.po_id,convert(varchar,tspl_purchase_order_head.purchaseorder_date,103) as purchaseorder_date,tspl_rgp_head.AMC_Ref_No, TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ," + VendorCustomerGSTNo + ",TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode, TSPL_LOCATION_MASTER.Tin_No as location_tin_no, TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end   as Location_address, TSPL_RGP_HEAD.Created_By,TSPL_RGP_HEAD.Modify_By, (select emp_name from TSPL_EMPLOYEE_MASTER where EMP_CODE =TSPL_RGP_HEAD .Delivered_By )as DeliverdBy ,TSPL_RGP_HEAD.RGP_No,TSPL_RGP_HEAD.VehicleNo, convert(Varchar,TSPL_RGP_HEAD.RGP_Date,103) as RGP_Date , TSPL_RGP_HEAD.Doc_Type, TSPL_RGP_HEAD.Vendor_Code, " &
+            '         " TSPL_RGP_HEAD.Vendor_Name, TSPL_RGP_HEAD.VehicleNo, TSPL_RGP_HEAD.GPNo, TSPL_RGP_HEAD.GPDate, TSPL_RGP_HEAD.Reason, " &
+            '         " TSPL_RGP_HEAD.Remarks, TSPL_RGP_HEAD.Posting_Date, TSPL_RGP_HEAD.comp_code, TSPL_RGP_HEAD.Location,TSPL_LOCATION_MASTER.Location_Desc , TSPL_RGP_HEAD.Mode_Of_Transport, TSPL_RGP_HEAD.Cash_Memo_Detail, " &
+            '         " TSPL_RGP_HEAD.Document_Amount,TSPL_RGP_HEAD.Created_By, TSPL_COMPANY_MASTER.Comp_Name, tspl_company_Master.add1 +case when len(tspl_company_Master.add2)>0 then ', '+tspl_company_Master.add2 else '' end +case when LEN(isnull(tspl_company_Master.Add3,''))>0 then ', '+isnull(tspl_company_Master.Add3,'') else ' ' end   as Add1" &
+            '         " , TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.Logo_Img, " &
+            '         " TSPL_COMPANY_MASTER.Logo_Img2, TSPL_RGP_DETAIL.Line_No, TSPL_RGP_DETAIL.Item_Code, TSPL_RGP_DETAIL.Item_Desc, " &
+            '         " TSPL_RGP_DETAIL.RGP_Qty, TSPL_RGP_DETAIL.Unit_code, TSPL_RGP_DETAIL.Item_Cost, TSPL_RGP_DETAIL.Amount, TSPL_RGP_DETAIL.Specification "
+
+            'If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
+            '    strqry += ", TSPL_VENDOR_MASTER.Add1 AS venadd1, TSPL_VENDOR_MASTER.Add2 AS venadd2, TSPL_VENDOR_MASTER.Add3 AS venadd3,TSPL_VENDOR_MASTER.Tin_No as VenTINNO, " &
+            '         " TSPL_VENDOR_MASTER.City_Code_Desc as vencity,TSPL_VENDOR_MASTER.Lst_No,TSPL_VENDOR_MASTER.CST"
+            'Else
+            '    strqry += " , TSPL_CUSTOMER_MASTER.Customer_Name ,ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')+ Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End as Customer_Phone ,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end   as Customer_address,TSPL_CUSTOMER_MASTER.Tin_No as customer_Tin_No,TSPL_CUSTOMER_MASTER.Remarks1  +case when len(TSPL_CUSTOMER_MASTER.Remarks2 )>0 then ', '+TSPL_CUSTOMER_MASTER.Remarks2 else ''  end   as Customer_Remarks,TSPL_CUSTOMER_MASTER.Add1 AS venadd1, TSPL_CUSTOMER_MASTER.Add2 AS venadd2, TSPL_CUSTOMER_MASTER.Add3 AS venadd3,TSPL_CUSTOMER_MASTER.Tin_No as VenTINNO,  TSPL_CITY_MASTER.City_Name as vencity,TSPL_CUSTOMER_MASTER.Lst_No "
+            'End If
+            'strqry += " ,'" + type + "' as RGPType ,TSPL_GL_SEGMENT_CODE.Description as Department,case when  TSPL_RGP_HEAD.billing='Y' then 'Yes' when  TSPL_RGP_HEAD.billing='N' then 'No' else '' end as Billing,TSPL_RGP_DETAIL.Approx_Cost,TSPL_RGP_HEAD.Road_Permit_No, convert(date,TSPL_RGP_HEAD.RoadPermit_Date)as RoadPermit_Date,IsNull(TSPL_RGP_DETAIL.Penalty_Cost,0)Penalty_Cost  "
+            'strqry += " FROM TSPL_RGP_HEAD INNER JOIN "
+            'strqry += " TSPL_RGP_DETAIL ON TSPL_RGP_HEAD.RGP_No = TSPL_RGP_DETAIL.RGP_No  "
+            'If chkAgainst_Sale.Checked = False And chlCust.Checked = False Then
+            '    strqry += " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_RGP_HEAD.Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code  "
+            'Else
+            '    strqry += " LEFT OUTER JOIN tspl_customer_master ON TSPL_RGP_HEAD.Vendor_Code = tspl_customer_master.cust_code  "
+            '    strqry += " left outer JOIN tspl_city_master ON tspl_customer_master.city_code = tspl_city_master.city_code  "
+            'End If
+            'strqry += "   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RGP_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_LOCATION_MASTER on TSPL_RGP_HEAD.Location=TSPL_LOCATION_MASTER .Location_Code LEFT OUTER JOIN  TSPL_GL_SEGMENT_CODE on TSPL_RGP_HEAD.Department = TSPL_GL_SEGMENT_CODE.Segment_code   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_RGP_DETAIL.Item_Code left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state  left outer join TSPL_STATE_MASTER on " + VendorCustomerGSTNoForJoin + " = TSPL_STATE_MASTER.State_Code left join tspl_purchase_order_head on tspl_purchase_order_head.purchaseorder_no=TSPL_RGP_HEAD.po_id   left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_To on TSPL_RGP_HEAD.To_Location_Code=TSPL_LOCATION_MASTER_To .Location_Code left outer join tspl_state_master as tspl_state_master_To_location_state on  tspl_state_master_To_location_state.state_code=TSPL_LOCATION_MASTER_To.state  where   " & strDep & " TSPL_RGP_HEAD.RGP_No='" + txtDocNo.Value + "'   "
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
+            ''--- Field Approx.Cost , RoadPermit and subreport Added by shivani---'
+            'Dim frmCRV As New frmCrystalReportViewer()
+            'If (type = "Returnable Gate Pass") Then
+            '    ' PurchaseOrderViewer.funreport(dt, "rptRGPNew", "RGP Report") 
+            '    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptRGPNew", "RGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
+            'Else
+            '    'PurchaseOrderViewer.funreport(dt, "rptNRGP", "NRGP Report")
+            '    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptNRGP", "NRGP Report", clsCommon.myCDate(dt.Rows(0)("RGP_Date")), "rptCompanyAddress.rpt")
+            'End If
+            'frmCRV = Nothing
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

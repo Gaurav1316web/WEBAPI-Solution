@@ -281,6 +281,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             End If
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Document_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Document_No", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "TSPL_MILK_SHIFT_UPLOADER_DETAIL", "Document_No", trans)
 
             If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
