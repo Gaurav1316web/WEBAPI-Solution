@@ -19,8 +19,19 @@ Public Class rptMonthlyBillSummary
         rbtnDateWise.IsChecked = False
         rbtnSupplydate.IsChecked = False
         chkExcludeShift.Checked = False
+        rgbDateRange.Location = New Point(16, 3)
+        rgbDateRange.Visible = True
+        rgbPeriod.Location = New Point(501, 101)
+        rgbPeriod.Visible = False
+        txtZone.Enabled = False
+        rbtnCustomerWise.IsChecked = True
+        cmbMonth.SelectedValue = clsCommon.myCdbl(DateAndTime.Now.Month)
+        cmbYear.SelectedValue = clsCommon.myCdbl(DateAndTime.Now.Year)
     End Sub
     Private Sub rptMonthlyBillSummary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        LoadMonth()
+        LoadYear()
         reset()
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -28,6 +39,8 @@ Public Class rptMonthlyBillSummary
     End Sub
     Sub Print(ByVal isprint As Boolean)
         Try
+            Dim month As Integer = 0
+            Dim year As Integer = 0
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
             Dim whr As String = ""
@@ -37,17 +50,32 @@ Public Class rptMonthlyBillSummary
             Dim maxroute As String = ""
             Dim Group As String = ""
             Dim order As String = ""
-            Dim fromdate As Date = txtfDate.Value.AddDays(1)
-            Dim todate As Date = txtToDate.Value.AddDays(-1)
+            Dim fromdate As Date = txtfDate.Value
+            Dim todate As Date = txtToDate.Value
+            If rbtnZone.IsChecked Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    If Integer.TryParse(cmbMonth.SelectedValue, month) AndAlso Integer.TryParse(cmbYear.SelectedValue, year) Then
+                        If month >= 1 AndAlso month <= 12 Then
+                            Dim firstDate As New DateTime(year, month, 1)
+                            Dim daysInMonth As Integer = DateTime.DaysInMonth(year, month)
+                            Dim lastDate As New DateTime(year, month, daysInMonth)
+                            fromdate = firstDate
+                            todate = lastDate
+                        End If
+                    End If
+                End If
+            End If
+
+
             If rbtnSupplydate.IsChecked Then
                 If chkExcludeShift.Checked Then
-                    whr = " (convert(date,Final.Supply_Date,103)='" + clsCommon.GetPrintDate(txtfDate.Value) + "'  and Shift_Type='EVENING') OR  (convert(date,Final.Supply_Date,103)>='" + clsCommon.GetPrintDate(fromdate) + "' AND convert(date,Final.Supply_Date,103)<='" + clsCommon.GetPrintDate(todate) + "')
-                        OR (convert(date,Final.Supply_Date,103)='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and Shift_Type='MORNING') "
+                    whr = " (convert(date,Final.Supply_Date,103)='" + clsCommon.GetPrintDate(fromdate) + "'  and Shift_Type='EVENING') OR  (convert(date,Final.Supply_Date,103)>='" + clsCommon.GetPrintDate(fromdate.AddDays(1)) + "' AND convert(date,Final.Supply_Date,103)<='" + clsCommon.GetPrintDate(todate.AddDays(-1)) + "')
+                        OR (convert(date,Final.Supply_Date,103)='" + clsCommon.GetPrintDate(todate) + "'  and Shift_Type='MORNING') "
                 Else
-                    whr = "  convert(date,Final.Supply_Date,103)>='" + clsCommon.GetPrintDate(txtfDate.Value) + "' AND convert(date,Final.Supply_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' "
+                    whr = "  convert(date,Final.Supply_Date,103)>='" + clsCommon.GetPrintDate(fromdate) + "' AND convert(date,Final.Supply_Date,103)<='" + clsCommon.GetPrintDate(todate) + "' "
                 End If
             ElseIf rbtnDocumentdate.IsChecked Then
-                whr += "(convert(date,Final.Shipment_Date,103)>='" + clsCommon.GetPrintDate(txtfDate.Value) + "' AND convert(date,Final.Shipment_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "')"
+                whr += "(convert(date,Final.Shipment_Date,103)>='" + clsCommon.GetPrintDate(fromdate) + "' AND convert(date,Final.Shipment_Date,103)<='" + clsCommon.GetPrintDate(todate) + "')"
             End If
             If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
                 whrcls += " and Final.Cust_Code in  (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
@@ -55,15 +83,23 @@ Public Class rptMonthlyBillSummary
             If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
                 whrcls += " and Route_No in (" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")"
             End If
+            If txtZone.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
+                whrcls += " and TSPL_Route_Master.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ")"
+            End If
             If rbtnrouteWise.IsChecked Then
-                maxroute = " Route_No, "
+                maxroute = " Route_No, MAX(Zone_Code) Zone_Code,  "
                 Group += " GROUP BY 
                         Item_Code,Route_No,cust_Code,ReportRate "
                 order += " ORDER BY Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
-                maxroute = " Max(Route_No)Route_No, "
+                maxroute = " Max(Route_No)Route_No, MAX(Zone_Code) Zone_Code,  "
                 Group += "GROUP BY  Item_Code,cust_Code,ReportRate "
                 order += " ORDER BY Supply_Date,Shift_Type"
+            ElseIf rbtnZone.IsChecked Then
+                maxroute = " Max(Route_No)Route_No, Zone_Code as Zone_Code,  "
+                Group += " GROUP BY 
+                        Item_Code,Zone_Code,cust_Code,ReportRate "
+                order += " ORDER BY Supply_Date,Shift_Type "
             End If
             If rbtnCustomerWise.IsChecked Then
                 Route = ",max(Routes)Routes"
@@ -88,7 +124,7 @@ GROUP BY
             Else
                 qry += " 'Bill Summary'  "
             End If
-            qry += " as ReportName, '" + txtfDate.Value + "' as FromDate,'" + txtToDate.Value + "' as todate " + Route + "
+            qry += " as ReportName, '" + clsCommon.myCstr(clsCommon.GetPrintDate(fromdate, "dd/MM/yyyy")) + "' as FromDate,'" + clsCommon.myCstr(clsCommon.GetPrintDate(todate, "dd/MM/yyyy")) + "' as todate " + Route + "
 ,0 as valueInRs,
 sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   max(Payment_Terms) AS Payment_Terms, 
@@ -135,7 +171,7 @@ sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   MAX(ITAX10) ITAX10, 
   SUM(ITAX10_RATE) ITAX10_RATE, 
   SUM(ITAX10_Amt) ITAX10_Amt, 
-  MAX(Zone_Code) Zone_Code, 
+ 
    
   SUM(ConversionFactor) ConversionFactor, 
   MAX(EInvoice_Type) EInvoice_Type, 
@@ -589,6 +625,9 @@ from( " + qry + " )FinalQ )FinalXX " + order
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummary", "")
                     ElseIf rbtnCustomerWise.IsChecked Then
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryCustomerWise", "")
+                    ElseIf rbtnZone.IsChecked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyBillSummaryZoneWise", "")
+
                     End If
                     frmCRV = Nothing
                 Else
@@ -1773,6 +1812,7 @@ GROUP BY
                     frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyRouteWiseDetail", "")
                 ElseIf rbtnCustomerWise.IsChecked Then
                     frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptMonthlyCustomerWiseDetail", "")
+
                 End If
                 frmCRV = Nothing
             Else
@@ -1949,5 +1989,119 @@ GROUP BY
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub MyLabel1_Click(sender As Object, e As EventArgs) Handles lblZone.Click
+
+    End Sub
+
+    Private Sub rbtnZone_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnZone.ToggleStateChanged
+        If rbtnZone.IsChecked Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                rgbDateRange.Location = New Point(501, 101)
+                rgbDateRange.Visible = False
+                rgbPeriod.Location = New Point(16, 3)
+                rgbPeriod.Visible = True
+            End If
+            rbtnDocumentdate.Enabled = False
+            rbtnDateWise.Enabled = False
+            rbtnSupplydate.IsChecked = True
+            txtMultiCustomer.Enabled = False
+            TxtRoute.Enabled = False
+            txtZone.Enabled = True
+        Else
+            rgbDateRange.Location = New Point(16, 3)
+            rgbDateRange.Visible = True
+            rgbPeriod.Location = New Point(501, 101)
+            rgbPeriod.Visible = False
+            rbtnDocumentdate.Enabled = True
+            rbtnDateWise.Enabled = True
+            rbtnDocumentdate.IsChecked = True
+            txtMultiCustomer.Enabled = True
+            TxtRoute.Enabled = True
+            txtZone.Enabled = False
+        End If
+    End Sub
+
+    Private Sub txtZone__My_Click(sender As Object, e As EventArgs) Handles txtZone._My_Click
+        Try
+            Dim qry As String = "select TSPL_ZONE_MASTER.Zone_Code as Code,TSPL_ZONE_MASTER.Description as Name from TSPL_ZONE_MASTER where 1=1 "
+            txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("ZoneMulSel", qry, "Code", "Name", txtZone.arrValueMember, txtZone.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub LoadMonth()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "1"
+        dr("Name") = "JAN"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "2"
+        dr("Name") = "FEB"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "3"
+        dr("Name") = "MAR"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "4"
+        dr("Name") = "APR"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "5"
+        dr("Name") = "MAY"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "6"
+        dr("Name") = "JUN"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "7"
+        dr("Name") = "JUL"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "8"
+        dr("Name") = "AUG"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "9"
+        dr("Name") = "SEP"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "10"
+        dr("Name") = "OCT"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "11"
+        dr("Name") = "NOV"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "12"
+        dr("Name") = "DEC"
+        dt.Rows.Add(dr)
+        cmbMonth.ValueMember = "Code"
+        cmbMonth.DisplayMember = "Name"
+        cmbMonth.DataSource = dt
+
+    End Sub
+    Sub LoadYear()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+        For i As Integer = 2000 To 2050
+            dr = dt.NewRow()
+            dr("Code") = clsCommon.myCstr(i)
+            dr("Name") = clsCommon.myCstr(i)
+            dt.Rows.Add(dr)
+        Next
+        cmbYear.ValueMember = "Code"
+        cmbYear.DisplayMember = "Name"
+        cmbYear.DataSource = dt
+
     End Sub
 End Class
