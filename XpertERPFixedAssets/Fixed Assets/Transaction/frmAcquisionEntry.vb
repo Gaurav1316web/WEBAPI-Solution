@@ -290,6 +290,252 @@ Public Class frmAcquisionEntry
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Dim coll As Dictionary(Of String, String)
+        'coll = New Dictionary(Of String, String)
+        'coll.Add("Acquisition_Code", "Varchar(30) not null References TSPL_ACQUISITION_HEAD(Acquisition_Code)")
+        'coll.Add("SNo", "integer not null default 0")
+        'coll.Add("Asset_Code", "varchar(50) NOT NULL Unique")
+        'coll.Add("Asset_Name", "varchar(100) NULL")
+        'coll.Add("Templete_Code", "Varchar(30) null References TSPL_FA_TEMPLATE_MASTER(Template_Code)")
+        'coll.Add("Category_code", "varchar(12)  NULL References TSPL_ASSET_CATEGORY(Category_code)")
+        'coll.Add("Group_Code", "varchar(30)  NULL References TSPL_ASSET_GROUP(Group_Code)")
+        'coll.Add("AcSet_Code", "varchar(30) NULL References TSPL_Dep_AccountSet(AcSet_Code)")
+        'coll.Add("CostCenter_Code", "varchar(30) NULL ") ' References TSPL_FA_COST_CENTER_MASTER(CostCenter_Code)
+        'coll.Add("Acqusition_Date", "Date NOT NULL")
+        'coll.Add("Dep_Method_Tax_Code", "Varchar(30) null References TSPL_DEPRECIATION_METHOD(Code)")
+        'coll.Add("Dep_Method_Code", "Varchar(30) null References TSPL_DEPRECIATION_METHOD(Code)")
+        'coll.Add("Dep_Period_Code", "Varchar(30) null References TSPL_DEPRECIATION_PERIODS(period_Code)")
+        'coll.Add("Start_Date", "Date NOT NULL")
+        'coll.Add("Dep_Rate", "decimal(18, 2) NULL")
+        'coll.Add("Book_Estimated_Life", "decimal(18, 2) NULL")
+        'coll.Add("Book_Source_value", "decimal(18, 2) NULL")
+        'coll.Add("Book_Source_Original_value", "decimal(18, 2) NULL")
+        'coll.Add("TAX1", "varchar(12) NULL")
+        'coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX1_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2", "varchar(12) NULL")
+        'coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3", "varchar(12) NULL")
+        'coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4", "varchar(12) NULL")
+        'coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5", "varchar(12) NULL")
+        'coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6", "varchar(12) NULL")
+        'coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7", "varchar(12) NULL")
+        'coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8", "varchar(12) NULL")
+        'coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9", "varchar(12) NULL")
+        'coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10", "varchar(12) NULL")
+        'coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Total_Tax_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Item_Net_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Item_Code", "Varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
+        'coll.Add("Asset_Specification", "varchar(200) NULL")
+        'coll.Add("Dep_Tax_Rate", "decimal(18, 2) NULL")
+        'coll.Add("Book_Salvage_Value", "decimal(18, 2) NULL")
+        'coll.Add("Is_Issued", "Char(1) NOT NULL Default 'N'")
+        'coll.Add("Issue_Return_Date", "DateTime NULL")
+        'coll.Add("From_Entity", "varchar(20) NOT NULL DEFAULT ''")
+        'coll.Add("To_Entity", "varchar(20) NOT NULL DEFAULT ''")
+        'coll.Add("Is_Assembled", "bit not null default 0")
+        'coll.Add("PurchaseOrder_Qty", "decimal (18,2) NULL")
+        'coll.Add("Book_Salvage_Rate", "decimal(18, 2) NULL")
+        'coll.Add("Prefix_Type", "varchar(10) NULL")
+        'coll.Add("Book_Dep_Type", "varchar(2) NULL")
+        'coll.Add("Tax_Dep_Type", "varchar(2) NULL")
+        'coll.Add("SRN_No", "Varchar(30) null References TSPL_SRN_HEAD(SRN_No)")
+        'coll.Add("SRNQty", "Integer  NULL")
+        'coll.Add("SRN_Rate", "decimal(18, 2)  NULL")
+        'coll.Add("Unit_Code", "varchar(30)  NULL")
+        'coll.Add("PI_No", "Varchar(30)  null References TSPL_PI_HEAD(PI_No)")
+        'coll.Add("Asset_Merged", "Bit not null default 0")
+        'coll.Add("Merge_Asset_Code", "varchar(50) null") ''by merging new asset create
+        'coll.Add("IsCapex", "integer null")
+        'coll.Add("CapexType", "varchar(10)")
+        'coll.Add("Capex_Code", "varchar(30) null References TSPL_CAPEX_MASTER(Code)")
+        'coll.Add("Capex_SubCode", "varchar(30) null References TSPL_CAPEX_BUDGET_MASTER(Code)")
+        'coll.Add("ItemAdd_Charge_Code1", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt1", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt1", "Float null")
+        'coll.Add("ItemAdd_Charge_Code2", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt2", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt2", "Float null")
+        'coll.Add("ItemAdd_Charge_Code3", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt3", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt3", "Float null")
+        'coll.Add("ItemAdd_Charge_Code4", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt4", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt4", "Float null")
+        'coll.Add("ItemAdd_Charge_Code5", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt5", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt5", "Float null")
+        'coll.Add("ItemAdd_Charge_Code6", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt6", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt6", "Float null")
+        'coll.Add("ItemAdd_Charge_Code7", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt7", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt7", "Float null")
+        'coll.Add("ItemAdd_Charge_Code8", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt8", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt8", "Float null")
+        'coll.Add("ItemAdd_Charge_Code9", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt9", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt9", "Float null")
+        'coll.Add("ItemAdd_Charge_Code10", "varchar(30) NULL")
+        'coll.Add("ItemAdd_Org_Charge_Amt10", "Float null")
+        'coll.Add("ItemAdd_Calc_Charge_Amt10", "Float null")
+        'coll.Add("Total_ItemAdd_Charge", "Float null")
+        'coll.Add("Tax_Recoverable", "float NULL")
+        'coll.Add("Tax_Non_Recoverable", "float NULL")
+        'coll.Add("Put_To_Use", "bit NULL")
+        'coll.Add("Asset_Serial_No", "varchar(50) NULL")
+        'coll.Add("Depreciated_Value", "decimal(18,2) NULL")
+        'coll.Add("Asset_Expired_Life", "decimal(18,2) NULL")
+        'coll.Add("Hirerachy_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_DETAIL", coll, "", True, True, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "", True)
+
+        'coll = New Dictionary(Of String, String)
+        'coll.Add("Acquisition_Code", "varchar(30) NOT NULL Primary Key")
+        'coll.Add("Acquisition_Date", "Datetime NOT NULL")
+        'coll.Add("PO_No", "Varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+        'coll.Add("SRN_No", "Varchar(30) null References TSPL_SRN_HEAD(SRN_No)")
+        'coll.Add("Loc_Code", "Varchar(12) null")
+        'coll.Add("Vendor_Code", "varchar(12) NOT NULL")
+        'coll.Add("Description", "varchar(200) NULL")
+        'coll.Add("Vendor_Invoice_No", "varchar(30) NOT NULL Default ''")
+        'coll.Add("Remarks", "varchar(200) NULL")
+        'coll.Add("Status", "integer not null default 0")
+        'coll.Add("On_Hold", "integer not null default 0")
+        'coll.Add("Is_Visi_Type", "integer not null default 0")
+        'coll.Add("Tax_Group", "varchar(12) NOT NULL")
+        'coll.Add("TAX1", "varchar(12) NULL")
+        'coll.Add("TAX1_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX1_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2", "varchar(12) NULL")
+        'coll.Add("TAX2_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX2_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX2_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3", "varchar(12) NULL")
+        'coll.Add("TAX3_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX3_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX3_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4", "varchar(12) NULL")
+        'coll.Add("TAX4_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX4_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX4_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5", "varchar(12) NULL")
+        'coll.Add("TAX5_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX5_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX5_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6", "varchar(12) NULL")
+        'coll.Add("TAX6_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX6_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7", "varchar(12) NULL")
+        'coll.Add("TAX7_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX7_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8", "varchar(12) NULL")
+        'coll.Add("TAX8_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX8_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9", "varchar(12) NULL")
+        'coll.Add("TAX9_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX9_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10", "varchar(12) NULL")
+        'coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+        'coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Total_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Total_Tax_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Net_Amt", "decimal(18, 2) NULL")
+        'coll.Add("Post_Date", "datetime NULL")
+        'coll.Add("Created_By", "varchar(12) NOT NULL")
+        'coll.Add("Created_Date", "Datetime NOT NULL")
+        'coll.Add("Modify_By", "varchar(12) NOT NULL")
+        'coll.Add("Modify_Date", "Datetime NOT NULL")
+        'coll.Add("Status_New_Old", "varchar(3) NOT NULL DEFAULT 'NEW'")
+        'coll.Add("Templete_Code", "Varchar(30) null References TSPL_FA_TEMPLATE_MASTER(Template_Code)")
+        'coll.Add("IS_Assemble", "bit not null default 0")
+        'coll.Add("comp_code", "varchar(8) NULL")
+        'coll.Add("Acquisition_Type", "varchar(30) NULL") '' possible value 1. Direct 2. Asset 3. Assembled
+        'coll.Add("TDS_Base_Actual_Amount", "decimal (18,2) NULL")
+        'coll.Add("TDS_Base_Calculated_Amount", "decimal (18,2) NULL")
+        'coll.Add("TDS_Percentage", "decimal (18,2) NULL")
+        'coll.Add("TDS_Actual_Amount", "decimal (18,2) NULL")
+        'coll.Add("TDS_Calculated_Amount", "decimal (18,2) NULL")
+        'coll.Add("Nature_of_deduction", "varchar(12) NULL")
+        'coll.Add("Branch_Code", "varchar(12) NULL")
+        'coll.Add("Section_Code", "varchar(12) NULL")
+        'coll.Add("Balance_Amt", "decimal (18,2) NULL")
+        'coll.Add("PI_No", "Varchar(30)  null References TSPL_PI_HEAD(PI_No)")
+        'coll.Add("CapexSub_Code", "varchar(30) NULL")
+        'coll.Add("Capex_Code", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Code1", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name1", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt1", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code2", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name2", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt2", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code3", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name3", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt3", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code4", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name4", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt4", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code5", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name5", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt5", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code6", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name6", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt6", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code7", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name7", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt7", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code8", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name8", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt8", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code9", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name9", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt9", "decimal(18, 2) NULL")
+        'coll.Add("Add_Charge_Code10", "varchar(30) NULL")
+        'coll.Add("Add_Charge_Name10", "varchar(100) NULL")
+        'coll.Add("Add_Charge_Amt10", "decimal(18, 2) NULL")
+        'coll.Add("Total_Add_Charge", "decimal(18, 2) NULL")
+        'coll.Add("Tax_Recoverable", "float NULL")
+        'coll.Add("Tax_Non_Recoverable", "float NULL")
+        'coll.Add("ASSEMBLE_CODE", "varchar(30) NULL")
+        'coll.Add("Opening_Assemble", "BIT NULL")
+        'coll.Add("Opening_Assemble_Amt", "decimal(18,2) NULL")
+        'coll.Add("Opening_Direct", "BIT NULL")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_HEAD", coll, "", True, True, "", "Acquisition_Code", "Acquisition_Date", True)
+
+
         'TSPL_ACQUISITION_DETAIL
         'Try
         '    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_ACQUISITION_DETAIL'"))
@@ -5458,56 +5704,62 @@ Public Class frmAcquisionEntry
     Private Sub BtnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnPrint.Click
         'Ticket No-ERO/02/08/19-000980
         Try
-            Dim frm As New frmCrystalReportViewer()
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please Select a Acquisition First.", Me.Text)
                 Return
             End If
-            Dim dtCompAddress As DataTable = Nothing
-            Dim Qry As String = ""
+            clsAcquisitionHead.funACQEPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
 
-            Qry = " select TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end " & _
-                    " +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  " & _
-                    " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end  " & _
-                    " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end  " & _
-                    " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end " & _
-                    " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else  " & _
-                    "',Phone'+TSPL_COMPANY_MASTER.Phone1 end +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  " & _
-                    " '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ' " & _
-                    ",Email - '+ TSPL_COMPANY_MASTER.Email else '' end  as Comp_Address  " & _
-                    " , case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ' CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end  " & _
-                    " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end  as CIN_PAN" & _
-                    " from tspl_company_master "
-            dtCompAddress = clsDBFuncationality.GetDataTable(Qry)
-            Qry = " SELECT TSPL_ACQUISITION_HEAD.Vendor_Invoice_No,(select cast(TSPL_COMPANY_MASTER.logo_img as image) from TSPL_COMPANY_MASTER) as [logo_img],'" + clsCommon.myCstr(dtCompAddress.Rows(0)("Comp_Address")) + "' as [Company Address],'" + clsCommon.myCstr(dtCompAddress.Rows(0)("CIN_PAN")) + "' as CIN_PAN,'" + objCommonVar.CurrentCompanyName + "' as [Company], TSPL_ACQUISITION_HEAD.Acquisition_Code, TSPL_ACQUISITION_HEAD.Acquisition_Date,"
-            Qry += " TSPL_ACQUISITION_HEAD.PO_No,  TSPL_ACQUISITION_HEAD.Description, TSPL_ACQUISITION_HEAD.Remarks,TSPL_LOCATION_MASTER.Location_Desc ,"
-            Qry += " TSPL_VENDOR_MASTER.Vendor_Name,  "
-            Qry += " TSPL_ACQUISITION_HEAD.tax1,TSPL_ACQUISITION_HEAD.tax1_amt,TSPL_ACQUISITION_HEAD.tax2,TSPL_ACQUISITION_HEAD.tax2_amt,TSPL_ACQUISITION_HEAD.tax3,TSPL_ACQUISITION_HEAD.tax3_amt,TSPL_ACQUISITION_HEAD.tax4,TSPL_ACQUISITION_HEAD.tax4_amt,TSPL_ACQUISITION_HEAD.tax5,TSPL_ACQUISITION_HEAD.tax5_amt,TSPL_ACQUISITION_HEAD.tax6,TSPL_ACQUISITION_HEAD.tax6_amt,TSPL_ACQUISITION_HEAD.tax7,TSPL_ACQUISITION_HEAD.tax7_amt,TSPL_ACQUISITION_HEAD.tax8,TSPL_ACQUISITION_HEAD.tax8_amt,TSPL_ACQUISITION_HEAD.tax9,TSPL_ACQUISITION_HEAD.tax9_amt,TSPL_ACQUISITION_HEAD.tax10,TSPL_ACQUISITION_HEAD.tax10_amt,"
-            Qry += " TSPL_ACQUISITION_HEAD.total_amt, TSPL_ACQUISITION_HEAD.total_tax_amt, TSPL_ACQUISITION_HEAD.Net_Amt,"
-            Qry += " TSPL_ACQUISITION_DETAIL.SNo, TSPL_ACQUISITION_DETAIL.Asset_Code, TSPL_ACQUISITION_DETAIL.Asset_Name, TSPL_ACQUISITION_DETAIL.Asset_Specification, TSPL_ACQUISITION_DETAIL.Dep_Rate, TSPL_ACQUISITION_DETAIL.Book_Source_value"
-            'Qry += " ,TSPL_ACQUISITION_HEAD.Capex_Code as CapexName,TSPL_ACQUISITION_HEAD.CapexSub_Code as SubCapexName"
-            Qry += " ,TSPL_ACQUISITION_DETAIL.Capex_Code as CapexName,TSPL_ACQUISITION_DETAIL.Capex_SubCode as SubCapexName"
-            Qry += " ,TSPL_CAPEX_BUDGET_MASTER.DESCRIPTION as SubCapexNameDesc,TSPL_CAPEX_MASTER.DESCRIPTION as CapexDesc"
-            Qry += " ,case when TSPL_ACQUISITION_HEAD.Status=1 then TSPL_ACQUISITION_HEAD.ASSEMBLE_CODE else '' end as ASSEMBLE_CODE,"
-            Qry += " case when TSPL_ACQUISITION_HEAD.Status=1 then convert(varchar,TSPL_ACQUISITION_HEAD.Post_Date,103) else '' end as Post_Date"
-            Qry += " FROM TSPL_ACQUISITION_HEAD "
-            Qry += " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_ACQUISITION_HEAD.Vendor_Code "
-            Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_ACQUISITION_HEAD.Loc_Code"
-            Qry += " left outer join TSPL_ACQUISITION_DETAIL on TSPL_ACQUISITION_DETAIL.Acquisition_Code =TSPL_ACQUISITION_HEAD.Acquisition_Code"
-            'Show Capex,SubCapex Description  Ticket No-UDL/07/05/18-000153
-            'Qry += "    left outer join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=TSPL_ACQUISITION_HEAD.Capex_Code"
-            'Qry += " left outer join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.CODE=TSPL_ACQUISITION_HEAD.CapexSub_Code"
-            Qry += "    left outer join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=TSPL_ACQUISITION_DETAIL.Capex_Code"
-            Qry += " left outer join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.CODE=TSPL_ACQUISITION_DETAIL.Capex_SubCode"
-            ''''''''''''
-            Qry += " where TSPL_ACQUISITION_HEAD.Acquisition_Code = '" + txtDocNo.Value + " ' order by TSPL_ACQUISITION_DETAIL.SNo"
+            'Dim frm As New frmCrystalReportViewer()
+            'If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            '    clsCommon.MyMessageBoxShow(Me, "Please Select a Acquisition First.", Me.Text)
+            '    Return
+            'End If
+            'Dim dtCompAddress As DataTable = Nothing
+            'Dim Qry As String = ""
 
-            Dim dt_final As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt_final.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-            Else
-                frm.funreport(MyBase.Form_ID, CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
-            End If
+            'Qry = " select TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end " &
+            '        " +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  " &
+            '        " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end  " &
+            '        " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end  " &
+            '        " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end " &
+            '        " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else  " &
+            '        "',Phone'+TSPL_COMPANY_MASTER.Phone1 end +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  " &
+            '        " '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ' " &
+            '        ",Email - '+ TSPL_COMPANY_MASTER.Email else '' end  as Comp_Address  " &
+            '        " , case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ' CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end  " &
+            '        " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end  as CIN_PAN" &
+            '        " from tspl_company_master "
+            'dtCompAddress = clsDBFuncationality.GetDataTable(Qry)
+            'Qry = " SELECT TSPL_ACQUISITION_HEAD.Vendor_Invoice_No,(select cast(TSPL_COMPANY_MASTER.logo_img as image) from TSPL_COMPANY_MASTER) as [logo_img],'" + clsCommon.myCstr(dtCompAddress.Rows(0)("Comp_Address")) + "' as [Company Address],'" + clsCommon.myCstr(dtCompAddress.Rows(0)("CIN_PAN")) + "' as CIN_PAN,'" + objCommonVar.CurrentCompanyName + "' as [Company], TSPL_ACQUISITION_HEAD.Acquisition_Code, TSPL_ACQUISITION_HEAD.Acquisition_Date,"
+            'Qry += " TSPL_ACQUISITION_HEAD.PO_No,  TSPL_ACQUISITION_HEAD.Description, TSPL_ACQUISITION_HEAD.Remarks,TSPL_LOCATION_MASTER.Location_Desc ,"
+            'Qry += " TSPL_VENDOR_MASTER.Vendor_Name,  "
+            'Qry += " TSPL_ACQUISITION_HEAD.tax1,TSPL_ACQUISITION_HEAD.tax1_amt,TSPL_ACQUISITION_HEAD.tax2,TSPL_ACQUISITION_HEAD.tax2_amt,TSPL_ACQUISITION_HEAD.tax3,TSPL_ACQUISITION_HEAD.tax3_amt,TSPL_ACQUISITION_HEAD.tax4,TSPL_ACQUISITION_HEAD.tax4_amt,TSPL_ACQUISITION_HEAD.tax5,TSPL_ACQUISITION_HEAD.tax5_amt,TSPL_ACQUISITION_HEAD.tax6,TSPL_ACQUISITION_HEAD.tax6_amt,TSPL_ACQUISITION_HEAD.tax7,TSPL_ACQUISITION_HEAD.tax7_amt,TSPL_ACQUISITION_HEAD.tax8,TSPL_ACQUISITION_HEAD.tax8_amt,TSPL_ACQUISITION_HEAD.tax9,TSPL_ACQUISITION_HEAD.tax9_amt,TSPL_ACQUISITION_HEAD.tax10,TSPL_ACQUISITION_HEAD.tax10_amt,"
+            'Qry += " TSPL_ACQUISITION_HEAD.total_amt, TSPL_ACQUISITION_HEAD.total_tax_amt, TSPL_ACQUISITION_HEAD.Net_Amt,"
+            'Qry += " TSPL_ACQUISITION_DETAIL.SNo, TSPL_ACQUISITION_DETAIL.Asset_Code, TSPL_ACQUISITION_DETAIL.Asset_Name, TSPL_ACQUISITION_DETAIL.Asset_Specification, TSPL_ACQUISITION_DETAIL.Dep_Rate, TSPL_ACQUISITION_DETAIL.Book_Source_value"
+            ''Qry += " ,TSPL_ACQUISITION_HEAD.Capex_Code as CapexName,TSPL_ACQUISITION_HEAD.CapexSub_Code as SubCapexName"
+            'Qry += " ,TSPL_ACQUISITION_DETAIL.Capex_Code as CapexName,TSPL_ACQUISITION_DETAIL.Capex_SubCode as SubCapexName"
+            'Qry += " ,TSPL_CAPEX_BUDGET_MASTER.DESCRIPTION as SubCapexNameDesc,TSPL_CAPEX_MASTER.DESCRIPTION as CapexDesc"
+            'Qry += " ,case when TSPL_ACQUISITION_HEAD.Status=1 then TSPL_ACQUISITION_HEAD.ASSEMBLE_CODE else '' end as ASSEMBLE_CODE,"
+            'Qry += " case when TSPL_ACQUISITION_HEAD.Status=1 then convert(varchar,TSPL_ACQUISITION_HEAD.Post_Date,103) else '' end as Post_Date"
+            'Qry += " FROM TSPL_ACQUISITION_HEAD "
+            'Qry += " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_ACQUISITION_HEAD.Vendor_Code "
+            'Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_ACQUISITION_HEAD.Loc_Code"
+            'Qry += " left outer join TSPL_ACQUISITION_DETAIL on TSPL_ACQUISITION_DETAIL.Acquisition_Code =TSPL_ACQUISITION_HEAD.Acquisition_Code"
+            ''Show Capex,SubCapex Description  Ticket No-UDL/07/05/18-000153
+            ''Qry += "    left outer join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=TSPL_ACQUISITION_HEAD.Capex_Code"
+            ''Qry += " left outer join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.CODE=TSPL_ACQUISITION_HEAD.CapexSub_Code"
+            'Qry += "    left outer join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=TSPL_ACQUISITION_DETAIL.Capex_Code"
+            'Qry += " left outer join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.CODE=TSPL_ACQUISITION_DETAIL.Capex_SubCode"
+            '''''''''''''
+            'Qry += " where TSPL_ACQUISITION_HEAD.Acquisition_Code = '" + txtDocNo.Value + " ' order by TSPL_ACQUISITION_DETAIL.SNo"
+
+            'Dim dt_final As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            'If dt_final.Rows.Count <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            'Else
+            '    frm.funreport(MyBase.Form_ID, CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

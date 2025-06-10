@@ -646,6 +646,59 @@ Public Class frmBillOfMaterialCosting
     End Sub
 
     Private Sub frmBillOfMaterialCosting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("BOM_CODE", "Varchar(30) NOT NULL PRIMARY KEY")
+        coll.Add("DESCRIPTION", "Varchar(MAX) NULL")
+        coll.Add("BOM_DATE", "DATE NOT NULL")
+        coll.Add("REVISION_NO", "VARCHAR(50) NOT NULL DEFAULT '' ")
+        coll.Add("START_DATE", "DATE  NULL")
+        coll.Add("END_DATE", "DATE NULL")
+        coll.Add("STATUS", "VARCHAR(30) NOT NULL") '' FIXED VALUES 1. OPEN 2. APPROVED 3. ON HOLD 4. DISCONTINUED
+        coll.Add("IS_DEFAULT", "BIT NOT NULL DEFAULT 0")
+        coll.Add("ATTACHED_DOC", "VARBINARY(MAX) NULL")
+        coll.Add("ATTACHED_DOC_PATH", "VARCHAR(100) NULL")
+        coll.Add("PROD_ITEM_CODE", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
+        coll.Add("PROD_QUANTITY", "NUMERIC(18,6) NOT NULL")
+        coll.Add("PROD_ITEM_UNIT_CODE", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE) ")
+        coll.Add("MIN_BATCH_SIZE", "NUMERIC(18,6) NOT NULL")
+        'coll.Add("APPROVED_BY", "Varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER(USER_CODE)")
+
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("POSTED", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("POSTING_DATE", "DATETIME NULL")
+        coll.Add("comp_code", "varchar(8) NULL")
+        coll.Add("Trans_Type", "varchar(10) NOT NULL Default 'BOM'")
+        coll.Add("Processing_Charge", "float null")
+        coll.Add("Admin_Charge", "float null")
+        coll.Add("PROD_Drawing_No", "varchar(100) null")
+        coll.Add("LOCATION_CODE", "varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, True, "", "BOM_CODE", "BOM_DATE")
+
+        ''TSPL_MF_BOM_DETAIL
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("BOM_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_MF_BOM_HEAD(BOM_CODE)")
+        coll.Add("LINE_NO", "INTEGER NOT NULL ")
+        coll.Add("CONSM_ITEM_CATEGORY_CODE", "VARCHAR(30) NULL REFERENCES TSPL_MF_PRODUCTION_ITEM_CATEGORY(PROD_ITEM_CATEGORY_CODE)")
+        coll.Add("CONSM_ITEM_CODE", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
+        coll.Add("ITEM_DESCRIPTION", "VARCHAR(MAX)  NULL")
+        coll.Add("CONSM_QUANTITY", "NUMERIC(18,6) NOT NULL")
+        coll.Add("CONSM_ITEM_UNIT_CODE", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE) ")
+        coll.Add("SCRAP_PERCENT", "NUMERIC(5,2) NOT NULL DEFAULT 0 ")
+        coll.Add("WASTAGE_PERCENT", "NUMERIC(5,2) NOT NULL DEFAULT 0 ")
+        coll.Add("REMARKS", "VARCHAR(MAX)  NULL")
+        coll.Add("REVISION_NO", "VARCHAR(50) NOT NULL DEFAULT '' ")
+        coll.Add("Is_Principle", "char(1) NULL Default '0'")
+        coll.Add("Qty_Pers", "float")
+        coll.Add("CONSM_Drawing_No", "varchar(100) null")
+        coll.Add("Percentage", "NUMERIC(18,6) NOT NULL DEFAULT 0")
+        coll.Add("Alternate_Item_Code", "VARCHAR(50) NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_DETAIL", coll, Nothing, True, True, "TSPL_MF_BOM_HEAD", "BOM_CODE", "")
         SetUserMgmtNew()
         Princi_On = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.Princi_Bom, clsFixedParameterCode.Princi_Bom, Nothing) = "0", False, True))
         IsForAutoIndustry = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing) = "A", True, False))
@@ -1553,21 +1606,23 @@ Public Class frmBillOfMaterialCosting
     End Sub
     Private Sub funPrint()
         Try
-            Dim qry As String = " select '" & objCommonVar.CurrentCompanyName & "' as Company_Name, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE  as BuildItemCode,CONVERT(VARCHAR,TSPL_MF_BOM_HEAD.BOM_DATE,103) as BOMDate,CONVERT(VARCHAR,TSPL_MF_BOM_HEAD.START_DATE,103) as StartDate,"
-            qry += " CONVERT(VARCHAR,TSPL_MF_BOM_HEAD.END_DATE,103) as EndDate,TSPL_MF_BOM_HEAD.STATUS as BomStatus,TSPL_MF_BOM_HEAD.PROD_ITEM_UNIT_CODE as BuildUOM,"
-            qry += " TSPL_MF_BOM_HEAD.PROD_QUANTITY as BuildQty, "
-            qry += " TSPL_MF_BOM_HEAD.MIN_BATCH_SIZE as MinBatchSize,TSPL_MF_BOM_DETAIL.LINE_NO as SL_No,TSPL_MF_BOM_DETAIL.CONSM_ITEM_CATEGORY_CODE as ItemCategory,"
-            qry += " TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE as ItemCode,TSPL_MF_BOM_DETAIL.ITEM_DESCRIPTION as ItemDesc,TSPL_MF_BOM_DETAIL.CONSM_ITEM_UNIT_CODE as UOM,"
-            qry += " TSPL_MF_BOM_DETAIL.CONSM_QUANTITY as Quantity,TSPL_MF_BOM_DETAIL.SCRAP_PERCENT as Scrap,TSPL_MF_BOM_DETAIL.WASTAGE_PERCENT as Wastage,"
-            qry += " TSPL_MF_BOM_DETAIL.REMARKS as Remarks ,TSPL_ITEM_MASTER.Item_Desc,TSPL_MF_BOM_DETAIL.Percentage,TSPL_ITEM_MASTER.Item_Type from TSPL_MF_BOM_HEAD inner join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_MF_BOM_DETAIL.BOM_CODE INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE"
-            qry += " where 2=2 and trans_type='BOM'"
+            clsBillOfMaterial.funBOMCancelPrint(MyBase.Form_ID, False, dtpBOMDate.Value, txtCode.Value)
 
-            If txtCode.Value <> "" Then
-                qry += " and  TSPL_MF_BOM_HEAD.BOM_CODE='" & txtCode.Value & "' "
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim objn As New frmCrystalReportViewer
-            objn.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
+            'Dim qry As String = " select '" & objCommonVar.CurrentCompanyName & "' as Company_Name, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE  as BuildItemCode,CONVERT(VARCHAR,TSPL_MF_BOM_HEAD.BOM_DATE,103) as BOMDate,CONVERT(VARCHAR,TSPL_MF_BOM_HEAD.START_DATE,103) as StartDate,"
+            'qry += " CONVERT(VARCHAR,TSPL_MF_BOM_HEAD.END_DATE,103) as EndDate,TSPL_MF_BOM_HEAD.STATUS as BomStatus,TSPL_MF_BOM_HEAD.PROD_ITEM_UNIT_CODE as BuildUOM,"
+            'qry += " TSPL_MF_BOM_HEAD.PROD_QUANTITY as BuildQty, "
+            'qry += " TSPL_MF_BOM_HEAD.MIN_BATCH_SIZE as MinBatchSize,TSPL_MF_BOM_DETAIL.LINE_NO as SL_No,TSPL_MF_BOM_DETAIL.CONSM_ITEM_CATEGORY_CODE as ItemCategory,"
+            'qry += " TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE as ItemCode,TSPL_MF_BOM_DETAIL.ITEM_DESCRIPTION as ItemDesc,TSPL_MF_BOM_DETAIL.CONSM_ITEM_UNIT_CODE as UOM,"
+            'qry += " TSPL_MF_BOM_DETAIL.CONSM_QUANTITY as Quantity,TSPL_MF_BOM_DETAIL.SCRAP_PERCENT as Scrap,TSPL_MF_BOM_DETAIL.WASTAGE_PERCENT as Wastage,"
+            'qry += " TSPL_MF_BOM_DETAIL.REMARKS as Remarks ,TSPL_ITEM_MASTER.Item_Desc,TSPL_MF_BOM_DETAIL.Percentage,TSPL_ITEM_MASTER.Item_Type from TSPL_MF_BOM_HEAD inner join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_MF_BOM_DETAIL.BOM_CODE INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_HEAD.PROD_ITEM_CODE"
+            'qry += " where 2=2 and trans_type='BOM'"
+
+            'If txtCode.Value <> "" Then
+            '    qry += " and  TSPL_MF_BOM_HEAD.BOM_CODE='" & txtCode.Value & "' "
+            'End If
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'Dim objn As New frmCrystalReportViewer
+            'objn.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
 
             'If Not clsCommon.MyMessageBoxShow("Want to see tree structure?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
 

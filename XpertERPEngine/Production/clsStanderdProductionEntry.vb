@@ -41,7 +41,53 @@ Public Class clsStanderdProductionEntry
 #End Region
 
 
+    Public Shared Function funCancleSPEPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
+        Dim TSPL_SPP_PRODUCTION_ENTRY As String = Nothing
+        Dim TSPL_SPP_PRODUCTION_ENTRY_DETAIL As String = Nothing
+        Dim TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL As String = Nothing
+        If isCancel Then
+            TSPL_SPP_PRODUCTION_ENTRY = "TSPL_SPP_PRODUCTION_ENTRY_Cancel_data"
+            TSPL_SPP_PRODUCTION_ENTRY_DETAIL = "TSPL_SPP_PRODUCTION_ENTRY_DETAIL_cancel_data"
+            TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL = "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL_cancel_data"
+        Else
+            TSPL_SPP_PRODUCTION_ENTRY = "TSPL_SPP_PRODUCTION_ENTRY"
+            TSPL_SPP_PRODUCTION_ENTRY_DETAIL = "TSPL_SPP_PRODUCTION_ENTRY_DETAIL"
+            TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL = "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL"
 
+        End If
+
+        Dim sQuery As String = ""
+
+        sQuery = " select TSPL_COMPANY_MASTER.Comp_Code ,"
+        If isCancel Then
+            sQuery += " 'Cancelled' As Report_Status, "
+        Else
+            sQuery += " '' As Report_Status, "
+        End If
+
+        sQuery += "  TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,tspl_company_master.Pincode,tspl_company_master.Tcan_No," + TSPL_SPP_PRODUCTION_ENTRY + ".PROD_ENTRY_CODE," + TSPL_SPP_PRODUCTION_ENTRY + ".DESCRIPTION," + TSPL_SPP_PRODUCTION_ENTRY + ".PROD_DATE," + TSPL_SPP_PRODUCTION_ENTRY + ".LOCATION_CODE," + TSPL_SPP_PRODUCTION_ENTRY + ".COMMENTS," + TSPL_SPP_PRODUCTION_ENTRY + ".CONSM_LOCATION_CODE_Other," + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".CONSM_ITEM_CODE as ItemCode,TSPL_ITEM_MASTER .Item_Desc," + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".CONSM_QTY ," + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".UNIT_CODE
+from " + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + " 
+left outer join " + TSPL_SPP_PRODUCTION_ENTRY + " on " + TSPL_SPP_PRODUCTION_ENTRY + ".PROD_ENTRY_CODE=." + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".PROD_ENTRY_CODE
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=" + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".CONSM_ITEM_CODE
+ left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code ='" + objCommonVar.CurrentCompanyCode + "'
+where " + TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL + ".PROD_ENTRY_CODE='" + StrCode + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+
+
+        sQuery = "select ITEM_CODE,ITEM_DESCRIPTION,RECEIPT_QTY,UNIT_CODE from " + TSPL_SPP_PRODUCTION_ENTRY_DETAIL + " where PROD_ENTRY_CODE='" + StrCode + "'"
+        Dim dtCredit As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+
+
+
+        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funsubreportWithdt(Form_ID, False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(strDate), "SubPaymentProcessCredit.rpt")
+            frmCRV = Nothing
+        Else
+            clsCommon.MyMessageBoxShow("No Data Found")
+        End If
+        Return True
+    End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal arrloc As String, ByVal NavType As NavigatorType) As clsStanderdProductionEntry
         Return GetData(strCode, arrloc, NavType, Nothing)
     End Function
@@ -65,6 +111,7 @@ Public Class clsStanderdProductionEntry
             clsSerializeInvenotry.DeleteData("Production", strCode, trans)
 
             HistoryData(strCode, trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", "PROD_ENTRY_CODE", trans)
 
             Dim qry As String = "delete from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE ='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

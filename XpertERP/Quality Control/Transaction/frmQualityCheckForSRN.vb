@@ -1813,26 +1813,28 @@ and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_N
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            If clsCommon.myLen(txtDocNo) <= 0 Then
-                Throw New Exception("Document number not found")
-            End If
-            Dim frmCRV As New frmCrystalReportViewer()
-            Dim qry As String = " select TSPL_COMPANY_MASTER.Comp_Name, TSPL_QC_CHECK_SRN_DETAIL.Document_Code as QC_NO,convert (varchar,TSPL_QC_CHECK_HEAD.Document_Date,103) as QC_Date, TSPL_QC_CHECK_HEAD.QC_STATUS,TSPL_QC_CHECK_SRN_DETAIL.MRN_No, Convert (varchar, TSPL_MRN_HEAD.MRN_DATE,103) as MRN_DATE,TSPL_MRN_HEAD.Against_PO,TSPL_MRN_HEAD.Against_GRN,Convert (varchar,TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_MRN_HEAD.Invoice_No as [Vendor_Invoice_No], case when len( isnull(TSPL_MRN_HEAD.Invoice_No,'')) > 0 then  convert (varchar, TSPL_MRN_HEAD.Invoice_Date,103) else '' end [Vendor_Invoice_Date],TSPL_QC_CHECK_HEAD.Vendor_Code,tspl_vendor_master.Vendor_Name,TSPL_QC_CHECK_HEAD.Bill_To_location, TSPL_QC_CHECK_SRN_DETAIL.Item_code,TSPL_ITEM_MASTER.Item_Desc,TSPL_QC_CHECK_SRN_DETAIL.Unit_Code,TSPL_QC_CHECK_SRN_DETAIL.MRN_Qty,TSPL_QC_CHECK_SRN_DETAIL.OK_Qty,TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code ,TSPL_QC_LOG_SHEET_MASTER.Description as [PARAMETER],TSPL_QC_CHECK_SRN_DETAIL.Param_QC_Status as [SPECIFICATIONS],TSPL_QC_CHECK_SRN_DETAIL.Reject_Remarks as [OBSERVATIONS],TSPL_QC_CHECK_SRN_DETAIL.Remarks as [COMMENTS] ,TSPL_QC_CHECK_DETAIL.Additional_Remarks from TSPL_QC_CHECK_SRN_DETAIL " &
-                                                " left outer Join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_SRN_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code " &
-                                                "left outer join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_QC_CHECK_DETAIL.Item_Code" +
-                                " left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.Code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code " &
-                                " left outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_code " &
-                                " left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code " &
-                                " left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_NO = TSPL_QC_CHECK_SRN_DETAIL.MRN_No " &
-                                " left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_NO = TSPL_MRN_HEAD.Against_GRN " &
-                                " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_QC_CHECK_HEAD.Comp_Code " &
-                                " where TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "' "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
-            Else
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCEntry", "Quality Control Report", clsCommon.myCDate(dtpDate.Value))
-            End If
+            clsQualityCheckForSRNHead.funCancelPrint(MyBase.Form_ID, False, dtpDate.Value, txtDocNo.Value)
+
+            'If clsCommon.myLen(txtDocNo) <= 0 Then
+            '    Throw New Exception("Document number not found")
+            'End If
+            'Dim frmCRV As New frmCrystalReportViewer()
+            'Dim qry As String = " select TSPL_COMPANY_MASTER.Comp_Name, TSPL_QC_CHECK_SRN_DETAIL.Document_Code as QC_NO,convert (varchar,TSPL_QC_CHECK_HEAD.Document_Date,103) as QC_Date, TSPL_QC_CHECK_HEAD.QC_STATUS,TSPL_QC_CHECK_SRN_DETAIL.MRN_No, Convert (varchar, TSPL_MRN_HEAD.MRN_DATE,103) as MRN_DATE,TSPL_MRN_HEAD.Against_PO,TSPL_MRN_HEAD.Against_GRN,Convert (varchar,TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_MRN_HEAD.Invoice_No as [Vendor_Invoice_No], case when len( isnull(TSPL_MRN_HEAD.Invoice_No,'')) > 0 then  convert (varchar, TSPL_MRN_HEAD.Invoice_Date,103) else '' end [Vendor_Invoice_Date],TSPL_QC_CHECK_HEAD.Vendor_Code,tspl_vendor_master.Vendor_Name,TSPL_QC_CHECK_HEAD.Bill_To_location, TSPL_QC_CHECK_SRN_DETAIL.Item_code,TSPL_ITEM_MASTER.Item_Desc,TSPL_QC_CHECK_SRN_DETAIL.Unit_Code,TSPL_QC_CHECK_SRN_DETAIL.MRN_Qty,TSPL_QC_CHECK_SRN_DETAIL.OK_Qty,TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code ,TSPL_QC_LOG_SHEET_MASTER.Description as [PARAMETER],TSPL_QC_CHECK_SRN_DETAIL.Param_QC_Status as [SPECIFICATIONS],TSPL_QC_CHECK_SRN_DETAIL.Reject_Remarks as [OBSERVATIONS],TSPL_QC_CHECK_SRN_DETAIL.Remarks as [COMMENTS] ,TSPL_QC_CHECK_DETAIL.Additional_Remarks from TSPL_QC_CHECK_SRN_DETAIL " &
+            '                                    " left outer Join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_SRN_DETAIL.Document_Code = TSPL_QC_CHECK_HEAD.Document_Code " &
+            '                                    "left outer join TSPL_QC_CHECK_DETAIL on TSPL_QC_CHECK_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_QC_CHECK_DETAIL.Item_Code" +
+            '                    " left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.Code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code " &
+            '                    " left outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_code " &
+            '                    " left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code " &
+            '                    " left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_NO = TSPL_QC_CHECK_SRN_DETAIL.MRN_No " &
+            '                    " left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_NO = TSPL_MRN_HEAD.Against_GRN " &
+            '                    " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_QC_CHECK_HEAD.Comp_Code " &
+            '                    " where TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "' "
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+            'Else
+            '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCEntry", "Quality Control Report", clsCommon.myCDate(dtpDate.Value))
+            'End If
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

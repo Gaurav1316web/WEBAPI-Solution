@@ -457,6 +457,7 @@
     <Compile Include="Milk Procurement\ClsGeneralWeighment.vb" />
     <Compile Include="Milk Procurement\clsIncentiveEntry.vb" />
     <Compile Include="Milk Procurement\clsIncentiveEntryBySRN.vb" />
+    <Compile Include="Milk Procurement\clsMakeSavingPayment.vb" />
     <Compile Include="Milk Procurement\clsMCCPaymentCycleLockForScheduler.vb" />
     <Compile Include="Milk Procurement\clsMccScrapGatePass.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionBMCDCS.vb" />

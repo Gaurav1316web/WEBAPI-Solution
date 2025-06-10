@@ -28,6 +28,39 @@ Public Class frmDairyProductionUploader
         LOCATIONRIGTHS()
         AddNew()
         btnReverse.Visible = False
+        'Dim coll As Dictionary(Of String, String)
+
+        'coll = New Dictionary(Of String, String)
+        'coll.Add("Document_No", "Varchar(30) not null Primary key")
+        'coll.Add("Document_Date", "datetime NOT NULL")
+        'coll.Add("Location_FG", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        'coll.Add("Location_RM", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        'coll.Add("Location_PK", "Varchar(12) not null references TSPL_LOCATION_MASTER(Location_Code)")
+        'coll.Add("Batch_No", "Varchar(200) not null")
+        'coll.Add("Batch_Date", "Date not null")
+        'coll.Add("Description", "Varchar(200) null")
+        'coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+        'coll.Add("Created_By", "varchar(12) NOT NULL")
+        'coll.Add("Created_Date", "Datetime NOT NULL")
+        'coll.Add("Modified_By", "varchar(12) NOT NULL")
+        'coll.Add("Modified_Date", "Datetime NOT NULL")
+        'coll.Add("Posted_Date", "datetime null")
+        'coll.Add("Posted_By", "varchar(12)  NULL")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_HEAD", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
+
+        'coll = New Dictionary(Of String, String)
+        'coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        'coll.Add("Document_No", "Varchar(30) not null references TSPL_PRODUCTION_UPLOADER_HEAD(Document_No)")
+        'coll.Add("Batch_No", "Varchar(200) not null")
+        'coll.Add("Batch_Date", "Date NOT NULL")
+        'coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
+        'coll.Add("Qty", "Decimal(18,2) null")
+        'coll.Add("UOM", "Varchar(20) null")
+        'coll.Add("Shift_Code", "Varchar(30) not null references tspl_shift_master(SHIFT_CODE)")
+        'coll.Add("QC_Status", "Integer NOT NULL DEFAULT 0")
+        'coll.Add("BOM_Code", "Varchar(30) null references TSPL_PP_BOM_HEAD(BOM_CODE)")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCTION_UPLOADER_DETAIL", coll, Nothing, True, True, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "")
+
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -882,19 +915,19 @@ select 'QC Status' as  [QC Code],'Y/N' as [Standard Range],'" + IIf(clsCommon.my
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
         Else
-            funPrint(txtDocNo.Value)
+            funPrint(False, txtDate.Value, txtDocNo.Value)
         End If
     End Sub
-    Public Sub funPrint(ByVal StrCode As String)
+    Public Sub funPrint(ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String)
         Try
-            Dim Qry = clsDairyProductionUploader.GetAttachQry(StrCode)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionUploaderPrint", "")
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
-            End If
+            Dim Qry = clsDairyProductionUploader.GetAttachQry(Form_ID, False, strDate, strCode)
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            'If dt.Rows.Count > 0 Then
+            '    Dim frmCRV As New frmCrystalReportViewer()
+            '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionUploaderPrint", "")
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "No data found to Print", Me.Text)
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
