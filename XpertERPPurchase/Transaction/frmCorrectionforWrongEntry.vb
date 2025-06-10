@@ -759,9 +759,9 @@ Public Class frmCorrectionforWrongEntry
                              left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SD_SHIPMENT_HEAD.Created_By left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code "
             Dim whrClas As String = ""
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-                whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
+                whrClas = " TSPL_SD_SHIPMENT_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
             ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+                whrClas = " TSPL_SD_SHIPMENT_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
             ElseIf clsCommon.myLen(strwherecls) > 0 Then
                 whrClas = " TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
             End If

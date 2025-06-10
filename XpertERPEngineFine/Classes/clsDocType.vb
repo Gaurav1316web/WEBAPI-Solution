@@ -730,6 +730,7 @@ Public Class clsDocType
     Public Const LoanInstallmentEntry As String = "Loan Installment"
     Public Const GeneralWeighment As String = "General Weighment"
     Public Const IncentiveEntry As String = "Incentive Entry"
+    Public Const MakeSavingPayment As String = "Make Saving Payment"
     Public Const CustomerIncentiveEntry As String = "Customer Incentive Entry"
     Public Const Detail As String = "Detail"
     Public Const DetailSale As String = "Detail Sale"
@@ -2011,7 +2012,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.JobWorkTransferMilkReturn, "", False, True)
             InsertDefaultValue(clsDocType.ItemCostMapping, "", False, False)
             InsertDefaultValue(clsDocType.QuickBookEntry, "", False, False)
-
+            InsertDefaultValue(clsDocType.MakeSavingPayment, clsDocTransactionType.Transaction, False, False)
             InsertDefaultValue(clsDocType.IncentiveEntry, clsDocTransactionType.Transaction, False, True)
             InsertDefaultValue(clsDocType.Detail, clsDocTransactionType.Detail, False, False)
 
