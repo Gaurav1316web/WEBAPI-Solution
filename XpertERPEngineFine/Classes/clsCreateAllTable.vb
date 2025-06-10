@@ -33987,7 +33987,7 @@ LL")
             coll.Add("Opening_Assemble", "BIT NULL")
             coll.Add("Opening_Assemble_Amt", "decimal(18,2) NULL")
             coll.Add("Opening_Direct", "BIT NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_HEAD", coll, "", True, False, "", "Acquisition_Code", "Acquisition_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_HEAD", coll, "", True, True, "", "Acquisition_Code", "Acquisition_Date", True)
 
             '=================added by shivani for saving Srn and srn item of acquisition
             coll = New Dictionary(Of String, String)
@@ -34146,7 +34146,7 @@ LL")
             coll.Add("Depreciated_Value", "decimal(18,2) NULL")
             coll.Add("Asset_Expired_Life", "decimal(18,2) NULL")
             coll.Add("Hirerachy_Code", "Varchar(30) null References TSPL_HIRERACHY_LEVEL_MASTER(Hirerachy_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_DETAIL", coll, "", True, False, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ACQUISITION_DETAIL", coll, "", True, True, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Asset_Code", "Varchar(50) NOT NULL References TSPL_ACQUISITION_DETAIL(Asset_Code)")

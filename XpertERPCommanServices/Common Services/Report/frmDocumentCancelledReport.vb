@@ -187,7 +187,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "','" + clsUserMgtCode.FrmVendorService + "','" + clsUserMgtCode.ReceiptEntry + "','" + clsUserMgtCode.PaymentEntryNew + "','" + clsUserMgtCode.PaymentAdjustmentEntry + "','" + clsUserMgtCode.journalEntry + "','" + clsUserMgtCode.mbtnVCGLEntry + "','" + clsUserMgtCode.mbtnStoreAdjustment + "','" + clsUserMgtCode.MilkCollectionMCC + "','" + clsUserMgtCode.frmQualityCheckApprovalForSRN + "','" + clsUserMgtCode.frmOutgoingQC + "','" + clsUserMgtCode.frmAssetStoreRequistion + "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.FADisposalEntry + "','" + clsUserMgtCode.frmMCCMaterialSaleReturn + "','" + clsUserMgtCode.frmSaleReturnProductSale + "','" + clsUserMgtCode.frmSaleReturndairy + "','" + clsUserMgtCode.frmJobWorkBillig + "','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.ScrapSale + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmAssetDistatch + "','" + clsUserMgtCode.mbtnARInvoiceEntry + "','" + clsUserMgtCode.FrmVendorService + "','" + clsUserMgtCode.ReceiptEntry + "','" + clsUserMgtCode.PaymentEntryNew + "','" + clsUserMgtCode.PaymentAdjustmentEntry + "','" + clsUserMgtCode.journalEntry + "','" + clsUserMgtCode.mbtnVCGLEntry + "','" + clsUserMgtCode.mbtnStoreAdjustment + "','" + clsUserMgtCode.MilkCollectionMCC + "','" + clsUserMgtCode.frmQualityCheckApprovalForSRN + "','" + clsUserMgtCode.frmOutgoingQC + "','" + clsUserMgtCode.frmAssetStoreRequistion + "','" + clsUserMgtCode.FAAcquisitionEntry + "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -544,6 +544,16 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                  " From TSPL_REQUISITION_HEAD_Cancel_Data  " &
                  " Where Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,103) >= Convert(Date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
                  " ORDER BY TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id, TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date "
+
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FAAcquisitionEntry) = CompairStringResult.Equal Then
+            qry = "Select TSPL_ACQUISITION_HEAD_cancel_data.Acquisition_Code as [Document Id] " &
+                 ",convert(varchar,TSPL_ACQUISITION_HEAD_cancel_data.Acquisition_Date ,103) as [Document Date], " &
+                 "TSPL_ACQUISITION_HEAD_cancel_data.Loc_Code as [Location Code], '' as [Location Name],TSPL_ACQUISITION_HEAD_cancel_data.Created_By as [Created By] " &
+                 ", convert(varchar,TSPL_ACQUISITION_HEAD_cancel_data.Created_Date,103) as [Created Date] ,'' as Description,TSPL_ACQUISITION_HEAD_cancel_data.Cancel_By as [Cancelled By],convert(varchar,TSPL_ACQUISITION_HEAD_cancel_data.Cancel_On,103) as [Cancelled Date]  " &
+                 " From TSPL_ACQUISITION_HEAD_cancel_data  " &
+                 " Where Convert(Date, TSPL_ACQUISITION_HEAD_cancel_data.Acquisition_Date,103) >= Convert(Date,'" + dtpFromDate.Value + "',103)  and convert(date,TSPL_ACQUISITION_HEAD_cancel_data.Acquisition_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)   " &
+                 " ORDER BY TSPL_ACQUISITION_HEAD_cancel_data.Acquisition_Code, TSPL_ACQUISITION_HEAD_cancel_data.Acquisition_Date "
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -678,6 +688,8 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
 
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmAssetStoreRequistion) = CompairStringResult.Equal Then
                 clsRequistionHead.funAssetSRPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False)
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.FAAcquisitionEntry) = CompairStringResult.Equal Then
+                clsAcquisitionHead.funACQEPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
 
 
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmOutgoingQC) = CompairStringResult.Equal Then
