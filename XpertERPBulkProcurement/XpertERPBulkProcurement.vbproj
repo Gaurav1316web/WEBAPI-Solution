@@ -1190,6 +1190,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\YearlyBillReport.resx">
       <DependentUpon>YearlyBillReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\BMC Transporter Bill.resx">
+      <DependentUpon>BMC Transporter Bill.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmReviseMilkBill.resx">
       <DependentUpon>frmReviseMilkBill.vb</DependentUpon>
     </EmbeddedResource>

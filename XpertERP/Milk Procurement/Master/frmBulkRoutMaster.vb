@@ -264,12 +264,12 @@ Public Class FrmBulkRoutMaster
                 obj.Arr = New List(Of clsBulkRoutdetail)
                 For Each row As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBulkRoutdetail()
-                    objTr.BULK_ROUTE_no = txtRouteNo.Value
+                    'objTr.BULK_ROUTE_no = txtRouteNo.Value
 
                     objTr.Location_Code = clsCommon.myCstr(row.Cells(colLocationCode).Value)
                     objTr.Distance = clsCommon.myCDecimal(row.Cells(colDistance).Value)
                     objTr.lOCATION_desc = clsCommon.myCstr(row.Cells(colLocationName).Value)
-                    If (clsCommon.myLen(objTr.BULK_ROUTE_no) > 0) Then
+                    If (clsCommon.myLen(objTr.Location_Code) > 0) Then
                         obj.Arr.Add(objTr)
                     End If
                 Next

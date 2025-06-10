@@ -59,6 +59,9 @@ Public Class frmMilkCollectionMCC
     Dim arrExistCols As New List(Of String)
     Dim dtDefault As DataTable = Nothing
 
+    Dim settSNFDecimalPlace As Integer = 0
+    Dim settFATDecimalPlace As Integer = 0
+
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
     Public Sub SetUserMgmtNew()
@@ -106,6 +109,87 @@ Public Class frmMilkCollectionMCC
         'End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)
+        coll.Add("Document_No", "Varchar(30) not null Primary key")
+        coll.Add("Document_Date", "Datetime NOT NULL")
+        coll.Add("Late", "int Null")
+        coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+        coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
+        coll.Add("Vehicle_No", "Varchar(150) not null")
+        coll.Add("Entered_Qty", "Decimal(18,3) null")
+        coll.Add("Entered_FATKg", "Decimal(18,3) null")
+        coll.Add("Entered_SNFKg", "Decimal(18,3) null")
+        coll.Add("Original_Qty", "Decimal(18,3) null")
+        coll.Add("Original_FATKg", "Decimal(18,3) null")
+        coll.Add("Original_SNFKg", "Decimal(18,3) null")
+        coll.Add("Description", "Varchar(200) null")
+        coll.Add("FAT_SNF_Type", "int Null")
+        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Temp", "Decimal(18,2) null")
+        coll.Add("Age", "Decimal(18,2) null")
+        coll.Add("ALCOB", "varchar(3) NULL")
+        coll.Add("Acidity", "Decimal(18,2) null")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("Posted_Date", "datetime null")
+        coll.Add("Posted_By", "varchar(12)  NULL")
+        coll.Add("Slip_No", "Varchar(30) null")
+        coll.Add("Trip_No", "Integer not NULL default 1")
+        coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
+        coll.Add("ORG", "Varchar(10) null")
+        coll.Add("Retesting_FAT", "Decimal(18,2) null")
+        coll.Add("Retesting_SNF", "Decimal(18,2) null")
+        coll.Add("Retesting_CLR", "Decimal(18,2) null")
+        coll.Add("Correction_Qty", "Decimal(18,3) null")
+        coll.Add("Correction_FAT", "Decimal(18,2) null")
+        coll.Add("Correction_SNF", "Decimal(18,2) null")
+        coll.Add("operation_type", "VARCHAR(50)")
+        coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
+        coll.Add("Remark", "varchar(200) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_MCC(Document_No)")
+        coll.Add("SNo", "Integer NULL")
+        coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
+        coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
+        coll.Add("Qty", "Decimal(18,2) null")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
+        coll.Add("FATKG", "Decimal(18,3) null")
+        coll.Add("SNFKG", "Decimal(18,3) null")
+        coll.Add("Original_Qty", "Decimal(18,3) null")
+        coll.Add("Original_FATKg", "Decimal(18,3) null")
+        coll.Add("Original_SNFKg", "Decimal(18,3) null")
+        coll.Add("Gaze_Reading", "Decimal(18,1) null")
+        coll.Add("Silo_Capacity", "integer null")
+        coll.Add("Temp", "Decimal(18,2) null")
+        coll.Add("Sample_No", "integer null")
+        coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
+        coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
+        coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
+        coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
+        coll.Add("Against_Multiple_Days_Merge_Day_Detail", "integer NULL references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL(PK_Id)")
+        coll.Add("Machine_FAT", "Decimal(18,2) null")
+        coll.Add("Machine_SNF", "Decimal(18,2) null")
+        coll.Add("Retesting_FAT", "Decimal(18,2) null")
+        coll.Add("Retesting_SNF", "Decimal(18,2) null")
+        coll.Add("Retesting_CLR", "Decimal(18,2) null")
+        coll.Add("Retesting_OR_Correction", "integer null")
+        coll.Add("Correction_Qty", "Decimal(18,3) null")
+        coll.Add("Correction_FAT", "Decimal(18,2) null")
+        coll.Add("Correction_SNF", "Decimal(18,2) null")
+        coll.Add("Gaze_Qty", "Decimal(18,2) null")
+        coll.Add("Milk_Not_Picked", "int Null")
+        coll.Add("Required_Retesting", "int Null")
+        coll.Add("Retesting_By", "varchar(12)  NULL")
+        coll.Add("Retesting_Date", "Datetime  NULL")
+        coll.Add("Remark", "varchar(200) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, True, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
@@ -117,6 +201,10 @@ Public Class frmMilkCollectionMCC
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         SettShowSampleNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowSampleNoOnBMC, clsFixedParameterCode.ShowSampleNoOnBMC, Nothing)) = 1)
         SettShowTemprature = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowTempratureOnBMC, clsFixedParameterCode.ShowTempratureOnBMC, Nothing)) = 1)
+
+        settFATDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, Nothing))
+        settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, Nothing))
+
         MyBase.SetUserMgmt(MyBase.Form_ID)
         If clsCommon.CompairString(clsUserMgtCode.MilkCollectionMCCGateEntry, MyBase.Form_ID) = CompairStringResult.Equal Then
             intFormType = 2
@@ -668,7 +756,7 @@ Public Class frmMilkCollectionMCC
 
         gv1.MasterTemplate.Columns.Add(repoNumBox)
         repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n2}"
+        repoNumBox.FormatString = "{0:n" + clsCommon.myCstr(settFATDecimalPlace) + "}"
         repoNumBox.HeaderText = "FAT %"
         repoNumBox.Name = colFATPer
         repoNumBox.Width = 100
@@ -676,14 +764,14 @@ Public Class frmMilkCollectionMCC
         repoNumBox.Maximum = 15
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
+        repoNumBox.DecimalPlaces = settFATDecimalPlace
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 0) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n2}"
+        repoNumBox.FormatString = "{0:n" + clsCommon.myCstr(settSNFDecimalPlace) + "}"
         repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "CLR %", "SNF %")
         repoNumBox.Name = colSNFPer
         repoNumBox.Width = 100
@@ -691,7 +779,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.Maximum = IIf(isPickCLRInsteadOfSNF, 50, 15)
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 2
+        repoNumBox.DecimalPlaces = settSNFDecimalPlace
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 0) AndAlso Not SettFATSNFNoDecimalMCC)
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
@@ -2394,18 +2482,20 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select document code first..", Me.Text)
             End If
-            Dim qry = " select TSPL_COMPANY_MASTER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pan_No ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email ,TSPL_MILK_COLLECTION_MCC.Document_No,convert (varchar, TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date, TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME , TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Vehicle_No , TSPL_MILK_COLLECTION_MCC.Entered_Qty , TSPL_MILK_COLLECTION_MCC.Entered_FATKg, TSPL_MILK_COLLECTION_MCC.Entered_SNFKg , TSPL_MILK_COLLECTION_MCC.Status , TSPL_MILK_COLLECTION_MCC_DETAIL.SNo , TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code , TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.SNF , TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
-                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_MCC_DETAIL 
-                        left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-                        left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code = TSPL_MILK_COLLECTION_MCC.Created_By
-                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_USER_MASTER.Comp_Code
-                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code
-                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-                         where TSPL_MILK_COLLECTION_MCC.Document_No = '" + txtDocNo.Value + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(txtDate.Value))
-            frmCRV = Nothing
+            clsMilkCollectionMCC.funCancelPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
+
+            'Dim qry = " select TSPL_COMPANY_MASTER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 , TSPL_COMPANY_MASTER.Add2 , TSPL_COMPANY_MASTER.Add3 ,TSPL_COMPANY_MASTER.City_Code, TSPL_COMPANY_MASTER.State ,TSPL_COMPANY_MASTER.Pan_No ,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_COMPANY_MASTER.GSTINNo, TSPL_COMPANY_MASTER.CINNo ,TSPL_COMPANY_MASTER.Phone1 , TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Pan_No  ,TSPL_COMPANY_MASTER.Email ,TSPL_MILK_COLLECTION_MCC.Document_No,convert (varchar, TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date, TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME , TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Vehicle_No , TSPL_MILK_COLLECTION_MCC.Entered_Qty , TSPL_MILK_COLLECTION_MCC.Entered_FATKg, TSPL_MILK_COLLECTION_MCC.Entered_SNFKg , TSPL_MILK_COLLECTION_MCC.Status , TSPL_MILK_COLLECTION_MCC_DETAIL.SNo , TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code , TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.SNF , TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
+            '            ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_MCC_DETAIL 
+            '            left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+            '            left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code = TSPL_MILK_COLLECTION_MCC.Created_By
+            '            left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_USER_MASTER.Comp_Code
+            '            left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code
+            '            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+            '             where TSPL_MILK_COLLECTION_MCC.Document_No = '" + txtDocNo.Value + "'"
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'Dim frmCRV As New frmCrystalReportViewer()
+            'frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptBMCTrackSheet", "BMC Truck Sheet", clsCommon.myCDate(txtDate.Value))
+            'frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

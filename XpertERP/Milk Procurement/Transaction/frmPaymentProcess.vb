@@ -5300,7 +5300,6 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         Dim dt As DataTable = Nothing
         clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value))
         Try
-
             If SettVSPHoldPaymentNotCompanyBank = False Then
                 If Not AllowToSave() Then
                     Exit Sub

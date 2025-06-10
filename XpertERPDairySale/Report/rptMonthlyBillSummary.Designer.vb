@@ -26,12 +26,18 @@ Partial Class rptMonthlyBillSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rgbPeriod = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblYear = New common.Controls.MyLabel()
+        Me.lblMonth = New common.Controls.MyLabel()
+        Me.txtZone = New common.UserControls.txtMultiSelectFinder()
+        Me.lblZone = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnItemTypeBoth = New common.Controls.MyRadioButton()
         Me.rbtnItemTypeTaxable = New common.Controls.MyRadioButton()
         Me.rbtnItemTypeNonTaxable = New common.Controls.MyRadioButton()
         Me.chkExcludeShift = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnZone = New common.Controls.MyRadioButton()
         Me.rbtnCustomerWise = New common.Controls.MyRadioButton()
         Me.rbtnrouteWise = New common.Controls.MyRadioButton()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
@@ -42,25 +48,32 @@ Partial Class rptMonthlyBillSummary
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtMultiCustomer = New common.UserControls.txtMultiSelectFinder()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rgbDateRange = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtfDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvData = New common.UserControls.MyRadGridView()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnprintDetail = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvData = New common.UserControls.MyRadGridView()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.cmbYear = New System.Windows.Forms.ComboBox()
+        Me.cmbMonth = New System.Windows.Forms.ComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rgbPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbPeriod.SuspendLayout()
+        CType(Me.lblYear, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMonth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.rbtnItemTypeBoth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,6 +81,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.rbtnItemTypeNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rbtnZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,21 +91,21 @@ Partial Class rptMonthlyBillSummary
         CType(Me.rbtnSupplydate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rgbDateRange, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbDateRange.SuspendLayout()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,13 +139,16 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(901, 413)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rgbPeriod)
+        Me.RadPageViewPage1.Controls.Add(Me.txtZone)
+        Me.RadPageViewPage1.Controls.Add(Me.lblZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeShift)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -140,12 +157,70 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.txtMultiCustomer)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage1.Controls.Add(Me.rgbDateRange)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(880, 365)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'rgbPeriod
+        '
+        Me.rgbPeriod.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbPeriod.Controls.Add(Me.cmbYear)
+        Me.rgbPeriod.Controls.Add(Me.cmbMonth)
+        Me.rgbPeriod.Controls.Add(Me.lblYear)
+        Me.rgbPeriod.Controls.Add(Me.lblMonth)
+        Me.rgbPeriod.HeaderText = "Period"
+        Me.rgbPeriod.Location = New System.Drawing.Point(501, 101)
+        Me.rgbPeriod.Name = "rgbPeriod"
+        Me.rgbPeriod.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.rgbPeriod.Size = New System.Drawing.Size(281, 40)
+        Me.rgbPeriod.TabIndex = 452
+        Me.rgbPeriod.Text = "Period"
+        '
+        'lblYear
+        '
+        Me.lblYear.FieldName = Nothing
+        Me.lblYear.Location = New System.Drawing.Point(151, 16)
+        Me.lblYear.Name = "lblYear"
+        Me.lblYear.Size = New System.Drawing.Size(28, 18)
+        Me.lblYear.TabIndex = 3
+        Me.lblYear.Text = "Year"
+        '
+        'lblMonth
+        '
+        Me.lblMonth.FieldName = Nothing
+        Me.lblMonth.Location = New System.Drawing.Point(13, 16)
+        Me.lblMonth.Name = "lblMonth"
+        Me.lblMonth.Size = New System.Drawing.Size(40, 18)
+        Me.lblMonth.TabIndex = 2
+        Me.lblMonth.Text = "Month"
+        '
+        'txtZone
+        '
+        Me.txtZone.arrDispalyMember = Nothing
+        Me.txtZone.arrValueMember = Nothing
+        Me.txtZone.Location = New System.Drawing.Point(77, 122)
+        Me.txtZone.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtZone.MyLinkLable1 = Me.lblZone
+        Me.txtZone.MyLinkLable2 = Nothing
+        Me.txtZone.MyNullText = "All"
+        Me.txtZone.Name = "txtZone"
+        Me.txtZone.Size = New System.Drawing.Size(299, 19)
+        Me.txtZone.TabIndex = 451
+        '
+        'lblZone
+        '
+        Me.lblZone.FieldName = Nothing
+        Me.lblZone.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblZone.Location = New System.Drawing.Point(17, 123)
+        Me.lblZone.Margin = New System.Windows.Forms.Padding(4)
+        Me.lblZone.Name = "lblZone"
+        Me.lblZone.Size = New System.Drawing.Size(32, 18)
+        Me.lblZone.TabIndex = 450
+        Me.lblZone.Text = "Zone"
         '
         'RadGroupBox2
         '
@@ -208,6 +283,7 @@ Partial Class rptMonthlyBillSummary
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnZone)
         Me.RadGroupBox1.Controls.Add(Me.rbtnCustomerWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnrouteWise)
         Me.RadGroupBox1.HeaderText = "Report Type"
@@ -218,10 +294,21 @@ Partial Class rptMonthlyBillSummary
         Me.RadGroupBox1.TabIndex = 447
         Me.RadGroupBox1.Text = "Report Type"
         '
+        'rbtnZone
+        '
+        Me.rbtnZone.Location = New System.Drawing.Point(189, 16)
+        Me.rbtnZone.MyLinkLable1 = Nothing
+        Me.rbtnZone.MyLinkLable2 = Nothing
+        Me.rbtnZone.Name = "rbtnZone"
+        Me.rbtnZone.Size = New System.Drawing.Size(73, 18)
+        Me.rbtnZone.TabIndex = 394
+        Me.rbtnZone.TabStop = False
+        Me.rbtnZone.Text = "Zone Wise"
+        '
         'rbtnCustomerWise
         '
         Me.rbtnCustomerWise.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnCustomerWise.Location = New System.Drawing.Point(51, 16)
+        Me.rbtnCustomerWise.Location = New System.Drawing.Point(8, 16)
         Me.rbtnCustomerWise.MyLinkLable1 = Nothing
         Me.rbtnCustomerWise.MyLinkLable2 = Nothing
         Me.rbtnCustomerWise.Name = "rbtnCustomerWise"
@@ -232,7 +319,7 @@ Partial Class rptMonthlyBillSummary
         '
         'rbtnrouteWise
         '
-        Me.rbtnrouteWise.Location = New System.Drawing.Point(152, 16)
+        Me.rbtnrouteWise.Location = New System.Drawing.Point(109, 16)
         Me.rbtnrouteWise.MyLinkLable1 = Nothing
         Me.rbtnrouteWise.MyLinkLable2 = Nothing
         Me.rbtnrouteWise.Name = "rbtnrouteWise"
@@ -293,7 +380,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.TxtRoute.arrDispalyMember = Nothing
         Me.TxtRoute.arrValueMember = Nothing
-        Me.TxtRoute.Location = New System.Drawing.Point(77, 123)
+        Me.TxtRoute.Location = New System.Drawing.Point(77, 144)
         Me.TxtRoute.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRoute.MyLinkLable1 = Me.MyLabel10
@@ -307,7 +394,7 @@ Partial Class rptMonthlyBillSummary
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(17, 124)
+        Me.MyLabel10.Location = New System.Drawing.Point(17, 145)
         Me.MyLabel10.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(36, 18)
@@ -337,20 +424,20 @@ Partial Class rptMonthlyBillSummary
         Me.txtMultiCustomer.Size = New System.Drawing.Size(299, 19)
         Me.txtMultiCustomer.TabIndex = 333
         '
-        'RadGroupBox4
+        'rgbDateRange
         '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel17)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel18)
-        Me.RadGroupBox4.Controls.Add(Me.txtToDate)
-        Me.RadGroupBox4.Controls.Add(Me.txtfDate)
-        Me.RadGroupBox4.HeaderText = "Date Range"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(16, 3)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(281, 40)
-        Me.RadGroupBox4.TabIndex = 53
-        Me.RadGroupBox4.Text = "Date Range"
+        Me.rgbDateRange.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbDateRange.Controls.Add(Me.MyLabel17)
+        Me.rgbDateRange.Controls.Add(Me.MyLabel18)
+        Me.rgbDateRange.Controls.Add(Me.txtToDate)
+        Me.rgbDateRange.Controls.Add(Me.txtfDate)
+        Me.rgbDateRange.HeaderText = "Date Range"
+        Me.rgbDateRange.Location = New System.Drawing.Point(16, 3)
+        Me.rgbDateRange.Name = "rgbDateRange"
+        Me.rgbDateRange.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.rgbDateRange.Size = New System.Drawing.Size(281, 40)
+        Me.rgbDateRange.TabIndex = 53
+        Me.rgbDateRange.Text = "Date Range"
         '
         'MyLabel17
         '
@@ -398,6 +485,51 @@ Partial Class rptMonthlyBillSummary
         Me.txtfDate.Text = "24/10/2011"
         Me.txtfDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.gvData)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(880, 365)
+        Me.RadPageViewPage2.Text = "Report"
+        '
+        'gvData
+        '
+        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvData.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MyExportFilePath = ""
+        Me.gvData.MyStopExport = False
+        Me.gvData.Name = "gvData"
+        Me.gvData.ShowHeaderCellButtons = True
+        Me.gvData.Size = New System.Drawing.Size(880, 365)
+        Me.gvData.TabIndex = 1
+        Me.gvData.VarID = ""
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Location = New System.Drawing.Point(289, 8)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(111, 18)
+        Me.btnExport.TabIndex = 170
+        Me.btnExport.Text = "Export To Excel"
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Location = New System.Drawing.Point(10, 7)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(96, 18)
+        Me.btnGo.TabIndex = 169
+        Me.btnGo.Text = ">>>"
+        '
         'btnprintDetail
         '
         Me.btnprintDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -435,50 +567,21 @@ Partial Class rptMonthlyBillSummary
         Me.btnPrint.TabIndex = 165
         Me.btnPrint.Text = "Print"
         '
-        'RadPageViewPage2
+        'cmbYear
         '
-        Me.RadPageViewPage2.Controls.Add(Me.gvData)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(880, 365)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.cmbYear.FormattingEnabled = True
+        Me.cmbYear.Location = New System.Drawing.Point(183, 13)
+        Me.cmbYear.Name = "cmbYear"
+        Me.cmbYear.Size = New System.Drawing.Size(85, 21)
+        Me.cmbYear.TabIndex = 5
         '
-        'gvData
+        'cmbMonth
         '
-        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvData.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gvData.MyExportFilePath = ""
-        Me.gvData.MyStopExport = False
-        Me.gvData.Name = "gvData"
-        Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(880, 365)
-        Me.gvData.TabIndex = 1
-        Me.gvData.VarID = ""
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Location = New System.Drawing.Point(10, 7)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(96, 18)
-        Me.btnGo.TabIndex = 169
-        Me.btnGo.Text = ">>>"
-        '
-        'btnExport
-        '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Location = New System.Drawing.Point(289, 8)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(111, 18)
-        Me.btnExport.TabIndex = 170
-        Me.btnExport.Text = "Export To Excel"
+        Me.cmbMonth.FormattingEnabled = True
+        Me.cmbMonth.Location = New System.Drawing.Point(55, 14)
+        Me.cmbMonth.Name = "cmbMonth"
+        Me.cmbMonth.Size = New System.Drawing.Size(85, 21)
+        Me.cmbMonth.TabIndex = 4
         '
         'rptMonthlyBillSummary
         '
@@ -499,6 +602,12 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rgbPeriod, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbPeriod.ResumeLayout(False)
+        Me.rgbPeriod.PerformLayout()
+        CType(Me.lblYear, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMonth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -508,6 +617,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.rbtnZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnCustomerWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnrouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -518,22 +628,22 @@ Partial Class rptMonthlyBillSummary
         CType(Me.rbtnSupplydate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rgbDateRange, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbDateRange.ResumeLayout(False)
+        Me.rgbDateRange.PerformLayout()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprintDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -549,7 +659,7 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents txtMultiCustomer As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rgbDateRange As RadGroupBox
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents txtToDate As RadDateTimePicker
@@ -571,4 +681,12 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents gvData As common.UserControls.MyRadGridView
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnExport As RadButton
+    Friend WithEvents txtZone As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblZone As common.Controls.MyLabel
+    Friend WithEvents rbtnZone As common.Controls.MyRadioButton
+    Friend WithEvents rgbPeriod As RadGroupBox
+    Friend WithEvents lblYear As common.Controls.MyLabel
+    Friend WithEvents lblMonth As common.Controls.MyLabel
+    Friend WithEvents cmbYear As ComboBox
+    Friend WithEvents cmbMonth As ComboBox
 End Class

@@ -881,10 +881,12 @@ Public Class FrmPrintFreshInvoice
 
             Dim OpeningBal As Decimal = 0
             Dim ClosingBal As Decimal = 0
+            Dim AmtReceived As Decimal = 0
+            Dim paymentMode As New List(Of String)
             Dim ManualScheme As Integer = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoSchemeOn & "'")) = 0, False, True)
             Dim ShowShipToPartyInDairyDispatch As Integer = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ShowShipToPartyInDairyDispatch & "'")) = 0, 0, 1)
             LeakageDeduction_Freshsale = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.leakagededuction_freshsale & "'"))
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
                 'dt = clsDBFuncationality.GetDataTable(clsDairyInvoice.GetBalCustWise(clsCommon.GetPrintDate(docDate), CustCode))
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("EXEC SP_GetBalCustWise @Cust_Code = '" + clsCommon.myCstr(CustCode) + "',@DocDate='" + clsCommon.GetPrintDate(docDate) + "'")
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -892,6 +894,15 @@ Public Class FrmPrintFreshInvoice
                     ClosingBal = dt.Rows(0)("BalAmt")
                 End If
 
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Dim dtchu As DataTable = clsDBFuncationality.GetDataTable("select Balance_Amt,Payment_Code from TSPL_RECEIPT_HEADER where Cust_Code='" + clsCommon.myCstr(CustCode) + "' and Receipt_Date='" + clsCommon.GetPrintDate(docDate) + "' and Posted='Y'")
+                If dtchu IsNot Nothing AndAlso dtchu.Rows.Count > 0 Then
+                    For Each dr As DataRow In dtchu.Rows
+                        AmtReceived += clsCommon.myCdbl(dr("Balance_Amt"))
+                        paymentMode.Add(clsCommon.myCstr(dr("Payment_Code")))
+                    Next
+                End If
             End If
             Qry = "   select "
             If isCancel Then
@@ -920,6 +931,9 @@ Public Class FrmPrintFreshInvoice
 TSPL_RECEIPT_HEADER.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Amount,
 
 TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date, '" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal "
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                Qry += " ,'" + clsCommon.myCstr(AmtReceived) + "' as AmtReceived,'" + clsCommon.myCstr(clsCommon.GetMulcallStringWithComma(paymentMode)) + "' as PaymentMode,'" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal  "
             End If
 
             Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC,"

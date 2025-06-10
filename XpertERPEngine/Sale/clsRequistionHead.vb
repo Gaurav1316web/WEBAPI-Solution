@@ -72,7 +72,142 @@ Public Class clsRequistionHead
     Public WO_Content As String = Nothing
     Public WO_CopySubmittedTo As String = Nothing
 #End Region
+    Public Shared Function funPurchaseReqPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strdocno As String, ByVal Print2 As Boolean, Optional ByVal IsPDF As Boolean = False) As Boolean
+        Dim frmCRV As New frmCrystalReportViewer()
+        Dim no As Integer = 0
+        Dim qry As String = ""
+        Dim StrPDFPath As String = Nothing
+        Dim TSPL_REQUISITION_HEAD As String = Nothing
+        Dim TSPL_REQUISITION_DETAIL As String = Nothing
 
+        If isCancel Then
+            TSPL_REQUISITION_HEAD = "TSPL_REQUISITION_HEAD_cancel_data"
+            TSPL_REQUISITION_DETAIL = "TSPL_REQUISITION_DETAIL_cancel_data"
+        Else
+            TSPL_REQUISITION_HEAD = "TSPL_REQUISITION_HEAD"
+            TSPL_REQUISITION_DETAIL = "TSPL_REQUISITION_DETAIL"
+        End If
+
+        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
+            qry = "SELECT XX.*, isnull((select SUM(case when InOut='O' then Qty else (Qty*-1) end) from TSPL_INVENTORY_MOVEMENT where Item_Code=XX.Item_Code and TSPL_INVENTORY_MOVEMENT.Location_Code=XX.Location
+                        AND TSPL_INVENTORY_MOVEMENT.Trans_Type='ISSTRAN'
+                        AND CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.SOURCE_DOC_DATE,103)>= CONVERT(DATE,XX.PreviousIndentPlaceDate,103)
+                        AND CONVERT(DATE,TSPL_INVENTORY_MOVEMENT.SOURCE_DOC_DATE,103)<= CONVERT(DATE,XX.Requisition_Date,103)
+                        ),0) as ConsumptionQty
+                        FROM (select TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,tspl_company_master.cinno as Comp_CIN, case when len(TSPL_COMPANY_MASTER.Pan_No) >0 then cast (TSPL_COMPANY_MASTER.Pan_No as varchar) else '' end as PAN_NO, tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,  " + TSPL_REQUISITION_DETAIL + ".Item_Cost ," + TSPL_REQUISITION_DETAIL + ".Item_Net_Amt  as Amount ," + TSPL_REQUISITION_HEAD + ".Requisition_Id ,convert(varchar," + TSPL_REQUISITION_HEAD + ".Requisition_Date,103) as Requisition_Date , convert(varchar," + TSPL_REQUISITION_HEAD + ".Expire_Date,103) as Expire_Date ,convert(varchar," + TSPL_REQUISITION_HEAD + ".Require_Date,103) as Require_Date , " + TSPL_REQUISITION_HEAD + ".Ref_No ," + TSPL_REQUISITION_HEAD + ".Description," + TSPL_REQUISITION_HEAD + ".Remarks," + TSPL_REQUISITION_HEAD + ".Request_By , " + TSPL_REQUISITION_DETAIL + ".Item_Code ," + TSPL_REQUISITION_DETAIL + ".Item_Desc," + TSPL_REQUISITION_DETAIL + ".Specification," + TSPL_REQUISITION_DETAIL + ".Capacity," + TSPL_REQUISITION_DETAIL + ".Make," + TSPL_REQUISITION_DETAIL + ".Model,Category = " + TSPL_REQUISITION_HEAD + ".Category+case when " + TSPL_REQUISITION_HEAD + ".emergency>0 then ' [Emergency]' else '' end,Item_Detail= " + TSPL_REQUISITION_DETAIL + ".Item_Desc+ case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ' [Spec:'+" + TSPL_REQUISITION_DETAIL + ".Specification else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Remarks)>0 then ', Remarks:'+" + TSPL_REQUISITION_DETAIL + ".Remarks else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Capacity)>0 then ', Capacity:'+" + TSPL_REQUISITION_DETAIL + ".Capacity else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Make)>0 then ', Make:'+" + TSPL_REQUISITION_DETAIL + ".Make else '' END  +case when len(" + TSPL_REQUISITION_DETAIL + ".Model)>0 then ', Model:'+" + TSPL_REQUISITION_DETAIL + ".Model else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ']' else '' end, ItemDesc_Detail= " + TSPL_REQUISITION_DETAIL + ".Item_Desc+ case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ' [Spec:'+" + TSPL_REQUISITION_DETAIL + ".Specification else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Remarks)>0 then ', Remarks:'+" + TSPL_REQUISITION_DETAIL + ".Remarks else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Capacity)>0 then ', Capacity:'+" + TSPL_REQUISITION_DETAIL + ".Capacity else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Make)>0 then ', Make:'+" + TSPL_REQUISITION_DETAIL + ".Make else '' END  +case when len(" + TSPL_REQUISITION_DETAIL + ".Model)>0 then ', Model:'+" + TSPL_REQUISITION_DETAIL + ".Model else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ']' else '' end, " + TSPL_REQUISITION_DETAIL + ".Remarks as DRemarks ," + TSPL_REQUISITION_DETAIL + ".Unit_Code ," + TSPL_REQUISITION_DETAIL + ".Requisition_Qty
+                        , TSPL_VENDOR_MASTER.Vendor_Name," + TSPL_REQUISITION_HEAD + ".Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2,user1.User_Name as CreatedBy,case when " + TSPL_REQUISITION_HEAD + ".status=1 then " + TSPL_REQUISITION_HEAD + ".modify_by else '' end as AuthorizeBy
+                          ,case when " + TSPL_REQUISITION_HEAD + ".status=1 then convert(varchar," + TSPL_REQUISITION_HEAD + ".Posting_Date,103) else '' end as AuthorizeDate
+                         ," + TSPL_REQUISITION_HEAD + ".Dept_Desc," + TSPL_REQUISITION_HEAD + ".Location , TSPL_COMPANY_MASTER.Add1,case when  is_internal ='Y' then 'MATERIAL REQUISITION' else 'PURCHASE INDENT' END AS Heading ,isnull(TSPL_ITEM_MASTER.HSN_Code,'') as HSN_Code  
+                        ,convert(varchar,(select convert(varchar,max(RH.Requisition_Date),103) as Requisition_Date
+                        from " + TSPL_REQUISITION_HEAD + " RH join " + TSPL_REQUISITION_DETAIL + " RD on RH.Requisition_Id =RD.Requisition_Id
+                        where 
+                        RH.From_Screen_Code='STORE-REQ'
+                        and RD.Item_Code=" + TSPL_REQUISITION_DETAIL + ".Item_Code
+                        and RH.Location=" + TSPL_REQUISITION_HEAD + ".Location
+                        AND RH.Requisition_Date<" + TSPL_REQUISITION_HEAD + ".Requisition_Date
+                        ),103) as PreviousIndentPlaceDate
+                        ,convert(varchar,( SELECT top 1 (TOI.DOCUMENT_DATE) FROM TSPL_TRANSFER_ORDER_DETAIL TOD 
+                        left outer join TSPL_TRANSFER_ORDER_HEAD TOI  on TOD.Document_No=TOI.Document_No and TOI.Transfer_Type='I'
+                        left outer join TSPL_TRANSFER_ORDER_HEAD on TOI.TransferOutNo=TSPL_TRANSFER_ORDER_HEAD.Document_No
+                        and TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O'
+                        left outer join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_DETAIL.Document_No=TSPL_TRANSFER_ORDER_HEAD.Document_No
+                        and TOD.Item_Code=TSPL_TRANSFER_ORDER_DETAIL.Item_Code
+                        LEFT OUTER JOIN " + TSPL_REQUISITION_HEAD + " TRH ON TSPL_TRANSFER_ORDER_HEAD.Requisition_id=TRH.requisition_id
+                        left outer join " + TSPL_REQUISITION_DETAIL + " TRD on TRH.Requisition_Id =TRD.Requisition_Id
+                        and TRD.Item_Code=TOD.Item_Code
+                        where  TRH.From_Screen_Code='STORE-REQ' AND TRH.LOCATION=" + TSPL_REQUISITION_HEAD + ".LOCATION 
+                        and " + TSPL_REQUISITION_DETAIL + ".Item_Code=TRD.Item_Code 
+                        AND TRH.Requisition_Date<" + TSPL_REQUISITION_HEAD + ".Requisition_Date order by TRH.Requisition_Date desc
+                        ),103) AS PreviouslyReceivedDate
+                        ,(SELECT top 1 (isnull(TOD.OUT_Qty,0)) FROM TSPL_TRANSFER_ORDER_DETAIL TOD 
+                        left outer join TSPL_TRANSFER_ORDER_HEAD TOI  on TOD.Document_No=TOI.Document_No and TOI.Transfer_Type='I'
+                        left outer join TSPL_TRANSFER_ORDER_HEAD on TOI.TransferOutNo=TSPL_TRANSFER_ORDER_HEAD.Document_No
+                        and TSPL_TRANSFER_ORDER_HEAD.Transfer_Type='O'
+                        left outer join TSPL_TRANSFER_ORDER_DETAIL on TSPL_TRANSFER_ORDER_DETAIL.Document_No=TSPL_TRANSFER_ORDER_HEAD.Document_No
+                        and TOD.Item_Code=TSPL_TRANSFER_ORDER_DETAIL.Item_Code
+                        LEFT OUTER JOIN " + TSPL_REQUISITION_HEAD + " TRH ON TSPL_TRANSFER_ORDER_HEAD.Requisition_id=TRH.requisition_id
+                        left outer join " + TSPL_REQUISITION_DETAIL + " TRD on TRH.Requisition_Id =TRD.Requisition_Id
+                        and TRD.Item_Code=TOD.Item_Code
+                        where  TRH.From_Screen_Code='STORE-REQ' AND TRH.LOCATION=" + TSPL_REQUISITION_HEAD + ".LOCATION
+                        and " + TSPL_REQUISITION_DETAIL + ".Item_Code=TRD.Item_Code 
+                        AND TRH.Requisition_Date<TSPL_REQUISITION_HEAD.Requisition_Date order by TRH.Requisition_Date desc
+                        ) as PreviouslyReceivedQty
+                        from " + TSPL_REQUISITION_HEAD + " join " + TSPL_REQUISITION_DETAIL + " on " + TSPL_REQUISITION_HEAD + ".Requisition_Id =" + TSPL_REQUISITION_DETAIL + ".Requisition_Id left outer join TSPL_COMPANY_MASTER on  " + TSPL_REQUISITION_HEAD + ".Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_VENDOR_MASTER on " + TSPL_REQUISITION_DETAIL + ".Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code left outer join TSPL_USER_MASTER as user1 on " + TSPL_REQUISITION_HEAD + ".Created_By=user1.User_Code left outer join TSPL_USER_MASTER as user2 on " + TSPL_REQUISITION_HEAD + ".Modify_By=user2.User_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=" + TSPL_REQUISITION_DETAIL + ".Item_Code  
+                        left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  " + TSPL_REQUISITION_HEAD + ".Location  left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state  where(2 = 2) and  " + TSPL_REQUISITION_HEAD + ".Requisition_Id='" + strdocno + "'
+                        )XX "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "PurchaseIndentForVijaya", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+        Else
+
+            qry = "select TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc ,"
+            If isCancel Then
+                qry += " 'Cancelled' As Report_Status, "
+            Else
+                qry += " '' As Report_Status, "
+            End If
+            qry += " TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 As Location_Add2 , TSPL_LOCATION_MASTER.Add3 As Location_Add3 , TSPL_LOCATION_MASTER.Add4 As Location_Add4 , TSPL_LOCATION_MASTER.City_Code As Location_City_Code , TSPL_LOCATION_MASTER.State As Location_State , TSPL_LOCATION_MASTER.Pin_Code As Location_Pin_Code , TSPL_LOCATION_MASTER.Country As Location_Country , TSPL_LOCATION_MASTER.Telphone As Location_Telphone, TSPL_COMPANY_MASTER.Email, TSPL_COMPANY_MASTER.Phone1, TSPL_COMPANY_MASTER.GSTReg_No, TSPL_LOCATION_MASTER.Email As Location_Email, TSPL_LOCATION_MASTER.Loc_Short_Name As Loc_Short_Name , TSPL_LOCATION_MASTER.IsMainPlant As Location_IsMainPlant, TSPL_COMPANY_MASTER.GSTReg_No As Comp_GSTReg_No, TSPL_COMPANY_MASTER.Add1 As Comp_Add1 , TSPL_COMPANY_MASTER.Add2 As Comp_Add2 , TSPL_COMPANY_MASTER.Add3 As Comp_Add3 , TSPL_COMPANY_MASTER.City_Code As Comp_City_Code, TSPL_COMPANY_MASTER.Fax As Comp_Fax , TSPL_COMPANY_MASTER.Email As Comp_Email, TSPL_COMPANY_MASTER.Pincode As Comp_Pincode , TSPL_COMPANY_MASTER.State As Comp_State_Code , TSPL_STATE_MASTER_Comp.STATE_NAME As Comp_STATE_NAME, TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 As Comp_Phone2 , TSPL_LOCATION_MASTER.GSTNO As Loc_GstInNo , tspl_company_master.cinno As Comp_CIN, case when len(TSPL_COMPANY_MASTER.Pan_No) >0 then cast (TSPL_COMPANY_MASTER.Pan_No as varchar) else '' end as PAN_NO, tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code,  " + TSPL_REQUISITION_DETAIL + ".Item_Cost ," + TSPL_REQUISITION_DETAIL + ".Item_Net_Amt  as Amount ," + TSPL_REQUISITION_HEAD + ".Requisition_Id ,convert(varchar," + TSPL_REQUISITION_HEAD + ".Requisition_Date,103) as Requisition_Date , " &
+            "convert(varchar," + TSPL_REQUISITION_HEAD + ".Expire_Date,103) as Expire_Date ,convert(varchar," + TSPL_REQUISITION_HEAD + ".Require_Date,103) as Require_Date , " &
+            "" + TSPL_REQUISITION_HEAD + ".Ref_No ," + TSPL_REQUISITION_HEAD + ".Description," + TSPL_REQUISITION_HEAD + ".Remarks," + TSPL_REQUISITION_HEAD + ".Request_By , " &
+            "" + TSPL_REQUISITION_DETAIL + ".Item_Code ," + TSPL_REQUISITION_DETAIL + ".Item_Desc," + TSPL_REQUISITION_DETAIL + ".Specification," + TSPL_REQUISITION_DETAIL + ".Capacity," + TSPL_REQUISITION_DETAIL + ".Make," + TSPL_REQUISITION_DETAIL + ".Model,Category = " + TSPL_REQUISITION_HEAD + ".Category+case when " + TSPL_REQUISITION_HEAD + ".emergency>0 then ' [Emergency]' else '' end,Item_Detail= " + TSPL_REQUISITION_DETAIL + ".Item_Desc+ case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ' [Spec:'+" + TSPL_REQUISITION_DETAIL + ".Specification else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Remarks)>0 then ', Remarks:'+" + TSPL_REQUISITION_DETAIL + ".Remarks else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Capacity)>0 then ', Capacity:'+" + TSPL_REQUISITION_DETAIL + ".Capacity else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Make)>0 then ', Make:'+" + TSPL_REQUISITION_DETAIL + ".Make else '' END  +case when len(" + TSPL_REQUISITION_DETAIL + ".Model)>0 then ', Model:'+" + TSPL_REQUISITION_DETAIL + ".Model else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ']' else '' end, " &
+            "ItemDesc_Detail= " &
+            "" + TSPL_REQUISITION_DETAIL + ".Item_Desc+ case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ' [Spec:'+" + TSPL_REQUISITION_DETAIL + ".Specification else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Remarks)>0 then ', Remarks:'+" + TSPL_REQUISITION_DETAIL + ".Remarks else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Capacity)>0 then ', Capacity:'+" + TSPL_REQUISITION_DETAIL + ".Capacity else '' END +case when len(" + TSPL_REQUISITION_DETAIL + ".Make)>0 then ', Make:'+" + TSPL_REQUISITION_DETAIL + ".Make else '' END  +case when len(" + TSPL_REQUISITION_DETAIL + ".Model)>0 then ', Model:'+" + TSPL_REQUISITION_DETAIL + ".Model else '' END + case when len(" + TSPL_REQUISITION_DETAIL + ".Specification)>0 then ']' else '' end, " &
+            "" + TSPL_REQUISITION_DETAIL + ".Remarks as DRemarks ," + TSPL_REQUISITION_DETAIL + ".Unit_Code ," + TSPL_REQUISITION_DETAIL + ".Requisition_Qty, " &
+            "isnull((select SUM( case when InOut='I' then Qty else  -1* Qty end )from TSPL_INVENTORY_MOVEMENT where Item_Code=" + TSPL_REQUISITION_DETAIL + ".Item_Code and TSPL_INVENTORY_MOVEMENT.Location_Code=" + TSPL_REQUISITION_HEAD + ".Location),0) as AvaiQty  , " &
+            "TSPL_VENDOR_MASTER.Vendor_Name," + TSPL_REQUISITION_HEAD + ".Comments ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img , " &
+            "TSPL_COMPANY_MASTER.Logo_Img2,user1.User_Name as CreatedBy,case when " + TSPL_REQUISITION_HEAD + ".status=1 then " + TSPL_REQUISITION_HEAD + ".modify_by else '' end as AuthorizeBy,case when " + TSPL_REQUISITION_HEAD + ".status=1 then convert(varchar," + TSPL_REQUISITION_HEAD + ".Posting_Date,103) else '' end as AuthorizeDate ," + TSPL_REQUISITION_HEAD + ".Request_By, " &
+            "" + TSPL_REQUISITION_HEAD + ".Require_Date," + TSPL_REQUISITION_HEAD + ".Dept_Desc," + TSPL_REQUISITION_HEAD + ".Location , " &
+            "TSPL_COMPANY_MASTER.Add1,case when  is_internal ='Y' then 'MATERIAL REQUISITION' else 'PURCHASE INDENT' END AS Heading ,isnull(TSPL_ITEM_MASTER.HSN_Code,'') as HSN_Code " &
+            ",isnull(" + TSPL_REQUISITION_HEAD + ".Capex_Code,'') as Capex_Code,isnull(" + TSPL_REQUISITION_HEAD + ".Capex_SubCode,'') as Capex_SubCode,isnull(TSPL_CAPEX_BUDGET_MASTER.DESCRIPTION,'') as SubCapexNameDesc,isnull(TSPL_CAPEX_MASTER.DESCRIPTION,'') as CapexDesc, " + TSPL_REQUISITION_HEAD + ".Reqst_Desc," + TSPL_REQUISITION_HEAD + ".Requested,TSPL_VENDOR_MASTER.Add1,TSPL_VENDOR_MASTER.Add2,TSPL_VENDOR_MASTER.Add3,TSPL_VENDOR_MASTER.Contact_Person_Name,TSPL_VENDOR_MASTER.Email,TSPL_VENDOR_MASTER.Phone1,TSPL_VENDOR_MASTER.GSTFinalNo " &
+            " from " + TSPL_REQUISITION_HEAD + " join " + TSPL_REQUISITION_DETAIL + " on " + TSPL_REQUISITION_HEAD + ".Requisition_Id =" + TSPL_REQUISITION_DETAIL + ".Requisition_Id left outer join TSPL_COMPANY_MASTER on  " + TSPL_REQUISITION_HEAD + ".Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left outer join TSPL_VENDOR_MASTER on " + TSPL_REQUISITION_DETAIL + ".Vendor_Code =TSPL_VENDOR_MASTER.Vendor_Code left outer join TSPL_USER_MASTER as user1 on " + TSPL_REQUISITION_HEAD + ".Created_By=user1.User_Code left outer join TSPL_USER_MASTER as user2 on " + TSPL_REQUISITION_HEAD + ".Modify_By=user2.User_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=" + TSPL_REQUISITION_DETAIL + ".Item_Code " &
+            " left join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=" + TSPL_REQUISITION_HEAD + ".Capex_Code left join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.Code=" + TSPL_REQUISITION_HEAD + ".Capex_SubCode" &
+            " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  " + TSPL_REQUISITION_HEAD + ".Location " &
+            " left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state " &
+            " left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_Comp on TSPL_STATE_MASTER_Comp.STATE_CODE = TSPL_COMPANY_MASTER.State " &
+            " where(2 = 2)"
+
+            If strdocno <> "" Then
+                'qry += " and  TSPL_REQUISITION_HEAD.Requisition_Id='" + txtReqNo.Value + "'"
+                qry += " and  " + TSPL_REQUISITION_HEAD + ".Requisition_Id='" + strdocno + "'"
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                If dt.Rows(i)("vendor_name").ToString() <> "" Then
+                    no = no
+                End If
+            Next
+
+            If no = 0 Then
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
+                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor-G", "Purchase Requisition")
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal And Print2 Then
+                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendorAJM2", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendorAJM", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                Else
+                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition", clsCommon.myCDate(dt.Rows(0)("Requisition_Date")))
+                End If
+
+            Else
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GUNTUR") = CompairStringResult.Equal Then
+                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition-G", "Purchase Requisition")
+                Else
+                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Viney") = CompairStringResult.Equal Then
+                        StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisitionWithoutVendor", "Purchase Requisition")
+                    Else
+
+                        StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.PurchaseOrder, dt, "PurchaseRequisition", "Purchase Requisition")
+                    End If
+
+                End If
+            End If
+
+
+        End If
+        frmCRV = Nothing
+
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As clsRequistionHead, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -673,6 +808,7 @@ Public Class clsRequistionHead
                 End If
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_REQUISITION_HEAD", "Requisition_Id", "TSPL_REQUISITION_DETAIL", "Requisition_Id", trans)
 
                 Dim qry As String = "delete from TSPL_REQUISITION_DETAIL where Requisition_Id='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)

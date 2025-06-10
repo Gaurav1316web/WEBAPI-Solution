@@ -284,6 +284,42 @@ Public Class frmPaymentAdjEntry
 #Region "Page Load"
     Private Sub frmAdj_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'Xtra.UpdateSaleInvoiceBalanceAmt()
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Adjustment_No", "varchar(30) NOT NULL Primary Key")
+        coll.Add("Description", "varchar(200)  NULL")
+        coll.Add("Adjustment_Date", "datetime")
+        coll.Add("Post_Date", "datetime null")
+        coll.Add("Vendor_No", "varchar(12) NULL")
+        coll.Add("Vendor_Name", "varchar(200) NULL")
+        coll.Add("Doc_No", "varchar(30) NULL")
+        coll.Add("Doc_Amount", "decimal(18,2) null")
+        coll.Add("Remarks", "varchar(200) NULL")
+        coll.Add("Adjustment_Amount", "decimal(18,2) null")
+        coll.Add("Adjustment_Amount_Before_RO", "decimal(18,2) null")
+        coll.Add("Round_Off_Amount", "decimal(18,2) null")
+        coll.Add("Is_Post", "char(1) NULL")
+        coll.Add("Created_By", "varchar(12) NULL ")
+        coll.Add("Created_Date", "Varchar(10) NULL")
+        coll.Add("Modify_By", "varchar(12) NULL")
+        coll.Add("Modify_Date", "Varchar(10) NULL")
+        coll.Add("Comp_Code", "varchar(8) NULL")
+        coll.Add("Adjust_Type", "varchar(1) NOT NULL DEFAULT 'P'")  ''possible values 1. P(Payment) 2. R(Return)
+        coll.Add("Against_Payment_Process", "varchar(30) null References TSPL_PAYMENT_PROCESS_HEAD(Doc_No)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Header", coll, Nothing, True, True, "", "Adjustment_No", "Adjustment_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Adjustment_No", "varchar(30)")
+        coll.Add("Line_No", "int  NULL")
+        coll.Add("Account_No", "varchar(12)  NULL")
+        coll.Add("Account_Description", "varchar(100)  NULL")
+        coll.Add("Amount", "decimal(18,2)  NULL")
+        coll.Add("Remarks", "varchar(100) NULL")
+        coll.Add("Discount_Code", "varchar(30) NULL")
+        coll.Add("Discount_Description", "varchar(200) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Detail", coll, Nothing, True, True, "TSPL_Payment_Adjustment_Header", "Adjustment_No", "", True)
+
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
@@ -598,27 +634,29 @@ Public Class frmPaymentAdjEntry
         PrintData()
     End Sub
     Sub PrintData()
-        If clsCommon.myLen(fndDocNo.Value) > 0 Then
-            Dim qry As String
-            qry = "select finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select case when xx.Is_Post='Y' then 'Y' else 'N' end as Is_Post  , xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Vendor_No ,xx.Vendor_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " & _
-                  " (SELECT TSPL_Payment_Adjustment_Header.Is_Post,  TSPL_Payment_Adjustment_Detail.Adjustment_No  ,Adjustment_Date,TSPL_Payment_Adjustment_Header.Vendor_No ,(select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_Payment_Adjustment_Header.Vendor_No )as Vendor_Name,TSPL_Payment_Adjustment_Detail.Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt,TSPL_Payment_Adjustment_Header .Comp_Code,TSPL_Payment_Adjustment_Header .Doc_No  FROM TSPL_Payment_Adjustment_Detail left outer join TSPL_Payment_Adjustment_Header on  TSPL_Payment_Adjustment_Detail.Adjustment_No = TSPL_Payment_Adjustment_Header .Adjustment_No   where TSPL_Payment_Adjustment_Detail.Adjustment_No ='" & fndFnAdj.Value & "'" & _
-                   " union all " & _
-                   " select TSPL_Payment_Adjustment_Header.Is_Post, TSPL_Payment_Adjustment_Header.Adjustment_No ,TSPL_Payment_Adjustment_Header.Adjustment_Date  ,TSPL_Payment_Adjustment_Header.Vendor_No,(select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_Payment_Adjustment_Header.Vendor_No )as Vendor_Name,(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code  =TSPL_VENDOR_MASTER.Vendor_Account) as Acct,(select Description from TSPL_GL_ACCOUNTS where Account_Code =(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code =TSPL_VENDOR_MASTER.Vendor_Account))as AcctDesc,0 as DbtAmt,TSPL_Payment_Adjustment_Header.Adjustment_Amount as CrAmt ,TSPL_Payment_Adjustment_Header .Comp_Code,TSPL_Payment_Adjustment_Header .Doc_No from TSPL_Payment_Adjustment_Header left outer join TSPL_VENDOR_MASTER on TSPL_Payment_Adjustment_Header.Vendor_No =TSPL_VENDOR_MASTER.Vendor_Code where Adjustment_No ='" & fndFnAdj.Value & "' ) as xx )as finalQry left outer join TSPL_COMPANY_MASTER on finalQry .Comp_Code =TSPL_COMPANY_MASTER .Comp_Code "
-            Try
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
-                Else
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
-                    frmCRV = Nothing
-                End If
-            Catch ex As Exception
-                myMessages.myExceptions(ex)
-            End Try
+        clsPaymentAdjustmentEntry.funPaymentAdjEntryPrint(MyBase.Form_ID, False, dtAdj.Value, fndFnAdj.Value)
+
+        'If clsCommon.myLen(fndDocNo.Value) > 0 Then
+        '    Dim qry As String
+        '    qry = "select finalQry .*,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where Location_Code in(select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code =(substring (finalqry.AcctNo ,LEN(finalqry.AcctNo)-2,5)))   )as address from (select case when xx.Is_Post='Y' then 'Y' else 'N' end as Is_Post  , xx.Adjustment_No,Convert(varchar,xx.Adjustment_Date,103) as Adjustment_Date ,xx.Vendor_No ,xx.Vendor_Name ,xx.AcctNo ,xx.AcctDesc ,xx.DbtAmt ,xx.CrAmt ,xx.Comp_Code,xx.Doc_No  from " & _
+        '          " (SELECT TSPL_Payment_Adjustment_Header.Is_Post,  TSPL_Payment_Adjustment_Detail.Adjustment_No  ,Adjustment_Date,TSPL_Payment_Adjustment_Header.Vendor_No ,(select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_Payment_Adjustment_Header.Vendor_No )as Vendor_Name,TSPL_Payment_Adjustment_Detail.Account_No as AcctNo,Account_Description as AcctDesc,Amount as DbtAmt,0 as CrAmt,TSPL_Payment_Adjustment_Header .Comp_Code,TSPL_Payment_Adjustment_Header .Doc_No  FROM TSPL_Payment_Adjustment_Detail left outer join TSPL_Payment_Adjustment_Header on  TSPL_Payment_Adjustment_Detail.Adjustment_No = TSPL_Payment_Adjustment_Header .Adjustment_No   where TSPL_Payment_Adjustment_Detail.Adjustment_No ='" & fndFnAdj.Value & "'" & _
+        '           " union all " & _
+        '           " select TSPL_Payment_Adjustment_Header.Is_Post, TSPL_Payment_Adjustment_Header.Adjustment_No ,TSPL_Payment_Adjustment_Header.Adjustment_Date  ,TSPL_Payment_Adjustment_Header.Vendor_No,(select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code =TSPL_Payment_Adjustment_Header.Vendor_No )as Vendor_Name,(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code  =TSPL_VENDOR_MASTER.Vendor_Account) as Acct,(select Description from TSPL_GL_ACCOUNTS where Account_Code =(select TSPL_VENDOR_ACCOUNT_SET.Payable_Account from TSPL_VENDOR_ACCOUNT_SET where TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code =TSPL_VENDOR_MASTER.Vendor_Account))as AcctDesc,0 as DbtAmt,TSPL_Payment_Adjustment_Header.Adjustment_Amount as CrAmt ,TSPL_Payment_Adjustment_Header .Comp_Code,TSPL_Payment_Adjustment_Header .Doc_No from TSPL_Payment_Adjustment_Header left outer join TSPL_VENDOR_MASTER on TSPL_Payment_Adjustment_Header.Vendor_No =TSPL_VENDOR_MASTER.Vendor_Code where Adjustment_No ='" & fndFnAdj.Value & "' ) as xx )as finalQry left outer join TSPL_COMPANY_MASTER on finalQry .Comp_Code =TSPL_COMPANY_MASTER .Comp_Code "
+        '    Try
+        '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+        '            common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
+        '        Else
+        '            Dim frmCRV As New frmCrystalReportViewer()
+        '            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "ReceiptAdjustmentReport", "Receipt Settlement Report")
+        '            frmCRV = Nothing
+        '        End If
+        '    Catch ex As Exception
+        '        myMessages.myExceptions(ex)
+        '    End Try
 
 
-        End If
+        'End If
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow

@@ -2981,7 +2981,7 @@ order by LEVEL"
     End Sub
 
     Private Sub btnSarasPro_Click(sender As Object, e As EventArgs) Handles btnSarasPro.Click
-        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master  where  InActive='Y' AND  ISNULL(Saras_Pro_Session_Expired,0)=0"
+        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master  where  InActive='n' AND  ISNULL(Saras_Pro_Session_Expired,0)=0"
 
         Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtProSaras.arrValueMember, txtProSaras.arrDispalyMember)
 
@@ -2996,7 +2996,7 @@ order by LEVEL"
     End Sub
 
     Private Sub btnSarasOrder_Click(sender As Object, e As EventArgs) Handles btnSarasOrder.Click
-        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='Y'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
+        Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
         Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtOrderSaras.arrValueMember, txtOrderSaras.arrDispalyMember)
 
         If clsCommon.myLen(ARR) > 0 Then

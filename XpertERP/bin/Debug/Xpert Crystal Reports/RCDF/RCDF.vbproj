@@ -1335,6 +1335,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptMilkSupplySaleCustRouteWiseDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptMilkSupplySaleCustRouteWiseSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptMultipleInvoice.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptMultipleInvoicePrint.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptPerDayDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptRouteWiseReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
@@ -1389,6 +1390,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummaryDateCustomerWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummaryDateCustomerWise1.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummaryDateRoutewise.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptMonthlyBillSummaryZoneWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptNRGP.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptPartyWise.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductExciseTransfer.rpt" />

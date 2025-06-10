@@ -860,6 +860,15 @@ Public Class frmMilkCollectionDCS
                 '    clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]", Me.Text)
                 'End If
             End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BHR") = CompairStringResult.Equal Then
+                qry = "select DATEDIFF(day, DOC_DATE , '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "')from (
+select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head where VLC_CODE='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' order by DOC_DATE desc
+)xx"
+                qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                If clsCommon.myCDecimal(qry) > 2 Then
+                    clsCommon.MyMessageBoxShow(Me, "Milk supply has not been provided for the past [ " + qry + " ] days by DCS [" + clsCommon.myCstr(gv1.CurrentRow.Cells(colVLCUploaderCode).Value) + "].", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Exclamation)
+                End If
+            End If
         End If
 
     End Sub

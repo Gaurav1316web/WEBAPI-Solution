@@ -321,13 +321,11 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
         Dim objTr As New clsPaymentDetail()
         Dim isProgressBarShownLocal As Boolean = False
         Dim arrARForSameMCCSaleAndReturn As New Dictionary(Of String, Decimal)
-
         Try
             If obj.ArrPPDetail IsNot Nothing And obj.ArrPPDetail.Count > 0 Then
                 If obj.isPrePosted = 0 Then
                     Throw New Exception("Transaction should be Pre posted")
                 End If
-
                 DisCCodeForArAdj = clsFixedParameter.GetData(clsFixedParameterType.DiscountCodeForArAdj, clsFixedParameterCode.DiscountCodeForArAdj, trans)
                 If clsCommon.myLen(DisCCodeForArAdj) <= 0 Then
                     Throw New Exception("Please Map Discount code from Sale setting")
@@ -567,13 +565,12 @@ where Document_No='" + clsCommon.myCstr(dr("Document_No")) + "'"
                                             objPayAdj.SaveData(objPayAdj, True, trans)
                                             clsPaymentAdjustmentEntry.FunPost(objPayAdj.Adjustment_No, trans)
                                             arrCreditNoteAdjustAmt.Add(DocNo, tAmt)
-                                            If AmtToAdjustInCreditNote = 0 Then
-                                                Exit For
-                                            End If
+                                            'If AmtToAdjustInCreditNote = 0 Then
+                                            '    Exit For
+                                            'End If
                                         End If
                                     End If
                                 End If
-
                             End If
                         End If
 
@@ -1741,7 +1738,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             ")xx inner join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=xx.Payment_No"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''UpdateAR Invoice balance amount for MCC Sale/MCC Sale Return
-            qry = "update TSPL_Customer_Invoice_Head set Balance_Amt=xx.BalanceAmt from (" + Environment.NewLine +
+            qry = "update TSPL_Customer_Invoice_Head set Balance_Amt=Balance_Amt+xx.BalanceAmt from (" + Environment.NewLine +
             " select AR_Invoice_No,(Amount-Reduce_Deduc_Amt) as BalanceAmt  from TSPL_PAYMENT_PROCESS_MCC_SALE where Doc_No='" + strDocNo + "'" + Environment.NewLine +
             " union all " + Environment.NewLine +
             " select AR_Invoice_No,(Amount-Reduce_Deduc_Amt) as BalanceAmt  from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN where Doc_No='" + strDocNo + "' " + Environment.NewLine +
@@ -2695,7 +2692,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
                 BaseQry += " isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name "
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 BaseQry += " isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name ,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI,'') as ROUTE_NAME_HINDI "
-            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
                 BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI as ROUTE_NAME_HINDI "
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 BaseQry += " TSPL_VLC_MASTER_HEAD.Route_Code as ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME_HINDI,'') as ROUTE_NAME_HINDI "
@@ -2788,7 +2785,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.VLC_Name_Hindi,coalesce(TSPL
         '       End If
         'BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         BaseQry += " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO  " + Environment.NewLine
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
             BaseQry += "  Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_BULK_ROUTE_MASTER.ROUTE_NO" + Environment.NewLine
         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             BaseQry += "  Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_VLC_MASTER_HEAD.Route_Code =TSPL_BULK_ROUTE_MASTER.ROUTE_NO" + Environment.NewLine
@@ -2858,7 +2855,7 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_SRN_D
 
         BaseQry += "  LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No   "
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") <> CompairStringResult.Equal Then
             BaseQry += " left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO " + Environment.NewLine
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
@@ -4452,7 +4449,7 @@ Public Class clsPaymentProcessDeduction
                 For i = 0 To arr.Count - 1
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Doc_No", DocNo)
-                    clsCommon.AddColumnsForChange(coll, "SLNO", arr.Item(i).SLNO)
+                    clsCommon.AddColumnsForChange(coll, "SLNO", i + 1)
                     clsCommon.AddColumnsForChange(coll, "AP_Invoice_No", arr.Item(i).AP_Invoice_No)
                     clsCommon.AddColumnsForChange(coll, "AP_Invoice_Date", arr.Item(i).AP_Invoice_Date)
                     clsCommon.AddColumnsForChange(coll, "Vendor_CODE", arr.Item(i).Vendor_CODE)

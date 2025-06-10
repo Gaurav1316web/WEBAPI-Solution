@@ -24,6 +24,7 @@ Public Class clsDocType
     Public Const APInvoice As String = "AP Invoice"
     Public Const MultipleProcDed As String = "Multiple Proc Ded"
     Public Const TransferToSaving As String = "Transfer To Saving"
+    Public Const BMCTransporterBill As String = "BMC Transporter Bill"
     Public Const CHACHARGEMASTER As String = "CHA Charge Master"
     Public Const DebitNote As String = "AP Debit Note"
     Public Const CreditNote As String = "AP Credit Note"
@@ -825,6 +826,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.MultipleProcDed, "", False, True)
             InsertDefaultValue(clsDocType.TransferToSaving, "", False, True)
+            InsertDefaultValue(clsDocType.BMCTransporterBill, "", False, True)
             InsertDefaultValue(clsDocType.ARInvoice, "", False, True)
             InsertDefaultValue(clsDocType.ARDebitNote, clsDocTransactionType.NA, False, True)
             InsertDefaultValue(clsDocType.ARCreditNote, clsDocTransactionType.NA, False, True)

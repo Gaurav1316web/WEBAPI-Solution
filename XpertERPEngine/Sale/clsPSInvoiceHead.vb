@@ -2557,6 +2557,45 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         Next
         Return ""
     End Function
+    Public Shared Function CancelData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean = False
+        If (clsCommon.myLen(strCode) <= 0) Then
+            Throw New Exception("Invoice No not found to Cancel")
+        End If
+        Dim obj As clsPSInvoiceHead = clsPSInvoiceHead.GetData(strCode, NavigatorType.Current, "", trans)
+        If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
+            Try
+
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmSaleInvoicedairy, obj.Bill_To_Location, obj.Document_Date, trans)
+
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
+
+                Dim qry As String = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strCode + "'"
+                isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strCode + "'"
+                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
+
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
+        End If
+        Return isSaved
+    End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
