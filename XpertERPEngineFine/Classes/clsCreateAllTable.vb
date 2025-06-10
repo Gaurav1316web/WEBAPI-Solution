@@ -15137,6 +15137,7 @@ Public Class clsCreateAllTable
             coll.Add("Display_SeqE", "decimal (18,2) NULL")
             coll.Add("SkipTaxableInvoice", "int null default 0")
             coll.Add("SkipNonTaxableInvoice", "int null default 0")
+            coll.Add("Inter_Union_Sale", "Integer null default 0")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
