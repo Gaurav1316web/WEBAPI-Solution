@@ -30011,7 +30011,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("BPL_Category", "varchar(50) NULL")
             coll.Add("Source_API", "int Null")
             coll.Add("Against_Open_Shift", "Varchar(30) null references TSPL_PARLOUR_SHIFT_OPEN(Document_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "Varchar(30) not null References TSPL_SD_POS_HEAD(DOCUMENT_CODE)")
@@ -30073,7 +30073,7 @@ inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK
             coll.Add("Bar_Code", "Varchar(30) null References TSPL_ITEM_BARCODE(Bar_Code)")
             coll.Add("MRP", "Decimal(18,2) null")
             coll.Add("ItemwiseTaxCode", "varchar(30) null ")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_DETAIL", coll, Nothing, True, False, "TSPL_SD_POS_HEAD", "Document_Code", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_DETAIL", coll, Nothing, True, True, "TSPL_SD_POS_HEAD", "Document_Code", "", True)
 
             'coll = New Dictionary(Of String, String)()
             'coll.Add("Document_No", "varchar(30) NOT NULL Primary key")

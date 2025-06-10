@@ -170,7 +170,9 @@ Public Class frmSNPOS
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        dim coll as New Dictionary(Of String, String)()
+
+
+        Dim coll As New Dictionary(Of String, String)()
         coll.Add("ItemwiseTaxCode", "varchar(30) null ")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_POS_DETAIL", coll, Nothing, False, False)
 
@@ -3427,25 +3429,25 @@ Public Class frmSNPOS
     Private Sub funPrint()
 
         Try
+            clsSNPOSHead.funSNFPOSPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value)
+
+            'Dim Qry As String = "select	TSPL_SD_POS_HEAD.Document_Code ,TSPL_SD_POS_HEAD.Document_Date ,TSPL_SD_POS_HEAD.Customer_Code ,TSPL_SD_POS_HEAD.Status ,TSPL_SD_POS_HEAD.On_Hold ,TSPL_SD_POS_HEAD.Delivery_Type ,TSPL_SD_POS_HEAD.Delivery_Date ,TSPL_SD_POS_HEAD.Against_Order_No ,TSPL_SD_POS_HEAD.Bill_To_Location ,TSPL_SD_POS_HEAD.Remarks ,TSPL_SD_POS_HEAD.Message ,TSPL_SD_POS_HEAD.Payment_Mode ,TSPL_SD_POS_HEAD.Cheque_No ,TSPL_SD_POS_HEAD.Cheque_Date ,TSPL_SD_POS_HEAD.Credit_Card_No ,TSPL_SD_POS_HEAD.Credit_Card_Bank ,TSPL_SD_POS_HEAD.Credit_Card_Batch_No ,TSPL_SD_POS_HEAD.Credit_Card_Approval_code ,TSPL_SD_POS_HEAD.Debit_Card_No,TSPL_SD_POS_HEAD.Debit_Card_Type ,TSPL_SD_POS_HEAD.Tax_Group ,TSPL_SD_POS_HEAD.TAX1 ,TSPL_SD_POS_HEAD.TAX1_Rate ,TSPL_SD_POS_HEAD.TAX1_Amt ,TSPL_SD_POS_HEAD.TAX1_Base_Amt ,TSPL_SD_POS_HEAD.TAX2 ,TSPL_SD_POS_HEAD.TAX2_Rate ,TSPL_SD_POS_HEAD.TAX2_Amt ,TSPL_SD_POS_HEAD.TAX2_Base_Amt ,TSPL_SD_POS_HEAD.TAX3 ,TSPL_SD_POS_HEAD.TAX3_Rate ,TSPL_SD_POS_HEAD.TAX3_Amt ,TSPL_SD_POS_HEAD.TAX3_Base_Amt ,TSPL_SD_POS_HEAD.TAX4 ,TSPL_SD_POS_HEAD.TAX4_Rate ,TSPL_SD_POS_HEAD.TAX4_Amt ,TSPL_SD_POS_HEAD.TAX4_Base_Amt ,TSPL_SD_POS_HEAD.TAX5 ,TSPL_SD_POS_HEAD.TAX5_Rate ,TSPL_SD_POS_HEAD.TAX5_Amt ,TSPL_SD_POS_HEAD.TAX5_Base_Amt,TSPL_SD_POS_HEAD.TAX6 ,TSPL_SD_POS_HEAD.TAX6_Rate ,TSPL_SD_POS_HEAD.TAX6_Amt ,TSPL_SD_POS_HEAD.TAX6_Base_Amt ,TSPL_SD_POS_HEAD.TAX7 ,TSPL_SD_POS_HEAD.TAX7_Rate ,TSPL_SD_POS_HEAD.TAX7_Amt ,TSPL_SD_POS_HEAD.TAX7_Base_Amt ,TSPL_SD_POS_HEAD.TAX8 ,TSPL_SD_POS_HEAD.TAX8_Rate ,TSPL_SD_POS_HEAD.TAX8_Amt ,TSPL_SD_POS_HEAD.TAX8_Base_Amt ,TSPL_SD_POS_HEAD.TAX9 ,TSPL_SD_POS_HEAD.TAX9_Rate ,TSPL_SD_POS_HEAD.TAX9_Amt ,TSPL_SD_POS_HEAD.TAX9_Base_Amt ,TSPL_SD_POS_HEAD.TAX10 ,TSPL_SD_POS_HEAD.TAX10_Rate ,TSPL_SD_POS_HEAD.TAX10_Amt ,TSPL_SD_POS_HEAD.TAX10_Base_Amt ,TSPL_SD_POS_HEAD.Discount_Base ,TSPL_SD_POS_HEAD.Discount_Amt ,TSPL_SD_POS_HEAD.Amount_Less_Discount ,TSPL_SD_POS_HEAD.Total_Tax_Amt ,TSPL_SD_POS_HEAD.Total_Amt_After_Tax ,TSPL_SD_POS_HEAD.Total_Freight ,TSPL_SD_POS_HEAD.Total_Other_Charges ,TSPL_SD_POS_HEAD.Total_Amt ,TSPL_SD_POS_HEAD.Advance_Paid ," &
+            '                    " TSPL_SD_POS_HEAD.Balance_Payment ,TSPL_SD_POS_HEAD.Amount_Paid ,TSPL_SD_POS_HEAD.Balance ,TSPL_SD_POS_HEAD.Posting_Date ,TSPL_SD_POS_HEAD.Tax_Calculation_Type , " &
+            '                     " TSPL_SD_POS_DETAIL.Item_Code, TSPL_SD_POS_DETAIL.Qty, TSPL_SD_POS_DETAIL.Unit_code, TSPL_SD_POS_DETAIL.Item_Cost, TSPL_SD_POS_DETAIL.Amount, TSPL_SD_POS_DETAIL.Disc_Per, TSPL_SD_POS_DETAIL.Disc_Amt, TSPL_SD_POS_DETAIL.Amt_Less_Discount, TSPL_SD_POS_DETAIL.Total_Tax_Amt, TSPL_SD_POS_DETAIL.Amt_After_Tax, TSPL_SD_POS_DETAIL.Freight, TSPL_SD_POS_DETAIL.Other_Charges, TSPL_SD_POS_DETAIL.Item_Net_Amt, TSPL_ITEM_MASTER.Item_Desc, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_POS_HEAD.Comp_Code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_LOCATION_MASTER.Location_Desc " &
+            '                     " , TSPL_ITEM_MASTER.Short_Description,TSPL_LOCATION_MASTER.GSTNO,TSPL_LOCATION_MASTER.Phone1 from TSPL_SD_POS_HEAD " &
+            '                    " Left Outer Join TSPL_SD_POS_DETAIL on TSPL_SD_POS_HEAD.Document_Code=TSPL_SD_POS_DETAIL.Document_Code " &
+            '                     " left Outer Join TSPL_CUSTOMER_MASTER on TSPL_SD_POS_HEAD.customer_code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+            '                   " left Outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SD_POS_DETAIL.Item_Code " &
+            '                   " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_POS_HEAD.Comp_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_POS_HEAD.Bill_To_Location where 2=2  and  TSPL_SD_POS_HEAD.Document_Code = '" + txtDocNo.Value + "' "
 
 
-            Dim Qry As String = "select	TSPL_SD_POS_HEAD.Document_Code ,TSPL_SD_POS_HEAD.Document_Date ,TSPL_SD_POS_HEAD.Customer_Code ,TSPL_SD_POS_HEAD.Status ,TSPL_SD_POS_HEAD.On_Hold ,TSPL_SD_POS_HEAD.Delivery_Type ,TSPL_SD_POS_HEAD.Delivery_Date ,TSPL_SD_POS_HEAD.Against_Order_No ,TSPL_SD_POS_HEAD.Bill_To_Location ,TSPL_SD_POS_HEAD.Remarks ,TSPL_SD_POS_HEAD.Message ,TSPL_SD_POS_HEAD.Payment_Mode ,TSPL_SD_POS_HEAD.Cheque_No ,TSPL_SD_POS_HEAD.Cheque_Date ,TSPL_SD_POS_HEAD.Credit_Card_No ,TSPL_SD_POS_HEAD.Credit_Card_Bank ,TSPL_SD_POS_HEAD.Credit_Card_Batch_No ,TSPL_SD_POS_HEAD.Credit_Card_Approval_code ,TSPL_SD_POS_HEAD.Debit_Card_No,TSPL_SD_POS_HEAD.Debit_Card_Type ,TSPL_SD_POS_HEAD.Tax_Group ,TSPL_SD_POS_HEAD.TAX1 ,TSPL_SD_POS_HEAD.TAX1_Rate ,TSPL_SD_POS_HEAD.TAX1_Amt ,TSPL_SD_POS_HEAD.TAX1_Base_Amt ,TSPL_SD_POS_HEAD.TAX2 ,TSPL_SD_POS_HEAD.TAX2_Rate ,TSPL_SD_POS_HEAD.TAX2_Amt ,TSPL_SD_POS_HEAD.TAX2_Base_Amt ,TSPL_SD_POS_HEAD.TAX3 ,TSPL_SD_POS_HEAD.TAX3_Rate ,TSPL_SD_POS_HEAD.TAX3_Amt ,TSPL_SD_POS_HEAD.TAX3_Base_Amt ,TSPL_SD_POS_HEAD.TAX4 ,TSPL_SD_POS_HEAD.TAX4_Rate ,TSPL_SD_POS_HEAD.TAX4_Amt ,TSPL_SD_POS_HEAD.TAX4_Base_Amt ,TSPL_SD_POS_HEAD.TAX5 ,TSPL_SD_POS_HEAD.TAX5_Rate ,TSPL_SD_POS_HEAD.TAX5_Amt ,TSPL_SD_POS_HEAD.TAX5_Base_Amt,TSPL_SD_POS_HEAD.TAX6 ,TSPL_SD_POS_HEAD.TAX6_Rate ,TSPL_SD_POS_HEAD.TAX6_Amt ,TSPL_SD_POS_HEAD.TAX6_Base_Amt ,TSPL_SD_POS_HEAD.TAX7 ,TSPL_SD_POS_HEAD.TAX7_Rate ,TSPL_SD_POS_HEAD.TAX7_Amt ,TSPL_SD_POS_HEAD.TAX7_Base_Amt ,TSPL_SD_POS_HEAD.TAX8 ,TSPL_SD_POS_HEAD.TAX8_Rate ,TSPL_SD_POS_HEAD.TAX8_Amt ,TSPL_SD_POS_HEAD.TAX8_Base_Amt ,TSPL_SD_POS_HEAD.TAX9 ,TSPL_SD_POS_HEAD.TAX9_Rate ,TSPL_SD_POS_HEAD.TAX9_Amt ,TSPL_SD_POS_HEAD.TAX9_Base_Amt ,TSPL_SD_POS_HEAD.TAX10 ,TSPL_SD_POS_HEAD.TAX10_Rate ,TSPL_SD_POS_HEAD.TAX10_Amt ,TSPL_SD_POS_HEAD.TAX10_Base_Amt ,TSPL_SD_POS_HEAD.Discount_Base ,TSPL_SD_POS_HEAD.Discount_Amt ,TSPL_SD_POS_HEAD.Amount_Less_Discount ,TSPL_SD_POS_HEAD.Total_Tax_Amt ,TSPL_SD_POS_HEAD.Total_Amt_After_Tax ,TSPL_SD_POS_HEAD.Total_Freight ,TSPL_SD_POS_HEAD.Total_Other_Charges ,TSPL_SD_POS_HEAD.Total_Amt ,TSPL_SD_POS_HEAD.Advance_Paid ," &
-                                " TSPL_SD_POS_HEAD.Balance_Payment ,TSPL_SD_POS_HEAD.Amount_Paid ,TSPL_SD_POS_HEAD.Balance ,TSPL_SD_POS_HEAD.Posting_Date ,TSPL_SD_POS_HEAD.Tax_Calculation_Type , " &
-                                 " TSPL_SD_POS_DETAIL.Item_Code, TSPL_SD_POS_DETAIL.Qty, TSPL_SD_POS_DETAIL.Unit_code, TSPL_SD_POS_DETAIL.Item_Cost, TSPL_SD_POS_DETAIL.Amount, TSPL_SD_POS_DETAIL.Disc_Per, TSPL_SD_POS_DETAIL.Disc_Amt, TSPL_SD_POS_DETAIL.Amt_Less_Discount, TSPL_SD_POS_DETAIL.Total_Tax_Amt, TSPL_SD_POS_DETAIL.Amt_After_Tax, TSPL_SD_POS_DETAIL.Freight, TSPL_SD_POS_DETAIL.Other_Charges, TSPL_SD_POS_DETAIL.Item_Net_Amt, TSPL_ITEM_MASTER.Item_Desc, TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_POS_HEAD.Comp_Code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_LOCATION_MASTER.Location_Desc " &
-                                 " , TSPL_ITEM_MASTER.Short_Description,TSPL_LOCATION_MASTER.GSTNO,TSPL_LOCATION_MASTER.Phone1 from TSPL_SD_POS_HEAD " &
-                                " Left Outer Join TSPL_SD_POS_DETAIL on TSPL_SD_POS_HEAD.Document_Code=TSPL_SD_POS_DETAIL.Document_Code " &
-                                 " left Outer Join TSPL_CUSTOMER_MASTER on TSPL_SD_POS_HEAD.customer_code=TSPL_CUSTOMER_MASTER.Cust_Code " &
-                               " left Outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_SD_POS_DETAIL.Item_Code " &
-                               " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_POS_HEAD.Comp_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_POS_HEAD.Bill_To_Location where 2=2  and  TSPL_SD_POS_HEAD.Document_Code = '" + txtDocNo.Value + "' "
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
-            If dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSalePOSReport", "POS Report", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
-                frmCRV = Nothing
-            End If
+            'If dt.Rows.Count > 0 Then
+            '    Dim frmCRV As New frmCrystalReportViewer()
+            '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, "crptSalePOSReport", "POS Report", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+            '    frmCRV = Nothing
+            'End If
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
