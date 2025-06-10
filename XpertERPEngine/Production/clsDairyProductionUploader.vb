@@ -131,6 +131,8 @@ where 2=2 "
                 Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
             HistoryUpdate(strCode, trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_PRODUCTION_UPLOADER_HEAD", "Document_No", "TSPL_PRODUCTION_UPLOADER_DETAIL", "Document_No", trans)
+
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PRODUCTION_UPLOADER_QC where Document_No='" + obj.Document_No + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PRODUCTION_UPLOADER_DETAIL where Document_No='" + strCode + "'", trans)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_PRODUCTION_UPLOADER_HEAD where Document_No='" + strCode + "'", trans)
@@ -639,22 +641,44 @@ where Document_No='" + obj.Document_No + "'
         End Try
         Return True
     End Function
-    Public Shared Function GetAttachQry(ByVal StrCode As String) As String
+    Public Shared Function GetAttachQry(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String) As String
+        Dim TSPL_PRODUCTION_UPLOADER_DETAIL As String = Nothing
+        Dim TSPL_PRODUCTION_UPLOADER_HEAD As String = Nothing
+        If isCancel Then
+            TSPL_PRODUCTION_UPLOADER_HEAD = "TSPL_PRODUCTION_UPLOADER_HEAD_cancel_data"
+            TSPL_PRODUCTION_UPLOADER_DETAIL = "TSPL_PRODUCTION_UPLOADER_DETAIL_cancel_data"
+        Else
+            TSPL_PRODUCTION_UPLOADER_HEAD = "TSPL_PRODUCTION_UPLOADER_HEAD"
+            TSPL_PRODUCTION_UPLOADER_DETAIL = "TSPL_PRODUCTION_UPLOADER_DETAIL"
+        End If
 
-        Dim Qry As String = "select xx.*,'" + objCommonVar.CurrentUser + "' as UserName,TSPL_PRODUCTION_UPLOADER_HEAD.Document_Date,TSPL_PRODUCTION_UPLOADER_HEAD.Location_FG,TSPL_PRODUCTION_UPLOADER_HEAD.Location_PK,TSPL_PRODUCTION_UPLOADER_HEAD.Location_RM,TSPL_PRODUCTION_UPLOADER_HEAD.Batch_No,TSPL_PRODUCTION_UPLOADER_HEAD.Batch_Date,TSPL_PRODUCTION_UPLOADER_HEAD.Description,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Circle_No,TSPL_COMPANY_MASTER.Fax,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2 from (select'Finish Good' as Item_Type,TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_PRODUCTION_UPLOADER_DETAIL.Batch_No as Batch,TSPL_PRODUCTION_UPLOADER_DETAIL.Qty,TSPL_PRODUCTION_UPLOADER_DETAIL.UOM,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No
-          from TSPL_PRODUCTION_UPLOADER_DETAIL
-         left join TSPL_PRODUCTION_UPLOADER_HEAD on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No = TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
-         left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PRODUCTION_UPLOADER_DETAIL.Item_Code
-         where TSPL_PRODUCTION_UPLOADER_HEAD.Document_No='" + StrCode + "' union all select case when TSPL_INVENTORY_MOVEMENT.InOut='O' then 'Row Material' else '' end  as Item_Type,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Batch_No as Batch,TSPL_INVENTORY_MOVEMENT.Qty,TSPL_INVENTORY_MOVEMENT.UOM,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No
+        Dim Qry As String = "select xx.*,"
+        If isCancel Then
+            Qry += " 'Cancelled' As Report_Status, "
+        Else
+            Qry += " '' As Report_Status, "
+        End If
+
+        Qry += "'" + objCommonVar.CurrentUser + "' as UserName," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_Date," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Location_FG," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Location_PK," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Location_RM," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Batch_No," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Batch_Date," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Description,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Circle_No,TSPL_COMPANY_MASTER.Fax,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2 from (select'Finish Good' as Item_Type," + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Item_Code,TSPL_ITEM_MASTER.Item_Desc," + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Batch_No as Batch," + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Qty," + TSPL_PRODUCTION_UPLOADER_DETAIL + ".UOM," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No
+        from " + TSPL_PRODUCTION_UPLOADER_DETAIL + "
+         left join " + TSPL_PRODUCTION_UPLOADER_HEAD + " on " + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No = " + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Document_No
+         left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = " + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Item_Code
+         where " + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No='" + strCode + "' union all select case when TSPL_INVENTORY_MOVEMENT.InOut='O' then 'Row Material' else '' end  as Item_Type,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Batch_No as Batch,TSPL_INVENTORY_MOVEMENT.Qty,TSPL_INVENTORY_MOVEMENT.UOM," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No
           from TSPL_INVENTORY_MOVEMENT
-         left join TSPL_PRODUCTION_UPLOADER_DETAIL on cast(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT.Source_Doc_No
-		 left join TSPL_PRODUCTION_UPLOADER_HEAD on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No = TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
-         where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + StrCode + "' and TSPL_INVENTORY_MOVEMENT.Trans_Type='DRY-PRO-UPL' and TSPL_INVENTORY_MOVEMENT.InOut = 'O' union all select case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then 'Row Material' else '' end  as Item_Type,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,TSPL_INVENTORY_MOVEMENT_NEW.Item_Desc,TSPL_INVENTORY_MOVEMENT_NEW.Batch_No as Batch,TSPL_INVENTORY_MOVEMENT_NEW.Qty,TSPL_INVENTORY_MOVEMENT_NEW.UOM,TSPL_PRODUCTION_UPLOADER_HEAD.Document_No
+         left join " + TSPL_PRODUCTION_UPLOADER_DETAIL + " on cast(" + TSPL_PRODUCTION_UPLOADER_DETAIL + ".PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT.Source_Doc_No
+		 left join " + TSPL_PRODUCTION_UPLOADER_HEAD + " on " + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No = " + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Document_No
+         where " + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Document_No='" + strCode + "' and TSPL_INVENTORY_MOVEMENT.Trans_Type='DRY-PRO-UPL' and TSPL_INVENTORY_MOVEMENT.InOut = 'O' union all select case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then 'Row Material' else '' end  as Item_Type,TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,TSPL_INVENTORY_MOVEMENT_NEW.Item_Desc,TSPL_INVENTORY_MOVEMENT_NEW.Batch_No as Batch,TSPL_INVENTORY_MOVEMENT_NEW.Qty,TSPL_INVENTORY_MOVEMENT_NEW.UOM," + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No
           from TSPL_INVENTORY_MOVEMENT_NEW
-         left join TSPL_PRODUCTION_UPLOADER_DETAIL on cast(TSPL_PRODUCTION_UPLOADER_DETAIL.PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
-		 left join TSPL_PRODUCTION_UPLOADER_HEAD on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No = TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No
-         where TSPL_PRODUCTION_UPLOADER_DETAIL.Document_No='" + StrCode + "' and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DRY-PRO-UPL' and TSPL_INVENTORY_MOVEMENT_NEW.InOut = 'O' )xx left join TSPL_PRODUCTION_UPLOADER_HEAD on TSPL_PRODUCTION_UPLOADER_HEAD.Document_No =xx.Document_No left join TSPL_COMPANY_MASTER on 2=2"
-
+         left join " + TSPL_PRODUCTION_UPLOADER_DETAIL + " on cast(" + TSPL_PRODUCTION_UPLOADER_DETAIL + ".PK_ID as varchar) = TSPL_INVENTORY_MOVEMENT_NEW.Source_Doc_No
+		 left join " + TSPL_PRODUCTION_UPLOADER_HEAD + " on " + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No = " + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Document_No
+         where " + TSPL_PRODUCTION_UPLOADER_DETAIL + ".Document_No='" + strCode + "' and TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type='DRY-PRO-UPL' and TSPL_INVENTORY_MOVEMENT_NEW.InOut = 'O' )xx left join " + TSPL_PRODUCTION_UPLOADER_HEAD + " on " + TSPL_PRODUCTION_UPLOADER_HEAD + ".Document_No =xx.Document_No left join TSPL_COMPANY_MASTER on 2=2"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptProductionUploaderPrint", "")
+        Else
+            clsCommon.MyMessageBoxShow("No data found to Print")
+        End If
         Return Qry
     End Function
 End Class
