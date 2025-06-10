@@ -83,17 +83,109 @@ Public Class frmStanderdProductionEntry
 #End Region
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim coll As New Dictionary(Of String, String)()
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PROD_ENTRY_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+        coll.Add("DESCRIPTION", "Varchar(100) NOT NULL ")
+        coll.Add("PROD_DATE", "DATE NOT NULL")
+        coll.Add("Batch_Code", "Varchar(30)  NULL REFERENCES TSPL_PP_BATCH_ORDER_HEAD(Batch_Code)")
+        coll.Add("BATCH_DATE", "DATE NOT NULL")
+        coll.Add("RECEIVED_BY", "Varchar(12)  NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+        coll.Add("LOCATION_CODE", "varchar(12) NOT NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("COMMENTS", "Varchar(MAX) NOT NULL ")
+        coll.Add("POSTED", "BIT NOT NULL DEFAULT '0'")
+        coll.Add("POSTING_DATE", "DATETIME NULL")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "Datetime NOT NULL")
+        coll.Add("comp_code", "varchar(8) NULL")
+        coll.Add("Section_Stage_Map_Code", "varchar(30) NULL REFERENCES TSPL_SECTION_STAGE_MAPPING_HEAD(Doc_Code)")
+        coll.Add("CONSM_LOCATION_CODE", "Varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("CONSM_SECTION_CODE", "Varchar(30) NULL REFERENCES TSPL_SECTION_MASTER(Section_Code)")
+        coll.Add("Structure_Code", "varchar(12) NULL")
+        coll.Add("Batch_Code_Manual", "Varchar(30)  NULL ")
+        coll.Add("CONSM_LOCATION_CODE_Other", "Varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("ManualBatchNo", "varchar(50) NULL")
+        coll.Add("LINE_NO", "varchar(30) NULL References TSPL_LINE_MASTER(LINE_NO)")
+        coll.Add("CostCenterCode", "varchar(30) NULL References TSPL_CostCenter_MASTER(Cost_Code)")
+        coll.Add("ProfitCenterCode", "varchar(30) NULL References TSPL_PROFIT_CENTER_MASTER(Code)")
+        coll.Add("Is_Job_Work_Inward", "integer  null")
+        coll.Add("Shift_Code", "VARCHAR(30) NULL REFERENCES TSPL_SHIFT_MASTER(SHIFT_CODE)")
         coll.Add("Reprocess", "integer NULL")
         coll.Add("Reprocess_Production_Entry", "Varchar(30) NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
         coll.Add("Reprocess_Item_Code", "varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("Reprocess_H_Qty", "decimal(18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY", coll, Nothing, True, True, "", "PROD_ENTRY_CODE", "PROD_DATE", True)
 
+        'coll.Add("Reprocess", "integer NULL")
+        'coll.Add("Reprocess_Production_Entry", "Varchar(30) NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+        'coll.Add("Reprocess_Item_Code", "varchar(50) NULL References TSPL_ITEM_MASTER(Item_Code)")
+        'coll.Add("Reprocess_H_Qty", "decimal(18,2) NULL")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY", coll, Nothing, True, True, "", "PROD_ENTRY_CODE", "PROD_DATE", True)
+
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Reprocess_Qty", "decimal(18,2) NULL")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "", True)
+
         coll = New Dictionary(Of String, String)()
+        coll.Add("PROD_ENTRY_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+        coll.Add("BOM_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_MF_BOM_HEAD(BOM_CODE)")
+        coll.Add("ITEM_CODE", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE) ")
+        coll.Add("ITEM_DESCRIPTION", "VARCHAR(MAX)  NULL")
+        coll.Add("BATCH_QTY", "FLOAT NOT NULL")
+        coll.Add("RECEIPT_QTY", "FLOAT NOT NULL")
+        coll.Add("REJ_HEAD", "VARCHAR(MAX)  NULL")
+        coll.Add("REJ_QTY", "FLOAT NOT NULL")
+        coll.Add("BREAKAGE_HEAD", "VARCHAR(MAX)  NULL")
+        coll.Add("BREAKAGE_QTY", "FLOAT NOT NULL")
+        coll.Add("LAB_TESTING", "VARCHAR(MAX)  NULL")
+        coll.Add("FINAL_PRODUCTION_QTY", "FLOAT  NULL")
+        coll.Add("LOCATION_CODE", "varchar(12)  NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("UNIT_CODE", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE) ")
+        coll.Add("START_TIME", "TIME NULL")
+        coll.Add("END_TIME", "TIME NULL")
+        coll.Add("MFG_DATE", "DATE NOT NULL")
+        coll.Add("EXP_DATE", "DATE NOT NULL")
+        coll.Add("FIFO_Cost", "decimal(18,2) not NULL default 0.00")
+        coll.Add("LIFO_Cost", "decimal(18,2) NOT NULL default 0.00")
+        coll.Add("Avg_Cost", "decimal(18,2) NOT NULL default 0.00")
+        coll.Add("Shift_Code", "VARCHAR(30) NULL REFERENCES TSPL_SHIFT_MASTER(SHIFT_CODE)")
+        coll.Add("Section_Code", "Varchar(30) NULL REFERENCES TSPL_SECTION_MASTER(Section_Code)")
+        coll.Add("FAT_Per", "float NULL")
+        coll.Add("SNF_Per", "float NULL")
+        coll.Add("FAT_KG", "float NULL")
+        coll.Add("SNF_KG", "float NULL")
+        coll.Add("Fat_Rate", "float not null default 0")
+        coll.Add("SNF_Rate", "float not null default 0")
+        coll.Add("Fat_Amt", "float not null default 0")
+        coll.Add("SNF_Amt", "float not null default 0")
         coll.Add("Reprocess_Qty", "decimal(18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
 
+        coll = New Dictionary(Of String, String)()
+        coll.Add("CONSM_CODE", "INTEGER NOT NULL IDENTITY PRIMARY KEY")
+        coll.Add("PROD_ENTRY_CODE", "Varchar(30)  NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+        coll.Add("PROD_RETURN_CODE", "Varchar(30)  NULL REFERENCES TSPL_PP_PRODUCTION_RETURN(PROD_RETURN_CODE)")
+        coll.Add("CONSM_ITEM_CODE", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(ITEM_CODE) ")
+        coll.Add("CONSM_QTY", "FLOAT NOT NULL")
+        coll.Add("LOCATION_CODE", "varchar(12)  NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
+        coll.Add("UNIT_CODE", "varchar(12) NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE) ")
+        coll.Add("FIFO_Cost", "decimal(18,2) not NULL default 0.00")
+        coll.Add("LIFO_Cost", "decimal(18,2) NOT NULL default 0.00")
+        coll.Add("Avg_Cost", "decimal(18,2) NOT NULL default 0.00")
+        coll.Add("FAT_Per", "float NULL")
+        coll.Add("SNF_Per", "float NULL")
+        coll.Add("FAT_KG", "float NULL")
+        coll.Add("SNF_KG", "float NULL")
+        coll.Add("Standardization_Code", "varchar(30)  NULL References TSPL_PP_STANDARDIZATION_HEAD(Standardization_Code)")
+        coll.Add("Fat_Rate", "float not null default 0")
+        coll.Add("SNF_Rate", "float not null default 0")
+        coll.Add("Fat_Amt", "float not null default 0")
+        coll.Add("SNF_Amt", "float not null default 0")
+        coll.Add("Process_Loss_Per", "Decimal(18,2) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", coll, "", True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
         SetUserMgmtNew()
         DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
@@ -2026,31 +2118,33 @@ where TSPL_SPP_PRODUCTION_ENTRY.Reprocess_Production_Entry='" + txtReprocessProd
                 txtCode.Focus()
                 Exit Sub
             End If
-            Dim sQuery As String = ""
+            clsStanderdProductionEntry.funCancleSPEPrint(MyBase.Form_ID, False, dtpDate.Value, txtCode.Value)
+
+            '            Dim sQuery As String = ""
 
 
 
-            sQuery = " select TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,tspl_company_master.Pincode,tspl_company_master.Tcan_No,TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_SPP_PRODUCTION_ENTRY.DESCRIPTION,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE,TSPL_SPP_PRODUCTION_ENTRY.COMMENTS,TSPL_SPP_PRODUCTION_ENTRY.CONSM_LOCATION_CODE_Other,TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE as ItemCode,TSPL_ITEM_MASTER .Item_Desc,TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_QTY ,TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.UNIT_CODE
-from TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL 
-left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=.TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE
- left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code ='" + objCommonVar.CurrentCompanyCode + "'
-where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+            '            sQuery = " select TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,tspl_company_master.Pincode,tspl_company_master.Tcan_No,TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE,TSPL_SPP_PRODUCTION_ENTRY.DESCRIPTION,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE,TSPL_SPP_PRODUCTION_ENTRY.COMMENTS,TSPL_SPP_PRODUCTION_ENTRY.CONSM_LOCATION_CODE_Other,TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE as ItemCode,TSPL_ITEM_MASTER .Item_Desc,TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_QTY ,TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.UNIT_CODE
+            'from TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL 
+            'left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=.TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE
+            'left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE
+            ' left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code ='" + objCommonVar.CurrentCompanyCode + "'
+            'where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value + "'"
+            '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
 
-            sQuery = "select ITEM_CODE,ITEM_DESCRIPTION,RECEIPT_QTY,UNIT_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE='" + txtCode.Value + "'"
-            Dim dtCredit As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+            '            sQuery = "select ITEM_CODE,ITEM_DESCRIPTION,RECEIPT_QTY,UNIT_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where PROD_ENTRY_CODE='" + txtCode.Value + "'"
+            '            Dim dtCredit As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
 
 
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(dtpDate.Value), "SubPaymentProcessCredit.rpt")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow("No Data Found")
-            End If
+            '            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            '                Dim frmCRV As New frmCrystalReportViewer()
+            '                frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.PRODUCTION, dt, dtCredit, "rptProductionEntry", "rptProductionEntry.rpt", clsCommon.myCDate(dtpDate.Value), "SubPaymentProcessCredit.rpt")
+            '                frmCRV = Nothing
+            '            Else
+            '                clsCommon.MyMessageBoxShow("No Data Found")
+            '            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

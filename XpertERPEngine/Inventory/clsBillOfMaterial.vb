@@ -53,7 +53,41 @@ Public Class clsBillOfMaterial
     'Public Arr As New List(Of clsEmpSalaryPayHeadDetails)
 
 #End Region
+    Public Shared Function funBOMCancelPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
+        Dim TSPL_MF_BOM_HEAD As String = Nothing
+        Dim TSPL_MF_BOM_DETAIL As String = Nothing
+        If isCancel Then
+            TSPL_MF_BOM_HEAD = "TSPL_MF_BOM_HEAD_cancel_data"
+            TSPL_MF_BOM_DETAIL = "TSPL_MF_BOM_DETAIL_cancel_data"
+        Else
+            TSPL_MF_BOM_HEAD = "TSPL_MF_BOM_HEAD"
+            TSPL_MF_BOM_DETAIL = "TSPL_MF_BOM_DETAIL"
 
+        End If
+
+        Dim qry As String = " select '" & objCommonVar.CurrentCompanyName & "' as Company_Name, " + TSPL_MF_BOM_HEAD + ".PROD_ITEM_CODE  as BuildItemCode,CONVERT(VARCHAR," + TSPL_MF_BOM_HEAD + ".BOM_DATE,103) as BOMDate,CONVERT(VARCHAR," + TSPL_MF_BOM_HEAD + ".START_DATE,103) as StartDate,"
+        qry += " CONVERT(VARCHAR," + TSPL_MF_BOM_HEAD + ".END_DATE,103) as EndDate," + TSPL_MF_BOM_HEAD + ".STATUS as BomStatus," + TSPL_MF_BOM_HEAD + ".PROD_ITEM_UNIT_CODE as BuildUOM,"
+        qry += " " + TSPL_MF_BOM_HEAD + ".PROD_QUANTITY as BuildQty, "
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+        qry += " " + TSPL_MF_BOM_HEAD + ".MIN_BATCH_SIZE as MinBatchSize, " + TSPL_MF_BOM_DETAIL + ".LINE_NO as SL_No, " + TSPL_MF_BOM_DETAIL + ".CONSM_ITEM_CATEGORY_CODE as ItemCategory,"
+        qry += " " + TSPL_MF_BOM_DETAIL + ".CONSM_ITEM_CODE as ItemCode, " + TSPL_MF_BOM_DETAIL + ".ITEM_DESCRIPTION as ItemDesc, " + TSPL_MF_BOM_DETAIL + ".CONSM_ITEM_UNIT_CODE as UOM,"
+        qry += "  " + TSPL_MF_BOM_DETAIL + ".CONSM_QUANTITY as Quantity, " + TSPL_MF_BOM_DETAIL + ".SCRAP_PERCENT as Scrap, " + TSPL_MF_BOM_DETAIL + ".WASTAGE_PERCENT as Wastage,"
+        qry += "  " + TSPL_MF_BOM_DETAIL + ".REMARKS as Remarks ,TSPL_ITEM_MASTER.Item_Desc, " + TSPL_MF_BOM_DETAIL + ".Percentage,TSPL_ITEM_MASTER.Item_Type from " + TSPL_MF_BOM_HEAD + " inner join  " + TSPL_MF_BOM_DETAIL + " on " + TSPL_MF_BOM_HEAD + ".BOM_CODE= " + TSPL_MF_BOM_DETAIL + ".BOM_CODE INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=" + TSPL_MF_BOM_HEAD + ".PROD_ITEM_CODE"
+        qry += " where 2=2 and trans_type='BOM'"
+
+        If StrCode <> "" Then
+            qry += " and  " + TSPL_MF_BOM_HEAD + ".BOM_CODE='" & StrCode & "' "
+        End If
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim objn As New frmCrystalReportViewer
+        objn.funreport(Form_ID, CrystalReportFolder.PRODUCTION, dt, "crptBOMPrint", "Bill Of Material")
+
+        Return True
+    End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsBillOfMaterial
         Return GetData(strCode, NavType, Nothing)
     End Function
@@ -74,6 +108,7 @@ Public Class clsBillOfMaterial
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
             HistoryData(strCode, trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_MF_BOM_HEAD", "BOM_CODE", "TSPL_MF_BOM_DETAIL", "BOM_CODE", trans)
 
             Dim qry As String
             qry = "delete from TSPL_MF_BOM_DETAIL where BOM_CODE ='" + strCode + "'"

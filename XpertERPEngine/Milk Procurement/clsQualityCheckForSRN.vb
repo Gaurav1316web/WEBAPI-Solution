@@ -25,6 +25,129 @@ Public Class clsQualityCheckForSRNHead
     Public Arr_item As List(Of clsQualityCheckForSRNDetail) = Nothing
     Public Arr_MRN As List(Of clsQualityCheckForSRN_MRNDetail) = Nothing
 #End Region
+
+    Public Shared Function funOutGoingQcEntryPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String, ByVal txtprodCode As ArrayList) As Boolean
+        'Dim whr As String
+        Dim dt As DataTable = Nothing
+        Dim whr As String = Nothing
+        'Dim dt As DataTable = Nothing
+        Dim dtt As DataTable = Nothing
+        Dim strBatch As String = Nothing
+        Dim shift As String = Nothing
+        Dim StrShift As String = Nothing
+        If clsCommon.myLen(StrCode) <= 0 Then
+
+            Throw New Exception("Document number not found")
+        End If
+        If txtprodCode IsNot Nothing AndAlso txtprodCode.Count > 0 Then
+            whr = " where TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE in (" + clsCommon.GetMulcallString(txtprodCode) + ")"
+        End If
+        Dim batch As String = " select  batch_code_manual from TSPL_SPP_PRODUCTION_ENTRY " + whr
+        dt = clsDBFuncationality.GetDataTable(batch)
+
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each btch In dt.Rows
+                If clsCommon.myLen(strBatch) > 0 Then
+                    strBatch += "," + (clsCommon.myCstr(btch("batch_code_manual")))
+                Else
+                    strBatch = (clsCommon.myCstr(btch("batch_code_manual")))
+                End If
+            Next
+        End If
+        StrShift = " select distinct  Shift_Code from TSPL_SPP_PRODUCTION_ENTRY where PROD_ENTRY_CODE in (
+                                      select PROD_ENTRY_CODE from TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY where Document_Code='" + StrCode + "') "
+        dtt = clsDBFuncationality.GetDataTable(StrShift)
+        If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then
+            For Each sft In dtt.Rows
+                If clsCommon.myLen(shift) > 0 Then
+                    shift += "," + (clsCommon.myCstr(sft("Shift_Code")))
+                Else
+                    shift = (clsCommon.myCstr(sft("Shift_Code")))
+                End If
+            Next
+        End If
+
+        Dim tSPL_PROD_QC_CHECK_HEAD As String = Nothing
+        Dim TSPL_QC_CHECK_PARA_DETAIL As String = Nothing
+
+        If isCancel Then
+            tSPL_PROD_QC_CHECK_HEAD = "TSPL_PROD_QC_CHECK_HEAD_CANCEL_DATA"
+            TSPL_QC_CHECK_PARA_DETAIL = "TSPL_QC_CHECK_PARA_DETAIL_cancel_data"
+        Else
+            tSPL_PROD_QC_CHECK_HEAD = "tSPL_PROD_QC_CHECK_HEAD"
+            TSPL_QC_CHECK_PARA_DETAIL = "TSPL_QC_CHECK_PARA_DETAIL"
+        End If
+
+        Dim frmCRV As New frmCrystalReportViewer()
+        Dim qry As String = "  select  '" + strBatch + "' as [Batch_Code], '" + shift + "' as [Shift_Code]," + tSPL_PROD_QC_CHECK_HEAD + ".document_code," + tSPL_PROD_QC_CHECK_HEAD + ".document_date,"
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+        qry += "  tspl_location_master.location_desc,tspl_location_master.add1,tspl_location_master.division_code,division_Name,division_address,TSPL_SPP_PRODUCTION_ENTRY1.prod_date_from, prod_date_to,TSPL_QC_LOG_SHEET_MASTER.description as QCPARAMNAME,TSPL_QC_LOG_SHEET_MASTER.clause_ref,TSPL_QC_LOG_SHEET_MASTER.is_ref," + TSPL_QC_CHECK_PARA_DETAIL + ".inputdata,param_L_range,Param_U_range," + TSPL_QC_CHECK_PARA_DETAIL + ".remarks,TSPL_PARAMETER_RANGE_MASTER_QC.description,TSPL_ITEM_MASTER.item_desc ," + TSPL_QC_CHECK_PARA_DETAIL + ".Description_Status,TSPL_QC_LOG_SHEET_MASTER.AliasName,qc_start_date,qc_end_date,tspl_location_master.CMA_CML,tspl_location_master.QC_IS,tspl_location_master.ValidUpto,tspl_location_master.GradeType,TSPL_QC_LOG_SHEET_MASTER.Nature,tspl_spp_production_entry.Shift_Code from " + tSPL_PROD_QC_CHECK_HEAD + " --header
+                            left outer join " + TSPL_QC_CHECK_PARA_DETAIL + "  on " + TSPL_QC_CHECK_PARA_DETAIL + ".document_code=" + tSPL_PROD_QC_CHECK_HEAD + ".document_code --save prooduction code
+                            left outer join tspl_location_master on tspl_location_master.location_code=" + tSPL_PROD_QC_CHECK_HEAD + ".location_code
+                            left outer join TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER on TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.item_code=" + tSPL_PROD_QC_CHECK_HEAD + ".item_code and TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.qc_code=" + TSPL_QC_CHECK_PARA_DETAIL + ".qc_param_code 
+                            LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.ITEM_CODE
+                            left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.code=TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.qc_code
+                            left outer join TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY on TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.document_code=" + tSPL_PROD_QC_CHECK_HEAD + ".document_code
+                            left outer join tspl_spp_production_entry on tspl_spp_production_entry.PROD_ENTRY_CODE=TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE
+                            left outer join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code
+                            left outer join (select min(prod_date) as prod_date_from,max(prod_date) as prod_date_to,max(prod_entry_code) as prod_entry_code from TSPL_SPP_PRODUCTION_ENTRY " + whr + " ) TSPL_SPP_PRODUCTION_ENTRY1 on TSPL_SPP_PRODUCTION_ENTRY1.prod_entry_code=TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE 
+            where " + tSPL_PROD_QC_CHECK_HEAD + ".document_code='" + StrCode + "' and TSPL_SPP_PRODUCTION_ENTRY1.PROD_ENTRY_CODE is not null order by TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
+
+        dt = clsDBFuncationality.GetDataTable(qry)
+
+        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            common.clsCommon.MyMessageBoxShow("No Record Found")
+        Else
+            frmCRV.funreport(Form_ID, CrystalReportFolder.PRODUCTION, dt, "rptOutgoingQCCheckEntry", "Outgoing Quality Control Report")
+        End If
+
+        Return True
+    End Function
+
+    Public Shared Function funCancelPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
+        If clsCommon.myLen(StrCode) <= 0 Then
+            Throw New Exception("Document number not found")
+        End If
+        Dim TSPL_QC_CHECK_DETAIL As String = Nothing
+        Dim TSPL_QC_CHECK_HEAD As String = Nothing
+        If isCancel Then
+            TSPL_QC_CHECK_HEAD = "TSPL_QC_CHECK_HEAD_Cancel_Data"
+            TSPL_QC_CHECK_DETAIL = "TSPL_QC_CHECK_DETAIL_Cancel_Data"
+        Else
+            TSPL_QC_CHECK_HEAD = "TSPL_QC_CHECK_HEAD"
+            TSPL_QC_CHECK_DETAIL = "TSPL_QC_CHECK_DETAIL"
+        End If
+
+        Dim frmCRV As New frmCrystalReportViewer()
+        Dim qry As String = " select TSPL_COMPANY_MASTER.Comp_Name, "
+        If isCancel Then
+            qry += " 'Cancelled' As Report_Status, "
+        Else
+            qry += " '' As Report_Status, "
+        End If
+        qry += "TSPL_QC_CHECK_SRN_DETAIL.Document_Code as QC_NO, Convert(varchar, " + TSPL_QC_CHECK_HEAD + ".Document_Date, 103) As QC_Date, " + TSPL_QC_CHECK_HEAD + ".QC_STATUS, TSPL_QC_CHECK_SRN_DETAIL.MRN_No, Convert(varchar, TSPL_MRN_HEAD.MRN_DATE, 103) As MRN_DATE, TSPL_MRN_HEAD.Against_PO, TSPL_MRN_HEAD.Against_GRN, Convert(varchar, TSPL_GRN_HEAD.GRN_Date, 103) As GRN_Date, TSPL_MRN_HEAD.Invoice_No As [Vendor_Invoice_No], case when len( isnull(TSPL_MRN_HEAD.Invoice_No,'')) > 0 then  convert (varchar, TSPL_MRN_HEAD.Invoice_Date,103) else '' end [Vendor_Invoice_Date]," + TSPL_QC_CHECK_HEAD + ".Vendor_Code,tspl_vendor_master.Vendor_Name," + TSPL_QC_CHECK_HEAD + ".Bill_To_location, TSPL_QC_CHECK_SRN_DETAIL.Item_code,TSPL_ITEM_MASTER.Item_Desc,TSPL_QC_CHECK_SRN_DETAIL.Unit_Code,TSPL_QC_CHECK_SRN_DETAIL.MRN_Qty,TSPL_QC_CHECK_SRN_DETAIL.OK_Qty,TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code ,TSPL_QC_LOG_SHEET_MASTER.Description as [PARAMETER],TSPL_QC_CHECK_SRN_DETAIL.Param_QC_Status as [SPECIFICATIONS],TSPL_QC_CHECK_SRN_DETAIL.Reject_Remarks as [OBSERVATIONS],TSPL_QC_CHECK_SRN_DETAIL.Remarks as [COMMENTS] ," + TSPL_QC_CHECK_DETAIL + " .Additional_Remarks from TSPL_QC_CHECK_SRN_DETAIL " &
+                                                " left outer Join " + TSPL_QC_CHECK_HEAD + " on TSPL_QC_CHECK_SRN_DETAIL.Document_Code = " + TSPL_QC_CHECK_HEAD + ".Document_Code " &
+                                                "left outer join " + TSPL_QC_CHECK_DETAIL + " on " + TSPL_QC_CHECK_DETAIL + " .Document_Code=" + TSPL_QC_CHECK_HEAD + ".Document_Code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=" + TSPL_QC_CHECK_DETAIL + " .Item_Code" +
+                                " left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.Code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code " &
+                                " left outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_code " &
+                                " left outer join tspl_vendor_master on tspl_vendor_master.Vendor_Code = " + TSPL_QC_CHECK_HEAD + ".Vendor_Code " &
+                                " left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_NO = TSPL_QC_CHECK_SRN_DETAIL.MRN_No " &
+                                " left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_NO = TSPL_MRN_HEAD.Against_GRN " &
+                                " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = " + TSPL_QC_CHECK_HEAD + ".Comp_Code " &
+                                " where TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + StrCode + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            common.clsCommon.MyMessageBoxShow("No Record Found")
+        Else
+            frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptQCEntry", "Quality Control Report", clsCommon.myCDate(strDate))
+        End If
+
+        Return True
+    End Function
     Public Shared Function CheckQualityCheckForSRN(ByVal strdocNo As String, ByVal trans As SqlTransaction) As Boolean
 
         Dim qry As String = "  select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_HEAD.SRN_No
