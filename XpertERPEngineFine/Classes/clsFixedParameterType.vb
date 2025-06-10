@@ -1315,6 +1315,7 @@ Public Class clsFixedParameterType
     Public Const EnableProductSaleForJPR = "Enable Product Sale For JPR"
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
+    Public Const ShowAllCustomerItemWiseSaleReportOptions = "Show All Customer Item Wise Sale Report Options"
     Public Const ApplyTPT = "Apply Transpoter Commission"
     Public Const AllowMultipleUOMForProduct = "Allow Multiple UOM For Product"
     Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
@@ -2801,6 +2802,7 @@ Public Class clsFixedParameterCode
     Public Const ShowTodayDemandAsCurrentandUpcoming = "Show Today Demand As Current And Upcoming"
     Public Const EnableVehicleType = "Enable Vehicle Type"
     Public Const PickDataFromRetestingTable = "Pick Data From Retesting Table"
+    Public Const ShowAllCustomerItemWiseSaleReportOptions = "Show All Customer Item Wise Sale Report Options"
     Public Const ApplyTPT = "Apply Transpoter Commission"
     Public Const AllowMultipleUOMForProduct = "Allow Multiple UOM For Product"
     Public Const AllowManualCrateForDispatch = "Allow Manual Crate For Dispatch"
@@ -4465,7 +4467,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDefaultTPTIsChecked, clsFixedParameterCode.ApplyDefaultTPTIsChecked, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, "0", "0:Off, 1:On;")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Retesting Table, 1:Pick Data From Milk Procurement Uploader History Table;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, "0", "0:Pick Data From Milk Procurement Uploader History Table, 1:Pick Data From Retesting Table;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAllCustomerItemWiseSaleReportOptions, clsFixedParameterCode.ShowAllCustomerItemWiseSaleReportOptions, "0", "0:Off, 1:Show All Customer Item Wise Sale Report Options;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.APIMilkSample, clsFixedParameterCode.DrippingQuantity, "0", "Dripping Quantity;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, "0", "Apply Department Route;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, "0", "Quantity Tolerance;")
@@ -6323,6 +6326,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmBoothRouteMapping, clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, clsFixedParameterType.EnableVehicleType, clsFixedParameterCode.EnableVehicleType, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptCollectionDataChangeReport, clsFixedParameterType.PickDataFromRetestingTable, clsFixedParameterCode.PickDataFromRetestingTable, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptCustItemWiseSaleReport, clsFixedParameterType.ShowAllCustomerItemWiseSaleReportOptions, clsFixedParameterCode.ShowAllCustomerItemWiseSaleReportOptions, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmRoundMaster, clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, EnumControlType.CheckBox)
         InsertDefaultValue("ASDS", clsFixedParameterType.QuantityTolerance, clsFixedParameterCode.QuantityTolerance, EnumControlType.NumericBox)
         InsertDefaultValue("ASDS", clsFixedParameterType.AmountTolerance, clsFixedParameterCode.AmountTolerance, EnumControlType.NumericBox)

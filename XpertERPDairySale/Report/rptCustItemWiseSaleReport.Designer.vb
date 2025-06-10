@@ -22,7 +22,7 @@ Partial Class rptCustItemWiseSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,6 +32,14 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtToDate1 = New common.Controls.MyDateTimePicker()
+        Me.txtToShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.LblToDate = New common.Controls.MyLabel()
+        Me.txtFromShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtFromDate1 = New common.Controls.MyDateTimePicker()
+        Me.lblfromDate = New common.Controls.MyLabel()
+        Me.ddlDefaultReportUOM = New common.Controls.MyComboBox()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.lblRoute = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
@@ -80,7 +88,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.ddlDefaultReportUOM = New common.Controls.MyComboBox()
+        Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -92,6 +100,15 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.txtToDate1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlDefaultReportUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQtyConv, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -137,7 +154,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlDefaultReportUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -222,6 +239,7 @@ Partial Class rptCustItemWiseSaleReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox4)
         Me.RadGroupBox1.Controls.Add(Me.ddlDefaultReportUOM)
         Me.RadGroupBox1.Controls.Add(Me.txtRoute)
         Me.RadGroupBox1.Controls.Add(Me.lblRoute)
@@ -247,6 +265,147 @@ Partial Class rptCustItemWiseSaleReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(801, 240)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.txtToDate1)
+        Me.RadGroupBox4.Controls.Add(Me.txtToShift)
+        Me.RadGroupBox4.Controls.Add(Me.LblToDate)
+        Me.RadGroupBox4.Controls.Add(Me.txtFromShift)
+        Me.RadGroupBox4.Controls.Add(Me.txtFromDate1)
+        Me.RadGroupBox4.Controls.Add(Me.lblfromDate)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(3, 3)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(404, 29)
+        Me.RadGroupBox4.TabIndex = 456
+        '
+        'txtToDate1
+        '
+        Me.txtToDate1.CalculationExpression = Nothing
+        Me.txtToDate1.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate1.FieldCode = Nothing
+        Me.txtToDate1.FieldDesc = Nothing
+        Me.txtToDate1.FieldMaxLength = 0
+        Me.txtToDate1.FieldName = Nothing
+        Me.txtToDate1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate1.isCalculatedField = False
+        Me.txtToDate1.IsSourceFromTable = False
+        Me.txtToDate1.IsSourceFromValueList = False
+        Me.txtToDate1.IsUnique = False
+        Me.txtToDate1.Location = New System.Drawing.Point(263, 7)
+        Me.txtToDate1.MendatroryField = False
+        Me.txtToDate1.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate1.MyLinkLable1 = Nothing
+        Me.txtToDate1.MyLinkLable2 = Nothing
+        Me.txtToDate1.Name = "txtToDate1"
+        Me.txtToDate1.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate1.ReferenceFieldDesc = Nothing
+        Me.txtToDate1.ReferenceFieldName = Nothing
+        Me.txtToDate1.ReferenceTableName = Nothing
+        Me.txtToDate1.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate1.TabIndex = 337
+        Me.txtToDate1.TabStop = False
+        Me.txtToDate1.Text = "17-12-2011"
+        Me.txtToDate1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'txtToShift
+        '
+        Me.txtToShift.AutoCompleteDisplayMember = Nothing
+        Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
+        Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtToShift.Location = New System.Drawing.Point(347, 7)
+        Me.txtToShift.Name = "txtToShift"
+        Me.txtToShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtToShift.TabIndex = 336
+        '
+        'LblToDate
+        '
+        Me.LblToDate.FieldName = Nothing
+        Me.LblToDate.Location = New System.Drawing.Point(212, 8)
+        Me.LblToDate.Name = "LblToDate"
+        Me.LblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.LblToDate.TabIndex = 335
+        Me.LblToDate.Text = "To Date"
+        '
+        'txtFromShift
+        '
+        Me.txtFromShift.AutoCompleteDisplayMember = Nothing
+        Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
+        Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.txtFromShift.Location = New System.Drawing.Point(154, 5)
+        Me.txtFromShift.Name = "txtFromShift"
+        Me.txtFromShift.Size = New System.Drawing.Size(52, 20)
+        Me.txtFromShift.TabIndex = 330
+        '
+        'txtFromDate1
+        '
+        Me.txtFromDate1.CalculationExpression = Nothing
+        Me.txtFromDate1.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate1.FieldCode = Nothing
+        Me.txtFromDate1.FieldDesc = Nothing
+        Me.txtFromDate1.FieldMaxLength = 0
+        Me.txtFromDate1.FieldName = Nothing
+        Me.txtFromDate1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate1.isCalculatedField = False
+        Me.txtFromDate1.IsSourceFromTable = False
+        Me.txtFromDate1.IsSourceFromValueList = False
+        Me.txtFromDate1.IsUnique = False
+        Me.txtFromDate1.Location = New System.Drawing.Point(67, 5)
+        Me.txtFromDate1.MendatroryField = False
+        Me.txtFromDate1.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate1.MyLinkLable1 = Nothing
+        Me.txtFromDate1.MyLinkLable2 = Nothing
+        Me.txtFromDate1.Name = "txtFromDate1"
+        Me.txtFromDate1.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate1.ReferenceFieldDesc = Nothing
+        Me.txtFromDate1.ReferenceFieldName = Nothing
+        Me.txtFromDate1.ReferenceTableName = Nothing
+        Me.txtFromDate1.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate1.TabIndex = 328
+        Me.txtFromDate1.TabStop = False
+        Me.txtFromDate1.Text = "17-12-2011"
+        Me.txtFromDate1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'lblfromDate
+        '
+        Me.lblfromDate.FieldName = Nothing
+        Me.lblfromDate.Location = New System.Drawing.Point(1, 6)
+        Me.lblfromDate.Name = "lblfromDate"
+        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
+        Me.lblfromDate.TabIndex = 329
+        Me.lblfromDate.Text = "From Date"
+        '
+        'ddlDefaultReportUOM
+        '
+        Me.ddlDefaultReportUOM.AutoCompleteDisplayMember = Nothing
+        Me.ddlDefaultReportUOM.AutoCompleteValueMember = Nothing
+        Me.ddlDefaultReportUOM.CalculationExpression = Nothing
+        Me.ddlDefaultReportUOM.DropDownAnimationEnabled = True
+        Me.ddlDefaultReportUOM.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlDefaultReportUOM.FieldCode = Nothing
+        Me.ddlDefaultReportUOM.FieldDesc = Nothing
+        Me.ddlDefaultReportUOM.FieldMaxLength = 0
+        Me.ddlDefaultReportUOM.FieldName = Nothing
+        Me.ddlDefaultReportUOM.isCalculatedField = False
+        Me.ddlDefaultReportUOM.IsSourceFromTable = False
+        Me.ddlDefaultReportUOM.IsSourceFromValueList = False
+        Me.ddlDefaultReportUOM.IsUnique = False
+        Me.ddlDefaultReportUOM.Location = New System.Drawing.Point(529, 9)
+        Me.ddlDefaultReportUOM.MendatroryField = True
+        Me.ddlDefaultReportUOM.MyLinkLable1 = Nothing
+        Me.ddlDefaultReportUOM.MyLinkLable2 = Nothing
+        Me.ddlDefaultReportUOM.Name = "ddlDefaultReportUOM"
+        Me.ddlDefaultReportUOM.ReferenceFieldDesc = Nothing
+        Me.ddlDefaultReportUOM.ReferenceFieldName = Nothing
+        Me.ddlDefaultReportUOM.ReferenceTableName = Nothing
+        Me.ddlDefaultReportUOM.Size = New System.Drawing.Size(107, 20)
+        Me.ddlDefaultReportUOM.TabIndex = 455
+        Me.ddlDefaultReportUOM.Visible = False
         '
         'txtRoute
         '
@@ -298,11 +457,12 @@ Partial Class rptCustItemWiseSaleReport
         '
         Me.lblQtyConv.FieldName = Nothing
         Me.lblQtyConv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblQtyConv.Location = New System.Drawing.Point(341, 10)
+        Me.lblQtyConv.Location = New System.Drawing.Point(441, 10)
         Me.lblQtyConv.Name = "lblQtyConv"
         Me.lblQtyConv.Size = New System.Drawing.Size(83, 18)
         Me.lblQtyConv.TabIndex = 450
         Me.lblQtyConv.Text = "Qty Conversion"
+        Me.lblQtyConv.Visible = False
         '
         'ddlQtyConversionType
         '
@@ -319,7 +479,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.ddlQtyConversionType.IsSourceFromTable = False
         Me.ddlQtyConversionType.IsSourceFromValueList = False
         Me.ddlQtyConversionType.IsUnique = False
-        Me.ddlQtyConversionType.Location = New System.Drawing.Point(430, 11)
+        Me.ddlQtyConversionType.Location = New System.Drawing.Point(529, 9)
         Me.ddlQtyConversionType.MendatroryField = True
         Me.ddlQtyConversionType.MyLinkLable1 = Nothing
         Me.ddlQtyConversionType.MyLinkLable2 = Nothing
@@ -774,7 +934,7 @@ Partial Class rptCustItemWiseSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -845,32 +1005,34 @@ Partial Class rptCustItemWiseSaleReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'ddlDefaultReportUOM
+        'MyDateTimePicker1
         '
-        Me.ddlDefaultReportUOM.AutoCompleteDisplayMember = Nothing
-        Me.ddlDefaultReportUOM.AutoCompleteValueMember = Nothing
-        Me.ddlDefaultReportUOM.CalculationExpression = Nothing
-        Me.ddlDefaultReportUOM.DropDownAnimationEnabled = True
-        Me.ddlDefaultReportUOM.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlDefaultReportUOM.FieldCode = Nothing
-        Me.ddlDefaultReportUOM.FieldDesc = Nothing
-        Me.ddlDefaultReportUOM.FieldMaxLength = 0
-        Me.ddlDefaultReportUOM.FieldName = Nothing
-        Me.ddlDefaultReportUOM.isCalculatedField = False
-        Me.ddlDefaultReportUOM.IsSourceFromTable = False
-        Me.ddlDefaultReportUOM.IsSourceFromValueList = False
-        Me.ddlDefaultReportUOM.IsUnique = False
-        Me.ddlDefaultReportUOM.Location = New System.Drawing.Point(430, 8)
-        Me.ddlDefaultReportUOM.MendatroryField = True
-        Me.ddlDefaultReportUOM.MyLinkLable1 = Nothing
-        Me.ddlDefaultReportUOM.MyLinkLable2 = Nothing
-        Me.ddlDefaultReportUOM.Name = "ddlDefaultReportUOM"
-        Me.ddlDefaultReportUOM.ReferenceFieldDesc = Nothing
-        Me.ddlDefaultReportUOM.ReferenceFieldName = Nothing
-        Me.ddlDefaultReportUOM.ReferenceTableName = Nothing
-        Me.ddlDefaultReportUOM.Size = New System.Drawing.Size(107, 20)
-        Me.ddlDefaultReportUOM.TabIndex = 455
-        Me.ddlDefaultReportUOM.Visible = False
+        Me.MyDateTimePicker1.CalculationExpression = Nothing
+        Me.MyDateTimePicker1.CustomFormat = "dd-MM-yyyy"
+        Me.MyDateTimePicker1.FieldCode = Nothing
+        Me.MyDateTimePicker1.FieldDesc = Nothing
+        Me.MyDateTimePicker1.FieldMaxLength = 0
+        Me.MyDateTimePicker1.FieldName = Nothing
+        Me.MyDateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.MyDateTimePicker1.isCalculatedField = False
+        Me.MyDateTimePicker1.IsSourceFromTable = False
+        Me.MyDateTimePicker1.IsSourceFromValueList = False
+        Me.MyDateTimePicker1.IsUnique = False
+        Me.MyDateTimePicker1.Location = New System.Drawing.Point(53, 6)
+        Me.MyDateTimePicker1.MendatroryField = False
+        Me.MyDateTimePicker1.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.MyDateTimePicker1.MyLinkLable1 = Nothing
+        Me.MyDateTimePicker1.MyLinkLable2 = Nothing
+        Me.MyDateTimePicker1.Name = "MyDateTimePicker1"
+        Me.MyDateTimePicker1.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.MyDateTimePicker1.ReferenceFieldDesc = Nothing
+        Me.MyDateTimePicker1.ReferenceFieldName = Nothing
+        Me.MyDateTimePicker1.ReferenceTableName = Nothing
+        Me.MyDateTimePicker1.Size = New System.Drawing.Size(82, 20)
+        Me.MyDateTimePicker1.TabIndex = 331
+        Me.MyDateTimePicker1.TabStop = False
+        Me.MyDateTimePicker1.Text = "17-12-2011"
+        Me.MyDateTimePicker1.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
         'rptCustItemWiseSaleReport
         '
@@ -897,6 +1059,16 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.txtToDate1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LblToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlDefaultReportUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQtyConv, System.ComponentModel.ISupportInitialize).EndInit()
@@ -945,7 +1117,7 @@ Partial Class rptCustItemWiseSaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlDefaultReportUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1009,5 +1181,13 @@ Partial Class rptCustItemWiseSaleReport
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblRoute As common.Controls.MyLabel
     Friend WithEvents ddlDefaultReportUOM As common.Controls.MyComboBox
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents txtFromShift As RadDropDownList
+    Friend WithEvents txtFromDate1 As common.Controls.MyDateTimePicker
+    Friend WithEvents lblfromDate As common.Controls.MyLabel
+    Friend WithEvents MyDateTimePicker1 As common.Controls.MyDateTimePicker
+    Friend WithEvents txtToDate1 As common.Controls.MyDateTimePicker
+    Friend WithEvents txtToShift As RadDropDownList
+    Friend WithEvents LblToDate As common.Controls.MyLabel
 End Class
 
