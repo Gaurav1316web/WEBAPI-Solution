@@ -7,9 +7,11 @@ Public Class rptCustItemWiseSaleReport
 #Region "Variables"
     Dim dtTax As DataTable = New DataTable()
     Dim isPrint As Boolean = False
+    Dim ShowAllCustomerItemWiseSaleReportOptions As Boolean = False
 #End Region
     Private Sub rptCustItemWiseSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+        ShowAllCustomerItemWiseSaleReportOptions = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllCustomerItemWiseSaleReportOptions, clsFixedParameterCode.ShowAllCustomerItemWiseSaleReportOptions, Nothing)) > 0)
+        If ShowAllCustomerItemWiseSaleReportOptions Then
             BKNGroupBox.Visible = True
         Else
             BKNGroupBox.Visible = False
@@ -17,8 +19,50 @@ Public Class rptCustItemWiseSaleReport
         funreset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate1.Value = clsCommon.GETSERVERDATE()
+        txtFromDate1.Value = clsCommon.GETSERVERDATE()
         LoadQtyConversionType()
         LoadDefaultReportUOMType()
+        LoadShiftFrom()
+        LoadShiftTo()
+    End Sub
+    Sub LoadShiftFrom()
+        Dim dt As DataTable = New DataTable
+        dt.Columns.Add("Code")
+        dt.Columns.Add("Shift")
+
+        Dim dr As DataRow = dt.NewRow
+        dr("Code") = "M"
+        dr("Shift") = "Morning"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow
+        dr("Code") = "E"
+        dr("Shift") = "Evening"
+        dt.Rows.Add(dr)
+
+        txtFromShift.DataSource = dt
+        txtFromShift.ValueMember = "Code"
+    End Sub
+
+    Sub LoadShiftTo()
+        Dim dt As DataTable = New DataTable
+        dt.Columns.Add("Code")
+        dt.Columns.Add("Shift")
+
+        Dim dr As DataRow = dt.NewRow
+        dr("Code") = "M"
+        dr("Shift") = "Morning"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow
+        dr("Code") = "E"
+        dr("Shift") = "Evening"
+        dt.Rows.Add(dr)
+
+        txtToShift.DataSource = dt
+        txtToShift.ValueMember = "Code"
+
     End Sub
 
     Private Sub txtCustomer__My_Click(sender As Object, e As EventArgs) Handles txtCustomer._My_Click
@@ -153,16 +197,23 @@ Public Class rptCustItemWiseSaleReport
                     Exit Sub
                 End If
             End If
+
             Dim qry As String = ""
+            Dim strDate As String = ""
+            If rbtnDocumentDate.IsChecked Then
+                strDate = "Document_Date"
+            ElseIf rbtnSupplyDate.IsChecked Then
+                strDate = "Supply_Date"
+            End If
             qry = " Select "
             If print Then
                 qry += "  'Qty. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,max(CompName)CompName,max(Add1)Add1, "
             End If
-            qry += " Customer_Name,max(Item_Desc)Item_Desc,sum([Qty(M)])[Qty(M)],sum([Qty(E)])[Qty(E)],sum(Total_Qty)Total_Qty,max(case when Amount=0 then 0 else Amount/Total_Qty end) as Rate,sum(Amount)Amount  from ( SELECT tspl_customer_master.Customer_Name,TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Cust_Code,TSPL_SD_SHIPMENT_HEAD.document_date, Shift_Type, TSPL_ITEM_MASTER.Item_Desc ,
+            qry += " Customer_Name,max(Item_Desc)Item_Desc,sum([Qty(M)])[Qty(M)],sum([Qty(E)])[Qty(E)],sum(Total_Qty)Total_Qty,max(case when Amount=0 then 0 else Amount/Total_Qty end) as Rate,sum(Amount)Amount  from ( SELECT tspl_customer_master.Customer_Name,TSPL_ITEM_MASTER.Item_Code,TSPL_SD_SHIPMENT_HEAD.Customer_Code as Cust_Code,TSPL_SD_SHIPMENT_HEAD." + strDate + " as document_date, Shift_Type, TSPL_ITEM_MASTER.Item_Desc ,
                 TSPL_SD_SHIPMENT_DETAIL.Unit_Code AS UOM ,isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) AS Qty,case when Shift_Type='AM' then round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2)else 0 end as [Qty(M)],case when Shift_Type='PM' then round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2)else 0 end as [Qty(E)],
 			    round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2) as Total_Qty,isnull(TSPL_SD_SHIPMENT_DETAIL.Amount,0)Amount,TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1
                 FROM TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Left outer join tspl_customer_master on tspl_customer_master.cust_code= TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code   and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_Code 
-                Left Outer Join TSPL_COMPANY_MASTER on 1=1 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [Pouch],[LTR],[Crate] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code  where 2 = 2 and TSPL_SD_SHIPMENT_HEAD.Status = 1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "', 103) and TSPL_ITEM_MASTER.IsTaxable=0 " + whrcls + " )xx group by Customer_Name,Item_Code "
+                Left Outer Join TSPL_COMPANY_MASTER on 1=1 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [Pouch],[LTR],[Crate] )) P ) I ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = I.item_code  where 2 = 2 and TSPL_SD_SHIPMENT_HEAD.Status = 1 and convert(date,TSPL_SD_SHIPMENT_HEAD." + strDate + ",103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "', 103) and convert(date,TSPL_SD_SHIPMENT_HEAD." + strDate + ",103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "', 103) and TSPL_ITEM_MASTER.IsTaxable=0 " + whrcls + " )xx group by Customer_Name,Item_Code order by Item_Desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gv1.DataSource = Nothing
@@ -292,7 +343,7 @@ Public Class rptCustItemWiseSaleReport
                 whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No in ( " + clsCommon.GetMulcallString(txtRoute.arrValueMember) + " )"
             End If
 
-            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, "
+            Dim qry As String = "( SELECT TSPL_SD_SHIPMENT_HEAD.shift_type,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,TSPL_ITEM_MASTER.IsTaxable,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 ,TSPL_SD_SHIPMENT_HEAD.Customer_Code  ,TSPL_ITEM_MASTER.Short_Description,TSPL_CUSTOMER_MASTER.Customer_Name as Booth, "
             qry += "TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Document_Date, TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
 TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,"
             qry += " TSPL_SD_SHIPMENT_DETAIL.Unit_code, round((isnull(TSPL_SD_SHIPMENT_DETAIL.qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I." + ddlQtyConversionType.SelectedValue + ",2) as Qty,TSPL_ITEM_MASTER.Sku_Seq,"
@@ -303,11 +354,22 @@ TSPL_SD_SHIPMENT_DETAIL.Amount as Amount,"
 LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHIPMENT_HEAD.Comp_Code where 2 = 2  and TSPL_SD_SHIPMENT_HEAD.Status = 1 and TSPL_ITEM_MASTER.IsTaxable=0 "
             qry += "" & whrcls & "  "
-            qry += " and Cast(TSPL_SD_SHIPMENT_HEAD.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_SD_SHIPMENT_HEAD.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate.Value)), "dd/MMM/yyyy") + "'"
+            Dim strDate As String = ""
+            If rbtnDocumentDate.IsChecked Then
+                strDate = "Document_Date"
+            ElseIf rbtnSupplyDate.IsChecked Then
+                strDate = "Supply_Date"
+            End If
+            qry += " and Cast(TSPL_SD_SHIPMENT_HEAD." + strDate + " as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtFromDate1.Value)), "dd/MMM/yyyy") + "' and Cast(TSPL_SD_SHIPMENT_HEAD." + strDate + " as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(txtToDate1.Value)), "dd/MMM/yyyy") + "'"
 
-            qry += " ) "
-
-            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
+                qry += " and 2=( case when Cast(TSPL_SD_SHIPMENT_HEAD." + strDate + " as Date) >= '" + clsCommon.GetPrintDate(txtFromDate1.Value, "dd/MMM/yyyy") + "' and Cast(TSPL_SD_SHIPMENT_HEAD." + strDate + " as Date) <= '" + clsCommon.GetPrintDate(txtFromDate1.Value, "dd/MMM/yyyy") + "' and  TSPL_SD_SHIPMENT_HEAD.shift_type='AM' then 3 else 2 end  )"
+            End If
+            If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
+                qry += " and 2=( case when Cast(TSPL_SD_SHIPMENT_HEAD." + strDate + " as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate1.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_SD_SHIPMENT_HEAD." + strDate + " as Date) <= '" + clsCommon.GetPrintDate(txtToDate1.Value, "dd/MMM/yyyy") + "'  and TSPL_SD_SHIPMENT_HEAD.shift_type='PM' then 3 else 2 end  )"
+            End If
+            qry += " )"
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + "  order by Sku_Seq")
             If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow("No Data Found to Print")
                 Exit Sub
@@ -318,7 +380,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     If ii > 1 Then
                         FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
                     End If
-                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift, ROW_NUMBER() over (order by max(Display_Seq)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
                     FinalQuery += "Customer_Code,max(Route_No) as Route_No,"
                     FinalQuery += "max(Document_Date) as Document_Date"
                     For jj As Integer = 1 To 12
@@ -373,7 +435,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
             If print Then
                 qry += "  TSPL_COMPANY_MASTER.Comp_Name AS CompName,TSPL_COMPANY_MASTER.Add1,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as Fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate ,"
             End If
-            qry += " *,OPBal+Production_In_Qty+Other_In_Qty-Sale_Qty-STC_Qty-Production_Out_Qty-Other_Out_Qty as Closing_Qty, Inter_Union_Sale FROM ( select row_number() OVER( order by  itEM_CODE) as Sno,MAX(Item_Desc) as Item_Desc,max(Report_UOM)as Report_UOM , sum(STOCK_QTY * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [OPBal]  , 
+            qry += " *,OPBal+Production_In_Qty+Other_In_Qty-Sale_Qty-STC_Qty-Production_Out_Qty-Other_Out_Qty as Closing_Qty, Inter_Union_Sale FROM ( select row_number() OVER( order by  max(Item_Desc)) as Sno,MAX(Item_Desc) as Item_Desc,max(Report_UOM)as Report_UOM , sum(STOCK_QTY * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [OPBal]  , 
             sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Production_In_Qty,SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD' or Trans_Type= 'SRN' OR Trans_Type='FS-SR') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Other_In_Qty  ,
             sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='FS-SH' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Sale_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='ITransfer' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS STC_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Production_Out_Qty,
             SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Other_Out_Qty,sum(Inter_Union_Sale)Inter_Union_Sale from (  " + Environment.NewLine + "  select case when isnull(tspl_customer_master.CFP_Unit,0)=1 then Stock_Qty else 0 end as Inter_Union_Sale,qty,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView',
@@ -381,7 +443,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
             from  ( select qty,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT ) InventroyMovement 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code  left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code  left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and  TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=InventroyMovement.Item_Code and tspl_item_uom_detail.UOM_Code= InventroyMovement.Stock_UOM  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON InventroyMovement.Item_Code = Report_UOM.item_code 
              left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=InventroyMovement.Trans_Type  left outer join TSPL_ADJUSTMENT_HEADER ON TSPL_ADJUSTMENT_HEADER.Adjustment_No=InventroyMovement.Source_Doc_No   left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=InventroyMovement.Source_Doc_No
-			left outer join tspl_customer_master  on tspl_customer_master.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y' and tspl_item_master.Item_Type='F' " + whrcls + " ) xx group by Item_Code ) xxx Left Outer Join TSPL_COMPANY_MASTER on 1=1"
+			left outer join tspl_customer_master  on tspl_customer_master.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y' and tspl_item_master.Item_Type='F' " + whrcls + " ) xx group by Item_Code ) xxx Left Outer Join TSPL_COMPANY_MASTER on 1=1 order by Item_Desc"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -500,7 +562,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                   ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC 
                   ) as price  where
                   convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                  group by price.Price_Code, Item_Code,To_LocationCode"
+                  group by price.Price_Code, Item_Code,To_LocationCode order by Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -708,7 +770,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                   ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC 
                   ) as price  where
                   convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'
-                  group by Item_Code"
+                  group by Item_Code order by (Item_Desc)"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -814,7 +876,7 @@ FROM (
         ORDER BY TSPL_ITEM_PRICE_PLAN_HEADER.Start_Date DESC 
     ) AS tab2
 ) xxx 
-GROUP BY Item_Code"
+GROUP BY Item_Code order by Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -933,7 +995,7 @@ GROUP BY Item_Code"
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvReportUOM on TSPL_ITEM_master.Item_Code = ItemConvReportUOM.Item_Code and ItemConvReportUOM.Report_UOM = 1
                     left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                         LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where TSPL_ITEM_MASTER.Is_Ambient = 1  and convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx 
-                GROUP BY Item_Code"
+                GROUP BY Item_Code order by Customer_Name,Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1040,7 +1102,7 @@ LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvReportUOM
 LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ItemConvinUOM 
     ON TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code AND TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
 LEFT JOIN TSPL_COMPANY_MASTER 
-    ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 GROUP BY TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+    ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 GROUP BY TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE order by Document_Code,Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1181,9 +1243,9 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                             left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                                             left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
                 WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'and TSPL_SD_SHIPMENT_HEAD.Status=1  " + whrcls + "
-            ) xx
+            ) xxb
             ) XXFinal 
-            group by XXFinal.Customer_Code)xxx"
+            group by XXFinal.Customer_Code)xxx order by Customer_Name"
 
 
 
@@ -1264,7 +1326,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         ) xx
                         ) XXFinal 
                         where XXFinal.Trp_othcharg>0
-                        group by XXFinal.Customer_Name"
+                        group by XXFinal.Customer_Name order by XXFinal.Customer_Name"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1340,7 +1402,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  " & whrcls & "
                         ) xx
                         ) XXFinal 
-                        where XXFinal.TCS_AMT>0 group by XXFinal.Customer_Name"
+                        where XXFinal.TCS_AMT>0 group by XXFinal.Customer_Name order by XXFinal.Customer_Name"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1415,7 +1477,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
 						LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2
                         WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.Is_Ambient=1  AND TSPL_ITEM_MASTER.Item_Desc LIKE '%Ghee%'  " & whrcls & " ) xx
-						group By Customer_Name,Item_Code"
+						group By Customer_Name,Item_Code order by Customer_Name,Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1498,7 +1560,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' AND TSPL_ITEM_MASTER.IsTaxable = 0 
                         AND TSPL_SD_SHIPMENT_HEAD.Route_No <> 'DIRECT' 
 	                    AND TSPL_SD_SHIPMENT_HEAD.Route_No <> 'DIRECT1' 
-                    GROUP BY TSPL_SD_SHIPMENT_HEAD.Route_No"
+                    GROUP BY TSPL_SD_SHIPMENT_HEAD.Route_No order by TSPL_SD_SHIPMENT_HEAD.Route_No"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1572,7 +1634,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                         WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " & whrcls & "
                         AND TSPL_CUSTOMER_MASTER.Credit_Customer = 'Y'
                         GROUP BY 
-                            TSPL_CUSTOMER_MASTER.Customer_Name"
+                            TSPL_CUSTOMER_MASTER.Customer_Name order by TSPL_CUSTOMER_MASTER.Customer_Name"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1648,7 +1710,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                          left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                        and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                         LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' and  TSPL_ITEM_MASTER.IsTaxable=0 ) xx 
-                GROUP BY Item_Code"
+                GROUP BY Item_Code order by Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1728,7 +1790,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                      left join TSPL_ITEM_UOM_DETAIL as ItemConvinUOM on TSPL_SD_SHIPMENT_DETAIL.Item_Code = ItemConvinUOM.Item_Code 
                                    and TSPL_SD_SHIPMENT_DETAIL.Unit_code = ItemConvinUOM.UOM_Code
                     LEFT JOIN TSPL_COMPANY_MASTER ON 2 = 2 where convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "' " + whrcls + " ) xx 
-                GROUP BY Item_Code"
+                GROUP BY Item_Code order by Item_Desc"
             dt = clsDBFuncationality.GetDataTable(Qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1770,7 +1832,14 @@ LEFT JOIN TSPL_COMPANY_MASTER
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).Width = 80
-            gv1.Columns(ii).FormatString = "{0:n2}"
+            If rbtnStockStatement.IsChecked Then
+                If clsCommon.CompairString(gv1.Columns(ii).Name, "SNO") <> CompairStringResult.Equal Then
+                    gv1.Columns(ii).FormatString = "{0:n2}"
+                End If
+            Else
+                gv1.Columns(ii).FormatString = "{0:n2}"
+            End If
+
         Next
         If rbtnDistributorCollStatement.IsChecked Then
             If isPrint Then
@@ -1873,6 +1942,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
     Sub funreset()
         Dim viewBlank As New TableViewDefinition()
         gv1.ViewDefinition = viewBlank
+        RadGroupBox4.Visible = False
         BtnStcRegisterPartyandItemWiseSummary.IsChecked = False
         BtnStcRegisterItemWiseSummary.IsChecked = False
         BtnProductWiseSaleQuantity.IsChecked = False
@@ -2435,6 +2505,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             lblQtyConv.Visible = True
             ddlQtyConversionType.Visible = False
             ddlDefaultReportUOM.Visible = True
+            RadGroupBox4.Visible = False
         ElseIf rbtnMilkSale.IsChecked Then
             btnGo.Enabled = False
             RadSplitButton1.Enabled = False
@@ -2443,6 +2514,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             lblQtyConv.Visible = True
             ddlQtyConversionType.Visible = True
             ddlDefaultReportUOM.Visible = False
+            RadGroupBox4.Visible = True
         ElseIf rbtnDistributorCollStatement.IsChecked Then
             txtRoute.Visible = True
             lblRoute.Visible = True
@@ -2451,6 +2523,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             lblQtyConv.Visible = True
             ddlQtyConversionType.Visible = True
             ddlDefaultReportUOM.Visible = False
+            RadGroupBox4.Visible = False
         Else
             btnGo.Enabled = True
             RadSplitButton1.Enabled = True
@@ -2461,6 +2534,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
             lblQtyConv.Visible = False
             ddlQtyConversionType.Visible = False
             ddlDefaultReportUOM.Visible = False
+            RadGroupBox4.Visible = False
         End If
     End Sub
 
