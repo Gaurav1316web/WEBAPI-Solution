@@ -194,6 +194,12 @@ Public Class frmRouteMaster
         ElseIf rtxtdescription.Text = "" Then
             myMessages.blankValue(Me, "Description", Me.Text)
             rtxtdescription.Focus()
+        ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
+            myMessages.blankValue(Me, "Location Code", Me.Text)
+            txtLocation.Focus()
+        ElseIf clsCommon.myLen(fndcity_id.Value) <= 0 Then
+            myMessages.blankValue(Me, "City Code", Me.Text)
+            fndcity_id.Focus()
         ElseIf rbtnSave.Text = "Save" Then
             funInsert()
         Else
