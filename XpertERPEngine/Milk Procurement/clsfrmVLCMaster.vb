@@ -105,6 +105,10 @@ Public Class clsfrmVLCMaster
         Return VLcName
     End Function
 
+    Public Shared Function getVLCUploaderOnVSPCode(ByVal VSPCode As String, ByVal trans As SqlTransaction) As String
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Code_VLC_Uploader  from TSPL_VLC_MASTER_HEAD  where VSP_Code='" & VSPCode & "'", trans))
+    End Function
+
     Public Shared Function CowPriceApplied(ByVal VLcCode As String, ByVal TransDate As Date, ByVal trans As SqlTransaction) As Boolean
         Dim Ret As Boolean = False
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("select 1 from TSPL_VLC_MASTER_HEAD  where VLc_Code='" & VLcCode & "' and Apply_Cow_Price=1 and ApplyCowPriceDate<='" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "' ", trans)
