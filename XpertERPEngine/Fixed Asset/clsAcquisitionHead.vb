@@ -123,7 +123,70 @@ Public Class clsAcquisitionHead
     Public Opening_Assemble_Amt As Decimal = 0
     Public Opening_Direct As Boolean
 #End Region
+    Public Shared Function funACQEPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strdocno As String) As Boolean
+        Dim TSPL_ACQUISITION_HEAD As String = Nothing
+        Dim TSPL_ACQUISITION_DETAIL As String = Nothing
+        If isCancel Then
+            TSPL_ACQUISITION_HEAD = "TSPL_ACQUISITION_HEAD_cancel_data"
+            TSPL_ACQUISITION_DETAIL = "TSPL_ACQUISITION_DETAIL_cancel_data"
+        Else
+            TSPL_ACQUISITION_HEAD = "TSPL_ACQUISITION_HEAD"
+            TSPL_ACQUISITION_DETAIL = "TSPL_ACQUISITION_DETAIL"
+        End If
+        Dim frm As New frmCrystalReportViewer()
 
+        Dim dtCompAddress As DataTable = Nothing
+        Dim Qry As String = ""
+
+        Qry = " select TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end " &
+                    " +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  " &
+                    " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end  " &
+                    " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end  " &
+                    " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end " &
+                    " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else  " &
+                    "',Phone'+TSPL_COMPANY_MASTER.Phone1 end +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  " &
+                    " '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ' " &
+                    ",Email - '+ TSPL_COMPANY_MASTER.Email else '' end  as Comp_Address  " &
+                    " , case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ' CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end  " &
+                    " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end  as CIN_PAN" &
+                    " from tspl_company_master "
+        dtCompAddress = clsDBFuncationality.GetDataTable(Qry)
+        Qry = " SELECT " + TSPL_ACQUISITION_HEAD + ".Vendor_Invoice_No,(select cast(TSPL_COMPANY_MASTER.logo_img as image) from TSPL_COMPANY_MASTER) as [logo_img],'" + clsCommon.myCstr(dtCompAddress.Rows(0)("Comp_Address")) + "' as [Company Address],'" + clsCommon.myCstr(dtCompAddress.Rows(0)("CIN_PAN")) + "' as CIN_PAN,'" + objCommonVar.CurrentCompanyName + "' as [Company], " + TSPL_ACQUISITION_HEAD + ".Acquisition_Code, " + TSPL_ACQUISITION_HEAD + ".Acquisition_Date,"
+        If isCancel Then
+            Qry += " 'Cancelled' As Report_Status, "
+        Else
+            Qry += " '' As Report_Status, "
+        End If
+        Qry += " " + TSPL_ACQUISITION_HEAD + ".PO_No,  " + TSPL_ACQUISITION_HEAD + ".Description, " + TSPL_ACQUISITION_HEAD + ".Remarks,TSPL_LOCATION_MASTER.Location_Desc ,"
+        Qry += " TSPL_VENDOR_MASTER.Vendor_Name,  "
+        Qry += " " + TSPL_ACQUISITION_HEAD + ".tax1," + TSPL_ACQUISITION_HEAD + ".tax1_amt," + TSPL_ACQUISITION_HEAD + ".tax2," + TSPL_ACQUISITION_HEAD + ".tax2_amt," + TSPL_ACQUISITION_HEAD + ".tax3," + TSPL_ACQUISITION_HEAD + ".tax3_amt," + TSPL_ACQUISITION_HEAD + ".tax4," + TSPL_ACQUISITION_HEAD + ".tax4_amt," + TSPL_ACQUISITION_HEAD + ".tax5," + TSPL_ACQUISITION_HEAD + ".tax5_amt," + TSPL_ACQUISITION_HEAD + ".tax6," + TSPL_ACQUISITION_HEAD + ".tax6_amt," + TSPL_ACQUISITION_HEAD + ".tax7," + TSPL_ACQUISITION_HEAD + ".tax7_amt," + TSPL_ACQUISITION_HEAD + ".tax8," + TSPL_ACQUISITION_HEAD + ".tax8_amt," + TSPL_ACQUISITION_HEAD + ".tax9," + TSPL_ACQUISITION_HEAD + ".tax9_amt," + TSPL_ACQUISITION_HEAD + ".tax10," + TSPL_ACQUISITION_HEAD + ".tax10_amt,"
+        Qry += " " + TSPL_ACQUISITION_HEAD + ".total_amt, " + TSPL_ACQUISITION_HEAD + ".total_tax_amt, " + TSPL_ACQUISITION_HEAD + ".Net_Amt,"
+        Qry += " " + TSPL_ACQUISITION_DETAIL + ".SNo, " + TSPL_ACQUISITION_DETAIL + ".Asset_Code, " + TSPL_ACQUISITION_DETAIL + ".Asset_Name, " + TSPL_ACQUISITION_DETAIL + ".Asset_Specification, " + TSPL_ACQUISITION_DETAIL + ".Dep_Rate, " + TSPL_ACQUISITION_DETAIL + ".Book_Source_value"
+        'Qry += " ,TSPL_ACQUISITION_HEAD.Capex_Code as CapexName,TSPL_ACQUISITION_HEAD.CapexSub_Code as SubCapexName"
+        Qry += " ," + TSPL_ACQUISITION_DETAIL + ".Capex_Code as CapexName," + TSPL_ACQUISITION_DETAIL + ".Capex_SubCode as SubCapexName"
+        Qry += " ,TSPL_CAPEX_BUDGET_MASTER.DESCRIPTION as SubCapexNameDesc,TSPL_CAPEX_MASTER.DESCRIPTION as CapexDesc"
+        Qry += " ,case when " + TSPL_ACQUISITION_HEAD + ".Status=1 then " + TSPL_ACQUISITION_HEAD + ".ASSEMBLE_CODE else '' end as ASSEMBLE_CODE,"
+        Qry += " case when " + TSPL_ACQUISITION_HEAD + ".Status=1 then convert(varchar," + TSPL_ACQUISITION_HEAD + ".Post_Date,103) else '' end as Post_Date"
+        Qry += " FROM " + TSPL_ACQUISITION_HEAD + " "
+        Qry += " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=" + TSPL_ACQUISITION_HEAD + ".Vendor_Code "
+        Qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =" + TSPL_ACQUISITION_HEAD + ".Loc_Code"
+        Qry += " left outer join " + TSPL_ACQUISITION_DETAIL + " on " + TSPL_ACQUISITION_DETAIL + ".Acquisition_Code =" + TSPL_ACQUISITION_HEAD + ".Acquisition_Code"
+        'Show Capex,SubCapex Description  Ticket No-UDL/07/05/18-000153
+        'Qry += "    left outer join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=TSPL_ACQUISITION_HEAD.Capex_Code"
+        'Qry += " left outer join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.CODE=TSPL_ACQUISITION_HEAD.CapexSub_Code"
+        Qry += "    left outer join TSPL_CAPEX_MASTER on TSPL_CAPEX_MASTER.CODE=" + TSPL_ACQUISITION_DETAIL + ".Capex_Code"
+        Qry += " left outer join TSPL_CAPEX_BUDGET_MASTER on TSPL_CAPEX_BUDGET_MASTER.CODE=" + TSPL_ACQUISITION_DETAIL + ".Capex_SubCode"
+        ''''''''''''
+        Qry += " where " + TSPL_ACQUISITION_HEAD + ".Acquisition_Code = '" + strdocno + " ' order by " + TSPL_ACQUISITION_DETAIL + ".SNo"
+
+        Dim dt_final As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        If dt_final.Rows.Count <= 0 Then
+            common.clsCommon.MyMessageBoxShow("No Data Found")
+        Else
+            frm.funreport(Form_ID, CrystalReportFolder.FixedAssets, dt_final, "frmAcquisionEntryReport", "Acquision Entry Report")
+        End If
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As clsAcquisitionHead, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -1452,6 +1515,7 @@ Public Class clsAcquisitionHead
             Try
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_ACQUISITION_HEAD", "Acquisition_Code", "TSPL_ACQUISITION_DETAIL", "Acquisition_Code", trans)
 
                 If (obj.Status = ERPTransactionStatus.Approved) Then
                     Throw New Exception("Already Posted on :" + clsCommon.GetPrintDate(obj.Post_Date, "dd/MM/yyyy"))

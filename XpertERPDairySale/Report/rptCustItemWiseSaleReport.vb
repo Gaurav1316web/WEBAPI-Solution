@@ -8,6 +8,7 @@ Public Class rptCustItemWiseSaleReport
     Dim dtTax As DataTable = New DataTable()
     Dim isPrint As Boolean = False
     Dim ShowAllCustomerItemWiseSaleReportOptions As Boolean = False
+    Dim Report_ID As String = MyBase.Form_ID
 #End Region
     Private Sub rptCustItemWiseSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ShowAllCustomerItemWiseSaleReportOptions = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllCustomerItemWiseSaleReportOptions, clsFixedParameterCode.ShowAllCustomerItemWiseSaleReportOptions, Nothing)) > 0)
@@ -129,7 +130,7 @@ Public Class rptCustItemWiseSaleReport
             VarID += "_SM"
         End If
         gv1.VarID = VarID
-
+        Report_ID = MyBase.Form_ID + "_" + VarID
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -233,7 +234,7 @@ Public Class rptCustItemWiseSaleReport
                 gv1.BestFitColumns()
                 If print Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptDistributorCollectionStatement", "Distributor Collection Statement")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "rptDistributorCollectionStatement", "Distributor Collection Statement")
                     frmCRV = Nothing
                 End If
             Else
@@ -380,10 +381,10 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     If ii > 1 Then
                         FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
                     End If
-                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift, ROW_NUMBER() over (order by max(Display_Seq)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp ,'" + txtFromShift.Text + "' as FromShift,'" + txtToShift.Text + "' as ToShift, ROW_NUMBER() over (order by max(Booth)) As SNo, 'Quantity. in " + ddlQtyConversionType.SelectedValue + "' as QtyConvType,  '" + clsCommon.GetPrintDate(clsCommon.myCDate(txtFromDate1.Value), "dd/MM/yyyy") + "' AS FromDate,'" + clsCommon.GetPrintDate(clsCommon.myCDate(txtToDate1.Value), "dd/MM/yyyy") + "' AS ToDate, max(Comp_Name) as Comp_Name,max(Add1) as Add1,max(Booth) as Booth,"
                     FinalQuery += "Customer_Code,max(Route_No) as Route_No,"
                     FinalQuery += "max(Document_Date) as Document_Date"
-                    For jj As Integer = 1 To 12
+                    For jj As Integer = 1 To 10
                         Dim strJJ As String = clsCommon.myCstr(jj)
                         Dim strICODE As String = ""
                         Dim strIShortDesc As String = ""
@@ -438,7 +439,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
             qry += " *,OPBal+Production_In_Qty+Other_In_Qty-Sale_Qty-STC_Qty-Production_Out_Qty-Other_Out_Qty as Closing_Qty, Inter_Union_Sale FROM ( select row_number() OVER( order by  max(Item_Desc)) as Sno,MAX(Item_Desc) as Item_Desc,max(Report_UOM)as Report_UOM , sum(STOCK_QTY * (CASE WHEN PUNCHING_DAte < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [OPBal]  , 
             sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Production_In_Qty,SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD' or Trans_Type= 'SRN' OR Trans_Type='FS-SR') THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else 0 end))  AS Other_In_Qty  ,
             sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='FS-SH' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Sale_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='ITransfer' ) THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS STC_Qty,sum (Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='DRY-PRO-UPL' or Trans_Type= 'PROD_ENTRY') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Production_Out_Qty,
-            SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Other_Out_Qty,sum(Inter_Union_Sale)Inter_Union_Sale from (  " + Environment.NewLine + "  select case when isnull(tspl_customer_master.CFP_Unit,0)=1 then Stock_Qty else 0 end as Inter_Union_Sale,qty,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView',
+            SUM(Report_UOM_Qty * (CASE WHEN PUNCHING_DAte >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and (Trans_Type ='IC-AD') THEN 1.00 ELSE 0 end) * (case when InOut='O' then 1.00 else 0 end))  AS Other_Out_Qty,sum(Inter_Union_Sale)Inter_Union_Sale from (  " + Environment.NewLine + "  select case when isnull(tspl_customer_master.Inter_Union_Sale,0)=1 then Stock_Qty else 0 end as Inter_Union_Sale,qty,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView',
             case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end as Main_Location_Code,MainLocationTable.Location_Desc as MainLocationDesc, InventroyMovement.Location_Code,TSPL_LOCATION_MASTER.Location_Desc AS [Loc Desp],SourceCode,SourceName,SourceType ,InventroyMovement.Item_Code, InventroyMovement.MRP ,TSPL_ITEM_MASTER.Item_Desc,TSPL_LOCATION_MASTER.Is_Sub_Location, InventroyMovement.Stock_UOM,InventroyMovement.Stock_Qty,isnull((InventroyMovement.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Report_UOM_Qty,Report_UOM.UOM_Code as Report_UOM, (case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then InventroyMovement.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then InventroyMovement.LIFO_Cost else InventroyMovement.Avg_Cost end end ) as Cost,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code 
             from  ( select qty,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT ) InventroyMovement 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code  left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code  left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and  TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=InventroyMovement.Item_Code and tspl_item_uom_detail.UOM_Code= InventroyMovement.Stock_UOM  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where " + ddlDefaultReportUOM.SelectedValue + " = 1 ) as  Report_UOM ON InventroyMovement.Item_Code = Report_UOM.item_code 
@@ -458,15 +459,15 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 gv1.DataSource = dt
                 gv1.BestFitColumns()
-                SetGridFormationn()
                 View()
+                SetGridFormationn()
                 ReStoreGridLayout()
-                'gv1.BestFitColumns()
                 gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
+                'gv1.BestFitColumns()
                 If print Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptStockStatementBKN", "Stock Statement")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "rptStockStatementBKN", "Stock Statement")
                     frmCRV = Nothing
                 End If
             Else
@@ -585,7 +586,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWisee", "STS Register-Item Wise Summary Party Wise")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWisee", "STS Register-Item Wise Summary Party Wise")
                     frmCRV = Nothing
 
                 End If
@@ -793,7 +794,7 @@ left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_SD_SHI
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
                     frmCRV = Nothing
 
                 End If
@@ -899,7 +900,7 @@ GROUP BY Item_Code order by Item_Desc"
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
                     frmCRV = Nothing
 
                 End If
@@ -1018,7 +1019,7 @@ GROUP BY Item_Code order by Item_Desc"
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
                     frmCRV = Nothing
 
                 End If
@@ -1125,7 +1126,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
                     frmCRV = Nothing
 
                 End If
@@ -1271,7 +1272,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
                     frmCRV = Nothing
 
                 End If
@@ -1349,7 +1350,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptTransportationCharges", "Transportation Charges")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptTransportationCharges", "Transportation Charges")
                     frmCRV = Nothing
 
                 End If
@@ -1425,7 +1426,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptTcsSummaryReport", "Tcs Summary Report")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptTcsSummaryReport", "Tcs Summary Report")
                     frmCRV = Nothing
 
                 End If
@@ -1500,7 +1501,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptGheeReport", "Ghee Report")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptGheeReport", "Ghee Report")
                     frmCRV = Nothing
 
                 End If
@@ -1583,7 +1584,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptRouteWiseSale", "Route Wise Sale")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptRouteWiseSale", "Route Wise Sale")
                     frmCRV = Nothing
 
                 End If
@@ -1657,7 +1658,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptCreditPartyWiseSaleAmount", "Credit Party Wise Sale Amount")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptCreditPartyWiseSaleAmount", "Credit Party Wise Sale Amount")
                     frmCRV = Nothing
 
                 End If
@@ -1733,7 +1734,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
                     frmCRV = Nothing
 
                 End If
@@ -1813,7 +1814,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                     gv1.BestFitColumns()
                 ElseIf Print = True Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
+                    frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
                     frmCRV = Nothing
 
                 End If
@@ -2151,23 +2152,23 @@ LEFT JOIN TSPL_COMPANY_MASTER
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If BtnStcRegisterItemWiseSummary.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummary", "STS Register Item Wise Summary")
                     ElseIf BtnBillWiseSaleOfMilkSummary.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilkSummary", "Bill Wise Sale Of Milk Summary")
                     ElseIf BtnProductWiseSaleQuantity.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductWiseSaleQuantity", "Product Wise Sale Quantity")
                     ElseIf BtnBillWiseSaleOfMilk.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptBillWiseSaleOfMilk", "Bill Wise Sale Of Milk")
                     ElseIf BtnPartySaleMilkProductt.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptPartySalesMilkandProducts", "Party Sales Milk and Products")
                     ElseIf BtnProductSalesSummary.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptProductSaleSummaryTaxableNonTaxable", "Product Sale Summary Taxable NonTaxable")
                     ElseIf BtnMilkStcSummary.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptMilkStcSummary", "Milk Stc Summary")
                     ElseIf BtnStcRegisterPartyandItemWiseSummary.IsChecked = True Then
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWise", "STS Register-Item Wise Summary Party Wise")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "CrptSTSRegister-ItemWiseSummaryPartyWise", "STS Register-Item Wise Summary Party Wise")
                     Else
-                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptCustItemWiseSale", "Customer Item Wise Sale")
+                        frmCRV.funreport(Report_ID, CrystalReportFolder.SalesReport, dt, "rptCustItemWiseSale", "Customer Item Wise Sale")
                     End If
                     frmCRV = Nothing
                 End If
@@ -2311,9 +2312,9 @@ LEFT JOIN TSPL_COMPANY_MASTER
 
     Private Sub ReStoreGridLayout()
         Try
-            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+            If clsCommon.myLen(Report_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
-                obj = CType(obj.GetData(MyBase.Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                obj = CType(obj.GetData(Report_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
                 If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
                     Dim ii As Integer = 0
                     For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
@@ -2331,10 +2332,10 @@ LEFT JOIN TSPL_COMPANY_MASTER
     End Sub
 
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
-        If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+        If clsCommon.myLen(Report_ID) > 0 Then
             gv1.MasterTemplate.FilterDescriptors.Clear()
             Dim obj As New clsGridLayout()
-            obj.ReportID = MyBase.Form_ID + gv1.VarID
+            obj.ReportID = Report_ID
             obj.UserID = objCommonVar.CurrentUserCode
             obj.GridLayout = New MemoryStream()
             gv1.SaveLayout(obj.GridLayout)
@@ -2349,7 +2350,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
     End Sub
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
-        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
+        clsGridLayout.DeleteData(Report_ID, objCommonVar.CurrentUserCode)
         common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
@@ -2410,6 +2411,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
         'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
         '    reportSTCPartyRegister(True)
         'Else
+        GetReportID()
         isPrint = True
         If BtnProductWiseSaleQuantity.IsChecked Then
             ProductWiseSale(True)

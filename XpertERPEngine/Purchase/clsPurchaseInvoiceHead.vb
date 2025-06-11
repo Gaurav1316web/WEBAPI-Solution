@@ -231,7 +231,7 @@ Public Class clsPurchaseInvoiceHead
 					 AND convert(date,TSPL_GRN_HEAD.GRN_Date,103)<= dateadd(day,TSPL_TENDER_SCHEDULE.Extension_Days,TSPL_TENDER_SCHEDULE.TO_DATE)")
         End If
         If objCommonVar.RCDFCFP Then
-            qry = " SELECT  "
+            qry = "with cte as ( SELECT  "
             If isCancel Then
                 qry += " 'Cancelled' As Report_Status, "
             Else
@@ -243,9 +243,8 @@ Public Class clsPurchaseInvoiceHead
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
                         left outer join TSPL_GRN_HEAD GG on GG.GRN_No = TSPL_SRN_DETAIL.GRN_ID
                         where GG.ref_no=SS.Ref_No
-                        and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION and ss.vendor_code =TSPL_SRN_HEAD.vendor_code)as SRNQtyInQtl,
-                         CONVERT(varchar(10), CONVERT(date, ss.schedule_from_date, 111), 105) as schedule_from_date,
-                          CONVERT(varchar(10), CONVERT(date, ss.schedule_to_date, 111), 105) as schedule_to_date, ss.qc_no,ss.grn_date
+                        and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION and ss.vendor_code =TSPL_SRN_HEAD.vendor_code)as SRNQtyInQtl
+                       -- ,CONVERT(varchar(10), CONVERT(date, ss.schedule_from_date, 111), 105) as schedule_from_date,CONVERT(varchar(10), CONVERT(date, ss.schedule_to_date, 111), 105) as schedule_to_date, ss.qc_no,ss.grn_date
                         FROM (select '' as RAL_Period,isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as Actual_Total_TDS,cast(case when isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0)>0 and isnull(" + tspl_pi_detail + ".Taxable_Amount,0)>0 then
                          ( isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) 
                           / (select sum(isnull(" + tspl_pi_detail + ".Taxable_Amount,0)) from " + tspl_pi_detail + " where PI_NO='" + StrDocNo + "'  ))
@@ -275,8 +274,8 @@ Public Class clsPurchaseInvoiceHead
                     ," + tspl_pi_detail + ".TAX1_Rate as dTAX1_Rate, " + tspl_pi_detail + ".TAX2_Rate as dTAX2_Rate, " + tspl_pi_detail + ".TAX3_Rate as dTAX3_Rate ," + tspl_pi_detail + ".TAX4_Rate as dTAX4_Rate ," + tspl_pi_detail + ".TAX5_Rate as dTAX5_Rate
                     , " + tspl_pi_detail + ".TAX1_Amt, " + tspl_pi_detail + ".TAX2_Amt, " + tspl_pi_detail + ".TAX3_Amt, " + tspl_pi_detail + ".TAX4_Amt, " + tspl_pi_detail + ".TAX5_Amt
                     ," + TSPL_PI_HEAD + ".Description, " + TSPL_PI_HEAD + ".Remarks," + tspl_pi_detail + ".Item_Cost  
-                          ,TSPL_TENDER_SCHEDULE.schedule_from_date					
-					      ,TSPL_TENDER_SCHEDULE.schedule_to_date
+                          ,CONVERT(varchar(10), CONVERT(date, TSPL_TENDER_SCHEDULE.schedule_from_date, 111), 105) as schedule_from_date					
+					      ,CONVERT(varchar(10), CONVERT(date, TSPL_TENDER_SCHEDULE.schedule_to_date, 111), 105) as schedule_to_date 
                           ,TSPL_QC_CHECK_HEAD.Document_Code as QC_NO
                           ,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight
                           from " + tspl_pi_detail + " 
@@ -319,7 +318,8 @@ Public Class clsPurchaseInvoiceHead
 					 TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo + "' and
 					 TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation + "' GROUP BY DocumentCode) TSPL_TENDER_SCHEDULE on
 					 TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
-                    where  " + TSPL_PI_HEAD + " .PI_No = '" + StrDocNo + "' )ss WHERE 1=1 order by convert(date,ss.GRN_Date,103) "
+                    where  " + TSPL_PI_HEAD + " .PI_No = '" + StrDocNo + "' )ss WHERE 1=1 --order by convert(date,ss.GRN_Date,103) 
+ ) select * from cte order by convert(date,GRN_Date,103)"
 
             dt = clsDBFuncationality.GetDataTable(qry)
 
@@ -3102,63 +3102,63 @@ Public Class clsPurchaseInvoiceHead
                             End If
                         End If
                         objAdjRej.chklocation = "N"
-                            objAdjRej.IsMilkType = 0
-                            objAdjRej.MainLocationCode = ""
-                            objAdjRej.MainLocationDesc = ""
-                            objAdjRej.Against_PI_No_Difference_Rejected = obj.PI_No
-                            objAdjRej.Adjustment_Type = "ADJ"
-                            If clsCommon.myLen(objTr.Item_Code) > 0 AndAlso objTr.Reject_Qty > 0 Then
-                                If clsCommon.myLen(objAdjRej.Loc_Code) <= 0 Then
-                                    Throw New Exception("Please set the rejected location for " + obj.Bill_To_Location)
-                                End If
-                                Dim objAdTr As New ClsAdjustmentsDetails()
-                                objAdTr.Adjustment_Line_No = counterReject
-                                counterReject += 1
-                                objAdTr.Item_Code = clsCommon.myCstr(objTr.Item_Code)
-                                If clsCommon.myLen(objAdTr.Item_Code) > 0 Then
-                                    objAdTr.Item_Description = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Item_Desc,'') AS Item_Desc From TSPL_ITEM_MASTER Where Item_Code ='" & clsCommon.myCstr(objAdTr.Item_Code) & "'", trans))
-                                Else
-                                    objAdTr.Item_Description = ""
-                                End If
-                                objAdTr.Adjustment_Type = clsCommon.myCstr("Cost").Substring(0, 1) + IIf(clsCommon.CompairString(objAdjRej.Trans_Type, "In") = CompairStringResult.Equal, "I", "D")
-                                objAdTr.Item_Quantity = 0
-                                If RejectedAmount < 0 Then
-                                    objAdTr.Item_Cost = clsCommon.myCdbl(-1 * RejectedAmount)
-                                Else
-                                    objAdTr.Item_Cost = RejectedAmount
-                                End If
-
-                                objAdTr.Unit_Code = clsCommon.myCstr(objTr.Unit_code)
-                                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select TSPL_PURCHASE_ACCOUNTS.Adjustment_Account ,TSPL_GL_ACCOUNTS.Description  from  TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_PURCHASE_ACCOUNTS.Adjustment_Account where TSPL_ITEM_MASTER.Item_Code='" + objTr.Item_Code + "'", trans)
-                                If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                                    Throw New Exception("Please set the Purchase Account set or its Adjustment Writeoff Account for item " + objAdTr.Item_Code)
-                                End If
-                                objAdTr.Account_Code = clsCommon.myCstr(dt1.Rows(0)("Adjustment_Account"))
-                                objAdTr.Account_Description = clsCommon.myCstr(dt1.Rows(0)("Description"))
-                                objAdTr.Remarks = ""
-                                objAdTr.Comments = ""
-                                objAdTr.mrp = clsCommon.myCdbl(0)
-                                objAdTr.Batch_No = ""
-                                objAdTr.Breakage = clsCommon.myCdbl(0)
-                                objAdTr.Breakage_Cost = clsCommon.myCdbl(0)
-                                objAdTr.ItemType = ""
-                                objAdTr.BreakageType = ""
-                                objAdTr.LeakageQty = clsCommon.myCdbl(0)
-                                objAdTr.Basic_Price = clsCommon.myCdbl(0)
-                                objAdTr.fat_pers = clsCommon.myCdbl(0)
-                                objAdTr.fat_kg = clsCommon.myCdbl(0)
-                                objAdTr.snf_kg = clsCommon.myCdbl(0)
-                                objAdTr.snf_pers = clsCommon.myCdbl(0)
-                                objAdTr.Adjustment_Type = "Adj"
-                                objAdTr.ItemType = clsItemMaster.GetStoreAdjustmentItemTypeWithTrans(objTr.Item_Code, trans)
-                                objAdTr.Itemstatus = "NEW"
-                                If (clsCommon.myLen(objAdTr.Item_Code) > 0) Then
-                                    objAdjRej.Arr.Add(objAdTr)
-                                End If
+                        objAdjRej.IsMilkType = 0
+                        objAdjRej.MainLocationCode = ""
+                        objAdjRej.MainLocationDesc = ""
+                        objAdjRej.Against_PI_No_Difference_Rejected = obj.PI_No
+                        objAdjRej.Adjustment_Type = "ADJ"
+                        If clsCommon.myLen(objTr.Item_Code) > 0 AndAlso objTr.Reject_Qty > 0 Then
+                            If clsCommon.myLen(objAdjRej.Loc_Code) <= 0 Then
+                                Throw New Exception("Please set the rejected location for " + obj.Bill_To_Location)
                             End If
-                            ''End of Adjustment Entry
+                            Dim objAdTr As New ClsAdjustmentsDetails()
+                            objAdTr.Adjustment_Line_No = counterReject
+                            counterReject += 1
+                            objAdTr.Item_Code = clsCommon.myCstr(objTr.Item_Code)
+                            If clsCommon.myLen(objAdTr.Item_Code) > 0 Then
+                                objAdTr.Item_Description = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Item_Desc,'') AS Item_Desc From TSPL_ITEM_MASTER Where Item_Code ='" & clsCommon.myCstr(objAdTr.Item_Code) & "'", trans))
+                            Else
+                                objAdTr.Item_Description = ""
+                            End If
+                            objAdTr.Adjustment_Type = clsCommon.myCstr("Cost").Substring(0, 1) + IIf(clsCommon.CompairString(objAdjRej.Trans_Type, "In") = CompairStringResult.Equal, "I", "D")
+                            objAdTr.Item_Quantity = 0
+                            If RejectedAmount < 0 Then
+                                objAdTr.Item_Cost = clsCommon.myCdbl(-1 * RejectedAmount)
+                            Else
+                                objAdTr.Item_Cost = RejectedAmount
+                            End If
+
+                            objAdTr.Unit_Code = clsCommon.myCstr(objTr.Unit_code)
+                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select TSPL_PURCHASE_ACCOUNTS.Adjustment_Account ,TSPL_GL_ACCOUNTS.Description  from  TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_PURCHASE_ACCOUNTS.Adjustment_Account where TSPL_ITEM_MASTER.Item_Code='" + objTr.Item_Code + "'", trans)
+                            If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                                Throw New Exception("Please set the Purchase Account set or its Adjustment Writeoff Account for item " + objAdTr.Item_Code)
+                            End If
+                            objAdTr.Account_Code = clsCommon.myCstr(dt1.Rows(0)("Adjustment_Account"))
+                            objAdTr.Account_Description = clsCommon.myCstr(dt1.Rows(0)("Description"))
+                            objAdTr.Remarks = ""
+                            objAdTr.Comments = ""
+                            objAdTr.mrp = clsCommon.myCdbl(0)
+                            objAdTr.Batch_No = ""
+                            objAdTr.Breakage = clsCommon.myCdbl(0)
+                            objAdTr.Breakage_Cost = clsCommon.myCdbl(0)
+                            objAdTr.ItemType = ""
+                            objAdTr.BreakageType = ""
+                            objAdTr.LeakageQty = clsCommon.myCdbl(0)
+                            objAdTr.Basic_Price = clsCommon.myCdbl(0)
+                            objAdTr.fat_pers = clsCommon.myCdbl(0)
+                            objAdTr.fat_kg = clsCommon.myCdbl(0)
+                            objAdTr.snf_kg = clsCommon.myCdbl(0)
+                            objAdTr.snf_pers = clsCommon.myCdbl(0)
+                            objAdTr.Adjustment_Type = "Adj"
+                            objAdTr.ItemType = clsItemMaster.GetStoreAdjustmentItemTypeWithTrans(objTr.Item_Code, trans)
+                            objAdTr.Itemstatus = "NEW"
+                            If (clsCommon.myLen(objAdTr.Item_Code) > 0) Then
+                                objAdjRej.Arr.Add(objAdTr)
+                            End If
                         End If
+                        ''End of Adjustment Entry
                     End If
+                End If
             Next
             '' After Loop Saved all difference items
             If objAdj IsNot Nothing AndAlso objAdj.Arr.Count > 0 Then
