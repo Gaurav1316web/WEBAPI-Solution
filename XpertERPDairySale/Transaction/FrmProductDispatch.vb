@@ -12988,13 +12988,50 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         End If
     End Sub
     Private Sub BtnPrintChallan_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
-        '==========update by preeti gupta Against ticket no[BHA/13/08/18-000421]
-        If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
-        Else
-            Dim objInvoice As New frmSaleInvoiceProductSale
-            objInvoice.funPrintChallan(txtInvoiceNo.Text, AllowManualVehicleOnDairyDispatch)
-        End If
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim strQry As String = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1+TSPL_COMPANY_MASTER.Add2+TSPL_COMPANY_MASTER.Add3 as Comp_Address,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_VENDOR_MASTER.Transporter,isnull(TSPL_VENDOR_MASTER.Phone1,isnull(TSPL_VENDOR_MASTER.Phone2,isnull(TSPL_VENDOR_MASTER.Contact_Person_Phone,''))) as Phone_No,TSPL_SD_SHIPMENT_HEAD.route_no,TSPL_STATE_MASTER.STATE_NAME,
+TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.HSN_Code,
+TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Remarks as Description,TSPL_VENDOR_MASTER.Vendor_Name as transporter_name,
+case when isnull(TSPL_BATCH_ITEM.Batch_No,'')='' then TSPL_SD_SHIPMENT_DETAIL.Qty else TSPL_BATCH_ITEM.Qty end as Qty,
+TSPL_BATCH_ITEM.Batch_No
+from TSPL_SD_SHIPMENT_HEAD
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code= TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+left join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
+left outer join TSPL_STATE_MASTER   On TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.state 
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code= TSPL_SD_SHIPMENT_HEAD.Comp_Code
+left join TSPL_BATCH_ITEM on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_BATCH_ITEM.Document_Code
+left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.Vehicle_Code
+left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VEHICLE_MASTER.Transport_Id
+where TSPL_SD_SHIPMENT_HEAD.Document_Code='" + txtDocNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Status=1"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                If dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "rptProductPrintChallan", "Challan", "", "rptCompanyAddress.rpt")
+                    frmCRV = Nothing
+
+                Else
+                    Throw New Exception("Data not found!")
+                End If
+            Else
+                    Throw New Exception("Document not found!")
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+        '' Change Print Challan format and data on 11-Jun-2025 (Prabhat Sirohi)
+        ''======= comment on 11-Jun-2025
+        'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+        '    myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+        'Else
+        '    Dim objInvoice As New frmSaleInvoiceProductSale
+        '    objInvoice.funPrintChallan(txtInvoiceNo.Text, AllowManualVehicleOnDairyDispatch)
+        'End If
     End Sub
     Private Sub btnUpdateCustomer_Click(sender As Object, e As EventArgs) Handles btnUpdateCustomer.Click
         Try
