@@ -52,8 +52,8 @@ Public Class clsMakeSavingPayment
         clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
         clsCommon.AddColumnsForChange(coll, "Filter_From_Date", clsCommon.GetPrintDate(obj.Filter_From_Date, "dd/MMM/yyyy"))
         clsCommon.AddColumnsForChange(coll, "Filter_To_Date", clsCommon.GetPrintDate(obj.Filter_To_Date, "dd/MMM/yyyy"))
-        clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-        clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+        clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
+        clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
         If isNewEntry Then
             clsCommon.AddColumnsForChange(coll, "Doc_Code", obj.Doc_Code)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -69,7 +69,7 @@ Public Class clsMakeSavingPayment
 
     Public Shared Function GetData(ByVal strDocNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMakeSavingPayment
         Dim obj As clsMakeSavingPayment = Nothing
-        Dim qry As String = "SELECT TSPL_MAKE_SAVING_PAYMENT.*,TSPL_MCC_MASTER.MCC_NAME from TSPL_MAKE_SAVING_PAYMENT left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MAKE_SAVING_PAYMENT.MCC_Code where 2=2"
+        Dim qry As String = "SELECT TSPL_MAKE_SAVING_PAYMENT.* from TSPL_MAKE_SAVING_PAYMENT where 2=2"
         Dim whrClas As String = ""
         Select Case NavType
             Case NavigatorType.First
@@ -84,7 +84,6 @@ Public Class clsMakeSavingPayment
                 qry += " and TSPL_MAKE_SAVING_PAYMENT.Doc_Code = '" + strDocNo + "'"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsMakeSavingPayment()
             obj.Doc_Code = clsCommon.myCstr(dt.Rows(0)("Doc_Code"))
@@ -93,7 +92,7 @@ Public Class clsMakeSavingPayment
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Filter_From_Date = clsCommon.myCDate(dt.Rows(0)("Filter_From_Date"))
             obj.Filter_To_Date = clsCommon.myCDate(dt.Rows(0)("Filter_To_Date"))
-            obj.arr = clsMakeSavingPaymentDetail.GetData(obj.Doc_Code, trans, obj.Filter_arrVSP)
+            obj.arr = clsMakeSavingPaymentDetail.GetData(obj.Doc_Code, trans, obj.Filter_arrVSP, obj.Filter_arrBMC)
         End If
         Return obj
     End Function
@@ -472,6 +471,9 @@ Public Class clsMakeSavingPaymentDetail
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMakeSavingPaymentDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMakeSavingPaymentDetail In Arr
+                If obj.Payable_Amt < 0 Then
+                    Throw New Exception("Payable amount should be greater than zero of DCS [" + obj.DCS_Code + "]")
+                End If
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Doc_Code", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "DCS_Code", obj.DCS_Code)
@@ -482,20 +484,22 @@ Public Class clsMakeSavingPaymentDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MAKE_SAVING_PAYMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
 
                 Dim intPKID As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select SCOPE_IDENTITY()", trans))
-                clsMakeSavingPaymentSaving.SaveData(obj.Doc_Code, intPKID, obj.ArrDCSSaving, trans)
-                clsMakeSavingPaymentDCSSale.SaveData(obj.Doc_Code, intPKID, obj.ArrDCSSale, trans)
-                clsMakeSavingPaymentDeduction.SaveData(obj.Doc_Code, intPKID, obj.ArrDCSDeduction, trans)
+                clsMakeSavingPaymentSaving.SaveData(strDocNo, intPKID, obj.ArrDCSSaving, trans)
+                clsMakeSavingPaymentDCSSale.SaveData(strDocNo, intPKID, obj.ArrDCSSale, trans)
+                clsMakeSavingPaymentDeduction.SaveData(strDocNo, intPKID, obj.ArrDCSDeduction, trans)
             Next
         End If
         Return True
     End Function
 
-    Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction, ByRef arrVSP As ArrayList) As List(Of clsMakeSavingPaymentDetail)
+    Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction, ByRef arrVSP As ArrayList, ByRef arrBMC As ArrayList) As List(Of clsMakeSavingPaymentDetail)
         arrVSP = New ArrayList
+        arrBMC = New ArrayList
         Dim arr As List(Of clsMakeSavingPaymentDetail) = Nothing
-        Dim qry As String = "select TSPL_MAKE_SAVING_PAYMENT_DETAIL.*,TSPL_VENDOR_MASTER.Vendor_Name as DCS_Name 
+        Dim qry As String = "select TSPL_MAKE_SAVING_PAYMENT_DETAIL.*,TSPL_VENDOR_MASTER.Vendor_Name as DCS_Name, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC
 from TSPL_MAKE_SAVING_PAYMENT_DETAIL 
-left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MAKE_SAVING_PAYMENT_DETAIL.DCS_Code  
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MAKE_SAVING_PAYMENT_DETAIL.DCS_Code 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MAKE_SAVING_PAYMENT_DETAIL.DCS_Code
 where Doc_Code='" + strDocNo + "' order by PK_ID"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -505,7 +509,8 @@ where Doc_Code='" + strDocNo + "' order by PK_ID"
                 obj.PK_ID = clsCommon.myCDecimal(dr("PK_ID"))
                 obj.Doc_Code = clsCommon.myCstr(dr("Doc_Code"))
                 obj.DCS_Code = clsCommon.myCstr(dr("DCS_Code"))
-                obj.DCS_Name = clsCommon.myCstr(dr("Vsp_Name"))
+                obj.DCS_UploaderNo = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
+                obj.DCS_Name = clsCommon.myCstr(dr("DCS_Name"))
                 obj.Saving_Amt = clsCommon.myCDecimal(dr("Saving_Amt"))
                 obj.DCS_Sale_Amt = clsCommon.myCDecimal(dr("DCS_Sale_Amt"))
                 obj.Deduction_Amt = clsCommon.myCDecimal(dr("Deduction_Amt"))
@@ -513,9 +518,11 @@ where Doc_Code='" + strDocNo + "' order by PK_ID"
                 obj.ArrDCSSaving = clsMakeSavingPaymentSaving.GetData(obj.Doc_Code, obj.PK_ID, trans)
                 obj.ArrDCSSale = clsMakeSavingPaymentDCSSale.GetData(obj.Doc_Code, obj.PK_ID, trans)
                 obj.ArrDCSDeduction = clsMakeSavingPaymentDeduction.GetData(obj.Doc_Code, obj.PK_ID, trans)
+
                 arr.Add(obj)
 
                 arrVSP.Add(obj.DCS_Code)
+                arrBMC.Add(clsCommon.myCstr(dr("MCC")))
             Next
         End If
         Return arr
@@ -575,7 +582,7 @@ Public Class clsMakeSavingPaymentDCSSale
     Public PK_ID As Integer
     Public Ref_PK_ID As Integer
     Public Doc_Code As String = Nothing
-    Public DCS_Sale_No As String = Nothing
+    Public AR_Invoice_No As String = Nothing
     Public Amount As String = Nothing
     Public Red_Ded_Amount As String = Nothing
 #End Region
@@ -587,7 +594,7 @@ Public Class clsMakeSavingPaymentDCSSale
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Ref_PK_ID", Ref_PK_ID)
                 clsCommon.AddColumnsForChange(coll, "Doc_Code", strDocNo)
-                clsCommon.AddColumnsForChange(coll, "DCS_Sale_No", obj.DCS_Sale_No)
+                clsCommon.AddColumnsForChange(coll, "AR_Invoice_No", obj.AR_Invoice_No)
                 clsCommon.AddColumnsForChange(coll, "AMOUNT", obj.Amount)
                 clsCommon.AddColumnsForChange(coll, "Red_Ded_Amount", obj.Red_Ded_Amount, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MAKE_SAVING_PAYMENT_DCS_SALE", OMInsertOrUpdate.Insert, "", trans)
@@ -608,7 +615,7 @@ where TSPL_MAKE_SAVING_PAYMENT_DCS_SALE.Doc_Code='" + strDocNo + "' and Ref_PK_I
                 Dim obj As New clsMakeSavingPaymentDCSSale
                 obj.SNo = arr.Count + 1
                 obj.Doc_Code = clsCommon.myCstr(dr("Doc_Code"))
-                obj.DCS_Sale_No = clsCommon.myCstr(dr("DCS_Sale_No"))
+                obj.AR_Invoice_No = clsCommon.myCstr(dr("AR_Invoice_No"))
                 obj.Amount = clsCommon.myCDecimal(dr("AMOUNT"))
                 obj.Red_Ded_Amount = clsCommon.myCDecimal(dr("Red_Ded_Amount"))
                 arr.Add(obj)
