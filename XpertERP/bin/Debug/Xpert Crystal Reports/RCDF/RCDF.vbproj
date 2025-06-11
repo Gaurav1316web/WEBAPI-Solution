@@ -1398,6 +1398,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptProductExciseTransferSaleInvoice_Challan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductIceCreamDemandRouteSummary.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductIceCreamGatePassRouteSummary.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptProductPrintChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice - Copy %282%29.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice - Copy.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice.rpt" />
