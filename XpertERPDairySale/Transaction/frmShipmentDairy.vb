@@ -12775,7 +12775,9 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
     End Sub
     Public Sub GetRouteNO(ByVal isButtonClicked As Boolean, ByVal isProcessShipment As Boolean)
         If (clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal) AndAlso (Not clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "") = CompairStringResult.Equal) Then
-            ' 
+            LoadBlankGrid(Nothing)
+            LoadBlankGridAC(Nothing)
+            LoadBlankGridTax(Nothing)
             If SettDistributorWiseBilling Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
@@ -12913,11 +12915,18 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
         End If
 
         txtRouteNo.Enabled = True
-            txtVehicleCode.Enabled = True
-            cmbShift.Enabled = True
-            cmbDisItemType.Enabled = False
-            If Not isProcessShipment Then
-            btnSave_Click(btnSave, New EventArgs())
+        txtVehicleCode.Enabled = True
+        cmbShift.Enabled = True
+        cmbDisItemType.Enabled = False
+        If Not isProcessShipment Then
+            If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
+                btnSave_Click(btnSave, New EventArgs())
+            Else
+                txtRouteNo.Value = ""
+                txtVendorNo.Value = ""
+                lblVendorName.Text = ""
+                clsCommon.MyMessageBoxShow(Me, "Data not found!")
+            End If
         End If
     End Sub
     Private Sub Vehicle()
