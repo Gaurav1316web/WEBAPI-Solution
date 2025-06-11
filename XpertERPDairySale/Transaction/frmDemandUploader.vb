@@ -60,7 +60,7 @@ Public Class frmDemandUploader
         txtLocation.Enabled = flag
         rgbShift.Enabled = flag
         rgbEntryUOM.Enabled = flag
-        btnExport.Enabled = flag
+        btnExport.Enabled = Not flag
     End Sub
     Private Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
         Try

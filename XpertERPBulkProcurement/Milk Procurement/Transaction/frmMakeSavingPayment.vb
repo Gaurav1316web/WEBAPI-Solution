@@ -6,6 +6,17 @@ Public Class frmMakeSavingPayment
 #Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
 
+    Public Const colSlno As String = "colSlno"
+    Public Const colDCSUploaderCode As String = "colDCSUploaderCode"
+    Public Const colDCSCode As String = "colDCSCode"
+    Public Const colDCSName As String = "colDCSName"
+    Public Const colSavingAmt As String = "colSavingAmt"
+    Public Const colSaleAmt As String = "colSaleAmt"
+    Public Const colDeductionAmt As String = "colDeductionAmt"
+    Public Const colPayableAmt As String = "colPayableAmt"
+
+    Dim IsNewEntry As Boolean = False
+    Dim isInsideLoadData As Boolean = False
 #End Region
 
     Public Sub New()
@@ -15,18 +26,73 @@ Public Class frmMakeSavingPayment
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
-        btnSave.Visible = MyBase.isModifyFlag AndAlso MyBase.isPostFlag
+
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btndelete.Visible = MyBase.isDeleteFlag
 
     End Sub
     Private Sub FrmMultipleProcDeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Doc_Code", "varchar(30) Not NULL Primary Key")
+        coll.Add("Doc_Date", "datetime  Not NULL")
+        coll.Add("Remarks", "varchar(200) Not null")
+        coll.Add("Filter_From_Date", "date Not NULL")
+        coll.Add("Filter_To_Date", "date Not NULL")
+        coll.Add("Status", "integer NOT NULL DEFAULT 0")
+        coll.Add("Created_By", "varchar(12)  Not NULL")
+        coll.Add("Created_Date", "datetime  Not NULL")
+        coll.Add("Modify_By", "varchar(12)  Not NULL")
+        coll.Add("Modify_Date", "datetime  Not NULL")
+        coll.Add("Posted_By", "varchar(12) NULL")
+        coll.Add("Posted_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_SAVING_PAYMENT", coll, "", True, False, "", "Code", "Doc_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Doc_Code", "varchar(30) not null references TSPL_MAKE_SAVING_PAYMENT(Doc_Code)")
+        coll.Add("DCS_Code", "varchar(12) not NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
+        coll.Add("Saving_Amt", "decimal (18,2) NULL")
+        coll.Add("DCS_Sale_Amt", "decimal (18,2) NULL")
+        coll.Add("Deduction_Amt", "decimal (18,2) NULL")
+        coll.Add("Payable_Amt", "decimal (18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_SAVING_PAYMENT_DETAIL", coll, "", True, False, "TSPL_MAKE_SAVING_PAYMENT", "Doc_Code", "Doc_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Ref_PK_ID", "integer not null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
+        coll.Add("Doc_Code", "varchar(30) not null references TSPL_MAKE_SAVING_PAYMENT(Doc_Code)")
+        coll.Add("AP_Invoice_No", "varchar(30) REFERENCES TSPL_VENDOR_INVOICE_HEAD (Document_No)")
+        coll.Add("Amount", "decimal (18,2)  NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_SAVING_PAYMENT_SAVING", coll, "", True, False, "TSPL_MAKE_SAVING_PAYMENT", "Doc_Code", "Doc_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Ref_PK_ID", "integer not null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
+        coll.Add("Doc_Code", "varchar(30) not null references TSPL_MAKE_SAVING_PAYMENT(Doc_Code)")
+        coll.Add("AR_Invoice_No", "varchar(30) REFERENCES TSPL_Customer_Invoice_Head (Document_No)")
+        coll.Add("Amount", "decimal (18,2)  NULL")
+        coll.Add("Red_Ded_Amount", "decimal (18,2)  NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_SAVING_PAYMENT_DCS_SALE", coll, "", True, False, "TSPL_MAKE_SAVING_PAYMENT", "Doc_Code", "Doc_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Ref_PK_ID", "integer not null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
+        coll.Add("Doc_Code", "varchar(30) not null references TSPL_MAKE_SAVING_PAYMENT(Doc_Code)")
+        coll.Add("AP_Invoice_No", "varchar(30) REFERENCES TSPL_VENDOR_INVOICE_HEAD (Document_No)")
+        coll.Add("Amount", "decimal (18,2)  NULL")
+        coll.Add("Red_Ded_Amount", "decimal (18,2)  NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_SAVING_PAYMENT_DEDUCTION", coll, "", True, False, "TSPL_MAKE_SAVING_PAYMENT", "Doc_Code", "Doc_Date", True)
+
         SetUserMgmtNew()
+
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        RadButton2.Enabled = False
-        btnSave.Enabled = False
-        txtPaymentDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = txtPaymentDate.Value.AddMonths(-1)
-        txtToDate.Value = txtPaymentDate.Value
+
+
+        AddNew()
     End Sub
     Private Sub txtBMC__My_Click(sender As Object, e As EventArgs) Handles txtBMC._My_Click
         Try
@@ -62,6 +128,7 @@ inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MAS
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
+            LoadBlankGrid()
             If txtBMC.arrValueMember Is Nothing OrElse txtBMC.arrValueMember.Count <= 0 Then
                 Throw New Exception("Please select at least one" + txtBMC.MyLinkLable1.Text)
             End If
@@ -82,20 +149,138 @@ and ISNULL(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and TSPL_VENDOR_INVOICE_HEAD.Bal
 and isnull(TSPL_PAYMENT_PROCESS_DETAIL.is_Hold_Payment_Process_Saving,0)=1 and ISNULL(TSPL_PAYMENT_PROCESS_HEAD.isPosted,0)=1
 and TSPL_VENDOR_INVOICE_HEAD.posting_date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
 and TSPL_VENDOR_INVOICE_HEAD.posting_date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+and not exists(select 1 from TSPL_MAKE_SAVING_PAYMENT_SAVING where TSPL_MAKE_SAVING_PAYMENT_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_MAKE_SAVING_PAYMENT_SAVING.Doc_Code not in ('" + txtCode.Value + "'))
 order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
-            gv1.DataSource = Nothing
-            gv1.Rows.Clear()
-            gv1.Columns.Clear()
-            gv1.GroupDescriptors.Clear()
-            gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            gv1.MasterView.Refresh()
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
-                gv1.DataSource = dt
-                SetGridFormat()
+            Dim dtSaving As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select  Vendor_Code,Sale_Invoice_No,[Sale_Inoivce_Date] ,[AR_Invoice_No], Balance_Amt as OriginalBalanceAmt from (  
+select  TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code [Vendor_Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [Vendor_Name] , TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [Sale_Inoivce_Date] ,TSPL_Customer_Invoice_Head.Document_No as [AR_Invoice_No] ,   TSPL_Customer_Invoice_Head.Document_Date as [AR_Invoice_Date], TSPL_Customer_Invoice_Head.Balance_Amt 
+from TSPL_SD_SHIPMENT_HEAD  
+left outer join  TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code     
+inner join TSPL_Customer_Invoice_Head on  TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No  and coalesce(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>''   
+left outer join TSPL_VENDOR_MASTER   on  TSPL_VENDOR_MASTER .Vendor_code  =TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code   
+left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No    
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SALE_INVOICE_HEAD.Deduction 
+where  isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "'  and tspl_customer_invoice_head.Balance_Amt<>0 
+and TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code  in (" + clsCommon.GetMulcallString(txtVSP.arrValueMember) + ") 
+)xx left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=xx.Vendor_Code "
+            Dim dtDCSSale As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            qry = "select Vendor_Code into #DCS1 from tspl_Vendor_master where vendor_Code in (" + clsCommon.GetMulcallString(txtVSP.arrValueMember) + ") ;" + Environment.NewLine +
+"Select Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No,max(Sequence_No2) as Sequence_No2,max(Posting_Date) as Posting_Date from (  
+select TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
+TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,
+TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount ,(case when TSPL_VENDOR_INVOICE_HEAD.RefDocType='VSP-NGT' then -2 else (case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else 0 end) end)  as Sequence_No 
+,TSPL_VENDOR_INVOICE_HEAD.Posting_Date 
+,TSPL_DEDUCTION_MASTER.Sequence_No as Sequence_No2 
+from TSPL_VENDOR_INVOICE_DETAIL 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+inner join #DCS1 on #DCS1.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  
+where  Document_Type ='D' and ((TSPL_VENDOR_INVOICE_HEAD.isDeduction='1' And (ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,'')<>'' or ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'')) or  len(coalesce(TSPL_VENDOR_INVOICE_HEAD.Against_VCGL,''))>0)  
+And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>'' And isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=0 
+and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "'  
+            )xxx group by Document_No  order by Vendor_Code,Sequence_No,Posting_Date,Sequence_No2  "
+            Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+
+            Dim arr As New Dictionary(Of String, clsMakeSavingPaymentDetail)
+            If dtSaving IsNot Nothing AndAlso dtSaving.Rows.Count > 0 Then
+                For Each dr As DataRow In dtSaving.Rows
+                    If Not arr.ContainsKey(clsCommon.myCstr(dr("DCSCode"))) Then
+                        Dim obj As New clsMakeSavingPaymentDetail
+                        obj.DCS_Code = clsCommon.myCstr(dr("DCSCode"))
+                        obj.DCS_Name = clsCommon.myCstr(dr("DCSName"))
+                        obj.DCS_UploaderNo = clsfrmVLCMaster.getVLCUploaderOnVSPCode(obj.DCS_Code, Nothing)
+                        obj.Saving_Amt = 0
+                        obj.DCS_Sale_Amt = 0
+                        obj.Deduction_Amt = 0
+                        obj.Payable_Amt = 0
+                        obj.ArrDCSSaving = New List(Of clsMakeSavingPaymentSaving)
+                        obj.ArrDCSSale = New List(Of clsMakeSavingPaymentDCSSale)
+                        obj.ArrDCSDeduction = New List(Of clsMakeSavingPaymentDeduction)
+                        arr.Add(clsCommon.myCstr(dr("DCSCode")), obj)
+                    End If
+                    Dim objSaving As New clsMakeSavingPaymentSaving
+                    objSaving.SNo = arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Count + 1
+                    objSaving.AP_Invoice_No = clsCommon.myCstr(dr("APInvoiceNo"))
+                    objSaving.Amount = clsCommon.myCDecimal(dr("Amount"))
+                    arr(clsCommon.myCstr(dr("DCSCode"))).Saving_Amt += objSaving.Amount
+                    arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Add(objSaving)
+                Next
+                For Each dr As DataRow In dtDCSSale.Rows
+                    If arr.ContainsKey(clsCommon.myCstr(dr("Vendor_Code"))) Then
+                        Dim objSale As New clsMakeSavingPaymentDCSSale
+                        objSale.SNo = arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Count + 1
+                        objSale.AR_Invoice_No = clsCommon.myCstr(dr("Document_No"))
+                        objSale.Amount = clsCommon.myCDecimal(dr("OriginalBalanceAmt"))
+                        objSale.Red_Ded_Amount = 0
+                        arr(clsCommon.myCstr(dr("DCSCode"))).Saving_Amt += objSale.Amount
+                        arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSale.Add(objSale)
+                    End If
+                Next
+
+                For Each dr As DataRow In dtDeduction.Rows
+                    If arr.ContainsKey(clsCommon.myCstr(dr("Vendor_Code"))) Then
+                        Dim objDed As New clsMakeSavingPaymentDeduction
+                        objDed.SNo = arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Count + 1
+                        objDed.AP_Invoice_No = clsCommon.myCstr(dr("AR_Invoice_No"))
+                        objDed.Amount = clsCommon.myCDecimal(dr("Total_Amount"))
+                        objDed.Amount = 0
+                        arr(clsCommon.myCstr(dr("DCSCode"))).Saving_Amt += objDed.Amount
+                        arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSDeduction.Add(objDed)
+                    End If
+                Next
+            End If
+
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                For Each strkey As String In arr.Keys
+                    gv1.Rows.AddNew()
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSCode).Value = arr.Item(strkey).DCS_Code
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderCode).Value = arr.Item(strkey).DCS_UploaderNo
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = arr.Item(strkey).DCS_Name
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Value = arr.Item(strkey).Saving_Amt
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Tag = arr.Item(strkey).ArrDCSSaving
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSaleAmt).Value = arr.Item(strkey).DCS_Sale_Amt
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionAmt).Value = arr.Item(strkey).Deduction_Amt
+                    Dim balanceAmt As Decimal = arr.Item(strkey).Saving_Amt - arr.Item(strkey).DCS_Sale_Amt - arr.Item(strkey).Deduction_Amt
+                    If balanceAmt < 0 Then
+                        If arr.Item(strkey).ArrDCSSale IsNot Nothing AndAlso arr.Item(strkey).ArrDCSSale.Count > 0 Then
+                            For ii As Integer = arr.Item(strkey).ArrDCSSale.Count - 1 To 0 Step -1
+                                If balanceAmt > arr.Item(strkey).ArrDCSSale(ii).Amount Then
+                                    arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSSale(ii).Amount
+                                    balanceAmt = balanceAmt - arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount
+                                Else
+                                    arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSSale(ii).Amount - balanceAmt
+                                    balanceAmt = 0
+                                    Exit For
+                                End If
+                            Next
+                        End If
+                    End If
+                    If balanceAmt < 0 Then
+                        If arr.Item(strkey).ArrDCSDeduction IsNot Nothing AndAlso arr.Item(strkey).ArrDCSDeduction.Count > 0 Then
+                            For ii As Integer = arr.Item(strkey).ArrDCSDeduction.Count - 1 To 0 Step -1
+                                If balanceAmt > arr.Item(strkey).ArrDCSDeduction(ii).Amount Then
+                                    arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSDeduction(ii).Amount
+                                    balanceAmt = balanceAmt - arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount
+                                Else
+                                    arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSDeduction(ii).Amount - balanceAmt
+                                    balanceAmt = 0
+                                    Exit For
+                                End If
+                            Next
+                        End If
+                    End If
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSaleAmt).Tag = arr.Item(strkey).ArrDCSSale
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionAmt).Tag = arr.Item(strkey).ArrDCSDeduction
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPayableAmt).Value = balanceAmt
+                Next
                 EnableDisableAllControl(False)
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Throw New Exception("No Data Found to Display")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -109,7 +294,6 @@ order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
         txtVSP.Enabled = v
         RadButton1.Enabled = v
         RadButton2.Enabled = Not v
-        btnSave.Enabled = Not v
     End Sub
 
     Sub SetGridFormat()
@@ -136,10 +320,8 @@ order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
         gv1.AutoSizeRows = False
         gv1.BestFitColumns()
     End Sub
-    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData(False)
-    End Sub
-    Sub SaveData(ByVal isPost As Boolean)
+
+    Sub SaveDataNA(ByVal isPost As Boolean)
         clsCommon.ProgressBarPercentShow()
         Try
             clsCommon.ProgressBarPercentUpdate(0, 100, "Varify DCS Details(1/3)")
@@ -195,9 +377,7 @@ order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
                         objPay.Saving = True
 
                         objPay.Location_Code = clsCommon.myCstr(gv1.Rows(ii).Cells("Loc_Seg_Code").Value)
-
                         objPay.ArrTr = New List(Of clsPaymentDetail)
-
                         arrPayment.Add(clsCommon.myCstr(gv1.Rows(ii).Cells("DCSCode").Value), objPay)
                     End If
                     Dim objTr As New clsPaymentDetail()
@@ -250,13 +430,7 @@ order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
     Sub CloseForm()
         Me.Close()
     End Sub
-    Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
-            SaveData(False)
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
-            CloseForm()
-        End If
-    End Sub
+
     Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
 
     End Sub
@@ -268,6 +442,287 @@ order by DCSCode,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date"
 
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
         EnableDisableAllControl(True)
-        gv1.DataSource = Nothing
+        LoadBlankGrid()
     End Sub
+
+
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        AddNew()
+    End Sub
+
+    Sub AddNew()
+        btnSave.Enabled = True
+        btnPost.Enabled = True
+        btndelete.Enabled = True
+
+        IsNewEntry = True
+        txtCode.Value = ""
+        txtRemarks.Text = ""
+        txtPaymentDate.Value = clsCommon.GETSERVERDATE()
+        txtFromDate.Value = txtPaymentDate.Value
+        txtToDate.Value = txtPaymentDate.Value
+        txtBMC.arrValueMember = Nothing
+        txtVSP.arrValueMember = Nothing
+        lblPrePending.Status = ERPTransactionStatus.Pending
+        EnableDisableAllControl(True)
+        LoadBlankGrid()
+    End Sub
+
+    Sub LoadBlankGrid()
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
+
+        Dim repoString As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoString.FormatString = ""
+        repoString.HeaderText = "DCS Code"
+        repoString.WrapText = True
+        repoString.Name = colDCSCode
+        'repoString.HeaderImage = Global.ERP.My.Resources.Resources.search4
+        'repoString.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoString.IsVisible = False
+        repoString.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoString)
+
+        repoString = New GridViewTextBoxColumn()
+        repoString.FormatString = ""
+        repoString.HeaderText = "DCS "
+        repoString.WrapText = True
+        repoString.Name = colDCSUploaderCode
+        'repoString.HeaderImage = Global.ERP.My.Resources.Resources.search4
+        'repoString.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoString.Width = 100
+        repoString.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoString)
+
+        repoString = New GridViewTextBoxColumn()
+        repoString.FormatString = ""
+        repoString.HeaderText = "DCS Name"
+        repoString.WrapText = True
+        repoString.Name = colDCSName
+        repoString.Width = 150
+        repoString.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoString)
+
+        Dim repoDecimal As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoDecimal.FormatString = ""
+        repoDecimal.HeaderText = "Saving Amount"
+        repoDecimal.Name = colSavingAmt
+        repoDecimal.WrapText = True
+        repoDecimal.Minimum = 0
+        repoDecimal.Width = 100
+        repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDecimal.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDecimal)
+
+        repoDecimal = New GridViewDecimalColumn()
+        repoDecimal.FormatString = ""
+        repoDecimal.HeaderText = "Sale Amount"
+        repoDecimal.Name = colSaleAmt
+        repoDecimal.WrapText = True
+        repoDecimal.Minimum = 0
+        repoDecimal.Width = 100
+        repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDecimal.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDecimal)
+
+        repoDecimal = New GridViewDecimalColumn()
+        repoDecimal.FormatString = ""
+        repoDecimal.HeaderText = "Deduction Amount"
+        repoDecimal.WrapText = True
+        repoDecimal.Name = colDeductionAmt
+        repoDecimal.Minimum = 0
+        repoDecimal.Width = 100
+        repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDecimal.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDecimal)
+
+        repoDecimal = New GridViewDecimalColumn()
+        repoDecimal.FormatString = ""
+        repoDecimal.HeaderText = "Payable Amount"
+        repoDecimal.WrapText = True
+        repoDecimal.Name = colPayableAmt
+        repoDecimal.Minimum = 0
+        repoDecimal.Width = 100
+        repoDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDecimal.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDecimal)
+
+
+
+        gv1.AllowAddNewRow = False
+        gv1.ShowGroupPanel = False
+        gv1.AllowColumnReorder = True
+        gv1.AllowRowReorder = False
+        gv1.EnableSorting = False
+        gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gv1.MasterTemplate.ShowRowHeaderColumn = False
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.EnableFiltering = True
+        gv1.AllowDeleteRow = False
+    End Sub
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        SaveData()
+    End Sub
+
+    Sub SaveData()
+        Try
+            Dim obj As clsMakeSavingPayment = New clsMakeSavingPayment
+            obj.Doc_Code = txtCode.Value
+            obj.Doc_Date = txtFromDate.Value
+            obj.Remarks = txtRemarks.Text
+            obj.Filter_From_Date = txtFromDate.Value
+            obj.Filter_To_Date = txtToDate.Value
+            obj.arr = New List(Of clsMakeSavingPaymentDetail)
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                Dim objtr As New clsMakeSavingPaymentDetail()
+                objtr.DCS_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colDCSCode).Value)
+                objtr.Saving_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colSavingAmt).Value)
+                objtr.DCS_Sale_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colSaleAmt).Value)
+                objtr.Deduction_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colDeductionAmt).Value)
+                objtr.Payable_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colPayableAmt).Value)
+
+                objtr.ArrDCSSaving = TryCast(gv1.Rows(ii).Cells(colSavingAmt).Tag, List(Of clsMakeSavingPaymentSaving))
+                objtr.ArrDCSSale = TryCast(gv1.Rows(ii).Cells(colSaleAmt).Tag, List(Of clsMakeSavingPaymentDCSSale))
+                objtr.ArrDCSDeduction = TryCast(gv1.Rows(ii).Cells(colDeductionAmt).Tag, List(Of clsMakeSavingPaymentDeduction))
+                obj.arr.Add(objtr)
+            Next
+            obj.SaveData(obj, IsNewEntry)
+            clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+            LoadData(obj.Doc_Code, NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        Try
+            AddNew()
+            Dim obj As New clsMakeSavingPayment()
+            obj = clsMakeSavingPayment.GetData(strCode, NavTyep, Nothing)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_Code) > 0) Then
+                If obj.Status = ERPTransactionStatus.Posted Then
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    btndelete.Enabled = False
+                End If
+                IsNewEntry = False
+                txtCode.Value = obj.Doc_Code
+                txtPaymentDate.Value = obj.Doc_Date
+                txtFromDate.Value = obj.Filter_From_Date
+                txtToDate.Value = obj.Filter_To_Date
+                txtRemarks.Text = obj.Remarks
+                txtVSP.arrValueMember = obj.Filter_arrVSP
+                txtBMC.arrValueMember = obj.Filter_arrBMC
+                If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
+                    For Each objTr As clsMakeSavingPaymentDetail In obj.arr
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSCode).Value = objTr.DCS_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSUploaderCode).Value = clsfrmVLCMaster.getVLCUploaderOnVSPCode(objTr.DCS_Code, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSName).Value = objTr.DCS_Name
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Value = objTr.Saving_Amt
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSavingAmt).Tag = objTr.ArrDCSSaving
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSaleAmt).Value = objTr.DCS_Sale_Amt
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSaleAmt).Tag = objTr.ArrDCSSale
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionAmt).Value = objTr.Deduction_Amt
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionAmt).Tag = objTr.ArrDCSDeduction
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPayableAmt).Value = objTr.Payable_Amt
+                    Next
+                End If
+                EnableDisableAllControl(False)
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            isInsideLoadData = False
+        End Try
+    End Sub
+    Private Sub btndelete_Click(sender As Object, e As EventArgs) Handles btndelete.Click
+        DeleteData()
+    End Sub
+
+    Sub DeleteData()
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                Throw New Exception("No Document found to delete")
+            End If
+
+            If (myMessages.deleteConfirm()) Then
+                If clsMakeSavingPayment.DeleteData(txtCode.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                    AddNew()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+
+    Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+
+    Sub PostData()
+        Try
+            If (clsCommon.myLen(txtCode.Value) > 0 AndAlso myMessages.postConfirm()) Then
+                If (clsMakeSavingPayment.PostData(txtCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
+        Try
+            Dim qst As String = "select count(*) from TSPL_MAKE_SAVING_PAYMENT where Doc_Code='" + txtCode.Value + "'"
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
+        Dim qry As String = "select TSPL_MAKE_SAVING_PAYMENT.Doc_Code,TSPL_MAKE_SAVING_PAYMENT.Doc_Date,  TSPL_MAKE_SAVING_PAYMENT.Filter_From_Date,TSPL_MAKE_SAVING_PAYMENT.Filter_To_Date,case when TSPL_MAKE_SAVING_PAYMENT.Status=1 then 'Approved' else 'Pending' end as	status " + Environment.NewLine +
+        "from TSPL_MAKE_SAVING_PAYMENT" + Environment.NewLine + ""
+        Dim whrClas As String = ""
+        LoadData(clsCommon.ShowSelectForm("msp@mf", qry, "Doc_Code", whrClas, txtCode.Value, "", isButtonClicked), NavigatorType.Current)
+    End Sub
+
+    Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Doc_Code", "TSPL_MAKE_SAVING_PAYMENT", "TSPL_MAKE_SAVING_PAYMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.C Then
+            CloseForm()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.N Then
+            AddNew()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
+            SaveData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
+            PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag Then
+            DeleteData()
+        End If
+    End Sub
+
+
 End Class

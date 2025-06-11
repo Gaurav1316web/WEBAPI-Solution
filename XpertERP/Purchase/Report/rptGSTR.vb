@@ -2808,8 +2808,8 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =z.[Location Code] " & Environment.NewLine &
             " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =z.[Location Code] " & Environment.NewLine &
             " left outer join tspl_state_master on tspl_state_master.STATE_CODE =tspl_customer_master.State" & Environment.NewLine &
-            " left outer join tspl_state_master TSPL_SHIP_TO_LOCATION_sTATE on TSPL_SHIP_TO_LOCATION_sTATE.STATE_CODE =TSPL_SHIP_TO_LOCATION.State" & Environment.NewLine
-            '" left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " & Environment.NewLine
+            " left outer join tspl_state_master TSPL_SHIP_TO_LOCATION_sTATE on TSPL_SHIP_TO_LOCATION_sTATE.STATE_CODE =TSPL_SHIP_TO_LOCATION.State" & Environment.NewLine &
+            " left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " & Environment.NewLine
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
