@@ -5248,6 +5248,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.Hidedetaildate, clsFixedParameterCode.Hidedetaildate, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.LoadLoginScreen, clsFixedParameterType.DeleteTempData, clsFixedParameterCode.DeleteTempData, EnumControlType.CheckBox)
