@@ -669,7 +669,7 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
             Dim lineNo As Integer = 1
             If clsCommon.myLen(DocumentNO) > 0 Then
                 Dim location_Code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + DocumentNO + "'"))
-                qry = "select * from TSPL_DEMAND_SHEET where Cust_Code='" + strCustCode + "' and convert(date,demand_date,103)='" + clsCommon.GetPrintDate(DemandData, "dd/MMM/yyyy") + "' and ShiftType='" + strShiftType + "'"
+                qry = "select * from TSPL_DEMAND_SHEET where Cust_Code='" + strCustCode + "' and convert(date,demand_date,103)='" + clsCommon.GetPrintDate(DemandData, "dd/MMM/yyyy") + "' and ShiftType='" + strShiftType + "' and Created_By='" + objCommonVar.CurrentUserCode + "'"
                 Dim dtDS As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dtDS IsNot Nothing AndAlso dtDS.Rows.Count > 0 Then
                     Dim DObj As New List(Of clsDemandBookingSaleDetail)
