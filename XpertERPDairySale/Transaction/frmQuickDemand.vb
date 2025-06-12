@@ -6,6 +6,7 @@ Public Class frmQuickDemand
 #Region "Variables"
     Private isNewEntry As Boolean = False
     Dim UOMCrate As String = ""
+    Dim isLastcellvaluechanged As Boolean = False
     Dim UOMPouch As String = ""
     Dim UOMLtr As String = ""
     Dim SetShiftTimeOut As String = ""
@@ -645,12 +646,13 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
                 'If gv1.Rows.Count > gv1.CurrentRow.Index + 1 Then
                 '    gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
                 'End If
-                If isSave Then
+                If isSave OrElse Not isLastcellvaluechanged Then
                     'UpdateCurrentRow(0)
                     If clsCommon.myLen(gv1.Rows(0).Cells(colCustCode).Value) > 0 Then
                         SetDemandBooking(clsCommon.myCstr(gv1.Rows(0).Cells(colCustCode).Value), txtDate.Value, cmbShift.Text, 0)
                     End If
                     gv1.CurrentColumn = gv1.Columns(colCustCode)
+
                 End If
 
             End If
@@ -1104,6 +1106,9 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
     End Sub
     Private Sub gv1_CellBeginEdit(sender As Object, e As GridViewCellCancelEventArgs) Handles gv1.CellBeginEdit
         isInsideLoadData = False
+        If e.Column.Index = gv1.Columns.Count - 2 Then
+            isLastcellvaluechanged = True
+        End If
     End Sub
     Public Function FindCustInGrid(ByVal CustCode As String) As Boolean
         If gv1.Rows.Count > 2 Then
