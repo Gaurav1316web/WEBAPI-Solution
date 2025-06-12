@@ -32,6 +32,7 @@ Public Class frmRouteMaster
         SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+        EnableLocation = True '' Update on 11-Jun-2025 (ASHOK Sir)
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
@@ -194,6 +195,12 @@ Public Class frmRouteMaster
         ElseIf rtxtdescription.Text = "" Then
             myMessages.blankValue(Me, "Description", Me.Text)
             rtxtdescription.Focus()
+        ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
+            myMessages.blankValue(Me, "Location Code", Me.Text)
+            txtLocation.Focus()
+        ElseIf clsCommon.myLen(fndcity_id.Value) <= 0 Then
+            myMessages.blankValue(Me, "City Code", Me.Text)
+            fndcity_id.Focus()
         ElseIf rbtnSave.Text = "Save" Then
             funInsert()
         Else

@@ -89,6 +89,67 @@ Public Class clsSNPOSHead
     Public Arr As List(Of clsSNPOSDetail) = Nothing
 #End Region
 
+    Public Shared Function funbtPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strdocno As String, ByVal strMcc As String, ByVal dtpFromDate As DateTime, ByVal dtpToDate As DateTime) As Boolean
+        Dim TSPL_BANK_TRANSFER As String = Nothing
+        Dim query As String = Nothing
+        Dim stLoc As String = Nothing
+        Dim strCmpr As String = Nothing
+        'Dim strMcc As String = Nothing
+
+        If isCancel Then
+            TSPL_BANK_TRANSFER = "TSPL_BANK_TRANSFER_cancel_data"
+
+        Else
+            TSPL_BANK_TRANSFER = "TSPL_BANK_TRANSFER"
+
+        End If
+        stLoc = "loc_segment_code"
+        strCmpr = "TSPL_GL_ACCOUNTS"
+        query = "select '" + strMcc + "' as MCC, "
+
+        If isCancel Then
+            query += " 'Cancelled' As Report_Status, "
+        Else
+            query += " '' As Report_Status, "
+        End If
+
+        query += "'" + clsCommon.myCstr(clsCommon.GetPrintDate(dtpFromDate, "dd/MMM/yyyy")) + "' as FromDate, '" + clsCommon.myCstr(clsCommon.GetPrintDate(dtpToDate, "dd/MMM/yyyy")) + "' as ToDate , " + TSPL_BANK_TRANSFER + ".Transfer_Amount+ISNULL (BankCharges ,0) as CrAmt," + TSPL_BANK_TRANSFER + ".BankCharges," + TSPL_BANK_TRANSFER + ".Bank_Charges_Ac,BM_GL.Account_Seg_Desc1 AS BankChargesDesc, Transfer_No as TransferNum ,From_Bank_Acc_No as FromBankCode,From_Bank_Name as FrombankName,To_Bank_Acc_No  as ToAccCode ,To_Bank_Name as ToBankName, " + TSPL_BANK_TRANSFER + ".Cheque_No," + TSPL_BANK_TRANSFER + ".Description + CASE WHEN LEN(" + TSPL_BANK_TRANSFER + " .Cheque_No)>0 THEN '/ CHEQUE NO :'+" + TSPL_BANK_TRANSFER + " .Cheque_No  ELSE '' END as Description," &
+                  "  Deposit_Amount as Amount,TSPL_GL_ACCOUNTS .Account_Seg_Code7 as Location,GlAcc .Account_Seg_Code7 as FromLocation,Transfer_Posting_Date as VoucherDate ," &
+                  "  " + TSPL_BANK_TRANSFER + " .Comp_Code as CompCode ,TSPL_COMPANY_MASTER.Comp_Name as CompName, TSPL_COMPANY_MASTER.Logo_Img as Image1" &
+                  "   , TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where " + stLoc + "=" + strCmpr + " .Account_Seg_Code7)  as address " &
+                  "   , (case TSPL_BANK_MASTER .Bank_type when 'B'then 'Bank Transfer'when 'C'then 'Cash Transfer' when 'P'then 'Petty Cash' when 'O' then 'Other' else'' end ) as  BankType,(case " + TSPL_BANK_TRANSFER + ".Transaction_Type when 'B' then 'Bank Transfer'when 'W' then 'Bank Debit Voucher' when 'R' then 'Bank Credit Voucher' else'' end ) as  TransType,  TSPL_USER_MASTER_Created.User_Name as Created_By, TSPL_USER_MASTER_Modified.User_Name as Modify_By    from " + TSPL_BANK_TRANSFER + "  left outer join TSPL_GL_ACCOUNTS on " + TSPL_BANK_TRANSFER + " .To_Bank_Acc_No  =TSPL_GL_ACCOUNTS .Account_Code left outer join TSPL_GL_ACCOUNTS as GlAcc  on " + TSPL_BANK_TRANSFER + " .From_Bank_Acc_No =GlAcc .Account_Code   " &
+                  "   left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code = " + TSPL_BANK_TRANSFER + " .Comp_Code left outer join TSPL_BANK_MASTER on " + TSPL_BANK_TRANSFER + " .From_Bank_Code =TSPL_BANK_MASTER .BANK_CODE  left outer join TSPL_GL_ACCOUNTS BM_GL on " + TSPL_BANK_TRANSFER + " .Bank_Charges_Ac  =BM_GL.Account_Code  left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_Created on  TSPL_USER_MASTER_Created.User_Code = " + TSPL_BANK_TRANSFER + ".Created_By
+                      left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_Modified on  TSPL_USER_MASTER_Modified.User_Code = " + TSPL_BANK_TRANSFER + ".Modify_By where Transfer_No ='" + strdocno + "'"
+
+        If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Then
+            stLoc = "loc_segment_code"
+            strCmpr = " RIGHT(" + TSPL_BANK_TRANSFER + " .From_Bank_Acc_No  ,3) and tspl_location_master.Location_Code =tspl_location_master.Loc_Segment_Code "
+            query = "  select Transfer_No as TransferNum ,From_Bank_Acc_No as FromBankCode,From_Bank_Name as FrombankName,To_Bank_Acc_No  as ToAccCode ,To_Bank_Name as ToBankName, " + TSPL_BANK_TRANSFER + ".Cheque_No," + TSPL_BANK_TRANSFER + ".Description + CASE WHEN LEN(" + TSPL_BANK_TRANSFER + " .Cheque_No)>0 THEN '/ CHEQUE NO :'+" + TSPL_BANK_TRANSFER + " .Cheque_No  ELSE '' END as Description," &
+                        "  Deposit_Amount as Amount,TSPL_GL_ACCOUNTS .Account_Seg_Code7 as Location,GlAcc .Account_Seg_Code7 as FromLocation,Transfer_Posting_Date as VoucherDate ," &
+                        "  " + TSPL_BANK_TRANSFER + " .Comp_Code as CompCode ,TSPL_COMPANY_MASTER.Comp_Name as CompName, TSPL_COMPANY_MASTER.Logo_Img as Image1" &
+                        "  , TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select (ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +STATE) from tspl_location_master where " + stLoc + "=" + strCmpr + " )  as address " &
+                        "  , (case TSPL_BANK_MASTER .Bank_type when 'B'then 'Bank Transfer'when 'C'then 'Cash Transfer' when 'P'then 'Petty Cash' when 'O' then 'Other' else'' end ) as  BankType   from " + TSPL_BANK_TRANSFER + "  left outer join TSPL_GL_ACCOUNTS on " + TSPL_BANK_TRANSFER + " .To_Bank_Acc_No  =TSPL_GL_ACCOUNTS .Account_Code left outer join TSPL_GL_ACCOUNTS as GlAcc  on " + TSPL_BANK_TRANSFER + " .From_Bank_Acc_No =GlAcc .Account_Code   " &
+                        "  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code = " + TSPL_BANK_TRANSFER + " .Comp_Code left outer join TSPL_BANK_MASTER on " + TSPL_BANK_TRANSFER + " .From_Bank_Code =TSPL_BANK_MASTER .BANK_CODE   where Transfer_No ='" + strdocno + "'"
+        End If
+
+        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+            stLoc = " location_code "
+            strCmpr = "GlAcc"
+            query = "   select Transfer_No as TransferNum ,From_Bank_Acc_No as FromBankCode,From_Bank_Name as FrombankName,To_Bank_Acc_No  as ToAccCode ,To_Bank_Name as ToBankName, " + TSPL_BANK_TRANSFER + ".Cheque_No," + TSPL_BANK_TRANSFER + ".Description + CASE WHEN LEN(" + TSPL_BANK_TRANSFER + " .Cheque_No)>0 THEN '/ CHEQUE NO :'+" + TSPL_BANK_TRANSFER + " .Cheque_No  ELSE '' END as Description," &
+                         "  Deposit_Amount as Amount,TSPL_GL_ACCOUNTS .Account_Seg_Code7 as Location,GlAcc .Account_Seg_Code7 as FromLocation,Transfer_Posting_Date as VoucherDate ," &
+                         "  " + TSPL_BANK_TRANSFER + " .Comp_Code as CompCode ,TSPL_COMPANY_MASTER.Comp_Name as CompName, TSPL_COMPANY_MASTER.Logo_Img as Image1" &
+                         "  , TSPL_COMPANY_MASTER.Logo_Img2 as Image2,(select max(ADD1 + case when len(add2)> 0 then ',' else '' end + ADD2 +case when len(add3)> 0 then ','else '' end +ADD3+case when len(add4)> 0 then ',' else '' end +ADD4+case when len(City_Code)> 0 then ',' else '' end +City_Code +case when len(STATE)> 0 then ',' else '' end  +tspl_state_master.STATE_NAME) from tspl_location_master   left outer join TSPL_STATE_MASTER on tspl_state_master.STATE_CODE=TSPL_LOCATION_MASTER.State where " + stLoc + "=" + strCmpr + ".Account_Seg_Code7)  as address " &
+                         "  , (case TSPL_BANK_MASTER .Bank_type when 'B'then 'Bank Transfer'when 'C'then 'Cash Transfer' when 'P'then 'Petty Cash' when 'O' then 'Other' else'' end ) as  BankType , TSPL_USER_MASTER_for_CreatedName.User_Name as  Created_By,case when " + TSPL_BANK_TRANSFER + ".Post ='P' then  TSPL_USER_MASTER_for_ModifyName.User_Name else '' end  as Modify_By   from " + TSPL_BANK_TRANSFER + "  left outer join TSPL_GL_ACCOUNTS on " + TSPL_BANK_TRANSFER + " .To_Bank_Acc_No  =TSPL_GL_ACCOUNTS .Account_Code left outer join TSPL_GL_ACCOUNTS as GlAcc  on " + TSPL_BANK_TRANSFER + " .From_Bank_Acc_No =GlAcc .Account_Code   " &
+                         "  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER .Comp_Code = " + TSPL_BANK_TRANSFER + " .Comp_Code left outer join TSPL_BANK_MASTER on " + TSPL_BANK_TRANSFER + " .From_Bank_Code =TSPL_BANK_MASTER .BANK_CODE left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_for_CreatedName on TSPL_USER_MASTER_for_CreatedName.User_Code =" + TSPL_BANK_TRANSFER + ".Created_By left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_for_ModifyName on TSPL_USER_MASTER_for_ModifyName.User_Code =" + TSPL_BANK_TRANSFER + ".Modify_By   where Transfer_No ='" + strdocno + "'"
+        End If
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+        Dim frmCRV As New frmCrystalReportViewer()
+        frmCRV.funreport(Form_ID, CrystalReportFolder.CommonServices, dt, "CashVoucher", "Cash Voucher Report")
+        frmCRV = Nothing
+        Return True
+    End Function
+
     Public Shared Function funSNFPOSPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strdocno As String) As Boolean
 
         Dim TSPL_SD_POS_HEAD As String = Nothing

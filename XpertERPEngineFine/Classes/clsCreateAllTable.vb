@@ -17082,11 +17082,11 @@ Public Class clsCreateAllTable
             coll.Add("From_Date", "Datetime  NULL")
             coll.Add("To_Date", "Datetime  NULL")
             coll.Add("Location_Code_Prefix", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BANK_TRANSFER", coll, "", True, False, "", "Transfer_No", "Transfer_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BANK_TRANSFER", coll, "", True, True, "", "Transfer_No", "Transfer_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Against_Withdrawal_No", "Varchar(30) NULL References TSPL_BANK_TRANSFER(Transfer_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BANK_TRANSFER", coll, "", True, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BANK_TRANSFER", coll, "", True, True)
 
 
             coll = New Dictionary(Of String, String)
