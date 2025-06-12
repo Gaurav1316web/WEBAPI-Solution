@@ -1,5 +1,4 @@
 ﻿Imports System.Data.SqlClient
-Imports System.IO
 Imports common
 Public Class frmMakeSavingPayment
     Inherits FrmMainTranScreen
@@ -86,6 +85,21 @@ Public Class frmMakeSavingPayment
         coll.Add("Red_Ded_Amount", "decimal (18,2)  NULL")
         clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_MAKE_SAVING_PAYMENT_DEDUCTION", coll, "", True, False, "TSPL_MAKE_SAVING_PAYMENT", "Doc_Code", "Doc_Date", True)
 
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Against_Make_Saving_Payment", "integer  null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Receipt_Adjustment_Header", coll, Nothing, True, False, "", "Adjustment_No", "Adjustment_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Against_Make_Saving_Payment", "integer  null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Payment_Adjustment_Header", coll, Nothing, True, True, "", "Adjustment_No", "Adjustment_Date", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Against_Make_Saving_Payment", "integer  null references TSPL_MAKE_SAVING_PAYMENT_DETAIL(PK_ID)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, True, "", "Payment_No", "Payment_Date", True)
+
+
+
+
         SetUserMgmtNew()
 
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -137,7 +151,7 @@ inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MAS
             End If
 
             Dim qry As String = "select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as DCSCode,TSPL_VENDOR_MASTER.Vendor_Name as DCSName,
-TSPL_VENDOR_INVOICE_HEAD.Document_No as APInvoiceNo, TSPL_PAYMENT_PROCESS_HEAD.Doc_No as PaymentProcessNo,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,103) as PaymentProcessDate,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)+'-' +convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Cycle,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code,TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Amount
+TSPL_VENDOR_INVOICE_HEAD.Document_No as APInvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Posting_Date, TSPL_PAYMENT_PROCESS_HEAD.Doc_No as PaymentProcessNo,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,103) as PaymentProcessDate,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)+'-' +convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Cycle,TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code,TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Amount
 from  TSPL_PAYMENT_PROCESS_SAVING
 Left outer join TSPL_VENDOR_INVOICE_HEAD  on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No 
 Left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  
@@ -204,8 +218,10 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
                         arr.Add(clsCommon.myCstr(dr("DCSCode")), obj)
                     End If
                     Dim objSaving As New clsMakeSavingPaymentSaving
+                    objSaving.IsSelect = True
                     objSaving.SNo = arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Count + 1
                     objSaving.AP_Invoice_No = clsCommon.myCstr(dr("APInvoiceNo"))
+                    objSaving.DocDate = clsCommon.myCDate(dr("Posting_Date"))
                     objSaving.Amount = clsCommon.myCDecimal(dr("Amount"))
                     arr(clsCommon.myCstr(dr("DCSCode"))).Saving_Amt += objSaving.Amount
                     arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Add(objSaving)
@@ -213,24 +229,28 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
                 For Each dr As DataRow In dtDCSSale.Rows
                     If arr.ContainsKey(clsCommon.myCstr(dr("Vendor_Code"))) Then
                         Dim objSale As New clsMakeSavingPaymentDCSSale
-                        objSale.SNo = arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Count + 1
-                        objSale.AR_Invoice_No = clsCommon.myCstr(dr("Document_No"))
+                        objSale.IsSelect = True
+                        objSale.SNo = arr(clsCommon.myCstr(dr("Vendor_Code"))).ArrDCSSale.Count + 1
+                        objSale.AR_Invoice_No = clsCommon.myCstr(dr("AR_Invoice_No"))
+                        objSale.DocDate = clsCommon.myCDate(dr("Sale_Inoivce_Date"))
                         objSale.Amount = clsCommon.myCDecimal(dr("OriginalBalanceAmt"))
                         objSale.Red_Ded_Amount = 0
-                        arr(clsCommon.myCstr(dr("DCSCode"))).Saving_Amt += objSale.Amount
-                        arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSale.Add(objSale)
+                        arr(clsCommon.myCstr(dr("Vendor_Code"))).DCS_Sale_Amt += objSale.Amount
+                        arr(clsCommon.myCstr(dr("Vendor_Code"))).ArrDCSSale.Add(objSale)
                     End If
                 Next
 
                 For Each dr As DataRow In dtDeduction.Rows
                     If arr.ContainsKey(clsCommon.myCstr(dr("Vendor_Code"))) Then
                         Dim objDed As New clsMakeSavingPaymentDeduction
-                        objDed.SNo = arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSSaving.Count + 1
-                        objDed.AP_Invoice_No = clsCommon.myCstr(dr("AR_Invoice_No"))
+                        objDed.IsSelect = True
+                        objDed.SNo = arr(clsCommon.myCstr(dr("Vendor_Code"))).ArrDCSDeduction.Count + 1
+                        objDed.AP_Invoice_No = clsCommon.myCstr(dr("Document_No"))
+                        objDed.DocDate = clsCommon.myCDate(dr("Posting_Date"))
                         objDed.Amount = clsCommon.myCDecimal(dr("Total_Amount"))
-                        objDed.Amount = 0
-                        arr(clsCommon.myCstr(dr("DCSCode"))).Saving_Amt += objDed.Amount
-                        arr(clsCommon.myCstr(dr("DCSCode"))).ArrDCSDeduction.Add(objDed)
+                        objDed.Red_Ded_Amount = 0
+                        arr(clsCommon.myCstr(dr("Vendor_Code"))).Deduction_Amt += objDed.Amount
+                        arr(clsCommon.myCstr(dr("Vendor_Code"))).ArrDCSDeduction.Add(objDed)
                     End If
                 Next
             End If
@@ -247,36 +267,41 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionAmt).Value = arr.Item(strkey).Deduction_Amt
                     Dim balanceAmt As Decimal = arr.Item(strkey).Saving_Amt - arr.Item(strkey).DCS_Sale_Amt - arr.Item(strkey).Deduction_Amt
                     If balanceAmt < 0 Then
-                        If arr.Item(strkey).ArrDCSSale IsNot Nothing AndAlso arr.Item(strkey).ArrDCSSale.Count > 0 Then
-                            For ii As Integer = arr.Item(strkey).ArrDCSSale.Count - 1 To 0 Step -1
-                                If balanceAmt > arr.Item(strkey).ArrDCSSale(ii).Amount Then
-                                    arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSSale(ii).Amount
-                                    balanceAmt = balanceAmt - arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount
-                                Else
-                                    arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSSale(ii).Amount - balanceAmt
-                                    balanceAmt = 0
-                                    Exit For
-                                End If
-                            Next
+                        balanceAmt = Math.Abs(balanceAmt)
+                        If balanceAmt > 0 Then
+                            If arr.Item(strkey).ArrDCSSale IsNot Nothing AndAlso arr.Item(strkey).ArrDCSSale.Count > 0 Then
+                                For ii As Integer = arr.Item(strkey).ArrDCSSale.Count - 1 To 0 Step -1
+                                    If balanceAmt > arr.Item(strkey).ArrDCSSale(ii).Amount Then
+                                        arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSSale(ii).Amount
+                                        balanceAmt = balanceAmt - arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount
+                                    Else
+                                        arr.Item(strkey).ArrDCSSale(ii).Red_Ded_Amount = balanceAmt
+                                        balanceAmt = 0
+                                        Exit For
+                                    End If
+                                Next
+                            End If
+                        End If
+                        If balanceAmt > 0 Then
+                            If arr.Item(strkey).ArrDCSDeduction IsNot Nothing AndAlso arr.Item(strkey).ArrDCSDeduction.Count > 0 Then
+                                For ii As Integer = arr.Item(strkey).ArrDCSDeduction.Count - 1 To 0 Step -1
+                                    If balanceAmt > arr.Item(strkey).ArrDCSDeduction(ii).Amount Then
+                                        arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSDeduction(ii).Amount
+                                        balanceAmt = balanceAmt - arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount
+                                    Else
+                                        arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount = balanceAmt
+                                        balanceAmt = 0
+                                        Exit For
+                                    End If
+                                Next
+                            End If
                         End If
                     End If
-                    If balanceAmt < 0 Then
-                        If arr.Item(strkey).ArrDCSDeduction IsNot Nothing AndAlso arr.Item(strkey).ArrDCSDeduction.Count > 0 Then
-                            For ii As Integer = arr.Item(strkey).ArrDCSDeduction.Count - 1 To 0 Step -1
-                                If balanceAmt > arr.Item(strkey).ArrDCSDeduction(ii).Amount Then
-                                    arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSDeduction(ii).Amount
-                                    balanceAmt = balanceAmt - arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount
-                                Else
-                                    arr.Item(strkey).ArrDCSDeduction(ii).Red_Ded_Amount = arr.Item(strkey).ArrDCSDeduction(ii).Amount - balanceAmt
-                                    balanceAmt = 0
-                                    Exit For
-                                End If
-                            Next
-                        End If
-                    End If
+
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSaleAmt).Tag = arr.Item(strkey).ArrDCSSale
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDeductionAmt).Tag = arr.Item(strkey).ArrDCSDeduction
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colPayableAmt).Value = balanceAmt
+                    UpdateCurrentRow(gv1.Rows.Count - 1)
                 Next
                 EnableDisableAllControl(False)
             Else
@@ -570,7 +595,7 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
         Try
             Dim obj As clsMakeSavingPayment = New clsMakeSavingPayment
             obj.Doc_Code = txtCode.Value
-            obj.Doc_Date = txtFromDate.Value
+            obj.Doc_Date = txtPaymentDate.Value
             obj.Remarks = txtRemarks.Text
             obj.Filter_From_Date = txtFromDate.Value
             obj.Filter_To_Date = txtToDate.Value
@@ -606,6 +631,7 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
                     btnPost.Enabled = False
                     btndelete.Enabled = False
                 End If
+                lblPrePending.Status = obj.Status
                 IsNewEntry = False
                 txtCode.Value = obj.Doc_Code
                 txtPaymentDate.Value = obj.Doc_Date
@@ -721,8 +747,119 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
             PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag Then
             DeleteData()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            End If
         End If
     End Sub
 
 
+
+    Private Sub gv1_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv1.DoubleClick
+        Try
+            If gv1.CurrentRow.Index >= 0 Then
+                If gv1.CurrentColumn Is gv1.Columns(colSavingAmt) Then
+                    Dim frm As New frmMakeSavingPaymentSelectDocs()
+                    frm.InType = 1
+                    frm.strDCSUploaderNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSUploaderCode).Value)
+                    frm.strDCSName = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSName).Value)
+                    frm.ArrInSaving = TryCast(gv1.CurrentRow.Cells(colSavingAmt).Tag, List(Of clsMakeSavingPaymentSaving))
+                    If frm.ArrInSaving IsNot Nothing AndAlso frm.ArrInSaving.Count > 0 Then
+                        frm.ShowDialog()
+                        If Not frm.IsCancelClicked Then
+                            gv1.CurrentRow.Cells(colSavingAmt).Tag = frm.ArrOutSaving
+                            UpdateCurrentRow(gv1.CurrentRow.Index)
+                        End If
+                    End If
+                ElseIf gv1.CurrentColumn Is gv1.Columns(colSaleAmt) Then
+                    Dim frm As New frmMakeSavingPaymentSelectDocs()
+                    frm.InType = 2
+                    frm.strDCSUploaderNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSUploaderCode).Value)
+                    frm.strDCSName = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSName).Value)
+                    frm.ArrInSale = TryCast(gv1.CurrentRow.Cells(colSaleAmt).Tag, List(Of clsMakeSavingPaymentDCSSale))
+                    If frm.ArrInSale IsNot Nothing AndAlso frm.ArrInSale.Count > 0 Then
+                        frm.ShowDialog()
+                        If Not frm.IsCancelClicked Then
+                            gv1.CurrentRow.Cells(colSaleAmt).Tag = frm.ArrOutSale
+                            UpdateCurrentRow(gv1.CurrentRow.Index)
+                        End If
+                    End If
+                ElseIf gv1.CurrentColumn Is gv1.Columns(colDeductionAmt) Then
+                    Dim frm As New frmMakeSavingPaymentSelectDocs()
+                    frm.InType = 3
+                    frm.strDCSUploaderNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSUploaderCode).Value)
+                    frm.strDCSName = clsCommon.myCstr(gv1.CurrentRow.Cells(colDCSName).Value)
+                    frm.ArrInDeduction = TryCast(gv1.CurrentRow.Cells(colDeductionAmt).Tag, List(Of clsMakeSavingPaymentDeduction))
+                    If frm.ArrInDeduction IsNot Nothing AndAlso frm.ArrInDeduction.Count > 0 Then
+                        frm.ShowDialog()
+                        If Not frm.IsCancelClicked Then
+                            gv1.CurrentRow.Cells(colDeductionAmt).Tag = frm.ArrOutDeduction
+                            UpdateCurrentRow(gv1.CurrentRow.Index)
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub UpdateCurrentRow(ByVal idx As Integer)
+        Dim dclSavingAmt As Decimal = 0
+        Dim dclSaleAmt As Decimal = 0
+        Dim dclDeductionAmt As Decimal = 0
+
+        Dim arrSaving As List(Of clsMakeSavingPaymentSaving) = TryCast(gv1.Rows(idx).Cells(colSavingAmt).Tag, List(Of clsMakeSavingPaymentSaving))
+        Dim arrSale As List(Of clsMakeSavingPaymentDCSSale) = TryCast(gv1.Rows(idx).Cells(colSaleAmt).Tag, List(Of clsMakeSavingPaymentDCSSale))
+        Dim arrDeduction As List(Of clsMakeSavingPaymentDeduction) = TryCast(gv1.Rows(idx).Cells(colDeductionAmt).Tag, List(Of clsMakeSavingPaymentDeduction))
+        If arrSaving IsNot Nothing AndAlso arrSaving.Count > 0 Then
+            For Each obj As clsMakeSavingPaymentSaving In arrSaving
+                If obj.IsSelect Then
+                    dclSavingAmt += obj.Amount
+                End If
+            Next
+        End If
+        If arrSale IsNot Nothing AndAlso arrSale.Count > 0 Then
+            For Each obj As clsMakeSavingPaymentDCSSale In arrSale
+                If obj.IsSelect Then
+                    dclSaleAmt += (obj.Amount - obj.Red_Ded_Amount)
+                End If
+            Next
+        End If
+        If arrDeduction IsNot Nothing AndAlso arrDeduction.Count > 0 Then
+            For Each obj As clsMakeSavingPaymentDeduction In arrDeduction
+                If obj.IsSelect Then
+                    dclDeductionAmt += (obj.Amount - obj.Red_Ded_Amount)
+                End If
+            Next
+        End If
+        Dim dclPayableAmt As Decimal = dclSavingAmt - dclSaleAmt - dclDeductionAmt
+        gv1.CurrentRow.Cells(colSavingAmt).Value = dclSavingAmt
+        gv1.CurrentRow.Cells(colSaleAmt).Value = dclSaleAmt
+        gv1.CurrentRow.Cells(colDeductionAmt).Value = dclDeductionAmt
+        gv1.CurrentRow.Cells(colPayableAmt).Value = dclPayableAmt
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Reverse and unpost The payment Process " + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsMakeSavingPayment.ReverseAndUnpost(txtCode.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

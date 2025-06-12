@@ -108,6 +108,7 @@ Public Class clsPaymentHeader
     Public Location_GL_Code As String = Nothing
     Public Against_PP_Detail_No As String = Nothing
     Public Against_PP_Detail_No_Advance_Payment As String = Nothing
+    Public Against_Make_Saving_Payment As Integer
     Public is_Opening As Boolean = False
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
     '==shivani
@@ -375,6 +376,7 @@ Public Class clsPaymentHeader
             clsCommon.AddColumnsForChange(coll, "Saving", IIf(obj.Saving, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Account_Payee_Name", obj.Account_Payee_Name)
             clsCommon.AddColumnsForChange(coll, "PurchaseOrder_No", obj.PurchaseOrder_No, True)
+            clsCommon.AddColumnsForChange(coll, "Against_Make_Saving_Payment", obj.Against_Make_Saving_Payment, True)
             clsCommon.AddColumnsForChange(coll, "Against_PP_Detail_No", obj.Against_PP_Detail_No, True)
             clsCommon.AddColumnsForChange(coll, "Against_PP_Detail_No_Advance_Payment", obj.Against_PP_Detail_No_Advance_Payment, True)
             clsCommon.AddColumnsForChange(coll, "Loan_Code", obj.Loan_Code, True)
@@ -831,7 +833,7 @@ Public Class clsPaymentHeader
         " TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT_BASE_CURRENCY,EMP_CODE,PROJECT_CODE,TSPL_PAYMENT_HEADER.CHECK_PRINT,TSPL_PAYMENT_HEADER.CHECK_CODE,
           TSPL_PAYMENT_HEADER.Applied_Payment,TSPL_PAYMENT_HEADER.Against_VSP_Asset_Lost,TSPL_PAYMENT_HEADER.Account_Payee,
           TSPL_PAYMENT_HEADER.PurchaseOrder_No,TSPL_PAYMENT_HEADER.Loan_Code,ISNULL(TSPL_PAYMENT_HEADER.Location_GL_Code,'') As Location_GL_Code,
-          TSPL_PAYMENT_HEADER.Is_Security,TSPL_PAYMENT_HEADER.Is_Retention,TSPL_PAYMENT_HEADER.Account_Payee_Name,ISNULL(TSPL_PAYMENT_HEADER.Advance_Against_Salary,0) AS Advance_Against_Salary,TSPL_PAYMENT_HEADER.is_Opening,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_ACCOUNT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_ACCOUNT,TSPL_PAYMENT_HEADER.Against_PP_Detail_No,TSPL_PAYMENT_HEADER.Against_PP_Detail_No_Advance_Payment,TSPL_PAYMENT_HEADER.Against_TDS_PAYMENT_No, " &
+          TSPL_PAYMENT_HEADER.Is_Security,TSPL_PAYMENT_HEADER.Is_Retention,TSPL_PAYMENT_HEADER.Account_Payee_Name,ISNULL(TSPL_PAYMENT_HEADER.Advance_Against_Salary,0) AS Advance_Against_Salary,TSPL_PAYMENT_HEADER.is_Opening,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_ACCOUNT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_ACCOUNT,TSPL_PAYMENT_HEADER.Against_PP_Detail_No,TSPL_PAYMENT_HEADER.Against_Make_Saving_Payment,TSPL_PAYMENT_HEADER.Against_PP_Detail_No_Advance_Payment,TSPL_PAYMENT_HEADER.Against_TDS_PAYMENT_No, " &
         " TSPL_PAYMENT_HEADER.TAX1,TSPL_PAYMENT_HEADER.TAX1_Rate,TSPL_PAYMENT_HEADER.TAX1_Amt,TSPL_PAYMENT_HEADER.TAX1_Base_Amt,TSPL_PAYMENT_HEADER.TAX2,TSPL_PAYMENT_HEADER.TAX2_Rate,TSPL_PAYMENT_HEADER.TAX2_Amt,TSPL_PAYMENT_HEADER.TAX2_Base_Amt," &
         " TSPL_PAYMENT_HEADER.TAX3,TSPL_PAYMENT_HEADER.TAX3_Rate,TSPL_PAYMENT_HEADER.TAX3_Amt,TSPL_PAYMENT_HEADER.TAX3_Base_Amt,TSPL_PAYMENT_HEADER.TAX4,TSPL_PAYMENT_HEADER.TAX4_Rate," &
         " TSPL_PAYMENT_HEADER.TAX4_Amt,TSPL_PAYMENT_HEADER.TAX4_Base_Amt,TSPL_PAYMENT_HEADER.TAX5,TSPL_PAYMENT_HEADER.TAX5_Rate,TSPL_PAYMENT_HEADER.TAX5_Amt,TSPL_PAYMENT_HEADER.TAX5_Base_Amt," &
@@ -960,6 +962,7 @@ Public Class clsPaymentHeader
             obj.MP_Code_For_Advance = clsCommon.myCstr(dt.Rows(0)("MP_Code_For_Advance"))
             obj.Bank_Charges_Ac = clsCommon.myCstr(dt.Rows(0)("Bank_Charges_Ac"))
             obj.Bank_Charges = clsCommon.myCdbl(dt.Rows(0)("Bank_Charges"))
+            obj.Against_Make_Saving_Payment = clsCommon.myCDecimal(dt.Rows(0)("Against_Make_Saving_Payment"))
             obj.Against_PP_Detail_No = clsCommon.myCstr(dt.Rows(0)("Against_PP_Detail_No"))
             obj.Against_PP_Detail_No_Advance_Payment = clsCommon.myCstr(dt.Rows(0)("Against_PP_Detail_No_Advance_Payment"))
             obj.CForm_InvoiceNo = clsCommon.myCstr(dt.Rows(0)("CForm_InvoiceNo"))
