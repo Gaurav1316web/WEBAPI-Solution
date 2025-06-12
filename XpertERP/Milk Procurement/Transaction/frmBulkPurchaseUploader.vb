@@ -1148,10 +1148,10 @@ Public Class frmBulkPurchaseUploader
                 Gv1.Rows(i).Cells("Fat Per Kg").Value = Math.Round(netWeight * ConversionFactor * FATPer / 100, 3)
                 Gv1.Rows(i).Cells("Snf Per Kg").Value = Math.Round(netWeight * ConversionFactor * SNFPer / 100, 3)
 
-                Gv1.Rows(i).Cells("Sale_Amount").Value = Math.Round((Gv1.Rows(i).Cells("FAT Rate").Value * Gv1.Rows(i).Cells("Fat Per Kg").Value) + (Gv1.Rows(i).Cells("SNF Rate").Value * Gv1.Rows(i).Cells("Snf Per Kg").Value), 2)
+                Gv1.Rows(i).Cells("Sale_Amount").Value = Math.Round((Gv1.Rows(i).Cells("FAT Rate").Value * FATQty) + (Gv1.Rows(i).Cells("SNF Rate").Value * SNFQty), 2)
 
-                Gv1.Rows(i).Cells("Fat Value").Value = Math.Round(FATRATE * Gv1.Rows(i).Cells("Fat Per Kg").Value, 2)
-                Gv1.Rows(i).Cells("SNF Value").Value = Math.Round(SNFRATE * Gv1.Rows(i).Cells("Snf Per Kg").Value, 2)
+                Gv1.Rows(i).Cells("Fat Value").Value = Math.Round(FATRATE * FATQty, 2)
+                Gv1.Rows(i).Cells("SNF Value").Value = Math.Round(SNFRATE * SNFQty, 2)
 
                 strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("Sale_Fat %").Value)
                 If strCellValue <= 0 Then

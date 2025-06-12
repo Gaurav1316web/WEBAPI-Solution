@@ -1038,12 +1038,15 @@ Public Class clsSaleRegisterDetail
 
                 strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0) as numeric(18,2))[Commission Amt] "
 
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
-                    strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,0) as numeric(18,2)) as [Transporter Amt] "
-                    ' strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],dcscode as [DCS Uploader Code] "
-                Else
-                    strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt] "
-                End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,0) as numeric(18,2)) as [Transporter Amt] "
+                ' strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],dcscode as [DCS Uploader Code] "
+            Else
+                strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt] "
+            End If
+            If obj.ReportType = "Document Detail" Then
+                strMCCMaterial += ",cast(IsNull(Transporter_Commission_TotalAmt,0) as numeric(18,2))[TPT Amt] "
+            End If
             If obj.ReportType = "Customer Amount Wise" Then
                 strMCCMaterial += " ,Conv_Factor,ItemConversionInLTR.Conversion_factor,
                                     (Quantity*ItemConversionInLTR.Conversion_factor) as QTYLTR"
@@ -3074,7 +3077,7 @@ Public Class clsSaleRegisterDetail
         End If
         strMCCMaterial += ") xx"
 
-        strMCCMaterial += " Left Join (Select  DOCUMENT_CODE,Item_Code,unit_code,Distributor_Commission_Amt,Security_Amt,Transporter_Commission_Amt,HeadDiscAmt,HeadDiscPer from TSPL_SD_SHIPMENT_DETAIL Group By Item_Code,Unit_code,DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt,Transporter_Commission_Amt,HeadDiscAmt,HeadDiscPer)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code] and TSPL_SD_SHIPMENT_DETAIL.unit_code=xx.[UOM] "
+        strMCCMaterial += " Left Join (Select  SHIPMENT.DOCUMENT_CODE,Item_Code,unit_code,Distributor_Commission_Amt,Security_Amt,SHIPMENT.Transporter_Commission_TotalAmt,HeadDiscAmt,HeadDiscPer from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD AS SHIPMENT ON SHIPMENT.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Group By Item_Code,Unit_code,SHIPMENT.DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt,SHIPMENT.Transporter_Commission_TotalAmt,HeadDiscAmt,HeadDiscPer)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code] and TSPL_SD_SHIPMENT_DETAIL.unit_code=xx.[UOM] "
         If obj.ReportType = ("Customer Amount Wise") Then
             strMCCMaterial += "  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=xx.[Item Code] "
         End If

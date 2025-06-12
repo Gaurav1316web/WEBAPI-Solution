@@ -230,6 +230,7 @@ Public Class frmMCCMaterialSale
     Dim isTaxExempted As Boolean = False
     Dim AllowRoundOff_onInvoice As Boolean = False
     Dim AllowPlandDeptMCCLocation As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
     Dim ShowAllCustomer As Boolean = False
     Dim EnableDynamicQRCodeForB2CInvoice As Boolean = False
     Dim arrLoc As String = ""
@@ -282,6 +283,7 @@ Public Class frmMCCMaterialSale
         lblRound_Off.Visible = AllowRoundOff_onInvoice
         txtRoundOff.Visible = AllowRoundOff_onInvoice
         ShowAllCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowAllCustomerOnMccMaterialSale, clsFixedParameterCode.ShowAllCustomerOnMccMaterialSale, Nothing)) = "1", True, False))
+        AreaWiseBilling = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = "1", True, False))
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
         EnableDynamicQRCodeForB2CInvoice = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, Nothing)) = "1", True, False))
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
@@ -341,10 +343,15 @@ Public Class frmMCCMaterialSale
         'End If
         'lblBillToLocation.MyReadOnly = True
 
-        'txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join tspl_mcc_master on mcc_code=Default_Location  where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        'If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-        '    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
-        'End If
+        If AreaWiseBilling Then
+            txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER inner join tspl_mcc_master on mcc_code=Default_Location  where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+            End If
+            txtBillToLocation.Enabled = False
+            lblBillToLocation.Enabled = False
+        End If
+
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
@@ -5411,21 +5418,23 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
     End Sub
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         btnHistory.Enabled = True
-        If AllowPlandDeptMCCLocation Then
-            If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
-                If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                    txtBillToLocation.Value = clsDBFuncationality.getSingleValue(" select MCC from TSPL_VLC_MASTER_HEAD where (VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' or VSP_Code = '" + clsCommon.myCstr(txtVendorNo.Value) + "') ")
-                    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
-                End If
+        If Not AreaWiseBilling Then
+            If AllowPlandDeptMCCLocation Then
                 If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
                     If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                        clsCommon.MyMessageBoxShow("Please Enter valid customer Code/VLC Uploader Code", Me.Text)
-                        txtVendorNo.Value = ""
-                        txtVendorNo.Focus()
-                    Else
-                        clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+                        txtBillToLocation.Value = clsDBFuncationality.getSingleValue(" select MCC from TSPL_VLC_MASTER_HEAD where (VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' or VSP_Code = '" + clsCommon.myCstr(txtVendorNo.Value) + "') ")
+                        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
                     End If
-                    Exit Sub
+                    If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
+                        If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                            clsCommon.MyMessageBoxShow("Please Enter valid customer Code/VLC Uploader Code", Me.Text)
+                            txtVendorNo.Value = ""
+                            txtVendorNo.Focus()
+                        Else
+                            clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+                        End If
+                        Exit Sub
+                    End If
                 End If
             End If
         End If
@@ -5527,9 +5536,10 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                         End If
                         txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Vlc_Code", whr, txtVendorNo.Value, "Code", isButtonClicked)
                         qry += " where 2=2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
-                        txtBillToLocation.Value = clsDBFuncationality.getSingleValue("select mcc from TSPL_VLC_MASTER_HEAD  where VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' ")
-                        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
-
+                        If Not AreaWiseBilling Then
+                            txtBillToLocation.Value = clsDBFuncationality.getSingleValue("select mcc from TSPL_VLC_MASTER_HEAD  where VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(txtVendorNo.Value) + "' ")
+                            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code ='" + txtBillToLocation.Value + "'"))
+                        End If
                     End If
                 End If
             End If
