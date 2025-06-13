@@ -714,6 +714,16 @@ Public Class frmJournalEntry
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmExpiryDateEntry, txtSrcDoc.Text)
         ElseIf fndSrcCode.Value = "MI-SR" Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkSRN, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "SD-SH" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleDispatchDairy, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "PR-ER" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProductionEntry, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "PR-UP" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.DariyProductionUploader, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "SF-MG" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.ProductionShiftMgmt, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "AP-AD" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.PaymentAdjustmentEntry, txtSrcDoc.Text)
         Else
             Return
         End If

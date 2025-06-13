@@ -5403,8 +5403,13 @@ Public Class FrmAPInvoiceEntry
                 MDI.ShowForm(clsUserMgtCode.FAAssetWork, "", True, clsCommon.myCstr(dt.Rows(0)("Against_Asset_Work")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_BulkMillkPurchaseInvoice_No")) > 0 Then
                 MDI.ShowForm(clsUserMgtCode.frmBulkMilkPurchaseInvoice, "", True, clsCommon.myCstr(dt.Rows(0)("Against_BulkMillkPurchaseInvoice_No")))
+                'ElseIf clsCommon.myLen(dt.Rows(0)("Against_MillkPurchaseInvoice_No")) > 0 Then
+                '    MDI.ShowForm(clsUserMgtCode.frmMilkPurchaseInvoice, "", True, clsCommon.myCstr(dt.Rows(0)("Against_MillkPurchaseInvoice_No")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_MillkPurchaseInvoice_No")) > 0 Then
-                MDI.ShowForm(clsUserMgtCode.frmMilkPurchaseInvoice, "", True, clsCommon.myCstr(dt.Rows(0)("Against_MillkPurchaseInvoice_No")))
+                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("Against_MillkPurchaseInvoice_No")))
+            ElseIf clsCommon.myLen(dt.Rows(0)("RefDocNo")) > 0 Then
+                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("RefDocNo")))
+
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_POInvoice_No")) > 0 Then
                 MDI.ShowForm(clsUserMgtCode.mbtnPurchaseInvoice, "", True, clsCommon.myCstr(dt.Rows(0)("Against_POInvoice_No")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_PurchaseReturn_No")) > 0 Then
