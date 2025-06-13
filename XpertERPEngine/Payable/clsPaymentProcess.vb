@@ -193,7 +193,7 @@ Public Class clsPaymentProcessHead
         Return issaved
     End Function
 
-    Public Shared Function PrePostData(ByVal DocNo As String) As Boolean
+    Public Shared Function PrePostData(ByVal DocNo As String, ByVal arrSavingDocs As ArrayList) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(DocNo, NavigatorType.Current, trans, "", True, False, False)
@@ -242,6 +242,13 @@ Public Class clsPaymentProcessHead
                         End If
                     Next
                 End If
+            End If
+
+            If arrSavingDocs IsNot Nothing AndAlso arrSavingDocs.Count > 0 Then
+                For Each str As String In arrSavingDocs
+                    clsVedorInvoiceHead.ReverseAndUnpost(str, trans)
+                    clsVedorInvoiceHead.DeleteData(str, trans)
+                Next
             End If
 
             qry = " update TSPL_PAYMENT_PROCESS_HEAD set isPrePosted=1, Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where doc_no='" & obj.Doc_No & "'"

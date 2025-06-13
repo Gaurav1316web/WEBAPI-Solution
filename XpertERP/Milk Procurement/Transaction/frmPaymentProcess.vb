@@ -197,6 +197,7 @@ Public Class FrmPaymentProcess
     Dim PrintHindi As Boolean = False
     Public fontInstalled As Boolean = False
     Dim settNoOfDCSForDeduction As Integer = 50
+    Public SettRemoveSavingDocumentWhenPayableAmtZero As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -206,6 +207,7 @@ Public Class FrmPaymentProcess
         Else
             pnlLocation.Visible = False
         End If
+        SettRemoveSavingDocumentWhenPayableAmtZero = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, Nothing)) = 1)
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         settTDSRoundOffAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, Nothing)) = 1)
@@ -3210,39 +3212,8 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
     Sub LoadSavingGridData()
         LoadBlankGridSaving()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
-from TSPL_VENDOR_INVOICE_head   
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  "
-            Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "')) "
-            If clsCommon.myLen(strVendorCode) <= 0 Then
-            Else
-                whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
-            End If
-            If MultipleFinderFillAuto Then
-                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
-                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
-                    Dim ArrSeg As New ArrayList
-                    For Each drSeg As DataRow In dtSeg.Rows
-                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
-                    Next
-                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
-                Else
-                    whrCls += " and 2=3 "
-                End If
-            Else
-                whrCls += " and  TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" + fndLoc.Value + "' ) "
-            End If
+            Dim dt As DataTable = GetSavingDocs()
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0) in (1,2) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            Else
-                qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            End If
-
-
-            'qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gvSaving.DataSource = Nothing
                 gvSaving.AutoGenerateColumns = False
@@ -3259,6 +3230,39 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             End If
         End If
     End Sub
+
+    Private Function GetSavingDocs() As DataTable
+        Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+from TSPL_VENDOR_INVOICE_head   
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  "
+        Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "')) "
+        If clsCommon.myLen(strVendorCode) <= 0 Then
+        Else
+            whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
+        End If
+        If MultipleFinderFillAuto Then
+            Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
+            If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                Dim ArrSeg As New ArrayList
+                For Each drSeg As DataRow In dtSeg.Rows
+                    ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                Next
+                whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+            Else
+                whrCls += " and 2=3 "
+            End If
+        Else
+            whrCls += " and  TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" + fndLoc.Value + "' ) "
+        End If
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0) in (1,2) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+        Else
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+        End If
+        Return clsDBFuncationality.GetDataTable(qry)
+    End Function
 
     Sub LoadCompulsoryGridData()
         LoadBlankGridCompulsory()
@@ -5779,66 +5783,25 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 End If
             Next
         End If
-
-        'If PayableAmountZeroForMCCSale Then
-        '    For ii As Integer = 0 To gv.Rows.Count - 1
-        '        Dim strVSPCode As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
-        '        Dim dblAmt As Decimal = Math.Round(clsCommon.myCdbl(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '        ''1. Advance
-        '        ''Handled on above
-        '        ''2 MCC Sale
-        '        If dblAmt < 0 Then ''IF amount negative
-        '            dblAmt = Math.Abs(dblAmt)
-        '            For jj As Integer = gvMccSale.Rows.Count - 1 To 0 Step -1
-        '                If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvMccSale.Rows(jj).Cells(colCustomerCode).Value)) = CompairStringResult.Equal Then
-        '                    If clsCommon.myCBool(gvMccSale.Rows(jj).Cells(colSelect).Value) Then
-        '                        gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
-        '                        gvMccSale.CurrentRow = gvMccSale.Rows(jj)
-        '                        If dblAmt > clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value) Then
-        '                            gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                            dblAmt -= Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                        Else
-        '                            gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
-        '                            dblAmt = 0
-        '                            Exit For
-        '                        End If
-        '                    Else
-        '                        gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = 0
-        '                    End If
-        '                End If
-        '            Next
-        '            ''3 Debit Note
-        '            If dblAmt <> 0 Then ''IF amount negative
-        '                For jj As Integer = gvDeduction.Rows.Count - 1 To 0 Step -1
-        '                    If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvDeduction.Rows(jj).Cells(colVendorCode).Value)) = CompairStringResult.Equal Then
-        '                        If clsCommon.myCBool(gvDeduction.Rows(jj).Cells(colSelect).Value) Then
-        '                            gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
-        '                            gvDeduction.CurrentRow = gvDeduction.Rows(jj)
-        '                            If dblAmt > clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value) Then
-        '                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                                dblAmt -= Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                            Else
-        '                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
-        '                                dblAmt = 0
-        '                                Exit For
-        '                            End If
-        '                        Else
-        '                            gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
-        '                        End If
-        '                    End If
-        '                Next
-        '            End If
-        '            ''End of Debit Note
-        '        End If
-        '        ''End of MCC Sale
-        '    Next
-        'End If
         AddCompularyAmtInPaybleAmount(-1)
     End Sub
     Sub AddCompularyAmtInPaybleAmount(ByVal indx As Integer)
         If indx < 0 Then
             For ii As Integer = 0 To gv.Rows.Count - 1
                 gv.Rows(ii).Cells(colPaybleAmt).Value += clsCommon.myCDecimal(gv.Rows(ii).Cells(colTotalCompulsoryAmount).Value)
+                If SettRemoveSavingDocumentWhenPayableAmtZero Then
+                    If clsCommon.myCDecimal(gv.Rows(ii).Cells(colPaybleAmt).Value) <= 0 Then
+                        If clsCommon.myCDecimal(gv.Rows(ii).Cells(colTotalSavingAmount).Value) > 0 Then
+                            Dim vsp As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
+                            For i As Integer = 0 To gvSaving.Rows.Count - 1
+                                If clsCommon.CompairString(gvSaving.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
+                                    gvSaving.Rows(i).Cells(colSelect).Value = False
+                                End If
+                            Next
+                            gv.Rows(ii).Cells(colTotalSavingAmount).Value = 0
+                        End If
+                    End If
+                End If
             Next
         End If
     End Sub
@@ -6024,7 +5987,26 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 SaveData(True)
             End If
             If clsCommon.MyMessageBoxShow("Continue to Post the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
-                clsPaymentProcessHead.PrePostData(fndDocNo.Value)
+                Dim arrSavingDocs As ArrayList = Nothing
+                If SettRemoveSavingDocumentWhenPayableAmtZero Then
+                    getVendors()
+                    Dim dt As DataTable = GetSavingDocs()
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        arrSavingDocs = New ArrayList()
+                        For Each dr As DataRow In dt.Rows
+                            Dim flag As Boolean = True
+                            For i As Integer = 0 To gvSaving.Rows.Count - 1
+                                If clsCommon.CompairString(gvSaving.Rows(i).Cells(colAPInvoiceNo).Value, clsCommon.myCstr(dr("Document_No"))) = CompairStringResult.Equal Then
+                                    flag = False
+                                End If
+                            Next
+                            If flag Then
+                                arrSavingDocs.Add(clsCommon.myCstr(dr("Document_No")))
+                            End If
+                        Next
+                    End If
+                End If
+                clsPaymentProcessHead.PrePostData(fndDocNo.Value, arrSavingDocs)
                 clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(fndDocNo.Value), dtpDate.Value)
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
