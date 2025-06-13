@@ -69,7 +69,9 @@ Public Class clsMultipleInvoice
                     obj.Comments = clsCommon.myCstr(dr("Comments"))
                     obj.Comp_Code = clsCommon.myCstr(dr("Comp_Code"))
                     obj.Terms_Code = clsCommon.myCstr(dr("Terms_Code"))
-                    obj.Due_Date = clsCommon.myCDate(dr("Due_Date"))
+                    If dr("Due_Date") IsNot DBNull.Value Then
+                        obj.Due_Date = clsCommon.myCstr(dr("Due_Date"))
+                    End If
 
                     obj.Posting_Date = clsCommon.myCDate(dr("Posting_Date"))
                     obj.Carrier = clsCommon.myCstr(dr("Carrier"))
