@@ -168,7 +168,7 @@ Public Class clsMakeSavingPayment
             End If
 
             If SaleAmt > 0 Then
-                If objTr.ArrDCSSaving IsNot Nothing And objTr.ArrDCSSaving.Count > 0 Then
+                If objTr.ArrDCSSaving IsNot Nothing AndAlso objTr.ArrDCSSaving.Count > 0 Then
                     For Each objSaving As clsMakeSavingPaymentSaving In objTr.ArrDCSSaving
                         objSaving.AdjustAmt = 0
                         If SaleAmt >= objSaving.Amount Then
@@ -243,7 +243,7 @@ Public Class clsMakeSavingPayment
             objPay.Entry_Desc = obj.Remarks + " " + obj.Doc_Code
             objPay.ArrTr = New List(Of clsPaymentDetail)
 
-            If objTr.ArrDCSSaving IsNot Nothing And objTr.ArrDCSSaving.Count > 0 Then
+            If objTr.ArrDCSSaving IsNot Nothing AndAlso objTr.ArrDCSSaving.Count > 0 Then
                 For Each objSaving As clsMakeSavingPaymentSaving In objTr.ArrDCSSaving
                     If objSaving.Amount - objSaving.AdjustAmt > 0 Then
                         Dim objPayTr As New clsPaymentDetail()
@@ -261,7 +261,7 @@ Public Class clsMakeSavingPayment
                     End If
                 Next
             End If
-            If objTr.ArrDCSDeduction IsNot Nothing And objTr.ArrDCSDeduction.Count > 0 Then
+            If objTr.ArrDCSDeduction IsNot Nothing AndAlso objTr.ArrDCSDeduction.Count > 0 Then
                 For Each objDeduction As clsMakeSavingPaymentDeduction In objTr.ArrDCSDeduction
                     If (objDeduction.Amount - objDeduction.Red_Ded_Amount) > 0 Then
                         Dim objPayTr As New clsPaymentDetail()
