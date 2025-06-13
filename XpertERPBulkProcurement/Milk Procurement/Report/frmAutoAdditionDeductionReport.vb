@@ -465,8 +465,8 @@ Public Class frmAutoAdditionDeductionReport
         Try
 
             Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-            Dim Qry As String = " select *,case when ([Addition/Deduction Amount] - FloR) > 0.5 then cast (ROUND([Addition/Deduction Amount],0)as int) else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR] from (select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
-                                 (x.[Formula])Formula,"
+            Dim Qry As String = " select *,case when ([Addition/Deduction Amount] - FloR) > 0.5 And ([Addition/Deduction Amount] - FloR) < 0.6 then cast(ROUND([Addition/Deduction Amount],2)as int) when ([Addition/Deduction Amount] - FloR) > 0.5 Then cast(ROUND([Addition/Deduction Amount],0)as int) else cast(ROUND([Addition/Deduction Amount],2)as int) end as [Addition/Deduction AmountR]  
+from (select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],(x.[Formula])Formula,"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                 Qry += " Case when max(x.[Addition/Deduction Description])='MILK CHILLING' then sum(x.[Addition/Deduction Amount])/0.35 else sum(x.[Base Amount/Quantity]) end as [Base Amount/Quantity],
                         convert(decimal(18,2),FLOOR(sum(x.[Addition/Deduction Amount]) )) FloR 

@@ -16,6 +16,7 @@ Public Class clsAdjustmentEntryReceivables
     Public Adjustment_Amount As Decimal = 0.0
     Public Is_Post As Char = "N"
     Public ARInvoiceNo As String = ""
+    Public Against_Make_Saving_Payment As Integer
     Public Arr As List(Of clsAdjustmentEntryReceivablesDetail) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsAdjustmentEntryReceivables, ByVal isNewEntry As Boolean) As Boolean
@@ -47,6 +48,7 @@ Public Class clsAdjustmentEntryReceivables
             clsCommon.AddColumnsForChange(coll, "Doc_No", obj.Doc_No)
             clsCommon.AddColumnsForChange(coll, "Doc_Amount", obj.Doc_Amount)
             clsCommon.AddColumnsForChange(coll, "ARInvoiceNo", obj.ARInvoiceNo)
+            clsCommon.AddColumnsForChange(coll, "Against_Make_Saving_Payment", obj.Against_Make_Saving_Payment, True)
             clsCommon.AddColumnsForChange(coll, "Adjustment_Amount", obj.Adjustment_Amount)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
@@ -79,21 +81,9 @@ Public Class clsAdjustmentEntryReceivables
 
     Public Shared Function GetData(ByVal strAdjNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsAdjustmentEntryReceivables
         Dim obj As clsAdjustmentEntryReceivables = Nothing
-        ''richa agarwal 13/04/2015
-        'Dim qry As String = "SELECT [Adjustment_No], [TSPL_Receipt_Adjustment_Header].[Description], [Adjustment_Date], [Post_Date],[Customer_No], [TSPL_Receipt_Adjustment_Header].[Customer_Name],[Doc_No],[Doc_Amount],ARInvoiceNo," & _
-        '" TSPL_Customer_Invoice_Head.Balance_Amt-((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=Doc_No)+(Select ISNULL(SUM(AH.Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER AH WHere ISNULL(AH.Is_Post,'N')<>'Y' AND AH.Doc_No=TSPL_Customer_Invoice_Head.Against_Sale_No AND AH.Adjustment_No <>'" & strAdjNo & "')) as BalanceAmt," & _
-        '" [TSPL_Receipt_Adjustment_Header].[Remarks], [Adjustment_Amount], ISNULL([Is_Post],'N') as Is_Post FROM [TSPL_Receipt_Adjustment_Header]" & _
-        '" LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No= TSPL_Receipt_Adjustment_Header.Doc_No where 2=2"
-
-        '    Dim qry As String = "SELECT [Adjustment_No], [TSPL_Receipt_Adjustment_Header].[Description], [Adjustment_Date], [Post_Date],[Customer_No], [TSPL_Receipt_Adjustment_Header].[Customer_Name],[Doc_No],[Doc_Amount],ARInvoiceNo," & _
-        '  " TSPL_Customer_Invoice_Head.Balance_Amt- case when isnull([TSPL_Receipt_Adjustment_Header].Doc_No,'')<>'' then ((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=Doc_No)+(Select ISNULL(SUM(AH.Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER AH WHere ISNULL(AH.Is_Post,'N')<>'Y' AND AH.Doc_No=TSPL_Customer_Invoice_Head.Against_Sale_No AND AH.Adjustment_No <>'" & strAdjNo & "')) else " & _
-        '" ((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=ARInvoiceNo )+(Select ISNULL(SUM(AH.Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER AH WHere ISNULL(AH.Is_Post,'N')<>'Y' AND AH.ARInvoiceNo =TSPL_Customer_Invoice_Head.Document_No  AND AH.Adjustment_No <>'" & strAdjNo & "')) end  as BalanceAmt," & _
-        '  " [TSPL_Receipt_Adjustment_Header].[Remarks], [Adjustment_Amount], ISNULL([Is_Post],'N') as Is_Post FROM [TSPL_Receipt_Adjustment_Header]" & _
-        '  " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No = TSPL_Receipt_Adjustment_Header.ARInvoiceNo where 2=2"
-
-        Dim qry As String = "SELECT [Adjustment_No], [TSPL_Receipt_Adjustment_Header].[Description], [Adjustment_Date], [Post_Date],[Customer_No], [TSPL_Receipt_Adjustment_Header].[Customer_Name],[Doc_No],[Doc_Amount],ARInvoiceNo," & _
-        " TSPL_Customer_Invoice_Head.Balance_Amt-((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=ARInvoiceNo)+(Select ISNULL(SUM(AH.Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER AH WHere ISNULL(AH.Is_Post,'N')<>'Y' AND AH.ARInvoiceNo=TSPL_Customer_Invoice_Head.Document_No AND AH.Adjustment_No <>'" & strAdjNo & "')) as BalanceAmt," & _
-        " [TSPL_Receipt_Adjustment_Header].[Remarks], [Adjustment_Amount], ISNULL([Is_Post],'N') as Is_Post FROM [TSPL_Receipt_Adjustment_Header]" & _
+        Dim qry As String = "SELECT [Adjustment_No], [TSPL_Receipt_Adjustment_Header].[Description], [Adjustment_Date], [Post_Date],[Customer_No], [TSPL_Receipt_Adjustment_Header].[Customer_Name],[Doc_No],[Doc_Amount],ARInvoiceNo," &
+        " TSPL_Customer_Invoice_Head.Balance_Amt-((Select ISNULL(SUM(Applied_Amount),0) from TSPL_RECEIPT_DETAIL WHere Posted<>'Y' AND TSPL_RECEIPT_DETAIL.Document_No=ARInvoiceNo)+(Select ISNULL(SUM(AH.Adjustment_Amount),0) from TSPL_RECEIPT_ADJUSTMENT_HEADER AH WHere ISNULL(AH.Is_Post,'N')<>'Y' AND AH.ARInvoiceNo=TSPL_Customer_Invoice_Head.Document_No AND AH.Adjustment_No <>'" & strAdjNo & "')) as BalanceAmt," &
+        " [TSPL_Receipt_Adjustment_Header].[Remarks], [Adjustment_Amount], ISNULL([Is_Post],'N') as Is_Post,TSPL_Receipt_Adjustment_Header.Against_Make_Saving_Payment FROM [TSPL_Receipt_Adjustment_Header]" &
         " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No = TSPL_Receipt_Adjustment_Header.ARInvoiceNo where 2=2"
 
         Select Case NavType
@@ -125,6 +115,7 @@ Public Class clsAdjustmentEntryReceivables
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Adjustment_Amount = clsCommon.myCdbl(dt.Rows(0)("Adjustment_Amount"))
             obj.Is_Post = clsCommon.myCstr(dt.Rows(0)("Is_Post"))
+            obj.Against_Make_Saving_Payment = clsCommon.myCDecimal(dt.Rows(0)("Against_Make_Saving_Payment"))
 
             qry = "SELECT [Adjustment_No],[Line_No],[Account_No],[Account_Description],[Amount],[Remarks],[Discount_Code],[Discount_Description]" & _
             " FROM [TSPL_Receipt_Adjustment_Detail] WHERE [Adjustment_No]='" + obj.Adjustment_No + "'"
@@ -173,9 +164,6 @@ Public Class clsAdjustmentEntryReceivables
     Public Shared Function FunPost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim strQ As String
-            'Dim ArrList As ArrayList = New ArrayList()
-            'Dim AdjAcc() As String
-            'Dim strRcvblAcc As String = ""
             Dim obj As New clsAdjustmentEntryReceivables
             obj = GetData(strDocNo, NavigatorType.Current, trans)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Adjustment_No) > 0 Then
@@ -183,42 +171,14 @@ Public Class clsAdjustmentEntryReceivables
                     Throw New Exception("Document is already posted.")
                 End If
                 CreateJournalEntry(obj, "", trans)
-                'strQ = " SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN" & _
-                '           " TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account" & _
-                '           " where TSPL_CUSTOMER_MASTER.Cust_Code ='" + obj.Customer_No + "'"
-                'strRcvblAcc = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQ, trans))
-                ' ''RICHA AGARWAL 23/03/2015
-                ''Dim strLocation As String = funLocationByAdj(obj.Doc_No, trans)
-                'Dim strLocation As String = funLocationByAdj(obj.ARInvoiceNo, trans)
-                ' ''-------------------
-                'strRcvblAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strRcvblAcc, strLocation, True, trans)
-                'Dim CustAcc() As String = {strRcvblAcc, -1 * obj.Adjustment_Amount}
-                'ArrList.Add(CustAcc)
-                'For Each objtr As clsAdjustmentEntryReceivablesDetail In obj.Arr
-                '    ''RICHA AGARWAL 23/03/2015
-                '    'objtr.Account_No = clsERPFuncationality.ChangeGLAccountLocationSegment(objtr.Account_No, funLocationByAdj(obj.Doc_No, trans), trans)
-                '    objtr.Account_No = clsERPFuncationality.ChangeGLAccountLocationSegment(objtr.Account_No, funLocationByAdj(obj.ARInvoiceNo, trans), True, trans)
-                '    ''----------------
-                '    AdjAcc = New String() {objtr.Account_No, objtr.Amount}
-                '    ArrList.Add(AdjAcc)
-                'Next
-                'clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", strDocNo, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
                 strQ = "update TSPL_Receipt_Adjustment_Header set TSPL_Receipt_Adjustment_Header.is_Post = 'Y', TSPL_Receipt_Adjustment_Header.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
                 clsDBFuncationality.ExecuteNonQuery(strQ, trans)
-                ''richa agarwal 14/04/2015
-                'obj.Doc_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_Customer_Invoice_Head WHERE Against_Sale_No='" + obj.Doc_No + "'", trans)
-                'clsReceiptDettail.funBalanceAmtSave(obj.Doc_No, obj.Adjustment_Amount, trans, "C") '------Changes Balance Amount of Customer Invoice.
                 clsReceiptDettail.funBalanceAmtSave(obj.ARInvoiceNo, obj.Adjustment_Amount, trans, "", "C") '------Changes Balance Amount of Customer Invoice.
-                ''------------------
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Receipt_Adjustment_Header", "Adjustment_No", "TSPL_Receipt_Adjustment_Detail", "Adjustment_No", trans)
                 Return True
             Else
                 Return False
             End If
-            '------30/11/2012--Added BY--Pankaj Kumar----For Validate Transaction By [Location AND Doc Date]-------------
-            'Dim location As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location from TSPL_SALE_INVOICE_HEAD  Where Is_Post ='Y' and Cust_Code='" + clsCommon.myCstr(dt.Rows(0)("Customer_No")) + "' AND Sale_Invoice_No='" + clsCommon.myCstr(dt.Rows(0)("Doc_No")) + "'", trans))
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Receivables", "Adjustment Entry", location, clsCommon.myCstr(dt.Rows(0)("Adjustment_Date")), trans)
-            '------------------------------------------------------------------------------------------------------------
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

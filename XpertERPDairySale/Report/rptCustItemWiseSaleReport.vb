@@ -1244,7 +1244,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                                             left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                                             left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='BKN'
                 WHERE convert(date,Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'and TSPL_SD_SHIPMENT_HEAD.Status=1  " + whrcls + "
-            ) xxb
+            ) xx
             ) XXFinal 
             group by XXFinal.Customer_Code)xxx order by Customer_Name"
 
