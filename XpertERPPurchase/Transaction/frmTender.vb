@@ -1737,6 +1737,9 @@ Public Class frmTender
         Try
             isInsideLoadData = True
             LoadBlankGridSchedule()
+            If clsCommon.myCDate(txtScheduleStartDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") Then
+                Throw New Exception("Schedule start date can't be less than RAL date !")
+            End If
             For ii As Integer = 0 To gv2.Rows.Count - 1
                 If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
                     If clsCommon.myLen(gv2.Rows(ii).Cells(colVCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) > 0 Then
