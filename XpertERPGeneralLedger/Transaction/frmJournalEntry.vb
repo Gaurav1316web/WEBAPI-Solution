@@ -724,6 +724,8 @@ Public Class frmJournalEntry
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.ProductionShiftMgmt, txtSrcDoc.Text)
         ElseIf fndSrcCode.Value = "AP-AD" Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.PaymentAdjustmentEntry, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "MT-IN" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkTransferIn, txtSrcDoc.Text)
         Else
             Return
         End If
