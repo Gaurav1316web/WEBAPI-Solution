@@ -210,77 +210,79 @@ Public Class clsMakeSavingPayment
 
 
             ''------------------Payment Entry Start Here
-            Dim objPay As New clsPaymentHeader()
-            objPay.Against_Make_Saving_Payment = objTr.PK_ID
-            objPay.Payment_No = ""
-            objPay.Entry_Desc = obj.Remarks + " " + obj.Doc_Code
-            objPay.Payment_Date = clsCommon.myCDate(obj.Doc_Date)
-            objPay.Payment_Post_Date = clsCommon.myCDate(obj.Doc_Date)
-            Dim qry As String = "select Company_Bank from TSPL_VENDOR_MASTER where Vendor_Code='" + objTr.DCS_Code + "'"
-            objPay.Bank_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-            If clsCommon.myLen(objPay.Bank_Code) <= 0 Then
-                Throw New Exception("Please define Saving bank for DCS " + objTr.DCS_UploaderNo + "  [" + objTr.DCS_Code + "] [" + objTr.DCS_Name + "] ")
-            End If
-            objPay.Payment_Type = "PY"
-            objPay.Vendor_Code = objTr.DCS_Code
-            objPay.Vendor_Name = objTr.DCS_Name
-            objPay.Payment_Code = "NEFT"
-            'objPay.Cheque_No = obj.ArrPPDetail.Item(i).Cheque_No
-            'If Not obj.ArrPPDetail.Item(i).Cheque_Dated Is Nothing Then
-            '    objPay.Cheque_Date = obj.ArrPPDetail.Item(i).Cheque_Dated
-            'End If
+            If objTr.Payable_Amt > 0 Then
+                Dim objPay As New clsPaymentHeader()
+                objPay.Against_Make_Saving_Payment = objTr.PK_ID
+                objPay.Payment_No = ""
+                objPay.Entry_Desc = obj.Remarks + " " + obj.Doc_Code
+                objPay.Payment_Date = clsCommon.myCDate(obj.Doc_Date)
+                objPay.Payment_Post_Date = clsCommon.myCDate(obj.Doc_Date)
+                Dim qry As String = "select Company_Bank from TSPL_VENDOR_MASTER where Vendor_Code='" + objTr.DCS_Code + "'"
+                objPay.Bank_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                If clsCommon.myLen(objPay.Bank_Code) <= 0 Then
+                    Throw New Exception("Please define Saving bank for DCS " + objTr.DCS_UploaderNo + "  [" + objTr.DCS_Code + "] [" + objTr.DCS_Name + "] ")
+                End If
+                objPay.Payment_Type = "PY"
+                objPay.Vendor_Code = objTr.DCS_Code
+                objPay.Vendor_Name = objTr.DCS_Name
+                objPay.Payment_Code = "NEFT"
+                'objPay.Cheque_No = obj.ArrPPDetail.Item(i).Cheque_No
+                'If Not obj.ArrPPDetail.Item(i).Cheque_Dated Is Nothing Then
+                '    objPay.Cheque_Date = obj.ArrPPDetail.Item(i).Cheque_Dated
+                'End If
 
-            objPay.Account_Payee = 0
-            objPay.memorndmamt = "0"
-            'objPay.Applied_Payment = clsCommon.myCstr(obj.ArrPPDetail.Item(i).AP_Invoice_No)
-            objPay.Is_Security = 0
-            objPay.IsChkReverse = "N"
-            objPay.Bank_Charges = 0
-            objPay.Payment_Amount = objTr.Payable_Amt
-            objPay.Balance_Amt = objTr.Payable_Amt
-            qry = "select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code in (select MCC from TSPL_VLC_MASTER_HEAD where VSP_Code='" + objTr.DCS_Code + "')"
-            objPay.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-            objPay.Entry_Desc = obj.Remarks + " " + obj.Doc_Code
-            objPay.ArrTr = New List(Of clsPaymentDetail)
+                objPay.Account_Payee = 0
+                objPay.memorndmamt = "0"
+                'objPay.Applied_Payment = clsCommon.myCstr(obj.ArrPPDetail.Item(i).AP_Invoice_No)
+                objPay.Is_Security = 0
+                objPay.IsChkReverse = "N"
+                objPay.Bank_Charges = 0
+                objPay.Payment_Amount = objTr.Payable_Amt
+                objPay.Balance_Amt = objTr.Payable_Amt
+                qry = "select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code in (select MCC from TSPL_VLC_MASTER_HEAD where VSP_Code='" + objTr.DCS_Code + "')"
+                objPay.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                objPay.Entry_Desc = obj.Remarks + " " + obj.Doc_Code
+                objPay.ArrTr = New List(Of clsPaymentDetail)
 
-            If objTr.ArrDCSSaving IsNot Nothing AndAlso objTr.ArrDCSSaving.Count > 0 Then
-                For Each objSaving As clsMakeSavingPaymentSaving In objTr.ArrDCSSaving
-                    If objSaving.Amount - objSaving.AdjustAmt > 0 Then
-                        Dim objPayTr As New clsPaymentDetail()
-                        objPayTr.Apply = "1"
-                        objPayTr.Payment_Type = "PY"
-                        objPayTr.Document_No = objSaving.AP_Invoice_No
-                        objPayTr.Original_Invoice_Amt = objSaving.Amount
-                        objPayTr.Applied_Amount = objSaving.Amount - objSaving.AdjustAmt
-                        objPayTr.Pending_Balance = 0
-                        Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & objSaving.AP_Invoice_No & "'", trans))
-                        objPayTr.Net_Balance = 0
-                        objPayTr.Vendor_Invoice_No = vendorInvNo
-                        objPayTr.Security_Amount = 0
-                        objPay.ArrTr.Add(objPayTr)
-                    End If
-                Next
+                If objTr.ArrDCSSaving IsNot Nothing AndAlso objTr.ArrDCSSaving.Count > 0 Then
+                    For Each objSaving As clsMakeSavingPaymentSaving In objTr.ArrDCSSaving
+                        If objSaving.Amount - objSaving.AdjustAmt > 0 Then
+                            Dim objPayTr As New clsPaymentDetail()
+                            objPayTr.Apply = "1"
+                            objPayTr.Payment_Type = "PY"
+                            objPayTr.Document_No = objSaving.AP_Invoice_No
+                            objPayTr.Original_Invoice_Amt = objSaving.Amount
+                            objPayTr.Applied_Amount = objSaving.Amount - objSaving.AdjustAmt
+                            objPayTr.Pending_Balance = 0
+                            Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & objSaving.AP_Invoice_No & "'", trans))
+                            objPayTr.Net_Balance = 0
+                            objPayTr.Vendor_Invoice_No = vendorInvNo
+                            objPayTr.Security_Amount = 0
+                            objPay.ArrTr.Add(objPayTr)
+                        End If
+                    Next
+                End If
+                If objTr.ArrDCSDeduction IsNot Nothing AndAlso objTr.ArrDCSDeduction.Count > 0 Then
+                    For Each objDeduction As clsMakeSavingPaymentDeduction In objTr.ArrDCSDeduction
+                        If (objDeduction.Amount - objDeduction.Red_Ded_Amount) > 0 Then
+                            Dim objPayTr As New clsPaymentDetail()
+                            objPayTr.Apply = "1"
+                            objPayTr.Payment_Type = "PY"
+                            objPayTr.Document_No = objDeduction.AP_Invoice_No
+                            objPayTr.Original_Invoice_Amt = objDeduction.Amount
+                            objPayTr.Applied_Amount = (objDeduction.Amount - objDeduction.Red_Ded_Amount)
+                            objPayTr.Pending_Balance = objDeduction.Red_Ded_Amount
+                            Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & objDeduction.AP_Invoice_No & "'", trans))
+                            objPayTr.Net_Balance = 0
+                            objPayTr.Vendor_Invoice_No = vendorInvNo
+                            objPayTr.Security_Amount = 0
+                            objPay.ArrTr.Add(objPayTr)
+                        End If
+                    Next
+                End If
+                objPay.SaveData(objPay, True, trans, True)
+                clsPaymentHeader.PostData(objPay.Payment_No, "Payable", trans)
             End If
-            If objTr.ArrDCSDeduction IsNot Nothing AndAlso objTr.ArrDCSDeduction.Count > 0 Then
-                For Each objDeduction As clsMakeSavingPaymentDeduction In objTr.ArrDCSDeduction
-                    If (objDeduction.Amount - objDeduction.Red_Ded_Amount) > 0 Then
-                        Dim objPayTr As New clsPaymentDetail()
-                        objPayTr.Apply = "1"
-                        objPayTr.Payment_Type = "PY"
-                        objPayTr.Document_No = objDeduction.AP_Invoice_No
-                        objPayTr.Original_Invoice_Amt = objDeduction.Amount
-                        objPayTr.Applied_Amount = (objDeduction.Amount - objDeduction.Red_Ded_Amount)
-                        objPayTr.Pending_Balance = objDeduction.Red_Ded_Amount
-                        Dim vendorInvNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Invoice_No  from TSPL_VENDOR_INVOICE_HEAD where Document_No='" & objDeduction.AP_Invoice_No & "'", trans))
-                        objPayTr.Net_Balance = 0
-                        objPayTr.Vendor_Invoice_No = vendorInvNo
-                        objPayTr.Security_Amount = 0
-                        objPay.ArrTr.Add(objPayTr)
-                    End If
-                Next
-            End If
-            objPay.SaveData(objPay, True, trans, True)
-            clsPaymentHeader.PostData(objPay.Payment_No, "Payable", trans)
             ''------------------Payment Entry End Here
         Next
 

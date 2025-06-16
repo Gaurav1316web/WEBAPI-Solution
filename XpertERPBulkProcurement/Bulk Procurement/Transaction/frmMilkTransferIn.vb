@@ -1217,6 +1217,48 @@ Public Class FrmMilkTransferIn
 
 
     Private Sub FrmMilkTransferIn_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        'Dim coll As Dictionary(Of String, String)
+
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Receipt_Challan_No", "Varchar(30)   Primary Key")
+        'coll.Add("Receipt_Challan_Date", "Datetime not null")
+        'coll.Add("Dispatch_Challan_No", "Varchar(30)   not null")
+        'coll.Add("Weighment_No", "Varchar(30)  not null ")
+        'coll.Add("Qc_No", "Varchar(30)   not null")
+        'coll.Add("Gate_Entry_no", "Varchar(30)   not null")
+        'coll.Add("location_code", "Varchar(12)   not null References TSPL_LOCATION_MASTER(Location_Code) ")
+        'coll.Add("km_reading_receipt", "Varchar(20)   not null")
+        'coll.Add("New_Seal_No1", "varchar(30) null")
+        'coll.Add("New_Seal_No2", "varchar(30) null")
+        'coll.Add("New_Seal_No3", "varchar(30) null")
+        'coll.Add("New_Seal_No4", "varchar(30) null")
+        'coll.Add("New_Seal_No5", "varchar(30) null")
+        'coll.Add("New_Seal_No6", "varchar(30) null")
+        'coll.Add("New_Seal_No7", "varchar(30) null")
+        'coll.Add("New_Seal_No8", "varchar(30) null")
+        'coll.Add("New_Seal_No9", "varchar(30) null")
+        'coll.Add("New_Seal_No10", "varchar(30) null")
+        'coll.Add("isNewSealNo", "integer not null default 0")
+        'coll.Add("isPosted", "integer not null default 0")
+        'coll.Add("Posting_Date", "date null ")
+        'coll.Add("Comp_Code", "varchar(8) NULL")
+        'coll.Add("Created_By", "varchar(12) NOT NULL")
+        'coll.Add("Created_Date", "varchar(30) NOT NULL")
+        'coll.Add("Modified_By", "varchar(12) NOT NULL")
+        'coll.Add("Modified_Date", "varchar(30) NOT NULL")
+        'coll.Add("Receipt_Control_FAT", "float not null default 0")
+        'coll.Add("Receipt_Control_SNF", "float not null default 0")
+        'coll.Add("PriceCode", "varchar(30) null")
+        'coll.Add("FAT_W", "float  null default 0")
+        'coll.Add("SNF_W", "float  null default 0")
+        'coll.Add("FAT_R", "float  null default 0")
+        'coll.Add("SNF_R", "float  null default 0")
+        'coll.Add("Transfer_Price", "float  null default 0")
+        'coll.Add("IsAgainstJobWork", "Integer  null ")
+        'coll.Add("Joblocation_Code", "varchar(12)  NULL ")
+        'coll.Add("In_Return", "integer not NULL default 0")
+        'coll.Add("Document_Amount", "decimal(18,2) NULL")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_TRANSFER_IN", coll, Nothing, True, True, "", "Receipt_Challan_No", "Receipt_Challan_Date", True)
 
         Panel3.Enabled = False
         MCCChamberwise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, Nothing))
@@ -1363,39 +1405,46 @@ Public Class FrmMilkTransferIn
     End Sub
     ''Updateed by Preeti Gupta ticket no[BM00000004913,BM00000005040]
     Sub printData()
-        Dim PrintTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToPrintTimeWithDocumentDate, clsFixedParameterCode.AllowToPrintTimeWithDocumentDate, Nothing)
-        If clsCommon.myLen(fndRcptChalanNo.Value) > 0 Then
-            Dim strQuery As String = " select final .*,(FAT_RATE *Fat_Kg )+(SNF_RATE *SNF_Kg ) as Amount  from(select xx.*,(xx.Net_Weight *Fat_per)/100 as Fat_Kg,(xx.Net_Weight *SNF_Per)/100 as SNF_Kg from (select TSPL_COMPANY_MASTER.Comp_Name  as Comp_name,TSPL_COMPANY_MASTER.Add1 as comp_add1 ,TSPL_COMPANY_MASTER.Add2 as comp_add2 ,TSPL_COMPANY_MASTER.Add3  as comp_add3,TSPL_COMPANY_MASTER.Tin_No as comp_tin_no,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as  Comp_Phn ,TSPL_COMPANY_MASTER.Pincode as comp_pin_code,TSPL_STATE_MASTER.State_Name as To_Loc_State_Name,TSPL_LOCATION_MASTER.Location_Desc as To_Loc_Des ,TSPL_LOCATION_MASTER.Location_Code as To_Loc_Code ,TSPL_LOCATION_MASTER.Add1 as To_Loc_Add1,TSPL_LOCATION_MASTER.Add2 as To_Loc_ADd2,TSPL_LOCATION_MASTER.Add3 as To_Loc_Add3,TSPL_LOCATION_MASTER.TIN_No as To_Loc_Tin_No,TSPL_LOCATION_MASTER.GSTNO as To_GSTNO,TSPL_STATE_MASTER.GST_STATE_Code as To_GSTState_Code,case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  To_Loc_Phn ,TSPL_LOCATION_MASTER.Email as To_Loc_Email,TSPL_LOCATION_MASTER.Pin_Code as To_Loc_Pin_Code,fromLoc. Add1 as frm_ADd1,fromLoc .Add2 as frm_Loc_add2,fromLoc.Add3 as frm_Loc_add3,fromLoc .Location_Code as frm_Loc_Code,fromLoc.Location_Desc  as frm_loc_des,fromLoc .TIN_No as frm_Tin_no,fromLoc.GSTNO as frm_GSTNo,Frm_Loc.GST_STATE_Code as frm_GSTState_code,case when ISNULL(fromLoc .Phone1,'')='(+__)__________' then '' else fromLoc.Phone1 end +  Case When   ISNULL(fromLoc.Phone2,'')<>'(+__)__________' Then ', '+ fromLoc.Phone2 Else'' End as  frm_Loc_Phn,fromLoc .Pin_Code as frm_pin_code,TSPL_Weighment_Detail.Net_Weight,t_FAT .Param_Field_Value as Fat_per,t_SNF .Param_Field_Value as SNF_Per,TSPL_MCC_Dispatch_Challan.FAT_RATE ,TSPL_MCC_Dispatch_Challan.SNF_RATE , 'For FAT ' + Convert(varchar,TSPL_Bulk_Price_MASTER.Fat_Percentage) + ' & SNF ' +    Convert(varchar,TSPL_Bulk_Price_MASTER.Snf_Percentage) As    Milk_Rate ,TSPL_MILK_TRANSFER_IN.Receipt_Challan_No ,"
+        Try
+            clsMilkTransferIn.funMilkTrnasferPrint(MyBase.Form_ID, False, dtpRcptDateAndTime.Value, fndRcptChalanNo.Value)
 
-            If PrintTime = "1" Then
-                strQuery += "TSPL_MILK_TRANSFER_IN.Receipt_Challan_Date  as Receipt_Challan_Date"
-            Else
-                strQuery += "convert(varchar,TSPL_MILK_TRANSFER_IN.Receipt_Challan_Date ,103) as Receipt_Challan_Date"
-            End If
-
-
-            strQuery += " ,TSPL_MCC_Dispatch_Challan.Transfer_Price  as Rate,TSPL_MCC_Dispatch_Challan.Tanker_No  from TSPL_MILK_TRANSFER_IN "
-            strQuery += " left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER .Comp_Code =TSPL_MILK_TRANSFER_IN.Comp_Code "
-            strQuery += "  left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code  =TSPL_MILK_TRANSFER_IN.location_code "
-            strQuery += "  left outer join TSPL_MCC_Dispatch_Challan on TSPL_MCC_Dispatch_Challan.Chalan_NO =TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No "
-            strQuery += "  left outer join TSPL_LOCATION_MASTER  as fromLoc on TSPL_MCC_Dispatch_Challan.MCC_Code  =fromLoc.Location_Code "
-            strQuery += "  left outer join TSPL_Weighment_Detail on TSPL_Weighment_Detail.Weighment_No =TSPL_MILK_TRANSFER_IN.Weighment_No "
-            strQuery += "   Left Outer Join TSPL_Bulk_Price_MASTER On TSPL_Bulk_Price_MASTER.Price_Code      = TSPL_MCC_Dispatch_Challan.PriceCode "
-            strQuery += " 		  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State "
-            strQuery += " left outer join TSPL_STATE_MASTER as Frm_Loc on Frm_Loc.STATE_CODE=fromLoc.State "
-            strQuery += " Left Outer Join (Select TSPL_QC_Parameter_Detail.*    From TSPL_MILK_TRANSFER_IN      Left Outer Join TSPL_QC_Parameter_Detail On TSPL_QC_Parameter_Detail.QC_No        = TSPL_MILK_TRANSFER_IN.QC_No And TSPL_QC_Parameter_Detail.Param_Type = 'FAT') t_FAT On t_FAT.QC_No = TSPL_MILK_TRANSFER_IN.QC_No "
-
-            strQuery += "  Left Outer Join (Select TSPL_QC_Parameter_Detail.*    From TSPL_MILK_TRANSFER_IN      Left Outer Join TSPL_QC_Parameter_Detail On TSPL_QC_Parameter_Detail.QC_No        = TSPL_MILK_TRANSFER_IN.QC_No And TSPL_QC_Parameter_Detail.Param_Type =   'SNF') t_SNF On t_SNF.QC_No = TSPL_MILK_TRANSFER_IN.QC_No "
-            strQuery += " where  TSPL_MILK_TRANSFER_IN.Receipt_Challan_No='" & fndRcptChalanNo.Value & "'"
-            strQuery += " ) as xx)as final "
-
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
-            frmCRV = Nothing
-        Else
+        Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
-        End If
+
+        End Try
+        'Dim PrintTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToPrintTimeWithDocumentDate, clsFixedParameterCode.AllowToPrintTimeWithDocumentDate, Nothing)
+        'If clsCommon.myLen(fndRcptChalanNo.Value) > 0 Then
+        '    Dim strQuery As String = " select final .*,(FAT_RATE *Fat_Kg )+(SNF_RATE *SNF_Kg ) as Amount  from(select xx.*,(xx.Net_Weight *Fat_per)/100 as Fat_Kg,(xx.Net_Weight *SNF_Per)/100 as SNF_Kg from (select TSPL_COMPANY_MASTER.Comp_Name  as Comp_name,TSPL_COMPANY_MASTER.Add1 as comp_add1 ,TSPL_COMPANY_MASTER.Add2 as comp_add2 ,TSPL_COMPANY_MASTER.Add3  as comp_add3,TSPL_COMPANY_MASTER.Tin_No as comp_tin_no,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as  Comp_Phn ,TSPL_COMPANY_MASTER.Pincode as comp_pin_code,TSPL_STATE_MASTER.State_Name as To_Loc_State_Name,TSPL_LOCATION_MASTER.Location_Desc as To_Loc_Des ,TSPL_LOCATION_MASTER.Location_Code as To_Loc_Code ,TSPL_LOCATION_MASTER.Add1 as To_Loc_Add1,TSPL_LOCATION_MASTER.Add2 as To_Loc_ADd2,TSPL_LOCATION_MASTER.Add3 as To_Loc_Add3,TSPL_LOCATION_MASTER.TIN_No as To_Loc_Tin_No,TSPL_LOCATION_MASTER.GSTNO as To_GSTNO,TSPL_STATE_MASTER.GST_STATE_Code as To_GSTState_Code,case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  To_Loc_Phn ,TSPL_LOCATION_MASTER.Email as To_Loc_Email,TSPL_LOCATION_MASTER.Pin_Code as To_Loc_Pin_Code,fromLoc. Add1 as frm_ADd1,fromLoc .Add2 as frm_Loc_add2,fromLoc.Add3 as frm_Loc_add3,fromLoc .Location_Code as frm_Loc_Code,fromLoc.Location_Desc  as frm_loc_des,fromLoc .TIN_No as frm_Tin_no,fromLoc.GSTNO as frm_GSTNo,Frm_Loc.GST_STATE_Code as frm_GSTState_code,case when ISNULL(fromLoc .Phone1,'')='(+__)__________' then '' else fromLoc.Phone1 end +  Case When   ISNULL(fromLoc.Phone2,'')<>'(+__)__________' Then ', '+ fromLoc.Phone2 Else'' End as  frm_Loc_Phn,fromLoc .Pin_Code as frm_pin_code,TSPL_Weighment_Detail.Net_Weight,t_FAT .Param_Field_Value as Fat_per,t_SNF .Param_Field_Value as SNF_Per,TSPL_MCC_Dispatch_Challan.FAT_RATE ,TSPL_MCC_Dispatch_Challan.SNF_RATE , 'For FAT ' + Convert(varchar,TSPL_Bulk_Price_MASTER.Fat_Percentage) + ' & SNF ' +    Convert(varchar,TSPL_Bulk_Price_MASTER.Snf_Percentage) As    Milk_Rate ,TSPL_MILK_TRANSFER_IN.Receipt_Challan_No ,"
+
+        '    If PrintTime = "1" Then
+        '        strQuery += "TSPL_MILK_TRANSFER_IN.Receipt_Challan_Date  as Receipt_Challan_Date"
+        '    Else
+        '        strQuery += "convert(varchar,TSPL_MILK_TRANSFER_IN.Receipt_Challan_Date ,103) as Receipt_Challan_Date"
+        '    End If
+
+
+        '    strQuery += " ,TSPL_MCC_Dispatch_Challan.Transfer_Price  as Rate,TSPL_MCC_Dispatch_Challan.Tanker_No  from TSPL_MILK_TRANSFER_IN "
+        '    strQuery += " left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER .Comp_Code =TSPL_MILK_TRANSFER_IN.Comp_Code "
+        '    strQuery += "  left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code  =TSPL_MILK_TRANSFER_IN.location_code "
+        '    strQuery += "  left outer join TSPL_MCC_Dispatch_Challan on TSPL_MCC_Dispatch_Challan.Chalan_NO =TSPL_MILK_TRANSFER_IN.Dispatch_Challan_No "
+        '    strQuery += "  left outer join TSPL_LOCATION_MASTER  as fromLoc on TSPL_MCC_Dispatch_Challan.MCC_Code  =fromLoc.Location_Code "
+        '    strQuery += "  left outer join TSPL_Weighment_Detail on TSPL_Weighment_Detail.Weighment_No =TSPL_MILK_TRANSFER_IN.Weighment_No "
+        '    strQuery += "   Left Outer Join TSPL_Bulk_Price_MASTER On TSPL_Bulk_Price_MASTER.Price_Code      = TSPL_MCC_Dispatch_Challan.PriceCode "
+        '    strQuery += " 		  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State "
+        '    strQuery += " left outer join TSPL_STATE_MASTER as Frm_Loc on Frm_Loc.STATE_CODE=fromLoc.State "
+        '    strQuery += " Left Outer Join (Select TSPL_QC_Parameter_Detail.*    From TSPL_MILK_TRANSFER_IN      Left Outer Join TSPL_QC_Parameter_Detail On TSPL_QC_Parameter_Detail.QC_No        = TSPL_MILK_TRANSFER_IN.QC_No And TSPL_QC_Parameter_Detail.Param_Type = 'FAT') t_FAT On t_FAT.QC_No = TSPL_MILK_TRANSFER_IN.QC_No "
+
+        '    strQuery += "  Left Outer Join (Select TSPL_QC_Parameter_Detail.*    From TSPL_MILK_TRANSFER_IN      Left Outer Join TSPL_QC_Parameter_Detail On TSPL_QC_Parameter_Detail.QC_No        = TSPL_MILK_TRANSFER_IN.QC_No And TSPL_QC_Parameter_Detail.Param_Type =   'SNF') t_SNF On t_SNF.QC_No = TSPL_MILK_TRANSFER_IN.QC_No "
+        '    strQuery += " where  TSPL_MILK_TRANSFER_IN.Receipt_Challan_No='" & fndRcptChalanNo.Value & "'"
+        '    strQuery += " ) as xx)as final "
+
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
+        '    Dim frmCRV As New frmCrystalReportViewer()
+        '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
+        '    frmCRV = Nothing
+        'Else
+        '    clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
+        'End If
     End Sub
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         postData(False)

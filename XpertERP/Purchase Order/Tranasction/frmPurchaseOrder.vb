@@ -518,6 +518,7 @@ Public Class frmPurchaseOrder
         txtDueDate.Value = txtDate.Value
         dtpRenewal.Value = txtDate.Value
         dtpExpiryDate.Value = txtDate.Value
+        txtScheduleStartDate.Value = txtDate.Value
         '-----------
         '---------- added parteek 16-03-2016 related direct ap when po type is Services
         UDLPurchaseOrderthroughAP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UDLPurchaseOrderthroughAP, clsFixedParameterCode.UDLPurchaseOrderthroughAP, Nothing)) = 1, True, False)
@@ -1004,6 +1005,7 @@ Public Class frmPurchaseOrder
         txtVendorNo.Value = ""
         lblVendorName.Text = ""
         txtDate.Value = clsCommon.GETSERVERDATE(Nothing)
+        txtScheduleStartDate.Value = clsCommon.GETSERVERDATE(Nothing)
         '' Anubhooti 01-Nov-2014
         dtpExpiryDate.Value = clsCommon.GETSERVERDATE(Nothing).AddYears(1)
         txtHeaderDiscountAmount.Value = 0
@@ -4370,6 +4372,7 @@ Public Class frmPurchaseOrder
     End Sub
 
     Sub AddNew()
+        chkMonthEndDate.Checked = True
         btnViewTDSDetails.Enabled = False
         isCellValueChangedOpen = False
         txtDeliveryDate.ReadOnly = False    ' Ticket Ref :  BM00000010416  Modified By : Prabhakar 
@@ -10851,6 +10854,9 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
         Try
             isInsideLoadData = True
             LoadBlankGridSchedule()
+            If clsCommon.myCDate(txtScheduleStartDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") Then
+                Throw New Exception("Schedule start date can't be less than document date !")
+            End If
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 Then
                     Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
@@ -10861,23 +10867,42 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
-                            If clsCommon.CompairString(clsCommon.myCstr(obj.Days), "30") = CompairStringResult.Equal Then
-                                Dim daysInMonth As Integer = DateTime.DaysInMonth(dtRunningDate.Year, dtRunningDate.Month)
-                                If daysInMonth = 31 Then
-                                    dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
-                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-                                ElseIf daysInMonth = 28 OrElse daysInMonth = 29 Then
-                                    dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
-                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            Dim fromDate As Date = clsCommon.myCDate(dtRunningDate)
+                            dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                            If chkMonthEndDate.Checked Then
+                                Dim endDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("SELECT EOMONTH(convert(Date,'" + fromDate + "',103)) AS LastDayOfMonth"))
+                                Dim dayCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + dtRunningDate + "',103),convert(Date,'" + endDate + "',103))"))
+                                If dayCount > 0 AndAlso dayCount < 2 Then
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                    dtRunningDate = endDate.AddDays(1)
+                                ElseIf dayCount < 0 AndAlso dayCount > -2 Then
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                    dtRunningDate = endDate.AddDays(1)
                                 Else
-                                    dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                    dtRunningDate = dtRunningDate.AddDays(1)
                                 End If
                             Else
-                                dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
                                 gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                dtRunningDate = dtRunningDate.AddDays(1)
                             End If
-                            dtRunningDate = dtRunningDate.AddDays(1)
+                            'If clsCommon.CompairString(clsCommon.myCstr(obj.Days), "30") = CompairStringResult.Equal Then
+                            '    Dim daysInMonth As Integer = DateTime.DaysInMonth(dtRunningDate.Year, dtRunningDate.Month)
+                            '    If daysInMonth = 31 Then
+                            '        dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
+                            '        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            '    ElseIf daysInMonth = 28 OrElse daysInMonth = 29 Then
+                            '        dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
+                            '        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            '    Else
+                            '        dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                            '        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            '    End If
+                            'Else
+                            '    dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                            '    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            'End If
+                            'dtRunningDate = dtRunningDate.AddDays(1)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)

@@ -22,15 +22,15 @@ Partial Class frmPurchaseOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition46 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition47 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition48 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition49 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition50 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition51 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition52 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition53 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition54 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -296,6 +296,20 @@ Partial Class frmPurchaseOrder
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Cmnt1chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt14chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt13chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt12chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt11chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt10chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt9chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt8chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt7chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt6chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt5chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt4chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt3chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Cmnt2chk = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtCmt13 = New System.Windows.Forms.RichTextBox()
         Me.txtCmt12 = New System.Windows.Forms.RichTextBox()
         Me.txtCmt11 = New System.Windows.Forms.RichTextBox()
@@ -392,20 +406,7 @@ Partial Class frmPurchaseOrder
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.Cmnt2chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt3chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt4chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt5chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt6chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt7chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt8chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt9chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt10chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt11chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt12chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt13chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt14chk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.Cmnt1chk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkMonthEndDate = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -661,6 +662,20 @@ Partial Class frmPurchaseOrder
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.Cmnt1chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt14chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt13chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt12chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt11chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt10chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt9chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt8chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt7chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt6chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt5chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt4chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt3chk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Cmnt2chk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalInsuranceAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -741,20 +756,6 @@ Partial Class frmPurchaseOrder
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt2chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt3chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt4chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt5chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt6chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt7chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt8chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt9chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt10chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt11chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt12chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt13chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt14chk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Cmnt1chk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1502,7 +1503,8 @@ Partial Class frmPurchaseOrder
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition46
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1837,7 +1839,7 @@ Partial Class frmPurchaseOrder
         Me.txt_deliverydays.TabIndex = 13
         Me.txt_deliverydays.Text = "0"
         Me.txt_deliverydays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_deliverydays.Value = 0R
+        Me.txt_deliverydays.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel42
         '
@@ -2869,7 +2871,8 @@ Partial Class frmPurchaseOrder
         Me.gv_c_form.MasterTemplate.EnableGrouping = False
         Me.gv_c_form.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_c_form.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition47
+        Me.gv_c_form.MyExportFilePath = ""
         Me.gv_c_form.MyStopExport = False
         Me.gv_c_form.Name = "gv_c_form"
         Me.gv_c_form.ShowGroupPanel = False
@@ -2911,7 +2914,8 @@ Partial Class frmPurchaseOrder
         Me.gv_roadpermit.MasterTemplate.EnableGrouping = False
         Me.gv_roadpermit.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_roadpermit.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition48
+        Me.gv_roadpermit.MyExportFilePath = ""
         Me.gv_roadpermit.MyStopExport = False
         Me.gv_roadpermit.Name = "gv_roadpermit"
         Me.gv_roadpermit.ShowGroupPanel = False
@@ -3521,7 +3525,8 @@ Partial Class frmPurchaseOrder
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition49
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3837,7 +3842,7 @@ Partial Class frmPurchaseOrder
         Me.TxtCIF.TabIndex = 1467
         Me.TxtCIF.Text = "0"
         Me.TxtCIF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCIF.Value = 0R
+        Me.TxtCIF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCIF
         '
@@ -3983,7 +3988,7 @@ Partial Class frmPurchaseOrder
         Me.txtAdvance_Pers.TabIndex = 1460
         Me.txtAdvance_Pers.Text = "0"
         Me.txtAdvance_Pers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance_Pers.Value = 0R
+        Me.txtAdvance_Pers.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'cmbTerms_Payment
         '
@@ -4506,7 +4511,7 @@ Partial Class frmPurchaseOrder
         Me.TxtOnAccount.TabIndex = 1431
         Me.TxtOnAccount.Text = "0"
         Me.TxtOnAccount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtOnAccount.Value = 0R
+        Me.TxtOnAccount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblonAccount
         '
@@ -4543,7 +4548,7 @@ Partial Class frmPurchaseOrder
         Me.txtRetained.TabIndex = 1429
         Me.txtRetained.Text = "0"
         Me.txtRetained.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRetained.Value = 0R
+        Me.txtRetained.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblretained
         '
@@ -4580,7 +4585,7 @@ Partial Class frmPurchaseOrder
         Me.TxtBalancePayment.TabIndex = 1427
         Me.TxtBalancePayment.Text = "0"
         Me.TxtBalancePayment.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBalancePayment.Value = 0R
+        Me.TxtBalancePayment.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblBalancePayment
         '
@@ -4617,7 +4622,7 @@ Partial Class frmPurchaseOrder
         Me.TxtLC.TabIndex = 1425
         Me.TxtLC.Text = "0"
         Me.TxtLC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtLC.Value = 0R
+        Me.TxtLC.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblLC
         '
@@ -4654,7 +4659,7 @@ Partial Class frmPurchaseOrder
         Me.TxtCAD.TabIndex = 1423
         Me.TxtCAD.Text = "0"
         Me.TxtCAD.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCAD.Value = 0R
+        Me.TxtCAD.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCad
         '
@@ -4691,7 +4696,7 @@ Partial Class frmPurchaseOrder
         Me.txtAdvance.TabIndex = 1421
         Me.txtAdvance.Text = "0"
         Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance.Value = 0R
+        Me.txtAdvance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblpaymenttermsgroup
         '
@@ -4966,7 +4971,8 @@ Partial Class frmPurchaseOrder
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition50
+        Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5038,7 +5044,8 @@ Partial Class frmPurchaseOrder
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition51
+        Me.gvACInsurance.MyExportFilePath = ""
         Me.gvACInsurance.MyStopExport = False
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5185,6 +5192,146 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1080, 399)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'Cmnt1chk
+        '
+        Me.Cmnt1chk.AccessibleDescription = ""
+        Me.Cmnt1chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt1chk.Location = New System.Drawing.Point(478, 60)
+        Me.Cmnt1chk.Name = "Cmnt1chk"
+        Me.Cmnt1chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt1chk.TabIndex = 118
+        Me.Cmnt1chk.Visible = False
+        '
+        'Cmnt14chk
+        '
+        Me.Cmnt14chk.AccessibleDescription = ""
+        Me.Cmnt14chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt14chk.Location = New System.Drawing.Point(478, 385)
+        Me.Cmnt14chk.Name = "Cmnt14chk"
+        Me.Cmnt14chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt14chk.TabIndex = 117
+        Me.Cmnt14chk.Visible = False
+        '
+        'Cmnt13chk
+        '
+        Me.Cmnt13chk.AccessibleDescription = ""
+        Me.Cmnt13chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt13chk.Location = New System.Drawing.Point(478, 360)
+        Me.Cmnt13chk.Name = "Cmnt13chk"
+        Me.Cmnt13chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt13chk.TabIndex = 116
+        Me.Cmnt13chk.Visible = False
+        '
+        'Cmnt12chk
+        '
+        Me.Cmnt12chk.AccessibleDescription = ""
+        Me.Cmnt12chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt12chk.Location = New System.Drawing.Point(478, 335)
+        Me.Cmnt12chk.Name = "Cmnt12chk"
+        Me.Cmnt12chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt12chk.TabIndex = 115
+        Me.Cmnt12chk.Visible = False
+        '
+        'Cmnt11chk
+        '
+        Me.Cmnt11chk.AccessibleDescription = ""
+        Me.Cmnt11chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt11chk.Location = New System.Drawing.Point(478, 309)
+        Me.Cmnt11chk.Name = "Cmnt11chk"
+        Me.Cmnt11chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt11chk.TabIndex = 114
+        Me.Cmnt11chk.Visible = False
+        '
+        'Cmnt10chk
+        '
+        Me.Cmnt10chk.AccessibleDescription = ""
+        Me.Cmnt10chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt10chk.Location = New System.Drawing.Point(478, 286)
+        Me.Cmnt10chk.Name = "Cmnt10chk"
+        Me.Cmnt10chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt10chk.TabIndex = 113
+        Me.Cmnt10chk.Visible = False
+        '
+        'Cmnt9chk
+        '
+        Me.Cmnt9chk.AccessibleDescription = ""
+        Me.Cmnt9chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt9chk.Location = New System.Drawing.Point(478, 260)
+        Me.Cmnt9chk.Name = "Cmnt9chk"
+        Me.Cmnt9chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt9chk.TabIndex = 112
+        Me.Cmnt9chk.Visible = False
+        '
+        'Cmnt8chk
+        '
+        Me.Cmnt8chk.AccessibleDescription = ""
+        Me.Cmnt8chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt8chk.Location = New System.Drawing.Point(478, 234)
+        Me.Cmnt8chk.Name = "Cmnt8chk"
+        Me.Cmnt8chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt8chk.TabIndex = 111
+        Me.Cmnt8chk.Visible = False
+        '
+        'Cmnt7chk
+        '
+        Me.Cmnt7chk.AccessibleDescription = ""
+        Me.Cmnt7chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt7chk.Location = New System.Drawing.Point(478, 210)
+        Me.Cmnt7chk.Name = "Cmnt7chk"
+        Me.Cmnt7chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt7chk.TabIndex = 110
+        Me.Cmnt7chk.Visible = False
+        '
+        'Cmnt6chk
+        '
+        Me.Cmnt6chk.AccessibleDescription = ""
+        Me.Cmnt6chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt6chk.Location = New System.Drawing.Point(478, 187)
+        Me.Cmnt6chk.Name = "Cmnt6chk"
+        Me.Cmnt6chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt6chk.TabIndex = 109
+        Me.Cmnt6chk.Visible = False
+        '
+        'Cmnt5chk
+        '
+        Me.Cmnt5chk.AccessibleDescription = ""
+        Me.Cmnt5chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt5chk.Location = New System.Drawing.Point(478, 159)
+        Me.Cmnt5chk.Name = "Cmnt5chk"
+        Me.Cmnt5chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt5chk.TabIndex = 108
+        Me.Cmnt5chk.Visible = False
+        '
+        'Cmnt4chk
+        '
+        Me.Cmnt4chk.AccessibleDescription = ""
+        Me.Cmnt4chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt4chk.Location = New System.Drawing.Point(478, 135)
+        Me.Cmnt4chk.Name = "Cmnt4chk"
+        Me.Cmnt4chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt4chk.TabIndex = 107
+        Me.Cmnt4chk.Visible = False
+        '
+        'Cmnt3chk
+        '
+        Me.Cmnt3chk.AccessibleDescription = ""
+        Me.Cmnt3chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt3chk.Location = New System.Drawing.Point(478, 110)
+        Me.Cmnt3chk.Name = "Cmnt3chk"
+        Me.Cmnt3chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt3chk.TabIndex = 106
+        Me.Cmnt3chk.Visible = False
+        '
+        'Cmnt2chk
+        '
+        Me.Cmnt2chk.AccessibleDescription = ""
+        Me.Cmnt2chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cmnt2chk.Location = New System.Drawing.Point(478, 86)
+        Me.Cmnt2chk.Name = "Cmnt2chk"
+        Me.Cmnt2chk.Size = New System.Drawing.Size(15, 15)
+        Me.Cmnt2chk.TabIndex = 105
+        Me.Cmnt2chk.Visible = False
         '
         'txtCmt13
         '
@@ -5359,7 +5506,7 @@ Partial Class frmPurchaseOrder
         Me.txtHeaderDiscountAmount.TabIndex = 75
         Me.txtHeaderDiscountAmount.Text = "0"
         Me.txtHeaderDiscountAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtHeaderDiscountAmount.Value = 0R
+        Me.txtHeaderDiscountAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel53
         '
@@ -5518,7 +5665,7 @@ Partial Class frmPurchaseOrder
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -5765,7 +5912,8 @@ Partial Class frmPurchaseOrder
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition52
+        Me.gvSchedule.MyExportFilePath = ""
         Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5778,6 +5926,7 @@ Partial Class frmPurchaseOrder
         '
         'Panel5
         '
+        Me.Panel5.Controls.Add(Me.chkMonthEndDate)
         Me.Panel5.Controls.Add(Me.RadButton1)
         Me.Panel5.Controls.Add(Me.txtScheduleStartDate)
         Me.Panel5.Controls.Add(Me.MyLabel60)
@@ -6037,7 +6186,8 @@ Partial Class frmPurchaseOrder
         Me.gvCategoryValue.MasterTemplate.AllowDeleteRow = False
         Me.gvCategoryValue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategoryValue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategoryValue.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gvCategoryValue.MasterTemplate.ViewDefinition = TableViewDefinition53
+        Me.gvCategoryValue.MyExportFilePath = ""
         Me.gvCategoryValue.MyStopExport = False
         Me.gvCategoryValue.Name = "gvCategoryValue"
         Me.gvCategoryValue.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -6106,7 +6256,8 @@ Partial Class frmPurchaseOrder
         Me.gvTermsCdtion.MasterTemplate.AllowDeleteRow = False
         Me.gvTermsCdtion.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTermsCdtion.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition54
+        Me.gvTermsCdtion.MyExportFilePath = ""
         Me.gvTermsCdtion.MyStopExport = False
         Me.gvTermsCdtion.Name = "gvTermsCdtion"
         Me.gvTermsCdtion.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -6310,145 +6461,15 @@ Partial Class frmPurchaseOrder
         Me.RadMenu1.Size = New System.Drawing.Size(1105, 20)
         Me.RadMenu1.TabIndex = 4
         '
-        'Cmnt2chk
+        'chkMonthEndDate
         '
-        Me.Cmnt2chk.AccessibleDescription = ""
-        Me.Cmnt2chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt2chk.Location = New System.Drawing.Point(478, 86)
-        Me.Cmnt2chk.Name = "Cmnt2chk"
-        Me.Cmnt2chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt2chk.TabIndex = 105
-        Me.Cmnt2chk.Visible = False
-        '
-        'Cmnt3chk
-        '
-        Me.Cmnt3chk.AccessibleDescription = ""
-        Me.Cmnt3chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt3chk.Location = New System.Drawing.Point(478, 110)
-        Me.Cmnt3chk.Name = "Cmnt3chk"
-        Me.Cmnt3chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt3chk.TabIndex = 106
-        Me.Cmnt3chk.Visible = False
-        '
-        'Cmnt4chk
-        '
-        Me.Cmnt4chk.AccessibleDescription = ""
-        Me.Cmnt4chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt4chk.Location = New System.Drawing.Point(478, 135)
-        Me.Cmnt4chk.Name = "Cmnt4chk"
-        Me.Cmnt4chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt4chk.TabIndex = 107
-        Me.Cmnt4chk.Visible = False
-        '
-        'Cmnt5chk
-        '
-        Me.Cmnt5chk.AccessibleDescription = ""
-        Me.Cmnt5chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt5chk.Location = New System.Drawing.Point(478, 159)
-        Me.Cmnt5chk.Name = "Cmnt5chk"
-        Me.Cmnt5chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt5chk.TabIndex = 108
-        Me.Cmnt5chk.Visible = False
-        '
-        'Cmnt6chk
-        '
-        Me.Cmnt6chk.AccessibleDescription = ""
-        Me.Cmnt6chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt6chk.Location = New System.Drawing.Point(478, 187)
-        Me.Cmnt6chk.Name = "Cmnt6chk"
-        Me.Cmnt6chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt6chk.TabIndex = 109
-        Me.Cmnt6chk.Visible = False
-        '
-        'Cmnt7chk
-        '
-        Me.Cmnt7chk.AccessibleDescription = ""
-        Me.Cmnt7chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt7chk.Location = New System.Drawing.Point(478, 210)
-        Me.Cmnt7chk.Name = "Cmnt7chk"
-        Me.Cmnt7chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt7chk.TabIndex = 110
-        Me.Cmnt7chk.Visible = False
-        '
-        'Cmnt8chk
-        '
-        Me.Cmnt8chk.AccessibleDescription = ""
-        Me.Cmnt8chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt8chk.Location = New System.Drawing.Point(478, 234)
-        Me.Cmnt8chk.Name = "Cmnt8chk"
-        Me.Cmnt8chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt8chk.TabIndex = 111
-        Me.Cmnt8chk.Visible = False
-        '
-        'Cmnt9chk
-        '
-        Me.Cmnt9chk.AccessibleDescription = ""
-        Me.Cmnt9chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt9chk.Location = New System.Drawing.Point(478, 260)
-        Me.Cmnt9chk.Name = "Cmnt9chk"
-        Me.Cmnt9chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt9chk.TabIndex = 112
-        Me.Cmnt9chk.Visible = False
-        '
-        'Cmnt10chk
-        '
-        Me.Cmnt10chk.AccessibleDescription = ""
-        Me.Cmnt10chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt10chk.Location = New System.Drawing.Point(478, 286)
-        Me.Cmnt10chk.Name = "Cmnt10chk"
-        Me.Cmnt10chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt10chk.TabIndex = 113
-        Me.Cmnt10chk.Visible = False
-        '
-        'Cmnt11chk
-        '
-        Me.Cmnt11chk.AccessibleDescription = ""
-        Me.Cmnt11chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt11chk.Location = New System.Drawing.Point(478, 309)
-        Me.Cmnt11chk.Name = "Cmnt11chk"
-        Me.Cmnt11chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt11chk.TabIndex = 114
-        Me.Cmnt11chk.Visible = False
-        '
-        'Cmnt12chk
-        '
-        Me.Cmnt12chk.AccessibleDescription = ""
-        Me.Cmnt12chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt12chk.Location = New System.Drawing.Point(478, 335)
-        Me.Cmnt12chk.Name = "Cmnt12chk"
-        Me.Cmnt12chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt12chk.TabIndex = 115
-        Me.Cmnt12chk.Visible = False
-        '
-        'Cmnt13chk
-        '
-        Me.Cmnt13chk.AccessibleDescription = ""
-        Me.Cmnt13chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt13chk.Location = New System.Drawing.Point(478, 360)
-        Me.Cmnt13chk.Name = "Cmnt13chk"
-        Me.Cmnt13chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt13chk.TabIndex = 116
-        Me.Cmnt13chk.Visible = False
-        '
-        'Cmnt14chk
-        '
-        Me.Cmnt14chk.AccessibleDescription = ""
-        Me.Cmnt14chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt14chk.Location = New System.Drawing.Point(478, 385)
-        Me.Cmnt14chk.Name = "Cmnt14chk"
-        Me.Cmnt14chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt14chk.TabIndex = 117
-        Me.Cmnt14chk.Visible = False
-        '
-        'Cmnt1chk
-        '
-        Me.Cmnt1chk.AccessibleDescription = ""
-        Me.Cmnt1chk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cmnt1chk.Location = New System.Drawing.Point(478, 60)
-        Me.Cmnt1chk.Name = "Cmnt1chk"
-        Me.Cmnt1chk.Size = New System.Drawing.Size(15, 15)
-        Me.Cmnt1chk.TabIndex = 118
-        Me.Cmnt1chk.Visible = False
+        Me.chkMonthEndDate.AutoSize = True
+        Me.chkMonthEndDate.Location = New System.Drawing.Point(300, 5)
+        Me.chkMonthEndDate.Name = "chkMonthEndDate"
+        Me.chkMonthEndDate.Size = New System.Drawing.Size(116, 18)
+        Me.chkMonthEndDate.TabIndex = 1526
+        Me.chkMonthEndDate.Text = "End Date Of Month"
+        Me.chkMonthEndDate.UseVisualStyleBackColor = True
         '
         'frmPurchaseOrder
         '
@@ -6736,6 +6757,20 @@ Partial Class frmPurchaseOrder
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.Cmnt1chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt14chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt13chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt12chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt11chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt10chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt9chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt8chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt7chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt6chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt5chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt4chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt3chk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Cmnt2chk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalInsuranceAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6820,20 +6855,6 @@ Partial Class frmPurchaseOrder
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt2chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt3chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt4chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt5chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt6chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt7chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt8chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt9chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt10chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt11chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt12chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt13chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt14chk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Cmnt1chk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -7214,5 +7235,6 @@ Partial Class frmPurchaseOrder
     Friend WithEvents Cmnt13chk As RadCheckBox
     Friend WithEvents Cmnt14chk As RadCheckBox
     Friend WithEvents Cmnt1chk As RadCheckBox
+    Friend WithEvents chkMonthEndDate As CheckBox
 End Class
 
