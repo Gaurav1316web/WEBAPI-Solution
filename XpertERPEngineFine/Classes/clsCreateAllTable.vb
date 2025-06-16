@@ -40892,7 +40892,7 @@ LL")
             coll.Add("Joblocation_Code", "varchar(12)  NULL ")
             coll.Add("In_Return", "integer not NULL default 0")
             coll.Add("Document_Amount", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_TRANSFER_IN", coll, Nothing, True, False, "", "Receipt_Challan_No", "Receipt_Challan_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_TRANSFER_IN", coll, Nothing, True, True, "", "Receipt_Challan_No", "Receipt_Challan_Date", True)
 
             ''Sanjeet(07/12/2017) TSPL_MILK_TRANSFER_IN_RETURN---------
             coll = New Dictionary(Of String, String)()
