@@ -726,6 +726,10 @@ Public Class frmJournalEntry
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.PaymentAdjustmentEntry, txtSrcDoc.Text)
         ElseIf fndSrcCode.Value = "MT-IN" Then
             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkTransferIn, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "DS-BS" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSale, txtSrcDoc.Text)
+        ElseIf fndSrcCode.Value = "BM-SR" Then
+            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmBulkMilkSRN, txtSrcDoc.Text)
         Else
             Return
         End If
