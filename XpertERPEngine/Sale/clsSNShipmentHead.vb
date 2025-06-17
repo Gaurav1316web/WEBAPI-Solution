@@ -2558,7 +2558,22 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim msg As String = "Error. "
                 For Each dr As DataRow In dt.Rows
-                    msg += Environment.NewLine + "SRN No:" + clsCommon.myCstr(dr("Document_Code")) + " Is For Vendor Code: " + clsCommon.myCstr(dr("Customer_Code")) + " Vendor Name:" + clsCommon.myCstr(dr("Customer_Name"))
+                    msg += Environment.NewLine + "Shipment No:" + clsCommon.myCstr(dr("Document_Code")) + " Is For Vendor Code: " + clsCommon.myCstr(dr("Customer_Code")) + " Vendor Name:" + clsCommon.myCstr(dr("Customer_Name"))
+                Next
+                Throw New Exception(msg)
+            End If
+        End If
+        Return True
+    End Function
+
+    Public Shared Function IsValidDate(ByVal Arr As List(Of String), ByVal TransDate As DateTime) As Boolean
+        If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+            Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code from TSPL_SD_SHIPMENT_HEAD  where Document_Code in (" + clsCommon.GetMulcallString(Arr) + ") and convert(Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <> ('" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "')"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim msg As String = "Error. "
+                For Each dr As DataRow In dt.Rows
+                    msg += Environment.NewLine + "Date of Shipment No:" + clsCommon.myCstr(dr("Document_Code")) + " is diffenece of Invoice Date : " + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy")
                 Next
                 Throw New Exception(msg)
             End If
