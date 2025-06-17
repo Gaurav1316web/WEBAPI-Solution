@@ -7,6 +7,7 @@ Public Class clsItemSchedule
     Public Qty_Per As Integer = 0
     Public Short_Per As Integer = 0
     Public Late_Days As Integer = 0
+    Public Quantity As Integer = 0
     Public Arr As List(Of clsItemSchedulePenalty) = Nothing
 
 
@@ -18,6 +19,7 @@ Public Class clsItemSchedule
             clsCommon.AddColumnsForChange(coll, "Qty_Per", obj.Qty_Per)
             clsCommon.AddColumnsForChange(coll, "Short_Per", obj.Short_Per)
             clsCommon.AddColumnsForChange(coll, "Late_Days", obj.Late_Days)
+            clsCommon.AddColumnsForChange(coll, "Quantity", obj.Quantity)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_SCHEDULE", OMInsertOrUpdate.Insert, "", trans)
             Dim PK As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select MAX(PK_ID) from TSPL_ITEM_SCHEDULE where Item_Code='" + strICode + "'", trans))
             clsItemSchedulePenalty.SaveData(PK, obj.Arr, trans)
@@ -39,6 +41,7 @@ Public Class clsItemSchedule
                 obj.Qty_Per = clsCommon.myCDecimal(dt.Rows(ii)("Qty_Per"))
                 obj.Short_Per = clsCommon.myCDecimal(dt.Rows(ii)("Short_Per"))
                 obj.Late_Days = clsCommon.myCDecimal(dt.Rows(ii)("Late_Days"))
+                obj.Quantity = clsCommon.myCDecimal(dt.Rows(ii)("Quantity"))
                 obj.Arr = clsItemSchedulePenalty.GetData(clsCommon.myCDecimal(dt.Rows(ii)("PK_ID")), trans)
                 arr.Add(obj)
             Next

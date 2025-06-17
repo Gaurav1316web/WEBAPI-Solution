@@ -75,6 +75,7 @@ Public Class FrmItemMasterRMOther
     Const ColScheduleSNo As String = "ColScheduleSNo"
     Const ColScheduleDays As String = "ColScheduleDays"
     Const ColSchedulePerQty As String = "ColSchedulePerQty"
+    Const ColScheduleQuantity As String = "ColScheduleQuantity"
     Const ColSchedulePerShort As String = "ColSchedulePerShort"
     Const ColScheduleLateDays As String = "ColScheduleLateDays"
 
@@ -84,6 +85,11 @@ Public Class FrmItemMasterRMOther
     Const ColNOCSchedulePerQty As String = "ColNOCSchedulePerQty"
     Const ColNOCSchedulePerShort As String = "ColNOCSchedulePerShort"
     Const ColNOCScheduleLateDays As String = "ColNOCScheduleLateDays"
+
+    Const ColSlabToleranceFrom As String = "ColSlabToleranceFrom"
+    Const ColSlabToleranceTo As String = "ColSlabToleranceTo"
+    Const ColSlabToleranceQty As String = "ColSlabToleranceQty"
+
 
     Dim File_Name As String = ""
     Dim CreateGLAccToItem As Boolean
@@ -171,6 +177,7 @@ Public Class FrmItemMasterRMOther
         LoadBlankGridCat()
         LoadItemProductType()
         LoadUsedas()
+        LoadBlankGridSlabTolerance()
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing)), "A") = CompairStringResult.Equal Then
             lblWarranty.Visible = True
             CmbWarrApp.Visible = True
@@ -1827,6 +1834,7 @@ Public Class FrmItemMasterRMOther
                     objtrp.Qty_Per = clsCommon.myCDecimal(grow.Cells(ColSchedulePerQty).Value)
                     objtrp.Short_Per = clsCommon.myCDecimal(grow.Cells(ColSchedulePerShort).Value)
                     objtrp.Late_Days = clsCommon.myCDecimal(grow.Cells(ColScheduleLateDays).Value)
+                    objtrp.Quantity = clsCommon.myCDecimal(grow.Cells(ColScheduleQuantity).Value)
                     objtrp.Arr = TryCast(grow.Cells(ColScheduleLateDays).Tag, List(Of clsItemSchedulePenalty))
                     If objtrp.Days > 0 AndAlso objtrp.Qty_Per > 0 Then
                         obj.ArrSchedule.Add(objtrp)
@@ -3018,6 +3026,7 @@ Public Class FrmItemMasterRMOther
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColSchedulePerQty).Value = objtr.Qty_Per
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColSchedulePerShort).Value = objtr.Short_Per
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleLateDays).Value = objtr.Late_Days
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleQuantity).Value = objtr.Quantity
                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(ColScheduleLateDays).Tag = objtr.Arr
                         gvSchedule.Rows.AddNew()
                     Next
@@ -6558,6 +6567,15 @@ ExitLOOP:
         repoNumBox.FormatString = "{0:n0}"
         gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
 
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Quantity"
+        repoNumBox.Name = ColScheduleQuantity
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSchedule.MasterTemplate.Columns.Add(repoNumBox)
 
         gvSchedule.AllowAddNewRow = False
         gvSchedule.ShowGroupPanel = False
@@ -6570,6 +6588,53 @@ ExitLOOP:
         gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
 
+
+    Sub LoadBlankGridSlabTolerance()
+        gvSlabTolerance.Rows.Clear()
+        gvSlabTolerance.Columns.Clear()
+
+        Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "From"
+        repoNumBox.Name = ColSlabToleranceFrom
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        repoNumBox.ReadOnly = True
+        gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
+
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "To"
+        repoNumBox.Name = ColSlabToleranceTo
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Qty"
+        repoNumBox.Name = ColSlabToleranceQty
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
+
+        gvSlabTolerance.AllowAddNewRow = False
+        gvSlabTolerance.ShowGroupPanel = False
+        gvSlabTolerance.AllowColumnReorder = False
+        gvSlabTolerance.AllowRowReorder = True
+        gvSlabTolerance.AllowDeleteRow = True
+        gvSlabTolerance.AllowEditRow = True
+        gvSlabTolerance.EnableSorting = False
+        gvSlabTolerance.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvSlabTolerance.MasterTemplate.ShowRowHeaderColumn = False
+    End Sub
 
     Private Sub gvSchedule_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvSchedule.CurrentColumnChanged
         If gvSchedule.RowCount > 0 Then

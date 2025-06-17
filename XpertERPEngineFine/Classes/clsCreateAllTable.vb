@@ -2493,6 +2493,7 @@ Public Class clsCreateAllTable
             coll.Add("Qty_Per", "integer NULL")
             coll.Add("Short_Per", "integer NULL")
             coll.Add("Late_Days", "integer NULL")
+            coll.Add("Quantity", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_SCHEDULE", coll, "")
 
             coll = New Dictionary(Of String, String)()
@@ -2517,6 +2518,14 @@ Public Class clsCreateAllTable
             coll.Add("Penalty_Days", "integer NULL")
             coll.Add("Penalty", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_NOC_SCHEDULE_PENALTY", coll, "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("From", "decimal(18,2) NULL")
+            coll.Add("To", "decimal(18,2) NULL")
+            coll.Add("Qty", "decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_SLAB_TOLERANCE", coll, "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("Item_code", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(Item_Code)")
