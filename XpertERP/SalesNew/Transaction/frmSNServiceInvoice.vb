@@ -4551,6 +4551,7 @@ Public Class frmSNServiceInvoice
         Dim frm As New frmPendingShipment()
         frm.VendorCode = txtVendorNo.Value
         frm.strCurrCode = txtDocNo.Value
+        frm.TrandDate = txtDate.Value
         frm.ShowDialog()
         LoadBlankGrid()
         Dim objOrderHead As clsSNShipmentHead = Nothing

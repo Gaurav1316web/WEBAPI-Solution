@@ -2493,6 +2493,7 @@ Public Class clsCreateAllTable
             coll.Add("Qty_Per", "integer NULL")
             coll.Add("Short_Per", "integer NULL")
             coll.Add("Late_Days", "integer NULL")
+            coll.Add("Quantity", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_SCHEDULE", coll, "")
 
             coll = New Dictionary(Of String, String)()
@@ -2517,6 +2518,14 @@ Public Class clsCreateAllTable
             coll.Add("Penalty_Days", "integer NULL")
             coll.Add("Penalty", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_NOC_SCHEDULE_PENALTY", coll, "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("From", "decimal(18,2) NULL")
+            coll.Add("To", "decimal(18,2) NULL")
+            coll.Add("Qty", "decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_SLAB_TOLERANCE", coll, "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("Item_code", "VARCHAR(50) NOT NULL REFERENCES TSPL_ITEM_MASTER(Item_Code)")
@@ -55935,6 +55944,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Late_Days", "integer NULL")
             coll.Add("Extension_Days", "integer NULL")
             coll.Add("Item_Type", "varchar(5) NULL")
+            coll.Add("Tolerance_Qty", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
             qry = "alter table TSPL_TENDER_SCHEDULE alter column Item_Code varchar(50) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
