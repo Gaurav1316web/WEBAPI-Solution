@@ -1153,7 +1153,19 @@ Public Class clsGRNHead
             '================================================================================
 
             If Is_Auto_Generate_MRN Then
-                GenerateMRN(obj, trans)
+                If objCommonVar.RCDFCFP Then
+                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                        qry = "select ISNULL(Is_Auto_Weighment,0)  as Is_Auto_Weighment,ISNULL(Visual_QC,0) as Visual_QC from tspl_item_master where Item_Code='" + obj.Arr(0).Item_Code + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            If clsCommon.myCDecimal(dt.Rows(0)("Is_Auto_Weighment")) = 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("Visual_QC")) = 0 Then
+                                GenerateMRN(obj, trans)
+                            End If
+                        End If
+                    End If
+                Else
+                    GenerateMRN(obj, trans)
+                End If
             End If
 
             qry = "Update TSPL_GRN_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where GRN_No='" + strDocNo + "'"
