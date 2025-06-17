@@ -1220,6 +1220,9 @@ Public Class FrmPendingAproval
     ''-------------------------------------------------------------------
 
     Private Sub btnShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShow.Click
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+            dtpToDate.Value = dtpFromDate.Value
+        End If
         If clsCommon.myCDate(dtpFromDate.Value, "dd/MMM/yyyy") > clsCommon.myCDate(dtpToDate.Value, "dd/MMM/yyyy") Then
             common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'", Me.Text)
         Else
