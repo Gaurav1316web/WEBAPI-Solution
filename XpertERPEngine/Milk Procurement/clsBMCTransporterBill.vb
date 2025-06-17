@@ -325,6 +325,31 @@ Public Class clsBMCTransporterBill
             End If
             objVendInvTR.GL_Account_Desc = clsGLAccount.GetName(objVendInvTR.GL_Account_Code, trans)
 
+            Dim qry2 As String = clsDBFuncationality.getSingleValue(" select Tanker_Transporter_Code from TSPL_TANKER_MASTER where Tanker_No='" + obj.Tanker_No + "'", trans)
+            Dim qry3 As String = clsDBFuncationality.getSingleValue(" select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + qry2 + "'", trans)
+
+            Dim qry4 As String = "Select TSPL_VENDOR_ACCOUNT_SET.Payable_Account,TSPL_VENDOR_MASTER.GSTRegistered,TSPL_VENDOR_MASTER.Vendor_Account,TSPL_VENDOR_MASTER.Terms_Code ,TSPL_TERMS_MASTER.Terms_Desc,TSPL_TERMS_MASTER.No_Days,TSPL_VENDOR_MASTER.Vendor_Name   
+from TSPL_VENDOR_MASTER 
+left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code =TSPL_VENDOR_MASTER.Terms_Code 
+left outer join TSPL_VENDOR_ACCOUNT_SET on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code = TSPL_VENDOR_MASTER.Vendor_Account
+where TSPL_VENDOR_MASTER.Vendor_Code ='" + qry2 + "'"
+            Dim dtVendor As DataTable = clsDBFuncationality.GetDataTable(qry4, trans)
+            If dtVendor IsNot Nothing AndAlso dtVendor.Rows.Count > 0 Then
+                objVendInv.Terms_Code = clsCommon.myCstr(dtVendor.Rows(0)("Terms_Code"))
+                objVendInv.Terms_Description = clsCommon.myCstr(dtVendor.Rows(0)("Terms_Desc"))
+                objVendInv.Due_Date = obj.Document_Date.AddDays(clsCommon.myCdbl(dtVendor.Rows(0)("No_Days")))
+                objVendInv.Account_Set = clsCommon.myCstr(dtVendor.Rows(0)("Vendor_Account"))
+                objVendInv.GSTRegistered = clsCommon.myCDecimal(dtVendor.Rows(0)("GSTRegistered"))
+                objVendInv.Vendor_Control_AC = clsCommon.myCstr(dtVendor.Rows(0)("Payable_Account"))
+            Else
+                Throw New Exception("Please define vendor account set for vendor [" + qry2 + "] ")
+            End If
+            objVendInv.Vendor_Code = qry2
+            objVendInv.Vendor_Name = qry3
+            ' objVendInv.MCC_Code = obj.MCC_Code
+            'objVendInv.MCC_Name = obj.MCC_Name
+            objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
+
             objVendInv.Arr.Add(objVendInvTR)
             objVendInv.SaveData(objVendInv, True, trans)
             clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
