@@ -50516,6 +50516,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Penalty_Qty", "decimal(18,2) not null default 0")
             coll.Add("Penalty_Applicable_Per", "decimal(18,2) not null default 0")
             coll.Add("Short_Qty", "decimal(18,2) not null default 0")
+            coll.Add("Tolerance_Slab_Qty", "decimal(18,2) not null default 0")
             coll.Add("Item_Rate", "decimal(18,2) not null default 0")
             coll.Add("Penalty_Rate", "decimal(18,2) not null default 0")
             coll.Add("Penalty_Amount", "decimal(18,2) not null default 0")

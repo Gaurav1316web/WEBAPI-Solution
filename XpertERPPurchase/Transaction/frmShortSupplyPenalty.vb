@@ -53,6 +53,7 @@ Public Class frmShortSupplyPenalty
         lblPenaltyQty.Text = 0
         lblApplicable.Text = 0
         lblShortQty.Text = 0
+        lblToleranceSlabQty.Text = 0
         lblRate.Text = 0
         txtPenaltyRate.Value = 0
         lblPenaltyAmt.Text = 0
@@ -374,13 +375,13 @@ Public Class frmShortSupplyPenalty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNDate).Value = clsCommon.GetPrintDate(rows("GRN Date"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentCode).Value = clsCommon.myCstr(rows("Weighment Code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentDate).Value = clsCommon.GetPrintDate(rows("Weighment Date"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = clsCommon.myCdbl(rows("Gross Weight"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = clsCommon.myCdbl(rows("Tare Weight"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = clsCommon.myCdbl(rows("Extra Weight"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colNetWeight).Value = clsCommon.myCdbl(rows("Net Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = clsCommon.myCDecimal(rows("Gross Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = clsCommon.myCDecimal(rows("Tare Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = clsCommon.myCDecimal(rows("Extra Weight"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colNetWeight).Value = clsCommon.myCDecimal(rows("Net Weight"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNNo).Value = clsCommon.myCstr(rows("SRN No"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNDate).Value = clsCommon.GetPrintDate(rows("SRN Date"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNQty).Value = clsCommon.myCdbl(rows("SRN Qty"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNQty).Value = clsCommon.myCDecimal(rows("SRN Qty"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(rows("UOM"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colPINo).Value = clsCommon.myCstr(rows("PI No"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colPIStatus).Value = clsCommon.myCstr(rows("PI Status"))
@@ -433,11 +434,11 @@ Public Class frmShortSupplyPenalty
         If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
             Dim SRNQty As Double = 0
             For Each grow As GridViewRowInfo In gv1.Rows
-                SRNQty += clsCommon.myCdbl(grow.Cells(colSRNQty).Value)
+                SRNQty += clsCommon.myCDecimal(grow.Cells(colSRNQty).Value)
             Next
             'lblRALQty.Text = RALQty
             lblSRNQty.Text = SRNQty
-            lblPenaltyQty.Text = Math.Round(clsCommon.myCdbl(lblRALQty.Text) - SRNQty, 2)
+            lblPenaltyQty.Text = Math.Round(clsCommon.myCDecimal(lblRALQty.Text) - SRNQty, 2)
         Else
             lblRALQty.Text = 0
             lblSRNQty.Text = 0
@@ -447,7 +448,7 @@ Public Class frmShortSupplyPenalty
 
     Sub ReturnRALQty()
         Dim Qry As String = "  Select Sum(TSPL_TENDER_SCHEDULE.Schedule_Qty)Schedule_Qty,Max(TSPL_TENDER_SCHEDULE.Schedule_Short_Per)Schedule_Short_Per,
- Max(TSPL_TENDER_DETAIL.Rate)Item_Cost
+ Max(TSPL_TENDER_DETAIL.Rate)Item_Cost,max(TSPL_TENDER_SCHEDULE.Tolerance_Qty) as Tolerance_Qty
  from TSPL_TENDER_DETAIL
  Left Outer Join TSPL_TENDER_SCHEDULE On TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode 
  And TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code 
@@ -456,10 +457,11 @@ Public Class frmShortSupplyPenalty
 where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "' and TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            lblRALQty.Text = clsCommon.myCdbl(dt.Rows(0)("Schedule_Qty"))
-            lblApplicable.Text = clsCommon.myCdbl(dt.Rows(0)("Schedule_Short_Per"))
-            lblRate.Text = Math.Round(clsCommon.myCdbl(dt.Rows(0)("Item_Cost")), 2)
-            lblShortQty.Text = clsCommon.myCdbl(dt.Rows(0)("Schedule_Qty")) * (clsCommon.myCdbl(dt.Rows(0)("Schedule_Short_Per")) / 100)
+            lblRALQty.Text = clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty"))
+            lblApplicable.Text = clsCommon.myCDecimal(dt.Rows(0)("Schedule_Short_Per"))
+            lblToleranceSlabQty.Text = clsCommon.myCDecimal(dt.Rows(0)("Tolerance_Qty"))
+            lblRate.Text = Math.Round(clsCommon.myCDecimal(dt.Rows(0)("Item_Cost")), 2)
+            lblShortQty.Text = clsCommon.myCDecimal(dt.Rows(0)("Schedule_Qty")) * (clsCommon.myCDecimal(dt.Rows(0)("Schedule_Short_Per")) / 100)
             If Not MyLabel6.Text.Contains(clsCommon.myCstr(dt.Rows(0)("Schedule_Short_Per"))) Then
                 MyLabel6.Text += "(>" + clsCommon.myCstr(dt.Rows(0)("Schedule_Short_Per")) + "%)"
             End If
@@ -468,8 +470,14 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
 
     Private Sub txtPenaltyRate_TextChanged(sender As Object, e As EventArgs) Handles txtPenaltyRate.TextChanged
         Try
-            If clsCommon.myCdbl(lblPenaltyQty.Text) > clsCommon.myCdbl(lblShortQty.Text) Then
-                lblPenaltyAmt.Text = Math.Round((clsCommon.myCdbl(lblPenaltyQty.Text) * clsCommon.myCdbl(lblRate.Text)) * (clsCommon.myCdbl(txtPenaltyRate.Value) / 100))
+            Dim dclShortQty As Decimal = clsCommon.myCDecimal(lblShortQty.Text)
+            If clsCommon.myCDecimal(lblToleranceSlabQty.Text) > 0 Then
+                If dclShortQty > clsCommon.myCDecimal(lblToleranceSlabQty.Text) Then
+                    dclShortQty = clsCommon.myCDecimal(lblToleranceSlabQty.Text)
+                End If
+            End If
+            If clsCommon.myCDecimal(lblPenaltyQty.Text) > dclShortQty Then
+                lblPenaltyAmt.Text = Math.Round((clsCommon.myCDecimal(lblPenaltyQty.Text) * clsCommon.myCDecimal(lblRate.Text)) * (clsCommon.myCDecimal(txtPenaltyRate.Value) / 100))
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -499,7 +507,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 Throw New Exception("PI No can't be blank !")
             End If
 
-            If clsCommon.myCdbl(lblPenaltyAmt.Text) <= 0 Then
+            If clsCommon.myCDecimal(lblPenaltyAmt.Text) <= 0 Then
                 Throw New Exception("Document can't save beacuse penalty amount is : " + clsCommon.myCstr(lblPenaltyAmt.Text))
             End If
 
@@ -551,6 +559,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 obj.Short_Excess_Qty = lblPenaltyQty.Text
                 obj.Penalty_Applicable_Per = lblApplicable.Text
                 obj.Applicable_Short_Qty = lblShortQty.Text
+                obj.Tolerance_Slab_Qty = lblToleranceSlabQty.Text
                 obj.Item_Rate = lblRate.Text
                 obj.Penalty_Rate = txtPenaltyRate.Value
                 obj.Penalty_Amount = lblPenaltyAmt.Text
@@ -570,13 +579,13 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                         'objTR.Vehicle_No = clsCommon.myCstr(grow.Cells("Vehicle No").Value)
                         objTR.Weighment_Code = clsCommon.myCstr(grow.Cells(colWeighmentCode).Value)
                         objTR.Weighment_Date = clsCommon.myCDate(grow.Cells(colWeighmentDate).Value)
-                        objTR.Gross_Weight = clsCommon.myCdbl(grow.Cells(colGrossWeight).Value)
-                        objTR.Tare_Weight = clsCommon.myCdbl(grow.Cells(colTareWeight).Value)
-                        objTR.Extra_Weight = clsCommon.myCdbl(grow.Cells(colExtraWeight).Value)
-                        objTR.Net_Weight = clsCommon.myCdbl(grow.Cells(colNetWeight).Value)
+                        objTR.Gross_Weight = clsCommon.myCDecimal(grow.Cells(colGrossWeight).Value)
+                        objTR.Tare_Weight = clsCommon.myCDecimal(grow.Cells(colTareWeight).Value)
+                        objTR.Extra_Weight = clsCommon.myCDecimal(grow.Cells(colExtraWeight).Value)
+                        objTR.Net_Weight = clsCommon.myCDecimal(grow.Cells(colNetWeight).Value)
                         objTR.SRN_No = clsCommon.myCstr(grow.Cells(colSRNNo).Value)
                         objTR.SRN_Date = clsCommon.myCDate(grow.Cells(colSRNDate).Value)
-                        objTR.SRN_Qty = clsCommon.myCdbl(grow.Cells(colSRNQty).Value)
+                        objTR.SRN_Qty = clsCommon.myCDecimal(grow.Cells(colSRNQty).Value)
                         objTR.UOM = clsCommon.myCstr(grow.Cells(colUOM).Value)
                         If clsCommon.myLen(objTR.GRN_No) > 0 Then
                             obj.Arr.Add(objTR)
@@ -635,6 +644,7 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                 lblPenaltyQty.Text = obj.Short_Excess_Qty
                 lblApplicable.Text = obj.Penalty_Applicable_Per
                 lblShortQty.Text = obj.Applicable_Short_Qty
+                lblToleranceSlabQty.Text = obj.Tolerance_Slab_Qty
                 lblRate.Text = obj.Item_Rate
                 txtPenaltyRate.Value = obj.Penalty_Rate
                 lblPenaltyAmt.Text = obj.Penalty_Amount
@@ -660,13 +670,13 @@ where TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNDate).Value = clsCommon.GetPrintDate(objTr.GRN_Date)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentCode).Value = clsCommon.myCstr(objTr.Weighment_Code)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colWeighmentDate).Value = clsCommon.GetPrintDate(objTr.Weighment_Date)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = clsCommon.myCdbl(objTr.Gross_Weight)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = clsCommon.myCdbl(objTr.Tare_Weight)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = clsCommon.myCdbl(objTr.Extra_Weight)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colNetWeight).Value = clsCommon.myCdbl(objTr.Net_Weight)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = clsCommon.myCDecimal(objTr.Gross_Weight)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = clsCommon.myCDecimal(objTr.Tare_Weight)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = clsCommon.myCDecimal(objTr.Extra_Weight)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colNetWeight).Value = clsCommon.myCDecimal(objTr.Net_Weight)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNNo).Value = clsCommon.myCstr(objTr.SRN_No)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNDate).Value = clsCommon.GetPrintDate(objTr.SRN_Date)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNQty).Value = clsCommon.myCdbl(objTr.SRN_Qty)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSRNQty).Value = clsCommon.myCDecimal(objTr.SRN_Qty)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(objTr.UOM)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPINo).Value = clsCommon.myCstr(objTr.PI_No)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPIStatus).Value = clsCommon.myCstr(objTr.PI_Status)

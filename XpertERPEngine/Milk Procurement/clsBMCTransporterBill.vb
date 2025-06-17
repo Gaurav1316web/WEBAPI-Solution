@@ -303,6 +303,7 @@ Public Class clsBMCTransporterBill
             objVendInv.Document_Type = "I"
             objVendInv.Invoice_Type = "AP"
             objVendInv.loc_code = clsCommon.myCstr(Loc_Seg)
+            'objVendInv.loc_code = "JPR"
             objVendInv.Document_Total = objTr.Amount
             objVendInv.Posting_Date = obj.Document_Date
             objVendInv.Vendor_Invoice_Date = obj.Document_Date
@@ -325,13 +326,38 @@ Public Class clsBMCTransporterBill
             End If
             objVendInvTR.GL_Account_Desc = clsGLAccount.GetName(objVendInvTR.GL_Account_Code, trans)
 
+            Dim qry2 As String = clsDBFuncationality.getSingleValue(" select Tanker_Transporter_Code from TSPL_TANKER_MASTER where Tanker_No='" + obj.Tanker_No + "'", trans)
+            Dim qry3 As String = clsDBFuncationality.getSingleValue(" select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + qry2 + "'", trans)
+
+            Dim qry4 As String = "Select TSPL_VENDOR_ACCOUNT_SET.Payable_Account,TSPL_VENDOR_MASTER.GSTRegistered,TSPL_VENDOR_MASTER.Vendor_Account,TSPL_VENDOR_MASTER.Terms_Code ,TSPL_TERMS_MASTER.Terms_Desc,TSPL_TERMS_MASTER.No_Days,TSPL_VENDOR_MASTER.Vendor_Name   
+from TSPL_VENDOR_MASTER 
+left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code =TSPL_VENDOR_MASTER.Terms_Code 
+left outer join TSPL_VENDOR_ACCOUNT_SET on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code = TSPL_VENDOR_MASTER.Vendor_Account
+where TSPL_VENDOR_MASTER.Vendor_Code ='" + qry2 + "'"
+            Dim dtVendor As DataTable = clsDBFuncationality.GetDataTable(qry4, trans)
+            If dtVendor IsNot Nothing AndAlso dtVendor.Rows.Count > 0 Then
+                objVendInv.Terms_Code = clsCommon.myCstr(dtVendor.Rows(0)("Terms_Code"))
+                objVendInv.Terms_Description = clsCommon.myCstr(dtVendor.Rows(0)("Terms_Desc"))
+                objVendInv.Due_Date = obj.Document_Date.AddDays(clsCommon.myCdbl(dtVendor.Rows(0)("No_Days")))
+                objVendInv.Account_Set = clsCommon.myCstr(dtVendor.Rows(0)("Vendor_Account"))
+                objVendInv.GSTRegistered = clsCommon.myCDecimal(dtVendor.Rows(0)("GSTRegistered"))
+                objVendInv.Vendor_Control_AC = clsCommon.myCstr(dtVendor.Rows(0)("Payable_Account"))
+            Else
+                Throw New Exception("Please define vendor account set for vendor [" + qry2 + "] ")
+            End If
+            objVendInv.Vendor_Code = qry2
+            objVendInv.Vendor_Name = qry3
+            ' objVendInv.MCC_Code = obj.MCC_Code
+            'objVendInv.MCC_Name = obj.MCC_Name
+            objVendInv.Arr = New List(Of clsVedorInvoiceDetail)
+
             objVendInv.Arr.Add(objVendInvTR)
             objVendInv.SaveData(objVendInv, True, trans)
             clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
 
-            objVendInv.Document_No = ""
-            objVendInv.SaveData(objVendInv, True, trans)
-            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+            'objVendInv.Document_No = ""
+            'objVendInv.SaveData(objVendInv, True, trans)
+            'clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
         Next
         Return True
     End Function
@@ -360,28 +386,28 @@ Public Class clsBMCTransporterBill
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
 
-            'For Each objtr As clsBMCTransporterBillDetail In obj.Arr
-            '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where Against_TransferToSavingPKID= " + clsCommon.myCstr(objtr.PK_ID) + "", trans)
-            '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '        For Each dr As DataRow In dt.Rows
-            '            Dim strAPDocCode As String = clsCommon.myCstr(dr("Document_No"))
-            '            If clsCommon.myLen(strAPDocCode) > 0 Then
-            '                Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_DEDUCTION where AP_Invoice_No='" + strAPDocCode + "'", trans)
-            '                If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
-            '                    Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Deduction ")
-            '                End If
-            '                dtCheck = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where AP_Invoice_No='" + strAPDocCode + "'", trans)
-            '                If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
-            '                    Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Addition")
-            '                End If
-            '                clsVedorInvoiceHead.ReverseAndUnpost(strAPDocCode, trans)
-            '                clsVedorInvoiceHead.DeleteData(strAPDocCode, trans)
-            '            End If
-            '        Next
-            '    End If
-            'Next
+            For Each objtr As clsBMCTransporterBillDetail In obj.Arr
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where RefDocNo= '" + clsCommon.myCstr(objtr.Document_Code) + "'", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        Dim strAPDocCode As String = clsCommon.myCstr(dr("Document_No"))
+                        If clsCommon.myLen(strAPDocCode) > 0 Then
+                            '            Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_DEDUCTION where AP_Invoice_No='" + strAPDocCode + "'", trans)
+                            '            If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+                            '                Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Deduction ")
+                            '            End If
+                            '            dtCheck = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where AP_Invoice_No='" + strAPDocCode + "'", trans)
+                            '            If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+                            '                Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Addition")
+                            '            End If
+                            clsVedorInvoiceHead.ReverseAndUnpost(strAPDocCode, trans)
+                            clsVedorInvoiceHead.DeleteData(strAPDocCode, trans)
+                        End If
+                    Next
+                End If
+            Next
 
-            Qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_By=null,Posted_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "',Status=0 where Document_Code='" + strDocNo + "'"
+                Qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_By=null,Posted_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "',Status=0 where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)

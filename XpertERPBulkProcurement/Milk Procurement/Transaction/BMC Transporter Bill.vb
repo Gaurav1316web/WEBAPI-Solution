@@ -316,20 +316,37 @@ Public Class BMC_Transporter_Bill
         loadGridData()
         FatSnfShortageDetail()
         FatSnfRate()
-        Total_Toll_Tax = TxtTotalTollTax.Text
-        Total_Ice_Charge = TxtTotalIceCharge.Text
-        Total_BMC_TOTAL = TxtBMCTotal.Text
-        Total_fat_snf_shortage = TxtTotalFatSnfShortage.Text
-        TxtTotalAmount.Text = (Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
-        Total_Amount = TxtTotalAmount.Text
-        TxtGrossAmount.Text = (Total_Amount + Total_fat_snf_shortage)
+        Total_Toll_Tax = clsCommon.myCdbl(TxtTotalTollTax.Text)
+        Total_Ice_Charge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
+        Total_BMC_TOTAL = clsCommon.myCdbl(TxtBMCTotal.Text)
+        Total_fat_snf_shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
+        TxtTotalAmount.Text = clsCommon.myCdbl(Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
+        Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
+        TxtGrossAmount.Text = clsCommon.myCdbl(Total_Amount + Total_fat_snf_shortage)
         btnGo.Enabled = False
     End Sub
 
     Sub FatSnfRate()
         Try
             Dim qry As String = ""
-            qry = ""
+            qry = " SELECT TOP 1  Loss_FAT_Rate,Loss_SNF_Rate FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE Tanker_Rate = 1  AND convert(date,Start_Date,103) <= convert(date,'" + txtDate.Value + "',103) and End_Date is null 
+                    ORDER BY Start_Date DESC "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            Dim Fat_Rate As Decimal = 0
+            Dim Snf_Rate As Decimal = 0
+            For Each row As DataRow In dt.Rows
+                'If clsCommon.myCdbl(row("ADJFATKG")) < 0 Then
+                Fat_Rate += clsCommon.myCdbl(row("Loss_FAT_Rate"))
+                'End If
+                'If clsCommon.myCdbl(row("ADJSNFKG")) < 0 Then
+                Snf_Rate += clsCommon.myCdbl(row("Loss_SNF_Rate"))
+                'End If
+            Next
+            TxtFatRate.Text = Fat_Rate
+            TxtSnfRate.Text = Snf_Rate
+
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -672,6 +689,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             isInsideLoadData = True
             BlankAllControls()
             LoadBlankGrid()
+            btnGo.Enabled = False
 
             Dim obj As New clsBMCTransporterBill()
             obj = clsBMCTransporterBill.GetData(strDocumentNo, NavType, True, Nothing)
