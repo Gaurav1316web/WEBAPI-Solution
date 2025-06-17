@@ -230,9 +230,9 @@ Public Class clsPurchasReturnHead
 
         ElseIf val = "Transfer" Then
             ''''---------------------Added By ----Pankaj Kumar----on 04/03/2012------------------------
-            Dim QryTrnsfr As String = "select TSPL_IssueReturn_HEAD.Created_By,TSPL_IssueReturn_HEAD.Modify_By, '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE) + "' as RunDate, TSPL_COMPANY_MASTER.logo_img, TSPL_COMPANY_MASTER.logo_img2, TSPL_COMPANY_MASTER.Comp_Name  as CompanyName, " &
+            Dim QryTrnsfr As String = "select " + TSPL_IssueReturn_HEAD + ".Created_By," + TSPL_IssueReturn_HEAD + ".Modify_By, '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE) + "' as RunDate, TSPL_COMPANY_MASTER.logo_img, TSPL_COMPANY_MASTER.logo_img2, TSPL_COMPANY_MASTER.Comp_Name  as CompanyName, " &
     " TSPL_COMPANY_MASTER.Tin_No as CompanyTin,Case when len(TSPL_COMPANY_MASTER.Add1)>0 then TSPL_COMPANY_MASTER.Add1 else '' end +case when len(TSPL_COMPANY_MASTER.Add2)>0 then ','  else  '' end  +case when len(TSPL_COMPANY_MASTER.Add2)>0 then TSPL_COMPANY_MASTER.Add2  else  '' end + case when len(TSPL_COMPANY_MASTER.Add3)>0 then ','  else  '' end +case when len(TSPL_COMPANY_MASTER.Add3)>0 then TSPL_COMPANY_MASTER.Add3  else  '' end as CompanyAddress, " &
-    " TSPL_IssueReturn_HEAD.Doc_No, TSPL_IssueReturn_HEAD.Doc_Date, TSPL_IssueReturn_HEAD.Doc_Type, " &
+    " " + TSPL_IssueReturn_HEAD + ".Doc_No, " + TSPL_IssueReturn_HEAD + ".Doc_Date, " + TSPL_IssueReturn_HEAD + ".Doc_Type, " &
     " (select Case when (len(TSPL_LOCATION_MASTER .Add1)>0) then convert(varchar(20),TSPL_LOCATION_MASTER.Add1,103) else '' end + " &
 " case when (len(TSPL_LOCATION_MASTER.Add2)>0) then ', '+ convert(varchar(20),TSPL_LOCATION_MASTER.Add2,103)  else  '' end + " &
 " case when (len(TSPL_LOCATION_MASTER.Add3)>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.Add3,103)  else  '' end + " &
@@ -241,28 +241,28 @@ Public Class clsPurchasReturnHead
 " case when (len(TSPL_LOCATION_MASTER.State )>0) then ', '+convert(varchar(20),TSPL_LOCATION_MASTER.State,103)  else  ''  end + " &
 " case when (len(TSPL_LOCATION_MASTER.Pin_Code )>0) then ', '+convert(varchar(10),TSPL_LOCATION_MASTER.Pin_Code,103)  else  ''  end + " &
 " case when (len(TSPL_LOCATION_MASTER.Country )>0) then ', '+TSPL_LOCATION_MASTER.Country  else  ''  end  from TSPL_LOCATION_MASTER where location_Code='L001' ) as Address, " &
-    " (select Location_Desc from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as ToLocDesc, " &
-    " (select Loc_Segment_Code from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as ToLocSegCode, " &
-    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as TinNo, " &
-    " (select TCAN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.To_Location) as CstNo, " &
-    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=TSPL_IssueReturn_HEAD.From_Location) as CompanyTin, " &
+    " (select Location_Desc from TSPL_LOCATION_MASTER where location_Code=" + TSPL_IssueReturn_HEAD + ".To_Location) as ToLocDesc, " &
+    " (select Loc_Segment_Code from TSPL_LOCATION_MASTER where location_Code=" + TSPL_IssueReturn_HEAD + ".To_Location) as ToLocSegCode, " &
+    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=" + TSPL_IssueReturn_HEAD + ".To_Location) as TinNo, " &
+    " (select TCAN_No from TSPL_LOCATION_MASTER where location_Code=" + TSPL_IssueReturn_HEAD + ".To_Location) as CstNo, " &
+    " (select TIN_No from TSPL_LOCATION_MASTER where location_Code=" + TSPL_IssueReturn_HEAD + ".From_Location) as CompanyTin, " &
     " '' as NRG_No, TSPL_IssueReturn_DETAIL.Item_Code AS ItemCode, TSPL_IssueReturn_DETAIL.Item_Desc AS Desciption, " &
     " TSPL_IssueReturn_DETAIL.Issued_Qty AS Quantity, TSPL_IssueReturn_DETAIL.Unit_code AS Uom, TSPL_IssueReturn_DETAIL.Unit_Cost AS Rate, " &
-    " TSPL_IssueReturn_DETAIL.Amount AS Amount, TSPL_IssueReturn_HEAD.TAX1 AS TaxRateDesc1, TSPL_IssueReturn_HEAD.TAX1_Amt as TaxRate1, " &
-    " TSPL_IssueReturn_HEAD.TAX2 as TaxRateDesc2, TSPL_IssueReturn_HEAD.TAX2_Amt as TaxRate2, TSPL_IssueReturn_HEAD.TAX3 as TaxRateDesc3, " &
-    " TSPL_IssueReturn_HEAD.TAX3_Amt as TaxRate3, TSPL_IssueReturn_HEAD.TAX4 as TaxRateDesc4, TSPL_IssueReturn_HEAD.TAX4_Amt as TaxRate4, " &
-    " TSPL_IssueReturn_HEAD.TAX5 as TaxRateDesc5, TSPL_IssueReturn_HEAD.TAX5_Amt as TaxRate5, TSPL_IssueReturn_HEAD.TAX6 as TaxRateDesc6, " &
-    " TSPL_IssueReturn_HEAD.TAX6_Amt as TaxRate6, TSPL_IssueReturn_HEAD.TAX7 as TaxRateDesc7, TSPL_IssueReturn_HEAD.TAX7_Amt as TaxRate7, " &
-    " TSPL_IssueReturn_HEAD.TAX8 as TaxRateDesc8, TSPL_IssueReturn_HEAD.TAX8_Amt as TaxRate8, TSPL_IssueReturn_HEAD.TAX9 as TaxRateDesc9, " &
-    " TSPL_IssueReturn_HEAD.TAX9_Amt as TaxRate9, TSPL_IssueReturn_DETAIL.TAX10 as TaxRateDesc10, TSPL_IssueReturn_DETAIL.TAX10_Amt as  TaxRate10 " &
-    " FROM TSPL_IssueReturn_HEAD " &
-    " INNER JOIN TSPL_IssueReturn_DETAIL ON TSPL_IssueReturn_HEAD.Doc_No = TSPL_IssueReturn_DETAIL.Doc_No " &
-    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON TSPL_IssueReturn_HEAD.Issue_To = emp1.EMP_CODE " &
-    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON TSPL_IssueReturn_HEAD.Request_By = emp2.EMP_CODE " &
-    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON TSPL_IssueReturn_HEAD.From_Location = loc1.Location_Code " &
-    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON TSPL_IssueReturn_HEAD.To_Location = loc2.Location_Code " &
-    " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_IssueReturn_HEAD.comp_code = TSPL_COMPANY_MASTER.Comp_Code " &
-    " where TSPL_IssueReturn_HEAD.Doc_No='" + txtDocNo + "' and TSPL_IssueReturn_HEAD.Doc_Type='" + val + "' "
+    " TSPL_IssueReturn_DETAIL.Amount AS Amount, " + TSPL_IssueReturn_HEAD + ".TAX1 AS TaxRateDesc1, " + TSPL_IssueReturn_HEAD + ".TAX1_Amt as TaxRate1, " &
+    " " + TSPL_IssueReturn_HEAD + ".TAX2 as TaxRateDesc2, " + TSPL_IssueReturn_HEAD + ".TAX2_Amt as TaxRate2, " + TSPL_IssueReturn_HEAD + ".TAX3 as TaxRateDesc3, " &
+    " " + TSPL_IssueReturn_HEAD + ".TAX3_Amt as TaxRate3, " + TSPL_IssueReturn_HEAD + ".TAX4 as TaxRateDesc4, " + TSPL_IssueReturn_HEAD + ".TAX4_Amt as TaxRate4, " &
+    " " + TSPL_IssueReturn_HEAD + ".TAX5 as TaxRateDesc5, " + TSPL_IssueReturn_HEAD + ".TAX5_Amt as TaxRate5, " + TSPL_IssueReturn_HEAD + ".TAX6 as TaxRateDesc6, " &
+    " " + TSPL_IssueReturn_HEAD + ".TAX6_Amt as TaxRate6, " + TSPL_IssueReturn_HEAD + ".TAX7 as TaxRateDesc7, " + TSPL_IssueReturn_HEAD + ".TAX7_Amt as TaxRate7, " &
+    " " + TSPL_IssueReturn_HEAD + ".TAX8 as TaxRateDesc8, " + TSPL_IssueReturn_HEAD + ".TAX8_Amt as TaxRate8, " + TSPL_IssueReturn_HEAD + ".TAX9 as TaxRateDesc9, " &
+    " " + TSPL_IssueReturn_HEAD + ".TAX9_Amt as TaxRate9, TSPL_IssueReturn_DETAIL.TAX10 as TaxRateDesc10, TSPL_IssueReturn_DETAIL.TAX10_Amt as  TaxRate10 " &
+    " FROM " + TSPL_IssueReturn_HEAD + " " &
+    " INNER JOIN TSPL_IssueReturn_DETAIL ON " + TSPL_IssueReturn_HEAD + ".Doc_No = TSPL_IssueReturn_DETAIL.Doc_No " &
+    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp1 ON " + TSPL_IssueReturn_HEAD + ".Issue_To = emp1.EMP_CODE " &
+    " LEFT OUTER JOIN  TSPL_EMPLOYEE_MASTER as emp2 ON " + TSPL_IssueReturn_HEAD + ".Request_By = emp2.EMP_CODE " &
+    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER as loc1 ON " + TSPL_IssueReturn_HEAD + ".From_Location = loc1.Location_Code " &
+    " LEFT OUTER JOIN  TSPL_LOCATION_MASTER  as loc2 ON " + TSPL_IssueReturn_HEAD + ".To_Location = loc2.Location_Code " &
+    " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON " + TSPL_IssueReturn_HEAD + ".comp_code = TSPL_COMPANY_MASTER.Comp_Code " &
+    " where " + TSPL_IssueReturn_HEAD + ".Doc_No='" + txtDocNo + "' and " + TSPL_IssueReturn_HEAD + ".Doc_Type='" + val + "' "
             ''''--------------------------------------------------Code Ends Here--------------------------------------------------
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryTrnsfr)
             frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "crptscrapTransfer", "Issur/Return/Transfer")

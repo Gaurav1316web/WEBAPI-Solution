@@ -47,7 +47,102 @@ Public Class clsMilkTransferIn
     Public Receipt_Control_SNF As Double = 0
     'Public arrPaperSeal As List(Of clsTransferInPaperSealDetail) = Nothing
     'Public arrManualSeal As List(Of clsTransferInManualSealDetail) = Nothing
+    Public Shared Function funGatepassdairyPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String, ByVal VehicleCodeNotMandatoryOnLoadINSlip As Boolean, ByVal CreateLaodinSlipVehicleWise As Boolean, ByVal txtLorryNo As String) As Boolean
+        Dim TSPL_GATEPASS_MASTER_DAIRYSALE As String = Nothing
+        Dim TSPL_GATEPASS_detail_DAIRYSALE As String = Nothing
+        If isCancel Then
+            TSPL_GATEPASS_MASTER_DAIRYSALE = "TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data"
+            TSPL_GATEPASS_detail_DAIRYSALE = "TSPL_GATEPASS_detail_DAIRYSALE_cancel_data"
+        Else
+            TSPL_GATEPASS_MASTER_DAIRYSALE = "TSPL_GATEPASS_MASTER_DAIRYSALE"
+            TSPL_GATEPASS_detail_DAIRYSALE = "TSPL_GATEPASS_detail_DAIRYSALE"
+        End If
+        Dim Qry2 As String = ""
+        '====update by preeti gupta Against ticket no[MIL/24/07/19-000111,UDL/10/04/19-000287,MIL/01/08/19-000116]
+        'Ticket No  MIL/20/08/19-000123 Add Crate Qty,Other Qty
+        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GMD") = CompairStringResult.Equal Then
+            Qry2 = "select final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin  from (" &
+"select Gate_Pass_No,max(gate_Pass_Date) as gate_Pass_Date,Booking_Location_Code,max(Booking_Loc_desc) as Booking_Loc_desc,(Vehicle_Code) as Vehicle_Code,max(Vechile_Name) as Vechile_Name,max(Route_No) as Route_No,max(Route_Desc) as Route_Desc,max(Booking_Loc_Short_Name) as Booking_Loc_Short_Name,max(Bookin_Loc_Add1)as Bookin_Loc_Add1,max(Boking_Loc_Add2) as Boking_Loc_Add2,max(booking_Loc_Add3) as booking_Loc_Add3,max(Bookin_Loc_Pin_Code) as Bookin_Loc_Pin_Code,max(Loc_Add1) as Loc_Add1,max(Loc_Add2) as Loc_Add2,max(Loc_Add3) as Loc_Add3,max(Loc_Pin_Code) as Loc_Pin_Code" &
+",max(Location_Desc) as Location_Desc,max(Location_Code) as Location_Code,Item_Code,max(Item_Desc) as Item_Desc,max(HSN_Code) as HSN_Code,Unit_code,sum(Booking_Qty) as Booking_Qty" &
+",max(comp_code) as comp_code,max(Remarks) as Remarks,max(cust_group_desc) as cust_group_desc,max(Cust_Group_Code) as Cust_Group_Code from (" &
+"select TSPL_MULTI_BOOKING_DETAIL.Document_No as Gate_Pass_No,TSPL_MULTI_BOOKING_DETAIL.Booking_No,convert(varchar," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_Date,103) as gate_Pass_Date ,TSPL_BOOKING_MATSER.location_code as Booking_Location_Code ,Booking_Location.Location_Desc as Booking_Loc_desc,TSPL_BOOKING_DETAIL.Vehicle_Code ,TSPL_VEHICLE_MASTER.Description AS Vechile_Name , isnull(TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc,Booking_Location.Loc_Short_Name as Booking_Loc_Short_Name,Booking_Location.Add1 AS Bookin_Loc_Add1,Booking_Location.Add2 AS Boking_Loc_Add2,Booking_Location.ADD3 AS booking_Loc_Add3,Booking_Location.Pin_Code AS Bookin_Loc_Pin_Code,TSPL_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc ,TSPL_ITEM_MASTER.HSN_Code  ,TSPL_BOOKING_DETAIL.Unit_code ,TSPL_BOOKING_DETAIL.DO_Qty as Booking_Qty " &
+", TSPL_LOCATION_MASTER.Add1 AS Loc_Add1,TSPL_LOCATION_MASTER.Add2 AS Loc_Add2,TSPL_LOCATION_MASTER.ADD3 AS Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_GATEPASS_MASTER_DAIRYSALE.Location_Code ,TSPL_GATEPASS_MASTER_DAIRYSALE.Comp_Code ,TSPL_GATEPASS_MASTER_DAIRYSALE.Comments AS Remarks,TSPL_BOOKING_MATSER.Cust_Group_Code ,TSPL_CUSTOMER_GROUP_MASTER.cust_group_desc " &
+                   " from TSPL_MULTI_BOOKING_DETAIL " &
+"left join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No =TSPL_MULTI_BOOKING_DETAIL.Booking_No " &
+"left join  TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No =TSPL_BOOKING_MATSER.Document_No " &
+"left join " + TSPL_GATEPASS_MASTER_DAIRYSALE + " on " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No =TSPL_MULTI_BOOKING_DETAIL.Document_No " &
+"left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code " &
+"LEFT OUTER JOIN TSPL_LOCATION_MASTER as Booking_Location ON Booking_Location.Location_Code =TSPL_BOOKING_MATSER.location_code " &
+"left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Vehicle_Code   " &
+"left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Route_No " &
+" left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.cust_group_code=TSPL_BOOKING_MATSER.Cust_Group_Code " &
+"LEFT OUTER JOIN TSPL_LOCATION_MASTER  ON TSPL_LOCATION_MASTER .Location_Code =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".location_code" &
+" where tspl_booking_detail.foc_item<>1 "
+            If VehicleCodeNotMandatoryOnLoadINSlip = False Then
+                Qry2 += " and tspl_booking_detail.Vehicle_Code ='" + txtLorryNo + "'"
+            End If
+            Qry2 += " and " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No ='" + StrCode + "'" &
+") as Location " &
+"group by Gate_Pass_No" &
+ " ,Vehicle_Code,Booking_Location_Code ,Item_Code ,Unit_code,Cust_Group_Code " &
+ ") as final  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=final.Comp_Code  "
 
+
+
+
+        ElseIf CreateLaodinSlipVehicleWise = False Then
+            Qry2 = " 	   select " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".shiftType,"
+            If isCancel Then
+                Qry2 += " 'Cancelled' As Report_Status, "
+            Else
+                Qry2 += " '' As Report_Status, "
+            End If
+            Qry2 += "TSPL_VEHICLE_MASTER.Vehicle_id," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Against_Demand, isnull(" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc, TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin , TSPL_LOCATION_MASTER.Add1 AS Loc_Add1,TSPL_LOCATION_MASTER.Add2 AS Loc_Add2,TSPL_LOCATION_MASTER.ADD3 AS Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin_Code,TSPL_LOCATION_MASTER.Location_Desc, " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Delivery_Code  AS Booking_No,convert(varchar(15),TSPL_BOOKING_MATSER.Document_Date,103) as Booking_Date ," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No as GatePass_No ,convert(varchar(15), " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_Date,103) as GatePass_Date," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Comp_Code,TSPL_ITEM_MASTER.HSN_CODE," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Comments AS Remarks , " + TSPL_GATEPASS_detail_DAIRYSALE + ".Item_Code,TSPL_ITEM_MASTER.Item_Desc," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Customer_Code AS cust_code,TSPL_CUSTOMER_MASTER.Customer_Name," + TSPL_GATEPASS_detail_DAIRYSALE + ".qty," + TSPL_GATEPASS_detail_DAIRYSALE + ".Unit_code ," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Vehicle_Code ,TSPL_VEHICLE_MASTER.Description AS Vechile_Name, " + TSPL_GATEPASS_detail_DAIRYSALE + ".FOC_Item from " + TSPL_GATEPASS_MASTER_DAIRYSALE + "  
+							   LEFT OUTER JOIN " + TSPL_GATEPASS_detail_DAIRYSALE + " ON " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".DOCUMENT_No=" + TSPL_GATEPASS_detail_DAIRYSALE + ".Document_No 
+							   left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Customer_Code  
+							   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=" + TSPL_GATEPASS_detail_DAIRYSALE + ".Item_Code  
+							   LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".DELIVERY_CODE
+                              LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Comp_Code 
+                             LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".location_code  
+							   left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Vehicle_Code  
+							   left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Route_No 
+							   WHERE " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No='" + StrCode + "' ORDER BY " + TSPL_GATEPASS_detail_DAIRYSALE + ".FOC_Item  "
+        Else
+            Qry2 = " select  isnull(" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Route_No,'') as Route_No ,"
+            If isCancel Then
+                Qry2 += " 'Cancelled' As Report_Status, "
+            Else
+            Qry2 += " '' As Report_Status, "
+        End If
+            Qry2 += " isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc, TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ," &
+                                " TSPL_LOCATION_MASTER.Add1 AS Loc_Add1,TSPL_LOCATION_MASTER.Add2 AS Loc_Add2,TSPL_LOCATION_MASTER.ADD3 AS Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin_Code,TSPL_LOCATION_MASTER.Location_Desc," &
+                                " " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Delivery_Code  AS Booking_No,convert(varchar(15),TSPL_BOOKING_MATSER.Document_Date,103) as Booking_Date ," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No as GatePass_No ,convert(varchar(15), " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_Date,103) as GatePass_Date," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Comp_Code,TSPL_ITEM_MASTER.HSN_CODE," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Comments AS Remarks ," &
+                               " " + TSPL_GATEPASS_detail_DAIRYSALE + ".Item_Code,TSPL_ITEM_MASTER.Item_Desc," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Customer_Code AS cust_code,TSPL_CUSTOMER_MASTER.Customer_Name," + TSPL_GATEPASS_detail_DAIRYSALE + ".qty," + TSPL_GATEPASS_detail_DAIRYSALE + ".Unit_code ," + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Vehicle_Code ,TSPL_VEHICLE_MASTER.Description AS Vechile_Name," &
+                               " " + TSPL_GATEPASS_detail_DAIRYSALE + ".FOC_Item from " + TSPL_GATEPASS_MASTER_DAIRYSALE + "  LEFT OUTER JOIN " + TSPL_GATEPASS_detail_DAIRYSALE + " ON " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".DOCUMENT_No=" + TSPL_GATEPASS_detail_DAIRYSALE + ".Document_No  " &
+                               " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Customer_Code  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=" + TSPL_GATEPASS_detail_DAIRYSALE + ".Item_Code " &
+                                " LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".DELIVERY_CODE LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Comp_Code " &
+                                " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".location_code " &
+                                " left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =" + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Vehicle_Code  " &
+                                " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Route_No " &
+                                " WHERE " + TSPL_GATEPASS_MASTER_DAIRYSALE + ".Document_No='" + StrCode + "'" &
+                               " ORDER BY " + TSPL_GATEPASS_detail_DAIRYSALE + ".FOC_Item "
+        End If
+
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry2)
+        If dt.Rows.Count > 0 Then
+            ' frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptGatePassDairySale", "Retail Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+            Dim frmCRV As New frmCrystalReportViewer()
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GMD") = CompairStringResult.Equal Then
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "CrptSummaryGatePassDairySaleForLocationWise", "Dairy Gate Pass Summry", clsCommon.myCDate(dt.Rows(0)("gate_Pass_Date")), "rptCompanyAddress.rpt")
+            Else
+                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairyGatePassEntry_New", "Dairy Gate Pass Summry", clsCommon.myCDate(dt.Rows(0)("GatePass_Date")), "rptCompanyAddress.rpt")
+            End If
+
+            frmCRV = Nothing
+        End If
+        Return True
+    End Function
 
     Public Shared Function funMilkTrnasferPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal StrCode As String) As Boolean
 
