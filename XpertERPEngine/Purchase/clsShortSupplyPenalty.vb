@@ -14,14 +14,15 @@ Public Class clsShortSupplyPenalty
     Public Item_Desc As String
     Public Remarks As String
     Public PI_No As String
-    Public RAL_Qty As Double
-    Public SRN_Qty As Double
-    Public Short_Excess_Qty As Double
-    Public Penalty_Applicable_Per As Double
-    Public Applicable_Short_Qty As Double
-    Public Item_Rate As Double
-    Public Penalty_Rate As Double
-    Public Penalty_Amount As Double
+    Public RAL_Qty As Decimal
+    Public SRN_Qty As Decimal
+    Public Short_Excess_Qty As Decimal
+    Public Penalty_Applicable_Per As Decimal
+    Public Applicable_Short_Qty As Decimal
+    Public Tolerance_Slab_Qty As Decimal
+    Public Item_Rate As Decimal
+    Public Penalty_Rate As Decimal
+    Public Penalty_Amount As Decimal
     Public Status As Integer
     Public isPost As Boolean = False
     Public Arr As List(Of clsShortSupplyPenaltyDetail)
@@ -66,6 +67,7 @@ Public Class clsShortSupplyPenalty
             clsCommon.AddColumnsForChange(coll, "Penalty_Qty", obj.Short_Excess_Qty)
             clsCommon.AddColumnsForChange(coll, "Penalty_Applicable_Per", obj.Penalty_Applicable_Per)
             clsCommon.AddColumnsForChange(coll, "Short_Qty", obj.Applicable_Short_Qty)
+            clsCommon.AddColumnsForChange(coll, "Tolerance_Slab_Qty", obj.Tolerance_Slab_Qty, True)
             clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Item_Rate)
             clsCommon.AddColumnsForChange(coll, "Penalty_Rate", obj.Penalty_Rate)
             clsCommon.AddColumnsForChange(coll, "Penalty_Amount", obj.Penalty_Amount)
@@ -96,7 +98,7 @@ Public Class clsShortSupplyPenalty
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 '===================Debit Note=========================
-                Dim dblAmount As Double = obj.Penalty_Amount
+                Dim dblAmount As Decimal = obj.Penalty_Amount
                 If True AndAlso dblAmount > 0 Then
                     Dim dt As DataTable = Nothing
                     Dim objVendorInvHead As clsVedorInvoiceHead
@@ -123,7 +125,7 @@ Public Class clsShortSupplyPenalty
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                         objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, obj.Location, trans)
-                        If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                        If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                             objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                             objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, obj.Location, trans)
                         End If
@@ -230,15 +232,16 @@ where 2=2"
             obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.PI_No = clsCommon.myCstr(dt.Rows(0)("PI_No"))
-            obj.RAL_Qty = clsCommon.myCdbl(dt.Rows(0)("RAL_Qty"))
-            obj.SRN_Qty = clsCommon.myCdbl(dt.Rows(0)("SRN_Qty"))
-            obj.Short_Excess_Qty = clsCommon.myCdbl(dt.Rows(0)("Penalty_Qty"))
-            obj.Penalty_Applicable_Per = clsCommon.myCdbl(dt.Rows(0)("Penalty_Applicable_Per"))
-            obj.Applicable_Short_Qty = clsCommon.myCdbl(dt.Rows(0)("Short_Qty"))
-            obj.Item_Rate = clsCommon.myCdbl(dt.Rows(0)("Item_Rate"))
-            obj.Penalty_Rate = clsCommon.myCdbl(dt.Rows(0)("Penalty_Rate"))
-            obj.Penalty_Amount = clsCommon.myCdbl(dt.Rows(0)("Penalty_Amount"))
-            obj.Status = clsCommon.myCdbl(dt.Rows(0)("Status"))
+            obj.RAL_Qty = clsCommon.myCDecimal(dt.Rows(0)("RAL_Qty"))
+            obj.SRN_Qty = clsCommon.myCDecimal(dt.Rows(0)("SRN_Qty"))
+            obj.Short_Excess_Qty = clsCommon.myCDecimal(dt.Rows(0)("Penalty_Qty"))
+            obj.Penalty_Applicable_Per = clsCommon.myCDecimal(dt.Rows(0)("Penalty_Applicable_Per"))
+            obj.Applicable_Short_Qty = clsCommon.myCDecimal(dt.Rows(0)("Short_Qty"))
+            obj.Tolerance_Slab_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tolerance_Slab_Qty"))
+            obj.Item_Rate = clsCommon.myCDecimal(dt.Rows(0)("Item_Rate"))
+            obj.Penalty_Rate = clsCommon.myCDecimal(dt.Rows(0)("Penalty_Rate"))
+            obj.Penalty_Amount = clsCommon.myCDecimal(dt.Rows(0)("Penalty_Amount"))
+            obj.Status = clsCommon.myCDecimal(dt.Rows(0)("Status"))
 
             qry = "Select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No,TSPL_SHORT_SUPPLY_PENALTY_DETAIL.*,TSPL_PI_DETAIL.PI_No,Case When Isnull(TSPL_PI_HEAD.Status,0)=1 Then 'Approved' Else 'Unapproved' End As [PI Status] from TSPL_SHORT_SUPPLY_PENALTY_DETAIL left Outer Join TSPL_PI_DETAIL On TSPL_PI_DETAIL.SRN_Id=TSPL_SHORT_SUPPLY_PENALTY_DETAIL.SRN_No Left Outer Join TSPL_PI_HEAD On TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No Left Outer Join TSPL_PURCHASE_ORDER_HEAD On PurchaseOrder_No=TSPL_PI_HEAD.Against_PO Where TSPL_SHORT_SUPPLY_PENALTY_DETAIL.Document_No='" + obj.Document_Code + "'"
             dt = New DataTable()
@@ -254,13 +257,13 @@ where 2=2"
                     objTr.GRN_Date = clsCommon.myCDate(rows("GRN_Date"))
                     objTr.Weighment_Code = clsCommon.myCstr(rows("Weighment_Code"))
                     objTr.Weighment_Date = clsCommon.myCDate(rows("Weighment_Date"))
-                    objTr.Gross_Weight = clsCommon.myCdbl(rows("Gross_Weight"))
-                    objTr.Tare_Weight = clsCommon.myCdbl(rows("Tare_Weight"))
-                    objTr.Extra_Weight = clsCommon.myCdbl(rows("Extra_Weight"))
-                    objTr.Net_Weight = clsCommon.myCdbl(rows("Net_Weight"))
+                    objTr.Gross_Weight = clsCommon.myCDecimal(rows("Gross_Weight"))
+                    objTr.Tare_Weight = clsCommon.myCDecimal(rows("Tare_Weight"))
+                    objTr.Extra_Weight = clsCommon.myCDecimal(rows("Extra_Weight"))
+                    objTr.Net_Weight = clsCommon.myCDecimal(rows("Net_Weight"))
                     objTr.SRN_No = clsCommon.myCstr(rows("SRN_No"))
                     objTr.SRN_Date = clsCommon.myCstr(rows("SRN_Date"))
-                    objTr.SRN_Qty = clsCommon.myCdbl(rows("SRN_Qty"))
+                    objTr.SRN_Qty = clsCommon.myCDecimal(rows("SRN_Qty"))
                     objTr.UOM = clsCommon.myCstr(rows("UOM"))
                     objTr.PI_No = clsCommon.myCstr(rows("PI_No"))
                     objTr.PI_Status = clsCommon.myCstr(rows("PI Status"))
@@ -338,7 +341,7 @@ where 2=2"
                         )xyz"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    If clsCommon.myCdbl(dt.Rows(0)("Item_Code")) = clsCommon.myCdbl(dt.Rows(0)("ItemStatus")) Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("Item_Code")) = clsCommon.myCDecimal(dt.Rows(0)("ItemStatus")) Then
                         Qry = "Update TSPL_PURCHASE_ORDER_HEAD Set close_yn='Y' Where PurchaseOrder_No='" + PONumber + "'"
                         clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                     End If
@@ -365,13 +368,13 @@ Public Class clsShortSupplyPenaltyDetail
     Public Vehicle_No As String
     Public Weighment_Code As String
     Public Weighment_Date As DateTime
-    Public Gross_Weight As Double
-    Public Tare_Weight As Double
-    Public Extra_Weight As Double
-    Public Net_Weight As Double
+    Public Gross_Weight As Decimal
+    Public Tare_Weight As Decimal
+    Public Extra_Weight As Decimal
+    Public Net_Weight As Decimal
     Public SRN_No As String
     Public SRN_Date As DateTime
-    Public SRN_Qty As Double
+    Public SRN_Qty As Decimal
     Public UOM As String
     Public PI_No As String
     Public PI_Status As String
@@ -404,3 +407,4 @@ Public Class clsShortSupplyPenaltyDetail
         Return True
     End Function
 End Class
+
