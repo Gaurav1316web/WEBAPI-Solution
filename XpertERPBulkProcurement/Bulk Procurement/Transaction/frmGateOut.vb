@@ -333,6 +333,72 @@ Public Class FrmGateOut
         End Try
     End Function
     Private Sub FrmGateOut_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Gate_Entry_No", "varchar(50) not NULL Primary Key")
+        coll.Add("Doc_Type", "varchar(20) not NULL ")  'It Will Hold Doc Type  as Bulk Procurement(BulkProc) or Mcc Procurment(MccProc)
+        coll.Add("Date_And_Time", "datetime not null")
+        coll.Add("Challan_No", "varchar(50) not null")
+        coll.Add("Challan_Date", "Date not NULL ")
+        coll.Add("Tanker_No", "varchar(20) not NULL ")
+        coll.Add("isPosted", "integer not null default 0")
+        coll.Add("Posting_Date", "date null")
+        coll.Add("Dispatched_From_Mcc", "varchar(30)  NULL ")
+        coll.Add("location_Code", "varchar(12)  NULL ")
+        coll.Add("Location_Desc", "varchar(50)  NULL ")
+        coll.Add("Vendor_Code", "varchar(12)  NULL ")
+        coll.Add("Vendor_Desc", "varchar(200)  NULL ")
+        coll.Add("Item_Code", "varchar(50) not NULL ")
+        coll.Add("UOM", "varchar(30)  NULL ")
+        coll.Add("Item_Desc", "varchar(100) not NULL ")
+        coll.Add("Qty_In_Kg", "float not null default 0")
+        coll.Add("snf_Per", "float not NULL default 0")
+        coll.Add("fat_per", "float not NULL default 0")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Varchar(30) NOT NULL")
+        coll.Add("Modify_By", "varchar(12) NOT NULL")
+        coll.Add("Modify_Date", "Varchar(30) NOT NULL")
+        coll.Add("comp_code", "Varchar(8) NOT NULL")
+        coll.Add("Intimation_No", "varchar(30)  NULL REFERENCES TSPL_Intimation_Master (Intimation_No)")
+        coll.Add("Supplier_Code", "varchar(30)  NULL REFERENCES TSPL_SUPPLIER_MASTER (Supplier_Code)  ")
+        coll.Add("PO_No", "varchar(50)  NULL references TSPL_PO_BULK_MASTER(PO_No)")
+        coll.Add("Dispatch_Centre_Code", "varchar(200)  NULL ")
+        coll.Add("MIKL_TYPE_CODE", "varchar(30)  NULL REFERENCES TSPL_MILK_TYPE_MASTER (MILK_TYPE_CODE)  ")
+        coll.Add("Intimation_Status", "Char(1)  NULL ")
+        coll.Add("Gate_Entry_Type", "Char(1)  NULL ")
+        coll.Add("Seal_Status", "Char(1)  NULL ")
+        coll.Add("TotalQty_In_Kg", "float not null default 0")
+        coll.Add("SealNo_Header", "varchar(100)  NULL ")
+        coll.Add("Tanker_Return", "integer not null default 0")
+        coll.Add("Amendment_No", "Integer not null default 0")
+        coll.Add("Amendment_Code", "varchar(35) NULL")
+        coll.Add("Amendment_By", "varchar(12) NULL")
+        coll.Add("Amendment_Date", "Datetime NULL")
+        coll.Add("IsAgainstJobWork", "Integer  null ")
+        coll.Add("Sublocation_Code", "varchar(12)  NULL ")
+        coll.Add("In_Return", "integer not NULL default 0")
+        coll.Add("Transpoter_Id", "varchar(12)  NULL References TSPL_VENDOR_MASTER(Vendor_Code)")
+        coll.Add("Bulk_ROUTE_NO", "Varchar(30)  NULL")
+        coll.Add("Distance", "decimal(18, 2) NOT NULL Default 0")
+        coll.Add("Rate", "decimal(18, 2) NOT NULL Default 0")
+        coll.Add("Amount", "decimal(18, 2) NOT NULL Default 0")
+        coll.Add("ProvisionNo", "Varchar(30)  NULL")
+        coll.Add("NO_OF_CHAMBER", "INTEGER NOT NULL DEFAULT 0")
+        coll.Add("No_Of_CAN", "INTEGER NOT NULL DEFAULT 0")
+        coll.Add("Weight", "decimal(18, 2)  NULL ")
+        coll.Add("IsNetWeight", "integer not NULL default 0")
+        coll.Add("Reference_No", "varchar(50)  NULL")
+        coll.Add("OpeningKM", "decimal(18,2) null")
+        coll.Add("ClosingKM", "decimal(18,2) null")
+        coll.Add("Toll_Amount", "decimal(18,2) null")
+        coll.Add("Closing_Date", "Datetime null")
+        coll.Add("IsAgainstGateOut", "int NOT NULL default 0")
+        coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
+        coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+        coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, True, "", "Gate_Entry_No", "Date_And_Time", True)
+
         Panel3.Enabled = False
         AllocateToMandatoryonGateOut = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllocateToMandatoryonGateOut, clsFixedParameterCode.AllocateToMandatoryonGateOut, Nothing))
         AllowJobWorkonGateEntryBulkProc = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, Nothing))
@@ -520,30 +586,33 @@ Public Class FrmGateOut
             If clsCommon.myLen(GateEntryNo) <= 0 Then
                 Throw New Exception("Not found anything to print")
             Else
+
+                clsGateOut.funPrints(MyBase.Form_ID, False, dtpStartDateTime.Value, GateEntryNo)
+
                 'sanjay 12/July/2018 Client-Bharat change
-                Dim qry As String = ""
-                Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
+                'Dim qry As String = ""
+                'Dim frmCRV As New frmCrystalReportViewer()
+                'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
 
-                    qry = " select g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , (CASE WHEN G.doc_type='MccProc' THEN G.Dispatched_From_Mcc ELSE g.Vendor_Code END) AS  [Vendor Code] ," & _
-                     "(CASE WHEN G.Doc_Type='MccProc' then TSPL_MCC_MASTER.MCC_NAME else  g.Vendor_Desc end) as [Vendor Name] , COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc, CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , " & _
-                     "RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], CM.Item_Code [Item Code] , " & _
-                     "TSPL_ITEM_MASTER.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , " & _
-                     "g.Doc_Type [Doc Type],G.snf_Per,g.fat_per,g.MIKL_TYPE_CODE,G.Gate_Entry_Type,G.Seal_Status,G.TotalQty_In_Kg ,CM.Chamber_Desc,tspl_item_master.HSN_Code as HSNCode,CM.UOM, CM.Chamber_Qty,CM.snf_Per as snf_Per_CM, CM.fat_per as fat_per_CM , CM.Line_No,C.Logo_img from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE   LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=G.Dispatched_From_Mcc LEFT JOIN TSPL_Gate_Entry_Chember_Details CM ON CM.GE_Code=G.Gate_Entry_No   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=CM.item_code  where 1=1 and g.gate_entry_no in ('" + GateEntryNo + "')"
+                '    qry = " select g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , (CASE WHEN G.doc_type='MccProc' THEN G.Dispatched_From_Mcc ELSE g.Vendor_Code END) AS  [Vendor Code] ," & _
+                '     "(CASE WHEN G.Doc_Type='MccProc' then TSPL_MCC_MASTER.MCC_NAME else  g.Vendor_Desc end) as [Vendor Name] , COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc, CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , " & _
+                '     "RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], CM.Item_Code [Item Code] , " & _
+                '     "TSPL_ITEM_MASTER.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , " & _
+                '     "g.Doc_Type [Doc Type],G.snf_Per,g.fat_per,g.MIKL_TYPE_CODE,G.Gate_Entry_Type,G.Seal_Status,G.TotalQty_In_Kg ,CM.Chamber_Desc,tspl_item_master.HSN_Code as HSNCode,CM.UOM, CM.Chamber_Qty,CM.snf_Per as snf_Per_CM, CM.fat_per as fat_per_CM , CM.Line_No,C.Logo_img from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE   LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=G.Dispatched_From_Mcc LEFT JOIN TSPL_Gate_Entry_Chember_Details CM ON CM.GE_Code=G.Gate_Entry_No   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=CM.item_code  where 1=1 and g.gate_entry_no in ('" + GateEntryNo + "')"
 
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateOutMilkProc", "Milk Procurement Bulk Gate Out", clsCommon.myCDate(dtpStartDateTime.Value))
+                '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateOutMilkProc", "Milk Procurement Bulk Gate Out", clsCommon.myCDate(dtpStartDateTime.Value))
 
-                Else
+                'Else
 
-                    'Remove Doc Type Condition  Ticket No- ERO/09/05/18-000301
-                    'Dim qry As String = " select  COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc,g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , g.Vendor_Code [Vendor Code] , g.Vendor_Desc [Vendor Name] , CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], g.Item_Code [Item Code] , g.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , g.Doc_Type [Doc Type]  from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No where 1=1 and doc_type='" + DocumentType + "' and g.gate_entry_no in ('" + GateEntryNo + "')"
-                    qry = " select  'Out' as PrintType,COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc,g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , g.Vendor_Code [Vendor Code] , g.Vendor_Desc [Vendor Name] , CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], g.Item_Code [Item Code] , g.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , g.Doc_Type [Doc Type]  from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No where 1=1 and g.gate_entry_no in ('" + GateEntryNo + "')"
-                    'Remove Doc Type Condition  Ticket No- ERO/09/05/18-000301
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dtpStartDateTime.Value))
-                End If
-                frmCRV = Nothing
+                '    'Remove Doc Type Condition  Ticket No- ERO/09/05/18-000301
+                '    'Dim qry As String = " select  COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc,g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , g.Vendor_Code [Vendor Code] , g.Vendor_Desc [Vendor Name] , CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], g.Item_Code [Item Code] , g.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , g.Doc_Type [Doc Type]  from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No where 1=1 and doc_type='" + DocumentType + "' and g.gate_entry_no in ('" + GateEntryNo + "')"
+                '    qry = " select  'Out' as PrintType,COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc,g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , g.Vendor_Code [Vendor Code] , g.Vendor_Desc [Vendor Name] , CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], g.Item_Code [Item Code] , g.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , g.Doc_Type [Doc Type]  from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No where 1=1 and g.gate_entry_no in ('" + GateEntryNo + "')"
+                '    'Remove Doc Type Condition  Ticket No- ERO/09/05/18-000301
+                '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptGateInMilkProc", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dtpStartDateTime.Value))
+                'End If
+                'frmCRV = Nothing
             End If
         Catch ex As Exception
             RadMessageBox.Show(ex.Message, Me.Text)

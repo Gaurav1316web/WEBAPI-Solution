@@ -300,9 +300,11 @@ Public Class clsEmployeeSalary
         arrPayHead = SalStructStr.Split(",")
         For Each Str As String In arrPayHead
             If clsCommon.myLen(SalStructStrForSelect) <= 0 Then
-                SalStructStrForSelect = Str & " as " & Str.Replace(".", "_")
+                'SalStructStrForSelect = Str & " as " & Str.Replace(".", "_")
+                SalStructStrForSelect = Str
             Else
-                SalStructStrForSelect = SalStructStrForSelect & "," & Str & " as " & Str.Replace(".", "_")
+                'SalStructStrForSelect = SalStructStrForSelect & "," & Str & " as " & Str.Replace(".", "_")
+                SalStructStrForSelect = SalStructStrForSelect & "," & Str
             End If
         Next
 
@@ -315,7 +317,7 @@ Public Class clsEmployeeSalary
               " +')' +'as ' + '['+PAY_HEAD_CODE   +']'  + ','  " &
               " from (select distinct  TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE   from TSPL_EMPLOYEE_SALARY_PAYHEADS " &
               " inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE " &
-              " where TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & SalStructCode & "' " &
+                  " where TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & SalStructCode & "' " &
               " ) xx  FOR XML PATH ('')) Fields ) yy"
         SalStructStrSel = clsDBFuncationality.getSingleValue(qry)
         Return SalStructStrSel
@@ -349,9 +351,9 @@ Public Class clsEmployeeSalary
               " ) AS pvt  "
 
         'where 2=2 and (RESIGNATION_SUBMIT_DATE is null or ((cast('1' + '/' + datename(month,RESIGNATION_SUBMIT_DATE) + '/' + cast(Year(RESIGNATION_SUBMIT_DATE) as varchar) as date) >=convert(date,'" + SalStructDate + "',103))))
-        'strSelect = GetPayHeadCodeStringForSelect(SalStructCode)
-        'transportSql.ExporttoExcelNew(qry, frm, strSelect)
-        transportSql.ExporttoExcel(qry, frm)
+        strSelect = GetPayHeadCodeStringForSelect(SalStructCode)
+        transportSql.ExporttoExcelNew(qry, frm, strSelect)
+        'transportSql.ExporttoExcel(qry, frm)
 
         '" ORDER BY pvt.EMP_CODE;"
         Return qry

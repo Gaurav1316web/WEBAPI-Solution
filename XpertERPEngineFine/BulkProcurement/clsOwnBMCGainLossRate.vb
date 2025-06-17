@@ -19,6 +19,7 @@ Public Class clsOwnBMCGainLossRate
     Public Loss_SNF_Allow As Decimal = Nothing
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Inactive As Boolean = False
+    Public Tanker_Rate As Integer = 0
 
 #End Region
 
@@ -52,6 +53,7 @@ Public Class clsOwnBMCGainLossRate
             clsCommon.AddColumnsForChange(coll, "Loss_SNF_Rate", obj.Loss_SNF_Rate)
             clsCommon.AddColumnsForChange(coll, "Loss_FAT_Allow", obj.Loss_FAT_Allow, True)
             clsCommon.AddColumnsForChange(coll, "Loss_SNF_Allow", obj.Loss_SNF_Allow, True)
+            clsCommon.AddColumnsForChange(coll, "Tanker_Rate", obj.Tanker_Rate, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -139,6 +141,8 @@ Public Class clsOwnBMCGainLossRate
 
             obj.Posted = IIf(clsCommon.myCdbl(dt.Rows(0)("Posted")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.Inactive = (clsCommon.myCdbl(dt.Rows(0)("Inactive")) = 1)
+            obj.Tanker_Rate = (clsCommon.myCdbl(dt.Rows(0)("Tanker_Rate")))
+            'obj.Is_DCS = clsCommon.myCdbl(dt.Rows(0)("Is_DCS"))
         End If
         Return obj
     End Function

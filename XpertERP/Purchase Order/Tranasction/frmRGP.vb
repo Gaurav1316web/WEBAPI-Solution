@@ -2595,7 +2595,7 @@ Public Class frmRGP
             Else
                 strDep = ""
             End If
-            clsRGPHead.funRGPPrint(MyBase.Form_ID, False, txtDocNo.Value, txtDate.Value, chlCust.Checked, type, strDep, chkAgainst_Sale.Checked)
+            clsRGPHead.funRGPPrint(MyBase.Form_ID, False, txtDate.Value, txtDocNo.Value, chlCust.Checked, type, strDep, chkAgainst_Sale.Checked)
 
             '========update by preeti Against Ticket No[BHA/22/05/18-000032]
             'Dim type As String = cboDocType.Text

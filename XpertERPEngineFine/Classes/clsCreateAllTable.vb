@@ -8149,7 +8149,7 @@ Public Class clsCreateAllTable
             coll.Add("Against_Gate_Out", "varchar(30) NULL REFERENCES TSPL_MCC_TANKER_GATE_OUT(GATE_OUT_NO)")
             coll.Add("ROUTE_NO", "Varchar(30) null REFERENCES TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("MCC", "varchar(30)  NULL References TSPL_MCC_MASTER(MCC_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, False, "", "Gate_Entry_No", "Date_And_Time", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATE_ENTRY_DETAILS", coll, Nothing, True, True, "", "Gate_Entry_No", "Date_And_Time", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Chember_Code", "Integer NOT NULL")
@@ -30251,7 +30251,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Sampling", "integer not null default 0")
             coll.Add("Is_CustomerChanged", "Integer Default 0")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_GATEPASS_MASTER_DAIRYSALE(Document_No)")
@@ -30282,7 +30282,7 @@ Public Class clsCreateAllTable
             coll.Add("Item_Selling_Price", "float not null default 0")
             coll.Add("Scheme_Code", "varchar(12) NULL")
 
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_DETAIL_DAIRYSALE", coll, Nothing, True, False, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GATEPASS_DETAIL_DAIRYSALE", coll, Nothing, True, True, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "", True)
 
 
             '=================Added by preeti gupta=========
@@ -55944,6 +55944,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Late_Days", "integer NULL")
             coll.Add("Extension_Days", "integer NULL")
             coll.Add("Item_Type", "varchar(5) NULL")
+            coll.Add("Tolerance_Qty", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
             qry = "alter table TSPL_TENDER_SCHEDULE alter column Item_Code varchar(50) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
