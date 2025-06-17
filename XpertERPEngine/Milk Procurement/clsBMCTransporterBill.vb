@@ -385,28 +385,28 @@ where TSPL_VENDOR_MASTER.Vendor_Code ='" + qry2 + "'"
                 Throw New Exception("No Data found to Reverse And UnPost")
             End If
 
-            'For Each objtr As clsBMCTransporterBillDetail In obj.Arr
-            '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where Against_TransferToSavingPKID= " + clsCommon.myCstr(objtr.PK_ID) + "", trans)
-            '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '        For Each dr As DataRow In dt.Rows
-            '            Dim strAPDocCode As String = clsCommon.myCstr(dr("Document_No"))
-            '            If clsCommon.myLen(strAPDocCode) > 0 Then
-            '                Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_DEDUCTION where AP_Invoice_No='" + strAPDocCode + "'", trans)
-            '                If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
-            '                    Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Deduction ")
-            '                End If
-            '                dtCheck = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where AP_Invoice_No='" + strAPDocCode + "'", trans)
-            '                If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
-            '                    Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Addition")
-            '                End If
-            '                clsVedorInvoiceHead.ReverseAndUnpost(strAPDocCode, trans)
-            '                clsVedorInvoiceHead.DeleteData(strAPDocCode, trans)
-            '            End If
-            '        Next
-            '    End If
-            'Next
+            For Each objtr As clsBMCTransporterBillDetail In obj.Arr
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where RefDocNo= " + clsCommon.myCstr(objtr.Document_Code) + "", trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        Dim strAPDocCode As String = clsCommon.myCstr(dr("Document_No"))
+                        If clsCommon.myLen(strAPDocCode) > 0 Then
+                            '            Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_DEDUCTION where AP_Invoice_No='" + strAPDocCode + "'", trans)
+                            '            If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+                            '                Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Deduction ")
+                            '            End If
+                            '            dtCheck = clsDBFuncationality.GetDataTable("select Doc_No from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where AP_Invoice_No='" + strAPDocCode + "'", trans)
+                            '            If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+                            '                Throw New Exception("Used In Payment Process No [" + clsCommon.myCstr(dtCheck.Rows(0)("Doc_No")) + "] in Addition")
+                            '            End If
+                            clsVedorInvoiceHead.ReverseAndUnpost(strAPDocCode, trans)
+                            clsVedorInvoiceHead.DeleteData(strAPDocCode, trans)
+                        End If
+                    Next
+                End If
+            Next
 
-            Qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_By=null,Posted_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "',Status=0 where Document_Code='" + strDocNo + "'"
+                Qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_By=null,Posted_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "',Status=0 where Document_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
