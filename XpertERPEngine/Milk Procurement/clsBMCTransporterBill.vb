@@ -33,6 +33,21 @@ Public Class clsBMCTransporterBill
     Public ArrDT As DataTable = Nothing
 #End Region
 
+
+    Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        Try
+            Dim str As String = ""
+            Dim qry As String = ""
+
+            qry = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
+                             from TSPL_BMC_TRANSPORTER_BILL_HEAD "
+            str = clsCommon.ShowSelectForm("fndPayProcess", qry, "Document_Code", whrcls, curcode, "Document_Code", isButtonClicked, "Document_date")
+
+            Return str
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -70,8 +85,8 @@ Public Class clsBMCTransporterBill
 
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
-        clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
-        clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+        clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy hh:mm tt"))
+        clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy hh:mm tt"))
         clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
         clsCommon.AddColumnsForChange(coll, "Toll_Tax", obj.Toll_Tax)
         clsCommon.AddColumnsForChange(coll, "Ice_Charge", obj.Ice_Charge)
@@ -251,7 +266,7 @@ Public Class clsBMCTransporterBill
             Throw New Exception("Already Post on :" + obj.Posted_Date)
         End If
 
-        'CreateAPInvoiceHeader(obj, trans)
+        CreateAPInvoiceHeader(obj, trans)
         qry = "Update TSPL_BMC_TRANSPORTER_BILL_HEAD set Posted_Date='" + clsCommon.GetPrintDate(clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), "dd/MMM/yyyy hh:mm:ss tt") + "',Status=1 ,Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BMC_TRANSPORTER_BILL_HEAD", "Document_Code", trans)
@@ -262,12 +277,32 @@ Public Class clsBMCTransporterBill
 
     Private Shared Function CreateAPInvoiceHeader(ByVal obj As clsBMCTransporterBill, ByVal trans As SqlTransaction) As Boolean
         Dim VendAccSet As String = String.Empty
+        Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select Freight_Provision from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='TPT'", trans)
+        If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
+            Throw New Exception("Please set Freight Provision Account")
+        End If
+
+        Dim fullStation As String = obj.ArrDT.Rows(1)("Station_1").ToString()
+        Dim station1 As String = ""
+
+        If fullStation.Contains(">>") Then
+            station1 = fullStation.Substring(fullStation.IndexOf(">>") + 2)
+        Else
+            station1 = fullStation ' Or set it to "" or some default value if >> is not present
+        End If
+        'Dim station1 As String = obj.ArrDT.Rows(1)("Station_1").ToString()
+        Dim qry1 As String = clsDBFuncationality.getSingleValue(" select TSPL_BULK_route_master_location.Location_Code from TSPL_BULK_route_master_location
+                                        left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_BULK_route_master_location.Location_Code
+                                            where TSPL_LOCATION_MASTER.Location_Desc='" + station1 + "'", trans)
+        Dim Loc_Seg As String = clsDBFuncationality.getSingleValue(" select Loc_Segment_Code from TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.Location_Code='" + qry1 + "'", trans)
+
 
         For Each objTr As clsBMCTransporterBillDetail In obj.Arr
             Dim objVendInv As New clsVedorInvoiceHead()
             objVendInv.Invoice_Entry_Date = obj.Document_Date
             objVendInv.Document_Type = "I"
             objVendInv.Invoice_Type = "AP"
+            objVendInv.loc_code = clsCommon.myCstr(Loc_Seg)
             objVendInv.Document_Total = objTr.Amount
             objVendInv.Posting_Date = obj.Document_Date
             objVendInv.Vendor_Invoice_Date = obj.Document_Date
@@ -282,8 +317,15 @@ Public Class clsBMCTransporterBill
             objVendInvTR.Amount = objTr.Amount
             objVendInvTR.Amount_less_Discount = objTr.Amount
             objVendInvTR.Total_Amount = objTr.Amount
-            objVendInv.Arr.Add(objVendInvTR)
 
+
+            objVendInvTR.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("Freight_Provision"))
+            If clsCommon.myLen(objVendInvTR.GL_Account_Code) <= 0 Then
+                Throw New Exception("Please set GL Account Code ")
+            End If
+            objVendInvTR.GL_Account_Desc = clsGLAccount.GetName(objVendInvTR.GL_Account_Code, trans)
+
+            objVendInv.Arr.Add(objVendInvTR)
             objVendInv.SaveData(objVendInv, True, trans)
             clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
 
