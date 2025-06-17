@@ -48,6 +48,7 @@ Public Class frmTender
     Const colScheduleITypeName As String = "colScheduleITypeName"
     Const colScheduleQtyPer As String = "colScheduleQtyPer"
     Const colScheduleQty As String = "colScheduleQty"
+    Const colScheduleToleranceQty As String = "colScheduleToleranceQty"
     Const colScheduleShortPer As String = "colScheduleShortPer"
     Const colScheduleShort As String = "colScheduleShort"
     Const colScheduleLateDays As String = "colScheduleLateDays"
@@ -1690,6 +1691,18 @@ Public Class frmTender
         repoNum.FormatString = ""
         repoNum.HeaderText = "Quantity"
         repoNum.Name = colScheduleQty
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Tolerance Qty"
+        repoNum.Name = colScheduleToleranceQty
         repoNum.ReadOnly = True
         repoNum.Width = 80
         repoNum.Minimum = 0
