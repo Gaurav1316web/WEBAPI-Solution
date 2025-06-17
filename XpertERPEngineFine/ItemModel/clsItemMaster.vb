@@ -136,6 +136,7 @@ Public Class clsItemMaster
     Public Arr_Purchase_QC_Parameter As List(Of clsItemPurchaseQCParameter) = Nothing
     Public ArrSchedule As List(Of clsItemSchedule) = Nothing
     Public ArrNOCSchedule As List(Of clsItemNOCSchedule) = Nothing
+    Public ArrSlabTolerance As List(Of clsItemSlabTolerance) = Nothing
     Public ApplyRoundingInStdProd As Boolean = False
     Public Visual_QC As Boolean = False
     Public Security_Deduction As Decimal
@@ -1627,6 +1628,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsItemPurchaseQCParameter.SaveData(obj.Item_Code, obj.Arr_Purchase_QC_Parameter, trans)
                 clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
                 clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
+                clsItemSlabTolerance.SaveData(obj.Item_Code, obj.ArrSlabTolerance, trans)
                 trans.Commit()
             End If
         Catch err As Exception
@@ -1924,6 +1926,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Arr_Purchase_QC_Parameter = clsItemPurchaseQCParameter.GetData(obj.Item_Code, Nothing)
                 obj.ArrSchedule = clsItemSchedule.GetData(obj.Item_Code, Nothing)
                 obj.ArrNOCSchedule = clsItemNOCSchedule.GetData(obj.Item_Code, Nothing)
+                obj.ArrSlabTolerance = clsItemSlabTolerance.GetData(obj.Item_Code, Nothing)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

@@ -86,6 +86,7 @@ Public Class FrmItemMasterRMOther
     Const ColNOCSchedulePerShort As String = "ColNOCSchedulePerShort"
     Const ColNOCScheduleLateDays As String = "ColNOCScheduleLateDays"
 
+    Const ColSlabToleranceSNo As String = "ColSlabToleranceSNo"
     Const ColSlabToleranceFrom As String = "ColSlabToleranceFrom"
     Const ColSlabToleranceTo As String = "ColSlabToleranceTo"
     Const ColSlabToleranceQty As String = "ColSlabToleranceQty"
@@ -375,6 +376,7 @@ Public Class FrmItemMasterRMOther
         LoadBlankGridSchedule()
         LoadBlankGridNOCSchedule()
         LoadBlankGridCat()
+        LoadBlankGridSlabTolerance()
         txtCode.Value = ""
         File_Name = ""
         PicImage.Image = Nothing
@@ -1345,6 +1347,8 @@ Public Class FrmItemMasterRMOther
         BlankAllConrols()
         gvUOM.Rows.AddNew()
         gvSchedule.Rows.AddNew()
+        gvSlabTolerance.Rows.AddNew()
+        gvSlabTolerance.Rows(0).Cells(ColSlabToleranceFrom).Value = 1
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.SetDefaultValues()
@@ -1851,6 +1855,17 @@ Public Class FrmItemMasterRMOther
                     objtrp.Arr = TryCast(grow.Cells(ColNOCScheduleLateDays).Tag, List(Of clsItemNOCSchedulePenalty))
                     If objtrp.Qty_Per > 0 Then
                         obj.ArrNOCSchedule.Add(objtrp)
+                    End If
+                Next
+
+                obj.ArrSlabTolerance = New List(Of clsItemSlabTolerance)
+                For Each gvSlab As GridViewRowInfo In gvSlabTolerance.Rows
+                    Dim objSlab As New clsItemSlabTolerance()
+                    objSlab.From_Range = clsCommon.myCdbl(gvSlab.Cells(ColSlabToleranceFrom).Value)
+                    objSlab.To_Range = clsCommon.myCdbl(gvSlab.Cells(ColSlabToleranceTo).Value)
+                    objSlab.Qty = clsCommon.myCdbl(gvSlab.Cells(ColSlabToleranceQty).Value)
+                    If objSlab.Qty > 0 Then
+                        obj.ArrSlabTolerance.Add(objSlab)
                     End If
                 Next
 
@@ -3051,6 +3066,24 @@ Public Class FrmItemMasterRMOther
                 Else
                     gvNOCSchedule.Rows.AddNew()
                 End If
+
+
+                If obj.ArrSlabTolerance IsNot Nothing AndAlso obj.ArrSlabTolerance.Count > 0 Then
+                    If gvSlabTolerance.Rows.Count = 0 Then
+                        gvSlabTolerance.Rows.AddNew()
+                    End If
+                    For Each objtr As clsItemSlabTolerance In obj.ArrSlabTolerance
+                        gvSlabTolerance.Rows(gvSlabTolerance.Rows.Count - 1).Cells(ColSlabToleranceSNo).Value = objtr.SNo
+                        gvSlabTolerance.Rows(gvSlabTolerance.Rows.Count - 1).Cells(ColSlabToleranceFrom).Value = objtr.From_Range
+                        gvSlabTolerance.Rows(gvSlabTolerance.Rows.Count - 1).Cells(ColSlabToleranceTo).Value = objtr.To_Range
+                        gvSlabTolerance.Rows(gvSlabTolerance.Rows.Count - 1).Cells(ColSlabToleranceQty).Value = objtr.Qty
+                        gvSlabTolerance.Rows.AddNew()
+                    Next
+                Else
+                    gvSlabTolerance.Rows.AddNew()
+                End If
+
+
 
                 chkCreateSepAssetForEachQty.Checked = IIf(obj.CreateSepAssetForEachQty = "1", True, False)
 
@@ -6594,14 +6627,25 @@ ExitLOOP:
         gvSlabTolerance.Columns.Clear()
 
         Dim repoNumBox As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "SNo"
+        repoNumBox.Name = ColSlabToleranceSNo
+        repoNumBox.Minimum = 0
+        repoNumBox.Width = 100
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        'repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n0}"
+        repoNumBox.ReadOnly = True
+        gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
         repoNumBox.HeaderText = "From"
         repoNumBox.Name = ColSlabToleranceFrom
         repoNumBox.Minimum = 0
         repoNumBox.Width = 100
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.DecimalPlaces = 0
-        repoNumBox.FormatString = "{0:n0}"
-        repoNumBox.ReadOnly = True
+        'repoNumBox.DecimalPlaces = 0
+        repoNumBox.FormatString = "{0:n1}"
+        repoNumBox.ReadOnly = False
         gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
 
 
@@ -6611,8 +6655,8 @@ ExitLOOP:
         repoNumBox.Minimum = 0
         repoNumBox.Width = 100
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.DecimalPlaces = 0
-        repoNumBox.FormatString = "{0:n0}"
+        'repoNumBox.DecimalPlaces = 2
+        repoNumBox.FormatString = "{0:n1}"
         gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
 
         repoNumBox = New GridViewDecimalColumn()
@@ -6621,7 +6665,7 @@ ExitLOOP:
         repoNumBox.Minimum = 0
         repoNumBox.Width = 100
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.DecimalPlaces = 0
+        'repoNumBox.DecimalPlaces = 0
         repoNumBox.FormatString = "{0:n0}"
         gvSlabTolerance.MasterTemplate.Columns.Add(repoNumBox)
 
@@ -6952,6 +6996,75 @@ ExitLOOP:
             gvNOCSchedule.BeginEdit()
         ElseIf e.KeyCode = Keys.F5 Then
             ShowNOCPenalty()
+        End If
+    End Sub
+
+    Private Sub gvSlabTolerance_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvSlabTolerance.CurrentColumnChanged
+        Try
+            If gvSlabTolerance.RowCount > 0 Then
+                Dim intCurrRow As Integer = gvSlabTolerance.CurrentRow.Index
+                gvSlabTolerance.CurrentRow.Cells(ColSlabToleranceSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+                If intCurrRow = gvSlabTolerance.Rows.Count - 1 Then
+                    gvSlabTolerance.Rows.AddNew()
+                    gvSlabTolerance.CurrentRow = gvSlabTolerance.Rows(intCurrRow)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gvSlabTolerance_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSlabTolerance.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvSlabTolerance.Columns(ColSlabToleranceTo) Then
+                        SlabToleranceTo()
+                    End If
+                    isCellValueChangedOpen = False
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
+
+    Sub SlabToleranceTo()
+        If gvSlabTolerance IsNot Nothing AndAlso gvSlabTolerance.Rows.Count > 0 Then
+            If clsCommon.myCdbl(gvSlabTolerance.CurrentRow.Cells(ColSlabToleranceTo).Value) > 0 Then
+                If gvSlabTolerance.CurrentRow IsNot Nothing AndAlso gvSlabTolerance.CurrentRow.Index + 1 < gvSlabTolerance.Rows.Count Then
+                    gvSlabTolerance.Rows(gvSlabTolerance.CurrentRow.Index + 1).Cells(ColSlabToleranceFrom).Value = clsCommon.myCdbl(gvSlabTolerance.CurrentRow.Cells(ColSlabToleranceTo).Value) + 0.1
+                Else
+                    gvSlabTolerance.Rows.AddNew()
+                    gvSlabTolerance.Rows(gvSlabTolerance.CurrentRow.Index + 1).Cells(ColSlabToleranceFrom).Value = clsCommon.myCdbl(gvSlabTolerance.CurrentRow.Cells(ColSlabToleranceTo).Value) + 0.1
+                    RefeshToleranceSNO()
+                End If
+                isCellValueChangedOpen = False
+            End If
+        End If
+    End Sub
+
+    Private Sub gvSlabTolerance_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSlabTolerance.KeyDown
+        'If e.KeyCode = Keys.Enter Then
+        '    SlabToleranceTo()
+        '    gvSlabTolerance.BeginEdit()
+        'End If
+    End Sub
+
+    Private Sub gvSlabTolerance_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gvSlabTolerance.UserDeletedRow
+        RefeshToleranceSNO()
+    End Sub
+
+    Sub RefeshToleranceSNO()
+        For ii As Integer = 1 To gvSlabTolerance.Rows.Count
+            gvSlabTolerance.Rows(ii - 1).Cells(ColSlabToleranceSNo).Value = ii
+        Next
+    End Sub
+
+    Private Sub gvSlabTolerance_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvSlabTolerance.UserDeletingRow
+        If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
         End If
     End Sub
 

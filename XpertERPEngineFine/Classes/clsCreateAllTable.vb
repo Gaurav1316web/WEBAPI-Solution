@@ -2522,8 +2522,8 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
-            coll.Add("From", "decimal(18,2) NULL")
-            coll.Add("To", "decimal(18,2) NULL")
+            coll.Add("Range_From", "decimal(18,2) NULL")
+            coll.Add("Range_To", "decimal(18,2) NULL")
             coll.Add("Qty", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_SLAB_TOLERANCE", coll, "")
 

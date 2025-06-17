@@ -294,6 +294,8 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvNOCSchedule = New common.UserControls.MyRadGridView()
         Me.MyLabel48 = New common.Controls.MyLabel()
+        Me.RadPageViewPage10 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvSlabTolerance = New Telerik.WinControls.UI.RadGridView()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -319,8 +321,6 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.RadPageViewPage10 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvSlabTolerance = New Telerik.WinControls.UI.RadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -561,15 +561,15 @@ Partial Class FrmItemMasterRMOther
         CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage10.SuspendLayout()
+        CType(Me.gvSlabTolerance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSlabTolerance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage10.SuspendLayout()
-        CType(Me.gvSlabTolerance, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvSlabTolerance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -4462,6 +4462,27 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel48.TabIndex = 32
         Me.MyLabel48.Text = "Press F5 To View NOC Penelty Details"
         '
+        'RadPageViewPage10
+        '
+        Me.RadPageViewPage10.Controls.Add(Me.gvSlabTolerance)
+        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(125.0!, 28.0!)
+        Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage10.Name = "RadPageViewPage10"
+        Me.RadPageViewPage10.Size = New System.Drawing.Size(1186, 553)
+        Me.RadPageViewPage10.Text = "Slab Of Tolerance Qty"
+        '
+        'gvSlabTolerance
+        '
+        Me.gvSlabTolerance.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvSlabTolerance.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvSlabTolerance.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvSlabTolerance.Name = "gvSlabTolerance"
+        Me.gvSlabTolerance.Size = New System.Drawing.Size(1186, 553)
+        Me.gvSlabTolerance.TabIndex = 0
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -4633,27 +4654,6 @@ Partial Class FrmItemMasterRMOther
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
-        '
-        'RadPageViewPage10
-        '
-        Me.RadPageViewPage10.Controls.Add(Me.gvSlabTolerance)
-        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(125.0!, 28.0!)
-        Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage10.Name = "RadPageViewPage10"
-        Me.RadPageViewPage10.Size = New System.Drawing.Size(1186, 553)
-        Me.RadPageViewPage10.Text = "Slab Of Tolerance Qty"
-        '
-        'gvSlabTolerance
-        '
-        Me.gvSlabTolerance.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvSlabTolerance.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvSlabTolerance.MasterTemplate.ViewDefinition = TableViewDefinition7
-        Me.gvSlabTolerance.Name = "gvSlabTolerance"
-        Me.gvSlabTolerance.Size = New System.Drawing.Size(1186, 553)
-        Me.gvSlabTolerance.TabIndex = 0
         '
         'FrmItemMasterRMOther
         '
@@ -4922,15 +4922,15 @@ Partial Class FrmItemMasterRMOther
         CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage10.ResumeLayout(False)
+        CType(Me.gvSlabTolerance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSlabTolerance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage10.ResumeLayout(False)
-        CType(Me.gvSlabTolerance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvSlabTolerance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
