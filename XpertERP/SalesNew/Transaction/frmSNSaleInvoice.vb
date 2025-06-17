@@ -3327,10 +3327,6 @@ Public Class frmSNSaleInvoice
                             End If
                         Next
                     End If
-
-
-
-
                 End If
             Next
 
@@ -3358,6 +3354,9 @@ Public Class frmSNSaleInvoice
 
             'clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
             clsSNShipmentHead.IsValidCustomer(arrReqNo, txtVendorNo.Value)
+            If objCommonVar.RCDFCFP Then
+                clsSNShipmentHead.IsValidDate(arrReqNo, txtDate.Value)
+            End If
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
             Return True
@@ -5353,6 +5352,7 @@ Public Class frmSNSaleInvoice
         frm.VendorCode = txtVendorNo.Value
         frm.strCurrCode = txtDocNo.Value
         frm.strBillLocation = txtBillToLocation.Value
+        frm.TrandDate = txtDate.Value
         frm.ShowDialog()
         LoadBlankGrid()
         Dim chkStr As New List(Of String)
@@ -5434,8 +5434,6 @@ Public Class frmSNSaleInvoice
                         If objOrderHead.Due_Date IsNot Nothing Then
                             txtDueDate.Value = objOrderHead.Due_Date
                         End If
-
-
                     End If
 
 

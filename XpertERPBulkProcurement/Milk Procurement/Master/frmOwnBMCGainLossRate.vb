@@ -28,6 +28,37 @@ Public Class frmOwnBMCGainLossRate
         txtGainSNFPer.Visible = False
         txtLossFATPer.Visible = False
         txtLossSNFPer.Visible = False
+
+
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(30) Not null PRIMARY KEY")
+            coll.Add("Description", "varchar(200) Not NULL")
+            coll.Add("Start_Date", "date Not null")
+            coll.Add("End_Date", "date null")
+            coll.Add("Gain_FAT_Rate", "Decimal (18,2) Not NULL")
+            coll.Add("Gain_SNF_Rate", "Decimal (18,2) Not NULL")
+            coll.Add("Gain_FAT_Allow", "Decimal (18,2) NULL")
+            coll.Add("Gain_SNF_Allow", "Decimal (18,2) NULL")
+            coll.Add("Loss_FAT_Rate", "Decimal (18,2) Not NULL")
+            coll.Add("Loss_SNF_Rate", "Decimal (18,2) Not NULL")
+            coll.Add("Loss_FAT_Allow", "Decimal (18,2) NULL")
+            coll.Add("Loss_SNF_Allow", "Decimal (18,2) NULL")
+            coll.Add("Created_By", "varchar(12) Not NULL")
+            coll.Add("Created_Date", "datetime Not NULL")
+            coll.Add("Modified_By", "varchar(12) Not NULL")
+            coll.Add("Modified_Date", "datetime Not NULL")
+            coll.Add("Posted", "integer  Not NULL DEFAULT 0")
+            coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+            coll.Add("Inactive", "integer  Not NULL DEFAULT 0")
+            coll.Add("Inactive_By", "varchar(12)  NULL")
+        coll.Add("Inactive_Date", "datetime NULL")
+        coll.Add("Tanker_Rate", "integer DEFAULT 0")
+        'coll.Add("Is_BPL", "Integer Default 0")
+        'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_OWN_BMC_GAIN_LOSS_RATE", coll, Nothing, True)
+
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_OWN_BMC_GAIN_LOSS_RATE", coll, "", True, False, "", "", "", True)
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -54,6 +85,11 @@ Public Class frmOwnBMCGainLossRate
                 obj.Loss_SNF_Rate = txtLSnf.Value
                 obj.Loss_FAT_Allow = txtLossFATPer.Value
                 obj.Loss_SNF_Allow = txtLossSNFPer.Value
+                If rdbTanker_Rate.Checked Then
+                    obj.Tanker_Rate = 1
+                    'Else
+                    '    obj.Tanker_Rate = 1
+                End If
                 If obj.SaveData(obj, isNewEntry) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
@@ -88,6 +124,7 @@ Public Class frmOwnBMCGainLossRate
                 txtLSnf.Value = obj.Loss_SNF_Rate
                 UsLock1.Status = obj.Posted
                 chkInactive.Checked = obj.Inactive
+                rdbTanker_Rate.Checked = IIf(obj.Tanker_Rate = 1, True, False)
 
 
 
@@ -223,6 +260,7 @@ Public Class frmOwnBMCGainLossRate
         btnPost.Enabled = False
         chkInactive.Enabled = False
         chkInactive.Checked = False
+        rdbTanker_Rate.Checked = False
         txtFat.Text = ""
         txtSNF.Text = ""
         txtLFat.Text = ""

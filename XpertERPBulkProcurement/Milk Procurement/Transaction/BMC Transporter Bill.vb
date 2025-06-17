@@ -308,18 +308,48 @@ Public Class BMC_Transporter_Bill
         TxtBMCDiesel.Text = ""
         TxtBMCTotal.Text = ""
         isNewEntry = True
+        btnGo.Enabled = True
+        UsLock1.Status = ERPTransactionStatus.Pending
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         loadGridData()
         FatSnfShortageDetail()
-        Total_Toll_Tax = TxtTotalTollTax.Text
-        Total_Ice_Charge = TxtTotalIceCharge.Text
-        Total_BMC_TOTAL = TxtBMCTotal.Text
-        Total_fat_snf_shortage = TxtTotalFatSnfShortage.Text
-        TxtTotalAmount.Text = (Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
-        Total_Amount = TxtTotalAmount.Text
-        TxtGrossAmount.Text = (Total_Amount + Total_fat_snf_shortage)
+        FatSnfRate()
+        Total_Toll_Tax = clsCommon.myCdbl(TxtTotalTollTax.Text)
+        Total_Ice_Charge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
+        Total_BMC_TOTAL = clsCommon.myCdbl(TxtBMCTotal.Text)
+        Total_fat_snf_shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
+        TxtTotalAmount.Text = clsCommon.myCdbl(Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
+        Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
+        TxtGrossAmount.Text = clsCommon.myCdbl(Total_Amount + Total_fat_snf_shortage)
+        btnGo.Enabled = False
+    End Sub
+
+    Sub FatSnfRate()
+        Try
+            Dim qry As String = ""
+            qry = " SELECT TOP 1  Loss_FAT_Rate,Loss_SNF_Rate FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE Tanker_Rate = 1  AND convert(date,Start_Date,103) <= convert(date,'" + txtDate.Value + "',103) and End_Date is null 
+                    ORDER BY Start_Date DESC "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            Dim Fat_Rate As Decimal = 0
+            Dim Snf_Rate As Decimal = 0
+            For Each row As DataRow In dt.Rows
+                'If clsCommon.myCdbl(row("ADJFATKG")) < 0 Then
+                Fat_Rate += clsCommon.myCdbl(row("Loss_FAT_Rate"))
+                'End If
+                'If clsCommon.myCdbl(row("ADJSNFKG")) < 0 Then
+                Snf_Rate += clsCommon.myCdbl(row("Loss_SNF_Rate"))
+                'End If
+            Next
+            TxtFatRate.Text = Fat_Rate
+            TxtSnfRate.Text = Snf_Rate
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub FatSnfShortageDetail()
         Try
@@ -659,6 +689,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             isInsideLoadData = True
             BlankAllControls()
             LoadBlankGrid()
+            btnGo.Enabled = False
 
             Dim obj As New clsBMCTransporterBill()
             obj = clsBMCTransporterBill.GetData(strDocumentNo, NavType, True, Nothing)
@@ -731,6 +762,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     'Next
                     Dim i As Integer = 0
                     For Each objrow As clsBMCTransporterBillDetail In obj.Arr
+                        gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = objrow.MCC_Document_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColGPSKM).Value = objrow.GPS_KM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColKM).Value = objrow.KM
@@ -746,7 +778,6 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                         If dt.Rows.Count > i Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = clsCommon.myCstr(dt.Rows(i)("Document_Date"))
                         End If
-                        gv1.Rows.AddNew()
                         i += 1
                     Next
                 End If
@@ -825,10 +856,13 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
-            Dim qry As String = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
-                             from TSPL_BMC_TRANSPORTER_BILL_HEAD "
-            LoadData(clsCommon.ShowSelectForm("TrsToSav@F", qry, "Document_Code", "", txtDocNo.Value, "Document_Code", isButtonClicked, "Document_date"), NavigatorType.Current)
-
+            txtDocNo.Value = clsBMCTransporterBill.getFinder(Nothing, txtDocNo.Value, isButtonClicked)
+            'Dim qry As String = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
+            '                 from TSPL_BMC_TRANSPORTER_BILL_HEAD "
+            'LoadData(clsCommon.ShowSelectForm("TrsToSav@F", qry, "Document_Code", "", txtDocNo.Value, "Document_Code", isButtonClicked, "Document_date"), NavigatorType.Current)
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
