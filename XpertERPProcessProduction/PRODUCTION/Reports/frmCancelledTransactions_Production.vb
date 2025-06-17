@@ -94,7 +94,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmProductionPlanningDairy + "','" + clsUserMgtCode.frmBatchOrderDairy + "','" + clsUserMgtCode.frmProcessProductionIssueEntry + "','" + clsUserMgtCode.frmProcessProductionStandardization + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmProcessProductionStageProcess + "','" + clsUserMgtCode.frmProductionEntry + "','" + clsUserMgtCode.frmAssembDis + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmBillOfMaterialCosting + "','" + clsUserMgtCode.frmStanderdProductionEntry + "','" + clsUserMgtCode.DariyProductionUploader + "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmProductionPlanningDairy + "','" + clsUserMgtCode.frmBatchOrderDairy + "','" + clsUserMgtCode.frmProcessProductionIssueEntry + "','" + clsUserMgtCode.frmProcessProductionStandardization + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmProcessProductionStageProcess + "','" + clsUserMgtCode.frmProductionEntry + "','" + clsUserMgtCode.frmAssembDis + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmBillOfMaterialCosting + "','" + clsUserMgtCode.frmStanderdProductionEntry + "','" + clsUserMgtCode.DariyProductionUploader + "','" + clsUserMgtCode.frmMilkTransferIn + "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -505,6 +505,30 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
             End If
 
             qry += " ORDER BY TSPL_PRODUCTION_UPLOADER_HEAD_CANCEL_DATA.Document_No,TSPL_PRODUCTION_UPLOADER_HEAD_CANCEL_DATA.Document_Date "
+
+
+
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMilkTransferIn) = CompairStringResult.Equal Then
+
+            gv1.DataSource = Nothing
+            qry = "Select TSPL_MILK_TRANSFER_IN_cancel_data.Receipt_Challan_No as[Document Id],convert(varchar,TSPL_MILK_TRANSFER_IN_cancel_data.Receipt_Challan_Date ,103) as [Document Date] " &
+                ",''as [Structure Code],'' as [Section Stage Map Code] " &
+                ",'' as [Consumption Location Code],'' as [Consumption Section Code]  " &
+                ",'' as [Batch Code] , TSPL_MILK_TRANSFER_IN_cancel_data.Created_By as [Created By] " &
+                ",convert(varchar,TSPL_MILK_TRANSFER_IN_cancel_data.Created_Date,103) as [Created Date],'' as Description" &
+                ",TSPL_MILK_TRANSFER_IN_cancel_data.Cancel_By as [Cancelled By],convert(varchar,TSPL_MILK_TRANSFER_IN_cancel_data.Cancel_On,103) as [Cancelled Date] from TSPL_MILK_TRANSFER_IN_cancel_data " &
+                  " WHERE  convert(date,TSPL_MILK_TRANSFER_IN_cancel_data.Receipt_Challan_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
+                  " and convert(date,TSPL_MILK_TRANSFER_IN_cancel_data.Receipt_Challan_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+
+            If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+
+                qry += " and TSPL_MILK_TRANSFER_IN_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            Else
+                qry += " and TSPL_MILK_TRANSFER_IN_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            End If
+
+            qry += " ORDER BY TSPL_MILK_TRANSFER_IN_cancel_data.Receipt_Challan_No,TSPL_MILK_TRANSFER_IN_cancel_data.Receipt_Challan_Date "
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -595,6 +619,8 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                 clsStanderdProductionEntry.funCancleSPEPrint(MyBase.Form_ID, True, Nothing, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.DariyProductionUploader) = CompairStringResult.Equal Then
                 clsDairyProductionUploader.GetAttachQry(MyBase.Form_ID, True, Nothing, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmMilkTransferIn) = CompairStringResult.Equal Then
+                clsMilkTransferIn.funMilkTrnasferPrint(MyBase.Form_ID, True, Nothing, clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
 
             End If
         Catch ex As Exception
