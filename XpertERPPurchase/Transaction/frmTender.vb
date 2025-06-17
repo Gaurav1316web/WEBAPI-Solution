@@ -773,6 +773,7 @@ Public Class frmTender
                     objTr.Item_Type = clsCommon.myCstr(grow.Cells(colScheduleITypeCode).Value)
                     objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
                     objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
+                    objTr.Schedule_Tolerance_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleToleranceQty).Value)
                     objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
                     objTr.Schedule_Short = clsCommon.myCDecimal(grow.Cells(colScheduleShort).Value)
                     objTr.Late_Days = clsCommon.myCDecimal(grow.Cells(colScheduleLateDays).Value)
@@ -958,6 +959,7 @@ Public Class frmTender
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleITypeName).Value = clsItemType.GetName(objTr.Item_Type, Nothing)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = objTr.Schedule_Qty_Per
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = objTr.Schedule_Qty
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToleranceQty).Value = objTr.Schedule_Tolerance_Qty
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = objTr.Schedule_Short_Per
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = objTr.Schedule_Short
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = objTr.Late_Days
@@ -1769,6 +1771,13 @@ Public Class frmTender
         gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
         gvSchedule.TableElement.TableHeaderHeight = 40
     End Sub
+
+    Function ReturnToleranceQty(ByVal ICode As String, ByVal IQty As Double) As Double
+        Dim Qty As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Qty from TSPL_ITEM_SLAB_TOLERANCE where TSPL_ITEM_SLAB_TOLERANCE.Item_Code='" + clsCommon.myCstr(ICode) + "' and '" + clsCommon.myCstr(IQty) + "'>=TSPL_ITEM_SLAB_TOLERANCE.Range_From  and '" + clsCommon.myCstr(IQty) + "'<=TSPL_ITEM_SLAB_TOLERANCE.Range_To"))
+        Return Qty
+    End Function
+
+
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         SetSchedule()
     End Sub
@@ -1829,6 +1838,7 @@ Public Class frmTender
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colIName).Value)
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToleranceQty).Value = ReturnToleranceQty(clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value), clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value))
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days

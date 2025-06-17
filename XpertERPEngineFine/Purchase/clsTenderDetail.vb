@@ -108,6 +108,7 @@ Public Class clsTenderSchedule
     Public Item_Type As String
     Public Schedule_Qty_Per As Decimal
     Public Schedule_Qty As Decimal
+    Public Schedule_Tolerance_Qty As Decimal
     Public Schedule_Short_Per As Decimal
     Public Schedule_Short As Decimal
     Public Late_Days As Integer
@@ -133,6 +134,7 @@ Public Class clsTenderSchedule
                 clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type, True)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Qty_Per", obj.Schedule_Qty_Per)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Qty", obj.Schedule_Qty)
+                clsCommon.AddColumnsForChange(coll, "Tolerance_Qty", obj.Schedule_Tolerance_Qty)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Short_Per", obj.Schedule_Short_Per)
                 clsCommon.AddColumnsForChange(coll, "Schedule_Short", obj.Schedule_Short)
                 clsCommon.AddColumnsForChange(coll, "Late_Days", obj.Late_Days)
@@ -160,7 +162,6 @@ Public Class clsTenderSchedule
                 obj.Schedule_No = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_No"))
                 obj.From_Date = clsCommon.myCDate(dt.Rows(ii)("From_Date"))
                 obj.To_Date = clsCommon.myCDate(dt.Rows(ii)("To_Date"))
-
                 obj.Vendor_Code = clsCommon.myCstr(dt.Rows(ii)("Vendor_Code"))
                 obj.Location_Code = clsCommon.myCstr(dt.Rows(ii)("Location_Code"))
                 obj.Item_Code = clsCommon.myCstr(dt.Rows(ii)("Item_Code"))
@@ -168,6 +169,7 @@ Public Class clsTenderSchedule
                 obj.Schedule_Qty_Per = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Qty_Per"))
                 obj.Schedule_Qty = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Qty"))
                 obj.Schedule_Short_Per = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Short_Per"))
+                obj.Schedule_Tolerance_Qty = clsCommon.myCDecimal(dt.Rows(ii)("Tolerance_Qty"))
                 obj.Schedule_Short = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Short"))
                 obj.Late_Days = clsCommon.myCDecimal(dt.Rows(ii)("Late_Days"))
                 obj.Extension_Days = clsCommon.myCDecimal(dt.Rows(ii)("Extension_Days"))
