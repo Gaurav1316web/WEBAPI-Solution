@@ -689,6 +689,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             isInsideLoadData = True
             BlankAllControls()
             LoadBlankGrid()
+            btnGo.Enabled = False
 
             Dim obj As New clsBMCTransporterBill()
             obj = clsBMCTransporterBill.GetData(strDocumentNo, NavType, True, Nothing)

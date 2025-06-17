@@ -303,6 +303,7 @@ Public Class clsBMCTransporterBill
             objVendInv.Document_Type = "I"
             objVendInv.Invoice_Type = "AP"
             objVendInv.loc_code = clsCommon.myCstr(Loc_Seg)
+            'objVendInv.loc_code = "JPR"
             objVendInv.Document_Total = objTr.Amount
             objVendInv.Posting_Date = obj.Document_Date
             objVendInv.Vendor_Invoice_Date = obj.Document_Date
@@ -354,9 +355,9 @@ where TSPL_VENDOR_MASTER.Vendor_Code ='" + qry2 + "'"
             objVendInv.SaveData(objVendInv, True, trans)
             clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
 
-            objVendInv.Document_No = ""
-            objVendInv.SaveData(objVendInv, True, trans)
-            clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
+            'objVendInv.Document_No = ""
+            'objVendInv.SaveData(objVendInv, True, trans)
+            'clsVedorInvoiceHead.PostData("", objVendInv.Document_No, "", trans)
         Next
         Return True
     End Function
@@ -386,7 +387,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code ='" + qry2 + "'"
             End If
 
             For Each objtr As clsBMCTransporterBillDetail In obj.Arr
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where RefDocNo= " + clsCommon.myCstr(objtr.Document_Code) + "", trans)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_No from tspl_vendor_invoice_head where RefDocNo= '" + clsCommon.myCstr(objtr.Document_Code) + "'", trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
                         Dim strAPDocCode As String = clsCommon.myCstr(dr("Document_No"))
