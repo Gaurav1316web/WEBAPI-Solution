@@ -1860,9 +1860,14 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             Dim dblApplyCustDisc As Double = 0
             Dim dblTotCustDisc As Double = 0
 
-            If chkTPT.Checked Then
+            If ApplyTPT Then
+                If chkTPT.Checked Then
+                    GetDCDetails()
+                End If
+            ElseIf ApplyCommission Then
                 GetDCDetails()
             End If
+
 
             Dim dblTotalDCAmt As Double = 0
             Dim dblTotalTCAmt As Double = 0
@@ -2752,6 +2757,10 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         AddNew()
     End Sub
     Sub AddNew()
+        If ApplyTPT AndAlso ApplyCommission Then
+            clsCommon.MyMessageBoxShow(Me, "Apply TPT and Apply Commission Both setting is on, please disable one.", Me.Text)
+            Me.Close()
+        End If
         UcAttachment1.BlankAllControls()
         'VendorCodeForChangeIndent = ""
         IsTotalQtyinKG = False
@@ -2953,6 +2962,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             lblUnbilledMilk.Visible = False
             lblUnbilledMilkAmt.Visible = False
         End If
+        If ApplyTPT Then
+            chkTPT.Visible = True
+        Else
+            chkTPT.Visible = False
+        End If
+
     End Sub
     Sub ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
