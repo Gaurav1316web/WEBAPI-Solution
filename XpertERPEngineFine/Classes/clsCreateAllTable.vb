@@ -55944,6 +55944,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Late_Days", "integer NULL")
             coll.Add("Extension_Days", "integer NULL")
             coll.Add("Item_Type", "varchar(5) NULL")
+            coll.Add("Tolerance_Qty", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE", coll, Nothing, True, False, "TSPL_TENDER_HEADER", "DocumentCode", "", True)
             qry = "alter table TSPL_TENDER_SCHEDULE alter column Item_Code varchar(50) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
