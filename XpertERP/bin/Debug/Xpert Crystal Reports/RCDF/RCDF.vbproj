@@ -405,6 +405,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSaleBHR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDSBoking.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rpte-wayBill.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptFormA2MT.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
