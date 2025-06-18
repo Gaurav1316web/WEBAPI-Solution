@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 ' Review the values of the assembly attributes 
 <Assembly: AssemblyTitle("XPERT ERP")>
-<Assembly: AssemblyDescription("17-06-2025")>
+<Assembly: AssemblyDescription("18-06-2025")>
 <Assembly: AssemblyCompany("Tecxpert Software Private Limited")>
 <Assembly: AssemblyCopyright("Copyright © Tecxpert 2008-2025")>
 <Assembly: AssemblyTrademark("")>
