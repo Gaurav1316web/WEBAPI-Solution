@@ -4101,7 +4101,7 @@ case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isn
 
     Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
         Try
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads\"
 
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
