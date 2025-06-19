@@ -1033,10 +1033,10 @@ Public Class clsSaleRegisterDetail
                     " [GR No],convert(varchar,[GR Date],103) as [GR Date],[WayBill No],[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No],MRP, [Scheme Code],[Scheme Type] as [Schemes Type] , [Cash Scheme Code] , [Cash Scheme Amount], [Price Code], case when Sampling=0 then  'N' else case when sampling=1 then'Y' end end as sampling,"
 
             If obj.ReportType = "Document Detail" OrElse obj.ReportType = "Customer Wise" Then
-                    strMCCMaterial += " case when Sampling=1 then cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3))*case when Scheme_Item='Y' then 0 else cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end else 0 end  as [Sampling Amount], Cust.[RSM Code] as [RSM Code] ,Cust.[RSM Name] as [RSM Name] ,Cust.[ZSM Code] as [ZSM Code] ,cust.[ZSM Name] as [ZSM Name] ,Cust.[ASM Code] as [ASM Code] ,Cust.[ASM Name] as [ASM Name] ,Cust.[ASO Code]  as [ASO Code] ,Cust.[ASO Name] as [ASO Name] , "
-                End If
+                strMCCMaterial += " case when Sampling=1 then cast(([Quantity]*Stock_SU.Conversion_Factor)/(case when coalesce(TransStock.Conversion_Factor,1)=0 then 1 else coalesce(TransStock.Conversion_Factor,1) end) as Numeric(18,3))*case when Scheme_Item='Y' then 0 else cast(([Item Cost]*Stock_SU.Conversion_Factor)/(case when coalesce(rate_stock_su.Conversion_Factor,1)=0 then 1 else coalesce(rate_stock_su.Conversion_Factor,1) end) as Numeric(18,3))  end else 0 end  as [Sampling Amount], Cust.[RSM Code] as [RSM Code] ,Cust.[RSM Name] as [RSM Name] ,Cust.[ZSM Code] as [ZSM Code] ,cust.[ZSM Name] as [ZSM Name] ,Cust.[ASM Code] as [ASM Code] ,Cust.[ASM Name] as [ASM Name] ,Cust.[ASO Code]  as [ASO Code] ,Cust.[ASO Name] as [ASO Name] , "
+            End If
 
-                strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0) as numeric(18,2))[Commission Amt] "
+            strMCCMaterial += " " & IIf(Batch_Wise = True, " Batch_No, ", " ") & " Scheme_Item as [Scheme Type],[Invoice Type GST],[GSTIN No Company],[GSTIN no Customer], case when Scheme_Item='Y' then 0 else [Nill Rate Amount] end [Nill Rate Amount],cast(Additional_Charge as numeric(18,2))+ [Exempted Amount] as [Exempted Amount],[Non GST Supply],[Reverse Charge],[Export Type],Port,[Shipping Bill No],[Shipping Bill Date],[Original Invoice No],[Original Invoice Date],[Reason for Revision],[Executive],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,0) as numeric(18,2))[Commission Amt] "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
                 strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt],cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,0) as numeric(18,2)) as [Transporter Amt] "
@@ -1045,7 +1045,7 @@ Public Class clsSaleRegisterDetail
                 strMCCMaterial += ",cast(IsNull(TSPL_SD_SHIPMENT_DETAIL.Security_Amt,0) as numeric(18,2))[Security Amt] "
             End If
             If obj.ReportType = "Document Detail" Then
-                strMCCMaterial += ",cast(IsNull(Transporter_Commission_TotalAmt,0) as numeric(18,2))[TPT Amt] "
+                strMCCMaterial += ",cast(IsNull(Transporter_Commission_Amt,0) as numeric(18,2))[TPT Amt] "
             End If
             If obj.ReportType = "Customer Amount Wise" Then
                 strMCCMaterial += " ,Conv_Factor,ItemConversionInLTR.Conversion_factor,
@@ -1054,8 +1054,8 @@ Public Class clsSaleRegisterDetail
         End If
 
 
-            '' ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also) 
-            strMCCMaterial += " from ( "
+        '' ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also) 
+        strMCCMaterial += " from ( "
         '' '' base union 1
         ''If obj.Trans_Type_List.Contains("Fresh Sale") OrElse obj.Trans_Type_List.Contains("Product Sale") OrElse obj.Trans_Type_List.Contains("MCC Sale") OrElse obj.Trans_Type_List.Contains("Export Sale") OrElse obj.Trans_Type_List.Contains("CSA Sale") OrElse obj.Trans_Type_List.Contains("Merchant Trade") Then
         ''    qryStarted = True
@@ -3077,7 +3077,7 @@ Public Class clsSaleRegisterDetail
         End If
         strMCCMaterial += ") xx"
 
-        strMCCMaterial += " Left Join (Select  SHIPMENT.DOCUMENT_CODE,Item_Code,unit_code,Distributor_Commission_Amt,Security_Amt,SHIPMENT.Transporter_Commission_TotalAmt,HeadDiscAmt,HeadDiscPer from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD AS SHIPMENT ON SHIPMENT.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE Group By Item_Code,Unit_code,SHIPMENT.DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt,SHIPMENT.Transporter_Commission_TotalAmt,HeadDiscAmt,HeadDiscPer)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code] and TSPL_SD_SHIPMENT_DETAIL.unit_code=xx.[UOM] "
+        strMCCMaterial += " Left Join (Select  DOCUMENT_CODE,Item_Code,unit_code,Distributor_Commission_Amt,Transporter_Commission_Amt,Security_Amt,HeadDiscAmt,HeadDiscPer from TSPL_SD_SHIPMENT_DETAIL Group By Item_Code,Unit_code,DOCUMENT_CODE,Distributor_Commission_Amt,Security_Amt,Transporter_Commission_Amt,HeadDiscAmt,HeadDiscPer)TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=xx.[Shipment No] And TSPL_SD_SHIPMENT_DETAIL.Item_Code=xx.[Item Code] and TSPL_SD_SHIPMENT_DETAIL.unit_code=xx.[UOM] "
         If obj.ReportType = ("Customer Amount Wise") Then
             strMCCMaterial += "  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=xx.[Item Code] "
         End If

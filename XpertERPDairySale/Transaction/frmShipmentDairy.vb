@@ -756,7 +756,7 @@ Public Class frmShipmentDairy
         ShowShipToPartyInDairyDispatch = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ShowShipToPartyInDairyDispatch & "'")) = 0, 0, 1)
 
     End Sub
-    Public Shared Sub ProcessShipment(routeno As String, locationCode As String, supplyDate As Date?, shiftType As String, isTaxable As String, ByVal IsAutoClose As Boolean, ByRef obj As frmShipmentDairy)
+    Public Shared Sub ProcessShipment(routeno As String, locationCode As String, supplyDate As Date?, DocDate As Date?, shiftType As String, isTaxable As String, ByVal IsAutoClose As Boolean, ByRef obj As frmShipmentDairy)
         Try
             obj.LoadSettings()
             obj.LoadDOItemType()
@@ -770,7 +770,9 @@ Public Class frmShipmentDairy
             End If
             If supplyDate IsNot Nothing AndAlso clsCommon.myLen(supplyDate) > 0 Then
                 obj.txtSupplyDate.Value = supplyDate
-                obj.txtDate.Value = supplyDate
+            End If
+            If DocDate IsNot Nothing AndAlso clsCommon.myLen(DocDate) > 0 Then
+                obj.txtDate.Value = DocDate
             End If
             If clsCommon.CompairString(shiftType, "Morning") = CompairStringResult.Equal Then
                 obj.cmbShift.SelectedValue = "AM"
@@ -13298,6 +13300,8 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceAJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDH", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 Else
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If

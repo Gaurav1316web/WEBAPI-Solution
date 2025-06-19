@@ -49,6 +49,7 @@ Partial Class FrmItemMasterRMOther
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -293,6 +294,8 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvNOCSchedule = New common.UserControls.MyRadGridView()
         Me.MyLabel48 = New common.Controls.MyLabel()
+        Me.RadPageViewPage10 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvSlabTolerance = New Telerik.WinControls.UI.RadGridView()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -558,6 +561,9 @@ Partial Class FrmItemMasterRMOther
         CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage10.SuspendLayout()
+        CType(Me.gvSlabTolerance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSlabTolerance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -603,10 +609,11 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage7)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage8)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage9)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage10)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage10
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4455,6 +4462,27 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel48.TabIndex = 32
         Me.MyLabel48.Text = "Press F5 To View NOC Penelty Details"
         '
+        'RadPageViewPage10
+        '
+        Me.RadPageViewPage10.Controls.Add(Me.gvSlabTolerance)
+        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(125.0!, 28.0!)
+        Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage10.Name = "RadPageViewPage10"
+        Me.RadPageViewPage10.Size = New System.Drawing.Size(1186, 553)
+        Me.RadPageViewPage10.Text = "Slab Of Tolerance Qty"
+        '
+        'gvSlabTolerance
+        '
+        Me.gvSlabTolerance.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvSlabTolerance.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvSlabTolerance.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvSlabTolerance.Name = "gvSlabTolerance"
+        Me.gvSlabTolerance.Size = New System.Drawing.Size(1186, 553)
+        Me.gvSlabTolerance.TabIndex = 0
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -4894,6 +4922,9 @@ Partial Class FrmItemMasterRMOther
         CType(Me.gvNOCSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvNOCSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage10.ResumeLayout(False)
+        CType(Me.gvSlabTolerance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSlabTolerance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5175,5 +5206,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents MyLabel48 As Controls.MyLabel
     Friend WithEvents chkIsRepeat As Controls.MyCheckBox
     Friend WithEvents chkAllowDecimal As Controls.MyCheckBox
+    Friend WithEvents RadPageViewPage10 As RadPageViewPage
+    Friend WithEvents gvSlabTolerance As RadGridView
 End Class
 

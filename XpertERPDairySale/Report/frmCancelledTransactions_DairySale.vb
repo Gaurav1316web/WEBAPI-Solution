@@ -73,7 +73,7 @@ left outer join (select Program_Code, Program_Name,Parent_Code,case when len (is
 left outer join (select Program_Code, Program_Name,Parent_Code,case when len (isnull(TSPL_PROGRAM_MASTER.Re_Name,'')) > 0 then TSPL_PROGRAM_MASTER.Re_Name else  TSPL_PROGRAM_MASTER.Program_Name end As Re_Name from TSPL_PROGRAM_MASTER where Type in ('M')) as TBL_MODULE on TBL_MODULE.Program_Code = TBL_SMODULE.Parent_Code
 Where TBL_MODULE.Program_Code in (select  distinct Module_Name from TSPL_MODULE_PERMISSION ) and  not TSPL_PROGRAM_MASTER.Type in ('M','SM') 
 and TBL_SMODULE.Parent_Code In ('" + clsCommon.myCstr(cboModule.SelectedValue) + "') 
-and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmSaleDispatchDairy + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmDairyGatePass + "','" + clsUserMgtCode.frmMCCMaterial + "','" + clsUserMgtCode.frmDairyBookingCustomer + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmSNPOS + "')
+and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transaction') And TSPL_PROGRAM_MASTER.Program_Code In ('" + clsUserMgtCode.frmSaleDispatchDairy + "','" + clsUserMgtCode.frmSNSaleInvoice + "','" + clsUserMgtCode.frmDairyGatePass + "','" + clsUserMgtCode.frmMCCMaterial + "','" + clsUserMgtCode.frmDairyBookingCustomer + "','" + clsUserMgtCode.frmWreckageBooking + "','" + clsUserMgtCode.frmSNPOS + "','" + clsUserMgtCode.frmGatePassDairy + "')
  "
             dt = clsDBFuncationality.GetDataTable(Qry)
             'dr = dt.NewRow()
@@ -303,6 +303,22 @@ TSPL_SD_POS_HEAD_cancel_data.Created_By as [Created By], (convert(varchar,TSPL_S
             Else
                 qry += " and TSPL_SD_POS_HEAD_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
             End If
+
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmGatePassDairy) = CompairStringResult.Equal Then
+            gv1.DataSource = Nothing
+            qry = " select TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Document_No  as [Document Id] , convert(varchar,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Document_Date ,103) as [Document Date],
+TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Location_Code as [Location Code], Convert(varchar,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Document_Date,103) As [Supply Date], 
+TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_By as [Created By], (convert(varchar,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_Date,103)+' '+convert(varchar,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_Date,108)) as [Created Date],TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Cancel_By AS [Canceled By],(CONVERT(varchar,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Cancel_On,103)+' '+CONVERT(varchar,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Cancel_On,108)) AS [Canceled Date]
+,'' as Description from TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data   
+            WHERE  convert(date,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+            If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                qry += " and TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+            End If
+            If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                qry += " and TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+            Else
+                qry += " and TSPL_GATEPASS_MASTER_DAIRYSALE_cancel_data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+            End If
         End If
         If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -449,10 +465,13 @@ TSPL_SD_POS_HEAD_cancel_data.Created_By as [Created By], (convert(varchar,TSPL_S
                 'frm.printInvoice(clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), True)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmSNPOS) = CompairStringResult.Equal Then
                 clsSNPOSHead.funSNFPOSPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value))
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.frmGatePassDairy) = CompairStringResult.Equal Then
+                clsMilkTransferIn.funGatepassdairyPrint(MyBase.Form_ID, True, clsCommon.myCDate(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document Date").Value), clsCommon.myCstr(gv1.Rows(gv1.CurrentCell.RowIndex).Cells("Document ID").Value), False, False, Nothing)
 
             Else
-                    printCanceInvoice()
+                printCanceInvoice()
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

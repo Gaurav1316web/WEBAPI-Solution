@@ -370,6 +370,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNGNEW.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJDH.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR_PartyWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
@@ -404,6 +405,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSaleBHR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDSBoking.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rpte-wayBill.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptFormA2MT.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptFreshSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptInvoiceBulkSale.rpt" />
@@ -482,6 +484,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_InterState.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_InterState_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxable.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxables.rpt" />

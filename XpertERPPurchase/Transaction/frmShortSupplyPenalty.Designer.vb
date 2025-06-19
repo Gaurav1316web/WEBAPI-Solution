@@ -22,7 +22,7 @@ Partial Class frmShortSupplyPenalty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lblShortQty = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -64,6 +64,7 @@ Partial Class frmShortSupplyPenalty
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnAPInvoice = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
@@ -71,7 +72,8 @@ Partial Class frmShortSupplyPenalty
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.lblToleranceSlabQty = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -110,6 +112,7 @@ Partial Class frmShortSupplyPenalty
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAPInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -117,7 +120,8 @@ Partial Class frmShortSupplyPenalty
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToleranceSlabQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,6 +134,8 @@ Partial Class frmShortSupplyPenalty
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblToleranceSlabQty)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel8)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblShortQty)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblPenaltyAmt)
@@ -180,7 +186,7 @@ Partial Class frmShortSupplyPenalty
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(935, 388)
+        Me.SplitContainer1.Size = New System.Drawing.Size(931, 388)
         Me.SplitContainer1.SplitterDistance = 356
         Me.SplitContainer1.TabIndex = 0
         '
@@ -190,7 +196,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblShortQty.BorderVisible = True
         Me.lblShortQty.FieldName = Nothing
         Me.lblShortQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShortQty.Location = New System.Drawing.Point(835, 32)
+        Me.lblShortQty.Location = New System.Drawing.Point(828, 54)
         Me.lblShortQty.Name = "lblShortQty"
         Me.lblShortQty.Size = New System.Drawing.Size(95, 19)
         Me.lblShortQty.TabIndex = 392
@@ -200,7 +206,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(737, 34)
+        Me.MyLabel6.Location = New System.Drawing.Point(737, 55)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(54, 16)
         Me.MyLabel6.TabIndex = 391
@@ -212,7 +218,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblPenaltyAmt.BorderVisible = True
         Me.lblPenaltyAmt.FieldName = Nothing
         Me.lblPenaltyAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPenaltyAmt.Location = New System.Drawing.Point(835, 96)
+        Me.lblPenaltyAmt.Location = New System.Drawing.Point(828, 118)
         Me.lblPenaltyAmt.Name = "lblPenaltyAmt"
         Me.lblPenaltyAmt.Size = New System.Drawing.Size(95, 19)
         Me.lblPenaltyAmt.TabIndex = 390
@@ -231,7 +237,7 @@ Partial Class frmShortSupplyPenalty
         Me.txtPenaltyRate.IsSourceFromTable = False
         Me.txtPenaltyRate.IsSourceFromValueList = False
         Me.txtPenaltyRate.IsUnique = False
-        Me.txtPenaltyRate.Location = New System.Drawing.Point(833, 74)
+        Me.txtPenaltyRate.Location = New System.Drawing.Point(828, 96)
         Me.txtPenaltyRate.MendatroryField = False
         Me.txtPenaltyRate.MyLinkLable1 = Nothing
         Me.txtPenaltyRate.MyLinkLable2 = Nothing
@@ -239,17 +245,17 @@ Partial Class frmShortSupplyPenalty
         Me.txtPenaltyRate.ReferenceFieldDesc = Nothing
         Me.txtPenaltyRate.ReferenceFieldName = Nothing
         Me.txtPenaltyRate.ReferenceTableName = Nothing
-        Me.txtPenaltyRate.Size = New System.Drawing.Size(97, 20)
+        Me.txtPenaltyRate.Size = New System.Drawing.Size(95, 20)
         Me.txtPenaltyRate.TabIndex = 388
         Me.txtPenaltyRate.Text = "0"
         Me.txtPenaltyRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPenaltyRate.Value = 0R
+        Me.txtPenaltyRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel10
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(738, 98)
+        Me.MyLabel10.Location = New System.Drawing.Point(737, 119)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(86, 16)
         Me.MyLabel10.TabIndex = 389
@@ -259,7 +265,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(737, 76)
+        Me.MyLabel9.Location = New System.Drawing.Point(737, 98)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel9.TabIndex = 387
@@ -271,7 +277,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblRate.BorderVisible = True
         Me.lblRate.FieldName = Nothing
         Me.lblRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRate.Location = New System.Drawing.Point(835, 53)
+        Me.lblRate.Location = New System.Drawing.Point(828, 75)
         Me.lblRate.Name = "lblRate"
         Me.lblRate.Size = New System.Drawing.Size(95, 19)
         Me.lblRate.TabIndex = 386
@@ -281,7 +287,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(737, 55)
+        Me.MyLabel7.Location = New System.Drawing.Point(737, 76)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel7.TabIndex = 385
@@ -293,7 +299,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblApplicable.BorderVisible = True
         Me.lblApplicable.FieldName = Nothing
         Me.lblApplicable.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblApplicable.Location = New System.Drawing.Point(681, 97)
+        Me.lblApplicable.Location = New System.Drawing.Point(683, 97)
         Me.lblApplicable.Name = "lblApplicable"
         Me.lblApplicable.Size = New System.Drawing.Size(52, 19)
         Me.lblApplicable.TabIndex = 384
@@ -315,7 +321,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblPenaltyQty.BorderVisible = True
         Me.lblPenaltyQty.FieldName = Nothing
         Me.lblPenaltyQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPenaltyQty.Location = New System.Drawing.Point(633, 76)
+        Me.lblPenaltyQty.Location = New System.Drawing.Point(635, 75)
         Me.lblPenaltyQty.Name = "lblPenaltyQty"
         Me.lblPenaltyQty.Size = New System.Drawing.Size(100, 19)
         Me.lblPenaltyQty.TabIndex = 382
@@ -337,9 +343,9 @@ Partial Class frmShortSupplyPenalty
         Me.lblSRNQty.BorderVisible = True
         Me.lblSRNQty.FieldName = Nothing
         Me.lblSRNQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSRNQty.Location = New System.Drawing.Point(633, 55)
+        Me.lblSRNQty.Location = New System.Drawing.Point(828, 33)
         Me.lblSRNQty.Name = "lblSRNQty"
-        Me.lblSRNQty.Size = New System.Drawing.Size(100, 19)
+        Me.lblSRNQty.Size = New System.Drawing.Size(95, 19)
         Me.lblSRNQty.TabIndex = 380
         Me.lblSRNQty.TextWrap = False
         '
@@ -349,7 +355,7 @@ Partial Class frmShortSupplyPenalty
         Me.lblRALQty.BorderVisible = True
         Me.lblRALQty.FieldName = Nothing
         Me.lblRALQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRALQty.Location = New System.Drawing.Point(633, 34)
+        Me.lblRALQty.Location = New System.Drawing.Point(635, 33)
         Me.lblRALQty.Name = "lblRALQty"
         Me.lblRALQty.Size = New System.Drawing.Size(100, 19)
         Me.lblRALQty.TabIndex = 379
@@ -359,7 +365,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(532, 55)
+        Me.MyLabel4.Location = New System.Drawing.Point(737, 34)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(51, 16)
         Me.MyLabel4.TabIndex = 195
@@ -407,7 +413,7 @@ Partial Class frmShortSupplyPenalty
         Me.txtSRN_PI.ReferenceFieldDesc = Nothing
         Me.txtSRN_PI.ReferenceFieldName = Nothing
         Me.txtSRN_PI.ReferenceTableName = Nothing
-        Me.txtSRN_PI.Size = New System.Drawing.Size(204, 18)
+        Me.txtSRN_PI.Size = New System.Drawing.Size(240, 18)
         Me.txtSRN_PI.TabIndex = 191
         Me.txtSRN_PI.Value = ""
         '
@@ -525,10 +531,10 @@ Partial Class frmShortSupplyPenalty
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(826, 13)
+        Me.UsLock1.Location = New System.Drawing.Point(828, 12)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(76, 19)
+        Me.UsLock1.Size = New System.Drawing.Size(95, 19)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 182
         '
@@ -732,7 +738,7 @@ Partial Class frmShortSupplyPenalty
         Me.RadGroupBox2.Location = New System.Drawing.Point(6, 141)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(926, 213)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(922, 213)
         Me.RadGroupBox2.TabIndex = 20
         '
         'gv1
@@ -750,21 +756,32 @@ Partial Class frmShortSupplyPenalty
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(906, 183)
+        Me.gv1.Size = New System.Drawing.Size(902, 183)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(427, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(55, 22)
+        Me.btnHistory.TabIndex = 17
+        Me.btnHistory.Text = "History"
+        Me.btnHistory.Visible = False
         '
         'btnAPInvoice
         '
         Me.btnAPInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAPInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAPInvoice.Location = New System.Drawing.Point(717, 3)
+        Me.btnAPInvoice.Location = New System.Drawing.Point(743, 3)
         Me.btnAPInvoice.Name = "btnAPInvoice"
         Me.btnAPInvoice.Size = New System.Drawing.Size(102, 22)
         Me.btnAPInvoice.TabIndex = 16
@@ -774,7 +791,7 @@ Partial Class frmShortSupplyPenalty
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(855, 4)
+        Me.btnClose.Location = New System.Drawing.Point(851, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 15
@@ -826,21 +843,33 @@ Partial Class frmShortSupplyPenalty
         Me.btnSave.TabIndex = 8
         Me.btnSave.Text = "Save"
         '
-        'btnHistory
+        'lblToleranceSlabQty
         '
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(427, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(55, 22)
-        Me.btnHistory.TabIndex = 17
-        Me.btnHistory.Text = "History"
-        Me.btnHistory.Visible = False
+        Me.lblToleranceSlabQty.AutoSize = False
+        Me.lblToleranceSlabQty.BorderVisible = True
+        Me.lblToleranceSlabQty.FieldName = Nothing
+        Me.lblToleranceSlabQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblToleranceSlabQty.Location = New System.Drawing.Point(635, 54)
+        Me.lblToleranceSlabQty.Name = "lblToleranceSlabQty"
+        Me.lblToleranceSlabQty.Size = New System.Drawing.Size(100, 19)
+        Me.lblToleranceSlabQty.TabIndex = 394
+        Me.lblToleranceSlabQty.TextWrap = False
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(532, 55)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(103, 16)
+        Me.MyLabel8.TabIndex = 393
+        Me.MyLabel8.Text = "Tolerance Slab Qty"
         '
         'frmShortSupplyPenalty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(935, 388)
+        Me.ClientSize = New System.Drawing.Size(931, 388)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmShortSupplyPenalty"
         '
@@ -887,6 +916,7 @@ Partial Class frmShortSupplyPenalty
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAPInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -894,7 +924,8 @@ Partial Class frmShortSupplyPenalty
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToleranceSlabQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -949,4 +980,6 @@ Partial Class frmShortSupplyPenalty
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnAPInvoice As RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents lblToleranceSlabQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
 End Class

@@ -4101,7 +4101,7 @@ case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isn
 
     Private Sub btnExportGSTR1_Click(sender As Object, e As EventArgs) Handles btnExportGSTR1.Click
         Try
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads\"
 
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
@@ -4112,7 +4112,7 @@ case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isn
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                outputFilePath += clsCommon.myCstr(dt.Rows(0)("FileName"))
+                outputFilePath += clsCommon.myCstr(DateTime.Now.ToString("yyyyMMddHHmmss")) + clsCommon.myCstr(dt.Rows(0)("FileName"))
 
                 If File.Exists(outputFilePath) Then
                     File.Delete(outputFilePath)
@@ -4148,44 +4148,6 @@ case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isn
             Try
                 clsCommon.ProgressBarPercentShow()
                 exportExcel(outputFilePath)
-                'For i As Integer = 1 To (gv2.Rows.Count + 1)
-                '    clsCommon.ProgressBarPercentUpdate((i / (gv2.Rows.Count + 1)) * 100, "Processing...")
-                '    DrillDownDetailForGSTR1(i)
-
-                '    '                    Dim finalQry As String = Nothing
-                '    '                    If i = 1 Then
-                '    '                        finalQry = "Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Reverse Charges],'' As [Applicable of Tax Rate],[Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz Order By SNo"
-                '    '                    ElseIf i = 4 Then
-                '    '                        finalQry = "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz"
-                '    '                    ElseIf i = 5 Then
-                '    '                        finalQry = "Select 'OE' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,Sum([Taxable Value])[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" + strQryGSTR + ")xyz Group By [Place of Supply],TaxRate Order By TaxRate"
-                '    '                    ElseIf i = 6 Then
-                '    '                        finalQry = "Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],'' As [Reverse Charges],[Invoice Type] As [Note Supply Type],[Invoice Amount] As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
-                '    '                    ElseIf i = 7 Then
-                '    '                        finalQry = "Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Invoice Amount] As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" + strQryGSTR + ")xyz"
-                '    '                    ElseIf i = 11 Then
-                '    '                        finalQry = "Select Description ,Sum([Nil Rated Supplies])[Nil Rated Supplies] ,Sum([Exempted(other than nil rated/non GST supply)])[Exempted(other than nil rated/non GST supply)], Sum([Non-GST Supplies])[Non-GST Supplies] 
-                '    'from (Select 'Intra-State supplies to registered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
-                '    'Union All
-                '    'Select 'Intra-State supplies to unregistered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
-                '    'Union All
-                '    'Select 'Inter-State supplies to unregistered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
-                '    'Union All
-                '    'Select 'Inter-State supplies to registered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
-                '    'Union All "
-                '    '                        finalQry += " Select Description,0 As [Nil Rated Supplies],Sum([Invoice Amount])[Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],[Place of Supply] from (" + strQryGSTR + ")xyz Group By Description,[Place of Supply]"
-                '    '                        finalQry += ")abc Group By Description"
-                '    '                    ElseIf i = (gv2.Rows.Count + 1) Then
-                '    '                        'DrillDownDetailForGSTR1_ItemWise(i)
-                '    '                        'finalQry = "Select [HSN Code],Max(Description)Description,Max(UOM)UOM,Sum(TotalQty)TotalQty,Sum(TotalAmount)TotalAmount,Max(Tax_Rate)Tax_Rate,Sum(TotalTaxableValue)TotalTaxableValue,Sum(IGSTAmount)IGSTAmount,Sum(CGSTAmount)CGSTAmount,Sum(SGSTAmount)SGSTAmount,'' As [Cess Amount]  from (" + strQryGSTR + ") xyz Group By [HSN Code]"
-                '    '                    End If
-                '    '                    If clsCommon.myLen(finalQry) > 0 Then
-                '    '                        Dim dtGSTR As DataTable = clsDBFuncationality.GetDataTable(finalQry)
-                '    '                        If dtGSTR IsNot Nothing AndAlso dtGSTR.Rows.Count > 0 Then
-                '    '                            exportExcel(dtGSTR, outputFilePath, i)
-                '    '                        End If
-                '    '                    End If
-                'Next
                 clsCommon.ProgressBarPercentHide()
                 exportGSTR = False
             Catch ex As Exception
@@ -4215,7 +4177,7 @@ case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isn
         Document_Date,
         0 AS IsCancelled
     FROM TSPL_Customer_INVOICE_HEAD
-    WHERE CONVERT(date, Document_Date, 103) >= CONVERT(date, '" + txtFromDate.Value + "', 103) AND CONVERT(date, Document_Date, 103) <= CONVERT(date, '" + txtToDate.Value + "', 103)
+    WHERE ISNULL(Against_VCGL, '') = '' And CONVERT(date, Document_Date, 103) >= CONVERT(date, '" + txtFromDate.Value + "', 103) AND CONVERT(date, Document_Date, 103) <= CONVERT(date, '" + txtToDate.Value + "', 103)
 
     UNION ALL
 
@@ -4233,7 +4195,7 @@ case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isn
         Document_Date,
         1 AS IsCancelled
     FROM TSPL_CUSTOMER_INVOICE_HEAD_Cancel_Data
-    WHERE CONVERT(date, Document_Date, 103) >= CONVERT(date, '" + txtFromDate.Value + "', 103) AND CONVERT(date, Document_Date, 103) <= CONVERT(date, '" + txtToDate.Value + "', 103)
+    WHERE ISNULL(Against_VCGL, '') = '' And CONVERT(date, Document_Date, 103) >= CONVERT(date, '" + txtFromDate.Value + "', 103) AND CONVERT(date, Document_Date, 103) <= CONVERT(date, '" + txtToDate.Value + "', 103)
 ),
 
 SplitInvoice AS (

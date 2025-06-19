@@ -5,7 +5,7 @@ Public Class frmMakeSavingPaymentSelectDocs
     Public strDCSUploaderNo As String = ""
     Public strDCSName As String = ""
     Public InType As Integer = 0
-    Public IsCancelClicked As Boolean = False
+    Public IsCancelClicked As Boolean = True
 
     Public ArrInSaving As List(Of clsMakeSavingPaymentSaving) = Nothing
     Public ArrInSale As List(Of clsMakeSavingPaymentDCSSale) = Nothing
@@ -132,7 +132,6 @@ Public Class frmMakeSavingPaymentSelectDocs
         End If
     End Sub
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        IsCancelClicked = True
         Me.Close()
     End Sub
     Private Sub btnOk_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOk.Click
@@ -169,7 +168,7 @@ Public Class frmMakeSavingPaymentSelectDocs
                 ArrOutDeduction.Add(obj)
             Next
         End If
-
+        IsCancelClicked = False
         Me.Close()
     End Sub
 End Class

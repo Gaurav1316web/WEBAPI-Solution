@@ -3627,8 +3627,10 @@ Public Class FrmARInvoiceEntry
             If clsCommon.myLen(StrTrans_type) > 0 Then
                 If clsCommon.CompairString(StrTrans_type, "MCC") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterial, strInvoiceNo)
+                    'ElseIf clsCommon.CompairString(StrTrans_type, "FS") = CompairStringResult.Equal Then
+                    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmInvoiceFreshSale, strInvoiceNo)
                 ElseIf clsCommon.CompairString(StrTrans_type, "FS") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmInvoiceFreshSale, strInvoiceNo)
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNSaleInvoice, strInvoiceNo)
                 ElseIf clsCommon.CompairString(StrTrans_type, "PS") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleInvoiceProductSale, strInvoiceNo)
                 ElseIf clsCommon.CompairString(StrTrans_type, "CSA") = CompairStringResult.Equal Then

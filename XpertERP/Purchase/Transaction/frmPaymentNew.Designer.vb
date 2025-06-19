@@ -161,9 +161,7 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.LBLPO_Location_GST = New common.Controls.MyLabel()
@@ -212,6 +210,8 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -439,10 +439,10 @@ Partial Class FrmPaymentNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1231, 467)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1231, 471)
         Me.RadPageViewPage1.Text = "Payment"
         '
         'SplitContainer2
@@ -468,7 +468,7 @@ Partial Class FrmPaymentNew
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvDetails)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1231, 467)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1231, 471)
         Me.SplitContainer2.SplitterDistance = 326
         Me.SplitContainer2.TabIndex = 0
         '
@@ -2483,7 +2483,7 @@ Partial Class FrmPaymentNew
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
         Me.gvDetails.ShowHeaderCellButtons = True
-        Me.gvDetails.Size = New System.Drawing.Size(1231, 137)
+        Me.gvDetails.Size = New System.Drawing.Size(1231, 141)
         Me.gvDetails.TabIndex = 0
         Me.gvDetails.TabStop = False
         Me.gvDetails.VarID = ""
@@ -2491,41 +2491,25 @@ Partial Class FrmPaymentNew
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 33)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1113, 445)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 33)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1113, 445)
         Me.Attachments.Text = "Attachments"
         '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1113, 445)
-        Me.UcAttachment1.TabIndex = 0
-        '
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 33)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1113, 445)
@@ -2845,7 +2829,7 @@ Partial Class FrmPaymentNew
         Me.TabBankChargesTax.Controls.Add(Me.RadLabel10)
         Me.TabBankChargesTax.Controls.Add(Me.gv2)
         Me.TabBankChargesTax.Controls.Add(Me.MyLabel12)
-        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(120.0!, 28.0!)
+        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(116.0!, 24.0!)
         Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 33)
         Me.TabBankChargesTax.Name = "TabBankChargesTax"
         Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 445)
@@ -3162,6 +3146,22 @@ Partial Class FrmPaymentNew
         Me.btnclose.Size = New System.Drawing.Size(47, 18)
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
+        Me.UcCustomFields1.TabIndex = 1
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(1113, 445)
+        Me.UcAttachment1.TabIndex = 0
         '
         'FrmPaymentNew
         '

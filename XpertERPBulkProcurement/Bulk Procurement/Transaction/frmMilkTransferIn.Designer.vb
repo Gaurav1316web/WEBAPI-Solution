@@ -408,7 +408,7 @@ Partial Class FrmMilkTransferIn
         Me.txtSNFPercentage.TabIndex = 343
         Me.txtSNFPercentage.Text = "0"
         Me.txtSNFPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFPercentage.Value = 0R
+        Me.txtSNFPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtSNFWeightage
         '
@@ -436,7 +436,7 @@ Partial Class FrmMilkTransferIn
         Me.TxtSNFWeightage.TabIndex = 336
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0R
+        Me.TxtSNFWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtFatWeightage
         '
@@ -464,7 +464,7 @@ Partial Class FrmMilkTransferIn
         Me.TxtFatWeightage.TabIndex = 335
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0R
+        Me.TxtFatWeightage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel19
         '
@@ -522,7 +522,7 @@ Partial Class FrmMilkTransferIn
         Me.txtfatPercentage.TabIndex = 337
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0R
+        Me.txtfatPercentage.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblPriceChart
         '
@@ -948,7 +948,7 @@ Partial Class FrmMilkTransferIn
         Me.txtTransferPrice.TabIndex = 361
         Me.txtTransferPrice.Text = "0"
         Me.txtTransferPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTransferPrice.Value = 0R
+        Me.txtTransferPrice.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDispatchFrom
         '
@@ -1176,6 +1176,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvOldSealPaper.MyExportFilePath = ""
         Me.gvOldSealPaper.MyStopExport = False
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
@@ -1206,6 +1207,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOldSeal.MyExportFilePath = ""
         Me.gvOldSeal.MyStopExport = False
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
@@ -1554,6 +1556,7 @@ Partial Class FrmMilkTransferIn
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvWeighment.MyExportFilePath = ""
         Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
@@ -1719,6 +1722,7 @@ Partial Class FrmMilkTransferIn
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvParam.MyExportFilePath = ""
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
@@ -1807,6 +1811,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvNewSealPaper.MyExportFilePath = ""
         Me.gvNewSealPaper.MyStopExport = False
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
@@ -1836,6 +1841,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvNewSeal.MyExportFilePath = ""
         Me.gvNewSeal.MyStopExport = False
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True

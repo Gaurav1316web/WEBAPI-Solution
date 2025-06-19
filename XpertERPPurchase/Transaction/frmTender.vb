@@ -48,6 +48,7 @@ Public Class frmTender
     Const colScheduleITypeName As String = "colScheduleITypeName"
     Const colScheduleQtyPer As String = "colScheduleQtyPer"
     Const colScheduleQty As String = "colScheduleQty"
+    Const colScheduleToleranceQty As String = "colScheduleToleranceQty"
     Const colScheduleShortPer As String = "colScheduleShortPer"
     Const colScheduleShort As String = "colScheduleShort"
     Const colScheduleLateDays As String = "colScheduleLateDays"
@@ -641,6 +642,32 @@ Public Class frmTender
             RefreshSerialNo()
             lblTotalDocAmt.Text = Math.Round(clsCommon.myCDecimal(dblTotalAmount), 2)
             'UpdateAllTotals()
+
+            If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
+                Dim prevParentSN As Decimal = 0
+                Dim prevToDate As DateTime = Nothing
+                For Each gvRows In gvSchedule.Rows
+                    Dim chkQry As String = "Select * from (select ROW_NUMBER() Over (Order by PK_ID) As SNO, TSPL_ITEM_SCHEDULE.* from TSPL_ITEM_SCHEDULE  where Item_Code='" + clsCommon.myCstr(gvRows.Cells(colScheduleICode).Value) + "' )xyz Where SNO='" + clsCommon.myCstr(gvRows.Cells(colScheduleNo).Value) + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(chkQry)
+                    Dim diff As TimeSpan = clsCommon.myCDate(gvRows.Cells(colScheduleToDate).Value) - clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value)
+                    If (diff.Days + 1) <> clsCommon.myCDecimal(dt.Rows(0)("Days")) Then
+                        Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                    End If
+
+                    If prevParentSN > 0 AndAlso prevParentSN = clsCommon.myCDecimal(gvRows.Cells(colScheduleParentSNo).Value) Then
+                        If clsCommon.myLen(prevToDate) > 0 AndAlso clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) <= prevToDate Then
+                            Throw New Exception("In Set Schedule tab incorrect From Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                        End If
+                        Dim diff1 As TimeSpan = clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) - clsCommon.myCDate(prevToDate)
+                        If clsCommon.myLen(prevToDate) > 0 AndAlso clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) > prevToDate AndAlso diff1.Days > 1 Then
+                            Throw New Exception("In Set Schedule tab incorrect From Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                        End If
+                    End If
+                    prevParentSN = clsCommon.myCDecimal(gvRows.Cells(colScheduleParentSNo).Value)
+                    prevToDate = clsCommon.myCDate(gvRows.Cells(colScheduleToDate).Value)
+                Next
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
@@ -746,6 +773,7 @@ Public Class frmTender
                     objTr.Item_Type = clsCommon.myCstr(grow.Cells(colScheduleITypeCode).Value)
                     objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
                     objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
+                    objTr.Schedule_Tolerance_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleToleranceQty).Value)
                     objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
                     objTr.Schedule_Short = clsCommon.myCDecimal(grow.Cells(colScheduleShort).Value)
                     objTr.Late_Days = clsCommon.myCDecimal(grow.Cells(colScheduleLateDays).Value)
@@ -931,6 +959,7 @@ Public Class frmTender
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleITypeName).Value = clsItemType.GetName(objTr.Item_Type, Nothing)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = objTr.Schedule_Qty_Per
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = objTr.Schedule_Qty
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToleranceQty).Value = objTr.Schedule_Tolerance_Qty
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = objTr.Schedule_Short_Per
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = objTr.Schedule_Short
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = objTr.Late_Days
@@ -1674,6 +1703,18 @@ Public Class frmTender
 
         repoNum = New GridViewDecimalColumn()
         repoNum.FormatString = ""
+        repoNum.HeaderText = "Tolerance Qty"
+        repoNum.Name = colScheduleToleranceQty
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
         repoNum.HeaderText = "Short %"
         repoNum.Name = colScheduleShortPer
         repoNum.ReadOnly = True
@@ -1730,6 +1771,13 @@ Public Class frmTender
         gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
         gvSchedule.TableElement.TableHeaderHeight = 40
     End Sub
+
+    Function ReturnToleranceQty(ByVal ICode As String, ByVal IQty As Double) As Double
+        Dim Qty As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Qty from TSPL_ITEM_SLAB_TOLERANCE where TSPL_ITEM_SLAB_TOLERANCE.Item_Code='" + clsCommon.myCstr(ICode) + "' and '" + clsCommon.myCstr(IQty) + "'>=TSPL_ITEM_SLAB_TOLERANCE.Range_From  and '" + clsCommon.myCstr(IQty) + "'<=TSPL_ITEM_SLAB_TOLERANCE.Range_To"))
+        Return Qty
+    End Function
+
+
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         SetSchedule()
     End Sub
@@ -1737,49 +1785,65 @@ Public Class frmTender
         Try
             isInsideLoadData = True
             LoadBlankGridSchedule()
+            If clsCommon.myCDate(txtScheduleStartDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") Then
+                Throw New Exception("Schedule start date can't be less than RAL date !")
+            End If
             For ii As Integer = 0 To gv2.Rows.Count - 1
                 If clsCommon.myCDecimal(cboRALOn.SelectedValue) = 0 Then
                     If clsCommon.myLen(gv2.Rows(ii).Cells(colVCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(gv2.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) > 0 Then
                         Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
                         Dim ArrSch As List(Of clsItemSchedule) = clsItemSchedule.GetData(clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value), Nothing)
                         If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
+                            Dim i As Integer = 0
                             For Each obj As clsItemSchedule In ArrSch
-                                gvSchedule.Rows.AddNew()
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
-                                Dim fromDate As Date = clsCommon.myCDate(dtRunningDate)
-                                dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
-                                If chkMonthEndDate.Checked Then
-                                    Dim endDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("SELECT EOMONTH(convert(Date,'" + fromDate + "',103)) AS LastDayOfMonth"))
-                                    Dim dayCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + dtRunningDate + "',103),convert(Date,'" + endDate + "',103))"))
-                                    If dayCount > 0 AndAlso dayCount < 2 Then
-                                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
-                                        dtRunningDate = endDate.AddDays(1)
-                                    ElseIf dayCount < 0 AndAlso dayCount > -2 Then
-                                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
-                                        dtRunningDate = endDate.AddDays(1)
+                                Dim chkQty As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select Quantity from (select ROW_NUMBER() Over (Order by PK_ID) As SNO, TSPL_ITEM_SCHEDULE.* from TSPL_ITEM_SCHEDULE  where TSPL_ITEM_SCHEDULE.Item_Code='" + clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value) + "')xyz Where SNO='" + clsCommon.myCstr(obj.SNo) + "'"))
+                                If ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100) < chkQty Then
+                                    If obj.SNo > 1 AndAlso i > 0 Then
+                                        i += 1
+                                        Continue For
+                                    Else
+                                        i += 1
+                                    End If
+                                End If
+                                If chkQty > 0 Then
+                                    gvSchedule.Rows.AddNew()
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
+                                    Dim fromDate As Date = clsCommon.myCDate(dtRunningDate)
+                                    dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                    If chkMonthEndDate.Checked Then
+                                        Dim endDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("SELECT EOMONTH(convert(Date,'" + fromDate + "',103)) AS LastDayOfMonth"))
+                                        Dim dayCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + dtRunningDate + "',103),convert(Date,'" + endDate + "',103))"))
+                                        If dayCount > 0 AndAlso dayCount < 2 Then
+                                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                            dtRunningDate = endDate.AddDays(1)
+                                        ElseIf dayCount < 0 AndAlso dayCount > -2 Then
+                                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                            dtRunningDate = endDate.AddDays(1)
+                                        Else
+                                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                            dtRunningDate = dtRunningDate.AddDays(1)
+                                        End If
                                     Else
                                         gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
                                         dtRunningDate = dtRunningDate.AddDays(1)
                                     End If
-                                Else
-                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-                                    dtRunningDate = dtRunningDate.AddDays(1)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colLineNo).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVName).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLName).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colIName).Value)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToleranceQty).Value = ReturnToleranceQty(clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value), clsCommon.myCdbl(gv2.Rows(ii).Cells(colQty).Value))
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
                                 End If
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv2.Rows(ii).Cells(colLineNo).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVCode).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colVName).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLCode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLCode).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colLName).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv2.Rows(ii).Cells(colIName).Value)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv2.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
-                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
                             Next
                         End If
                     Else

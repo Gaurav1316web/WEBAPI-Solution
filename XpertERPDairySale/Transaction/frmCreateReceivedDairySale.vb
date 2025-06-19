@@ -3013,6 +3013,7 @@ Public Class frmCreateReceivedDairySale
         Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Counter As Integer = 0
+        Dim strList As New List(Of String)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         ''For Each grow As GridViewRowInfo In gv1.Rows
         Dim objTr As New clsCrateReceivedDetail()
@@ -3029,6 +3030,66 @@ Public Class frmCreateReceivedDairySale
                     Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
                     Dim strName As String = ""
                     Counter += 1
+                    Dim strUnique As String = strLocation + "_" + strRoute + "_" + strdate + "_" + strshift
+                    If Not strList.Contains(strUnique) Then
+                        strList.Add(strUnique)
+                    Else
+                        Throw New Exception("Duplicate data found [" + strUnique + "]")
+                    End If
+
+                    If clsCommon.myLen(strLocation) <= 0 Then
+                        Throw New Exception("Location not found")
+                    End If
+                    If strLocation.Length > 12 Then
+                        Throw New Exception("length of Location can not be greater than 12")
+                    Else
+                        If strLocation.Length > 0 Then
+                            strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_LOCATION_MASTER Where location_Code ='" & strLocation & "' and IsMainPlant=1 ", trans)
+                            If strName <= 0 Then
+                                Throw New Exception("Location (" & strLocation & ") does not exist in Location Master . Please make it entry first.")
+                            End If
+                        End If
+                    End If
+                    If clsCommon.myLen(strRoute) <= 0 Then
+                        Throw New Exception("Route No not found")
+                    End If
+                    If strRoute.Length > 0 Then
+                        strName = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ROUTE_MASTER where Route_No='" & strRoute & "' ", trans)
+                        If strName <= 0 Then
+                            Throw New Exception("Route (" & strRoute & ") does not exist in Route Master . Please make it entry first.")
+                        End If
+                    End If
+                    If clsCommon.myLen(grow.Cells("Date").Value) <= 0 Then
+                        Throw New Exception("Transaction Date is not found")
+                    End If
+                    If strshift.Length <= 0 Then
+                        Throw New Exception("Shift should not be blank.")
+                    ElseIf Not strshift.All(Function(c) Char.IsLetter(c)) Then
+                        Throw New Exception("Shift should contain only alphabetic characters.")
+                    ElseIf clsCommon.CompairString(strshift, "M") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                        Throw New Exception("shift should be 'M','E' ")
+                        'ElseIf clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                        '    Throw New Exception("shift should be 'E' ")
+                    End If
+
+                    If dblCrateQty <= 0 OrElse dblCrateQty <> Math.Floor(dblCrateQty) Then
+                        Throw New Exception("Qty of Crate cant't be zero or Can should be a positive whole number.")
+                    End If
+                Next
+                For Each grow As GridViewRowInfo In gv.Rows
+                    Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
+                    Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
+                    Dim strdate As Date = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
+                    Dim strshift As String = clsCommon.myCstr(grow.Cells("Shift").Value)
+                    Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
+                    Dim strName As String = ""
+                    Counter += 1
+                    'Dim strUnique As String = strLocation + "_" + strRoute + "_" + strdate + "_" + strshift
+                    'If Not strList.Contains(strUnique) Then
+                    '    strList.Add(strUnique)
+                    'Else
+                    '    Throw New Exception("Duplicate data found [" + strUnique + "]")
+                    '    'End If
 
                     If clsCommon.myLen(strLocation) <= 0 Then
                         Throw New Exception("Location not found")

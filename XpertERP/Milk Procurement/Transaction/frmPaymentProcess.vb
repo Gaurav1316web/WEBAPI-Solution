@@ -197,6 +197,7 @@ Public Class FrmPaymentProcess
     Dim PrintHindi As Boolean = False
     Public fontInstalled As Boolean = False
     Dim settNoOfDCSForDeduction As Integer = 50
+    Public SettRemoveSavingDocumentWhenPayableAmtZero As Boolean = False
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -206,23 +207,24 @@ Public Class FrmPaymentProcess
         Else
             pnlLocation.Visible = False
         End If
+        SettRemoveSavingDocumentWhenPayableAmtZero = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, Nothing)) = 1)
         settNoOfDCSForDeduction = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.NoOfDCSToLoadDeductionData, clsFixedParameterCode.NoOfDCSToLoadDeductionData, Nothing))
-        SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-        settTDSRoundOffAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, Nothing)) = 1)
-        SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
-        IsRoundOffPaiseAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1)
-        isConsiderAdvancePayment = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConsiderAdvancePayment, clsFixedParameterType.ConsiderAdvancePayment, Nothing)) = 1, True, False)
-        PayableAmountZeroForMCCSale = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PayableAmountZeroForMCCSale, clsFixedParameterType.PayableAmountZeroForMCCSale, Nothing)) = 1, True, False)
-        settingShowFATSNF = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowFATSNFinPaymentProcess, clsFixedParameterType.ShowFATSNFinPaymentProcess, Nothing)) = 1, True, False)
-        ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
+        SetCowFatPer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
+        settTDSRoundOffAmount = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, Nothing)) = 1)
+        SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
+        IsRoundOffPaiseAmount = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1)
+        isConsiderAdvancePayment = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ConsiderAdvancePayment, clsFixedParameterType.ConsiderAdvancePayment, Nothing)) = 1, True, False)
+        PayableAmountZeroForMCCSale = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PayableAmountZeroForMCCSale, clsFixedParameterType.PayableAmountZeroForMCCSale, Nothing)) = 1, True, False)
+        settingShowFATSNF = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowFATSNFinPaymentProcess, clsFixedParameterType.ShowFATSNFinPaymentProcess, Nothing)) = 1, True, False)
+        ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
-        'AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        'AreaWiseBilling = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        AreaWiseBilling = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Label1.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling
-        PaymentProcessInHindi = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
+        PaymentProcessInHindi = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
 
         If PaymentProcessInHindi = True Then
             btnPrintHindi.Visible = PaymentProcessInHindi
@@ -236,15 +238,15 @@ Public Class FrmPaymentProcess
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C To Close the Window")
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+N For New")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P to Post the Transaction")
-        isPickPendingMilkSRNinNextPaymentCycle = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1
-        SettShowMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
+        isPickPendingMilkSRNinNextPaymentCycle = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1
+        SettShowMCCFinder = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowMCCFinderInPaymentProcess, clsFixedParameterCode.ShowMCCFinderInPaymentProcess, Nothing)) = 1)
         txtMCC.Visible = SettShowMCCFinder
         lblMCC.Visible = SettShowMCCFinder
         lblMCC2.Visible = SettShowMCCFinder
 
 
 
-        MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+        MultipleFinderFillAuto = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         mfndMcc.Visible = False
         If MultipleFinderFillAuto Then
             fndLoc.Enabled = False
@@ -789,8 +791,8 @@ Public Class FrmPaymentProcess
         Try
             If clsCommon.myLen(vsp) > 0 AndAlso gvDeduction IsNot Nothing AndAlso gvDeduction.Rows.Count > 0 Then
                 For i As Integer = 0 To gvDeduction.Rows.Count - 1
-                    If gvDeduction.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvDeduction.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
-                        rValue = rValue + clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colReduceDeduc).Value)
+                    If gvDeduction.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvDeduction.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
+                        rValue = rValue + clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colReduceDeduc).Value)
                     End If
                 Next
             End If
@@ -807,7 +809,7 @@ Public Class FrmPaymentProcess
                 For i As Integer = 0 To gvDeduction.Rows.Count - 1
                     If gvDeduction.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvDeduction.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
 
-                        rValue = rValue + clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -825,7 +827,7 @@ Public Class FrmPaymentProcess
                 For i As Integer = 0 To gvCreditNote.Rows.Count - 1
                     If gvCreditNote.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvCreditNote.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
 
-                        rValue = rValue + clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -842,7 +844,7 @@ Public Class FrmPaymentProcess
             If clsCommon.myLen(vsp) > 0 AndAlso gvCreditNote IsNot Nothing AndAlso gvCreditNote.Rows.Count > 0 Then
                 For i As Integer = 0 To gvCreditNote.Rows.Count - 1
                     If gvCreditNote.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvCreditNote.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
-                        rValue = rValue + clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
                     End If
                 Next
             End If
@@ -857,7 +859,7 @@ Public Class FrmPaymentProcess
             If clsCommon.myLen(vsp) > 0 AndAlso gvSaving IsNot Nothing AndAlso gvSaving.Rows.Count > 0 Then
                 For i As Integer = 0 To gvSaving.Rows.Count - 1
                     If gvSaving.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvSaving.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
-                        rValue = rValue + clsCommon.myCdbl(gvSaving.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvSaving.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -873,7 +875,7 @@ Public Class FrmPaymentProcess
             If clsCommon.myLen(vsp) > 0 AndAlso gvCompulsory IsNot Nothing AndAlso gvCompulsory.Rows.Count > 0 Then
                 For i As Integer = 0 To gvCompulsory.Rows.Count - 1
                     If gvCompulsory.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvCompulsory.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
-                        rValue = rValue + clsCommon.myCdbl(gvCompulsory.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvCompulsory.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -891,10 +893,10 @@ Public Class FrmPaymentProcess
                     For i As Integer = 0 To gvAdvancePayment.Rows.Count - 1
                         If clsCommon.CompairString(gvAdvancePayment.Rows(i).Cells(colAPVendorCode).Value, strVendorCode) = CompairStringResult.Equal Then
                             If clsCommon.myCBool(gvAdvancePayment.Rows(i).Cells(colAPSelect).Value) Then
-                                If clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPNoOfInstallment).Value) > 0 Then
-                                    rValue = rValue + clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPInstallmentAmt).Value)
+                                If clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPNoOfInstallment).Value) > 0 Then
+                                    rValue = rValue + clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPInstallmentAmt).Value)
                                 Else
-                                    rValue = rValue + clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value)
+                                    rValue = rValue + clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value)
                                 End If
                             End If
                         End If
@@ -916,7 +918,7 @@ Public Class FrmPaymentProcess
                     For i As Integer = 0 To gvAssetLost.Rows.Count - 1
                         If clsCommon.CompairString(gvAssetLost.Rows(i).Cells(colALVendorCode).Value, strVendorCode) = CompairStringResult.Equal Then
                             If clsCommon.myCBool(gvAssetLost.Rows(i).Cells(colALSelect).Value) Then
-                                rValue = rValue + clsCommon.myCdbl(gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value)
+                                rValue = rValue + clsCommon.myCDecimal(gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value)
                             End If
                         End If
                     Next
@@ -935,7 +937,7 @@ Public Class FrmPaymentProcess
                 For i As Integer = 0 To gvItemIssue.Rows.Count - 1
                     If gvItemIssue.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvItemIssue.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
 
-                        rValue = rValue + clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -952,7 +954,7 @@ Public Class FrmPaymentProcess
             If clsCommon.myLen(vsp) > 0 AndAlso gvItemIssueReturn IsNot Nothing AndAlso gvItemIssueReturn.Rows.Count > 0 Then
                 For i As Integer = 0 To gvItemIssueReturn.Rows.Count - 1
                     If gvItemIssueReturn.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
-                        rValue = rValue + clsCommon.myCdbl(gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -967,8 +969,8 @@ Public Class FrmPaymentProcess
         Try
             If clsCommon.myLen(vsp) > 0 AndAlso gvItemIssue IsNot Nothing AndAlso gvItemIssue.Rows.Count > 0 Then
                 For i As Integer = 0 To gvItemIssue.Rows.Count - 1
-                    If gvItemIssue.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvItemIssue.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
-                        rValue = rValue + clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colReduceDeduc).Value)
+                    If gvItemIssue.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvItemIssue.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
+                        rValue = rValue + clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colReduceDeduc).Value)
                     End If
                 Next
             End If
@@ -983,8 +985,8 @@ Public Class FrmPaymentProcess
     '    Try
     '        If clsCommon.myLen(vsp) > 0 AndAlso gvItemIssueReturn IsNot Nothing AndAlso gvItemIssueReturn.Rows.Count > 0 Then
     '            For i As Integer = 0 To gvItemIssueReturn.Rows.Count - 1
-    '                If gvItemIssueReturn.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
-    '                    rValue = rValue + clsCommon.myCdbl(gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value)
+    '                If gvItemIssueReturn.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
+    '                    rValue = rValue + clsCommon.myCDecimal(gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value)
     '                End If
     '            Next
     '        End If
@@ -1001,7 +1003,7 @@ Public Class FrmPaymentProcess
                 For i As Integer = 0 To gvMccSale.Rows.Count - 1
                     If gvMccSale.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvMccSale.Rows(i).Cells(colCustomerCode).Value, vsp) = CompairStringResult.Equal Then
 
-                        rValue = rValue + clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -1019,7 +1021,7 @@ Public Class FrmPaymentProcess
                 For i As Integer = 0 To GvMccSaleReturn.Rows.Count - 1
                     If GvMccSaleReturn.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(GvMccSaleReturn.Rows(i).Cells(colCustomerCode).Value, vsp) = CompairStringResult.Equal Then
 
-                        rValue = rValue + clsCommon.myCdbl(GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value)
+                        rValue = rValue + clsCommon.myCDecimal(GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -1129,9 +1131,9 @@ Public Class FrmPaymentProcess
         Try
             If clsCommon.myLen(vsp) > 0 AndAlso gvMccSale IsNot Nothing AndAlso gvMccSale.Rows.Count > 0 Then
                 For i As Integer = 0 To gvMccSale.Rows.Count - 1
-                    If gvMccSale.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvMccSale.Rows(i).Cells(colCustomerCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
+                    If gvMccSale.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvMccSale.Rows(i).Cells(colCustomerCode).Value, vsp) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colReduceDeduc).Value) > 0 Then
 
-                        rValue = rValue + clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colReduceDeduc).Value)
+                        rValue = rValue + clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colReduceDeduc).Value)
                     End If
                 Next
             End If
@@ -1834,7 +1836,7 @@ Public Class FrmPaymentProcess
         Dim rValue As Double = 0
         If arrStrDedCode IsNot Nothing AndAlso arrStrDedCode.Count > 0 AndAlso RowNo <= gv.Rows.Count - 1 Then
             For i As Integer = 0 To arrStrDedCode.Count - 1
-                rValue = rValue + clsCommon.myCdbl(gv.Rows(RowNo).Cells(arrStrDedCode.Item(i) & "D").Value)
+                rValue = rValue + clsCommon.myCDecimal(gv.Rows(RowNo).Cells(arrStrDedCode.Item(i) & "D").Value)
             Next
         End If
         Return rValue
@@ -1844,7 +1846,7 @@ Public Class FrmPaymentProcess
         Dim rValue As Double = 0
         If arrStrIssueItemCode IsNot Nothing AndAlso arrStrIssueItemCode.Count > 0 AndAlso RowNo <= gv.Rows.Count - 1 Then
             For i As Integer = 0 To arrStrIssueItemCode.Count - 1
-                rValue = rValue + clsCommon.myCdbl(gv.Rows(RowNo).Cells(arrStrIssueItemCode.Item(i) & "I").Value)
+                rValue = rValue + clsCommon.myCDecimal(gv.Rows(RowNo).Cells(arrStrIssueItemCode.Item(i) & "I").Value)
             Next
         End If
         Return rValue
@@ -1854,7 +1856,7 @@ Public Class FrmPaymentProcess
         Dim rValue As Double = 0
         If arrStrMccSaleItemCode IsNot Nothing AndAlso arrStrMccSaleItemCode.Count > 0 AndAlso RowNo <= gv.Rows.Count - 1 Then
             For i As Integer = 0 To arrStrMccSaleItemCode.Count - 1
-                rValue = rValue + clsCommon.myCdbl(gv.Rows(RowNo).Cells(arrStrMccSaleItemCode.Item(i) & "S").Value)
+                rValue = rValue + clsCommon.myCDecimal(gv.Rows(RowNo).Cells(arrStrMccSaleItemCode.Item(i) & "S").Value)
             Next
         End If
         Return rValue
@@ -2007,7 +2009,7 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
     Function getVspOwnSystemAmount(ByVal strMilkPurchaseInvoiceNo As String) As Double
         Dim rValue As Double = 0
         Dim qry As String = " select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD where Document_Type='C' and RefDocType='Milk_OW' and Against_MillkPurchaseInvoice_No='" & strMilkPurchaseInvoiceNo & "' and Balance_Amt<>0 "
-        rValue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+        rValue = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
         Return rValue
     End Function
 
@@ -2035,14 +2037,14 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
     Function getHeadLoadAmount(ByVal strMilkPurchaseInvoiceNo As String) As Double
         Dim rValue As Double = 0
         Dim qry As String = " select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD where Document_Type='C' and RefDocType='Milk_HE' and Against_MillkPurchaseInvoice_No='" & strMilkPurchaseInvoiceNo & "' and Balance_Amt<>0 "
-        rValue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+        rValue = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
         Return rValue
     End Function
 
     Function getDeductionAmount(ByVal strMilkPurchaseInvoiceNo As String) As Double
         Dim rValue As Double = 0
         Dim qry As String = " select Balance_Amt from TSPL_VENDOR_INVOICE_HEAD where Document_Type='D' and RefDocType='Milk_DE' and Against_MillkPurchaseInvoice_No='" & strMilkPurchaseInvoiceNo & "' and Balance_Amt<>0 "
-        rValue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+        rValue = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
         Return rValue
     End Function
 
@@ -3210,39 +3212,8 @@ And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt > 0  And  coalesce(Posting_Date,'')<>''
     Sub LoadSavingGridData()
         LoadBlankGridSaving()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
-from TSPL_VENDOR_INVOICE_head   
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  "
-            Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "')) "
-            If clsCommon.myLen(strVendorCode) <= 0 Then
-            Else
-                whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
-            End If
-            If MultipleFinderFillAuto Then
-                Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
-                If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
-                    Dim ArrSeg As New ArrayList
-                    For Each drSeg As DataRow In dtSeg.Rows
-                        ArrSeg.Add(drSeg("Loc_Segment_Code"))
-                    Next
-                    whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
-                Else
-                    whrCls += " and 2=3 "
-                End If
-            Else
-                whrCls += " and  TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" + fndLoc.Value + "' ) "
-            End If
+            Dim dt As DataTable = GetSavingDocs()
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0) in (1,2) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            Else
-                qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            End If
-
-
-            'qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gvSaving.DataSource = Nothing
                 gvSaving.AutoGenerateColumns = False
@@ -3259,6 +3230,39 @@ where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD
             End If
         End If
     End Sub
+
+    Private Function GetSavingDocs() As DataTable
+        Dim qry As String = "   select cast(1 as bit) as Sel,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,ROW_NUMBER() over(order by TSPL_VENDOR_INVOICE_HEAD.Document_No) as SNo ,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,TSPL_VENDOR_INVOICE_HEAD.document_total   as Total_Amount   
+from TSPL_VENDOR_INVOICE_head   
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+where   TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' and  TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and coalesce(refDocType,'') not in ('Milk_HE','Milk_OW','V_I_Issue_Return','COM-INC')  "
+        Dim whrCls As String = " and not exists(select 1 from TSPL_PAYMENT_PROCESS_SAVING  where TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_SAVING.doc_no not in ('" + fndDocNo.Value + "')) "
+        If clsCommon.myLen(strVendorCode) <= 0 Then
+        Else
+            whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in ( " & strVendorCode & ")   and  coalesce(Posting_Date,'')<>''"
+        End If
+        If MultipleFinderFillAuto Then
+            Dim dtSeg As DataTable = clsDBFuncationality.GetDataTable(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ")
+            If dtSeg IsNot Nothing AndAlso dtSeg.Rows.Count > 0 Then
+                Dim ArrSeg As New ArrayList
+                For Each drSeg As DataRow In dtSeg.Rows
+                    ArrSeg.Add(drSeg("Loc_Segment_Code"))
+                Next
+                whrCls += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ( " + clsCommon.GetMulcallString(ArrSeg) + ") "
+            Else
+                whrCls += " and 2=3 "
+            End If
+        Else
+            whrCls += " and  TSPL_VENDOR_INVOICE_HEAD.Loc_Code  in ( '" + fndLoc.Value + "' ) "
+        End If
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0) in (1,2) and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+        Else
+            qry = qry & whrCls & " and isnull(TSPL_VENDOR_INVOICE_HEAD.Saving,0)=1 and " & IIf(chkSkipPrevCreditNote.Checked, " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "' ")
+        End If
+        Return clsDBFuncationality.GetDataTable(qry)
+    End Function
 
     Sub LoadCompulsoryGridData()
         LoadBlankGridCompulsory()
@@ -3863,7 +3867,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         dtpToDate.ReadOnly = True
         dtpFromDate.Enabled = True
         isLoad = False
-        GroupBox2.Visible = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowSkippingPrevDocumentsOnPaymentProcess, Nothing)) = 1, True, False)
+        GroupBox2.Visible = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.AllowSkippingPrevDocumentsOnPaymentProcess, Nothing)) = 1, True, False)
 
         txtVSP.arrValueMember = Nothing
         chkSkipPrevItemIssue.Checked = False
@@ -4097,15 +4101,15 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
 
             For i As Integer = 0 To gv.Rows.Count - 1
                 If gv.Rows(i).Cells(colSelect).Value = True Then
-                    'If gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value < clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value) Then
+                    'If gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value < clsCommon.myCDecimal(gv.Rows(i).Cells(colPaybleAmt).Value) Then
                     '    Throw New Exception("Payable Amount cannot be more than invoice Amount At line no " & (i + 1))
                     'End If
-                    gv.Rows(i).Cells(colPaybleAmt).Value = Math.Round(clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value), 2)
-                    If clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value) < 0 Then
+                    gv.Rows(i).Cells(colPaybleAmt).Value = Math.Round(clsCommon.myCDecimal(gv.Rows(i).Cells(colPaybleAmt).Value), 2)
+                    If clsCommon.myCDecimal(gv.Rows(i).Cells(colPaybleAmt).Value) < 0 Then
                         Throw New Exception("Payable Amount cannot be in negative At line no " & (i + 1))
                     End If
 
-                    If clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value) = 0 Then
+                    If clsCommon.myCDecimal(gv.Rows(i).Cells(colPaybleAmt).Value) = 0 Then
                         If Not (isConsiderAdvancePayment OrElse PayableAmountZeroForMCCSale) Then
                             Throw New Exception("Payable Amount cannot be zero At line no " & (i + 1))
                         End If
@@ -4120,7 +4124,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             'richa agarwal changes in 07/12/2018 BHA/06/12/18-000743
             For Each grow As GridViewRowInfo In gvAdvancePayment.Rows
                 If grow.Cells(colAPSelect).Value = True Then
-                    If clsCommon.myCdbl(grow.Cells(colAPInstallmentAmt).Value) > clsCommon.myCdbl(grow.Cells(colAPPaymentAmtBalance).Value) Then
+                    If clsCommon.myCDecimal(grow.Cells(colAPInstallmentAmt).Value) > clsCommon.myCDecimal(grow.Cells(colAPPaymentAmtBalance).Value) Then
                         Throw New Exception("Installment Amount should be less or equal to Balance Amount-" & grow.Cells(colAPInstallmentAmt).Value & " at Line No-" & (grow.Index + 1) & ".")
                     End If
                 End If
@@ -4302,18 +4306,18 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProInv.Payee_Joint_Branch_Name = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colPayeeJointBranchDesc).Value)
                         objPayProInv.Payee_Joint_IFSC_Code = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colPayeeJointIFSC).Value)
                         objPayProInv.Payee_Joint_Ac_No = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colPayeeJointAcNo).Value)
-                        objPayProInv.Milk_Qty = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMilkQty).Value)
-                        objPayProInv.Inv_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colInvAmt).Value)
-                        objPayProInv.Inv_EMP_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colEmpAmt).Value)
-                        objPayProInv.Inv_Amt_EMP_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colInvAndEmpAmt).Value)
-                        objPayProInv.Inv_Incentive_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colIncenAmt).Value)
-                        objPayProInv.Inv_Incentive_EMP_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colIncenEmpAmt).Value)
+                        objPayProInv.Milk_Qty = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colMilkQty).Value)
+                        objPayProInv.Inv_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colInvAmt).Value)
+                        objPayProInv.Inv_EMP_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colEmpAmt).Value)
+                        objPayProInv.Inv_Amt_EMP_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colInvAndEmpAmt).Value)
+                        objPayProInv.Inv_Incentive_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colIncenAmt).Value)
+                        objPayProInv.Inv_Incentive_EMP_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colIncenEmpAmt).Value)
                         objPayProInv.TDS_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value)
-                        objPayProInv.Gross_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value)
-                        objPayProInv.Vsp_Own_System_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value)
-                        objPayProInv.Head_Load_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colHeadLoadAmt).Value)
-                        objPayProInv.Deduction_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colInvDeduc).Value)
-                        objPayProInv.Reduce_Deduc_Amt = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colReduceDeduc).Value)
+                        objPayProInv.Gross_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value)
+                        objPayProInv.Vsp_Own_System_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value)
+                        objPayProInv.Head_Load_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colHeadLoadAmt).Value)
+                        objPayProInv.Deduction_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colInvDeduc).Value)
+                        objPayProInv.Reduce_Deduc_Amt = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colReduceDeduc).Value)
                         objPayProInv.Vsp_Own_System_Doc_No = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Tag)
                         objPayProInv.Head_Load_Doc_No = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colHeadLoadAmt).Tag)
                         objPayProInv.Deduction_Doc_No = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colInvDeduc).Tag)
@@ -4326,11 +4330,11 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProInv.SRN_Net_Amount = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colSRNNetAmount).Value)
                         objPayProInv.SRN_RO_Amount = clsCommon.myCstr(gvInvoice.Rows(i).Cells(colSRNROAmt).Value)
 
-                        objPayProInv.MP_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPAmount).Value)
-                        objPayProInv.MP_EMP = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPEMPAmount).Value)
-                        objPayProInv.MP_Incentive = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value)
-                        objPayProInv.MP_IncentiveEMP = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value)
-                        objPayProInv.MP_Net_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPNetAmount).Value)
+                        objPayProInv.MP_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colMPAmount).Value)
+                        objPayProInv.MP_EMP = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colMPEMPAmount).Value)
+                        objPayProInv.MP_Incentive = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value)
+                        objPayProInv.MP_IncentiveEMP = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value)
+                        objPayProInv.MP_Net_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colMPNetAmount).Value)
                         obj.arrClsPaymentProcessInvoices.Add(objPayProInv)
                     End If
                 Next
@@ -4353,17 +4357,17 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProMccSale.Customer_NAME = clsCommon.myCstr(gvMccSale.Rows(i).Cells(colCustomerName).Value)
                         'objPayProMccSale.Item_Code = clsCommon.myCstr(gvMccSale.Rows(i).Cells(colItemCode).Value)
                         'objPayProMccSale.Item_Desc = clsCommon.myCstr(gvMccSale.Rows(i).Cells(colItemDesc).Value)
-                        objPayProMccSale.Amount = clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colItemAmt).Value)
-                        objPayProMccSale.Reduce_Deduc_Amt = clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colReduceDeduc).Value)
-                        objPayProMccSale.Original_Balance_Amount = clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colOrgBalanceAmt).Value)
-                        objPayProMccSale.Instalment_Amt = clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colInstallmentAmt).Value)
+                        objPayProMccSale.Amount = clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colItemAmt).Value)
+                        objPayProMccSale.Reduce_Deduc_Amt = clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colReduceDeduc).Value)
+                        objPayProMccSale.Original_Balance_Amount = clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colOrgBalanceAmt).Value)
+                        objPayProMccSale.Instalment_Amt = clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colInstallmentAmt).Value)
                         obj.arrClsPaymentProcessMccSale.Add(objPayProMccSale)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "MCC-SALE"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvMccSale.Rows(i).Cells(colCustomerCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvMccSale.Rows(i).Cells(colSaleInvNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4384,7 +4388,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProMccSale.AR_Invoice_Date = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colARInvoiceDate).Value)
                         objPayProMccSale.Customer_CODE = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colCustomerCode).Value)
                         objPayProMccSale.Customer_NAME = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colCustomerName).Value)
-                        objPayProMccSale.Amount = clsCommon.myCdbl(GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value)
+                        objPayProMccSale.Amount = clsCommon.myCDecimal(GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value)
                         objPayProMccSale.Return_Doc_No = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colReturnDocNo).Value)
                         objPayProMccSale.Return_Doc_Date = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colReturnDocDate).Value)
                         objPayProMccSale.Return_Doc_Type = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colReturnDocType).Value)
@@ -4394,7 +4398,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objSkipDoc.Source_Doc_Type = "MCC-SALE-RET"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colCustomerCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(GvMccSaleReturn.Rows(i).Cells(colReturnDocNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(GvMccSaleReturn.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4413,15 +4417,15 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProItemIssue.AP_Invoice_Date = clsCommon.myCstr(gvItemIssue.Rows(i).Cells(colAPInvoiceDate).Value)
                         objPayProItemIssue.Vendor_CODE = clsCommon.myCstr(gvItemIssue.Rows(i).Cells(colVendorCode).Value)
                         objPayProItemIssue.Vendor_NAME = clsCommon.myCstr(gvItemIssue.Rows(i).Cells(colVendorDesc).Value)
-                        objPayProItemIssue.Amount = clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
-                        objPayProItemIssue.Reduce_Deduc_Amt = clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colReduceDeduc).Value)
+                        objPayProItemIssue.Amount = clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
+                        objPayProItemIssue.Reduce_Deduc_Amt = clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colReduceDeduc).Value)
                         obj.arrClsPaymentProcessItemIssue.Add(objPayProItemIssue)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "VSP-ITEM-ISSUE"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvItemIssue.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvItemIssue.Rows(i).Cells(colVspItemIssueNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4441,15 +4445,15 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProItemIssueReturn.AP_Invoice_Date = clsCommon.myCstr(gvItemIssueReturn.Rows(i).Cells(colAPInvoiceDate).Value)
                         objPayProItemIssueReturn.Vendor_CODE = clsCommon.myCstr(gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value)
                         objPayProItemIssueReturn.Vendor_NAME = clsCommon.myCstr(gvItemIssueReturn.Rows(i).Cells(colVendorDesc).Value)
-                        objPayProItemIssueReturn.Amount = clsCommon.myCdbl(gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value)
-                        'objPayProItemIssueReturn.Reduce_Deduc_Amt = clsCommon.myCdbl(gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value)
+                        objPayProItemIssueReturn.Amount = clsCommon.myCDecimal(gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value)
+                        'objPayProItemIssueReturn.Reduce_Deduc_Amt = clsCommon.myCDecimal(gvItemIssueReturn.Rows(i).Cells(colReduceDeduc).Value)
                         obj.arrClsPaymentProcessItemIssueReturn.Add(objPayProItemIssueReturn)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "VSP-ITEM-ISSUE-RETURN"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvItemIssueReturn.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvItemIssueReturn.Rows(i).Cells(colVspItemIssueNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvItemIssueReturn.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4468,15 +4472,15 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPayProDeduction.Vendor_NAME = clsCommon.myCstr(gvDeduction.Rows(i).Cells(colVendorDesc).Value)
                         objPayProDeduction.Ded_Code = clsCommon.myCstr(gvDeduction.Rows(i).Cells(colDeductionCode).Value)
                         objPayProDeduction.Ded_Desc = clsCommon.myCstr(gvDeduction.Rows(i).Cells(colDeductionDesc).Value)
-                        objPayProDeduction.Amount = clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colItemAmt).Value)
-                        objPayProDeduction.Reduce_Deduc_Amt = clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colReduceDeduc).Value)
+                        objPayProDeduction.Amount = clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colItemAmt).Value)
+                        objPayProDeduction.Reduce_Deduc_Amt = clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colReduceDeduc).Value)
                         obj.arrClsPaymentProcessDeductions.Add(objPayProDeduction)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "DEBIT-NOTE"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvDeduction.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvDeduction.Rows(i).Cells(colAPInvoiceNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4501,7 +4505,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objSkipDoc.Source_Doc_Type = "CREDIT-NOTE"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvCreditNote.Rows(i).Cells(colAPInvoiceNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvCreditNote.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4521,7 +4525,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objSkipDoc.Source_Doc_Type = "SAVING"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvSaving.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvSaving.Rows(i).Cells(colAPInvoiceNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvSaving.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvSaving.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4541,7 +4545,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objSkipDoc.Source_Doc_Type = "SAVING"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvCompulsory.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvCompulsory.Rows(i).Cells(colAPInvoiceNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvCompulsory.Rows(i).Cells(colItemAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvCompulsory.Rows(i).Cells(colItemAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4595,53 +4599,53 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         Else
                             objPPDetail.Cheque_Dated = Nothing
                         End If
-                        objPPDetail.Handling_Charges_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colHandlingCharges).Value)
-                        objPPDetail.SRN_RO_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colSRNROAmt).Value)
-                        objPPDetail.SRN_Net_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colSRNNetAmount).Value)
-                        objPPDetail.Milk_Qty = clsCommon.myCdbl(gv.Rows(i).Cells(colMilkQty).Value)
-                        objPPDetail.VSP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colVSPAmount).Value)
-                        objPPDetail.MP_Net_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colMPNetAmount).Value)
-                        objPPDetail.MP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colMPAmount).Value)
-                        objPPDetail.MP_EMP = clsCommon.myCdbl(gv.Rows(i).Cells(colMPEMPAmount).Value)
-                        objPPDetail.MP_Incentive = clsCommon.myCdbl(gv.Rows(i).Cells(colMPIncentiveAmount).Value)
-                        objPPDetail.Incentive_EMP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colMPEMPIncentiveAmount).Value)
+                        objPPDetail.Handling_Charges_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colHandlingCharges).Value)
+                        objPPDetail.SRN_RO_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colSRNROAmt).Value)
+                        objPPDetail.SRN_Net_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colSRNNetAmount).Value)
+                        objPPDetail.Milk_Qty = clsCommon.myCDecimal(gv.Rows(i).Cells(colMilkQty).Value)
+                        objPPDetail.VSP_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colVSPAmount).Value)
+                        objPPDetail.MP_Net_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colMPNetAmount).Value)
+                        objPPDetail.MP_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colMPAmount).Value)
+                        objPPDetail.MP_EMP = clsCommon.myCDecimal(gv.Rows(i).Cells(colMPEMPAmount).Value)
+                        objPPDetail.MP_Incentive = clsCommon.myCDecimal(gv.Rows(i).Cells(colMPIncentiveAmount).Value)
+                        objPPDetail.Incentive_EMP_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colMPEMPIncentiveAmount).Value)
 
-                        objPPDetail.MP_VSP_Diff_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colMPVSPDiffAmount).Value)
-                        objPPDetail.Milk_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colInvAmt).Value)
-                        objPPDetail.Incentive_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colIncenAmt).Value)
-                        objPPDetail.EMP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colEmpAmt).Value)
-                        objPPDetail.Incentive_EMP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colIncenEmpAmt).Value)
-                        objPPDetail.Total_EMP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalEmp).Value)
-                        objPPDetail.Total = clsCommon.myCdbl(gv.Rows(i).Cells(colInvAndEmpAmt).Value)
+                        objPPDetail.MP_VSP_Diff_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colMPVSPDiffAmount).Value)
+                        objPPDetail.Milk_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colInvAmt).Value)
+                        objPPDetail.Incentive_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colIncenAmt).Value)
+                        objPPDetail.EMP_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colEmpAmt).Value)
+                        objPPDetail.Incentive_EMP_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colIncenEmpAmt).Value)
+                        objPPDetail.Total_EMP_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colTotalEmp).Value)
+                        objPPDetail.Total = clsCommon.myCDecimal(gv.Rows(i).Cells(colInvAndEmpAmt).Value)
                         objPPDetail.TDS_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colTDSAmt).Value)
-                        objPPDetail.Total_Invoice_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value)
-                        objPPDetail.Vsp_Own_System_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colVSPOwnSystemAmt).Value)
-                        objPPDetail.Head_Load_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colHeadLoadAmt).Value)
-                        objPPDetail.Invoice_Deduction_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colInvDeduc).Value)
-                        objPPDetail.Reduce_Deduc_Amt = clsCommon.myCdbl(gv.Rows(i).Cells(colReduceDeduc).Value)
-                        objPPDetail.MCC_Sale_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colMccSaleTotalAmount).Value)
-                        objPPDetail.MCC_Sale_Return_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colMccSaleReturnTotalAmount).Value)
-                        objPPDetail.Item_Issue_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colItemIssueTotalAmount).Value)
-                        objPPDetail.Item_Issue_Return_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colItemIssueReturnTotalAmount).Value)
-                        objPPDetail.Deduction_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colDeductionTotalAmount).Value)
-                        objPPDetail.Asset_Lost_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colAssetLostAmount).Value)
-                        objPPDetail.Credit_Note_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalCreditNoteAmount).Value)
-                        objPPDetail.Saving_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalSavingAmount).Value)
-                        objPPDetail.Compulsory_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalCompulsoryAmount).Value)
+                        objPPDetail.Total_Invoice_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value)
+                        objPPDetail.Vsp_Own_System_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colVSPOwnSystemAmt).Value)
+                        objPPDetail.Head_Load_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colHeadLoadAmt).Value)
+                        objPPDetail.Invoice_Deduction_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colInvDeduc).Value)
+                        objPPDetail.Reduce_Deduc_Amt = clsCommon.myCDecimal(gv.Rows(i).Cells(colReduceDeduc).Value)
+                        objPPDetail.MCC_Sale_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colMccSaleTotalAmount).Value)
+                        objPPDetail.MCC_Sale_Return_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colMccSaleReturnTotalAmount).Value)
+                        objPPDetail.Item_Issue_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colItemIssueTotalAmount).Value)
+                        objPPDetail.Item_Issue_Return_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colItemIssueReturnTotalAmount).Value)
+                        objPPDetail.Deduction_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colDeductionTotalAmount).Value)
+                        objPPDetail.Asset_Lost_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colAssetLostAmount).Value)
+                        objPPDetail.Credit_Note_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colTotalCreditNoteAmount).Value)
+                        objPPDetail.Saving_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colTotalSavingAmount).Value)
+                        objPPDetail.Compulsory_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colTotalCompulsoryAmount).Value)
                         objPPDetail.Zone_Code = clsCommon.myCstr(gv.Rows(i).Cells(colZone).Value)
 
-                        objPPDetail.Payable_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value)
-                        objPPDetail.Service_Charge_Amt = clsCommon.myCdbl(gv.Rows(i).Cells(colServiceChargeAmt).Value)
+                        objPPDetail.Payable_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colPaybleAmt).Value)
+                        objPPDetail.Service_Charge_Amt = clsCommon.myCDecimal(gv.Rows(i).Cells(colServiceChargeAmt).Value)
 
-                        objPPDetail.Advance_Payment_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colAdvanceAmount).Value)
-                        objPPDetail.Advance_Payment_Amount_Knock_Off = clsCommon.myCdbl(gv.Rows(i).Cells(colAdvanceKnockOffAmount).Value)
+                        objPPDetail.Advance_Payment_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colAdvanceAmount).Value)
+                        objPPDetail.Advance_Payment_Amount_Knock_Off = clsCommon.myCDecimal(gv.Rows(i).Cells(colAdvanceKnockOffAmount).Value)
                         obj.ArrPPDetail.Add(objPPDetail)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "MILK-PUR-INVOICE"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gv.Rows(i).Cells(colVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gv.Rows(i).Cells(colPurchaseInvoiceNo).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colPaybleAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4653,19 +4657,19 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 For i = 0 To gvAdvancePayment.Rows.Count - 1
                     If clsCommon.myCBool(gvAdvancePayment.Rows(i).Cells(colAPSelect).Value) Then
                         objPPAdvancePayment = New clsPaymentProcessAdvancePayment
-                        objPPAdvancePayment.SNo = clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPSNo).Value)
+                        objPPAdvancePayment.SNo = clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPSNo).Value)
                         objPPAdvancePayment.Vendor_Code = clsCommon.myCstr(gvAdvancePayment.Rows(i).Cells(colAPVendorCode).Value)
                         objPPAdvancePayment.Payment_No = clsCommon.myCstr(gvAdvancePayment.Rows(i).Cells(colAPPaymentCode).Value)
-                        objPPAdvancePayment.Payment_Amount = clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmt).Value)
-                        objPPAdvancePayment.Installment_Amount = clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPInstallmentAmt).Value)
-                        objPPAdvancePayment.Payment_Balance = clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value)
+                        objPPAdvancePayment.Payment_Amount = clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmt).Value)
+                        objPPAdvancePayment.Installment_Amount = clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPInstallmentAmt).Value)
+                        objPPAdvancePayment.Payment_Balance = clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value)
                         obj.ArrPPAdvancePayment.Add(objPPAdvancePayment)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "ADVANCE"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvAdvancePayment.Rows(i).Cells(colAPVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvAdvancePayment.Rows(i).Cells(colAPPaymentCode).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvAdvancePayment.Rows(i).Cells(colAPPaymentAmtBalance).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4678,17 +4682,17 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 For i = 0 To gvAssetLost.Rows.Count - 1
                     If clsCommon.myCBool(gvAssetLost.Rows(i).Cells(colALSelect).Value) Then
                         objPPAssetLost = New clsPaymentProcessAssetLost
-                        objPPAssetLost.SNo = clsCommon.myCdbl(gvAssetLost.Rows(i).Cells(colALSNo).Value)
+                        objPPAssetLost.SNo = clsCommon.myCDecimal(gvAssetLost.Rows(i).Cells(colALSNo).Value)
                         objPPAssetLost.Vendor_Code = clsCommon.myCstr(gvAssetLost.Rows(i).Cells(colALVendorCode).Value)
                         objPPAssetLost.Payment_No = clsCommon.myCstr(gvAssetLost.Rows(i).Cells(colALPaymentCode).Value)
-                        objPPAssetLost.Payment_Amount = clsCommon.myCdbl(gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value)
+                        objPPAssetLost.Payment_Amount = clsCommon.myCDecimal(gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value)
                         obj.ArrPPAssetLost.Add(objPPAssetLost)
                     Else
                         objSkipDoc = New clsPaymentProcessSkipDoc()
                         objSkipDoc.Source_Doc_Type = "Asset Lost"
                         objSkipDoc.Vendor_Code = clsCommon.myCstr(gvAssetLost.Rows(i).Cells(colALVendorCode).Value)
                         objSkipDoc.Source_Doc_No = clsCommon.myCstr(gvAssetLost.Rows(i).Cells(colALPaymentCode).Value)
-                        objSkipDoc.Balance_Amount = clsCommon.myCdbl(gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value)
+                        objSkipDoc.Balance_Amount = clsCommon.myCDecimal(gvAssetLost.Rows(i).Cells(colALPaymentAmt).Value)
                         obj.ArrPPSkipDoc.Add(objSkipDoc)
                     End If
                 Next
@@ -4697,7 +4701,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             If clsPaymentProcessHead.SaveData(obj, isNewEntry) Then
                 Dim qry As String = "select sum(Payable_Amount) from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + fndDocNo.Value + "' "
                 Dim PaybleAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
-                clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Doc_No, obj.Doc_Date, "", "", clsCommon.myCdbl(PaybleAmt), 0, "", objApproval)
+                clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Doc_No, obj.Doc_Date, "", "", clsCommon.myCDecimal(PaybleAmt), 0, "", objApproval)
                 If Not isPostbtnClick Then
                     If isNewEntry Then
                         myMessages.insert()
@@ -5494,7 +5498,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             For i As Integer = 0 To gv.Rows.Count - 1
                 For j As Integer = 0 To arrStr.Count - 1
                     whrCls = " and [Item Code] ='" & arrStr.Item(j).ToString & "' and Location='" & gv.Rows(i).Cells("MCC_CODE").Value & "' and vendor_code='" & gv.Rows(i).Cells("Vendor_Code").Value & "' "
-                    dblAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry1 & whrCls))
+                    dblAmt = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry1 & whrCls))
                     gv.Rows(i).Cells(arrStr.Item(j).ToString).Value = dblAmt
                 Next
             Next
@@ -5506,7 +5510,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         If gvMccSale.Rows.Count > 0 Then
             For i As Integer = 0 To gvMccSale.Rows.Count - 1
                 If clsCommon.CompairString(gvMccSale.Rows(i).Cells(colCustomerCode).Value, vendorCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(gvMccSale.Rows(i).Cells(colItemCode).Value, itemCode) = CompairStringResult.Equal Then
-                    rValue = rValue + clsCommon.myCdbl(gvMccSale.Rows(i).Cells(colItemAmt).Value)
+                    rValue = rValue + clsCommon.myCDecimal(gvMccSale.Rows(i).Cells(colItemAmt).Value)
                 End If
             Next
         End If
@@ -5518,7 +5522,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         If gvItemIssue.Rows.Count > 0 Then
             For i As Integer = 0 To gvItemIssue.Rows.Count - 1
                 If clsCommon.CompairString(gvItemIssue.Rows(i).Cells(colVendorCode).Value, vendorCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(gvItemIssue.Rows(i).Cells(colItemCode).Value, itemCode) = CompairStringResult.Equal Then
-                    rValue = rValue + clsCommon.myCdbl(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
+                    rValue = rValue + clsCommon.myCDecimal(gvItemIssue.Rows(i).Cells(colItemAmt).Value)
                 End If
             Next
         End If
@@ -5530,7 +5534,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         If gvDeduction.Rows.Count > 0 Then
             For i As Integer = 0 To gvDeduction.Rows.Count - 1
                 If clsCommon.CompairString(gvDeduction.Rows(i).Cells(colVendorCode).Value, vendorCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(gvDeduction.Rows(i).Cells(colDeductionCode).Value, DedCode) = CompairStringResult.Equal Then
-                    rValue = rValue + clsCommon.myCdbl(gvDeduction.Rows(i).Cells(colItemAmt).Value)
+                    rValue = rValue + clsCommon.myCDecimal(gvDeduction.Rows(i).Cells(colItemAmt).Value)
                 End If
             Next
         End If
@@ -5569,7 +5573,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             strWhr = " and Loc_Segment_Code = '" & fndLoc.Value & "' "
         End If
 
-        isEmpOnAmtOnly = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code in (select Location_Code  from TSPL_LOCATION_MASTER where  2=2  " + strWhr + " and Location_Category='MCC' and Rejected_Type='N') ")) = 0, False, True)
+        isEmpOnAmtOnly = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" select isnull(TSPL_MCC_MASTER.empOnAmountOnly,0) as empOnAmountOnly  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code in (select Location_Code  from TSPL_LOCATION_MASTER where  2=2  " + strWhr + " and Location_Category='MCC' and Rejected_Type='N') ")) = 0, False, True)
         If gvInvoice.Rows.Count > 0 Then
             Is_gv_Rows_Clear = True
             For i As Integer = 0 To gvInvoice.Rows.Count - 1
@@ -5589,7 +5593,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gv.Rows(k).Cells(colRouteName).Value = gvInvoice.Rows(i).Cells(colRouteName).Value
                 gv.Rows(k).Cells(colVendorCode).Value = gvInvoice.Rows(i).Cells(colVendorCode).Value
                 gv.Rows(k).Cells(colVendorDesc).Value = gvInvoice.Rows(i).Cells(colVendorDesc).Value
-                gv.Rows(k).Cells(colIsPaymentProcessHold).Value = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select is_Hold_Payment_Process  from TSPL_VENDOR_MASTER where Vendor_Code='" + clsCommon.myCstr(gvInvoice.Rows(i).Cells(colVendorCode).Value) + "'")) = 1, True, False)
+                gv.Rows(k).Cells(colIsPaymentProcessHold).Value = IIf(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select is_Hold_Payment_Process  from TSPL_VENDOR_MASTER where Vendor_Code='" + clsCommon.myCstr(gvInvoice.Rows(i).Cells(colVendorCode).Value) + "'")) = 1, True, False)
                 gv.Rows(k).Cells(colPayeeJointName).Value = gvInvoice.Rows(i).Cells(colPayeeJointName).Value
                 gv.Rows(k).Cells(colPayeeJointBankCode).Value = gvInvoice.Rows(i).Cells(colPayeeJointBankCode).Value
                 gv.Rows(k).Cells(colPayeeJointBankDesc).Value = gvInvoice.Rows(i).Cells(colPayeeJointBankDesc).Value
@@ -5615,21 +5619,21 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gv.Rows(k).Cells(colInvAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colInvAmt).Value)
                 gv.Rows(k).Cells(colEmpAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colEmpAmt).Value)
                 If Not isEmpOnAmtOnly Then
-                    gv.Rows(k).Cells(colTotalEmp).Value = clsCommon.myCdbl(gv.Rows(k).Cells(colIncenEmpAmt).Value) + clsCommon.myCdbl(gv.Rows(k).Cells(colEmpAmt).Value)
+                    gv.Rows(k).Cells(colTotalEmp).Value = clsCommon.myCDecimal(gv.Rows(k).Cells(colIncenEmpAmt).Value) + clsCommon.myCDecimal(gv.Rows(k).Cells(colEmpAmt).Value)
                 Else
-                    gv.Rows(k).Cells(colTotalEmp).Value = clsCommon.myCdbl(gv.Rows(k).Cells(colEmpAmt).Value)
+                    gv.Rows(k).Cells(colTotalEmp).Value = clsCommon.myCDecimal(gv.Rows(k).Cells(colEmpAmt).Value)
                 End If
-                gv.Rows(k).Cells(colHandlingCharges).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colHandlingCharges).Value)
+                gv.Rows(k).Cells(colHandlingCharges).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colHandlingCharges).Value)
 
 
-                gv.Rows(k).Cells(colFATKG).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colFATKG).Value)
-                gv.Rows(k).Cells(colFATPer).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colFATPer).Value)
-                gv.Rows(k).Cells(colSNFKG).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSNFKG).Value)
-                gv.Rows(k).Cells(colSNFPer).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSNFPer).Value)
+                gv.Rows(k).Cells(colFATKG).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colFATKG).Value)
+                gv.Rows(k).Cells(colFATPer).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colFATPer).Value)
+                gv.Rows(k).Cells(colSNFKG).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colSNFKG).Value)
+                gv.Rows(k).Cells(colSNFPer).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colSNFPer).Value)
 
 
-                gv.Rows(k).Cells(colSRNROAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNROAmt).Value)
-                gv.Rows(k).Cells(colSRNNetAmount).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNNetAmount).Value)
+                gv.Rows(k).Cells(colSRNROAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colSRNROAmt).Value)
+                gv.Rows(k).Cells(colSRNNetAmount).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colSRNNetAmount).Value)
                 gv.Rows(k).Cells(colTDSAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value) + getTDSTotalCreditNoteSum(gv.Rows(k).Cells(colVendorCode).Value)
 
                 gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value
@@ -5649,10 +5653,10 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gv.Rows(k).Cells(colItemIssueReturnTotalAmount).Value = getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colDeductionTotalAmount).Value = getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colAssetLostAmount).Value = getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value)
-                gv.Rows(k).Cells(colServiceChargeAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colServiceChargeAmt).Value)
+                gv.Rows(k).Cells(colServiceChargeAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colServiceChargeAmt).Value)
                 gv.Rows(k).Cells(colZone).Value = gvInvoice.Rows(i).Cells(colZone).Value
 
-                gv.Rows(k).Cells(colPaybleAmt).Value = (((gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(k).Cells(colTDSAmt).Value + gv.Rows(k).Cells(colTotalCreditNoteAmount).Value + gv.Rows(k).Cells(colVSPOwnSystemAmt).Value + gv.Rows(k).Cells(colHeadLoadAmt).Value) - gv.Rows(k).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(k).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(k).Cells(colReduceDeduc).Value) + getTotalMccSaleReturnSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
+                gv.Rows(k).Cells(colPaybleAmt).Value = (((gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(k).Cells(colTDSAmt).Value + gv.Rows(k).Cells(colTotalCreditNoteAmount).Value + gv.Rows(k).Cells(colVSPOwnSystemAmt).Value + gv.Rows(k).Cells(colHeadLoadAmt).Value) - gv.Rows(k).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(k).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(k).Cells(colReduceDeduc).Value) + getTotalMccSaleReturnSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
@@ -5707,7 +5711,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
 
             For ii As Integer = 0 To gv.Rows.Count - 1
                 Dim strVSPCode As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
-                Dim dblAmt As Decimal = Math.Round(clsCommon.myCdbl(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
+                Dim dblAmt As Decimal = Math.Round(clsCommon.myCDecimal(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
                 If dblAmt < 0 Then ''IF amount negative
                     dblAmt = Math.Abs(dblAmt)
                     dtOrder.Rows.Clear()
@@ -5779,66 +5783,26 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 End If
             Next
         End If
-
-        'If PayableAmountZeroForMCCSale Then
-        '    For ii As Integer = 0 To gv.Rows.Count - 1
-        '        Dim strVSPCode As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
-        '        Dim dblAmt As Decimal = Math.Round(clsCommon.myCdbl(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '        ''1. Advance
-        '        ''Handled on above
-        '        ''2 MCC Sale
-        '        If dblAmt < 0 Then ''IF amount negative
-        '            dblAmt = Math.Abs(dblAmt)
-        '            For jj As Integer = gvMccSale.Rows.Count - 1 To 0 Step -1
-        '                If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvMccSale.Rows(jj).Cells(colCustomerCode).Value)) = CompairStringResult.Equal Then
-        '                    If clsCommon.myCBool(gvMccSale.Rows(jj).Cells(colSelect).Value) Then
-        '                        gvMccSale.CurrentColumn = gvMccSale.Columns(colReduceDeduc)
-        '                        gvMccSale.CurrentRow = gvMccSale.Rows(jj)
-        '                        If dblAmt > clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value) Then
-        '                            gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                            dblAmt -= Math.Round(clsCommon.myCdbl(gvMccSale.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                        Else
-        '                            gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
-        '                            dblAmt = 0
-        '                            Exit For
-        '                        End If
-        '                    Else
-        '                        gvMccSale.Rows(jj).Cells(colReduceDeduc).Value = 0
-        '                    End If
-        '                End If
-        '            Next
-        '            ''3 Debit Note
-        '            If dblAmt <> 0 Then ''IF amount negative
-        '                For jj As Integer = gvDeduction.Rows.Count - 1 To 0 Step -1
-        '                    If clsCommon.CompairString(strVSPCode, clsCommon.myCstr(gvDeduction.Rows(jj).Cells(colVendorCode).Value)) = CompairStringResult.Equal Then
-        '                        If clsCommon.myCBool(gvDeduction.Rows(jj).Cells(colSelect).Value) Then
-        '                            gvDeduction.CurrentColumn = gvDeduction.Columns(colReduceDeduc)
-        '                            gvDeduction.CurrentRow = gvDeduction.Rows(jj)
-        '                            If dblAmt > clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value) Then
-        '                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                                dblAmt -= Math.Round(clsCommon.myCdbl(gvDeduction.Rows(jj).Cells(colItemAmt).Value), 2, MidpointRounding.AwayFromZero)
-        '                            Else
-        '                                gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = dblAmt
-        '                                dblAmt = 0
-        '                                Exit For
-        '                            End If
-        '                        Else
-        '                            gvDeduction.Rows(jj).Cells(colReduceDeduc).Value = 0
-        '                        End If
-        '                    End If
-        '                Next
-        '            End If
-        '            ''End of Debit Note
-        '        End If
-        '        ''End of MCC Sale
-        '    Next
-        'End If
         AddCompularyAmtInPaybleAmount(-1)
     End Sub
     Sub AddCompularyAmtInPaybleAmount(ByVal indx As Integer)
         If indx < 0 Then
             For ii As Integer = 0 To gv.Rows.Count - 1
                 gv.Rows(ii).Cells(colPaybleAmt).Value += clsCommon.myCDecimal(gv.Rows(ii).Cells(colTotalCompulsoryAmount).Value)
+                gv.Rows(ii).Cells(colPaybleAmt).Value = Math.Round(clsCommon.myCDecimal(gv.Rows(ii).Cells(colPaybleAmt).Value), 2, MidpointRounding.AwayFromZero)
+                If SettRemoveSavingDocumentWhenPayableAmtZero Then
+                    If clsCommon.myCDecimal(gv.Rows(ii).Cells(colPaybleAmt).Value) <= 0 Then
+                        If clsCommon.myCDecimal(gv.Rows(ii).Cells(colTotalSavingAmount).Value) > 0 Then
+                            Dim vsp As String = clsCommon.myCstr(gv.Rows(ii).Cells(colVendorCode).Value)
+                            For i As Integer = 0 To gvSaving.Rows.Count - 1
+                                If clsCommon.CompairString(gvSaving.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
+                                    gvSaving.Rows(i).Cells(colSelect).Value = False
+                                End If
+                            Next
+                            gv.Rows(ii).Cells(colTotalSavingAmount).Value = 0
+                        End If
+                    End If
+                End If
             Next
         End If
     End Sub
@@ -5848,7 +5812,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             gv.Rows(k).Cells(colAdvanceKnockOffAmount).Value = 0
             gv.Rows(k).Cells(colAdvanceAmount).Value = 0
             Dim TotAdvanceAmount As Double = getTotalAdvancePayment(clsCommon.myCstr(gv.Rows(k).Cells(colVendorCode).Value))
-            Dim PayableAmount As Double = clsCommon.myCdbl(gv.Rows(k).Cells(colPaybleAmt).Value)
+            Dim PayableAmount As Double = clsCommon.myCDecimal(gv.Rows(k).Cells(colPaybleAmt).Value)
             If TotAdvanceAmount > 0 Then
                 gv.Rows(k).Cells(colAdvanceAmount).Value = TotAdvanceAmount
                 If PayableAmount > 0 Then
@@ -5894,7 +5858,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             " where TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_VLC_DATA_UPLOADER_MASTER.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_LOCATION_MASTER.Loc_Segment_Code='" + strMCC + "'" + Environment.NewLine +
             " and TSPL_VLC_MASTER_HEAD.VSP_Code='" + strVSPCode + "'" + Environment.NewLine +
             " )xxx"
-            retVAL = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)), 2, MidpointRounding.ToEven)
+            retVAL = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry)), 2, MidpointRounding.ToEven)
         End If
         Return retVAL
     End Function
@@ -5945,10 +5909,10 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     Exit Sub
                 End If
                 PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
-                PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
-                isEmpOnAmtOnly = IIf(clsCommon.myCdbl(dt.Rows(0)("empOnAmountOnly")) = 0, False, True)
+                PaymentCycleValue = clsCommon.myCDecimal(dt.Rows(0)("PC_VALUE"))
+                isEmpOnAmtOnly = IIf(clsCommon.myCDecimal(dt.Rows(0)("empOnAmountOnly")) = 0, False, True)
                 If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+                    If clsCommon.myCDecimal(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
                         clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
@@ -5960,7 +5924,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                         dtpToDate.Value = DateAdd(DateInterval.Day, -1, dtpToDate.Value)
                     End If
                 ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
+                    If clsCommon.myCDecimal(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
                         clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
@@ -5968,7 +5932,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     End If
                     dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
                 ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
+                    If clsCommon.myCDecimal(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
                         clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                         dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
                         dtpToDate.Value = "01/" & DatePart(DateInterval.Month, clsCommon.GETSERVERDATE()) & "/" & DatePart(DateInterval.Year, clsCommon.GETSERVERDATE())
@@ -6024,7 +5988,26 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 SaveData(True)
             End If
             If clsCommon.MyMessageBoxShow("Continue to Post the payment ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
-                clsPaymentProcessHead.PrePostData(fndDocNo.Value)
+                Dim arrSavingDocs As ArrayList = Nothing
+                If SettRemoveSavingDocumentWhenPayableAmtZero Then
+                    getVendors()
+                    Dim dt As DataTable = GetSavingDocs()
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        arrSavingDocs = New ArrayList()
+                        For Each dr As DataRow In dt.Rows
+                            Dim flag As Boolean = True
+                            For i As Integer = 0 To gvSaving.Rows.Count - 1
+                                If clsCommon.CompairString(gvSaving.Rows(i).Cells(colAPInvoiceNo).Value, clsCommon.myCstr(dr("Document_No"))) = CompairStringResult.Equal Then
+                                    flag = False
+                                End If
+                            Next
+                            If flag Then
+                                arrSavingDocs.Add(clsCommon.myCstr(dr("Document_No")))
+                            End If
+                        Next
+                    End If
+                End If
+                clsPaymentProcessHead.PrePostData(fndDocNo.Value, arrSavingDocs)
                 clsPaymentProcessHead.CreateBankAdvise(clsCommon.myCstr(fndDocNo.Value), dtpDate.Value)
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
@@ -6099,7 +6082,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -6141,7 +6124,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -6176,7 +6159,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                         gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                         If rownummain <> -1 Then
                             gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                            gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                            gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                             CalculateAdvanceKnockOff(rownummain)
                             AddCompularyAmtInPaybleAmount(rownummain)
                         End If
@@ -6212,7 +6195,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -6346,7 +6329,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
         If Not isLoad Then
             isLoad = True
             If (e.Column Is gv.Columns(colReduceDeduc) OrElse e.Column Is gv.Columns(colMccSaleTotalAmount) OrElse e.Column Is gv.Columns(colMccSaleReturnTotalAmount) OrElse e.Column Is gv.Columns(colItemIssueTotalAmount) OrElse e.Column Is gv.Columns(colItemIssueReturnTotalAmount) OrElse e.Column Is gv.Columns(colDeductionTotalAmount) OrElse e.Column Is gv.Columns(colAssetLostAmount)) AndAlso gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
-                gv.CurrentRow.Cells(colPaybleAmt).Value = (((gv.CurrentRow.Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.CurrentRow.Cells(colTDSAmt).Value + gv.CurrentRow.Cells(colTotalCreditNoteAmount).Value + gv.CurrentRow.Cells(colVSPOwnSystemAmt).Value + gv.CurrentRow.Cells(colHeadLoadAmt).Value) - gv.CurrentRow.Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalAssetLost(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.CurrentRow.Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.CurrentRow.Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.CurrentRow.Cells(colVendorCode).Value)
+                gv.CurrentRow.Cells(colPaybleAmt).Value = (((gv.CurrentRow.Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.CurrentRow.Cells(colTDSAmt).Value + gv.CurrentRow.Cells(colTotalCreditNoteAmount).Value + gv.CurrentRow.Cells(colVSPOwnSystemAmt).Value + gv.CurrentRow.Cells(colHeadLoadAmt).Value) - gv.CurrentRow.Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalAssetLost(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.CurrentRow.Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.CurrentRow.Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.CurrentRow.Cells(colVendorCode).Value)
             End If
             isLoad = False
             isLoad = True
@@ -6755,7 +6738,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
         '                gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
         '                If rownummain <> -1 Then
         '                    gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-        '                    gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+        '                    gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCDecimal(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
         '                End If
         '            End If
         '            isCellValueChanged = False
@@ -6805,7 +6788,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 Exit Sub
             End If
             PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
-            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+            PaymentCycleValue = clsCommon.myCDecimal(dt.Rows(0)("PC_VALUE"))
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If dtpFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
@@ -6824,7 +6807,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                     dtpToDate.Value = New Date(dtpFromDate.Value.Year, dtpFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
-                If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
+                If clsCommon.myCDecimal(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
                     clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
@@ -6832,7 +6815,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
                 End If
                 dtpToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
-                If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
+                If clsCommon.myCDecimal(clsCommon.GetPrintDate(dtpFromDate.Value, "dd")) <> 1 Then
                     clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
                     dtpFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
@@ -7354,7 +7337,7 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
 
         Try
             Dim isDedfound As Integer = 0
-            isDedfound = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select count(*) from TSPL_DCS_ADDITION_DEDUCTION WHERE Deduction IS NULL "))
+            isDedfound = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" Select count(*) from TSPL_DCS_ADDITION_DEDUCTION WHERE Deduction IS NULL "))
             If isDedfound > 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please Map remaining Code", Me.Text)
                 Exit Sub
@@ -7433,8 +7416,8 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
         Dim strPC_SNFValue As String = 0
         Dim dtPC_FAT_SNF As DataTable = clsDBFuncationality.GetDataTable("select  top 1 round ( Price_Chart_FAT_Ratio * Price_Chart_Rate / nullif (Price_Chart_FAT_Per,0) , 2,1 ) as FAT_PCValue , round (  Price_Chart_SNF_Ratio * Price_Chart_Rate / nullif (Price_Chart_SNF_Per,0),2,1)  as SNF_PCValue  from TSPL_PRICE_CHART_PLANNING order by convert (date, Planning_Date,103)")
         If dtPC_FAT_SNF IsNot Nothing AndAlso dtPC_FAT_SNF.Rows.Count > 0 Then
-            strPC_FATValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
-            strPC_SNFValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
+            strPC_FATValue = clsCommon.myCDecimal(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
+            strPC_SNFValue = clsCommon.myCDecimal(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
         End If
         Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + dtpFromDate.Value + "',103) "))
         Dim BaseQry As String = ""
@@ -7702,8 +7685,8 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = '" + fndDocNo.Value + "'
         Dim strPC_SNFValue As String = 0
         Dim dtPC_FAT_SNF As DataTable = clsDBFuncationality.GetDataTable("select  top 1 round ( Price_Chart_FAT_Ratio * Price_Chart_Rate / nullif (Price_Chart_FAT_Per,0) , 2,1 ) as FAT_PCValue , round (  Price_Chart_SNF_Ratio * Price_Chart_Rate / nullif (Price_Chart_SNF_Per,0),2,1)  as SNF_PCValue  from TSPL_PRICE_CHART_PLANNING order by convert (date, Planning_Date,103)")
         If dtPC_FAT_SNF IsNot Nothing AndAlso dtPC_FAT_SNF.Rows.Count > 0 Then
-            strPC_FATValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
-            strPC_SNFValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
+            strPC_FATValue = clsCommon.myCDecimal(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
+            strPC_SNFValue = clsCommon.myCDecimal(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
         End If
         Dim CycleNo As String = clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + dtpFromDate.Value + "',103) ")
         Dim BaseQry As String = ""
@@ -7900,8 +7883,8 @@ from TSPL_PAYMENT_PROCESS_ASSET_LOST
 ")xx"
         Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(sQuery)
         If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
-            If clsCommon.myCdbl(dtgv.Rows(0)("Pro")) > 0 Then
-                If clsCommon.myCdbl(dtgv.Rows(0)("Pro")) = clsCommon.myCdbl(dtgv.Rows(0)("Inv")) Then
+            If clsCommon.myCDecimal(dtgv.Rows(0)("Pro")) > 0 Then
+                If clsCommon.myCDecimal(dtgv.Rows(0)("Pro")) = clsCommon.myCDecimal(dtgv.Rows(0)("Inv")) Then
                     isPrintProData = True
                 ElseIf clsCommon.MyMessageBoxShow(Me, "Do you want to print Pro Bill", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                     isPrintProData = True

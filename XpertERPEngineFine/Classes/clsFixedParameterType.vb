@@ -1020,6 +1020,7 @@ Public Class clsFixedParameterType
     Public Const VSPHoldPaymentNotCompanyBank As String = "VSP Hold Payment Not Company Bank"
     Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
+    Public Const RemoveSavingDocumentWhenPayableAmtZero As String = "Remove Saving Document When Payable Amt Zero"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
     Public Const JobWorkTransfer As String = "Job Work Transfer"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
@@ -2500,6 +2501,7 @@ Public Class clsFixedParameterCode
     Public Const VSPHoldPaymentNotCompanyBank As String = "VSP Hold Payment Not Company Bank"
     Public Const TDSRoundOffAmount As String = "TDS Round Off Amount"
     Public Const RoundOffPaiseAmount As String = "Round Off Paise Amount"
+    Public Const RemoveSavingDocumentWhenPayableAmtZero As String = "Remove Saving Document When Payable Amt Zero"
     Public Const EnableInternalTransfer As String = "Enable Internal Transfer for UDL"
     Public Const JobWorkTransfer As String = "Job Work Transfer"
     Public Const FreightProvisionAccount As String = "Freight Provision Account"
@@ -4126,6 +4128,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, "0", "0:Off,1:ON,If VSP Company Bank Not Defined Then Hold")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TDSRoundOffAmount, clsFixedParameterCode.TDSRoundOffAmount, "1", "0:OFF(Amount in Ruppes and paisa),1:ON(Amount in Ruppes)")
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, "0", "0:Off,1:ON,Remove paise and add in Round off")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, "0", "0:Off,1:ON,Remove Saving Docuemnts (AP invoice-Credit Note) On post when payabale amount is zero")
         InsertDefaultValueFixedParameter(clsFixedParameterType.EnableInternalTransfer, clsFixedParameterCode.EnableInternalTransfer, "0", "0:Off,1:ON,Enable Internal Transfer for UDL")
         InsertDefaultValueFixedParameter(clsFixedParameterType.JobWorkTransfer, clsFixedParameterCode.JobWorkTransfer, "0", "0:Off,1:ON,Enable Job Work Transfer")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FreightProvisionAccount, clsFixedParameterCode.FreightProvisionAccount, "", "Set Freight Provision Account From GL Account")
@@ -5242,6 +5245,7 @@ Public Class clsFixedParameterProgramMapping
         'InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.RemoveSavingDocumentWhenPayableAmtZero, clsFixedParameterCode.RemoveSavingDocumentWhenPayableAmtZero, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, EnumControlType.CheckBox)

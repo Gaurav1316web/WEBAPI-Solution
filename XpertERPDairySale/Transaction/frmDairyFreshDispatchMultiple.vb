@@ -33,6 +33,7 @@ Public Class frmDairyFreshDispatchMultiple
     Public Sub AddNew()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtLocation.Value = ""
+        txtDocDate.Value = txtFromDate.Value
         lblLocationDesc.Text = ""
         rbtnMorning.Checked = True
         rbtnTaxable.Checked = True
@@ -72,12 +73,13 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Boo
                     Dim routeno As String = clsCommon.myCstr(dr("route_no"))
                     Dim LocationCode As String = clsCommon.myCstr(dr("LocationCode"))
                     Dim Supplydate As Date = clsCommon.GetPrintDate(dr("Document_Date"))
+                    Dim DocDate As Date = clsCommon.GetPrintDate(txtDocDate.Value)
                     Dim Shifttype As String = clsCommon.myCstr(dr("ShiftType"))
                     Dim IsTaxable As String = clsCommon.myCstr(dr("IsTaxable"))
                     Dim IsAutoClose As Boolean = True
                     'frm.IsAutoClose = True
                     'frm.ShowDialog()
-                    frmShipmentDairy.ProcessShipment(routeno, LocationCode, Supplydate, Shifttype, IsTaxable, IsAutoClose, frm)
+                    frmShipmentDairy.ProcessShipment(routeno, LocationCode, Supplydate, DocDate, Shifttype, IsTaxable, IsAutoClose, frm)
                 Next
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Succeffully.", Me.Text)
@@ -94,7 +96,7 @@ left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD
 left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No
-where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtFromDate.Value) + "'
+where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>='" + clsCommon.GetPrintDate(txtDocDate.Value) + "' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(txtDocDate.Value) + "'
 and TSPL_SD_SHIPMENT_HEAD.Shift_Type='" + IIf(rbtnMorning.Checked, "AM", "PM") + "'
 and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='" + IIf(rbtnNonTaxable.Checked, "NT", "T") + "'  and TSPL_SD_SHIPMENT_HEAD.Status=0 group by TSPL_SD_SHIPMENT_HEAD.ParentDocNo, TSPL_SD_SHIPMENT_DETAIL.Item_Code,TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_HEAD.Route_No
 )Final order by Final.Route_No "
@@ -176,4 +178,6 @@ and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='" + IIf(rbtnNonTaxable.Checked, "NT", "T
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

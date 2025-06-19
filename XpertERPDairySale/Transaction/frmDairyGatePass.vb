@@ -1531,8 +1531,8 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
         Dim Qry As String = ""
         If isDepartmentRoute Then
             Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
-Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity',
-Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr',
+Case When CFinLTR > 0 and Final.StokingUOM='LTR' or Final.StokingUOM = 'Pouch' Then ( final.LTR_Qty ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity',
+Case When CFinLTR > 0 Then ( final.LTR_Qty ) Else 0 End AS 'MilkQuantityltr',
 CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG',
 Case When Final.Column_Crate > 0 Then Cast( ( Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int) / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine',
 Case When Column_Crate > 0 Then ( Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int)-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Cast((Final.qty*Final.CFinLTR/Conversion_FactorCrt) as int) / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate',

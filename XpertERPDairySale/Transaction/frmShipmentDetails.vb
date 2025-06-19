@@ -44,7 +44,7 @@ left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHI
 
             ElseIf clsCommon.CompairString(strFromShift, "M") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strToshift, "M") = CompairStringResult.Equal Then
                 Qry += " AND ( 
-        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) > '" + clsCommon.GetPrintDate(strFromDate, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(strToDate, "dd/MMM/yyyy") + "')  
+        (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) >= '" + clsCommon.GetPrintDate(strFromDate, "dd/MMM/yyyy") + "' AND CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) < '" + clsCommon.GetPrintDate(strToDate, "dd/MMM/yyyy") + "')  
             or (CONVERT(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) = '" + clsCommon.GetPrintDate(strToDate, "dd/MMM/yyyy") + "' AND TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + ToShift + "') ) "
 
             ElseIf clsCommon.CompairString(strFromShift, "E") = CompairStringResult.Equal AndAlso clsCommon.CompairString(strToshift, "M") = CompairStringResult.Equal Then

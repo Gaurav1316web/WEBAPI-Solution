@@ -23,6 +23,7 @@ Partial Class frmOwnBMCGainLossRate
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rdbTanker_Rate = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtLossSNFPer = New common.MyNumBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -53,14 +54,15 @@ Partial Class frmOwnBMCGainLossRate
         Me.UsLock1 = New common.usLock()
         Me.lblDescription = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.rdbTanker_Rate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.txtLossSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,11 +94,11 @@ Partial Class frmOwnBMCGainLossRate
         CType(Me.dtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,6 +111,7 @@ Partial Class frmOwnBMCGainLossRate
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rdbTanker_Rate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.rdbtnreset)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
@@ -133,6 +136,15 @@ Partial Class frmOwnBMCGainLossRate
         Me.SplitContainer1.Size = New System.Drawing.Size(638, 286)
         Me.SplitContainer1.SplitterDistance = 247
         Me.SplitContainer1.TabIndex = 0
+        '
+        'rdbTanker_Rate
+        '
+        Me.rdbTanker_Rate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdbTanker_Rate.Location = New System.Drawing.Point(361, 65)
+        Me.rdbTanker_Rate.Name = "rdbTanker_Rate"
+        Me.rdbTanker_Rate.Size = New System.Drawing.Size(150, 16)
+        Me.rdbTanker_Rate.TabIndex = 1093
+        Me.rdbTanker_Rate.Text = "BMC Tanker Fat/Snf Rate"
         '
         'RadGroupBox2
         '
@@ -682,6 +694,15 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtCode.TabIndex = 1
         Me.txtCode.Value = ""
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(497, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 24)
+        Me.btnHistory.TabIndex = 113
+        Me.btnHistory.Text = "History"
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -718,15 +739,6 @@ Partial Class frmOwnBMCGainLossRate
         Me.btnSave.TabIndex = 1
         Me.btnSave.Text = "Save"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(497, 6)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 24)
-        Me.btnHistory.TabIndex = 113
-        Me.btnHistory.Text = "History"
-        '
         'frmOwnBMCGainLossRate
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -743,6 +755,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.rdbTanker_Rate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -777,11 +790,11 @@ Partial Class frmOwnBMCGainLossRate
         CType(Me.dtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -823,4 +836,5 @@ Partial Class frmOwnBMCGainLossRate
     Friend WithEvents txtGainFATPer As common.MyNumBox
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents rdbTanker_Rate As RadCheckBox
 End Class

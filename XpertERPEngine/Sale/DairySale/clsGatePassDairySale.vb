@@ -331,6 +331,7 @@ Public Class clsGatePassDairySale
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmGatePassDairy, obj.Location_Code, obj.Document_Date, trans)
         clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "TSPL_GATEPASS_DETAIL_DAIRYSALE", "Document_No", trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "TSPL_GATEPASS_DETAIL_DAIRYSALE", "Document_No", trans)
+        clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_GATEPASS_MASTER_DAIRYSALE", "Document_No", "TSPL_GATEPASS_DETAIL_DAIRYSALE", "Document_No", trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
             Try
