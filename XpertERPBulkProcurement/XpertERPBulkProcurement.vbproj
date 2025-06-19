@@ -213,6 +213,12 @@
     <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmDCSTransportationCharges.Designer.vb">
+      <DependentUpon>frmDCSTransportationCharges.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmDCSTransportationCharges.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmDeductionTypeMaster.Designer.vb">
       <DependentUpon>frmDeductionTypeMaster.vb</DependentUpon>
     </Compile>
@@ -1147,6 +1153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmChillingChargesSlab.resx">
       <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmDCSTransportationCharges.resx">
+      <DependentUpon>frmDCSTransportationCharges.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmDeductionTypeMaster.resx">
       <DependentUpon>frmDeductionTypeMaster.vb</DependentUpon>

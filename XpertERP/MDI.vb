@@ -7723,6 +7723,11 @@ Public Class MDI
                     Case clsUserMgtCode.frmUnpostBmcDcs
                         frm = New frmUnpostBmcDcs
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmDCSTransportationCharges
+                        frm = New frmDCSTransportationCharges
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

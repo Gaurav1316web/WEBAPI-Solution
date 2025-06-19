@@ -119,6 +119,7 @@
     <Compile Include="Classes\clsDayBookHead.vb" />
     <Compile Include="Classes\clsDemandCustItem.vb" />
     <Compile Include="Classes\clsDemandUploader.vb" />
+    <Compile Include="Classes\clsDCSTransportationCharges.vb" />
     <Compile Include="Classes\clsEPF.vb" />
     <Compile Include="Classes\ClsFaultCategory.vb" />
     <Compile Include="Classes\ClsFaultMaster.vb" />
