@@ -215,6 +215,9 @@ Public Class clsPSInvoiceHead
     Public Distributor_Commission_TotalAmt As Decimal = 0
     Public Transporter_Commission_TotalAmt As Decimal = 0
     Public Security_TotalAmt As Decimal = 0
+    Public Is_Apply_TPT As Boolean = False
+    Public TPT_Vendor As String = Nothing
+    Public Recommended_By As String = Nothing
 #End Region
 
     Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
@@ -597,6 +600,9 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Distributor_Commission_TotalAmt", obj.Distributor_Commission_TotalAmt, True)
             clsCommon.AddColumnsForChange(coll, "Transporter_Commission_TotalAmt", obj.Transporter_Commission_TotalAmt, True)
             clsCommon.AddColumnsForChange(coll, "Security_TotalAmt", obj.Security_TotalAmt, True)
+            clsCommon.AddColumnsForChange(coll, "Is_Apply_TPT", IIf(obj.Is_Apply_TPT, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
+            clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
 
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
@@ -904,7 +910,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
      FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
@@ -1088,7 +1094,9 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             obj.Distributor_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Distributor_Commission_TotalAmt"))
             obj.Transporter_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Transporter_Commission_TotalAmt"))
             obj.Security_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Security_TotalAmt"))
-
+            obj.Is_Apply_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Apply_TPT")) = 1, True, False)
+            obj.TPT_Vendor = clsCommon.myCstr(dt.Rows(0)("TPT_Vendor"))
+            obj.Recommended_By = clsCommon.myCstr(dt.Rows(0)("Recommended_By"))
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             End If
@@ -1240,7 +1248,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             "TSPL_SD_SALE_INVOICE_DETAIL.TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,TSPL_SD_SALE_INVOICE_DETAIL.Purchase_Cost,TSPL_SD_SALE_INVOICE_DETAIL.OrgRate,  " &
             "TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_INVOICE_DETAIL.Bin_No,TSPL_SD_SALE_INVOICE_DETAIL.vendor_code,TSPL_SD_SALE_INVOICE_DETAIL.vendor_desc,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleCode,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleDesc,TSPL_SD_SALE_INVOICE_DETAIL.Markup_On,TSPL_SD_SALE_INVOICE_DETAIL.Markup_Percent,TSPL_SD_SALE_INVOICE_DETAIL.Landing_Cost,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscAmt,TSPL_SD_SALE_INVOICE_DETAIL.CustDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.CasdDiscScheme_Code " &
             ",TSPL_SD_SALE_INVOICE_DETAIL.Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Commission_Party,TSPL_SD_SALE_INVOICE_DETAIL.Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Commission "
-            qry += " ,TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Sampling,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_PKID,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Security_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Security_Amt 
+            qry += " ,TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM,TSPL_SD_SALE_INVOICE_DETAIL.Sampling,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_PKID,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SALE_INVOICE_DETAIL.Distributor_Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Transporter_Commission_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Security_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Security_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.REF_TPT_PK_ID
            FROM TSPL_SD_SALE_INVOICE_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
@@ -1410,6 +1418,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
                     objTr.Transporter_Commission_Amt = clsCommon.myCdbl(dr("Transporter_Commission_Amt"))
                     objTr.Security_Rate = clsCommon.myCdbl(dr("Security_Rate"))
                     objTr.Security_Amt = clsCommon.myCdbl(dr("Security_Amt"))
+                    objTr.REF_TPT_PK_ID = clsCommon.myCdbl(dr("REF_TPT_PK_ID"))
 
                     obj.Screen_Type = clsDBFuncationality.getSingleValue("select Screen_Type from tspl_sd_sale_invoice_head where Document_Code='" & obj.Document_Code & "'", trans)
                     objTr.arrBatchItem = clsBatchInventory.GetData(obj.Trans_type, obj.Against_Shipment_No, objTr.Item_Code, objTr.Line_No, trans, obj.Screen_Type)
@@ -1623,35 +1632,40 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             Dim strARInvNo = clsDBFuncationality.getSingleValue("Select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No='" + strDocNo + "'", trans)
             Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
 
-            Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
-            If FinancialImpactForTPT Then
-                Dim isCreditCust1 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from tspl_customer_Master where cust_code='" + obj.Customer_Code + "'", trans))
-                If clsCommon.CompairString(isCreditCust1, "N") = CompairStringResult.Equal Then
-                    If obj.Transporter_Commission_TotalAmt > 0 Then
-                        createAPInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+            If clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+                If obj.Transporter_Commission_TotalAmt > 0 Then
+                    createAPInvoiceDCSSale(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+                End If
+            Else
+                Dim FinancialImpactForTPT As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FinancialImpactForTPT, clsFixedParameterCode.FinancialImpactForTPT, trans)) = 1, True, False)
+                If FinancialImpactForTPT Then
+                    Dim isCreditCust1 As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from tspl_customer_Master where cust_code='" + obj.Customer_Code + "'", trans))
+                    If clsCommon.CompairString(isCreditCust1, "N") = CompairStringResult.Equal Then
+                        If obj.Transporter_Commission_TotalAmt > 0 Then
+                            createAPInvoice(obj, trans, strARInvoiceNoRecreateOnly, strVoucherNoForRecreateOnly, FormId, IsDairyModule)
+                        End If
                     End If
                 End If
-
-
             End If
-                'richa agarwal 21 Dec,2020 check eInvoice Implementation
-                'If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
-                '    If clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
-                '    Else
-                '        Throw New Exception("Invalid JSON Value")
-                '    End If
-                'ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
-                '    Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
-                '    If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
-                '        If clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
-                '        Else
-                '            Throw New Exception("Invalid JSON Value")
-                '        End If
-                '    End If
-                'End If
+
+            'richa agarwal 21 Dec,2020 check eInvoice Implementation
+            'If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+            '    If clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
+            '    Else
+            '        Throw New Exception("Invalid JSON Value")
+            '    End If
+            'ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+            '    Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
+            '    If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
+            '        If clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans) = True Then
+            '        Else
+            '            Throw New Exception("Invalid JSON Value")
+            '        End If
+            '    End If
+            'End If
 
 
-                qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',EInvoice_Type='" + ECustomerType + "',EInvoice_Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "'"
+            qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',EInvoice_Type='" + ECustomerType + "',EInvoice_Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "'"
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -1931,7 +1945,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
                 objVendorInvHead.On_Hold = False
 
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,Deduction_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
-                If dt1 IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt1.Rows(0)("Payable_Account"))
                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, obj.Bill_To_Location, trans)
                     If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
@@ -2006,6 +2020,109 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSP
         End Try
         Return True
     End Function
+
+    Public Shared Function createAPInvoiceDCSSale(ByVal obj As clsPSInvoiceHead, ByVal trans As SqlTransaction, ByVal strARNoForRecreate As String, ByVal strVoucherNoRecreate As String, ByVal strFormID As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
+
+        Try
+            Dim strQry As String = "select TSPL_VENDOR_MASTER.vendor_Code,TSPL_VENDOR_ACCOUNT_SET.Freight_Provision,TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code from TSPL_VENDOR_ACCOUNT_SET 
+            left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Account=TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code
+            where TSPL_VENDOR_MASTER.vendor_Code='" + obj.TPT_Vendor + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim objVendorInvHead As New clsVedorInvoiceHead()
+                Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy")
+                objVendorInvHead.Vendor_Code = obj.TPT_Vendor
+                objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(clsCommon.myCstr(obj.TPT_Vendor), trans)
+                objVendorInvHead.Vendor_Invoice_No = "" ''No Need to send vendor invoice no because it is of debit note type
+                objVendorInvHead.Invoice_Type = "AP"
+                objVendorInvHead.Vendor_Invoice_Date = clsCommon.GetPrintDate(clsCommon.myCDate(obj.Document_Date), "dd/MMM/yyyy")
+                objVendorInvHead.loc_code = clsLocation.GetSegmentCode(obj.Bill_To_Location, trans) 'obj.MCC_CODE
+                'objVendorInvHead.Irregular_loc_code = obj.Irregular_MCC_CODE
+                objVendorInvHead.Description = "AP Credit Note Against Transpoter Commission"
+                objVendorInvHead.Account_Set = clsCommon.myCstr(dt.Rows(0)("Acct_Set_Code"))
+                objVendorInvHead.Document_Type = "C"
+                objVendorInvHead.RefDocType = "TPT-Commission"
+                objVendorInvHead.RefDocNo = clsCommon.myCstr(obj.Document_Code)
+                objVendorInvHead.On_Hold = False
+
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,Deduction_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt1.Rows(0)("Payable_Account"))
+                    objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, obj.Bill_To_Location, trans)
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
+                        objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt1.Rows(0)("Discount_Account"))
+                        objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, obj.Bill_To_Location, trans)
+                    End If
+                End If
+                If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                    Throw New Exception("Please set the vendor payable Account")
+                End If
+                objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                Dim ii As Integer = 0
+                Dim isFirstTime As Boolean = True
+                objVendorInvHead.Total_Landed_Amt = 0
+
+                objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+
+                Dim strInvCtrlAC As String = clsCommon.myCstr(dt.Rows(0)("Freight_Provision"))
+                strInvCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvCtrlAC, obj.Bill_To_Location, trans)
+                If clsCommon.myLen(strInvCtrlAC) <= 0 Then
+                    Throw New Exception("Please set GL Account Code for deduction code " + objVendorInvDetail.Deduction_Code)
+                End If
+                objVendorInvDetail.GL_Account_Code = strInvCtrlAC
+                ii = ii + 1
+                objVendorInvDetail.Detail_Line_No = ii
+                objVendorInvDetail.GL_Account_Code = strInvCtrlAC
+                objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(strInvCtrlAC, trans)
+                objVendorInvDetail.Amount = clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+
+                objVendorInvDetail.Discount_Per = 0
+                objVendorInvDetail.Discount = 0
+                objVendorInvDetail.Amount_less_Discount = clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                objVendorInvDetail.Total_Tax = 0
+                objVendorInvDetail.Total_Amount = clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                objVendorInvDetail.Landed_Amount = clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                ''End of Set AP Invvoice Detail Table
+
+                If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                    objVendorInvHead.Arr.Add(objVendorInvDetail)
+                End If
+
+                ''Set AP Invvoice Header Table
+                objVendorInvHead.Total_Landed_Amt += clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                objVendorInvHead.Discount_Base += clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                objVendorInvHead.Discount_Amount += 0
+                objVendorInvHead.Amount_Less_Discount += clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                objVendorInvHead.Document_Total += clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                objVendorInvHead.Balance_Amt += clsCommon.myCdbl(obj.Transporter_Commission_TotalAmt)
+                ''End of Set AP Invvoice Header Table
+
+                objVendorInvHead.Empty_Amount = 0 'obj.Tot_Empty_Amount
+                If objVendorInvHead.Empty_Amount > 0 Then
+                    If clsCommon.myLen(objVendorInvHead.Empty_Account) <= 0 Then
+                        Throw New Exception("Please set Inventory Control Empties")
+                    End If
+                    objVendorInvHead.Document_Total += objVendorInvHead.Empty_Amount
+                End If
+                If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                    Throw New Exception("No GL Account Found For AP Invoice")
+                End If
+                ''multicurrency
+                'objVendorInvHead.CURRENCY_CODE = obj.CURRENCY_CODE
+                'objVendorInvHead.ConvRate = 1
+                objVendorInvHead.ApplicableFrom = clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy")
+                ''end multicurrency
+
+                objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans, clsCommon.myCDate(obj.Document_Date))
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
     Public Shared Function createARInvoice(ByVal obj As clsPSInvoiceHead, ByVal trans As SqlTransaction, ByVal strARNoForRecreate As String, ByVal strVoucherNoRecreate As String, ByVal strFormID As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Try
 
@@ -2268,64 +2385,64 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                     'objCustInvTR.Discount = objTr.Disc_Amt
 
                     objCustInvTR.Amount_less_Discount = objTr.Amt_Less_Discount
-                        objCustInvTR.TAX1 = objTr.TAX1
-                        objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
-                        objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
-                        objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
-                        objCustInvTR.TAX2 = objTr.TAX2
-                        objCustInvTR.TAX2_Rate = objTr.TAX2_Rate
-                        objCustInvTR.TAX2_Amt = objTr.TAX2_Amt
-                        objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
-                        objCustInvTR.TAX3 = objTr.TAX3
-                        objCustInvTR.TAX3_Rate = objTr.TAX3_Rate
-                        objCustInvTR.TAX3_Amt = objTr.TAX3_Amt
-                        objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
-                        objCustInvTR.TAX4 = objTr.TAX4
-                        objCustInvTR.TAX4_Rate = objTr.TAX4_Rate
-                        objCustInvTR.TAX4_Amt = objTr.TAX4_Amt
-                        objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
-                        objCustInvTR.TAX5 = objTr.TAX5
-                        objCustInvTR.TAX5_Rate = objTr.TAX5_Rate
-                        objCustInvTR.TAX5_Amt = objTr.TAX5_Amt
-                        objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
-                        objCustInvTR.TAX6 = objTr.TAX6
-                        objCustInvTR.TAX6_Rate = objTr.TAX6_Rate
-                        objCustInvTR.TAX6_Amt = objTr.TAX6_Amt
-                        objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
-                        objCustInvTR.TAX7 = objTr.TAX7
-                        objCustInvTR.TAX7_Rate = objTr.TAX7_Rate
-                        objCustInvTR.TAX7_Amt = objTr.TAX7_Amt
-                        objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
-                        objCustInvTR.TAX8 = objTr.TAX8
-                        objCustInvTR.TAX8_Rate = objTr.TAX8_Rate
-                        objCustInvTR.TAX8_Amt = objTr.TAX8_Amt
-                        objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
-                        objCustInvTR.TAX9 = objTr.TAX9
-                        objCustInvTR.TAX9_Rate = objTr.TAX9_Rate
-                        objCustInvTR.TAX9_Amt = objTr.TAX9_Amt
-                        objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
-                        objCustInvTR.TAX10 = objTr.TAX10
-                        objCustInvTR.TAX10_Rate = objTr.TAX10_Rate
-                        objCustInvTR.TAX10_Amt = objTr.TAX10_Amt
-                        objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
-                        objCustInvTR.Total_Tax = objTr.Total_Tax_Amt
-                        objCustInvTR.Total_Amount = objTr.Item_Net_Amt
-                        objCustInvTR.Remarks = objTr.Remarks
-                        objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
-                        objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
-                        objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
-                        objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
-                        objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
-                        objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
-                        objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
-                        objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
-                        objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
-                        objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
-                        'objCustInvTR.Comments=objTr.Comments
-                        objCustInv.Arr.Add(objCustInvTR)
-                        counter += 1
-                    End If
-                    If clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal AndAlso IsDairyModule = False Then
+                    objCustInvTR.TAX1 = objTr.TAX1
+                    objCustInvTR.TAX1_Rate = objTr.TAX1_Rate
+                    objCustInvTR.TAX1_Amt = objTr.TAX1_Amt
+                    objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
+                    objCustInvTR.TAX2 = objTr.TAX2
+                    objCustInvTR.TAX2_Rate = objTr.TAX2_Rate
+                    objCustInvTR.TAX2_Amt = objTr.TAX2_Amt
+                    objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
+                    objCustInvTR.TAX3 = objTr.TAX3
+                    objCustInvTR.TAX3_Rate = objTr.TAX3_Rate
+                    objCustInvTR.TAX3_Amt = objTr.TAX3_Amt
+                    objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
+                    objCustInvTR.TAX4 = objTr.TAX4
+                    objCustInvTR.TAX4_Rate = objTr.TAX4_Rate
+                    objCustInvTR.TAX4_Amt = objTr.TAX4_Amt
+                    objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
+                    objCustInvTR.TAX5 = objTr.TAX5
+                    objCustInvTR.TAX5_Rate = objTr.TAX5_Rate
+                    objCustInvTR.TAX5_Amt = objTr.TAX5_Amt
+                    objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
+                    objCustInvTR.TAX6 = objTr.TAX6
+                    objCustInvTR.TAX6_Rate = objTr.TAX6_Rate
+                    objCustInvTR.TAX6_Amt = objTr.TAX6_Amt
+                    objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
+                    objCustInvTR.TAX7 = objTr.TAX7
+                    objCustInvTR.TAX7_Rate = objTr.TAX7_Rate
+                    objCustInvTR.TAX7_Amt = objTr.TAX7_Amt
+                    objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
+                    objCustInvTR.TAX8 = objTr.TAX8
+                    objCustInvTR.TAX8_Rate = objTr.TAX8_Rate
+                    objCustInvTR.TAX8_Amt = objTr.TAX8_Amt
+                    objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
+                    objCustInvTR.TAX9 = objTr.TAX9
+                    objCustInvTR.TAX9_Rate = objTr.TAX9_Rate
+                    objCustInvTR.TAX9_Amt = objTr.TAX9_Amt
+                    objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
+                    objCustInvTR.TAX10 = objTr.TAX10
+                    objCustInvTR.TAX10_Rate = objTr.TAX10_Rate
+                    objCustInvTR.TAX10_Amt = objTr.TAX10_Amt
+                    objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
+                    objCustInvTR.Total_Tax = objTr.Total_Tax_Amt
+                    objCustInvTR.Total_Amount = objTr.Item_Net_Amt
+                    objCustInvTR.Remarks = objTr.Remarks
+                    objCustInvTR.TAX1_Base_Amt = objTr.TAX1_Base_Amt
+                    objCustInvTR.TAX2_Base_Amt = objTr.TAX2_Base_Amt
+                    objCustInvTR.TAX3_Base_Amt = objTr.TAX3_Base_Amt
+                    objCustInvTR.TAX4_Base_Amt = objTr.TAX4_Base_Amt
+                    objCustInvTR.TAX5_Base_Amt = objTr.TAX5_Base_Amt
+                    objCustInvTR.TAX6_Base_Amt = objTr.TAX6_Base_Amt
+                    objCustInvTR.TAX7_Base_Amt = objTr.TAX7_Base_Amt
+                    objCustInvTR.TAX8_Base_Amt = objTr.TAX8_Base_Amt
+                    objCustInvTR.TAX9_Base_Amt = objTr.TAX9_Base_Amt
+                    objCustInvTR.TAX10_Base_Amt = objTr.TAX10_Base_Amt
+                    'objCustInvTR.Comments=objTr.Comments
+                    objCustInv.Arr.Add(objCustInvTR)
+                    counter += 1
+                End If
+                If clsCommon.CompairString(objTr.Scheme_Item, "Y") = CompairStringResult.Equal AndAlso IsDairyModule = False Then
                     objCustInv.TAX1_ExciseFOCAmt += objTr.TAX1_Amt
                     objCustInv.TAX2_ExciseFOCAmt += objTr.TAX2_Amt
                     objCustInv.TAX3_ExciseFOCAmt += objTr.TAX3_Amt
@@ -9890,6 +10007,7 @@ Public Class clsPSInvoiceHeadDetail
     Public Transporter_Commission_Amt As Decimal = 0
     Public Security_Rate As Decimal = 0
     Public Security_Amt As Decimal = 0
+    Public REF_TPT_PK_ID As Integer = 0
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsPSInvoiceHeadDetail), ByVal trans As SqlTransaction) As Boolean
@@ -10074,6 +10192,7 @@ Public Class clsPSInvoiceHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Transporter_Commission_Amt", obj.Transporter_Commission_Amt, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
                 clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "REF_TPT_PK_ID", obj.REF_TPT_PK_ID, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If

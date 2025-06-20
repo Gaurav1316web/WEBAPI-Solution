@@ -109,6 +109,8 @@ Public Class clsItemSlabTolerance
     Public Arr As List(Of clsItemSlabTolerance) = Nothing
 
     Public Shared Function SaveData(ByVal strICode As String, ByVal Arr As List(Of clsItemSlabTolerance), ByVal trans As SqlTransaction) As Boolean
+        Dim strQry As String = "delete from TSPL_ITEM_SLAB_TOLERANCE Where Item_Code='" + strICode + "'"
+        clsDBFuncationality.ExecuteNonQuery(strQry, trans)
         For Each obj As clsItemSlabTolerance In Arr
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)

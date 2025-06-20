@@ -3300,6 +3300,9 @@ Public Class FrmItemMasterRMOther
                     qry = "delete from TSPL_ITEM_NOC_SCHEDULE where Item_Code='" + txtCode.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+                    qry = "delete from TSPL_ITEM_SLAB_TOLERANCE Where Item_Code='" + txtCode.Value + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                     qry = "delete from TSPL_ITEM_MASTER where Item_Code='" + txtCode.Value + "'"
                     clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, GetDatabase(), trans)
                     clsCustomFieldValues.DeleteData(Me.Form_ID, txtCode.Value, trans)

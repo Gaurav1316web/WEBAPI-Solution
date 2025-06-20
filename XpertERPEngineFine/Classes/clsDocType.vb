@@ -563,6 +563,7 @@ Public Class clsDocType
     Public Const FarmerServiceOrder As String = "Farmer Service Order With Rate"
     Public Const DCSSale As String = "DCS Sale"
     Public Const DistributorCommission As String = "Distributor Commission"
+    Public Const DCSTransportationCharges As String = "DCS Transportation Charges"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
     Public Const DailyDemand As String = "DailyDemand"
     Public Const ItemCapacityLimit As String = "ItemCapacityLimit"
