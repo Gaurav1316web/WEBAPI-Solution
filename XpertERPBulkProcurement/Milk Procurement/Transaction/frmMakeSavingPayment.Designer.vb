@@ -22,7 +22,7 @@ Partial Class frmMakeSavingPayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.txtRemarks = New common.Controls.MyTextBox()
@@ -44,6 +44,7 @@ Partial Class frmMakeSavingPayment
         Me.txtVSP = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -52,7 +53,6 @@ Partial Class frmMakeSavingPayment
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -75,6 +75,7 @@ Partial Class frmMakeSavingPayment
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,7 +84,6 @@ Partial Class frmMakeSavingPayment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -381,7 +381,7 @@ Partial Class frmMakeSavingPayment
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -392,6 +392,17 @@ Partial Class frmMakeSavingPayment
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(370, 7)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 283
+        Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
         '
         'btnReverse
         '
@@ -467,16 +478,6 @@ Partial Class frmMakeSavingPayment
         Me.Panel1.Size = New System.Drawing.Size(896, 451)
         Me.Panel1.TabIndex = 3
         '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(370, 7)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
-        Me.btnPrint.TabIndex = 283
-        Me.btnPrint.Text = "Print"
-        '
         'frmMakeSavingPayment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -515,6 +516,7 @@ Partial Class frmMakeSavingPayment
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -523,7 +525,6 @@ Partial Class frmMakeSavingPayment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
