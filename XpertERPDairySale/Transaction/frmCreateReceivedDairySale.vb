@@ -3017,11 +3017,15 @@ Public Class frmCreateReceivedDairySale
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         ''For Each grow As GridViewRowInfo In gv1.Rows
         Dim objTr As New clsCrateReceivedDetail()
+        Dim dtError As New DataTable
+        dtError.Columns.Add("LineNo", GetType(Integer))
+        dtError.Columns.Add("Error", GetType(String))
 
         If transportSql.importExcel(gv, "Location Code", "Route No", "Date", "Shift", "Crate Qty") Then
 
             Try
                 clsCommon.ProgressBarShow()
+                Dim Lineno As Integer = 0
                 For Each grow As GridViewRowInfo In gv.Rows
                     Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
                     Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
@@ -3030,488 +3034,511 @@ Public Class frmCreateReceivedDairySale
                     Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
                     Dim strName As String = ""
                     Counter += 1
+                    Lineno += 1
                     Dim strUnique As String = strLocation + "_" + strRoute + "_" + strdate + "_" + strshift
-                    If Not strList.Contains(strUnique) Then
-                        strList.Add(strUnique)
-                    Else
-                        Throw New Exception("Duplicate data found [" + strUnique + "]")
-                    End If
-
-                    If clsCommon.myLen(strLocation) <= 0 Then
-                        Throw New Exception("Location not found")
-                    End If
-                    If strLocation.Length > 12 Then
-                        Throw New Exception("length of Location can not be greater than 12")
-                    Else
-                        If strLocation.Length > 0 Then
-                            strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_LOCATION_MASTER Where location_Code ='" & strLocation & "' and IsMainPlant=1 ", trans)
-                            If strName <= 0 Then
-                                Throw New Exception("Location (" & strLocation & ") does not exist in Location Master . Please make it entry first.")
-                            End If
-                        End If
-                    End If
-                    If clsCommon.myLen(strRoute) <= 0 Then
-                        Throw New Exception("Route No not found")
-                    End If
-                    If strRoute.Length > 0 Then
-                        strName = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ROUTE_MASTER where Route_No='" & strRoute & "' ", trans)
-                        If strName <= 0 Then
-                            Throw New Exception("Route (" & strRoute & ") does not exist in Route Master . Please make it entry first.")
-                        End If
-                    End If
-                    If clsCommon.myLen(grow.Cells("Date").Value) <= 0 Then
-                        Throw New Exception("Transaction Date is not found")
-                    End If
-                    If strshift.Length <= 0 Then
-                        Throw New Exception("Shift should not be blank.")
-                    ElseIf Not strshift.All(Function(c) Char.IsLetter(c)) Then
-                        Throw New Exception("Shift should contain only alphabetic characters.")
-                    ElseIf clsCommon.CompairString(strshift, "M") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
-                        Throw New Exception("shift should be 'M','E' ")
-                        'ElseIf clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
-                        '    Throw New Exception("shift should be 'E' ")
-                    End If
-
-                    If dblCrateQty <= 0 OrElse dblCrateQty <> Math.Floor(dblCrateQty) Then
-                        Throw New Exception("Qty of Crate cant't be zero or Can should be a positive whole number.")
-                    End If
-                Next
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
-                    Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
-                    Dim strdate As Date = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
-                    Dim strshift As String = clsCommon.myCstr(grow.Cells("Shift").Value)
-                    Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
-                    Dim strName As String = ""
-                    Counter += 1
-                    'Dim strUnique As String = strLocation + "_" + strRoute + "_" + strdate + "_" + strshift
-                    'If Not strList.Contains(strUnique) Then
-                    '    strList.Add(strUnique)
-                    'Else
-                    '    Throw New Exception("Duplicate data found [" + strUnique + "]")
-                    '    'End If
-
-                    If clsCommon.myLen(strLocation) <= 0 Then
-                        Throw New Exception("Location not found")
-                    End If
-                    If strLocation.Length > 12 Then
-                        Throw New Exception("length of Location can not be greater than 12")
-                    Else
-                        If strLocation.Length > 0 Then
-                            strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_LOCATION_MASTER Where location_Code ='" & strLocation & "' and IsMainPlant=1 ", trans)
-                            If strName <= 0 Then
-                                Throw New Exception("Location (" & strLocation & ") does not exist in Location Master . Please make it entry first.")
-                            End If
-                        End If
-                    End If
-                    If clsCommon.myLen(strRoute) <= 0 Then
-                        Throw New Exception("Route No not found")
-                    End If
-                    If strRoute.Length > 0 Then
-                        strName = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ROUTE_MASTER where Route_No='" & strRoute & "' ", trans)
-                        If strName <= 0 Then
-                            Throw New Exception("Route (" & strRoute & ") does not exist in Route Master . Please make it entry first.")
-                        End If
-                    End If
-                    If clsCommon.myLen(grow.Cells("Date").Value) <= 0 Then
-                        Throw New Exception("Transaction Date is not found")
-                    End If
-                    If strshift.Length <= 0 Then
-                        Throw New Exception("Shift should not be blank.")
-                    ElseIf Not strshift.All(Function(c) Char.IsLetter(c)) Then
-                        Throw New Exception("Shift should contain only alphabetic characters.")
-                    ElseIf clsCommon.CompairString(strshift, "M") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
-                        Throw New Exception("shift should be 'M','E' ")
-                        'ElseIf clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
-                        '    Throw New Exception("shift should be 'E' ")
-                    End If
-
-                    If dblCrateQty <= 0 OrElse dblCrateQty <> Math.Floor(dblCrateQty) Then
-                        Throw New Exception("Qty of Crate cant't be zero or Can should be a positive whole number.")
-                    End If
-
-
-
-                    Dim obj As New clsCrateReceivedHead()
-                    obj.TotalCrateQty = dblCrateQty
-                    'obj.Document_No = txtDocNo.Value
-                    obj.Document_Date = strdate
-                    obj.Invoice_Date = strdate
-                    obj.Location_Code = strLocation
-                    obj.Comments = ""
-                    obj.Vehicle_Code = ""
-                    obj.Route_code = ""
-                    obj.Driver = ""
-                    obj.SalesMan = ""
-                    obj.ShiftType = strshift
-                    obj.Type = "I"
-                    obj.Route_code = strRoute
-
-                    Dim intLine As Integer = 0
-                    Dim strVehicleSaleInvoice As String = ""
-                    Dim strVehicleCrateInvoice As String = ""
-                    Dim strVehicleCrateSaleReturn As String = ""
-                    'Dim strLocation As String = ""
-                    'Dim strRoute As String = Nothing
-                    Dim variable1 As String = Nothing
-                    'If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                    '    common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
-                    '    fndLocation.Focus()
-                    '    Exit Sub
-
-                    'End If
-
-                    If clsCommon.myLen(strRoute) > 0 Then
-                        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select distinct Customer_Code from (select  Customer_Code  from  TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' AND TSPL_SD_SHIPMENT_HEAD.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + strdate + "',103) and Route_No ='" & strRoute & "' union all select  Customer_Code  from  tspl_sd_sale_return_head  where tspl_sd_sale_return_head.screen_type='DS' AND tspl_sd_sale_return_head.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + strdate + "',103) and Route_No ='" & strRoute & "') as xx", trans)
-                        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                            For ii As Integer = 0 To dt1.Rows.Count - 1
-                                If ii <> 0 Then
-                                    variable1 += ","
-                                End If
-                                variable1 += "'" + clsCommon.myCstr(dt1.Rows(ii)("Customer_Code")).Trim() + "'"
-                            Next
-                        End If
-                        If clsCommon.myLen(variable1) > 0 Then
-                            strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & variable1 & ")"
+                    Try
+                        If Not strList.Contains(strUnique) Then
+                            strList.Add(strUnique)
                         Else
-                            strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in ('')"
+                            Throw New Exception("Duplicate data found [" + strUnique + "]")
                         End If
-                    End If
-                    '===========================================================================
-                    Dim QryForCustomerOpening As String = Nothing
-                    Dim QryForCustomerclosing As String = Nothing
-                    Dim finalQueryForCustomer As String = Nothing
-                    Dim qry As String = Nothing
 
-
-
-
-                    QryForCustomerOpening = "select "
-                    If chkCustomerWise.Checked Then
-                        QryForCustomerOpening += " convert(date,'" + strdate + "',103) as Doc_Date,"
-                    Else
-                        QryForCustomerOpening += "convert(date,'" + strdate + "',103) as Doc_Date,Opening.Vehicle_Code ,"
-                    End If
-
-                    ''richa BHA/20/06/19-000909 SHOW ONLY POSTED DATA ON REPORT
-                    QryForCustomerOpening += " Opening.Customer_Code ,sum(Opening.OpencrateQty*Type) as OpencrateQty,sum(Opening.OpenJaaliQty*Type ) as OpenJaaliQty,sum(Opening.OpenBoxQty *Type)  as OpenBoxQty,sum(Opening.OpenCanQty *Type)  as OpenCanQty,sum(Opening.CrateQtyRecd *Type) as CrateQtyRecd,sum(Opening.JaaliQtyRecd*Type ) as JaaliQtyRecd,sum(Opening.BoxQtyRecd*Type ) as BoxQtyRecd,sum(Opening.CanQtyRecd*Type ) as CanQtyRecd,sum(Opening.CrateOutQty*Type ) as CrateOutQty,sum(Opening.jaaliOutQty*Type ) as jaaliOutQty ,sum(Opening.boxOutQty*Type ) as boxOutQty,sum(Opening.CanOutQty*Type ) as CanOutQty,sum(Opening.CrateAdjQty*Type ) as CrateAdjQty,sum(Opening.JaaliAdjQty*Type ) as JaaliAdjQty,sum(Opening.BoxAdjQty *Type) as  BoxAdjQty ,sum(Opening.CanAdjQty *Type) as  canAdjQty from " &
-                       " (" &
-                        " select TSPL_SD_SHIPMENT_HEAD.Document_Date    as Document_Date,(case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end) as Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,1 as Type  ,'O' as Type1,TSPL_SD_SHIPMENT_HEAD.Crate as OpencrateQty,TSPL_SD_SHIPMENT_HEAD.jaali as OpenJaaliQty, TSPL_SD_SHIPMENT_HEAD.box  as OpenBoxQty , TSPL_SD_SHIPMENT_HEAD.ShippedCAN  as OpenCanQty  ,0 as CrateQtyRecd,0  as JaaliQtyRecd ,0 as BoxQtyRecd ,0 as CanQtyRecd ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty ,0 as CanOutQty,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty  ,0 as  CanAdjQty  from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS'   AND TSPL_SD_SHIPMENT_HEAD.Status =1"
-                    If CrateReceiveddairyCustomerWise = False Then
-                        QryForCustomerOpening += " union all " &
-                        "select TSPL_sd_SALE_RETURN_HEAD.Document_Date    as Document_Date,TSPL_sd_SALE_RETURN_HEAD.Vehicle_Code ,TSPL_sd_SALE_RETURN_HEAD.customer_code  ,-1 as Type  ,'I' as Type1,TSPL_sd_SALE_RETURN_HEAD.CrateQty as OpencrateQty,TSPL_sd_SALE_RETURN_HEAD.jaali as OpenJaaliQty, TSPL_sd_SALE_RETURN_HEAD.box  as OpenBoxQty , TSPL_sd_SALE_RETURN_HEAD.ShippedCAN  as OpenCanQty  ,0 as CrateQtyRecd,0  as JaaliQtyRecd ,0 as BoxQtyRecd ,0 as CanQtyRecd ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty ,0 as CanOutQty,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty  ,0 as  CanAdjQty  from TSPL_sd_SALE_RETURN_HEAD  where TSPL_sd_SALE_RETURN_HEAD.screen_type='DS'   AND TSPL_sd_SALE_RETURN_HEAD.Status =1 "
-                    End If
-                    QryForCustomerOpening += " union all " &
-                        " select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ," &
-                        " TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as OpencrateQty," &
-                        " TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty   as OpenjaaliQty ," &
-                        " TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty  as OpenboxQty," &
-                        " TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty as OpenCanQty ," &
-                        " 0 as CrateQtyRecd,0 JaaliQtyRecd ," &
-                        " 0 BoxQtyRecd ," &
-                        " 0 CanQtyRecd ," &
-                        " 0 as CrateOutQty," &
-                        " 0 jaaliOutQty," &
-                        " 0 boxoutqty," &
-                         " 0 Canoutqty," &
-                        " 0  as CrateAdjQty," &
-                        " 0  as JaaliAdjQty," &
-                        " 0  as BoxAdjQty," &
-                          " 0  as CanAdjQty" &
-                          " from TSPL_CRATE_RECEIVED_detail_FRESHSALE" &
-                        " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " &
-                        " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1  " &
-                        " union all" &
-                        " select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ," &
-                        " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment,0)  as OpencrateQty," &
-                        " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment,0)    as OpenjaaliQty ," &
-                        " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment,0)  as OpenboxQty," &
-                         " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment,0)  as OpenCanQty," &
-                        " 0 as CrateQtyRecd,0 JaaliQtyRecd ," &
-                        " 0 BoxQtyRecd ," &
-                        " 0 CanQtyRecd ," &
-                        " 0 as CrateOutQty," &
-                        " 0 jaaliOutQty," &
-                        " 0 boxoutqty," &
-                        " 0 Canoutqty," &
-                        " 0  as CrateAdjQty," &
-                         " 0  as JaaliAdjQty," &
-                        " 0  as BoxAdjQty," &
-                          " 0  as CanAdjQty" &
-                          " from TSPL_CRATE_RECEIVED_detail_FRESHSALE" &
-                        " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " &
-                        " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1  " &
-                        " )as Opening WHERE convert(date,Document_Date,103)<(convert(date,'" + strdate + "',103))"
-                    If chkCustomerWise.Checked Then
-                        QryForCustomerOpening += " group by Customer_Code " + Environment.NewLine '----------Qry for Branch opening'
-                    Else
-                        QryForCustomerOpening += " group by Vehicle_Code,Customer_Code " + Environment.NewLine '----------Qry for Branch opening'
-                    End If
-
-
-
-
-                    QryForCustomerclosing = "select Document_Date,"
-                    If chkCustomerWise.Checked = False Then
-                        QryForCustomerclosing += " Vehicle_Code,"
-
-                    End If
-                    QryForCustomerclosing += " Customer_Code,0 as OpencrateQty,0 as OpenjaaliQty ,0 as OpenboxQty,0 as OpenCanQty,Case When [Type]=1 Then CrateQtyRecd Else 0 End as CrateQtyRecd,Case When [Type]=1 Then JaaliQtyRecd Else 0 End as JaaliQtyRecd,Case When [Type]=1 Then BoxQtyRecd Else 0 End as BoxQtyRecd,Case When [Type]=1 Then CANQtyRec Else 0 End as CANQtyRec," + Environment.NewLine &
-                        " Case When [Type]=-1 Then CrateOutQty Else 0 End as CrateOutQty,Case When [Type]=-1 Then jaaliOutQty Else 0 End as jaaliOutQty,Case When [Type]=-1 Then boxOutQty Else 0 End as boxOutQty,Case When [Type]=-1 Then CanOutQty Else 0 End as CanOutQty,Case When [Type]=1 Then CrateAdjQty Else 0 End as CrateAdjQty,Case When [Type]=1 Then JaaliAdjQty Else 0 End as JaaliAdjQty,Case When [Type]=1 Then BoxAdjQty Else 0 End as BoxAdjQty,Case When [Type]=1 Then CANAdjustment Else 0 End as CANAdjustment " + Environment.NewLine &
-                         " from ((select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCanQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" + Environment.NewLine &
-                        " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " + Environment.NewLine &
-                        " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1  )" &
-                        " union all " + Environment.NewLine &
-                        " (select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCANQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" + Environment.NewLine &
-                        " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " + Environment.NewLine &
-                        " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1 " &
-                        " union all " + Environment.NewLine &
-                        " select TSPL_SD_SHIPMENT_HEAD.Document_Date   as Document_Date,(case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end) as Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,-1 as Type  ,'O' as Type1,0 as OpencrateQty,0  as OpenBoxQty ,0 as OpenJaaliQty,0 as OpenCANQty," &
-                        " 0 as CrateQtyRecd, 0 JaaliQtyRecd , " &
-                        " 0  as BoxQtyRecd,0 CanQtyRecd  ,TSPL_SD_SHIPMENT_HEAD.Crate as CrateOutQty,jaali  as jaaliOutQty,TSPL_SD_SHIPMENT_HEAD.Box as boxOutQty,TSPL_SD_SHIPMENT_HEAD.ShippedCAN as CanOutQty ,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty,0 as  CanAdjQty   " &
-                        " from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' AND TSPL_SD_SHIPMENT_HEAD.Status =1 "
-                    If CrateReceiveddairyCustomerWise = False Then
-                        QryForCustomerclosing += " union all " + Environment.NewLine &
-                                     " select TSPL_sd_SALE_RETURN_HEAD.Document_Date   as Document_Date,TSPL_sd_SALE_RETURN_HEAD.Vehicle_Code ,TSPL_sd_SALE_RETURN_HEAD.customer_code  ,1 as Type  ,'I' as Type1,0 as OpencrateQty,0  as OpenBoxQty ,0 as OpenJaaliQty,0 as OpenCANQty, TSPL_sd_SALE_RETURN_HEAD.CrateQty as CrateQtyRecd, TSPL_sd_SALE_RETURN_HEAD.jaali as JaaliQtyRecd ,  TSPL_sd_SALE_RETURN_HEAD.Box  as BoxQtyRecd,TSPL_sd_SALE_RETURN_HEAD.ShippedCAN as CanQtyRecd  ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty,0 CanOutQty ,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty,0 as  CanAdjQty    from TSPL_sd_SALE_RETURN_HEAD  where TSPL_sd_SALE_RETURN_HEAD.screen_type='DS' AND TSPL_sd_SALE_RETURN_HEAD.Status =1 "
-                    End If
-
-                    QryForCustomerclosing += " ) " &
-                        " ) as Closing " + Environment.NewLine &
-                        " WHERE convert(date,Document_Date ,103)>=convert(date,'" + strdate + "',103) AND convert(date,Document_Date,103)<=convert(date,'" + strdate + "',103) " + Environment.NewLine '----------Qry for Branch Closing'
-
-                    finalQueryForCustomer = "select "
-                    If chkCustomerWise.Checked Then
-                        finalQueryForCustomer += " convert(date,Doc_Date,103)  as Doc_Date"
-                    Else
-                        finalQueryForCustomer += " convert(date,Doc_Date,103)  as Doc_Date,xx.Vehicle_Code as Vehicle_Code"
-                    End If
-
-
-                    finalQueryForCustomer += ",xx.Customer_Code,sum(xx.OpencrateQty) as OpencrateQty,sum(xx.OpenJaaliQty ) as OpenJaaliQty,sum(xx.OpenBoxQty )  as OpenBoxQty,sum(xx.OpenCanQty )  as OpenCanQty,sum(xx.CrateQtyRecd) as CrateQtyRecd,sum(xx.JaaliQtyRecd) as JaaliQtyRecd,sum(xx.BoxQtyRecd) as BoxQtyRecd,sum(xx.CanQtyRecd) as CanQtyRecd,sum(xx.CrateOutQty ) as CrateOutQty,sum(xx.jaaliOutQty ) as jaaliOutQty ,sum(xx.boxOutQty ) as boxOutQty,sum(xx.CanOutQty ) as CanOutQty, sum(xx.CrateAdjQty ) as CrateAdjQty ,sum(xx.JaaliAdjQty )as JaaliAdjQty  ,sum(xx.BoxAdjQty )  as BoxAdjQty ,sum(xx.CanAdjQty )  as CanAdjQty,(sum(xx.OpencrateQty)+sum(xx.CrateOutQty )-sum(xx.CrateQtyRecd)-sum(xx.CrateAdjQty )) as CrateQtyClosing," &
-                        " (sum(xx.OpenJaaliQty)+sum(xx.jaaliOutQty)-sum(xx.JaaliQtyRecd)-sum(xx.JaaliAdjQty )) as JaaliQtyClosing," &
-                        " (sum(xx.OpenBoxQty)+sum(xx.boxOutQty )-sum(xx.BoxQtyRecd)-sum(xx.BoxAdjQty )) as BoxQtyClosing " &
-                         " , (sum(xx.OpenCanQty)+sum(xx.CanOutQty )-sum(xx.CanQtyRecd)-sum(xx.CanAdjQty )) as CanQtyClosing " &
-                        " from (" &
-                        "" & QryForCustomerOpening & "" &
-                        " UNION All " + Environment.NewLine '---------------------bada wala Union(between opening and closing) 
-                    finalQueryForCustomer += "" & QryForCustomerclosing & "" &
-                        "   ) as xx where 2=2  "
-                    'If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-                    '    finalQueryForCustomer += " and xx.Customer_Code  in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") " + Environment.NewLine
-                    'End If
-                    'If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
-                    '    finalQueryForCustomer += " and xx.Vehicle_Code in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ") " + Environment.NewLine
-                    'End If
-
-                    If chkCustomerWise.Checked Then
-                        finalQueryForCustomer += " GROUP BY Customer_Code,convert(date,Doc_Date,103) "
-                    Else
-                        finalQueryForCustomer += " GROUP BY Vehicle_Code,Customer_Code,convert(date,Doc_Date,103) "
-                    End If
-
-
-                    '==========================================END CUSTOMER=========================================================================
-
-
-                    qry = "select  pp.Doc_Date  as Doc_Date,"
-                    If chkCustomerWise.Checked = False Then
-                        qry += " pp.Vehicle_Code,tspl_vehicle_master.Number as Vehicle_Name ,"
-                    End If
-
-                    qry += " pp.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,pp.OpencrateQty as OpencrateQty,pp.OpenJaaliQty  as OpenJaaliQty,pp.OpenBoxQty  as OpenBoxQty,pp.OpenCanQty  as OpenCanQty,pp.CrateQtyRecd  as CrateQtyRecd,pp.JaaliQtyRecd  as JaaliQtyRecd,pp.BoxQtyRecd  as BoxQtyRecd ,pp.CanQtyRecd  as CanQtyRecd,pp.CrateOutQty  as CrateOutQty,pp.jaaliOutQty  as jaaliOutQty ,pp.boxOutQty  as boxOutQty,pp.CanOutQty  as CanOutQty ,pp.CrateQtyClosing as CrateQtyClosing, pp.JaaliQtyClosing as  JaaliQtyClosing, pp.BoxQtyClosing as BoxQtyClosing, pp.CanQtyClosing as CanQtyClosing,pp.CrateAdjQty , pp.JaaliAdjQty  , pp.BoxAdjQty , pp.CanAdjQty from ( " + Environment.NewLine &
-                         " " & finalQueryForCustomer & "" + Environment.NewLine &
-                        " ) as pp  "
-                    qry += " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =pp.Customer_Code " + Environment.NewLine &
-                    " left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No =TSPL_CUSTOMER_MASTER.Route_No"
-                    If chkCustomerWise.Checked = False Then
-                        qry += " left join tspl_vehicle_master on tspl_vehicle_master.vehicle_id=pp.vehicle_code"
-                    End If
-
-                    qry += " where 2=2 " & strRoute & ""
-
-
-                    Dim qryfinal As String = " With CTETemp as (" &
-                       " Select convert(varchar,Doc_Date,103) as Doc_Date,"
-                    If chkCustomerWise.Checked = False Then
-                        qryfinal += " Vehicle_Code, Vehicle_Name,"
-                    End If
-                    qryfinal += " Customer_Code, Customer_Name, OpencrateQty, OpenJaaliQty, OpenBoxQty, OpenCanQty, CrateQtyRecd, JaaliQtyRecd, BoxQtyRecd, CanQtyRecd, CrateOutQty, " &
-                       " jaaliOutQty,boxOutQty  ,CanOutQty, CrateAdjQty , JaaliAdjQty  , BoxAdjQty ,CanAdjQty"
-                    'If chkCustomerWise.Checked Then
-                    '    qryfinal += ",SUM(CrateQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CrateQtyClosing, " & _
-                    '          " SUM(JaaliQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as JaaliQtyClosing, " & _
-                    '          " SUM(BoxQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as BoxQtyClosing," & _
-                    '          " SUM(CanQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CanQtyClosing ," & _
-                    '          " Row_Number() OVER (Partition BY Customer_Code ORDER BY Customer_Code) as RowNo"
-
-                    'Else
-                    qryfinal += ",SUM(CrateQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as CrateQtyClosing, " &
-                  " SUM(JaaliQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as JaaliQtyClosing, " &
-                  " SUM(BoxQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as BoxQtyClosing," &
-                  " SUM(CanQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as CanQtyClosing ," &
-                  " Row_Number() OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as RowNo"
-                    'End If
-
-                    If chkCustomerWise.Checked Then
-                        qryfinal += " from(" + Environment.NewLine &
-                      " " & qry & " " &
-                      " ) YYY )" &
-                      " Select convert(varchar,Doc_Date,103) as Date, ZZZ.Customer_Code as [Customer Code],Customer_Name as [Customer Name], OpencrateQty,OpenJaaliQty,OpenBoxQty,OpenCanQty, CrateQtyRecd, JaaliQtyRecd,BoxQtyRecd, CanQtyRecd  ,CrateOutQty," &
-                      " jaaliOutQty,boxOutQty,CanOutQty, CrateAdjQty , JaaliAdjQty  , BoxAdjQty,CanAdjQty," &
-                      " OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty as CrateQtyClosing," &
-                      " OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty as JaaliQtyClosing," &
-                      " OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty as BoxQtyClosing" &
-                      ",OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty as CanQtyClosing ," &
-                       " (OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty)* " & ItemDefaultCrateRate & " as CrateValueClosing," &
-                      " (OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty)* " & ItemDefaultJalliRate & " as JaaliValueClosing," &
-                      " (OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty)* " & ItemDefaultBoxRate & " as BoxValueClosing , " &
-                      " (OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty)* " & ItemDefaultCanRate & " as CanValueClosing , case when  isnull (XXX.Crate_Qty,0) < 0 then 0 else  isnull (XXX.Crate_Qty,0) end as Crate_Qty  " &
-                      " from (Select CTETemp.Doc_Date ,CTETemp.Customer_Code,CTETemp.Customer_Name,  CTETemp.OpencrateQty+ISNULL(CT1.CrateQtyClosing,0) as OpencrateQty, " &
-                      " CTETemp.OpenJaaliQty+ISNULL(CT1.JaaliQtyClosing,0) as OpenJaaliQty, " &
-                      " CTETemp.OpenBoxQty+ISNULL(CT1.BoxQtyClosing,0) as OpenBoxQty," &
-                      " CTETemp.OpenCanQty+ISNULL(CT1.CanQtyClosing,0) as OpenCanQty, " &
-                      " CTETemp.CrateQtyRecd, CTETemp.JaaliQtyRecd, CTETemp.BoxQtyRecd,CTETemp.CanQtyRecd," &
-                      " CTETemp.CrateOutQty, CTETemp.jaaliOutQty, CTETemp.boxOutQty, CTETemp.CanOutQty, CTETemp.CrateAdjQty , CTETemp.JaaliAdjQty  , CTETemp.BoxAdjQty, CTETemp.CanAdjQty " &
-                      " from CTETemp LEFt OUTER JOIN CTETemp CT1 ON  CT1.Customer_Code=CTETemp.Customer_Code  " &
-                      " AND (CTETemp.RowNo-CT1.RowNo)=1 ) ZZZ " &
-                      "  Left Outer Join ( select dddd.Customer_Code , dddd.document_Date, sum(isnull (Crate_Qty,0)) as Crate_Qty  from ( select Customer_code, convert (varchar, document_Date,103) as Document_Date, sum (isnull(Crate,0)) as Crate_Qty from " &
-                      "  TSPL_SD_SHIPMENT_HEAD  where convert (date, document_Date,103) = convert (date, '" + strdate + "',103)  and Status = 1 "
-                        If clsCommon.myLen(strRoute) > 0 Then
-                            qryfinal += " and Route_No = '" + strRoute + "' "
+                        If clsCommon.myLen(strLocation) <= 0 Then
+                            Throw New Exception("Location not found")
                         End If
-                        qryfinal += "  group by Customer_code, convert (varchar, document_Date,103) "
-
-                        qryfinal += " Union All " &
-                      " select  TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code ,convert (varchar, document_Date,103) as document_Date, sum (isnull (TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd,0)) * -1 as Crate_Qty from TSPL_CRATE_RECEIVED_detail_FRESHSALE left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " &
-                      "  where convert (date, document_Date,103) = convert (date, '" + strdate + "',103) "
-                        If clsCommon.myLen(strRoute) > 0 Then
-                            qryfinal += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_Code = '" + strRoute + "' "
-                        End If
-                        qryfinal += "  group by Customer_code, convert (varchar, document_Date,103) " &
-                      " )dddd group by Customer_code, document_Date ) XXX on XXX.Customer_Code = ZZZ.Customer_Code " &
-                      " ORDER BY  ZZZ.Customer_Code,convert(date,Doc_Date,103)"
-
-                    Else
-                        qryfinal += " from(" + Environment.NewLine &
-                                  " " & qry & " " &
-                                  " ) YYY )" &
-                                  " Select convert(varchar,Doc_Date,103) as Date, Vehicle_Code as [Vehicle Code],Vehicle_Name as [Vehicle Name], Customer_Code as [Customer Code],Customer_Name as [Customer Name], OpencrateQty,OpenJaaliQty,OpenBoxQty,OpenCanQty, CrateQtyRecd, JaaliQtyRecd,BoxQtyRecd, CanQtyRecd  ,CrateOutQty," &
-                                  " jaaliOutQty,boxOutQty,CanOutQty, CrateAdjQty , JaaliAdjQty  , BoxAdjQty,CanAdjQty," &
-                                  " OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty as CrateQtyClosing," &
-                                  " OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty as JaaliQtyClosing," &
-                                  " OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty as BoxQtyClosing" &
-                                  ",OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty as CanQtyClosing ," &
-                                   " (OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty)* " & ItemDefaultCrateRate & " as CrateValueClosing," &
-                                  " (OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty)* " & ItemDefaultJalliRate & " as JaaliValueClosing," &
-                                  " (OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty)* " & ItemDefaultBoxRate & " as BoxValueClosing , " &
-                                  " (OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty)* " & ItemDefaultCanRate & " as CanValueClosing " &
-                                  " from (Select CTETemp.Doc_Date ,CTETemp.Vehicle_Code,CTETemp.Vehicle_Name ,CTETemp.Customer_Code,CTETemp.Customer_Name,  CTETemp.OpencrateQty+ISNULL(CT1.CrateQtyClosing,0) as OpencrateQty, " &
-                                  " CTETemp.OpenJaaliQty+ISNULL(CT1.JaaliQtyClosing,0) as OpenJaaliQty, " &
-                                  " CTETemp.OpenBoxQty+ISNULL(CT1.BoxQtyClosing,0) as OpenBoxQty," &
-                                  " CTETemp.OpenCanQty+ISNULL(CT1.CanQtyClosing,0) as OpenCanQty, " &
-                                  " CTETemp.CrateQtyRecd, CTETemp.JaaliQtyRecd, CTETemp.BoxQtyRecd,CTETemp.CanQtyRecd," &
-                                  " CTETemp.CrateOutQty, CTETemp.jaaliOutQty, CTETemp.boxOutQty, CTETemp.CanOutQty, CTETemp.CrateAdjQty , CTETemp.JaaliAdjQty  , CTETemp.BoxAdjQty, CTETemp.CanAdjQty " &
-                                  " from CTETemp LEFt OUTER JOIN CTETemp CT1 ON  CT1.Customer_Code=CTETemp.Customer_Code And " &
-                                  " CT1.Vehicle_Code = CTETemp.Vehicle_Code " &
-                                  " And (CTETemp.RowNo-CT1.RowNo)=1 ) ZZZ ORDER BY  Customer_Code,convert(date,Doc_Date,103),Vehicle_Code"
-
-                    End If
-
-                    '===========================================================================
-
-                    Dim dt As DataTable
-                    dt = clsDBFuncationality.GetDataTable(qryfinal, trans)
-                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                        For Each dr As DataRow In dt.Rows
-                            intLine += 1
-                            gv1.Rows.AddNew()
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = intLine
-                            objTr.Customer_Code = clsCommon.myCstr(dr("Customer Code"))
-                            'objTr. = clsCommon.myCstr(dr("Customer Name"))
-                            If chkCustomerWise.Checked = False Then
-                                objTr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle Code"))
-                                objTr.VehicleNo = clsDBFuncationality.getSingleValue("select Number  from TSPL_VEHICLE_MASTER where Vehicle_Id ='" & clsCommon.myCstr(dr("Vehicle Code")) & "'", trans)
+                        If strLocation.Length > 12 Then
+                            Throw New Exception("length of Location can not be greater than 12")
+                        Else
+                            If strLocation.Length > 0 Then
+                                strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_LOCATION_MASTER Where location_Code ='" & strLocation & "' and IsMainPlant=1 ", trans)
+                                If strName <= 0 Then
+                                    Throw New Exception("Location (" & strLocation & ") does not exist in Location Master . Please make it entry first.")
+                                End If
                             End If
-
-                            objTr.CrateQtyManual = clsCommon.myCdbl(dr("CrateQtyClosing"))
-                            objTr.Jaali = clsCommon.myCdbl(dr("JaaliQtyClosing"))
-                            objTr.Box = clsCommon.myCdbl(dr("BoxQtyClosing"))
-                            objTr.CANQty = clsCommon.myCdbl(dr("CanQtyClosing"))
-                            If chkCustomerWise.Checked Then
-                                objTr.CrateQty = clsCommon.myCdbl(dr("Crate_Qty"))
+                        End If
+                        If clsCommon.myLen(strRoute) <= 0 Then
+                            Throw New Exception("Route No not found")
+                        End If
+                        If strRoute.Length > 0 Then
+                            strName = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ROUTE_MASTER where Route_No='" & strRoute & "' ", trans)
+                            If strName <= 0 Then
+                                Throw New Exception("Route (" & strRoute & ") does not exist in Route Master . Please make it entry first.")
                             End If
+                        End If
+                        If clsCommon.myLen(grow.Cells("Date").Value) <= 0 Then
+                            Throw New Exception("Transaction Date is not found")
+                        End If
+                        If strshift.Length <= 0 Then
+                            Throw New Exception("Shift should not be blank.")
+                        ElseIf Not strshift.All(Function(c) Char.IsLetter(c)) Then
+                            Throw New Exception("Shift should contain only alphabetic characters.")
+                        ElseIf clsCommon.CompairString(strshift, "M") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                            Throw New Exception("shift should be 'M','E' ")
+                            'ElseIf clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                            '    Throw New Exception("shift should be 'E' ")
+                        End If
 
-                        Next
-                        SetIDs()
-                        'Set balance - Get from crate jali report
-                        'Dim Tempfrm As New FrmCrateJaliReport
-                        'Tempfrm.CrateReceivingWithMultipleRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateReceivingWithMultipleRoute, clsFixedParameterCode.CrateReceivingWithMultipleRoute, trans)) = 1, True, False)
-                        'Tempfrm.CrateReceiveddairyCustomerWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateReceiveddairyCustomerWise, clsFixedParameterCode.CrateReceiveddairyCustomerWise, trans)) = 1, True, False)
-                        'Tempfrm.fromDate.Value = txtDate.Value
-                        'Tempfrm.ToDate.Value = txtDate.Value
-                        'Tempfrm.chkCrate.Checked = True
-                        'Tempfrm.chkCustomerWise.Checked = True
-                        'Tempfrm.chkAll.Checked = True
-                        'Tempfrm.btnGo.PerformClick()
-                        'Dim TempDTBal As DataTable = Tempfrm.dt
-                        'For Each grow1 As GridViewRowInfo In gv1.Rows
-                        '    Dim rows As DataRow() = TempDTBal.Select("[Customer Code]='" + clsCommon.myCstr(grow1.Cells(colCustCode).Value) + "'")
-                        '    If rows IsNot Nothing AndAlso rows.Length > 0 Then
-                        '        grow1.Cells(colCreateQty).Value = rows(0).Item("CrateQtyClosing")
-                        '    End If
-                        'Next
-                        'Tempfrm.Close()
-                        'Tempfrm.Dispose()
-                        'Set balance - Get from crate jali report
-                    Else
-                        clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-                    End If
-
-
-
-                    obj.Arr = New List(Of clsCrateReceivedDetail)
-                    'obj.Arr = New List(Of clsCrateReceivedDetail)
-
-                    'Dim objTr As New clsCrateReceivedDetail()
-                    objTr.Line_No = 1
-
-                    'objTr.Customer_Code = strcustomer
-
-                    objTr.Sale_Invoice_Date = strdate
-
-                    '=====update by preeti gupta Against ticket no[ERO/01/07/19-000663]
-                    'objTr.Vehicle_Code = strVehicle
-                    'objTr.VehicleNo = clsDBFuncationality.getSingleValue("Select Number from tspl_vehicle_master where vehicle_id='" & strVehicle & "'", trans)
-                    objTr.CrateQty = 0
-                    objTr.CrateQtyRecd = dblCrateQty
-                    objTr.Balance = 0
-                    objTr.Remarks = ""
-                    objTr.OutQty = 0
-                    objTr.Adjustment = 0
-                    objTr.Jaali = 0
-                    objTr.Box = 0
-
-                    objTr.CrateQtyManual = 0
-                    objTr.JaaliQtyRecd = 0
-                    objTr.BoxQtyRecd = 0
-                    objTr.jaaliAdjustment = 0
-                    objTr.boxAdjustment = 0
-                    objTr.jaaliOutQty = 0
-                    objTr.boxOutQty = 0
-
-                    objTr.CANQty = 0
-                    objTr.CANRecQty = 0
-                    objTr.CANAdjustment = 0
-
-                    If clsCommon.myLen(objTr.CrateQtyRecd) > 0 Then
-                        obj.Arr.Add(objTr)
-                    End If
-                    obj.SaveData(obj, True, trans)
+                        If dblCrateQty <= 0 OrElse dblCrateQty <> Math.Floor(dblCrateQty) Then
+                            Throw New Exception("Qty of Crate cant't be zero or Can should be a positive whole number.")
+                        End If
+                        Dim noOfDoc As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Count(Document_No) as NoofDoc from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" + strLocation + "' and Route_code='" + strRoute + "' and ShiftType='" + strshift + "' and convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") + "'", trans))
+                        If noOfDoc > 0 Then
+                            Throw New Exception("Document already exists!")
+                        End If
+                    Catch ex As Exception
+                        Dim dr As DataRow = dtError.NewRow()
+                        dr("LineNo") = Lineno
+                        dr("Error") = ex.Message
+                        dtError.Rows.Add(dr)
+                    End Try
                 Next
-
                 clsCommon.ProgressBarHide()
-                trans.Commit()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                If dtError.Rows.Count > 0 Then
+                    trans.Rollback()
+                    Dim ff As New FrmFreeGrid
+                    ff.ReportID = "Crate_Entry"
+                    ff.Text = "Crate Entry"
+                    ff.dt = dtError
+                    ff.ShowDialog()
+                Else
+                    clsCommon.ProgressBarShow()
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
+                        Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
+                        Dim strdate As Date = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
+                        Dim strshift As String = clsCommon.myCstr(grow.Cells("Shift").Value)
+                        Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
+                        Dim strName As String = ""
+                        Counter += 1
+                        'Dim strUnique As String = strLocation + "_" + strRoute + "_" + strdate + "_" + strshift
+                        'If Not strList.Contains(strUnique) Then
+                        '    strList.Add(strUnique)
+                        'Else
+                        '    Throw New Exception("Duplicate data found [" + strUnique + "]")
+                        '    'End If
+
+                        '' check Commented on 20-Jun-2025 
+                        'If clsCommon.myLen(strLocation) <= 0 Then
+                        '    Throw New Exception("Location not found")
+                        'End If
+                        'If strLocation.Length > 12 Then
+                        '    Throw New Exception("length of Location can not be greater than 12")
+                        'Else
+                        '    If strLocation.Length > 0 Then
+                        '        strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_LOCATION_MASTER Where location_Code ='" & strLocation & "' and IsMainPlant=1 ", trans)
+                        '        If strName <= 0 Then
+                        '            Throw New Exception("Location (" & strLocation & ") does not exist in Location Master . Please make it entry first.")
+                        '        End If
+                        '    End If
+                        'End If
+                        'If clsCommon.myLen(strRoute) <= 0 Then
+                        '    Throw New Exception("Route No not found")
+                        'End If
+                        'If strRoute.Length > 0 Then
+                        '    strName = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ROUTE_MASTER where Route_No='" & strRoute & "' ", trans)
+                        '    If strName <= 0 Then
+                        '        Throw New Exception("Route (" & strRoute & ") does not exist in Route Master . Please make it entry first.")
+                        '    End If
+                        'End If
+                        'If clsCommon.myLen(grow.Cells("Date").Value) <= 0 Then
+                        '    Throw New Exception("Transaction Date is not found")
+                        'End If
+                        'If strshift.Length <= 0 Then
+                        '    Throw New Exception("Shift should not be blank.")
+                        'ElseIf Not strshift.All(Function(c) Char.IsLetter(c)) Then
+                        '    Throw New Exception("Shift should contain only alphabetic characters.")
+                        'ElseIf clsCommon.CompairString(strshift, "M") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                        '    Throw New Exception("shift should be 'M','E' ")
+                        '    'ElseIf clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                        '    '    Throw New Exception("shift should be 'E' ")
+                        'End If
+
+                        'If dblCrateQty <= 0 OrElse dblCrateQty <> Math.Floor(dblCrateQty) Then
+                        '    Throw New Exception("Qty of Crate cant't be zero or Can should be a positive whole number.")
+                        'End If
+
+
+
+                        Dim obj As New clsCrateReceivedHead()
+                        obj.TotalCrateQty = dblCrateQty
+                        'obj.Document_No = txtDocNo.Value
+                        obj.Document_Date = strdate
+                        obj.Invoice_Date = strdate
+                        obj.Location_Code = strLocation
+                        obj.Comments = ""
+                        obj.Vehicle_Code = ""
+                        obj.Route_code = ""
+                        obj.Driver = ""
+                        obj.SalesMan = ""
+                        obj.ShiftType = strshift
+                        obj.Type = "I"
+                        obj.Route_code = strRoute
+
+                        Dim intLine As Integer = 0
+                        Dim strVehicleSaleInvoice As String = ""
+                        Dim strVehicleCrateInvoice As String = ""
+                        Dim strVehicleCrateSaleReturn As String = ""
+                        'Dim strLocation As String = ""
+                        'Dim strRoute As String = Nothing
+                        Dim variable1 As String = Nothing
+                        'If clsCommon.myLen(fndLocation.Value) <= 0 Then
+                        '    common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
+                        '    fndLocation.Focus()
+                        '    Exit Sub
+
+                        'End If
+
+                        If clsCommon.myLen(strRoute) > 0 Then
+                            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select distinct Customer_Code from (select  Customer_Code  from  TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' AND TSPL_SD_SHIPMENT_HEAD.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + strdate + "',103) and Route_No ='" & strRoute & "' union all select  Customer_Code  from  tspl_sd_sale_return_head  where tspl_sd_sale_return_head.screen_type='DS' AND tspl_sd_sale_return_head.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + strdate + "',103) and Route_No ='" & strRoute & "') as xx", trans)
+                            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                                For ii As Integer = 0 To dt1.Rows.Count - 1
+                                    If ii <> 0 Then
+                                        variable1 += ","
+                                    End If
+                                    variable1 += "'" + clsCommon.myCstr(dt1.Rows(ii)("Customer_Code")).Trim() + "'"
+                                Next
+                            End If
+                            If clsCommon.myLen(variable1) > 0 Then
+                                strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & variable1 & ")"
+                            Else
+                                strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in ('')"
+                            End If
+                        End If
+                        '===========================================================================
+                        Dim QryForCustomerOpening As String = Nothing
+                        Dim QryForCustomerclosing As String = Nothing
+                        Dim finalQueryForCustomer As String = Nothing
+                        Dim qry As String = Nothing
+
+
+
+
+                        QryForCustomerOpening = "select "
+                        If chkCustomerWise.Checked Then
+                            QryForCustomerOpening += " convert(date,'" + strdate + "',103) as Doc_Date,"
+                        Else
+                            QryForCustomerOpening += "convert(date,'" + strdate + "',103) as Doc_Date,Opening.Vehicle_Code ,"
+                        End If
+
+                        ''richa BHA/20/06/19-000909 SHOW ONLY POSTED DATA ON REPORT
+                        QryForCustomerOpening += " Opening.Customer_Code ,sum(Opening.OpencrateQty*Type) as OpencrateQty,sum(Opening.OpenJaaliQty*Type ) as OpenJaaliQty,sum(Opening.OpenBoxQty *Type)  as OpenBoxQty,sum(Opening.OpenCanQty *Type)  as OpenCanQty,sum(Opening.CrateQtyRecd *Type) as CrateQtyRecd,sum(Opening.JaaliQtyRecd*Type ) as JaaliQtyRecd,sum(Opening.BoxQtyRecd*Type ) as BoxQtyRecd,sum(Opening.CanQtyRecd*Type ) as CanQtyRecd,sum(Opening.CrateOutQty*Type ) as CrateOutQty,sum(Opening.jaaliOutQty*Type ) as jaaliOutQty ,sum(Opening.boxOutQty*Type ) as boxOutQty,sum(Opening.CanOutQty*Type ) as CanOutQty,sum(Opening.CrateAdjQty*Type ) as CrateAdjQty,sum(Opening.JaaliAdjQty*Type ) as JaaliAdjQty,sum(Opening.BoxAdjQty *Type) as  BoxAdjQty ,sum(Opening.CanAdjQty *Type) as  canAdjQty from " &
+                           " (" &
+                            " select TSPL_SD_SHIPMENT_HEAD.Document_Date    as Document_Date,(case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end) as Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,1 as Type  ,'O' as Type1,TSPL_SD_SHIPMENT_HEAD.Crate as OpencrateQty,TSPL_SD_SHIPMENT_HEAD.jaali as OpenJaaliQty, TSPL_SD_SHIPMENT_HEAD.box  as OpenBoxQty , TSPL_SD_SHIPMENT_HEAD.ShippedCAN  as OpenCanQty  ,0 as CrateQtyRecd,0  as JaaliQtyRecd ,0 as BoxQtyRecd ,0 as CanQtyRecd ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty ,0 as CanOutQty,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty  ,0 as  CanAdjQty  from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS'   AND TSPL_SD_SHIPMENT_HEAD.Status =1"
+                        If CrateReceiveddairyCustomerWise = False Then
+                            QryForCustomerOpening += " union all " &
+                            "select TSPL_sd_SALE_RETURN_HEAD.Document_Date    as Document_Date,TSPL_sd_SALE_RETURN_HEAD.Vehicle_Code ,TSPL_sd_SALE_RETURN_HEAD.customer_code  ,-1 as Type  ,'I' as Type1,TSPL_sd_SALE_RETURN_HEAD.CrateQty as OpencrateQty,TSPL_sd_SALE_RETURN_HEAD.jaali as OpenJaaliQty, TSPL_sd_SALE_RETURN_HEAD.box  as OpenBoxQty , TSPL_sd_SALE_RETURN_HEAD.ShippedCAN  as OpenCanQty  ,0 as CrateQtyRecd,0  as JaaliQtyRecd ,0 as BoxQtyRecd ,0 as CanQtyRecd ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty ,0 as CanOutQty,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty  ,0 as  CanAdjQty  from TSPL_sd_SALE_RETURN_HEAD  where TSPL_sd_SALE_RETURN_HEAD.screen_type='DS'   AND TSPL_sd_SALE_RETURN_HEAD.Status =1 "
+                        End If
+                        QryForCustomerOpening += " union all " &
+                            " select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ," &
+                            " TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as OpencrateQty," &
+                            " TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty   as OpenjaaliQty ," &
+                            " TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty  as OpenboxQty," &
+                            " TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty as OpenCanQty ," &
+                            " 0 as CrateQtyRecd,0 JaaliQtyRecd ," &
+                            " 0 BoxQtyRecd ," &
+                            " 0 CanQtyRecd ," &
+                            " 0 as CrateOutQty," &
+                            " 0 jaaliOutQty," &
+                            " 0 boxoutqty," &
+                             " 0 Canoutqty," &
+                            " 0  as CrateAdjQty," &
+                            " 0  as JaaliAdjQty," &
+                            " 0  as BoxAdjQty," &
+                              " 0  as CanAdjQty" &
+                              " from TSPL_CRATE_RECEIVED_detail_FRESHSALE" &
+                            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " &
+                            " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1  " &
+                            " union all" &
+                            " select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ," &
+                            " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment,0)  as OpencrateQty," &
+                            " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment,0)    as OpenjaaliQty ," &
+                            " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment,0)  as OpenboxQty," &
+                             " isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec,0) + isnull(TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment,0)  as OpenCanQty," &
+                            " 0 as CrateQtyRecd,0 JaaliQtyRecd ," &
+                            " 0 BoxQtyRecd ," &
+                            " 0 CanQtyRecd ," &
+                            " 0 as CrateOutQty," &
+                            " 0 jaaliOutQty," &
+                            " 0 boxoutqty," &
+                            " 0 Canoutqty," &
+                            " 0  as CrateAdjQty," &
+                             " 0  as JaaliAdjQty," &
+                            " 0  as BoxAdjQty," &
+                              " 0  as CanAdjQty" &
+                              " from TSPL_CRATE_RECEIVED_detail_FRESHSALE" &
+                            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " &
+                            " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1  " &
+                            " )as Opening WHERE convert(date,Document_Date,103)<(convert(date,'" + strdate + "',103))"
+                        If chkCustomerWise.Checked Then
+                            QryForCustomerOpening += " group by Customer_Code " + Environment.NewLine '----------Qry for Branch opening'
+                        Else
+                            QryForCustomerOpening += " group by Vehicle_Code,Customer_Code " + Environment.NewLine '----------Qry for Branch opening'
+                        End If
+
+
+
+
+                        QryForCustomerclosing = "select Document_Date,"
+                        If chkCustomerWise.Checked = False Then
+                            QryForCustomerclosing += " Vehicle_Code,"
+
+                        End If
+                        QryForCustomerclosing += " Customer_Code,0 as OpencrateQty,0 as OpenjaaliQty ,0 as OpenboxQty,0 as OpenCanQty,Case When [Type]=1 Then CrateQtyRecd Else 0 End as CrateQtyRecd,Case When [Type]=1 Then JaaliQtyRecd Else 0 End as JaaliQtyRecd,Case When [Type]=1 Then BoxQtyRecd Else 0 End as BoxQtyRecd,Case When [Type]=1 Then CANQtyRec Else 0 End as CANQtyRec," + Environment.NewLine &
+                            " Case When [Type]=-1 Then CrateOutQty Else 0 End as CrateOutQty,Case When [Type]=-1 Then jaaliOutQty Else 0 End as jaaliOutQty,Case When [Type]=-1 Then boxOutQty Else 0 End as boxOutQty,Case When [Type]=-1 Then CanOutQty Else 0 End as CanOutQty,Case When [Type]=1 Then CrateAdjQty Else 0 End as CrateAdjQty,Case When [Type]=1 Then JaaliAdjQty Else 0 End as JaaliAdjQty,Case When [Type]=1 Then BoxAdjQty Else 0 End as BoxAdjQty,Case When [Type]=1 Then CANAdjustment Else 0 End as CANAdjustment " + Environment.NewLine &
+                             " from ((select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCanQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" + Environment.NewLine &
+                            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " + Environment.NewLine &
+                            " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='I'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1  )" &
+                            " union all " + Environment.NewLine &
+                            " (select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date as Document_Date,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Vehicle_Code ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code  ,-1 as Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type as Type1  ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyManual as OpencrateQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaali  as OpenjaaliQty ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.box as OpenboxQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQty as OpenCANQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd as CrateQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.BoxQtyRecd,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANQtyRec ,TSPL_CRATE_RECEIVED_detail_FRESHSALE.OutQty as CrateOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxOutQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANOutQty , TSPL_CRATE_RECEIVED_detail_FRESHSALE.Adjustment  as CrateAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.jaaliAdjustment  as JaaliAdjQty, TSPL_CRATE_RECEIVED_detail_FRESHSALE.boxAdjustment  as BoxAdjQty,TSPL_CRATE_RECEIVED_detail_FRESHSALE.CANAdjustment  as CANAdjustment from TSPL_CRATE_RECEIVED_detail_FRESHSALE" + Environment.NewLine &
+                            " left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " + Environment.NewLine &
+                            " where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type ='O'  AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted  =1 " &
+                            " union all " + Environment.NewLine &
+                            " select TSPL_SD_SHIPMENT_HEAD.Document_Date   as Document_Date,(case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end) as Vehicle_Code ,TSPL_SD_SHIPMENT_HEAD.customer_code  ,-1 as Type  ,'O' as Type1,0 as OpencrateQty,0  as OpenBoxQty ,0 as OpenJaaliQty,0 as OpenCANQty," &
+                            " 0 as CrateQtyRecd, 0 JaaliQtyRecd , " &
+                            " 0  as BoxQtyRecd,0 CanQtyRecd  ,TSPL_SD_SHIPMENT_HEAD.Crate as CrateOutQty,jaali  as jaaliOutQty,TSPL_SD_SHIPMENT_HEAD.Box as boxOutQty,TSPL_SD_SHIPMENT_HEAD.ShippedCAN as CanOutQty ,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty,0 as  CanAdjQty   " &
+                            " from TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' AND TSPL_SD_SHIPMENT_HEAD.Status =1 "
+                        If CrateReceiveddairyCustomerWise = False Then
+                            QryForCustomerclosing += " union all " + Environment.NewLine &
+                                         " select TSPL_sd_SALE_RETURN_HEAD.Document_Date   as Document_Date,TSPL_sd_SALE_RETURN_HEAD.Vehicle_Code ,TSPL_sd_SALE_RETURN_HEAD.customer_code  ,1 as Type  ,'I' as Type1,0 as OpencrateQty,0  as OpenBoxQty ,0 as OpenJaaliQty,0 as OpenCANQty, TSPL_sd_SALE_RETURN_HEAD.CrateQty as CrateQtyRecd, TSPL_sd_SALE_RETURN_HEAD.jaali as JaaliQtyRecd ,  TSPL_sd_SALE_RETURN_HEAD.Box  as BoxQtyRecd,TSPL_sd_SALE_RETURN_HEAD.ShippedCAN as CanQtyRecd  ,0 as CrateOutQty,0 as jaaliOutQty,0 as boxOutQty,0 CanOutQty ,0 as CrateAdjQty,0 as JaaliAdjQty,0 as  BoxAdjQty,0 as  CanAdjQty    from TSPL_sd_SALE_RETURN_HEAD  where TSPL_sd_SALE_RETURN_HEAD.screen_type='DS' AND TSPL_sd_SALE_RETURN_HEAD.Status =1 "
+                        End If
+
+                        QryForCustomerclosing += " ) " &
+                            " ) as Closing " + Environment.NewLine &
+                            " WHERE convert(date,Document_Date ,103)>=convert(date,'" + strdate + "',103) AND convert(date,Document_Date,103)<=convert(date,'" + strdate + "',103) " + Environment.NewLine '----------Qry for Branch Closing'
+
+                        finalQueryForCustomer = "select "
+                        If chkCustomerWise.Checked Then
+                            finalQueryForCustomer += " convert(date,Doc_Date,103)  as Doc_Date"
+                        Else
+                            finalQueryForCustomer += " convert(date,Doc_Date,103)  as Doc_Date,xx.Vehicle_Code as Vehicle_Code"
+                        End If
+
+
+                        finalQueryForCustomer += ",xx.Customer_Code,sum(xx.OpencrateQty) as OpencrateQty,sum(xx.OpenJaaliQty ) as OpenJaaliQty,sum(xx.OpenBoxQty )  as OpenBoxQty,sum(xx.OpenCanQty )  as OpenCanQty,sum(xx.CrateQtyRecd) as CrateQtyRecd,sum(xx.JaaliQtyRecd) as JaaliQtyRecd,sum(xx.BoxQtyRecd) as BoxQtyRecd,sum(xx.CanQtyRecd) as CanQtyRecd,sum(xx.CrateOutQty ) as CrateOutQty,sum(xx.jaaliOutQty ) as jaaliOutQty ,sum(xx.boxOutQty ) as boxOutQty,sum(xx.CanOutQty ) as CanOutQty, sum(xx.CrateAdjQty ) as CrateAdjQty ,sum(xx.JaaliAdjQty )as JaaliAdjQty  ,sum(xx.BoxAdjQty )  as BoxAdjQty ,sum(xx.CanAdjQty )  as CanAdjQty,(sum(xx.OpencrateQty)+sum(xx.CrateOutQty )-sum(xx.CrateQtyRecd)-sum(xx.CrateAdjQty )) as CrateQtyClosing," &
+                            " (sum(xx.OpenJaaliQty)+sum(xx.jaaliOutQty)-sum(xx.JaaliQtyRecd)-sum(xx.JaaliAdjQty )) as JaaliQtyClosing," &
+                            " (sum(xx.OpenBoxQty)+sum(xx.boxOutQty )-sum(xx.BoxQtyRecd)-sum(xx.BoxAdjQty )) as BoxQtyClosing " &
+                             " , (sum(xx.OpenCanQty)+sum(xx.CanOutQty )-sum(xx.CanQtyRecd)-sum(xx.CanAdjQty )) as CanQtyClosing " &
+                            " from (" &
+                            "" & QryForCustomerOpening & "" &
+                            " UNION All " + Environment.NewLine '---------------------bada wala Union(between opening and closing) 
+                        finalQueryForCustomer += "" & QryForCustomerclosing & "" &
+                            "   ) as xx where 2=2  "
+                        'If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+                        '    finalQueryForCustomer += " and xx.Customer_Code  in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") " + Environment.NewLine
+                        'End If
+                        'If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
+                        '    finalQueryForCustomer += " and xx.Vehicle_Code in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ") " + Environment.NewLine
+                        'End If
+
+                        If chkCustomerWise.Checked Then
+                            finalQueryForCustomer += " GROUP BY Customer_Code,convert(date,Doc_Date,103) "
+                        Else
+                            finalQueryForCustomer += " GROUP BY Vehicle_Code,Customer_Code,convert(date,Doc_Date,103) "
+                        End If
+
+
+                        '==========================================END CUSTOMER=========================================================================
+
+
+                        qry = "select  pp.Doc_Date  as Doc_Date,"
+                        If chkCustomerWise.Checked = False Then
+                            qry += " pp.Vehicle_Code,tspl_vehicle_master.Number as Vehicle_Name ,"
+                        End If
+
+                        qry += " pp.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,pp.OpencrateQty as OpencrateQty,pp.OpenJaaliQty  as OpenJaaliQty,pp.OpenBoxQty  as OpenBoxQty,pp.OpenCanQty  as OpenCanQty,pp.CrateQtyRecd  as CrateQtyRecd,pp.JaaliQtyRecd  as JaaliQtyRecd,pp.BoxQtyRecd  as BoxQtyRecd ,pp.CanQtyRecd  as CanQtyRecd,pp.CrateOutQty  as CrateOutQty,pp.jaaliOutQty  as jaaliOutQty ,pp.boxOutQty  as boxOutQty,pp.CanOutQty  as CanOutQty ,pp.CrateQtyClosing as CrateQtyClosing, pp.JaaliQtyClosing as  JaaliQtyClosing, pp.BoxQtyClosing as BoxQtyClosing, pp.CanQtyClosing as CanQtyClosing,pp.CrateAdjQty , pp.JaaliAdjQty  , pp.BoxAdjQty , pp.CanAdjQty from ( " + Environment.NewLine &
+                             " " & finalQueryForCustomer & "" + Environment.NewLine &
+                            " ) as pp  "
+                        qry += " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =pp.Customer_Code " + Environment.NewLine &
+                        " left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No =TSPL_CUSTOMER_MASTER.Route_No"
+                        If chkCustomerWise.Checked = False Then
+                            qry += " left join tspl_vehicle_master on tspl_vehicle_master.vehicle_id=pp.vehicle_code"
+                        End If
+
+                        qry += " where 2=2 " & strRoute & ""
+
+
+                        Dim qryfinal As String = " With CTETemp as (" &
+                           " Select convert(varchar,Doc_Date,103) as Doc_Date,"
+                        If chkCustomerWise.Checked = False Then
+                            qryfinal += " Vehicle_Code, Vehicle_Name,"
+                        End If
+                        qryfinal += " Customer_Code, Customer_Name, OpencrateQty, OpenJaaliQty, OpenBoxQty, OpenCanQty, CrateQtyRecd, JaaliQtyRecd, BoxQtyRecd, CanQtyRecd, CrateOutQty, " &
+                           " jaaliOutQty,boxOutQty  ,CanOutQty, CrateAdjQty , JaaliAdjQty  , BoxAdjQty ,CanAdjQty"
+                        'If chkCustomerWise.Checked Then
+                        '    qryfinal += ",SUM(CrateQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CrateQtyClosing, " & _
+                        '          " SUM(JaaliQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as JaaliQtyClosing, " & _
+                        '          " SUM(BoxQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as BoxQtyClosing," & _
+                        '          " SUM(CanQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code) as CanQtyClosing ," & _
+                        '          " Row_Number() OVER (Partition BY Customer_Code ORDER BY Customer_Code) as RowNo"
+
+                        'Else
+                        qryfinal += ",SUM(CrateQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as CrateQtyClosing, " &
+                      " SUM(JaaliQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as JaaliQtyClosing, " &
+                      " SUM(BoxQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as BoxQtyClosing," &
+                      " SUM(CanQtyClosing) OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as CanQtyClosing ," &
+                      " Row_Number() OVER (Partition BY Customer_Code ORDER BY Customer_Code, Doc_Date) as RowNo"
+                        'End If
+
+                        If chkCustomerWise.Checked Then
+                            qryfinal += " from(" + Environment.NewLine &
+                          " " & qry & " " &
+                          " ) YYY )" &
+                          " Select convert(varchar,Doc_Date,103) as Date, ZZZ.Customer_Code as [Customer Code],Customer_Name as [Customer Name], OpencrateQty,OpenJaaliQty,OpenBoxQty,OpenCanQty, CrateQtyRecd, JaaliQtyRecd,BoxQtyRecd, CanQtyRecd  ,CrateOutQty," &
+                          " jaaliOutQty,boxOutQty,CanOutQty, CrateAdjQty , JaaliAdjQty  , BoxAdjQty,CanAdjQty," &
+                          " OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty as CrateQtyClosing," &
+                          " OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty as JaaliQtyClosing," &
+                          " OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty as BoxQtyClosing" &
+                          ",OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty as CanQtyClosing ," &
+                           " (OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty)* " & ItemDefaultCrateRate & " as CrateValueClosing," &
+                          " (OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty)* " & ItemDefaultJalliRate & " as JaaliValueClosing," &
+                          " (OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty)* " & ItemDefaultBoxRate & " as BoxValueClosing , " &
+                          " (OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty)* " & ItemDefaultCanRate & " as CanValueClosing , case when  isnull (XXX.Crate_Qty,0) < 0 then 0 else  isnull (XXX.Crate_Qty,0) end as Crate_Qty  " &
+                          " from (Select CTETemp.Doc_Date ,CTETemp.Customer_Code,CTETemp.Customer_Name,  CTETemp.OpencrateQty+ISNULL(CT1.CrateQtyClosing,0) as OpencrateQty, " &
+                          " CTETemp.OpenJaaliQty+ISNULL(CT1.JaaliQtyClosing,0) as OpenJaaliQty, " &
+                          " CTETemp.OpenBoxQty+ISNULL(CT1.BoxQtyClosing,0) as OpenBoxQty," &
+                          " CTETemp.OpenCanQty+ISNULL(CT1.CanQtyClosing,0) as OpenCanQty, " &
+                          " CTETemp.CrateQtyRecd, CTETemp.JaaliQtyRecd, CTETemp.BoxQtyRecd,CTETemp.CanQtyRecd," &
+                          " CTETemp.CrateOutQty, CTETemp.jaaliOutQty, CTETemp.boxOutQty, CTETemp.CanOutQty, CTETemp.CrateAdjQty , CTETemp.JaaliAdjQty  , CTETemp.BoxAdjQty, CTETemp.CanAdjQty " &
+                          " from CTETemp LEFt OUTER JOIN CTETemp CT1 ON  CT1.Customer_Code=CTETemp.Customer_Code  " &
+                          " AND (CTETemp.RowNo-CT1.RowNo)=1 ) ZZZ " &
+                          "  Left Outer Join ( select dddd.Customer_Code , dddd.document_Date, sum(isnull (Crate_Qty,0)) as Crate_Qty  from ( select Customer_code, convert (varchar, document_Date,103) as Document_Date, sum (isnull(Crate,0)) as Crate_Qty from " &
+                          "  TSPL_SD_SHIPMENT_HEAD  where convert (date, document_Date,103) = convert (date, '" + strdate + "',103)  and Status = 1 "
+                            If clsCommon.myLen(strRoute) > 0 Then
+                                qryfinal += " and Route_No = '" + strRoute + "' "
+                            End If
+                            qryfinal += "  group by Customer_code, convert (varchar, document_Date,103) "
+
+                            qryfinal += " Union All " &
+                          " select  TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code ,convert (varchar, document_Date,103) as document_Date, sum (isnull (TSPL_CRATE_RECEIVED_detail_FRESHSALE.CrateQtyRecd,0)) * -1 as Crate_Qty from TSPL_CRATE_RECEIVED_detail_FRESHSALE left join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No =TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No " &
+                          "  where convert (date, document_Date,103) = convert (date, '" + strdate + "',103) "
+                            If clsCommon.myLen(strRoute) > 0 Then
+                                qryfinal += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_Code = '" + strRoute + "' "
+                            End If
+                            qryfinal += "  group by Customer_code, convert (varchar, document_Date,103) " &
+                          " )dddd group by Customer_code, document_Date ) XXX on XXX.Customer_Code = ZZZ.Customer_Code " &
+                          " ORDER BY  ZZZ.Customer_Code,convert(date,Doc_Date,103)"
+
+                        Else
+                            qryfinal += " from(" + Environment.NewLine &
+                                      " " & qry & " " &
+                                      " ) YYY )" &
+                                      " Select convert(varchar,Doc_Date,103) as Date, Vehicle_Code as [Vehicle Code],Vehicle_Name as [Vehicle Name], Customer_Code as [Customer Code],Customer_Name as [Customer Name], OpencrateQty,OpenJaaliQty,OpenBoxQty,OpenCanQty, CrateQtyRecd, JaaliQtyRecd,BoxQtyRecd, CanQtyRecd  ,CrateOutQty," &
+                                      " jaaliOutQty,boxOutQty,CanOutQty, CrateAdjQty , JaaliAdjQty  , BoxAdjQty,CanAdjQty," &
+                                      " OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty as CrateQtyClosing," &
+                                      " OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty as JaaliQtyClosing," &
+                                      " OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty as BoxQtyClosing" &
+                                      ",OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty as CanQtyClosing ," &
+                                       " (OpencrateQty+CrateOutQty -CrateQtyRecd-CrateAdjQty)* " & ItemDefaultCrateRate & " as CrateValueClosing," &
+                                      " (OpenJaaliQty+jaaliOutQty-JaaliQtyRecd-JaaliAdjQty)* " & ItemDefaultJalliRate & " as JaaliValueClosing," &
+                                      " (OpenBoxQty+boxOutQty-BoxQtyRecd-BoxAdjQty)* " & ItemDefaultBoxRate & " as BoxValueClosing , " &
+                                      " (OpenCanQty+CanOutQty-CanQtyRecd-CanAdjQty)* " & ItemDefaultCanRate & " as CanValueClosing " &
+                                      " from (Select CTETemp.Doc_Date ,CTETemp.Vehicle_Code,CTETemp.Vehicle_Name ,CTETemp.Customer_Code,CTETemp.Customer_Name,  CTETemp.OpencrateQty+ISNULL(CT1.CrateQtyClosing,0) as OpencrateQty, " &
+                                      " CTETemp.OpenJaaliQty+ISNULL(CT1.JaaliQtyClosing,0) as OpenJaaliQty, " &
+                                      " CTETemp.OpenBoxQty+ISNULL(CT1.BoxQtyClosing,0) as OpenBoxQty," &
+                                      " CTETemp.OpenCanQty+ISNULL(CT1.CanQtyClosing,0) as OpenCanQty, " &
+                                      " CTETemp.CrateQtyRecd, CTETemp.JaaliQtyRecd, CTETemp.BoxQtyRecd,CTETemp.CanQtyRecd," &
+                                      " CTETemp.CrateOutQty, CTETemp.jaaliOutQty, CTETemp.boxOutQty, CTETemp.CanOutQty, CTETemp.CrateAdjQty , CTETemp.JaaliAdjQty  , CTETemp.BoxAdjQty, CTETemp.CanAdjQty " &
+                                      " from CTETemp LEFt OUTER JOIN CTETemp CT1 ON  CT1.Customer_Code=CTETemp.Customer_Code And " &
+                                      " CT1.Vehicle_Code = CTETemp.Vehicle_Code " &
+                                      " And (CTETemp.RowNo-CT1.RowNo)=1 ) ZZZ ORDER BY  Customer_Code,convert(date,Doc_Date,103),Vehicle_Code"
+
+                        End If
+
+                        '===========================================================================
+
+                        Dim dt As DataTable
+                        dt = clsDBFuncationality.GetDataTable(qryfinal, trans)
+                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                            For Each dr As DataRow In dt.Rows
+                                intLine += 1
+                                gv1.Rows.AddNew()
+                                'gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = intLine
+                                objTr.Customer_Code = clsCommon.myCstr(dr("Customer Code"))
+                                'objTr. = clsCommon.myCstr(dr("Customer Name"))
+                                If chkCustomerWise.Checked = False Then
+                                    objTr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle Code"))
+                                    objTr.VehicleNo = clsDBFuncationality.getSingleValue("select Number  from TSPL_VEHICLE_MASTER where Vehicle_Id ='" & clsCommon.myCstr(dr("Vehicle Code")) & "'", trans)
+                                End If
+
+                                objTr.CrateQtyManual = clsCommon.myCdbl(dr("CrateQtyClosing"))
+                                objTr.Jaali = clsCommon.myCdbl(dr("JaaliQtyClosing"))
+                                objTr.Box = clsCommon.myCdbl(dr("BoxQtyClosing"))
+                                objTr.CANQty = clsCommon.myCdbl(dr("CanQtyClosing"))
+                                If chkCustomerWise.Checked Then
+                                    objTr.CrateQty = clsCommon.myCdbl(dr("Crate_Qty"))
+                                End If
+
+                            Next
+                            SetIDs()
+                            'Set balance - Get from crate jali report
+                            'Dim Tempfrm As New FrmCrateJaliReport
+                            'Tempfrm.CrateReceivingWithMultipleRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateReceivingWithMultipleRoute, clsFixedParameterCode.CrateReceivingWithMultipleRoute, trans)) = 1, True, False)
+                            'Tempfrm.CrateReceiveddairyCustomerWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateReceiveddairyCustomerWise, clsFixedParameterCode.CrateReceiveddairyCustomerWise, trans)) = 1, True, False)
+                            'Tempfrm.fromDate.Value = txtDate.Value
+                            'Tempfrm.ToDate.Value = txtDate.Value
+                            'Tempfrm.chkCrate.Checked = True
+                            'Tempfrm.chkCustomerWise.Checked = True
+                            'Tempfrm.chkAll.Checked = True
+                            'Tempfrm.btnGo.PerformClick()
+                            'Dim TempDTBal As DataTable = Tempfrm.dt
+                            'For Each grow1 As GridViewRowInfo In gv1.Rows
+                            '    Dim rows As DataRow() = TempDTBal.Select("[Customer Code]='" + clsCommon.myCstr(grow1.Cells(colCustCode).Value) + "'")
+                            '    If rows IsNot Nothing AndAlso rows.Length > 0 Then
+                            '        grow1.Cells(colCreateQty).Value = rows(0).Item("CrateQtyClosing")
+                            '    End If
+                            'Next
+                            'Tempfrm.Close()
+                            'Tempfrm.Dispose()
+                            'Set balance - Get from crate jali report
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+                        End If
+
+
+
+                        obj.Arr = New List(Of clsCrateReceivedDetail)
+                        'obj.Arr = New List(Of clsCrateReceivedDetail)
+
+                        'Dim objTr As New clsCrateReceivedDetail()
+                        objTr.Line_No = 1
+
+                        'objTr.Customer_Code = strcustomer
+
+                        objTr.Sale_Invoice_Date = strdate
+
+                        '=====update by preeti gupta Against ticket no[ERO/01/07/19-000663]
+                        'objTr.Vehicle_Code = strVehicle
+                        'objTr.VehicleNo = clsDBFuncationality.getSingleValue("Select Number from tspl_vehicle_master where vehicle_id='" & strVehicle & "'", trans)
+                        objTr.CrateQty = 0
+                        objTr.CrateQtyRecd = dblCrateQty
+                        objTr.Balance = 0
+                        objTr.Remarks = ""
+                        objTr.OutQty = 0
+                        objTr.Adjustment = 0
+                        objTr.Jaali = 0
+                        objTr.Box = 0
+
+                        objTr.CrateQtyManual = 0
+                        objTr.JaaliQtyRecd = 0
+                        objTr.BoxQtyRecd = 0
+                        objTr.jaaliAdjustment = 0
+                        objTr.boxAdjustment = 0
+                        objTr.jaaliOutQty = 0
+                        objTr.boxOutQty = 0
+
+                        objTr.CANQty = 0
+                        objTr.CANRecQty = 0
+                        objTr.CANAdjustment = 0
+
+                        If clsCommon.myLen(objTr.CrateQtyRecd) > 0 Then
+                            obj.Arr.Add(objTr)
+                        End If
+                        obj.SaveData(obj, True, trans)
+                    Next
+                    clsCommon.ProgressBarHide()
+                    trans.Commit()
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                End If
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
