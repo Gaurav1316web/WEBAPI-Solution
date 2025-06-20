@@ -59,6 +59,8 @@ Public Class frmMilkCollectionDCS
     Public Shared IsViewBalance As Boolean = False
     Dim SettAdjQty As Boolean = False
     Dim settApplySameDayShift As Boolean = False
+    Dim isRouteInGrid As Boolean = False
+
 #End Region
     Public Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
@@ -89,7 +91,7 @@ Public Class frmMilkCollectionDCS
         End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        isRouteInGrid = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
@@ -256,7 +258,7 @@ Public Class frmMilkCollectionDCS
         repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
         repoTextBox.ReadOnly = False
         repoTextBox.Width = 100
-        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal)
+        repoTextBox.IsVisible = isRouteInGrid
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
         repoTextBox = New GridViewTextBoxColumn()
@@ -265,7 +267,7 @@ Public Class frmMilkCollectionDCS
         repoTextBox.Name = colRouteName
         repoTextBox.Width = 100
         repoTextBox.ReadOnly = True
-        repoTextBox.IsVisible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal)
+        repoTextBox.IsVisible = isRouteInGrid
         gv1.MasterTemplate.Columns.Add(repoTextBox)
 
         Dim repoTextBox2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -884,7 +886,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
             Throw New Exception("Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
         End If
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+        If isRouteInGrid Then
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colRoute).Value) <= 0 Then
@@ -1329,6 +1331,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                     End If
                     If objCommonVar.DisplayTypeInMilkReceipt Then
                         gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                    ElseIf isRouteInGrid Then
+                        gv1.CurrentColumn = gv1.Columns(colRoute)
                     Else
                         gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
                     End If
@@ -1361,6 +1365,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                 End If
                 If objCommonVar.DisplayTypeInMilkReceipt Then
                     gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                ElseIf isRouteInGrid Then
+                    gv1.CurrentColumn = gv1.Columns(colRoute)
                 Else
                     gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
                 End If
@@ -1373,7 +1379,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
     Private Sub txtDesc_Leave(sender As Object, e As EventArgs) Handles txtDesc.Leave
         If gv1.Rows.Count > 0 Then
             gv1.Focus()
-            gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+            If isRouteInGrid Then
+                gv1.CurrentColumn = gv1.Columns(colRoute)
+            Else
+                gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+            End If
         End If
     End Sub
     Private Sub txtTotEnteredQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
