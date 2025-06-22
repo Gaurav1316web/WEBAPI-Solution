@@ -714,6 +714,15 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             Else
                 SplitButtonTruckSheet.Enabled = False
             End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                lblDemandUniqueID.Visible = True
+                txtDemandUniqueID.Visible = True
+                txtDemandUniqueID.Text = ""
+            Else
+                lblDemandUniqueID.Visible = False
+                txtDemandUniqueID.Visible = False
+                txtDemandUniqueID.Text = ""
+            End If
             btn_TSCancel.Enabled = True
             btn_Gatepass.Enabled = False
             btnPrint.Enabled = True
@@ -1257,6 +1266,9 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                     UsLock1.Status = ERPTransactionStatus.Cancel
                 Else
                     UsLock1.Status = ERPTransactionStatus.Pending
+                End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    txtDemandUniqueID.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Demand_UniqueID from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"))
                 End If
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
                 lblRouteDesc.Text = clsRouteMaster.GetName(txtRouteNo.Value, Nothing)

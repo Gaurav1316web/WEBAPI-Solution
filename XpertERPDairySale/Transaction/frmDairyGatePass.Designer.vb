@@ -31,6 +31,9 @@ Partial Class frmDairyGatePass
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.MyRadGridView1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblDemandNo = New common.Controls.MyLabel()
+        Me.txtDemandNo = New common.UserControls.txtFinder()
+        Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkGhee = New Telerik.WinControls.UI.RadCheckBox()
         Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtn_IceCream = New Telerik.WinControls.UI.RadRadioButton()
@@ -114,12 +117,12 @@ Partial Class frmDairyGatePass
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -129,6 +132,8 @@ Partial Class frmDairyGatePass
         CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbItemType.SuspendLayout()
@@ -282,6 +287,9 @@ Partial Class frmDairyGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.lblDemandNo)
+        Me.Panel1.Controls.Add(Me.txtDemandNo)
+        Me.Panel1.Controls.Add(Me.chkIndividualCustomer)
         Me.Panel1.Controls.Add(Me.chkGhee)
         Me.Panel1.Controls.Add(Me.rgbItemType)
         Me.Panel1.Controls.Add(Me.lblClosingDate)
@@ -347,6 +355,50 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1116, 199)
         Me.Panel1.TabIndex = 0
+        '
+        'lblDemandNo
+        '
+        Me.lblDemandNo.FieldName = Nothing
+        Me.lblDemandNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDemandNo.Location = New System.Drawing.Point(509, 53)
+        Me.lblDemandNo.Name = "lblDemandNo"
+        Me.lblDemandNo.Size = New System.Drawing.Size(67, 16)
+        Me.lblDemandNo.TabIndex = 1460
+        Me.lblDemandNo.Text = "Demand No"
+        '
+        'txtDemandNo
+        '
+        Me.txtDemandNo.CalculationExpression = Nothing
+        Me.txtDemandNo.FieldCode = Nothing
+        Me.txtDemandNo.FieldDesc = Nothing
+        Me.txtDemandNo.FieldMaxLength = 0
+        Me.txtDemandNo.FieldName = Nothing
+        Me.txtDemandNo.isCalculatedField = False
+        Me.txtDemandNo.IsSourceFromTable = False
+        Me.txtDemandNo.IsSourceFromValueList = False
+        Me.txtDemandNo.IsUnique = False
+        Me.txtDemandNo.Location = New System.Drawing.Point(576, 50)
+        Me.txtDemandNo.MendatroryField = True
+        Me.txtDemandNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDemandNo.MyLinkLable1 = Me.lblDemandNo
+        Me.txtDemandNo.MyLinkLable2 = Nothing
+        Me.txtDemandNo.MyReadOnly = False
+        Me.txtDemandNo.MyShowMasterFormButton = False
+        Me.txtDemandNo.Name = "txtDemandNo"
+        Me.txtDemandNo.ReferenceFieldDesc = Nothing
+        Me.txtDemandNo.ReferenceFieldName = Nothing
+        Me.txtDemandNo.ReferenceTableName = Nothing
+        Me.txtDemandNo.Size = New System.Drawing.Size(132, 20)
+        Me.txtDemandNo.TabIndex = 1459
+        Me.txtDemandNo.Value = ""
+        '
+        'chkIndividualCustomer
+        '
+        Me.chkIndividualCustomer.Location = New System.Drawing.Point(507, 28)
+        Me.chkIndividualCustomer.Name = "chkIndividualCustomer"
+        Me.chkIndividualCustomer.Size = New System.Drawing.Size(120, 18)
+        Me.chkIndividualCustomer.TabIndex = 1458
+        Me.chkIndividualCustomer.Text = "Individual Customer"
         '
         'chkGhee
         '
@@ -1174,7 +1226,7 @@ Partial Class frmDairyGatePass
         Me.txtLocDesc.ReferenceFieldDesc = Nothing
         Me.txtLocDesc.ReferenceFieldName = Nothing
         Me.txtLocDesc.ReferenceTableName = Nothing
-        Me.txtLocDesc.Size = New System.Drawing.Size(376, 18)
+        Me.txtLocDesc.Size = New System.Drawing.Size(161, 18)
         Me.txtLocDesc.TabIndex = 16
         '
         'MyLabel4
@@ -1316,7 +1368,7 @@ Partial Class frmDairyGatePass
         Me.lblVehicleDesc.ReferenceFieldDesc = Nothing
         Me.lblVehicleDesc.ReferenceFieldName = Nothing
         Me.lblVehicleDesc.ReferenceTableName = Nothing
-        Me.lblVehicleDesc.Size = New System.Drawing.Size(376, 18)
+        Me.lblVehicleDesc.Size = New System.Drawing.Size(161, 18)
         Me.lblVehicleDesc.TabIndex = 17
         '
         'txtDate
@@ -1580,6 +1632,11 @@ Partial Class frmDairyGatePass
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Print"
         '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Send Email"
+        '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1628,11 +1685,6 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1116, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Send Email"
-        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1658,6 +1710,8 @@ Partial Class frmDairyGatePass
         CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbItemType.ResumeLayout(False)
@@ -1837,5 +1891,8 @@ Partial Class frmDairyGatePass
     Friend WithEvents chkGhee As RadCheckBox
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents RadMenuItem4 As RadMenuItem
+    Friend WithEvents lblDemandNo As common.Controls.MyLabel
+    Friend WithEvents txtDemandNo As common.UserControls.txtFinder
+    Friend WithEvents chkIndividualCustomer As RadCheckBox
 End Class
 

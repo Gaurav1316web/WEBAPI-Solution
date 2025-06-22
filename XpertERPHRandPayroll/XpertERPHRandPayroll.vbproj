@@ -1041,6 +1041,12 @@
     <Compile Include="HR and Payroll\Tranasction\frmDailyAttendance.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmDA_Arrear.Designer.vb">
+      <DependentUpon>frmDA_Arrear.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmDA_Arrear.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmDeductionDetails.Designer.vb">
       <DependentUpon>frmDeductionDetails.vb</DependentUpon>
     </Compile>
@@ -2191,6 +2197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmDailyAttendance.resx">
       <DependentUpon>frmDailyAttendance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Tranasction\frmDA_Arrear.resx">
+      <DependentUpon>frmDA_Arrear.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmDeductionDetails.resx">
       <DependentUpon>frmDeductionDetails.vb</DependentUpon>

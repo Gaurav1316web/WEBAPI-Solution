@@ -1035,6 +1035,14 @@ Public Class frmShipmentDairy
         txtGross_Wt.Text = Nothing
         lblRemovalDate.Visible = False
         txtRemovalDate.Visible = False
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            chkIndividualCustomer.Visible = True
+            chkIndividualCustomer.Checked = False
+            chkIndividualCustomer.Enabled = True
+        Else
+            chkIndividualCustomer.Visible = False
+            chkIndividualCustomer.Checked = False
+        End If
         chkCreateAutoInvoice.Checked = True
         If clsERPFuncationality.GetGSTStatus(txtDate.Value) = True Then
             ddlInvoiceType.Enabled = False
@@ -7748,6 +7756,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             obj.Vehicle_Type = cmbVehicleType.SelectedValue
             obj.OrgCustCOde = strOrginalCust
             obj.IsEwaybill = IIf(chkIsEWayBill.Checked, 1, 0)
+            obj.IsIndividualCustomer = IIf(chkIndividualCustomer.Checked, 1, 0)
             If txtCustPODate.Checked Then
                 obj.Podate = txtCustPODate.Value
             End If
@@ -8522,6 +8531,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 ddlInvoiceType.Enabled = False
                 cmbDisItemType.Enabled = False
                 cmbShift.Enabled = False
+                chkIndividualCustomer.Enabled = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -8586,6 +8596,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 TxtTotalCAN.Value = obj.TotalCAN
                 chkownVehicle.Checked = IIf(obj.Is_OwnVehicle = 1, True, False)
                 chkIsEWayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
+                chkIndividualCustomer.Checked = IIf(obj.IsIndividualCustomer = 1, True, False)
                 TxtRoundoff.Text = obj.RoundOffAmount
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(obj.RoundOffAmount) > 0.00 OrElse clsCommon.myCdbl(obj.RoundOffAmount) < 0.00 Then
@@ -15400,12 +15411,20 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     Else
                         qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
                     End If
-                    qry += " and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                        If chkIndividualCustomer.Checked Then
+                            qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=1 "
+                        Else
+                            qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=0 "
+                        End If
+
+                    End If
+                        qry += " and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
 order by   TSPL_Demand_Booking_Detail.TR_Code "
                     LoadDistributorGrid(qry, trans)
-                    MergeDistributorItems1(True, False, trans)
-                End If
-            Else
+                        MergeDistributorItems1(True, False, trans)
+                    End If
+                Else
                 Throw New Exception("Please Select Item Type ")
             End If
         Catch ex As Exception

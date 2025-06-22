@@ -447,6 +447,13 @@ Public Class frmDairyGatePass
                     Else
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM'"
                     End If
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                        If chkIndividualCustomer.Checked Then
+                            strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=1 "
+                        Else
+                            strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=0 "
+                        End If
+                    End If
                     If EnableDispatch Then
                         'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                     Else
@@ -606,6 +613,7 @@ Public Class frmDairyGatePass
             Dim strV As String = ""
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 Dim lstDRobj As New List(Of clsDRDetail)
+                ControlFields(False)
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myCDecimal(dr("BalanceQty")) > 0 Then
                         Dim DRobj As New clsDRDetail
@@ -803,6 +811,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 End If
                 btnSave.Text = "Update"
                 chkGhee.Checked = obj.Is_GHEE
+                ControlFields(False)
                 If isCreateProvisionOfTransporterInDairyDispatch = True Then
                     If obj.Post = "Y" Then
                         btnSave.Enabled = False
@@ -869,6 +878,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtRouteName.Text = obj.Route_Desc
                 If ApplyDepartmentRoute Then
                     isDepartmentRoute = clsCommon.myCBool(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Department_Route from TSPL_ROUTE_MASTER where Route_No='" + fndRouteNo.Value + "'")))
+                End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    chkIndividualCustomer.Checked = IIf(obj.IsIndividualCustomer = 1, True, False)
+                    If clsCommon.myLen(obj.Demand_UniqueID) Then
+                        txtDemandNo.Value = obj.Demand_UniqueID
+                    End If
                 End If
                 txtCanQty.Text = obj.TotalCAN
                 txtCrateQty.Text = obj.TotalCrate
@@ -1015,6 +1030,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 obj.Location_Code = txtLocCode.Value
                 obj.Location_Desc = txtLocDesc.Text
                 obj.Supply_Date = txtSupplyDate.Value
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    obj.IsIndividualCustomer = IIf(chkIndividualCustomer.Checked, 1, 0)
+                    If clsCommon.myLen(txtDemandNo.Value) Then
+                        obj.Demand_UniqueID = clsCommon.myCdbl(txtDemandNo.Value)
+                    End If
+                End If
                 '===============Added by preeti Gupta Agianst Ticket no[]
                 obj.Route_No = fndRouteNo.Value
                 obj.TotalCrate = clsCommon.myCdbl(txtCrateQty.Text)
@@ -1141,6 +1162,21 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             txtLocCode.Value = ""
             txtLocDesc.Text = ""
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            chkIndividualCustomer.Visible = True
+            chkIndividualCustomer.Checked = False
+            txtDemandNo.Value = ""
+            lblDemandNo.Visible = True
+            txtDemandNo.Visible = True
+            txtDemandNo.Enabled = False
+        Else
+            chkIndividualCustomer.Visible = False
+            chkIndividualCustomer.Checked = False
+            lblDemandNo.Visible = False
+            txtDemandNo.Visible = False
+            txtDemandNo.Value = ""
+        End If
+        ControlFields(True)
         txtDistributorName.Text = ""
         txtTransporter.Text = ""
         txtSalesman.Text = ""
@@ -1250,7 +1286,20 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     clsCommon.MyMessageBoxShow(Me, "Please select Transfer No", Me.Text)
                 End If
             Else
-                funFillGrid()
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    If chkIndividualCustomer.Checked Then
+                        If clsCommon.myLen(txtDemandNo.Value) > 0 Then
+                            funFillGrid()
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "Please Select Demand")
+                        End If
+                    Else
+                        funFillGrid()
+                    End If
+                Else
+                    funFillGrid()
+                End If
+
             End If
         End If
     End Sub
@@ -2998,6 +3047,43 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
         funPrint(txtCode.Value, True)
+    End Sub
+
+    Private Sub chkIndividualCustomer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIndividualCustomer.ToggleStateChanged
+        If chkIndividualCustomer.Checked Then
+            txtDemandNo.Enabled = True
+        Else
+            txtDemandNo.Enabled = False
+        End If
+    End Sub
+
+    Private Sub txtDemandNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDemandNo._MYValidating
+        Try
+            Dim strQry As String = "select top 1000 Demand_UniqueID as Code,Document_No,Route_No,Location_Code from TSPL_DEMAND_BOOKING_MASTER "
+            Dim whrcls As String = "  convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") + "' and IsIndividualCustomer=1 and Posted=1 "
+            txtDemandNo.Value = clsCommon.ShowSelectForm("DemandSearch", strQry, "Code", whrcls, txtDemandNo.Value, "Code", isButtonClicked)
+            fndRouteNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
+            txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
+            Dim shiftType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ShiftType from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
+            If clsCommon.CompairString(shiftType, "Morning") = CompairStringResult.Equal Then
+                rbtnMorning.IsChecked = True
+            ElseIf clsCommon.CompairString(shiftType, "Evening") = CompairStringResult.Equal Then
+                rbtnEvening.IsChecked = True
+            End If
+            setRouteVehicleDetail()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub ControlFields(ByVal flag As Boolean)
+        txtLocCode.Enabled = flag
+        txtVehicle.Enabled = flag
+        fndRouteNo.Enabled = flag
+        txtDemandNo.Enabled = flag
+        chkIndividualCustomer.Enabled = flag
+        txtSupplyDate.Enabled = flag
+        RadGroupBox3.Enabled = flag
+        rgbItemType.Enabled = flag
     End Sub
 End Class
 Public Class clsDRDetail

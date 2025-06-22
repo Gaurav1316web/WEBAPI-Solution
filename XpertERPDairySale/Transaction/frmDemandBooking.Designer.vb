@@ -29,6 +29,8 @@ Partial Class frmDemandBooking
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gbShuffleDemand = New System.Windows.Forms.GroupBox()
+        Me.txtShuffleRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.lblshuffleRoute = New common.Controls.MyLabel()
         Me.cmbShift = New common.Controls.MyComboBox()
         Me.btnShuffle = New Telerik.WinControls.UI.RadButton()
         Me.lblShift = New common.Controls.MyLabel()
@@ -126,13 +128,14 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblshuffleRoute = New common.Controls.MyLabel()
-        Me.txtShuffleRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.txtDemandUniqueID = New common.Controls.MyLabel()
+        Me.lblDemandUniqueID = New common.Controls.MyLabel()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
         Me.gbShuffleDemand.SuspendLayout()
+        CType(Me.lblshuffleRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShuffle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -223,7 +226,8 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblshuffleRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDemandUniqueID, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDemandUniqueID, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -247,6 +251,7 @@ Partial Class frmDemandBooking
         '
         Me.SplitPanel1.Controls.Add(Me.gbShuffleDemand)
         Me.SplitPanel1.Controls.Add(Me.rgbDemandHead)
+        Me.SplitPanel1.Controls.Add(Me.btn_TSCancel)
         Me.SplitPanel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitPanel1.Controls.Add(Me.chkEveningPosted)
         Me.SplitPanel1.Controls.Add(Me.chkMorningPosted)
@@ -278,6 +283,29 @@ Partial Class frmDemandBooking
         Me.gbShuffleDemand.TabIndex = 1472
         Me.gbShuffleDemand.TabStop = False
         Me.gbShuffleDemand.Text = "Shuffle Demand"
+        '
+        'txtShuffleRoute
+        '
+        Me.txtShuffleRoute.arrDispalyMember = Nothing
+        Me.txtShuffleRoute.arrValueMember = Nothing
+        Me.txtShuffleRoute.Location = New System.Drawing.Point(54, 64)
+        Me.txtShuffleRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtShuffleRoute.MyLinkLable1 = Me.lblshuffleRoute
+        Me.txtShuffleRoute.MyLinkLable2 = Nothing
+        Me.txtShuffleRoute.MyNullText = "All"
+        Me.txtShuffleRoute.Name = "txtShuffleRoute"
+        Me.txtShuffleRoute.Size = New System.Drawing.Size(120, 20)
+        Me.txtShuffleRoute.TabIndex = 1523
+        '
+        'lblshuffleRoute
+        '
+        Me.lblshuffleRoute.FieldName = Nothing
+        Me.lblshuffleRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblshuffleRoute.Location = New System.Drawing.Point(6, 64)
+        Me.lblshuffleRoute.Name = "lblshuffleRoute"
+        Me.lblshuffleRoute.Size = New System.Drawing.Size(36, 18)
+        Me.lblshuffleRoute.TabIndex = 1524
+        Me.lblshuffleRoute.Text = "Route"
         '
         'cmbShift
         '
@@ -371,9 +399,10 @@ Partial Class frmDemandBooking
         'rgbDemandHead
         '
         Me.rgbDemandHead.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbDemandHead.Controls.Add(Me.txtDemandUniqueID)
+        Me.rgbDemandHead.Controls.Add(Me.lblDemandUniqueID)
         Me.rgbDemandHead.Controls.Add(Me.btnQuickDemand)
         Me.rgbDemandHead.Controls.Add(Me.RadLabel1)
-        Me.rgbDemandHead.Controls.Add(Me.btn_TSCancel)
         Me.rgbDemandHead.Controls.Add(Me.txtDocNo)
         Me.rgbDemandHead.Controls.Add(Me.chkMorningGatepassTruckSheetGenerated)
         Me.rgbDemandHead.Controls.Add(Me.chkEveningGatepassTruckSheetGenerated)
@@ -421,7 +450,7 @@ Partial Class frmDemandBooking
         'btnQuickDemand
         '
         Me.btnQuickDemand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnQuickDemand.Location = New System.Drawing.Point(855, 19)
+        Me.btnQuickDemand.Location = New System.Drawing.Point(984, 21)
         Me.btnQuickDemand.Name = "btnQuickDemand"
         Me.btnQuickDemand.Size = New System.Drawing.Size(126, 20)
         Me.btnQuickDemand.TabIndex = 1471
@@ -441,7 +470,7 @@ Partial Class frmDemandBooking
         '
         Me.btn_TSCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_TSCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_TSCancel.Location = New System.Drawing.Point(1014, 25)
+        Me.btn_TSCancel.Location = New System.Drawing.Point(1126, 32)
         Me.btn_TSCancel.Name = "btn_TSCancel"
         Me.btn_TSCancel.Size = New System.Drawing.Size(76, 20)
         Me.btn_TSCancel.TabIndex = 26
@@ -468,7 +497,7 @@ Partial Class frmDemandBooking
         '
         'chkMorningGatepassTruckSheetGenerated
         '
-        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(598, 129)
+        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(602, 129)
         Me.chkMorningGatepassTruckSheetGenerated.Name = "chkMorningGatepassTruckSheetGenerated"
         Me.chkMorningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkMorningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(228, 18)
@@ -477,7 +506,7 @@ Partial Class frmDemandBooking
         '
         'chkEveningGatepassTruckSheetGenerated
         '
-        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(598, 150)
+        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(602, 150)
         Me.chkEveningGatepassTruckSheetGenerated.Name = "chkEveningGatepassTruckSheetGenerated"
         Me.chkEveningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkEveningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(224, 18)
@@ -955,11 +984,11 @@ Partial Class frmDemandBooking
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(598, 19)
+        Me.UsLock1.Location = New System.Drawing.Point(753, 19)
         Me.UsLock1.Margin = New System.Windows.Forms.Padding(4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(97, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(89, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 1458
         '
@@ -1027,7 +1056,7 @@ Partial Class frmDemandBooking
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(744, 20)
+        Me.btnGo.Location = New System.Drawing.Point(881, 22)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(97, 18)
         Me.btnGo.TabIndex = 151
@@ -1257,7 +1286,7 @@ Partial Class frmDemandBooking
         '
         'chkEveningPosted
         '
-        Me.chkEveningPosted.Location = New System.Drawing.Point(1141, 30)
+        Me.chkEveningPosted.Location = New System.Drawing.Point(1229, 9)
         Me.chkEveningPosted.Name = "chkEveningPosted"
         Me.chkEveningPosted.ReadOnly = True
         Me.chkEveningPosted.Size = New System.Drawing.Size(97, 18)
@@ -1267,7 +1296,7 @@ Partial Class frmDemandBooking
         '
         'chkMorningPosted
         '
-        Me.chkMorningPosted.Location = New System.Drawing.Point(1141, 9)
+        Me.chkMorningPosted.Location = New System.Drawing.Point(1123, 9)
         Me.chkMorningPosted.Name = "chkMorningPosted"
         Me.chkMorningPosted.ReadOnly = True
         Me.chkMorningPosted.Size = New System.Drawing.Size(100, 18)
@@ -1530,28 +1559,27 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'lblshuffleRoute
+        'txtDemandUniqueID
         '
-        Me.lblshuffleRoute.FieldName = Nothing
-        Me.lblshuffleRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblshuffleRoute.Location = New System.Drawing.Point(6, 64)
-        Me.lblshuffleRoute.Name = "lblshuffleRoute"
-        Me.lblshuffleRoute.Size = New System.Drawing.Size(36, 18)
-        Me.lblshuffleRoute.TabIndex = 1524
-        Me.lblshuffleRoute.Text = "Route"
+        Me.txtDemandUniqueID.AutoSize = False
+        Me.txtDemandUniqueID.BorderVisible = True
+        Me.txtDemandUniqueID.FieldName = Nothing
+        Me.txtDemandUniqueID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDemandUniqueID.Location = New System.Drawing.Point(663, 21)
+        Me.txtDemandUniqueID.Name = "txtDemandUniqueID"
+        Me.txtDemandUniqueID.Size = New System.Drawing.Size(85, 18)
+        Me.txtDemandUniqueID.TabIndex = 1473
+        Me.txtDemandUniqueID.TextWrap = False
         '
-        'txtShuffleRoute
+        'lblDemandUniqueID
         '
-        Me.txtShuffleRoute.arrDispalyMember = Nothing
-        Me.txtShuffleRoute.arrValueMember = Nothing
-        Me.txtShuffleRoute.Location = New System.Drawing.Point(54, 64)
-        Me.txtShuffleRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtShuffleRoute.MyLinkLable1 = Me.lblshuffleRoute
-        Me.txtShuffleRoute.MyLinkLable2 = Nothing
-        Me.txtShuffleRoute.MyNullText = "All"
-        Me.txtShuffleRoute.Name = "txtShuffleRoute"
-        Me.txtShuffleRoute.Size = New System.Drawing.Size(120, 20)
-        Me.txtShuffleRoute.TabIndex = 1523
+        Me.lblDemandUniqueID.FieldName = Nothing
+        Me.lblDemandUniqueID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDemandUniqueID.Location = New System.Drawing.Point(599, 23)
+        Me.lblDemandUniqueID.Name = "lblDemandUniqueID"
+        Me.lblDemandUniqueID.Size = New System.Drawing.Size(57, 16)
+        Me.lblDemandUniqueID.TabIndex = 1472
+        Me.lblDemandUniqueID.Text = "Unique ID"
         '
         'frmDemandBooking
         '
@@ -1575,6 +1603,7 @@ Partial Class frmDemandBooking
         Me.SplitPanel1.PerformLayout()
         Me.gbShuffleDemand.ResumeLayout(False)
         Me.gbShuffleDemand.PerformLayout()
+        CType(Me.lblshuffleRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShuffle, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShift, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1671,7 +1700,8 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblshuffleRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDemandUniqueID, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDemandUniqueID, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1779,5 +1809,7 @@ Partial Class frmDemandBooking
     Friend WithEvents cmbShift As common.Controls.MyComboBox
     Friend WithEvents txtShuffleRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblshuffleRoute As common.Controls.MyLabel
+    Friend WithEvents txtDemandUniqueID As common.Controls.MyLabel
+    Friend WithEvents lblDemandUniqueID As common.Controls.MyLabel
 End Class
 

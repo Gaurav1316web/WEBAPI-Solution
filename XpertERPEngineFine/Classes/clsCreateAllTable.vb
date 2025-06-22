@@ -6785,6 +6785,8 @@ Public Class clsCreateAllTable
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Trip_No", "int NULL")
             coll.Add("Is_GHEE", "Integer Default 0")
+            coll.Add("IsIndividualCustomer", "Integer Default 0")
+            coll.Add("Demand_UniqueID", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, True, "", "GPCode", "GPDate", True)
             Try
 
@@ -8355,6 +8357,15 @@ Public Class clsCreateAllTable
             coll.Add("IsUpdating", "integer null")
             coll.Add("IsPosting", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date", True)
+            Try
+                qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Demand_UniqueID'"
+                dt = clsDBFuncationality.GetDataTable(qry)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD Demand_UniqueID INT IDENTITY(1,1)")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD CONSTRAINT UQ_UniqueIDUNIQUE (Demand_UniqueID)")
+                End If
+            Catch ex As Exception
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
@@ -31238,6 +31249,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Inter_unit_sale", "Integer default 0")
             coll.Add("IsEwaybill", "Integer null")
+            coll.Add("IsIndividualCustomer", "Integer null")
             coll.Add("Is_Apply_TPT", "integer null")
             coll.Add("Recommended_By", "Varchar(50) null")
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")

@@ -43,6 +43,8 @@ Public Class clsDairyGatePassEntry
     Public DistributorName As String = Nothing
     Public Supply_Date As Date? = Nothing
     Public Is_GHEE As Boolean = False
+    Public IsIndividualCustomer As Integer = 0
+    Public Demand_UniqueID As Integer
 
 
 #End Region
@@ -140,6 +142,8 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
             clsCommon.AddColumnsForChange(coll, "Driver_ContactNo", obj.Driver_ContactNo)
             clsCommon.AddColumnsForChange(coll, "DistributorName", obj.DistributorName, True)
+            clsCommon.AddColumnsForChange(coll, "IsIndividualCustomer", obj.IsIndividualCustomer)
+            clsCommon.AddColumnsForChange(coll, "Demand_UniqueID", obj.Demand_UniqueID, True)
             If obj.Supply_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "Supply_Date", clsCommon.GetPrintDate(obj.Supply_Date, "dd/MMM/yyyy"), True)
             End If
@@ -278,8 +282,12 @@ Public Class clsDairyGatePassEntry
             obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
             obj.Driver_ContactNo = clsCommon.myCstr(dt.Rows(0)("Driver_ContactNo"))
             obj.DistributorName = clsCommon.myCstr(dt.Rows(0)("DistributorName"))
+            obj.IsIndividualCustomer = clsCommon.myCdbl(dt.Rows(0)("IsIndividualCustomer"))
             If dt.Rows(0)("Supply_Date") IsNot DBNull.Value Then
                 obj.Supply_Date = clsCommon.myCstr(dt.Rows(0)("Supply_Date"))
+            End If
+            If dt.Rows(0)("Demand_UniqueID") IsNot DBNull.Value Then
+                obj.Demand_UniqueID = clsCommon.myCdbl(dt.Rows(0)("Demand_UniqueID"))
             End If
             obj.Arr = clsDairyGPDetail.GetData(obj.GPCode, trans)
         End If
