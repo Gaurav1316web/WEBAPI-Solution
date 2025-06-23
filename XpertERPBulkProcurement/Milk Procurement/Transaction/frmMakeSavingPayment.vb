@@ -799,10 +799,14 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim qry As String = ""
-            qry = " Select TSPL_Vendor_MASTER.BankCode2 as GRPColumn,TSPL_MAKE_SAVING_PAYMENT_DETAIL.Doc_Code,TSPL_MAKE_SAVING_PAYMENT_DETAIL.DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader,coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
-  TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name, TSPL_MAKE_SAVING_PAYMENT_DETAIL.Payable_Amt,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,
-
-  '16/04/2024' as FD,'30/04/2024' AS TD,'' AS CycleRange,  TSPL_BANK_MASTER2.DESCRIPTION as Bank_Code_Desc, 
+            qry = " Select '' As Bank_Advise_No,'16/08/2024' As Bank_Advise_Date,'" + txtFromDate.Value + "' as FD,'" + txtToDate.Value + "' AS TD,'' AS CycleRange,
+ TSPL_Vendor_MASTER.BankCode2 as GRPColumn,
+ TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,
+case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
+TSPL_COMPANY_MASTER.Regn_No,'' as MCC_NAME,'" + txtFromDate.Value + "' as From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,
+ TSPL_MAKE_SAVING_PAYMENT_DETAIL.Doc_Code as Doc_No,'' as Fiscal_Name,'' as CycleNo,'" + txtFromDate.Value + "' +' To '+ '" + txtToDate.Value + "' as Date_Range,
+ TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader,coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
+  TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name,TSPL_BANK_MASTER2.DESCRIPTION as Bank_Code_Desc,
   case when isnull(
     coalesce(
       TSPL_VENDOR_MASTER.vsp_payment, 
@@ -826,7 +830,7 @@ and convert(date,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) >= '" & clsCom
   ) else coalesce(
     TSPL_VENDOR_MASTER.Joint_Account_No, 
     mp_V.Joint_Account_No
-  ) end as Payee_Joint_Account_No
+  ) end as Payee_Joint_Account_No,TSPL_MAKE_SAVING_PAYMENT_DETAIL.Payable_Amt as Payable_Amount
 
   
   from TSPL_MAKE_SAVING_PAYMENT_DETAIL
