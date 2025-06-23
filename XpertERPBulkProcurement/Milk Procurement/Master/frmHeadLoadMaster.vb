@@ -209,15 +209,13 @@ Public Class frmHeadLoadMaster
                 obj.Arr = New List(Of clsHeadLoadDCS)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
-
-                    Dim objTr As New clsHeadLoadDCS()
-                    objTr.VLC_CODE = clsCommon.myCstr((grow.Cells("DCS Code").Value))
-                    objTr.Head_Load_Basis = clsCommon.myCstr(grow.Cells("Head Load Basis").Value)
-
-                    If clsCommon.myLen(grow.Cells("Cycle Frequency").Value) > 0 Then
-                        objTr.Cycle_Frequency = clsCommon.myCdbl((grow.Cells("Cycle Frequency").Value))
-                    End If
-                    If clsCommon.myCDecimal(grow.Cells("Head Load Rate").Value) > 0 Then
+                    If clsCommon.myLen(grow.Cells("Head Load Rate").Value) > 0 Then
+                        Dim objTr As New clsHeadLoadDCS()
+                        objTr.VLC_CODE = clsCommon.myCstr((grow.Cells("DCS Code").Value))
+                        objTr.Head_Load_Basis = clsCommon.myCstr(grow.Cells("Head Load Basis").Value)
+                        If clsCommon.myLen(grow.Cells("Cycle Frequency").Value) > 0 Then
+                            objTr.Cycle_Frequency = clsCommon.myCdbl((grow.Cells("Cycle Frequency").Value))
+                        End If
                         objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
                         objTr.Deduction_Per = clsCommon.myCDecimal((grow.Cells(colDeductionPer).Value))
                         obj.Arr.Add(objTr)

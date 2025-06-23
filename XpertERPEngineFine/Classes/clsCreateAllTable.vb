@@ -25911,7 +25911,7 @@ Public Class clsCreateAllTable
             coll.Add("Against_DCS_ADDITION_DEDUCTION", "Varchar(30) not null references TSPL_DCS_ADDITION_DEDUCTION(Code)")
             coll.Add("SRN_CODE", "Varchar(30) null ")
             coll.Add("Amt", "DECIMAL(18,6) NULL")
-            coll.Add("Against_Milk_Collection_MCC_Detail", "integer NULL references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
+            coll.Add("Against_Milk_Collection_MCC_Detail", "integer NULL")
             coll.Add("Against_Milk_Collection_DCS", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS(Document_No)")
             coll.Add("Against_Milk_Collection_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
