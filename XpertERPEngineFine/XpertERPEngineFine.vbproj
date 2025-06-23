@@ -158,6 +158,7 @@
     <Compile Include="clsLanguage.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
+    <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
     <Compile Include="DemandUploaderClass\clsDemandBookingUploader.vb" />
     <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
