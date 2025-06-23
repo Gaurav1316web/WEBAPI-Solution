@@ -244,7 +244,7 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelect)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1116, 436)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1171, 436)
         Me.SplitContainer1.SplitterDistance = 400
         Me.SplitContainer1.TabIndex = 3
         '
@@ -263,7 +263,7 @@ Partial Class frmDairyGatePass
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1116, 201)
+        Me.Gv1.Size = New System.Drawing.Size(1171, 201)
         Me.Gv1.TabIndex = 1
         Me.Gv1.VarID = ""
         '
@@ -289,6 +289,7 @@ Partial Class frmDairyGatePass
         '
         Me.Panel1.Controls.Add(Me.lblDemandNo)
         Me.Panel1.Controls.Add(Me.txtDemandNo)
+        Me.Panel1.Controls.Add(Me.Panel2)
         Me.Panel1.Controls.Add(Me.chkIndividualCustomer)
         Me.Panel1.Controls.Add(Me.chkGhee)
         Me.Panel1.Controls.Add(Me.rgbItemType)
@@ -320,7 +321,6 @@ Partial Class frmDairyGatePass
         Me.Panel1.Controls.Add(Me.txtSalesman)
         Me.Panel1.Controls.Add(Me.MyLabel7)
         Me.Panel1.Controls.Add(Me.UsLock1)
-        Me.Panel1.Controls.Add(Me.Panel2)
         Me.Panel1.Controls.Add(Me.MyLabel6)
         Me.Panel1.Controls.Add(Me.MyLabel5)
         Me.Panel1.Controls.Add(Me.txtmultiBooking)
@@ -353,7 +353,7 @@ Partial Class frmDairyGatePass
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1116, 199)
+        Me.Panel1.Size = New System.Drawing.Size(1171, 199)
         Me.Panel1.TabIndex = 0
         '
         'lblDemandNo
@@ -720,7 +720,7 @@ Partial Class frmDairyGatePass
         Me.txtLoadingSlip.ReferenceFieldDesc = Nothing
         Me.txtLoadingSlip.ReferenceFieldName = Nothing
         Me.txtLoadingSlip.ReferenceTableName = Nothing
-        Me.txtLoadingSlip.Size = New System.Drawing.Size(233, 18)
+        Me.txtLoadingSlip.Size = New System.Drawing.Size(108, 18)
         Me.txtLoadingSlip.TabIndex = 8
         '
         'MyLabel11
@@ -927,7 +927,7 @@ Partial Class frmDairyGatePass
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(924, 7)
+        Me.UsLock1.Location = New System.Drawing.Point(860, 6)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(91, 20)
@@ -941,9 +941,9 @@ Partial Class frmDairyGatePass
         Me.Panel2.Controls.Add(Me.txtOpKM)
         Me.Panel2.Controls.Add(Me.txtClKM)
         Me.Panel2.Controls.Add(Me.lblClKM)
-        Me.Panel2.Location = New System.Drawing.Point(1029, 25)
+        Me.Panel2.Location = New System.Drawing.Point(899, 27)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(616, 24)
+        Me.Panel2.Size = New System.Drawing.Size(278, 24)
         Me.Panel2.TabIndex = 81
         Me.Panel2.Visible = False
         '
@@ -988,7 +988,7 @@ Partial Class frmDairyGatePass
         Me.txtOpKM.ReferenceFieldDesc = Nothing
         Me.txtOpKM.ReferenceFieldName = Nothing
         Me.txtOpKM.ReferenceTableName = Nothing
-        Me.txtOpKM.Size = New System.Drawing.Size(88, 20)
+        Me.txtOpKM.Size = New System.Drawing.Size(55, 20)
         Me.txtOpKM.TabIndex = 76
         Me.txtOpKM.Text = "0"
         Me.txtOpKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -1007,7 +1007,7 @@ Partial Class frmDairyGatePass
         Me.txtClKM.IsSourceFromTable = False
         Me.txtClKM.IsSourceFromValueList = False
         Me.txtClKM.IsUnique = False
-        Me.txtClKM.Location = New System.Drawing.Point(239, 2)
+        Me.txtClKM.Location = New System.Drawing.Point(206, 3)
         Me.txtClKM.MendatroryField = False
         Me.txtClKM.MyLinkLable1 = Me.lblClKM
         Me.txtClKM.MyLinkLable2 = Nothing
@@ -1015,7 +1015,7 @@ Partial Class frmDairyGatePass
         Me.txtClKM.ReferenceFieldDesc = Nothing
         Me.txtClKM.ReferenceFieldName = Nothing
         Me.txtClKM.ReferenceTableName = Nothing
-        Me.txtClKM.Size = New System.Drawing.Size(137, 20)
+        Me.txtClKM.Size = New System.Drawing.Size(61, 20)
         Me.txtClKM.TabIndex = 78
         Me.txtClKM.Text = "0"
         Me.txtClKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -1025,7 +1025,7 @@ Partial Class frmDairyGatePass
         '
         Me.lblClKM.FieldName = Nothing
         Me.lblClKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblClKM.Location = New System.Drawing.Point(170, 4)
+        Me.lblClKM.Location = New System.Drawing.Point(136, 4)
         Me.lblClKM.Name = "lblClKM"
         Me.lblClKM.Size = New System.Drawing.Size(64, 16)
         Me.lblClKM.TabIndex = 79
@@ -1573,7 +1573,7 @@ Partial Class frmDairyGatePass
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel10.Location = New System.Drawing.Point(794, 9)
+        Me.MyLabel10.Location = New System.Drawing.Point(849, 9)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(251, 16)
         Me.MyLabel10.TabIndex = 1033
@@ -1672,7 +1672,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1046, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1101, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 5
@@ -1682,14 +1682,14 @@ Partial Class frmDairyGatePass
         '
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1116, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1171, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1116, 456)
+        Me.ClientSize = New System.Drawing.Size(1171, 456)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmDairyGatePass"

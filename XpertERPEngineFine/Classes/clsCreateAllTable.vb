@@ -8363,6 +8363,8 @@ Public Class clsCreateAllTable
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD Demand_UniqueID INT IDENTITY(1,1)")
                     clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD CONSTRAINT UQ_UniqueIDUNIQUE (Demand_UniqueID)")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER_Delete_Data add Demand_UniqueID int null")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER_Hist_Data add Demand_UniqueID int null")
                 End If
             Catch ex As Exception
             End Try
@@ -31253,6 +31255,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Apply_TPT", "integer null")
             coll.Add("Recommended_By", "Varchar(50) null")
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
+            coll.Add("Demand_UniqueID", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "

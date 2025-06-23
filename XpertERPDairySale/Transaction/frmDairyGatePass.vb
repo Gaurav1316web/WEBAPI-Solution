@@ -449,7 +449,7 @@ Public Class frmDairyGatePass
                     End If
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         If chkIndividualCustomer.Checked Then
-                            strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=1 "
+                            strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=1 and TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID='" + txtDemandNo.Value + "' "
                         Else
                             strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=0 "
                         End If
@@ -3059,8 +3059,8 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
 
     Private Sub txtDemandNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDemandNo._MYValidating
         Try
-            Dim strQry As String = "select top 1000 Demand_UniqueID as Code,Document_No,Route_No,Location_Code from TSPL_DEMAND_BOOKING_MASTER "
-            Dim whrcls As String = "  convert(date,Document_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") + "' and IsIndividualCustomer=1 and Posted=1 "
+            Dim strQry As String = "select distinct TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID as Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code as [Booth Code],TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code "
+            Dim whrcls As String = "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 and TSPL_DEMAND_BOOKING_MASTER.Posted=1 "
             txtDemandNo.Value = clsCommon.ShowSelectForm("DemandSearch", strQry, "Code", whrcls, txtDemandNo.Value, "Code", isButtonClicked)
             fndRouteNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
             txtLocCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))

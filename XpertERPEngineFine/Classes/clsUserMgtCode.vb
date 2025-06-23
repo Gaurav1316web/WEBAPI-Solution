@@ -1530,6 +1530,7 @@ Public Class clsUserMgtCode
     Public Const frmApplyLoan As String = "APPLY_LOAN"
     Public Const frmArrear As String = "Arrear"
     Public Const frmDA_Arrear As String = "DA_Arrear"
+    Public Const frmLeaveIncashment As String = "L_Incashment"
     Public Const frmAllowanceDetails As String = "ALLOWANCE"
     Public Const frmDeductionDetails As String = "DEDUCTION"
     Public Const frmEmployeeStatus As String = "EMP_Status"

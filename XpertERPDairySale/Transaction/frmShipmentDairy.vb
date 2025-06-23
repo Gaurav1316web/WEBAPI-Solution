@@ -1039,9 +1039,18 @@ Public Class frmShipmentDairy
             chkIndividualCustomer.Visible = True
             chkIndividualCustomer.Checked = False
             chkIndividualCustomer.Enabled = True
+            lblDemandNO.Visible = True
+            txtDemandNo.Visible = True
+            txtDemandNo.Enabled = False
+            txtDemandNo.Value = ""
+
         Else
             chkIndividualCustomer.Visible = False
             chkIndividualCustomer.Checked = False
+            lblDemandNO.Visible = False
+            txtDemandNo.Visible = False
+            txtDemandNo.Enabled = False
+            txtDemandNo.Value = ""
         End If
         chkCreateAutoInvoice.Checked = True
         If clsERPFuncationality.GetGSTStatus(txtDate.Value) = True Then
@@ -7757,6 +7766,11 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             obj.OrgCustCOde = strOrginalCust
             obj.IsEwaybill = IIf(chkIsEWayBill.Checked, 1, 0)
             obj.IsIndividualCustomer = IIf(chkIndividualCustomer.Checked, 1, 0)
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                If chkIndividualCustomer.Checked Then
+                    obj.Demand_UniqueID = txtDemandNo.Value
+                End If
+            End If
             If txtCustPODate.Checked Then
                 obj.Podate = txtCustPODate.Value
             End If
@@ -8532,6 +8546,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 cmbDisItemType.Enabled = False
                 cmbShift.Enabled = False
                 chkIndividualCustomer.Enabled = False
+                txtDemandNo.Enabled = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -8597,6 +8612,9 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                 chkownVehicle.Checked = IIf(obj.Is_OwnVehicle = 1, True, False)
                 chkIsEWayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 chkIndividualCustomer.Checked = IIf(obj.IsIndividualCustomer = 1, True, False)
+                If clsCommon.myLen(obj.Demand_UniqueID) > 0 Then
+                    txtDemandNo.Value = obj.Demand_UniqueID
+                End If
                 TxtRoundoff.Text = obj.RoundOffAmount
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     If clsCommon.myCdbl(obj.RoundOffAmount) > 0.00 OrElse clsCommon.myCdbl(obj.RoundOffAmount) < 0.00 Then
@@ -15413,7 +15431,12 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     End If
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         If chkIndividualCustomer.Checked Then
-                            qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=1 "
+                            If clsCommon.myLen(txtDemandNo.Value) > 0 Then
+                                qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=1 and TSPL_Demand_Booking_Master.Demand_UniqueID='" + txtDemandNo.Value + "'  "
+
+                            Else
+                                Throw New Exception("Please Select Demand no")
+                            End If
                         Else
                             qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=0 "
                         End If
@@ -16111,6 +16134,33 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtDemandNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDemandNo._MYValidating
+        Try
+            Dim strQry As String = "select distinct TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID as Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code as [Booth Code],TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code "
+            Dim whrcls As String = "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 and TSPL_DEMAND_BOOKING_MASTER.Posted=1 "
+            txtDemandNo.Value = clsCommon.ShowSelectForm("DemandSearch", strQry, "Code", whrcls, txtDemandNo.Value, "Code", isButtonClicked)
+            txtRouteNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
+            'txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
+            Dim shiftType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ShiftType from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
+            If clsCommon.CompairString(shiftType, "Morning") = CompairStringResult.Equal Then
+                cmbShift.SelectedValue = "AM"
+            ElseIf clsCommon.CompairString(shiftType, "Evening") = CompairStringResult.Equal Then
+                cmbShift.SelectedValue = "PM"
+            End If
+            GetRouteNO(False, False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkIndividualCustomer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIndividualCustomer.ToggleStateChanged
+        If chkIndividualCustomer.Checked Then
+            txtDemandNo.Enabled = True
+        Else
+            txtDemandNo.Enabled = False
+        End If
     End Sub
 End Class
 Class tempSchemStructrue
