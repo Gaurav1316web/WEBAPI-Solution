@@ -397,12 +397,11 @@ Partial Class frmMakeSavingPayment
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(370, 7)
+        Me.btnPrint.Location = New System.Drawing.Point(370, 6)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 283
         Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
         '
         'btnReverse
         '
