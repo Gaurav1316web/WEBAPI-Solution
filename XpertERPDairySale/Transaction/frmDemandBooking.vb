@@ -7,6 +7,7 @@ Imports XpertERPEngine
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim PrintOnlyPostedDocument As Boolean = False
     Dim isIndent As Boolean = False
     Dim GVTruckSheet As MyRadGridView
     Dim gvFullMode As Boolean = False
@@ -103,6 +104,7 @@ Public Class frmDemandBooking
 #End Region
     Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+            PrintOnlyPostedDocument = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, Nothing)) = 1, True, False)
             gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
             blnPageLoad = True
             EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
@@ -1267,6 +1269,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 Else
                     UsLock1.Status = ERPTransactionStatus.Pending
                 End If
+                checkPrintSetting()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                     txtDemandUniqueID.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Demand_UniqueID from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"))
                 End If
@@ -1689,10 +1692,11 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 End If
                 'HideUnhideRowsAndColumnsOFGrid()
             End If
-            btnPrint.Enabled = True
+            'btnPrint.Enabled = True
             lblTotalLitre.Text = ""
             lblTotalCrate.Text = ""
             lblDocumentAmt.Text = ""
+            checkPrintSetting()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -3519,13 +3523,33 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                     HideUnhideRowsAndColumnsOFGrid()
                 End If
             End If
-            btnPrint.Enabled = True
+            'btnPrint.Enabled = True
             txtPCount.Text = ""
             txtPAmt.Text = ""
+            checkPrintSetting()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Sub checkPrintSetting()
+        If PrintOnlyPostedDocument AndAlso clsCommon.CompairString(clsCommon.myCstr(UsLock1.Status), "Approved") = CompairStringResult.Equal Then
+            btnPrint.Enabled = True
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                If rdbnFreshAmbientBoth.IsChecked Then
+                    SplitButtonTruckSheet.Enabled = True
+                Else
+                    SplitButtonTruckSheet.Enabled = False
+                End If
+            Else
+                SplitButtonTruckSheet.Enabled = False
+            End If
+        Else
+            btnPrint.Enabled = False
+            SplitButtonTruckSheet.Enabled = False
+        End If
+    End Sub
+
     Private Sub rdbnBoth_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbnFreshAmbientBoth.ToggleStateChanged
         Try
             If isInsideLoadData = False Then
@@ -3534,14 +3558,15 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                     If rdbnFreshAmbientBoth.IsChecked Then
-                        SplitButtonTruckSheet.Enabled = True
+                        'SplitButtonTruckSheet.Enabled = True
+                        checkPrintSetting()
                     Else
                         SplitButtonTruckSheet.Enabled = False
                     End If
                 End If
                 'HideUnhideRowsAndColumnsOFGrid()
             End If
-            btnPrint.Enabled = False
+            'btnPrint.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
