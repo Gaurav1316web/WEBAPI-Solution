@@ -23,7 +23,7 @@ Partial Class YearlyBillReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -54,6 +54,7 @@ Partial Class YearlyBillReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rdbArea = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -87,6 +88,7 @@ Partial Class YearlyBillReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -141,6 +143,7 @@ Partial Class YearlyBillReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rdbArea)
         Me.RadGroupBox1.Controls.Add(Me.MyRadioButton1)
         Me.RadGroupBox1.Controls.Add(Me.rdbBMC)
         Me.RadGroupBox1.Controls.Add(Me.rdbBMCDCS)
@@ -177,7 +180,7 @@ Partial Class YearlyBillReport
         '
         'rdbBMCDCS
         '
-        Me.rdbBMCDCS.Location = New System.Drawing.Point(81, 11)
+        Me.rdbBMCDCS.Location = New System.Drawing.Point(75, 11)
         Me.rdbBMCDCS.MyLinkLable1 = Nothing
         Me.rdbBMCDCS.MyLinkLable2 = Nothing
         Me.rdbBMCDCS.Name = "rdbBMCDCS"
@@ -389,7 +392,7 @@ Partial Class YearlyBillReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -451,6 +454,17 @@ Partial Class YearlyBillReport
         Me.btnReset.TabIndex = 160
         Me.btnReset.Text = "Reset"
         '
+        'rdbArea
+        '
+        Me.rdbArea.Location = New System.Drawing.Point(224, 11)
+        Me.rdbArea.MyLinkLable1 = Nothing
+        Me.rdbArea.MyLinkLable2 = Nothing
+        Me.rdbArea.Name = "rdbArea"
+        Me.rdbArea.Size = New System.Drawing.Size(43, 18)
+        Me.rdbArea.TabIndex = 5
+        Me.rdbArea.TabStop = False
+        Me.rdbArea.Text = "Area"
+        '
         'YearlyBillReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -500,6 +514,7 @@ Partial Class YearlyBillReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -535,4 +550,5 @@ Partial Class YearlyBillReport
     Friend WithEvents rdbBMC As common.Controls.MyRadioButton
     Friend WithEvents rdbBMCDCS As common.Controls.MyRadioButton
     Friend WithEvents rdbDCS As common.Controls.MyRadioButton
+    Friend WithEvents rdbArea As common.Controls.MyRadioButton
 End Class

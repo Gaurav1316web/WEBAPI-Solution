@@ -68,7 +68,9 @@ Public Class clsQualityCheckApprovalForSRN
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
 
                     If Not arrdocumentcode.Contains(objtr.Document_Code) Then
-                        arrdocumentcode.Add(objtr.Document_Code)
+                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select NIR_QC from TSPL_MRN_HEAD Where Against_GRN In (select Gate_Entry_No from TSPL_QC_CHECK_HEAD where Document_Code='" + clsCommon.myCstr(objtr.Document_Code) + "')", trans)) = 0 AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
+                            arrdocumentcode.Add(objtr.Document_Code)
+                        End If
                     End If
                     'If (Not arrdocumentcode_WithoutRejected.Contains(objtr.Document_Code)) AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
                     '    arrdocumentcode_WithoutRejected.Add(objtr.Document_Code)
