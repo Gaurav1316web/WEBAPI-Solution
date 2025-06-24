@@ -58,6 +58,9 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPHRandPayroll\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="common" />
@@ -130,6 +133,7 @@
     <Compile Include="Classes\clsInvestmentType.vb" />
     <Compile Include="Classes\clsItemCapacityLimitHead.vb" />
     <Compile Include="Classes\clsITSection.vb" />
+    <Compile Include="Classes\clsLeakedSaleReturnHead.vb" />
     <Compile Include="Classes\clsMCCMaterailSalePriceChat.vb" />
     <Compile Include="Classes\clsODMaster.vb" />
     <Compile Include="Classes\clsODSheet.vb" />

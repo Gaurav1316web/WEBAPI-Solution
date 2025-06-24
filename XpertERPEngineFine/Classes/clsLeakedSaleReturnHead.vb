@@ -1,4 +1,6 @@
 ﻿Imports System.Data.SqlClient
+Imports XpertERPEngine
+
 Public Class clsLeakedSaleReturnHead
 #Region "Variables"
     Public Document_Code As String = Nothing
