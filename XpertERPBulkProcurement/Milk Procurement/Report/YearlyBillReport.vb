@@ -235,7 +235,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code"
 
 
-                Dim sQuery As String = Nothing
+                Dim sQuery As String = ""
                 If rdbSummary.IsChecked = True AndAlso rdbDCS.IsChecked = True Then
                     sQuery = "  Select VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
@@ -525,7 +525,11 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     End If
 
                 ElseIf rdbCycleW.IsChecked = True Then
-                    sQuery = " Select FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
+                    If rdbBMC.IsChecked OrElse rdbArea.IsChecked Then
+                        sQuery = "With BaseData As ("
+                    End If
+
+                    sQuery += "Select FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
                            ,To_Date,max(From_Date)From_Date,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
@@ -603,7 +607,7 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2 "
                     If rdbArea.IsChecked Then
                         sQuery += " where ISNULL(Area_Location_Code,'')<>'' "
-                        End If
+                    End If
                     sQuery += " group by To_Date "
                     If rdbDCS.IsChecked Then
                         sQuery += ",DCSCode"
@@ -614,9 +618,17 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
-
+                    If rdbBMC.IsChecked Then
+                        sQuery += " ) Select * from BaseData "
+                        sQuery += " Union All "
+                        sQuery += " Select 'Total of '+ Max(MCC_NAME) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Null As Area_Location_Code, Null As Location_Desc,MCC As MCC,Max(MCC_Name) As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By MCC Order By MCC ,To_Date "
+                    ElseIf rdbArea.IsChecked Then
+                        sQuery += " ) Select * from BaseData "
+                        sQuery += " Union All "
+                        sQuery += " Select 'Total of '+ Max(Location_Desc) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Max(Area_Location_Code) As Area_Location_Code, Max(Location_Desc) As Location_Desc,Null As MCC,Null As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By Area_Location_Code Order By Area_Location_Code ,To_Date "
+                    End If
                 ElseIf rdbMonthCycle.IsChecked = True Then
-                    sQuery = "  With BaseData As ( Select DATENAME(MONTH, max(From_Date)) As Month_Name,MONTH(max(From_Date)) As Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
+                        sQuery = "  With BaseData As ( Select DATENAME(MONTH, max(From_Date)) As Month_Name,MONTH(max(From_Date)) As Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
                            ,To_Date,max(From_Date)From_Date,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
@@ -683,7 +695,7 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2"
                     If rdbArea.IsChecked Then
                         sQuery += " where ISNULL(Area_Location_Code,'')<>'' "
-                        End If
+                    End If
                     sQuery += " group by To_Date "
                     If rdbDCS.IsChecked Then
                         sQuery += ",DCSCode"
@@ -716,7 +728,42 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.EnableFiltering = True
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 If dt.Rows.Count > 0 Then
-                    gv1.DataSource = dt
+                    If rdbBMC.IsChecked Then
+                        Dim dtNew As DataTable = dt.Clone()
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim distinctMCCs = (From row In dt.AsEnumerable()
+                                                Select New With {Key .MCCCode = row.Field(Of String)("MCC"),
+                                                                 Key .MCCName = row.Field(Of String)("MCC_Name")}).Distinct().ToList()
+
+                            For Each MCC In distinctMCCs
+                                dtNew.Rows.Add(MCC.MCCName)
+                                Dim originalRows = dt.AsEnumerable().Where(Function(r) r.Field(Of String)("MCC") = MCC.MCCCode)
+                                For Each row As DataRow In originalRows
+                                    dtNew.ImportRow(row)
+                                Next
+                            Next
+                        End If
+                        gv1.DataSource = dtNew
+                    ElseIf rdbArea.IsChecked Then
+                        Dim dtNew As DataTable = dt.Clone()
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim distinctAreas = (From row In dt.AsEnumerable()
+                                                 Select New With {Key .AreaCode = row.Field(Of String)("Area_Location_Code"),
+                                                                 Key .AreaName = row.Field(Of String)("Location_Desc")}).Distinct().ToList()
+
+                            For Each Areas In distinctAreas
+                                dtNew.Rows.Add(Areas.AreaName)
+                                Dim originalRows = dt.AsEnumerable().Where(Function(r) r.Field(Of String)("Area_Location_Code") = Areas.AreaCode)
+                                For Each row As DataRow In originalRows
+                                    dtNew.ImportRow(row)
+                                Next
+                            Next
+                        End If
+                        gv1.DataSource = dtNew
+                    Else
+                        gv1.DataSource = dt
+                    End If
+
                     gv1.BestFitColumns()
                     SetGridFormation()
                     RadPageView2.SelectedPage = RadPageViewPage5
@@ -1016,10 +1063,10 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
 
             ElseIf rdbBMC.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
-                gv1.Columns("MCC").IsVisible = True
+                gv1.Columns("MCC").IsVisible = False
                 gv1.Columns("MCC").VisibleInColumnChooser = True
                 gv1.Columns("MCC_Name").HeaderText = "MCC Name"
-                gv1.Columns("MCC_Name").IsVisible = True
+                gv1.Columns("MCC_Name").IsVisible = False
                 gv1.Columns("MCC_Name").VisibleInColumnChooser = True
                 gv1.Columns("VSP_CODE").IsVisible = False
                 gv1.Columns("VSP_NAME").IsVisible = False
@@ -1032,7 +1079,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Area_Location_Code").VisibleInColumnChooser = True
                 gv1.Columns("Location_Desc").HeaderText = "Area Name"
-                gv1.Columns("Location_Desc").IsVisible = True
+                gv1.Columns("Location_Desc").IsVisible = False
                 gv1.Columns("Location_Desc").VisibleInColumnChooser = True
 
                 gv1.Columns("DCSCode").IsVisible = False
