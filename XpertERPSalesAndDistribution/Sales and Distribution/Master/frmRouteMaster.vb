@@ -291,7 +291,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route,ExtraM_Time,ExtraE_Time  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -335,6 +335,8 @@ Public Class frmRouteMaster
                     txtLocation.Value = clsCommon.myCstr(dt.Rows(i)("Location_Code"))
                     txtLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER Where Location_Code='" + txtLocation.Value + "'"))
                     fndZone.Value = clsCommon.myCstr(dt.Rows(i)("Area_Code"))
+                    txtExtraMTime.Text = clsCommon.myCdbl(dt.Rows(i)("ExtraM_Time"))
+                    txtExtraETime.Text = clsCommon.myCdbl(dt.Rows(i)("ExtraE_Time"))
                     If clsCommon.myCdbl(clsCommon.myCstr(dt.Rows(i)("Split_Print"))) > 0 Then
                         rbtnSplitPrint.Checked = True
                     Else
@@ -457,6 +459,8 @@ Public Class frmRouteMaster
                 chkDepartmentRoute.Visible = False
             End If
             chkDepartmentRoute.Checked = False
+            txtExtraETime.Text = "0"
+            txtExtraMTime.Text = "0"
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -606,6 +610,8 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Zone_Code", txtZone.Text, True)
         clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
+        clsCommon.AddColumnsForChange(coll1, "ExtraM_Time", clsCommon.myCdbl(txtExtraMTime.Text), True)
+        clsCommon.AddColumnsForChange(coll1, "ExtraE_Time", clsCommon.myCdbl(txtExtraETime.Text), True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
 
@@ -1467,6 +1473,18 @@ Public Class frmRouteMaster
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub txtExtraMTime_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtExtraMTime.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txtExtraETime_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtExtraETime.KeyPress
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
     End Sub
 
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged

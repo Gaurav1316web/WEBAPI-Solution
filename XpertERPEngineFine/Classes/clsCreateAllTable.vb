@@ -3403,6 +3403,8 @@ Public Class clsCreateAllTable
             coll.Add("Area_Code", "varchar(12) null references TSPL_AREA_MASTER(Code)")
             coll.Add("Split_Print", "integer null")
             coll.Add("Department_Route", "integer null")
+            coll.Add("ExtraM_Time", "integer null")
+            coll.Add("ExtraE_Time", "integer null")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ROUTE_MASTER", coll, "", True, False, "", "", "", True)
 
@@ -33939,6 +33941,62 @@ LL")
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Security_Rate decimal(18,6) ")
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Security_Amt decimal(18,6) ")
             Catch ex As Exception
+            End Try
+            Try
+                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(TABLE_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE DATA_TYPE = 'decimal' AND NUMERIC_PRECISION = 18 AND NUMERIC_SCALE = 2 AND TABLE_NAME = 'tspl_Demand_booking_detail' and COLUMN_NAME='Qty' ")) > 0 Then
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("drop index tspl_Demand_booking_detail.IND_TSPL_DEMAND_BOOKING_DETAIL_Document_No")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("drop index tspl_Demand_booking_detail.IDX_TSPL_DEMAND_BOOKING_DETAIL_Cust_Code_Item_Code")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("drop index tspl_Demand_booking_detail.TSPL_Demand_Booking_Detail_CDIQTLIA")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("Alter table tspl_Demand_booking_detail alter column Qty Decimal(18,3) ")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("Create  index IND_TSPL_DEMAND_BOOKING_DETAIL_Document_No on TSPL_DEMAND_BOOKING_DETAIL(Document_No)")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("Create  index IDX_TSPL_DEMAND_BOOKING_DETAIL_Cust_Code_Item_Code on TSPL_DEMAND_BOOKING_DETAIL(Cust_Code,Item_Code)")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("Create nonclustered index TSPL_Demand_Booking_Detail_CDIQTLIA ON TSPL_Demand_Booking_Detail (Cust_code,Document_No,Item_Code,Qty,Unit_code,TotalLtr_ItemWise,ItemNetAmount)")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("drop index tspl_Demand_booking_detail.TSPL_SD_SHIPMENT_DETAIL_DOCUMENT_CODE")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_Shipment_Detail alter column Qty Decimal(18,3) null")
+                        clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SHIPMENT_DETAIL alter column Balance_Qty Decimal(18,3) null")
+                        clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SHIPMENT_BOOKING_DETAIL alter column Qty Decimal(18,3) null")
+                    Catch ex As Exception
+                    End Try
+                    Try
+                        clsDBFuncationality.ExecuteNonQuery("Create nonclustered index TSPL_SD_SHIPMENT_DETAIL_DOCUMENT_CODE ON TSPL_SD_Shipment_Detail(DOCUMENT_CODE)")
+                    Catch ex As Exception
+                    End Try
+
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SALE_INVOICE_DETAIL alter column Qty Decimal(18,3) null")
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SALE_INVOICE_DETAIL alter column Balance_Qty Decimal(18,3) null")
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SALE_RETURN_DETAIL alter column Qty Decimal(18,3) null")
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SALE_RETURN_DETAIL alter column Balance_Qty Decimal(18,3) null")
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SALE_RETURN_DETAIL alter column ActualQty Decimal(18,3) null")
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SD_SALE_RETURN_DETAIL alter column ActualReturnQty Decimal(18,3) null")
+                    clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL alter column GP_Qty Decimal(18,3) null")
+                End If
+            Catch ex As Exception
+
             End Try
 
             coll = New Dictionary(Of String, String)()
