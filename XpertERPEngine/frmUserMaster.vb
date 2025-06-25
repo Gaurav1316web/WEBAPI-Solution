@@ -2981,35 +2981,62 @@ order by LEVEL"
     End Sub
 
     Private Sub btnSarasPro_Click(sender As Object, e As EventArgs) Handles btnSarasPro.Click
+        Dim frm As New FrmPWD(Nothing)
+        frm.strType = clsFixedParameterType.Transactionupdate
+        frm.strCode = clsFixedParameterCode.UserMaster
+        frm.ShowDialog()
+        If frm.isPasswordCorrect Then
+            'ShowRemarks()
+            OneTimeCheck = True
+        End If
         Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master  where  InActive='n' AND  ISNULL(Saras_Pro_Session_Expired,0)=0"
+        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(StrQry))
 
         Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtProSaras.arrValueMember, txtProSaras.arrDispalyMember)
 
         If clsCommon.myLen(ARR) > 0 Then
+            Dim arraylistcount As Integer = ARR.Count
             Dim qry As String = Nothing
             qry = "update tspl_user_master set  Saras_PRO_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
             Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
-                'clsCommon.MyMessageBoxShow(Me, " Do you want to Logout This User On Sara Pro App", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, " Do you want to Logout " & arraylistcount & " User On Sara Pro App", Me.Text)
             End If
         End If
     End Sub
 
     Private Sub btnSarasOrder_Click(sender As Object, e As EventArgs) Handles btnSarasOrder.Click
+        Dim frm As New FrmPWD(Nothing)
+        frm.strType = clsFixedParameterType.Transactionupdate
+        frm.strCode = clsFixedParameterCode.UserMaster
+        frm.ShowDialog()
+        If frm.isPasswordCorrect Then
+            'ShowRemarks()
+            OneTimeCheck = True
+        End If
+        'Dim qst As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
+        'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+
         Dim StrQry As String = "select User_Code as Code,User_Name as Name from tspl_user_master where  InActive='n'  AND  ISNULL(Saras_order_Session_Expired,0)=0"
+
         Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtOrderSaras.arrValueMember, txtOrderSaras.arrDispalyMember)
 
         If clsCommon.myLen(ARR) > 0 Then
+            Dim arraylistcount As Integer = ARR.Count
+
             Dim qry As String = Nothing
             qry = "update tspl_user_master set  Saras_order_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
             Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
-                'clsCommon.MyMessageBoxShow(Me, " Do you want to Logout This User On Sara order App", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, " Do you want to Logout  " & arraylistcount & "   User On Sara Pro App", Me.Text)
             End If
+
         End If
     End Sub
 
+    Private Sub txtOrderSaras_Load(sender As Object, e As EventArgs) Handles txtOrderSaras.Load
 
+    End Sub
 
     Private Sub SaveUserMapping()
         Try
