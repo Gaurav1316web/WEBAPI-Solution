@@ -6513,11 +6513,13 @@ Public Class clsPurchaseOrderDetail
         Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
             " select TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty"
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, trans)) = 1 Then
-            qry += " +((TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty * ISNULL(TSPL_ITEM_MASTER.tolerence ,0))/100)"
+            qry += " +(case when isnull(TSPL_ITEM_SLAB_TOLERANCE.Qty,0)>0 and isnull(TSPL_ITEM_SLAB_TOLERANCE.Qty,0)<((TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty * ISNULL(TSPL_ITEM_MASTER.tolerence, 0))/ 100 ) then isnull(TSPL_ITEM_SLAB_TOLERANCE.Qty,0) else ((TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty * ISNULL(TSPL_ITEM_MASTER.tolerence, 0))/ 100) end) "
         End If
-        qry += " as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No 
-                left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PURCHASE_ORDER_DETAIL.item_code
-                where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'" &
+        qry += " as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL 
+left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No 
+left outer join tspl_item_master on tspl_item_master.item_code=TSPL_PURCHASE_ORDER_DETAIL.item_code
+left outer join TSPL_ITEM_SLAB_TOLERANCE on TSPL_ITEM_SLAB_TOLERANCE.Item_Code=TSPL_PURCHASE_ORDER_DETAIL.item_code and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty>=TSPL_ITEM_SLAB_TOLERANCE.Range_From  and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty<=TSPL_ITEM_SLAB_TOLERANCE.Range_To
+where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'" &
             " union all "
         If clsCommon.CompairString(CompCode, "RCDFCF") = CompairStringResult.Equal Then
             qry += "select  TSPL_GRN_DETAIL.Item_Code as ICode,CASE WHEN ISNULL(TSPL_SRN_DETAIL.SRN_Qty, 0) > 0 or  TSPL_QC_CHECK_HEAD.QC_Status='REJECTED' THEN TSPL_SRN_DETAIL.SRN_Qty ELSE (CASE WHEN ISNULL(TSPL_MRN_DETAIL.MRN_Qty, 0) > 0 THEN CASE WHEN TSPL_NIR_QC.QC_Status = 0 THEN 0 ELSE TSPL_MRN_DETAIL.MRN_Qty END ELSE (CASE WHEN (tspl_grn_head.VisualQCStatusSecond = 3 OR tspl_grn_head.VisualQCStatus = 3) THEN 0 ELSE TSPL_GRN_DETAIL.GRN_Qty END )END ) END AS Qty,-1 as RI from TSPL_GRN_DETAIL 
