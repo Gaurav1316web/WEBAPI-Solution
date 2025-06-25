@@ -791,7 +791,7 @@ Public Class frmGRN
         repoPendingQty.HeaderText = "Pending Quantity"
         repoPendingQty.Name = colPendingQty
         repoPendingQty.IsVisible = False
-        repoPendingQty.VisibleInColumnChooser = False
+        repoPendingQty.VisibleInColumnChooser = True
         repoPendingQty.Minimum = 0
         repoPendingQty.Width = 150
         repoPendingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -6513,8 +6513,7 @@ Public Class frmGRN
                     gv1.CurrentRow.Cells(colItemInsurancePer).ReadOnly = IIf(clsCommon.CompairString(clsCalculationlApplyON.RowTypeApplyOnPercent, clsCommon.myCstr(gv1.CurrentRow.Cells(colItemInsuranceApplyOn).Value)) = CompairStringResult.Equal, False, True)
                 ElseIf (e.Column Is gv1.Columns(colItemInsuranceAmt)) Then
                     gv1.CurrentRow.Cells(colItemInsuranceAmt).ReadOnly = IIf(clsCommon.CompairString(clsCalculationlApplyON.RowTypeApplyOnAmount, clsCommon.myCstr(gv1.CurrentRow.Cells(colItemInsuranceApplyOn).Value)) = CompairStringResult.Equal, False, True)
-
-                ElseIf gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), Nothing) Then
+                ElseIf (e.Column Is gv1.Columns(colHSNNo)) Then
                     If clsCommon.myLen(gv1.CurrentRow.Cells(colHSNNo).Value) <= 0 Then
                         gv1.CurrentRow.Cells(colHSNNo).ReadOnly = False
                     Else
