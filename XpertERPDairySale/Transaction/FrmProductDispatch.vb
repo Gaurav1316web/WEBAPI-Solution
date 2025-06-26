@@ -5337,24 +5337,20 @@ Public Class FrmProductDispatch
             clsCommon.MyMessageBoxShow(Me, "Either Map taxgroup with location or Select tax group First", Me.Text)
             Exit Sub
         End If
-        'gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
         Dim strItemType As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value)
         If clsCommon.myLen(strItemType) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Row Type", Me.Text)
             Exit Sub
         End If
         If clsCommon.CompairString(strItemType, RowTypeItem) = CompairStringResult.Equal Then
-            Dim ItemTypeForBooking = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ItemTypeForDairyBooking & "'"))
             Dim strItem As String = ""
-            If ItemTypeForBooking = "B" Then
-                strItem = "(Is_FreshItem =1 or Is_Ambient=1)"
-            ElseIf ItemTypeForBooking = "F" Then
-                strItem = "Is_FreshItem =1 "
-            ElseIf ItemTypeForBooking = "A" Then
-                strItem = "Is_Ambient=1"
+            If clsCommon.CompairString(cboItemType.SelectedValue, "P") = CompairStringResult.Equal Then
+                strItem = " TypeOfItm='P'"
+            ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "I") = CompairStringResult.Equal Then
+                strItem = " TypeOfItm='I'"
+            ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "O") = CompairStringResult.Equal Then
+                strItem = " TypeOfItm='O'"
             End If
-            'done by priti BHA/14/06/18-000053
-            strItem += "  and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 "
             gv1.CurrentRow.Cells(colICode).Value = clsItemMaster.getFinder(strItem, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), False)
             gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Default_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
             gv1.CurrentRow.Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
