@@ -1,7 +1,7 @@
 ﻿Imports XpertERPEngine
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmLeaveIncashment
+Partial Class frmLeaveEncashment
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
@@ -325,7 +325,6 @@ Partial Class frmLeaveIncashment
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.AllowEditRow = False
         Me.gv1.MasterTemplate.EnableGrouping = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
@@ -401,18 +400,18 @@ Partial Class frmLeaveIncashment
         Me.btnSave.TabIndex = 23
         Me.btnSave.Text = "Save"
         '
-        'frmLeaveIncashment
+        'frmLeaveEncashment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(870, 515)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmLeaveIncashment"
+        Me.Name = "frmLeaveEncashment"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "Leave Incashment"
+        Me.Text = "Leave Encashment"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)

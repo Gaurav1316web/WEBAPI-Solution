@@ -435,7 +435,7 @@ Public Class frmDairyGatePass
                     strQuery += "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                       "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  "
                     If AllowGatePassDemandTripWise Then
-                        strQuery += "   left outer  join  TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.item_code And TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code "
+                        strQuery += "   left outer  join  TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.item_code And TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code "
                     End If
                     strQuery += "where convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                       "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
@@ -3084,6 +3084,7 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
         txtSupplyDate.Enabled = flag
         RadGroupBox3.Enabled = flag
         rgbItemType.Enabled = flag
+        txtTripNo.Enabled = flag
     End Sub
 End Class
 Public Class clsDRDetail

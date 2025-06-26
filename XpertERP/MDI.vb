@@ -6856,8 +6856,8 @@ Public Class MDI
                     Case clsUserMgtCode.frmDA_Arrear
                         frm = New frmDA_Arrear()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmLeaveIncashment
-                        frm = New frmLeaveIncashment()
+                    Case clsUserMgtCode.frmLeaveEncashment
+                        frm = New frmLeaveEncashment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEmployee_Master
                         frm = New frmEmployee_Master()

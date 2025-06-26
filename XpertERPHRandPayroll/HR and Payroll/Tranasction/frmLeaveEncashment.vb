@@ -2,7 +2,7 @@
 Imports Telerik.WinControls.UI
 Imports XpertERPEngine
 Imports XpertERPEngineFine
-Public Class frmLeaveIncashment
+Public Class frmLeaveEncashment
 #Region "Variables"
     Dim isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -18,8 +18,8 @@ Public Class frmLeaveIncashment
 
 #End Region
     Private Sub SetUserMgmtNew()
-        Me.Form_ID = clsUserMgtCode.frmLeaveIncashment
-        MyBase.SetUserMgmt(clsUserMgtCode.frmLeaveIncashment)
+        Me.Form_ID = clsUserMgtCode.frmLeaveEncashment
+        MyBase.SetUserMgmt(clsUserMgtCode.frmLeaveEncashment)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
@@ -57,7 +57,7 @@ Public Class frmLeaveIncashment
 
     End Sub
     Private Sub LoadBlankGrid()
-        gv1.DataSource = Nothing
+
         gv1.Rows.Clear()
         gv1.Columns.Clear()
         Dim RepoCheck As New GridViewCheckBoxColumn
@@ -84,7 +84,6 @@ Public Class frmLeaveIncashment
         repoEmpCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoEmpCode.Width = 100
         repoEmpCode.IsVisible = True
-        repoEmpCode.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoEmpCode)
         Dim repoEmpName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoEmpName.FormatString = ""
@@ -135,9 +134,8 @@ Public Class frmLeaveIncashment
         repoAmt.IsVisible = True
         repoAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoAmt)
-        gv1.Enabled = True
-        gv1.AllowAddNewRow = False
         gv1.AllowDeleteRow = True
+        gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = False
         gv1.AllowRowReorder = False
@@ -145,7 +143,6 @@ Public Class frmLeaveIncashment
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
-        gv1.BestFitColumns()
         gv1.Rows.AddNew()
     End Sub
     Private Sub LoadDocType()
@@ -155,8 +152,8 @@ Public Class frmLeaveIncashment
         Dim dr As DataRow = Nothing
 
         dr = dt.NewRow()
-        dr("Code") = "Leave Incashment"
-        dr("Name") = "Leave Incashment"
+        dr("Code") = "Leave Encashment"
+        dr("Name") = "Leave Encashment"
         dt.Rows.Add(dr)
         dr = dt.NewRow()
         dr("Code") = "Surrender leave"
@@ -176,6 +173,9 @@ Public Class frmLeaveIncashment
     End Sub
 
     Private Sub frmLeaveIncashment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Enter AndAlso gv1.CurrentCell IsNot Nothing Then
+            SetGridFocus()
+        End If
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
             AddNew()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled Then
@@ -195,9 +195,54 @@ Public Class frmLeaveIncashment
     Private Sub funClose()
         Me.Close()
     End Sub
-
+    Function AllowToSave() As Boolean
+        Try
+            If clsCommon.myLen(txtLocationCode.Value) <= 0 Then
+                Throw New Exception("Please select Locaiton")
+            End If
+            If clsCommon.myLen(cmbDocType.SelectedValue) <= 0 Then
+                Throw New Exception("Please select DocType")
+            End If
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.CompairString(gv1.Rows(ii).Cells(colEmpCode).Value, Nothing) = CompairStringResult.Equal Then
+                    Continue For
+                End If
+                Dim strEmpCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colEmpCode).Value)
+                Dim strLeaveCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colLeaveType).Value)
+                Dim NoOfdays As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfDays).Value)
+                If NoOfdays <= 0 Then
+                    Throw New Exception("Please Fill No Of Days at Row No " + clsCommon.myCstr(ii + 1))
+                End If
+                For jj As Integer = 0 To gv1.Rows.Count - 1
+                    If jj = ii Then
+                        Continue For
+                    End If
+                    Dim innerEmpCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colEmpCode).Value)
+                    Dim innerLeaveCode As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colLeaveType).Value)
+                    If clsCommon.CompairString(strEmpCode, innerEmpCode) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strLeaveCode, innerLeaveCode) = CompairStringResult.Equal Then
+                        Throw New Exception("Same Employee and Leave type Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1))
+                    End If
+                Next
+            Next
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        SaveData()
+    End Sub
+    Private Sub SaveData()
+        Try
+            If AllowToSave() Then
 
+
+
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
@@ -225,6 +270,29 @@ Public Class frmLeaveIncashment
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
 
     End Sub
+    Sub SetGridFocus()
+        Try
+            Dim intCurrRow As Integer = gv1.CurrentRow.Index
+            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If intCurrRow = gv1.Rows.Count - 1 Then
+                gv1.Rows.AddNew()
+                gv1.CurrentRow = gv1.Rows(intCurrRow)
+            End If
+            If gv1.CurrentCell IsNot Nothing Then
+                If gv1.CurrentCell.ColumnInfo.Name = colEmpCode Then
+                    gv1.CurrentColumn = gv1.Columns(colLeaveType)
+                ElseIf gv1.CurrentCell.ColumnInfo.Name = colLeaveType Then
+                    gv1.CurrentColumn = gv1.Columns(colNoOfDays)
+                ElseIf gv1.CurrentCell.ColumnInfo.Name = colNoOfDays Then
+                    gv1.CurrentRow = gv1.Rows(intCurrRow + 1)
+                    gv1.CurrentColumn = gv1.Columns(colEmpCode)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
@@ -238,7 +306,7 @@ Public Class frmLeaveIncashment
                         gv1.CurrentRow.Cells(colempName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colEmpCode).Value) + "' "))
                     ElseIf e.Column Is gv1.Columns(colLeaveType) Then
                         Dim qry As String = " Select LEAVE_CODE As Code,LEAVE_NAME As [Leave Name] from TSPL_LEAVE_MASTER "
-                        Dim Whrcls As String = " Emp_Status='Active' "
+                        Dim Whrcls As String = " "
                         gv1.CurrentRow.Cells(colLeaveType).Value = clsCommon.ShowSelectForm("fndleavecode", qry, "Code", Whrcls, gv1.CurrentRow.Cells(colLeaveType).Value, "Code", True)
                         gv1.CurrentRow.Cells(colLeaveName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select LEAVE_NAME from TSPL_LEAVE_MASTER where LEAVE_CODE='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colLeaveType).Value) + "' "))
                     ElseIf e.Column Is gv1.Columns(colNoOfDays) Then
@@ -321,5 +389,36 @@ Public Class frmLeaveIncashment
                 gv1.Rows(i).Cells(colLineNo).Value = i + 1
             End If
         Next
+    End Sub
+    Private Sub CreateTab()
+        Try
+            Dim coll As Dictionary(Of String, String)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "Varchar(30) not null  PRIMARY KEY")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("Location_Code", "VARCHAR(12) Not NULL references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Doc_Type", "varchar(20) Not NULL")
+            coll.Add("Remarks", "varchar(200) NULL")
+            coll.Add("Posted", "integer null")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Leave_Encashment_Head", coll, "", True, False, "", "Document_Code", "Document_Date", True)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "Varchar(30) not null  REFERENCES TSPL_Leave_Encashment_Head(Document_Code)")
+            coll.Add("IsApplied", "integer null ")
+            coll.Add("Emp_Code", "VARCHAR(12) Not NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("LEAVE_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_LEAVE_MASTER(LEAVE_CODE)")
+            coll.Add("No_of_Days", "Decimal(18,2) null")
+            coll.Add("Amount", "Decimal(18,2) null")
+
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Leave_Encashment_Detail", coll, "", True, False, "TSPL_Leave_Encashment_Head", "Document_Code", "", True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

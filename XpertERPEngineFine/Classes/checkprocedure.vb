@@ -1054,7 +1054,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmAllotmentOfLeaves, "ALlotment Of Leaves", "1.11.02.40", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.EmployeeBandMaster, "Employee Band Master", "1.11.02.41", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDA_Arrear, "DA Arrear", "1.11.02.42", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
-        InsertDefaultValue(clsUserMgtCode.frmLeaveIncashment, "Leave Incashment", "1.11.02.43", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.frmLeaveEncashment, "Leave Encashment", "1.11.02.43", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
         'Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRReport, "Report", "1.11.03", clsUserMgtCode.ModuleHR, "SM", 30)

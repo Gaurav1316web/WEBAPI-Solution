@@ -1161,10 +1161,10 @@
     <Compile Include="HR and Payroll\Tranasction\frmLeaveApplication.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HR and Payroll\Tranasction\frmLeaveIncashment.Designer.vb">
-      <DependentUpon>frmLeaveIncashment.vb</DependentUpon>
+    <Compile Include="HR and Payroll\Tranasction\frmLeaveEncashment.Designer.vb">
+      <DependentUpon>frmLeaveEncashment.vb</DependentUpon>
     </Compile>
-    <Compile Include="HR and Payroll\Tranasction\frmLeaveIncashment.vb">
+    <Compile Include="HR and Payroll\Tranasction\frmLeaveEncashment.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmLeaveMaster.Designer.vb">
@@ -2264,8 +2264,8 @@
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmLeaveApplication.resx">
       <DependentUpon>frmLeaveApplication.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HR and Payroll\Tranasction\frmLeaveIncashment.resx">
-      <DependentUpon>frmLeaveIncashment.vb</DependentUpon>
+    <EmbeddedResource Include="HR and Payroll\Tranasction\frmLeaveEncashment.resx">
+      <DependentUpon>frmLeaveEncashment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmLeaveMaster.resx">
       <DependentUpon>frmLeaveMaster.vb</DependentUpon>
