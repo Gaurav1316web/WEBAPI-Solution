@@ -1158,7 +1158,7 @@ Public Class clsGRNHead
                         qry = "select ISNULL(Is_Auto_Weighment,0)  as Is_Auto_Weighment,ISNULL(Visual_QC,0) as Visual_QC from tspl_item_master where Item_Code='" + obj.Arr(0).Item_Code + "'"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            If clsCommon.myCDecimal(dt.Rows(0)("Is_Auto_Weighment")) = 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("Visual_QC")) = 0 Then
+                            If Not (clsCommon.myCDecimal(dt.Rows(0)("Is_Auto_Weighment")) = 0 AndAlso clsCommon.myCDecimal(dt.Rows(0)("Visual_QC")) = 1) Then
                                 GenerateMRN(obj, trans)
                             End If
                         End If
