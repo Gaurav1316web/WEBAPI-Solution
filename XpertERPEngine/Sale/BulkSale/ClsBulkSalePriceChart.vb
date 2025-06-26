@@ -200,7 +200,7 @@ Public Class ClsBulkSalePriceChart
 
             Dim qry As String = "Update TSPL_BulkSalePrice_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Price_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BulkSalePrice_MASTER", "Price_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BulkSalePrice_MASTER", "Price_Code", trans)
 
             'trans.Commit()
 
