@@ -807,7 +807,7 @@ Public Class frmSaleReturnDairy
 
         Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoQty = New GridViewDecimalColumn()
-        repoQty.FormatString = ""
+        repoQty.FormatString = "{0:n3}"
         repoQty.HeaderText = "Return Quantity"
         repoQty.Name = colQty
         repoQty.Width = 80
@@ -840,7 +840,7 @@ Public Class frmSaleReturnDairy
         gv1.MasterTemplate.Columns.Add(repoCan)
 
         Dim repoActualRetQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoActualRetQty.FormatString = ""
+        repoActualRetQty.FormatString = "{0:n3}"
         repoActualRetQty.HeaderText = "Actual Return Qty"
         repoActualRetQty.Name = colActualRetQty
         repoActualRetQty.Width = 80
@@ -861,7 +861,7 @@ Public Class frmSaleReturnDairy
         gv1.MasterTemplate.Columns.Add(repoActualUnit)
 
         Dim repoActualQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoActualQty.FormatString = ""
+        repoActualQty.FormatString = "{0:n3}"
         repoActualQty.WrapText = True
         repoActualQty.HeaderText = "Actual Quantity"
         repoActualQty.Name = colActualQty
@@ -869,6 +869,7 @@ Public Class frmSaleReturnDairy
         repoActualQty.Minimum = 0
         repoActualQty.IsVisible = True
         repoActualQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoActualQty.DecimalPlaces = 3
         gv1.MasterTemplate.Columns.Add(repoActualQty)
 
         Dim repoActuConvAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -885,7 +886,7 @@ Public Class frmSaleReturnDairy
 
         Dim repoDamageQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoDamageQty = New GridViewDecimalColumn()
-        repoDamageQty.FormatString = ""
+        repoDamageQty.FormatString = "{0:n3}"
         repoDamageQty.HeaderText = "Damage Quantity"
         repoDamageQty.Name = colDamageQty
         repoDamageQty.Width = 80
@@ -3041,11 +3042,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
 
     Function ActualConversionInReturn(ByVal itemCode As String, ByVal ReturnUOM As String, ByVal ActualUOM As String, ByVal ActualQty As Double) As Double
-        Dim ActInReturn As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Convert(decimal(18,2),(" + clsCommon.myCstr(ActualQty) + "*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/CInFactor.Conversion_Factor)
+        Dim ActInReturn As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Convert(decimal(18,3),(" + clsCommon.myCstr(ActualQty) + "*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/CInFactor.Conversion_Factor)
 from  TSPL_ITEM_MASTER 
 Left Outer Join  TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 Left Outer Join (Select Item_Code,UOM_Code,Conversion_Factor from TSPL_ITEM_UOM_DETAIL Where Item_Code='" + itemCode + "' And UOM_Code='" + ReturnUOM + "') CInFactor On CInFactor.Item_Code=TSPL_ITEM_MASTER.Item_Code
-Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" + ActualUOM + "' "))
+Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" + ActualUOM + "' "))
         Return ActInReturn
     End Function
 
@@ -4399,7 +4400,7 @@ Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" 
 
                             ''richa agarwal CHECK QTY with balance qty through conversion ERO/30/06/20-001270
                             If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) > 0 Then
-                                Dim Qry As String = "select convert(decimal(18,2),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
+                                Dim Qry As String = "select convert(decimal(18,3),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
 " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & strICode & "'    and StockUnit.Stocking_Unit ='Y' " & Environment.NewLine &
 " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & strICode & "' WHERE  CurrentUnit.uom_code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value) & "' AND  LtrUnit.item_code='" & strICode & "' and LtrUnit.UOM_Code='" & strUOM & "'"
 
@@ -4421,7 +4422,7 @@ Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" 
                             End If
 
                             If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value)) > 0 Then
-                                Dim Qry As String = "select convert(decimal(18,2),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
+                                Dim Qry As String = "select convert(decimal(18,3),(" & clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value) & "/LtrUnit.conversion_factor)*StockUnit.conversion_factor*CurrentUnit.conversion_factor) as Ltr_Qty FROM  tspl_item_uom_detail LtrUnit " & Environment.NewLine &
 " left join tspl_item_uom_detail StockUnit on StockUnit.item_code='" & strICode & "'    and StockUnit.Stocking_Unit ='Y' " & Environment.NewLine &
 " left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code='" & strICode & "' WHERE  CurrentUnit.uom_code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colActualUOM).Value) & "' AND  LtrUnit.item_code='" & strICode & "' and LtrUnit.UOM_Code='" & strUOM & "'"
 
@@ -4492,7 +4493,7 @@ Where TSPL_ITEM_MASTER.Item_Code='FG00042' And TSPL_ITEM_UOM_DETAIL.UOM_Code='" 
                         If Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value), 2, MidpointRounding.AwayFromZero) > 0 Then
                             dblQty = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colActualQty).Value), 2, MidpointRounding.AwayFromZero)
                         End If
-                        If tQty.ToString("N2") <> dblQty.ToString("N2") Then
+                        If tQty.ToString("N3") <> dblQty.ToString("N3") Then
                             Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
                         End If
                         '' BHA/17/08/18-000446

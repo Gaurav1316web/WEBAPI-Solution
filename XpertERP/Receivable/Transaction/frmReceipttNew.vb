@@ -1112,18 +1112,16 @@ Public Class FrmReceipttNew
                         Else
                             'Dim check As String = "select isnull(sum(Type),0) as Type,max(receipt_no) as receipt_no from ( Select 1 as Type, receipt_no from TSPL_RECEIPT_HEADER Where Cheque_No='" + txtChkNo.Text + "'  AND receipt_no <> '" + fndRcptNo.Value + "'" & _
                             '" union all select (-1) as Type, Document_No from TSPL_BANK_REVERSE where Cheque_No ='" + txtChkNo.Text + "') as xx "
-                            Dim check As String = "select isnull(sum(Type),0) as Type,max(receipt_no) as receipt_no from ( Select 1 as Type, receipt_no from TSPL_RECEIPT_HEADER Where Cheque_No='" + txtChkNo.Text + "' and Bank_Code='" + fndBankCode.Value + "' AND receipt_no <> '" + fndRcptNo.Value + "'" &
-                            " union all select (-1) as Type, Document_No from TSPL_BANK_REVERSE where Cheque_No ='" + txtChkNo.Text + "' and Bank_Code='" + fndBankCode.Value + "' ) as xx "
+                            'Dim check As String = "select isnull(sum(Type),0) as Type,max(receipt_no) as receipt_no from ( Select 1 as Type, receipt_no from TSPL_RECEIPT_HEADER Where Cheque_No='" + txtChkNo.Text + "' and Bank_Code='" + fndBankCode.Value + "' AND receipt_no <> '" + fndRcptNo.Value + "'" &
+                            '" union all select (-1) as Type, Document_No from TSPL_BANK_REVERSE where Cheque_No ='" + txtChkNo.Text + "' and Bank_Code='" + fndBankCode.Value + "' ) as xx "
 
-
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(check)
-
+                            Dim dt As DataTable = CheckChequeNo(fndCustomer.Value, txtChkNo.Text, fndBankCode.Value, fndRcptNo.Value, Nothing)
                             Dim chkNo As String = txtChkNo.Text
                             If dt.Rows.Count > 0 Then
-                                If clsCommon.myCstr(dt.Rows(0).Item("Type")) = 1 Then
+                                If clsCommon.myCstr(dt.Rows(0).Item("Type")) >= 1 Then
                                     txtChkNo.Text = ""
                                     txtChkNo.Focus()
-                                    Throw New Exception("This Cheque No '" + chkNo + "' is Already Exists Against Payment No '" + clsCommon.myCstr(dt.Rows(0).Item("receipt_no")) + "'")
+                                    Throw New Exception("This Cheque No '" + chkNo + "' is Already Exists Against Receipt No '" + clsCommon.myCstr(dt.Rows(0).Item("receipt_no")) + "'")
 
                                 End If
                             End If
@@ -1430,6 +1428,15 @@ Public Class FrmReceipttNew
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Function
+
+    Private Function CheckChequeNo(custCode As String, ChequeNo As String, BankCode As String, ReceiptNo As String, tran As SqlTransaction) As DataTable
+        Dim check As String = "select isnull(sum(Type),0) as Type,max(receipt_no) as receipt_no from (
+Select 1 as Type, receipt_no from TSPL_RECEIPT_HEADER Where  Cust_Code='" + custCode + "' and  Cheque_No='" + ChequeNo + "' and Bank_Code='" + BankCode + "' AND receipt_no <> '" + ReceiptNo + "'
+union all 
+select (-1) as Type, Document_No from TSPL_BANK_REVERSE where  Cust_Code='" + custCode + "' and Cheque_No ='" + ChequeNo + "' and Bank_Code='" + BankCode + "' 
+) as xx "
+        Return clsDBFuncationality.GetDataTable(check, tran)
     End Function
     ''richa agarwal create function to check bank balance on save
     Public Function CheckNegativeBankBalanceonDelete() As Boolean
@@ -5351,7 +5358,7 @@ Public Class FrmReceipttNew
 
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
         Try
-            Qry = "Select '' as [Receipt Date], '' as [Description], '' as [Customer Code], '' as [Bank Code], '' as [Receipt Type(P/O/F)], '' as [Payment Mode], '' as [Cheque No], '' as [Cheque Date], 0 as Amount,'' as [Location Code],'N' as [Security Deposit],'' as [Security Deposit Type],0 as [Bank Charges],0 as [Foreign Bank Charges],1 as [Conv Rate],'' as [Distributer Code]"
+            Qry = "Select '' as [Receipt Date], '' as [Description], '' as [Customer Code], '' as [Bank Code], '' as [Receipt Type(P/O/F)], '' as [Payment Mode],'' as [Cheque From Bank], '' as [Cheque No], '' as [Cheque Date], 0 as Amount,'' as [Location Code],'N' as [Security Deposit],'' as [Security Deposit Type],0 as [Bank Charges],0 as [Foreign Bank Charges],1 as [Conv Rate],'' as [Distributer Code]"
             transportSql.ExporttoExcel(Qry, "", Me)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -5369,7 +5376,7 @@ Public Class FrmReceipttNew
         Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
         Dim Count As String = ""
-        If transportSql.importExcel(gv, "Receipt Date", "Description", "Customer Code", "Bank Code", "Receipt Type(P/O/F)", "Payment Mode", "Cheque No", "Cheque Date", "Amount", "Location Code", "Security Deposit", "Security Deposit Type", "Bank Charges", "Foreign Bank Charges", "Conv Rate", "Distributer Code") Then
+        If transportSql.importExcel(gv, "Receipt Date", "Description", "Customer Code", "Bank Code", "Receipt Type(P/O/F)", "Payment Mode", "Cheque From Bank", "Cheque No", "Cheque Date", "Amount", "Location Code", "Security Deposit", "Security Deposit Type", "Bank Charges", "Foreign Bank Charges", "Conv Rate", "Distributer Code") Then
             Dim trans As SqlTransaction = Nothing
             Dim linno As Integer = 0
             Try
@@ -5441,27 +5448,32 @@ Public Class FrmReceipttNew
                         Dim strPayType As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Payment_Type from TSPL_PAYMENT_CODE where Payment_Desc='" + obj.Payment_Code + "'", trans))
                         If clsCommon.CompairString(strPayType, "Cheque") = CompairStringResult.Equal Then
                             obj.Cheque_No = clsCommon.myCstr(grow.Cells("Cheque No").Value)
+
                             If clsCommon.myLen(obj.Cheque_No) > 0 Then
                                 If clsCommon.myLen(obj.Cheque_No) < 6 Or clsCommon.myLen(obj.Cheque_No) > 20 Then
                                     Throw New Exception("Length of Cheque No should between 6-20.")
                                 End If
-                                Qry = "Select Receipt_No from TSPL_RECEIPT_HEADER Where Cheque_No='" & obj.Cheque_No & "'"
-                                Qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
-                                If clsCommon.myLen(Qry) > 0 Then
-                                    Throw New Exception("Cheque '" & obj.Cheque_No & "' is Already Exists Against Receipt No '" & Qry & "'")
+                                Dim dt As DataTable = CheckChequeNo(obj.Cust_Code, obj.Cheque_No, obj.Bank_Code, "", trans)
+
+                                'Qry = "Select Receipt_No from TSPL_RECEIPT_HEADER Where Cheque_No='" & obj.Cheque_No & "'"
+                                'Qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    If clsCommon.myCstr(dt.Rows(0).Item("Type")) >= 1 Then
+                                        Throw New Exception("Cheque no [" & obj.Cheque_No & "] is already with receipt no [" + clsCommon.myCstr(dt.Rows(0)("receipt_no")) + "]")
+                                    End If
                                 End If
                                 If clsCommon.myLen(grow.Cells("Cheque Date").Value) > 0 Then
                                     obj.Cheque_Date = CDate(grow.Cells("Cheque Date").Value)
                                 Else
                                     Throw New Exception("Please enter Cheque Date.")
                                 End If
+                                obj.Cheque_From = clsCommon.myCstr(grow.Cells("Cheque From Bank").Value)
+                                If clsCommon.myLen(obj.Cheque_From) <= 0 Then
+                                    Throw New Exception("Please enter Cheque From Bank.")
+                                End If
                             Else
                                 Throw New Exception("Cheque No can't be blank")
-
-
-
                             End If
-
                         End If
                         If clsCommon.myCdbl(grow.Cells("Amount").Value) <= 0 Then
                             Throw New Exception("Enter Receipt Amount.")
@@ -5480,7 +5492,6 @@ Public Class FrmReceipttNew
                             Throw New Exception("Insert Location Code in All Rows ") ' + LineNo + ".")
                         End If
                         obj.Location_GL_Code = Loc_Code
-
                         obj.Receipt_Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
                         obj.UnApply_Amt = clsCommon.myCdbl(grow.Cells("Amount").Value)
                         obj.Balance_Amt = clsCommon.myCdbl(grow.Cells("Amount").Value)

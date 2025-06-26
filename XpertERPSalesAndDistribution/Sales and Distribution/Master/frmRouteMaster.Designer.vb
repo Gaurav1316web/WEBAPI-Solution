@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -100,6 +100,10 @@ Partial Class frmRouteMaster
         Me.rbtnSplitPrint = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkDepartmentRoute = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.lblExtraMTime = New common.Controls.MyLabel()
+        Me.lblExtraETime = New common.Controls.MyLabel()
+        Me.txtExtraMTime = New common.Controls.MyTextBox()
+        Me.txtExtraETime = New common.Controls.MyTextBox()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -161,6 +165,10 @@ Partial Class frmRouteMaster
         CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDepartmentRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblExtraMTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblExtraETime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExtraMTime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExtraETime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -982,7 +990,7 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.dgv.MyExportFilePath = ""
         Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
@@ -1323,11 +1331,83 @@ Partial Class frmRouteMaster
         Me.btnHistory.TabIndex = 1412
         Me.btnHistory.Text = "History"
         '
+        'lblExtraMTime
+        '
+        Me.lblExtraMTime.FieldName = Nothing
+        Me.lblExtraMTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblExtraMTime.Location = New System.Drawing.Point(576, 306)
+        Me.lblExtraMTime.Name = "lblExtraMTime"
+        Me.lblExtraMTime.Size = New System.Drawing.Size(105, 16)
+        Me.lblExtraMTime.TabIndex = 1413
+        Me.lblExtraMTime.Text = "Extra Morning Time"
+        '
+        'lblExtraETime
+        '
+        Me.lblExtraETime.FieldName = Nothing
+        Me.lblExtraETime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblExtraETime.Location = New System.Drawing.Point(576, 329)
+        Me.lblExtraETime.Name = "lblExtraETime"
+        Me.lblExtraETime.Size = New System.Drawing.Size(105, 16)
+        Me.lblExtraETime.TabIndex = 1415
+        Me.lblExtraETime.Text = "Extra Evening Time"
+        '
+        'txtExtraMTime
+        '
+        Me.txtExtraMTime.CalculationExpression = Nothing
+        Me.txtExtraMTime.FieldCode = Nothing
+        Me.txtExtraMTime.FieldDesc = Nothing
+        Me.txtExtraMTime.FieldMaxLength = 0
+        Me.txtExtraMTime.FieldName = Nothing
+        Me.txtExtraMTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtExtraMTime.isCalculatedField = False
+        Me.txtExtraMTime.IsSourceFromTable = False
+        Me.txtExtraMTime.IsSourceFromValueList = False
+        Me.txtExtraMTime.IsUnique = False
+        Me.txtExtraMTime.Location = New System.Drawing.Point(687, 306)
+        Me.txtExtraMTime.MaxLength = 8
+        Me.txtExtraMTime.MendatroryField = False
+        Me.txtExtraMTime.MyLinkLable1 = Me.rlblRouteLength
+        Me.txtExtraMTime.MyLinkLable2 = Nothing
+        Me.txtExtraMTime.Name = "txtExtraMTime"
+        Me.txtExtraMTime.ReferenceFieldDesc = Nothing
+        Me.txtExtraMTime.ReferenceFieldName = Nothing
+        Me.txtExtraMTime.ReferenceTableName = Nothing
+        Me.txtExtraMTime.Size = New System.Drawing.Size(75, 18)
+        Me.txtExtraMTime.TabIndex = 1416
+        '
+        'txtExtraETime
+        '
+        Me.txtExtraETime.CalculationExpression = Nothing
+        Me.txtExtraETime.FieldCode = Nothing
+        Me.txtExtraETime.FieldDesc = Nothing
+        Me.txtExtraETime.FieldMaxLength = 0
+        Me.txtExtraETime.FieldName = Nothing
+        Me.txtExtraETime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtExtraETime.isCalculatedField = False
+        Me.txtExtraETime.IsSourceFromTable = False
+        Me.txtExtraETime.IsSourceFromValueList = False
+        Me.txtExtraETime.IsUnique = False
+        Me.txtExtraETime.Location = New System.Drawing.Point(688, 328)
+        Me.txtExtraETime.MaxLength = 8
+        Me.txtExtraETime.MendatroryField = False
+        Me.txtExtraETime.MyLinkLable1 = Me.rlblRouteLength
+        Me.txtExtraETime.MyLinkLable2 = Nothing
+        Me.txtExtraETime.Name = "txtExtraETime"
+        Me.txtExtraETime.ReferenceFieldDesc = Nothing
+        Me.txtExtraETime.ReferenceFieldName = Nothing
+        Me.txtExtraETime.ReferenceTableName = Nothing
+        Me.txtExtraETime.Size = New System.Drawing.Size(75, 18)
+        Me.txtExtraETime.TabIndex = 1417
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(930, 511)
+        Me.Controls.Add(Me.txtExtraETime)
+        Me.Controls.Add(Me.txtExtraMTime)
+        Me.Controls.Add(Me.lblExtraETime)
+        Me.Controls.Add(Me.lblExtraMTime)
         Me.Controls.Add(Me.btnHistory)
         Me.Controls.Add(Me.chkDepartmentRoute)
         Me.Controls.Add(Me.rbtnSplitPrint)
@@ -1463,6 +1543,10 @@ Partial Class frmRouteMaster
         CType(Me.rbtnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDepartmentRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblExtraMTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblExtraETime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExtraMTime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExtraETime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1543,5 +1627,9 @@ Partial Class frmRouteMaster
     Friend WithEvents rbtnSplitPrint As RadCheckBox
     Friend WithEvents chkDepartmentRoute As RadCheckBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents lblExtraMTime As common.Controls.MyLabel
+    Friend WithEvents lblExtraETime As common.Controls.MyLabel
+    Friend WithEvents txtExtraMTime As common.Controls.MyTextBox
+    Friend WithEvents txtExtraETime As common.Controls.MyTextBox
 End Class
 

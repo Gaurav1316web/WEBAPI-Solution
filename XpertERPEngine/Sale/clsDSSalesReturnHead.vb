@@ -417,7 +417,7 @@ from
               ) As ConvQtyInCrate, 
               " + TSPL_SD_SALE_RETURN_detail + ".Unit_code, 
               convert(
-                Decimal(18, 2), 
+                Decimal(18, 3), 
                 " + TSPL_SD_SALE_RETURN_detail + ".Qty
               ) as Qty_Default, 
               (
@@ -877,13 +877,18 @@ from
             Dim frmCRV As New frmCrystalReportViewer()
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-
-                If dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 Else
-                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxableInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInvoice", "Sale Return", clsCommon.GetPrintDate(txtDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
                 End If
+
+                'If dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
+                '    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                'Else
+                '    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptSaleReturnNonTaxableInvoiceBKN", "Sale Return", clsCommon.GetPrintDate(txtDate), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                'End If
                 'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 '    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then

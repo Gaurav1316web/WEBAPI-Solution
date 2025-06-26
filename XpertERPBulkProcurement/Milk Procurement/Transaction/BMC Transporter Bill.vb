@@ -116,9 +116,19 @@ Public Class BMC_Transporter_Bill
         AddNew()
         RadGroupBox3.Enabled = False
         ReStoreGridLayout()
+        LoadHeadData()
 
     End Sub
 
+    Sub LoadHeadData()
+        Try
+            TxtKMRate.Text = clsDBFuncationality.getSingleValue(" Select top 1 KM_Rate from TSPL_BMC_TRANSPORTER_BILL_HEAD order by Document_Date desc")
+            TxtDieselMinus.Text = clsDBFuncationality.getSingleValue(" Select top 1 Diesel_Rate_Minus from TSPL_BMC_TRANSPORTER_BILL_HEAD order by Document_Date desc")
+            txtDieselplus.Text = clsDBFuncationality.getSingleValue(" Select top 1 Diesel_Rate_Plus from TSPL_BMC_TRANSPORTER_BILL_HEAD order by Document_Date desc")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub LoadBlankGrid()
         Dim qry As String = String.Empty
         gv1.Rows.Clear()
@@ -272,6 +282,10 @@ Public Class BMC_Transporter_Bill
         AddNew()
     End Sub
 
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Me.Close()
+    End Sub
+
     Sub AddNew()
         BlankAllControls()
         LoadBlankGrid()
@@ -313,19 +327,36 @@ Public Class BMC_Transporter_Bill
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        LoadBlankGrid()
         loadGridData()
         FatSnfShortageDetail()
         FatSnfRate()
-        Total_Toll_Tax = clsCommon.myCdbl(TxtTotalTollTax.Text)
-        Total_Ice_Charge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
-        Total_BMC_TOTAL = clsCommon.myCdbl(TxtBMCTotal.Text)
-        Total_fat_snf_shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
-        TxtTotalAmount.Text = clsCommon.myCdbl(Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
-        Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
-        TxtGrossAmount.Text = clsCommon.myCdbl(Total_Amount + Total_fat_snf_shortage)
-        btnGo.Enabled = False
+        IceCharge()
+        FatSnfCalculation()
     End Sub
 
+    Sub FatSnfCalculation()
+        Dim FatShortage As Double = clsCommon.myCdbl(txtFatShortage.Text)
+        Dim SnfShortage As Double = clsCommon.myCdbl(TxtSnfShortage.Text)
+        Dim fatrate As Double = clsCommon.myCdbl(TxtFatRate.Text)
+        Dim snfRate As Double = clsCommon.myCdbl(TxtSnfRate.Text)
+        Dim FatAmt As Double = clsCommon.myCdbl(FatShortage * fatrate)
+        Dim SnfAmt As Double = clsCommon.myCdbl(SnfShortage * snfRate)
+        TxtTotalFatSnfShortage.Text = clsCommon.myCdbl(FatAmt + SnfAmt)
+    End Sub
+
+    Sub IceCharge()
+        Try
+            Dim rowCount As Integer = gv1.Rows.Count
+            Dim Icecharge As Double = clsCommon.myCdbl(TxtIceCharge.Text)
+            If rowCount > 0 Then
+                TxtTotalIceCharge.Text = clsCommon.myCdbl(Icecharge * rowCount)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
     Sub FatSnfRate()
         Try
             Dim qry As String = ""
@@ -445,7 +476,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 If clsCommon.myLen(txtDieselplus.Text) > 0 Then
                     gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(txtDieselplus.Text))
                 Else
-                    gv1.CurrentRow.Cells(ColDiesel).Value = clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(TxtDieselMinus.Text))
+                    gv1.CurrentRow.Cells(ColDiesel).Value = -1 * clsCommon.myCdbl(clsCommon.myCdbl(dt.Rows(ii)("Distance")) * clsCommon.myCdbl(TxtDieselMinus.Text))
                 End If
 
             Next
@@ -455,36 +486,22 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
         End Try
     End Sub
 
-    Private Sub TxtTollTax_TextChanged(sender As Object, e As EventArgs) Handles TxtTollTax.TextChanged
-        Dim fromDate As Date = txtFromDate.Value
-        Dim toDate As Date = txtToDate.Value
-        Dim totalDays As Integer = DateDiff(DateInterval.Day, fromDate, toDate) + 1
-        'Console.WriteLine("Total Days (exclusive): " & totalDays)
-
-        'TxtTotalTollTax.Text = clsCommon.myCdbl(TxtTollTax.Text * totalDays)
-        Dim iceCharge As Double
-        If Double.TryParse(TxtTollTax.Text, iceCharge) Then
-            TxtTotalTollTax.Text = clsCommon.myCdbl(iceCharge * totalDays).ToString()
-        Else
-            TxtTotalTollTax.Text = "0"
-        End If
-
-    End Sub
 
     Private Sub TxtIceCharge_TextChanged(sender As Object, e As EventArgs) Handles TxtIceCharge.TextChanged
-        Dim fromDate As Date = txtFromDate.Value
-        Dim toDate As Date = txtToDate.Value
-        Dim totalDays As Integer = DateDiff(DateInterval.Day, fromDate, toDate) + 1
-        'Console.WriteLine("Total Days (exclusive): " & totalDays)
+        IceCharge()
+        'Dim fromDate As Date = txtFromDate.Value
+        'Dim toDate As Date = txtToDate.Value
+        'Dim totalDays As Integer = DateDiff(DateInterval.Day, fromDate, toDate) + 1
+        ''Console.WriteLine("Total Days (exclusive): " & totalDays)
 
-        'TxtTotalIceCharge.Text = clsCommon.myCdbl(TxtIceCharge.Text * totalDays)
-        ' Check if input is a valid number
-        Dim iceCharge As Double
-        If Double.TryParse(TxtIceCharge.Text, iceCharge) Then
-            TxtTotalIceCharge.Text = clsCommon.myCdbl(iceCharge * totalDays).ToString()
-        Else
-            TxtTotalIceCharge.Text = "0"
-        End If
+        ''TxtTotalIceCharge.Text = clsCommon.myCdbl(TxtIceCharge.Text * totalDays)
+        '' Check if input is a valid number
+        'Dim iceCharge As Double
+        'If Double.TryParse(TxtIceCharge.Text, iceCharge) Then
+        '    TxtTotalIceCharge.Text = clsCommon.myCdbl(iceCharge * totalDays).ToString()
+        'Else
+        '    TxtTotalIceCharge.Text = "0"
+        'End If
     End Sub
 
     Private Sub txtToDate_ValueChanged(sender As Object, e As EventArgs) Handles txtToDate.ValueChanged
@@ -493,117 +510,85 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
-            ' Check if edited column is GPSKM
-            If gv1.Columns(e.ColumnIndex).Name = "ColGPSKM" Then
-                Dim rowIndex As Integer = e.RowIndex
-                If rowIndex >= 0 Then
-                    Dim gpsKM As Decimal = 0
-                    Dim ratePerKM As Decimal = TxtKMRate.Text ' set your rate here
-
-                    ' Try parsing GPSKM
-                    If Decimal.TryParse(gv1.Rows(rowIndex).Cells("ColGPSKM").Value, gpsKM) Then
-                        ' Calculate and set amount
-                        gv1.Rows(rowIndex).Cells("ColAmount").Value = gpsKM * ratePerKM
-                    Else
-                        gv1.Rows(rowIndex).Cells("ColAmount").Value = 0 ' fallback if invalid input
-                    End If
-                End If
-            End If
-
-            TotalDiesel += gv1.CurrentRow.Cells(ColDiesel).Value
-            TotalAmount += gv1.CurrentRow.Cells(ColAmount).Value
-            TotalQuantity += gv1.CurrentRow.Cells(ColQuantity).Value
-            TxtBMCProrataamt.Text = TotalAmount
-            TxtBMCDiesel.Text = TotalDiesel
-            If TotalDiesel < 0 Then
-                TxtBMCTotal.Text = (TotalAmount + TotalDiesel)
-                'TxtBMCTotal.Text = TotalBMCQuantity
-            Else
-                TxtBMCTotal.Text = (TotalAmount - TotalDiesel)
-                'TxtBMCTotal.Text = TotalBMCQuantity
-            End If
-
-            Total_Toll_Tax = clsCommon.myCdbl(TxtTotalTollTax.Text)
-            Total_Ice_Charge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
-            Total_BMC_TOTAL = clsCommon.myCdbl(TxtBMCTotal.Text)
-            Total_fat_snf_shortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
-            TxtTotalAmount.Text = clsCommon.myCdbl(Total_BMC_TOTAL + Total_Ice_Charge + Total_Toll_Tax)
-            Total_Amount = clsCommon.myCdbl(TxtTotalAmount.Text)
-            TxtGrossAmount.Text = clsCommon.myCdbl(Total_Amount + Total_fat_snf_shortage)
-
             If (Not isInsideLoadData) Then
-                'If Not isCellValueChangedOpen Then
-                'isCellValueChangedOpen = True
-                'UpdateCurrentRow(gv1.CurrentRow.Index)
-                'End If
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    UpdateCurrentRow(gv1.CurrentRow.Index, Nothing)
+                    UpdateAllTotals(Nothing)
+                End If
 
             End If
+
         Catch ex As Exception
-            isInsideLoadData = False
-            isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
-
-        'Total_Amount_Grid = gv1.CurrentRow.Cells(ColAmount).Value
-        'Total_GPS_KM = gv1.CurrentRow.Cells(ColGPSKM).Value
-        'If Total_GPS_KM > 0 Then
-
-        'End If
     End Sub
 
-    Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+    Private Sub UpdateAllTotals(ByVal trans As SqlTransaction)
         Try
-            Dim Total_GPS_KM As Decimal = 0
-            Dim Total_KM As Decimal = 0
-            Dim Total_Amount_Grid As Decimal = 0
-            Dim Diesel_Plus As Decimal = 0
-            Dim Diesel_Minus As Decimal = 0
-            Dim TotalAmountGrid As Decimal = 0
-            Dim TotalDiesel As Decimal = 0
+            Dim BMCProrataAmt As Double = 0
+            Dim BMCDiesel As Double = 0
+            Dim BMCTotalAmt As Double = 0
+            Dim TollTaxAmt As Double = 0
+            Dim IceCharge As Double = 0
+            Dim FatSnfShortage As Double = 0
+            Dim AmtBfrGross As Double = 0
 
-            'If isInsideLoadData = True Then
-            TotalDiesel += gv1.CurrentRow.Cells(ColDiesel).Value
-                TotalAmount += gv1.CurrentRow.Cells(ColAmount).Value
-                TotalQuantity += gv1.CurrentRow.Cells(ColQuantity).Value
-                Total_GPS_KM = gv1.CurrentRow.Cells(ColGPSKM).Value
-                Total_KM = TxtKMRate.Text
-                Total_Amount_Grid = gv1.CurrentRow.Cells(ColAmount).Value
-
-
-                TxtBMCProrataamt.Text = TotalAmount
-                TxtBMCDiesel.Text = TotalDiesel
-                If TotalDiesel < 0 Then
-                    TxtBMCTotal.Text = (TotalAmount + TotalDiesel)
-                    'TxtBMCTotal.Text = TotalBMCQuantity
-                Else
-                    TxtBMCTotal.Text = (TotalAmount - TotalDiesel)
-                    'TxtBMCTotal.Text = TotalBMCQuantity
-                End If
-                For ii As Integer = 1 To gv1.Rows.Count
-                    If clsCommon.myCdbl(Total_GPS_KM) > 0 Then
-                        TotalAmountGrid = Total_Amount_Grid * Total_GPS_KM
-                        gv1.Rows(ii - 1).Cells(ColAmount).Value = clsCommon.myCdbl(TotalAmountGrid)
-                        'gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(Total_Amount_Grid) * clsCommon.myCdbl(Total_GPS_KM))
-
-                    Else
-                        TotalAmountGrid = Total_Amount_Grid * Total_KM
-                        gv1.Rows(ii - 1).Cells(ColAmount).Value = clsCommon.myCdbl(TotalAmountGrid)
-                        'gv1.CurrentRow.Cells(ColAmount).Value = clsCommon.myCdbl(clsCommon.myCdbl(Total_Amount_Grid) * clsCommon.myCdbl(Total_KM))
-                    End If
-                    If Diesel_Plus > 0 Then
-                        TotalDiesel = Total_KM * Diesel_Plus
-                        gv1.Rows(ii - 1).Cells(ColDiesel).Value = clsCommon.myCdbl(TotalDiesel)
-                        'gv1.CurrentRow.Cells(ColDiesel).Value = Total_KM * Diesel_Plus
-                    Else
-                        TotalDiesel = Total_KM * Diesel_Minus
-                        gv1.Rows(ii - 1).Cells(ColDiesel).Value = clsCommon.myCdbl(TotalDiesel)
-                        'gv1.CurrentRow.Cells(ColDiesel).Value = Total_KM * Diesel_Minus
-                    End If
-                Next
-            'End If
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                BMCProrataAmt = BMCProrataAmt + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColAmount).Value)
+                BMCDiesel = BMCDiesel + clsCommon.myCdbl(gv1.Rows(ii).Cells(ColDiesel).Value)
+            Next
+            TxtBMCProrataamt.Text = clsCommon.myCdbl(BMCProrataAmt)
+            TxtBMCDiesel.Text = clsCommon.myCdbl(BMCDiesel)
+            If BMCDiesel < 0 Then
+                TxtBMCTotal.Text = clsCommon.myCdbl(BMCProrataAmt + BMCDiesel)
+                '    'TxtBMCTotal.Text = TotalBMCQuantity
+            Else
+                TxtBMCTotal.Text = (BMCProrataAmt - BMCDiesel)
+                '    'TxtBMCTotal.Text = TotalBMCQuantity
+            End If
+            BMCTotalAmt = clsCommon.myCdbl(TxtBMCTotal.Text)
+            TollTaxAmt = clsCommon.myCdbl(TxtTollTax.Text)
+            IceCharge = clsCommon.myCdbl(TxtTotalIceCharge.Text)
+            TxtTotalTollTax.Text = clsCommon.myCdbl(TollTaxAmt)
+            TxtTotalAmount.Text = clsCommon.myCdbl(BMCTotalAmt + TollTaxAmt + IceCharge)
+            AmtBfrGross = clsCommon.myCdbl(TxtTotalAmount.Text)
+            FatSnfShortage = clsCommon.myCdbl(TxtTotalFatSnfShortage.Text)
+            TxtGrossAmount.Text = clsCommon.myCdbl(AmtBfrGross + FatSnfShortage)
 
 
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer, ByVal trans As SqlTransaction)
+        Try
+            Dim dblKM As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColKM).Value)
+            Dim dblGPSKM As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColGPSKM).Value)
+            Dim KMRate As Double = clsCommon.myCdbl(TxtKMRate.Text)
+            Dim DieselPlus As Double = clsCommon.myCdbl(txtDieselplus.Text)
+            Dim DieselMinus As Double = -Math.Abs(clsCommon.myCdbl(TxtDieselMinus.Text))
+            Dim dblBasicAmt As Double = 0
+            Dim dblBasicDiesel As Double = 0
+            If dblGPSKM > 0 Then
+                dblBasicAmt = KMRate * dblGPSKM
+            Else
+                dblBasicAmt = KMRate * dblKM
+            End If
+            If DieselPlus > 0 AndAlso dblGPSKM > 0 Then
+                dblBasicDiesel = DieselPlus * dblGPSKM
+            ElseIf DieselPlus > 0 AndAlso dblKM > 0 Then
+                dblBasicDiesel = DieselPlus * dblKM
+            ElseIf DieselMinus < 0 AndAlso dblGPSKM > 0 Then
+                dblBasicDiesel = DieselMinus * dblGPSKM
+            ElseIf DieselMinus < 0 AndAlso dblKM > 0 Then
+                dblBasicDiesel = DieselMinus * dblKM
+            End If
+
+            gv1.Rows(IntRowNo).Cells(ColAmount).Value = clsCommon.myCdbl(dblBasicAmt)
+            gv1.Rows(IntRowNo).Cells(ColDiesel).Value = clsCommon.myCdbl(dblBasicDiesel)
+
+            isCellValueChangedOpen = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -689,7 +674,7 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             isInsideLoadData = True
             BlankAllControls()
             LoadBlankGrid()
-            btnGo.Enabled = False
+            'btnGo.Enabled = False
 
             Dim obj As New clsBMCTransporterBill()
             obj = clsBMCTransporterBill.GetData(strDocumentNo, NavType, True, Nothing)
@@ -732,19 +717,20 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
                 'TxtTotalIceCharge.Text = clsCommon.myCdbl(TxtIceCharge.Text * totalDays)
                 ' Check if input is a valid number
-                Dim iceCharge As Double
-                If Double.TryParse(TxtTotalIceCharge.Text, iceCharge) Then
-                    TxtIceCharge.Text = clsCommon.myCdbl(iceCharge / totalDays).ToString()
-                Else
-                    TxtIceCharge.Text = "0"
-                End If
+                'Dim iceCharge As Double
+                'If Double.TryParse(TxtTotalIceCharge.Text, iceCharge) Then
+                '    TxtIceCharge.Text = clsCommon.myCdbl(iceCharge / totalDays).ToString()
+                'Else
+                '    TxtIceCharge.Text = "0"
+                'End If
 
-                Dim TollTax As Double
-                If Double.TryParse(TxtTotalTollTax.Text, TollTax) Then
-                    TxtTollTax.Text = clsCommon.myCdbl(TollTax / totalDays).ToString()
-                Else
-                    TxtTollTax.Text = "0"
-                End If
+                TxtTollTax.Text = obj.Toll_Tax
+                'Dim TollTax As Double
+                'If Double.TryParse(TxtTotalTollTax.Text, TollTax) Then
+                '    TxtTollTax.Text = clsCommon.myCdbl(TollTax / totalDays).ToString()
+                'Else
+                '    TxtTollTax.Text = "0"
+                'End If
 
                 If obj.Arr IsNot Nothing Then
                     Dim qry As String = " SELECT TSPL_MILK_COLLECTION_MCC.Document_No,Cast(TSPL_MILK_COLLECTION_MCC.Document_Date as Date)Document_Date,Route_Code,Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance
@@ -780,6 +766,11 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                         End If
                         i += 1
                     Next
+                    Dim rowCount As Integer = i
+                    Dim Icecharges As Double = clsCommon.myCdbl(TxtTotalIceCharge.Text)
+                    If rowCount > 0 Then
+                        TxtIceCharge.Text = clsCommon.myCdbl(Icecharges / rowCount)
+                    End If
                 End If
             End If
             ReStoreGridLayout()
