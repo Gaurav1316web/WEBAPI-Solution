@@ -28,18 +28,24 @@ Public Class frmLeaveEncashment
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
-            btnReverse.Enabled = True
+            btnReverse.Visible = False
         End If
     End Sub
 
     Private Sub frmLeaveIncashment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        CreateTab()
         AddNew()
     End Sub
     Private Sub AddNew()
 
         LoadBlankGrid()
         LoadDocType()
+        btnGo.Visible = False
+        isNewEntry = True
+        btnSave.Enabled = True
+        btnPost.Enabled = True
+        btnDelete.Enabled = True
         UsLock1.Status = ERPTransactionStatus.Pending
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
@@ -179,13 +185,25 @@ Public Class frmLeaveEncashment
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
             AddNew()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled Then
-            'SaveData(False)
+            SaveData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled Then
-            'DeleteData()
+            DeleteData()
         ElseIf e.Alt And e.KeyCode = Keys.C Then
-            'funClose()
+            funClose()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled Then
-            'PostData()
+            PostData()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            End If
         End If
     End Sub
 
@@ -235,10 +253,28 @@ Public Class frmLeaveEncashment
     Private Sub SaveData()
         Try
             If AllowToSave() Then
-
-
-
-
+                Dim obj As New clsLeaveEncashmentHead()
+                obj.Document_Code = txtDocNo.Value
+                obj.Document_Date = txtDate.Value
+                obj.Location_Code = txtLocationCode.Value
+                obj.Doc_Type = cmbDocType.SelectedValue
+                obj.Remarks = txtRemarks.Text
+                obj.Arr = New List(Of clsLeaveEncashmentDetail)
+                For Each grow As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsLeaveEncashmentDetail
+                    objTr.IsApplied = clsCommon.myCdbl(grow.Cells(colCheck).Value)
+                    objTr.Emp_Code = clsCommon.myCstr(grow.Cells(colEmpCode).Value)
+                    objTr.LEAVE_CODE = clsCommon.myCstr(grow.Cells(colLeaveType).Value)
+                    objTr.No_of_Days = clsCommon.myCdbl(grow.Cells(colNoOfDays).Value)
+                    objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                    If clsCommon.myLen(objTr.Emp_Code) > 0 Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
+                If (obj.SaveData(obj, isNewEntry)) = True Then
+                    clsCommon.MyMessageBoxShow(Me, "Data Save Successfully ", Me.Text)
+                    LoadData(obj.Document_Code, NavigatorType.Current)
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -249,9 +285,41 @@ Public Class frmLeaveEncashment
         Try
             AddNew()
             isInsideLoadData = True
-
-
-
+            Dim obj As New clsLeaveEncashmentHead
+            obj = clsLeaveEncashmentHead.GetData(strCode, NavType)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
+                isNewEntry = False
+                btnSave.Enabled = True
+                btnPost.Enabled = True
+                btnDelete.Enabled = True
+                If obj.Posted = 1 Then
+                    btnSave.Enabled = False
+                    btnDelete.Enabled = False
+                    btnPost.Enabled = False
+                    UsLock1.Status = ERPTransactionStatus.Approved
+                Else
+                    UsLock1.Status = ERPTransactionStatus.Pending
+                End If
+                txtDocNo.Value = obj.Document_Code
+                txtDate.Value = obj.Document_Date
+                txtLocationCode.Value = obj.Location_Code
+                lblLocationDesc.Text = clsDBFuncationality.getSingleValue("select  Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & txtLocationCode.Value & "'")
+                cmbDocType.SelectedValue = obj.Doc_Type
+                txtRemarks.Text = obj.Remarks
+                Dim rowcount As Integer = 0
+                For Each items As clsLeaveEncashmentDetail In obj.Arr
+                    gv1.Rows(rowcount).Cells(colCheck).Value = items.IsApplied
+                    gv1.Rows(rowcount).Cells(colLineNo).Value = rowcount + 1
+                    gv1.Rows(rowcount).Cells(colEmpCode).Value = items.Emp_Code
+                    gv1.Rows(rowcount).Cells(colempName).Value = items.Emp_Name
+                    gv1.Rows(rowcount).Cells(colLeaveType).Value = items.LEAVE_CODE
+                    gv1.Rows(rowcount).Cells(colLeaveName).Value = items.LEAVE_Name
+                    gv1.Rows(rowcount).Cells(colNoOfDays).Value = items.No_of_Days
+                    gv1.Rows(rowcount).Cells(colAmt).Value = items.Amount
+                    gv1.Rows.AddNew()
+                    rowcount += 1
+                Next
+            End If
             isInsideLoadData = False
         Catch ex As Exception
             isInsideLoadData = False
@@ -260,11 +328,65 @@ Public Class frmLeaveEncashment
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-
+        DeleteData()
     End Sub
+    Private Sub DeleteData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim Reason As String = ""
+                If (myMessages.deleteConfirm()) Then
+                    If clsCancelLog.CheckForReasonOnDelete() Then
+                        '' REASON FOR DELETE 
+                        Dim frm As New FrmFreeTxtBox1
+                        frm.Text = "Remarks for Delete"
+                        frm.ShowDialog()
+                        If clsCommon.myLen(frm.strRmks) <= 0 Then
+                            Exit Sub
+                        Else
+                            Reason = frm.strRmks
+                        End If
+                    End If
+                    If clsLeaveEncashmentHead.DeleteData(txtDocNo.Value) Then
+                        saveCancelLog(Reason, "Delete", Nothing)
+                        clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                End If
+            Else
+                Throw New Exception("Please Select Document")
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtDocNo.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
 
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+    Private Sub PostData()
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                If (myMessages.postConfirm()) Then
 
+                    If clsLeaveEncashmentHead.PostData(txtDocNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
+                    End If
+                End If
+            Else
+                Throw New Exception("Please Select Document")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
@@ -348,14 +470,14 @@ Public Class frmLeaveEncashment
 
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
-            'Dim qry As String = "select count(*) from TSPL_DA_ARREAR where Document_Code='" + txtDocNo.Value + "' "
-            'Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-            'If check > 0 Then
-            '    txtDocNo.MyReadOnly = True
-            'ElseIf check <= 0 Then
-            '    txtDocNo.MyReadOnly = False
-            'End If
-            'LoadData(txtDocNo.Value, NavType)
+            Dim qry As String = "select count(*) from TSPL_Leave_Encashment_Head where Document_Code='" + txtDocNo.Value + "' "
+            Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If check > 0 Then
+                txtDocNo.MyReadOnly = True
+            ElseIf check <= 0 Then
+                txtDocNo.MyReadOnly = False
+            End If
+            LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
@@ -364,10 +486,10 @@ Public Class frmLeaveEncashment
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
-            'Dim qry As String = "select TSPL_DA_ARREAR.Document_Code as DocumentCode,convert(varchar(12),TSPL_DA_ARREAR.Document_date,103) as DocumentDate,TSPL_DA_ARREAR.Arrear_Date,TSPL_DA_ARREAR.Location_Code from TSPL_DA_ARREAR "
-            ''Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
-            'Reset()
-            'LoadData(clsCommon.ShowSelectForm("DAArreardocfnd", qry, "DocumentCode", "", txtDocNo.Value, "Document_date DESC", isButtonClicked, " TSPL_DA_ARREAR.Document_date "), NavigatorType.Current)
+            Dim qry As String = "select TSPL_Leave_Encashment_Head.Document_Code as DocumentCode,convert(varchar(12),TSPL_Leave_Encashment_Head.Document_date,103) as DocumentDate,TSPL_Leave_Encashment_Head.Location_Code,TSPL_Leave_Encashment_Head.Doc_Type from TSPL_Leave_Encashment_Head "
+            'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
+            Reset()
+            LoadData(clsCommon.ShowSelectForm("fndLeaveEncashDoc", qry, "DocumentCode", "", txtDocNo.Value, "Document_date DESC", isButtonClicked, " TSPL_Leave_Encashment_Head.Document_date "), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
@@ -417,6 +539,24 @@ Public Class frmLeaveEncashment
             coll.Add("Amount", "Decimal(18,2) null")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Leave_Encashment_Detail", coll, "", True, False, "TSPL_Leave_Encashment_Head", "Document_Code", "", True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+
+                    If clsLeaveEncashmentHead.ReverseAndUnpost(txtDocNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Successfully Reversed/Unposted", Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current)
+                    End If
+                End If
+            Else
+                Throw New Exception("Please Select Document")
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -140,6 +140,71 @@ Public Class clsLeaveEncashmentHead
         End Try
         Return True
     End Function
+
+    Public Shared Function PostData(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            PostData(strDocNo, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function PostData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Document Code not found to Post")
+            End If
+            Dim obj As clsLeaveEncashmentHead = clsLeaveEncashmentHead.GetData(strDocNo, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                Throw New Exception("No Data found to Post")
+            End If
+            If obj.Posted = 1 Then
+                Throw New Exception("Docuemnt is already posted")
+            End If
+
+
+            Dim dtNow As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt")
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Posted", 1)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Posting_Date", dtNow)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Leave_Encashment_Head", OMInsertOrUpdate.Update, "TSPL_Leave_Encashment_Head.Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Leave_Encashment_Head", "Document_Code", trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim Qry As String = "select Posted from TSPL_Leave_Encashment_Head where Document_Code='" + strCode + "'"
+            If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+            Qry = "Update TSPL_Leave_Encashment_Head set Posted = 0 where Document_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+
 End Class
 Public Class clsLeaveEncashmentDetail
 #Region "Variables"

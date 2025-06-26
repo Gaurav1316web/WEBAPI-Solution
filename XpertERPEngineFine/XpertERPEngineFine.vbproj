@@ -58,9 +58,6 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine">
-      <HintPath>..\XpertERPHRandPayroll\bin\Debug\XpertERPEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="common" />
@@ -124,6 +121,7 @@
     <Compile Include="Classes\clsDemandUploader.vb" />
     <Compile Include="Classes\clsDCSTransportationCharges.vb" />
     <Compile Include="Classes\clsEPF.vb" />
+    <Compile Include="Classes\clsFatSnfRateCalculator.vb" />
     <Compile Include="Classes\ClsFaultCategory.vb" />
     <Compile Include="Classes\ClsFaultMaster.vb" />
     <Compile Include="Classes\ClsHouseRentDeclaration.vb" />
