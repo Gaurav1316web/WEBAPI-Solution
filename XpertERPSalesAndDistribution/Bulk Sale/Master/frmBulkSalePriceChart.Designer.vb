@@ -56,6 +56,7 @@ Partial Class FrmBulkSalePriceChart
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtPricedate = New common.Controls.MyDateTimePicker()
         Me.txtfatRatio = New common.MyNumBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -65,7 +66,7 @@ Partial Class FrmBulkSalePriceChart
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RmExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.UsLock1 = New common.usLock()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -99,13 +100,13 @@ Partial Class FrmBulkSalePriceChart
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPricedate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfatRatio, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -120,6 +121,7 @@ Partial Class FrmBulkSalePriceChart
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel13)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TxtUOM)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TxtTSRate)
@@ -162,7 +164,7 @@ Partial Class FrmBulkSalePriceChart
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(487, 397)
+        Me.SplitContainer1.Size = New System.Drawing.Size(590, 397)
         Me.SplitContainer1.SplitterDistance = 359
         Me.SplitContainer1.TabIndex = 1
         '
@@ -576,9 +578,10 @@ Partial Class FrmBulkSalePriceChart
         'btnnew
         '
         Me.btnnew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
-        Me.btnnew.Location = New System.Drawing.Point(407, 10)
+        Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnnew.Location = New System.Drawing.Point(405, 10)
         Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(15, 20)
+        Me.btnnew.Size = New System.Drawing.Size(16, 21)
         Me.btnnew.TabIndex = 2
         '
         'MyLabel4
@@ -748,6 +751,15 @@ Partial Class FrmBulkSalePriceChart
         Me.txtfatRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtfatRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(330, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 5
+        Me.btnHistory.Text = "History"
+        '
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -769,7 +781,7 @@ Partial Class FrmBulkSalePriceChart
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(404, 5)
+        Me.btnclose.Location = New System.Drawing.Point(507, 5)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(73, 20)
         Me.btnclose.TabIndex = 3
@@ -798,7 +810,7 @@ Partial Class FrmBulkSalePriceChart
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuClose})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(487, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(590, 20)
         Me.RadMenu1.TabIndex = 12
         Me.RadMenu1.Visible = False
         '
@@ -818,20 +830,21 @@ Partial Class FrmBulkSalePriceChart
         Me.RmExport.Name = "RmExport"
         Me.RmExport.Text = "Export"
         '
-        'btnHistory
+        'UsLock1
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(330, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
-        Me.btnHistory.TabIndex = 5
-        Me.btnHistory.Text = "History"
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(452, 12)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(96, 19)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1511
         '
         'FrmBulkSalePriceChart
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(487, 417)
+        Me.ClientSize = New System.Drawing.Size(590, 417)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmBulkSalePriceChart"
@@ -874,13 +887,13 @@ Partial Class FrmBulkSalePriceChart
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPricedate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfatRatio, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -930,5 +943,6 @@ Partial Class FrmBulkSalePriceChart
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents TxtUOM As common.UserControls.txtFinder
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents UsLock1 As common.usLock
 End Class
 

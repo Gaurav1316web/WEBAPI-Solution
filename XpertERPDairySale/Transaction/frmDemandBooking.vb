@@ -3545,7 +3545,23 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
 
     Sub checkPrintSetting()
-        If PrintOnlyPostedDocument AndAlso clsCommon.CompairString(clsCommon.myCstr(UsLock1.Status), "Approved") = CompairStringResult.Equal Then
+        If PrintOnlyPostedDocument Then
+            If clsCommon.CompairString(clsCommon.myCstr(UsLock1.Status), "Approved") = CompairStringResult.Equal Then
+                btnPrint.Enabled = True
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    If rdbnFreshAmbientBoth.IsChecked Then
+                        SplitButtonTruckSheet.Enabled = True
+                    Else
+                        SplitButtonTruckSheet.Enabled = False
+                    End If
+                Else
+                    SplitButtonTruckSheet.Enabled = False
+                End If
+            Else
+                btnPrint.Enabled = False
+                SplitButtonTruckSheet.Enabled = False
+            End If
+        Else
             btnPrint.Enabled = True
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
                 If rdbnFreshAmbientBoth.IsChecked Then
@@ -3556,9 +3572,6 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             Else
                 SplitButtonTruckSheet.Enabled = False
             End If
-        Else
-            btnPrint.Enabled = False
-            SplitButtonTruckSheet.Enabled = False
         End If
     End Sub
 

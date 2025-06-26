@@ -180,9 +180,9 @@ Public Class ClsBulkSalePriceChart
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, trans)
-
-            trans.Commit()
+            If PostData(FormId, strDocNo, trans) Then
+                trans.Commit()
+            End If
             Return True
         Catch ex As Exception
             trans.Rollback()
@@ -200,10 +200,9 @@ Public Class ClsBulkSalePriceChart
 
             Dim qry As String = "Update TSPL_BulkSalePrice_MASTER set Posted=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Price_Code='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BulkSalePrice_MASTER", "Price_Code", Nothing)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BulkSalePrice_MASTER", "Price_Code", trans)
 
             'trans.Commit()
-
         Catch ex As Exception
             'trans.Rollback()
             Throw New Exception(ex.Message)

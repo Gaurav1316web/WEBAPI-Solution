@@ -650,22 +650,68 @@ Public Class frmTender
                     Dim chkQry As String = "Select * from (select ROW_NUMBER() Over (Order by PK_ID) As SNO, TSPL_ITEM_SCHEDULE.* from TSPL_ITEM_SCHEDULE  where Item_Code='" + clsCommon.myCstr(gvRows.Cells(colScheduleICode).Value) + "' )xyz Where SNO='" + clsCommon.myCstr(gvRows.Cells(colScheduleNo).Value) + "'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(chkQry)
                     Dim diff As TimeSpan = clsCommon.myCDate(gvRows.Cells(colScheduleToDate).Value) - clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value)
-                    If (diff.Days + 1) <> clsCommon.myCDecimal(dt.Rows(0)("Days")) Then
-                        Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+
+                    Dim fromDate As DateTime = clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value)
+                    Dim ToDate As DateTime = clsCommon.myCDate(gvRows.Cells(colScheduleToDate).Value)
+                    Dim endDate As New DateTime(ToDate.Year, ToDate.Month, DateTime.DaysInMonth(ToDate.Year, ToDate.Month))
+
+                    Dim chkSchedule As Boolean = False
+                    Dim dayCount As Integer = 0
+                    If chkMonthEndDate.Checked Then
+                        dayCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + ToDate + "',103),convert(Date,'" + endDate + "',103))"))
+                        If dayCount >= 0 AndAlso dayCount < 2 Then
+                            chkSchedule = False
+                        ElseIf dayCount < 0 AndAlso dayCount > -2 Then
+                            chkSchedule = False
+                        Else
+                            chkSchedule = True
+                        End If
+                    Else
+                        chkSchedule = True
                     End If
+
+                    If Not chkSchedule AndAlso ((dayCount >= 0 AndAlso dayCount < 2) OrElse (dayCount <= 0 AndAlso dayCount > -2)) Then
+                        If (diff.Days) <> clsCommon.myCDecimal(dt.Rows(0)("Days")) Then
+                            Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                        End If
+                    Else
+                        If chkSchedule AndAlso (diff.Days + 1) <> clsCommon.myCDecimal(dt.Rows(0)("Days")) Then
+                            Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                        End If
+                    End If
+
+
 
                     If prevParentSN > 0 AndAlso prevParentSN = clsCommon.myCDecimal(gvRows.Cells(colScheduleParentSNo).Value) Then
                         If clsCommon.myLen(prevToDate) > 0 AndAlso clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) <= prevToDate Then
-                            Throw New Exception("In Set Schedule tab incorrect From Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                            Throw New Exception("In Set Schedule tab From Date always one day greater than previous To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
                         End If
                         Dim diff1 As TimeSpan = clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) - clsCommon.myCDate(prevToDate)
                         If clsCommon.myLen(prevToDate) > 0 AndAlso clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) > prevToDate AndAlso diff1.Days > 1 Then
-                            Throw New Exception("In Set Schedule tab incorrect From Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                            Throw New Exception("In Set Schedule tab From Date always one day greater than previous To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
                         End If
                     End If
                     prevParentSN = clsCommon.myCDecimal(gvRows.Cells(colScheduleParentSNo).Value)
                     prevToDate = clsCommon.myCDate(gvRows.Cells(colScheduleToDate).Value)
                 Next
+
+                Dim SchItemCode As String = Nothing
+                Dim QtyPer As Decimal = 0
+                If gv2 IsNot Nothing AndAlso gv2.Rows.Count > 0 Then
+                    For Each gvRows In gv2.Rows
+                        If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
+                            For Each gvSch In gvSchedule.Rows
+                                If clsCommon.myCDecimal(gvRows.Cells(colLineNo).Value) = clsCommon.myCDecimal(gvSch.Cells(colScheduleParentSNo).Value) Then
+                                    QtyPer += clsCommon.myCDecimal(gvSch.Cells(colScheduleQtyPer).Value)
+                                End If
+                            Next
+                            SchItemCode = clsCommon.myCstr(gvRows.Cells(colICode).Value)
+                            If QtyPer < 100 Then
+                                Throw New Exception("In Schedule tab quantity percentage must be 100 % for Item Code " + SchItemCode)
+                            End If
+                        End If
+                    Next
+                End If
             End If
 
         Catch ex As Exception
@@ -677,15 +723,21 @@ Public Class frmTender
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SavingData(False)
     End Sub
-    Sub SavingData(ByVal ChekBtnPost As Boolean)
-        If (SaveData()) Then
-            If ChekBtnPost = False Then
-                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                btnAddNew.Focus()
+    Private Function SavingData(ByVal ChekBtnPost As Boolean) As Boolean
+        Try
+            If (SaveData()) Then
+                If ChekBtnPost = False Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    btnAddNew.Focus()
+                End If
+                Return True
             End If
-
-        End If
-    End Sub
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Return False
+        End Try
+        Return False
+    End Function
     Private Function SaveData() As Boolean
         Try
             Dim qry As String = ""
@@ -790,7 +842,7 @@ Public Class frmTender
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
             Return False
         End Try
         Return False
@@ -998,17 +1050,18 @@ Public Class frmTender
                     Exit Sub
                 End If
             End If
-            SavingData(True)
-            CheckItem()
-            checksheduleitem()
-            If (myMessages.postConfirm()) Then
-                If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                    clsTenderHead.PostData(txtDocNo.Value)
-                    Dim msg = "Successfully Posted"
-                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                    LoadData(txtDocNo.Value, NavigatorType.Current, False)
-                Else
-                    Throw New Exception("No Data found to Post")
+            If SavingData(True) Then
+                CheckItem()
+                checksheduleitem()
+                If (myMessages.postConfirm()) Then
+                    If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                        clsTenderHead.PostData(txtDocNo.Value)
+                        Dim msg = "Successfully Posted"
+                        common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                        LoadData(txtDocNo.Value, NavigatorType.Current, False)
+                    Else
+                        Throw New Exception("No Data found to Post")
+                    End If
                 End If
             End If
         Catch ex As Exception
