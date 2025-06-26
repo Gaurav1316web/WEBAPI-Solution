@@ -54,7 +54,7 @@ Public Class FrmBulkSalePriceChart
         btndelete.Visible = MyBase.isDeleteFlag
     End Sub
     Sub Reset()
-
+        UsLock1.Status = ERPTransactionStatus.Pending
         fndcode.Value = ""
         txtfatRatio.Value = 0
         TxtFatWeightage.Value = 0
@@ -312,7 +312,6 @@ Public Class FrmBulkSalePriceChart
 
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()
-
     End Sub
     Sub PostData()
         Try
@@ -327,12 +326,10 @@ Public Class FrmBulkSalePriceChart
                 If (ClsBulkSalePriceChart.PostData(MyBase.Form_ID, fndcode.Value)) Then
                     msg = "Successfully Posted"
                 Else
-
+                    msg = "Post failed !"
                 End If
                 common.clsCommon.MyMessageBoxShow(msg)
                 LoadData(fndcode.Value, NavigatorType.Current)
-
-
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -362,29 +359,21 @@ Public Class FrmBulkSalePriceChart
             If (obj.ValidTill IsNot Nothing) Then
                 TxtValidTill.Value = obj.ValidTill
                 TxtValidTill.Checked = True
-
             End If
-            ''==============================================
             If (clsCommon.myCdbl(obj.Posted)) = 1 Then
                 btnPost.Enabled = False
                 btnsave.Enabled = False
+                UsLock1.Status = ERPTransactionStatus.Approved
             Else
                 btnPost.Enabled = True
                 btnsave.Enabled = True
                 btndelete.Enabled = True
+                UsLock1.Status = ERPTransactionStatus.Pending
             End If
-
-
-
             fndcode.MyReadOnly = True
-
             btnsave.Text = "&Update"
-
-
-
         Else
             Reset()
-
         End If
         obj = Nothing
     End Sub
@@ -574,7 +563,7 @@ Public Class FrmBulkSalePriceChart
     End Sub
 
     Private Sub txtfatRatio_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtfatRatio.TextChanged
-       CalculateFatandSNFRate()
+        CalculateFatandSNFRate()
 
     End Sub
 
@@ -613,11 +602,11 @@ Public Class FrmBulkSalePriceChart
     End Sub
 
     Private Sub txtStanadardrate_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtStanadardrate.TextChanged
-       CalculateFatandSNFRate()
+        CalculateFatandSNFRate()
     End Sub
 
     Private Sub txtsnfRatio_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtsnfRatio.TextChanged
-      CalculateFatandSNFRate()
+        CalculateFatandSNFRate()
     End Sub
 
     'Private Sub TxtSNFWeightage_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtSNFWeightage.Leave
