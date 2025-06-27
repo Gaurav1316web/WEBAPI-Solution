@@ -98,6 +98,7 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnDCSWithZone = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -550,6 +551,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox7
         '
         Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtnDCSWithZone)
         Me.RadGroupBox7.Controls.Add(Me.rbtnShiftWiseTotal)
         Me.RadGroupBox7.Controls.Add(Me.chkDateShift)
         Me.RadGroupBox7.Controls.Add(Me.rbtnTotal)
@@ -560,7 +562,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox7.Location = New System.Drawing.Point(494, 59)
         Me.RadGroupBox7.Name = "RadGroupBox7"
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox7.Size = New System.Drawing.Size(472, 50)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(567, 50)
         Me.RadGroupBox7.TabIndex = 332
         '
         'rbtnShiftWiseTotal
@@ -640,7 +642,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox3.Location = New System.Drawing.Point(494, 3)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(550, 50)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(567, 50)
         Me.RadGroupBox3.TabIndex = 9
         '
         'rbtnZoneWise
@@ -1056,6 +1058,16 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
+        'rbtnDCSWithZone
+        '
+        Me.rbtnDCSWithZone.AutoSize = True
+        Me.rbtnDCSWithZone.Location = New System.Drawing.Point(432, 27)
+        Me.rbtnDCSWithZone.Name = "rbtnDCSWithZone"
+        Me.rbtnDCSWithZone.Size = New System.Drawing.Size(126, 17)
+        Me.rbtnDCSWithZone.TabIndex = 18
+        Me.rbtnDCSWithZone.Text = "DCS and Zone Wise"
+        Me.rbtnDCSWithZone.UseVisualStyleBackColor = True
+        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1204,5 +1216,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents chkRouteWisedateWiseSummry As CheckBox
     Friend WithEvents btnRouteDateWiseSummary As RadButton
     Friend WithEvents chkCanSummary As CheckBox
+    Friend WithEvents rbtnDCSWithZone As RadioButton
 End Class
 
