@@ -4263,7 +4263,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         Isrefreshed = False
                     Else
                         qry += "  and TSPL_DEMAND_BOOKING_MASTER.ShiftType = 'Evening' and TSPL_DEMAND_BOOKING_MASTER.Posted = 0 "
-                        Isrefreshed = True
+                        Isrefreshed = False
                     End If
                     If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                         qry += " and TSPL_DEMAND_BOOKING_MASTER.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
