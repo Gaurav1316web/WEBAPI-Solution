@@ -2371,12 +2371,12 @@ xyz.Sale_Invoice_No, "
         End If
     End Sub
 
-    '    Private Sub btnBoothSlip_Click(sender As Object, e As EventArgs) Handles btnBoothSlip.Click
-    '        Try
-    '            If clsCommon.myLen(txtCode.Value) > 0 Then
+    'Private Sub btnBoothSlip_Click(sender As Object, e As EventArgs) Handles btnBoothSlip.Click
+    '    Try
+    '        If clsCommon.myLen(txtCode.Value) > 0 Then
 
 
-    '                Dim qry As String = " select 
+    '            Dim qry As String = " select 
 
     'XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
 
@@ -2412,23 +2412,23 @@ xyz.Sale_Invoice_No, "
     'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
     ')XXFinal
     'group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
-    '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-    '                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '                    Dim frmCRV As New frmCrystalReportViewer()
-    '                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
-    '                Else
-    '                    Throw New Exception(" Data not Found!")
-    '                End If
+    '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+    '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+    '                Dim frmCRV As New frmCrystalReportViewer()
+    '                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "rptBoothSlip", "Booth Demand Sheet")
     '            Else
-    '                Throw New Exception("Document not Found!")
+    '                Throw New Exception(" Data not Found!")
     '            End If
+    '        Else
+    '            Throw New Exception("Document not Found!")
+    '        End If
 
 
 
-    '        Catch ex As Exception
-    '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '        End Try
-    '    End Sub
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 
     Public Function GetBoothData() As String
         Dim qry As String = " Select *,(xy.ItemAmount) as ItemNetAmount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,
@@ -2521,7 +2521,7 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
   Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP' where 2 = 2 "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                qry += " And IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' "
+                qry += " And IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  and TSPL_CUSTOMER_MASTER.Status='N' and TSPL_ITEM_MASTER.Active=1 "
             End If
             qry += " and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(txtSupplyDate.Value)), "dd/MMM/yyyy") + "'  and status=1 "
             If rbtnMorning.IsChecked Then
@@ -2634,7 +2634,7 @@ And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "'
 Convert(varchar,MAX(TSPL_ITEM_MASTER.Print_Sequence))Print_Sequence,0 As Qty from TSPL_ITEM_MASTER
 LEFT OUTER JOIN TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-WHERE TSPL_ITEM_MASTER.Print_Sequence is not null 
+WHERE TSPL_ITEM_MASTER.Print_Sequence is not null and TSPL_ITEM_MASTER.Active=1
  group by TSPL_ITEM_MASTER.Item_Code "
             End If
 
@@ -2727,10 +2727,10 @@ WHERE TSPL_ITEM_MASTER.Print_Sequence is not null
                 Next
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                qry = "Select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],max(Customer_Name)OUTLET, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) as Short_Description,
+                qry = "Select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],max(Customer_Name)OUTLET,max(Display_Seq)as Display_Seq, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
 
-from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
    TSPL_DEMAND_BOOKING_MASTER.Route_No,   TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
@@ -2752,11 +2752,11 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
   left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code=I.item_code 
 
-where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
 and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
 Union
 select Distinct '' as TR_Code,TSPL_CUSTOMER_MASTER.Cust_Code,
-IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,'' As Item_Code,'' As Short_Description
+IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,'' As Item_Code,'' As Short_Description
 ,0 As Sku_Seq,0 As Qty,0 As ItemNetAmount,'' As Unit_code ,'' As ShiftType,
    TSPL_ROUTE_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
@@ -2778,7 +2778,7 @@ Left Join TSPL_SD_SHIPMENT_BOOKING_DETAIL ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Boo
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP'
 ----left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code=I.item_code 
 
-where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' And 
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' and TSPL_CUSTOMER_MASTER.Status='N' And 
 TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "'
 )XXFinal
 group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
@@ -2792,11 +2792,11 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )
                 qry += " group by Cust_Code "
 
                 qry += " Union all 
-                       Select '' As [SR.],'TOTAL QNTY' as OUTLET ," & itemName1 & " ,sum(Amount) as Amount
-from (Select 1 AS Sno,Cust_Code,max(Customer_Name)Customer_Name, " & itemName1 & " ,sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) as Short_Description,
+                       Select '' As [SR.],'TOTAL QNTY' as OUTLET,max(Display_Seq)as Display_Seq ," & itemName1 & " ,sum(Amount) as Amount
+from (Select 1 AS Sno,Cust_Code,max(Customer_Name)Customer_Name,max(Display_Seq)as Display_Seq, " & itemName1 & " ,sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
 
-from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
+from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name, isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0)as Display_Seq, TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
 TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_DETAIL.Unit_code ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
    TSPL_DEMAND_BOOKING_MASTER.Route_No,   TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
@@ -2818,7 +2818,7 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
   left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code = I.item_code 
 
-where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
 and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
 )XXFinal
 group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
@@ -2830,6 +2830,8 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )
                 End If
 
                 qry += " group by Cust_Code )XX group by SNo "
+
+                qry = "select * from (" + qry + ") XXXFinal order by Display_Seq "
             Else
                 qry = "select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount
@@ -2896,6 +2898,9 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                     Dim dtConverted As New DataTable()
                     ' Convert all columns to String type
                     For Each col As DataColumn In dt.Columns
+                        If clsCommon.CompairString(clsCommon.myCstr(col.ColumnName), "Display_Seq") = CompairStringResult.Equal Then
+                            Continue For
+                        End If
                         dtConverted.Columns.Add(col.ColumnName, GetType(String))
                     Next
                     ' Copy data with replacements
@@ -2903,6 +2908,9 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                         Dim newRow As DataRow = dtConverted.NewRow()
 
                         For Each col As DataColumn In dt.Columns
+                            If clsCommon.CompairString(clsCommon.myCstr(col.ColumnName), "Display_Seq") = CompairStringResult.Equal Then
+                                Continue For
+                            End If
                             Dim cellValue As Object = row(col)
                             ' If numeric, check for 0 and replace
                             If IsNumeric(cellValue) Then
