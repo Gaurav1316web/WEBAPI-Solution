@@ -8377,7 +8377,7 @@ Public Class clsCreateAllTable
             coll.Add("Line_No", "integer not null default 0")
             coll.Add("Cust_Code", "Varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
             coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
-            coll.Add("Qty", "decimal(18,2) null")
+            coll.Add("Qty", "decimal(18,3) null")
             coll.Add("Unit_code", "Varchar(12) null")
             coll.Add("Vehicle_Code", "Varchar(12) null")
             coll.Add("Item_Rate", "decimal(18,2) not null default 0")
