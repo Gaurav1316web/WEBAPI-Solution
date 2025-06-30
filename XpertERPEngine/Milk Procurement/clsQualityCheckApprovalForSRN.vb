@@ -69,8 +69,10 @@ Public Class clsQualityCheckApprovalForSRN
 
                     If Not arrdocumentcode.Contains(objtr.Document_Code) Then
                         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select NIR_QC from TSPL_MRN_HEAD Where Against_GRN In (select Gate_Entry_No from TSPL_QC_CHECK_HEAD where Document_Code='" + clsCommon.myCstr(objtr.Document_Code) + "')", trans)) = 0 AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
-                            arrdocumentcode.Add(objtr.Document_Code)
+                            arrdocumentcode_WithoutRejected.Add(objtr.Document_Code)
                         End If
+                        arrdocumentcode.Add(objtr.Document_Code)
+
                     End If
                     'If (Not arrdocumentcode_WithoutRejected.Contains(objtr.Document_Code)) AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
                     '    arrdocumentcode_WithoutRejected.Add(objtr.Document_Code)
@@ -86,7 +88,7 @@ Public Class clsQualityCheckApprovalForSRN
             'Else
             'End If
 
-            SaveDataForSRN(obj, arrdocumentcode, trans)
+            SaveDataForSRN(obj, arrdocumentcode_WithoutRejected, trans)
             'If arrdocumentcode_WithoutRejected.Count > 0 Then
             '    SaveDataForSRN(obj, arrdocumentcode_WithoutRejected, trans)
             'End If
