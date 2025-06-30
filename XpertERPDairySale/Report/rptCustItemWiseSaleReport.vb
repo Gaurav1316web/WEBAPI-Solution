@@ -1895,7 +1895,7 @@ LEFT JOIN TSPL_COMPANY_MASTER
                 index = 3
             End If
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            For ii As Integer = index To gv1.Rows.Count - 1
+            For ii As Integer = index To gv1.Columns.Count - 1
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
             Next
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
