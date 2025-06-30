@@ -5294,6 +5294,19 @@ Public Class frmPurchaseOrder
                 End If
             End If
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                If clsCommon.myCDate(txtScheduleStartDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") Then
+                    Throw New Exception("Schedule start date can't be less than PO date !")
+                End If
+
+                If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
+                    If clsCommon.myCDate(txtScheduleStartDate.Value, "dd/MMM/yyyy") <> clsCommon.myCDate(gvSchedule.Rows(0).Cells(colScheduleFromDate).Value, "dd/MMM/yyyy") Then
+                        Throw New Exception("Schedule start date and schedule from date must be equal !")
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Schedule not define !", Me.Text)
+                End If
+            End If
 
             If gvSchedule IsNot Nothing AndAlso gvSchedule.Rows.Count > 0 Then
                 Dim prevParentSN As Decimal = 0
@@ -5307,32 +5320,22 @@ Public Class frmPurchaseOrder
                     Dim ToDate As DateTime = clsCommon.myCDate(gvRows.Cells(colScheduleToDate).Value)
                     Dim endDate As New DateTime(ToDate.Year, ToDate.Month, DateTime.DaysInMonth(ToDate.Year, ToDate.Month))
 
-                    Dim chkSchedule As Boolean = False
                     Dim dayCount As Integer = 0
                     If chkMonthEndDate.Checked Then
                         dayCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DATEDIFF(DAY,Convert(Date,'" + ToDate + "',103),convert(Date,'" + endDate + "',103))"))
-                        If dayCount >= 0 AndAlso dayCount < 2 Then
-                            chkSchedule = False
-                        ElseIf dayCount < 0 AndAlso dayCount > -2 Then
-                            chkSchedule = False
-                        Else
-                            chkSchedule = True
-                        End If
-                    Else
-                        chkSchedule = True
                     End If
 
-                    If Not chkSchedule AndAlso ((dayCount >= 0 AndAlso dayCount < 2) OrElse (dayCount <= 0 AndAlso dayCount > -2)) Then
+                    If (dayCount > 0 AndAlso dayCount < 2) Then
                         If (diff.Days) <> clsCommon.myCDecimal(dtt.Rows(0)("Days")) Then
                             Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
                         End If
-                    Else
-                        If chkSchedule AndAlso (diff.Days + 1) <> clsCommon.myCDecimal(dtt.Rows(0)("Days")) Then
+                    ElseIf dayCount > 0 Then
+                        If (diff.Days + 1) <> clsCommon.myCDecimal(dtt.Rows(0)("Days")) AndAlso ToDate.Day <> endDate.Day Then
+                            Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
+                        ElseIf (diff.Days + 1) <> clsCommon.myCDecimal(dtt.Rows(0)("Days")) Then
                             Throw New Exception("In Set Schedule tab incorrect From Date or To Date at Line No " + clsCommon.myCstr(gvRows.Cells(colScheduleSNo).Value))
                         End If
                     End If
-
-
 
                     If prevParentSN > 0 AndAlso prevParentSN = clsCommon.myCDecimal(gvRows.Cells(colScheduleParentSNo).Value) Then
                         If clsCommon.myLen(prevToDate) > 0 AndAlso clsCommon.myCDate(gvRows.Cells(colScheduleFromDate).Value) <= prevToDate Then
@@ -10948,9 +10951,9 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
                                 If dayCount > 0 AndAlso dayCount < 2 Then
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
                                     dtRunningDate = endDate.AddDays(1)
-                                ElseIf dayCount < 0 AndAlso dayCount > -2 Then
-                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
-                                    dtRunningDate = endDate.AddDays(1)
+                                    'ElseIf dayCount < 0 AndAlso dayCount > -2 Then
+                                    '    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = endDate
+                                    '    dtRunningDate = endDate.AddDays(1)
                                 Else
                                     gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
                                     dtRunningDate = dtRunningDate.AddDays(1)
