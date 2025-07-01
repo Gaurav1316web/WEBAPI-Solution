@@ -164,7 +164,7 @@ Public Class clsEmployeeSalary
         'qry += " and TAV.EMP_SAL_CODE = '" + strCode + "' ORDER BY TAVD.LINE_NO"
 
         qry = "select TAVD.EMP_SAL_CODE,TAVD.LINE_NO,TAVD.PAY_HEAD_CODE,TAVD.PAYHEAD_FORMULA,Case When TAVD.RATE_AMOUNT IS NULL Then PayHeadsToSalaryStructure.RATE_AMOUNT Else TAVD.RATE_AMOUNT End As [RATE_AMOUNT],	TAVD.SALARY_STRUCTURE_CODE,	TAVD.Created_By,	TAVD.Created_Date,	TAVD.Modified_By,TAVD.Modified_Date,TAVD.IsHiddenComponent,TAVD.MAX_AMOUNT,TAVD.PAYPERIOD_AMOUNT,TAVD.FORMULA_AMT
-                ,TPH.PAY_HEAD_NAME ,TAVD.HEAD_TYPE,TAVD.HEAD_TYPE_MODE
+                ,TPH.PAY_HEAD_NAME ,TAVD.HEAD_TYPE,TAVD.HEAD_TYPE_MODE,TAVD.Attendance_Wise
                 FROM TSPL_EMPLOYEE_SALARY_PAYHEADS TAVD  
                 INNER JOIN  TSPL_EMPLOYEE_SALARY TAV ON TAVD.EMP_SAL_CODE=TAV.EMP_SAL_CODE  LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE 
                 Inner Join (
@@ -189,6 +189,7 @@ Public Class clsEmployeeSalary
                 objtr.MAX_AMOUNT = clsCommon.myCdbl(dr("MAX_AMOUNT"))
                 objtr.PAYPERIOD_AMOUNT = clsCommon.myCdbl(dr("PAYPERIOD_AMOUNT"))
                 objtr.Payhead = clsCommon.myCstr(dr("HEAD_TYPE"))
+                objtr.Attendance_Wise = clsCommon.myCstr(dr("Attendance_Wise"))
                 objtr.PayheadMode = clsCommon.myCstr(dr("HEAD_TYPE_MODE"))
                 ObjList.Add(objtr)
             Next
@@ -450,6 +451,7 @@ Public Class clsEmpSalaryPayHeadDetails
     Public MAX_AMOUNT As Decimal = 0
     Public PAYPERIOD_AMOUNT As Decimal = 0
     Public Location_Code As String = Nothing
+    Public Attendance_Wise As String = Nothing
     'Public Shared ObjList As List(Of clsEmpSalaryPayHeadDetails)
     'Public Const AttendanceCode As String = "MT"
 #End Region
@@ -468,6 +470,7 @@ Public Class clsEmpSalaryPayHeadDetails
                 clsCommon.AddColumnsForChange(coll, "PAYPERIOD_AMOUNT", obj.PAYPERIOD_AMOUNT, True)
                 clsCommon.AddColumnsForChange(coll, "HEAD_TYPE", obj.Payhead)
                 clsCommon.AddColumnsForChange(coll, "HEAD_TYPE_MODE", obj.PayheadMode, True)
+                clsCommon.AddColumnsForChange(coll, "Attendance_Wise", obj.Attendance_Wise, True)
                 clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
