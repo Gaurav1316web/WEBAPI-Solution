@@ -235,90 +235,95 @@ Public Class clsMCCMaterialSale
     End Function
 
     Private Function AllowToSave(ByVal obj As clsMCCMaterialSale, ByVal trans As SqlTransaction) As Boolean
-        Dim qry As String = "select TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per, TSPL_VLC_MASTER_HEAD.MCC,TSPL_PAYMENT_CYCLE_MASTER.PC_CODE,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE" + Environment.NewLine +
-        "from TSPL_VENDOR_MASTER" + Environment.NewLine +
-        "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code" + Environment.NewLine +
-        "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code" + Environment.NewLine +
-        "left outer join TSPL_MCC_MASTER on  TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC" + Environment.NewLine +
-        "left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle" + Environment.NewLine +
-        "where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If clsCommon.myCdbl(dt.Rows(0)("Credit_Limit_On_Milk_Receipt_Per") >= 0) Then
-                Dim dtDoc As Date = obj.Document_Date
-                Dim PaymentCycleType As String = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
-                Dim PaymentCycleValue As Integer = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
-                Dim dtFrom As Date = dtDoc
-                Dim dtTo As Date = dtDoc
-                If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
-                    Dim ModResut As Integer = dtDoc.Day Mod PaymentCycleValue
-                    If ModResut = 0 Then
-                        ModResut = PaymentCycleValue
+        Try
+            Dim qry As String = "select TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per, TSPL_VLC_MASTER_HEAD.MCC,TSPL_PAYMENT_CYCLE_MASTER.PC_CODE,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE" + Environment.NewLine +
+                    "from TSPL_VENDOR_MASTER" + Environment.NewLine +
+                    "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code" + Environment.NewLine +
+                    "left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code" + Environment.NewLine +
+                    "left outer join TSPL_MCC_MASTER on  TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC" + Environment.NewLine +
+                    "left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle" + Environment.NewLine +
+                    "where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If clsCommon.myCdbl(dt.Rows(0)("Credit_Limit_On_Milk_Receipt_Per") >= 0) Then
+                    Dim dtDoc As Date = obj.Document_Date
+                    Dim PaymentCycleType As String = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+                    Dim PaymentCycleValue As Integer = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+                    Dim dtFrom As Date = dtDoc
+                    Dim dtTo As Date = dtDoc
+                    If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+                        Dim ModResut As Integer = dtDoc.Day Mod PaymentCycleValue
+                        If ModResut = 0 Then
+                            ModResut = PaymentCycleValue
+                        End If
+                        dtFrom = New Date(dtDoc.Year, dtDoc.Month, (dtDoc.Day - (ModResut) + 1))
+                        dtTo = dtFrom.AddDays(PaymentCycleValue - 1)
+                        Dim dtNxtPay As DateTime = dtTo.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+                        If dtFrom.Month <> dtNxtPay.Month Then
+                            dtTo = New Date(dtFrom.Year, dtFrom.Month, 1).AddMonths(1).AddDays(-1)
+                        End If
+                    ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+                        If clsCommon.myCdbl(clsCommon.GetPrintDate(dtFrom, "dd")) <> 1 Then
+                            dtFrom = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
+                            dtTo = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
+                        End If
+                        dtTo = DateAdd(DateInterval.Month, PaymentCycleValue, dtFrom)
+                    ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+                        If clsCommon.myCdbl(clsCommon.GetPrintDate(dtFrom, "dd")) <> 1 Then
+                            dtFrom = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
+                            dtTo = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
+                        End If
+                        dtTo = DateAdd(DateInterval.Year, PaymentCycleValue, dtFrom)
+                    ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
+                        Dim today As Date = dtFrom
+                        Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
+                        dtFrom = today.AddDays(-dayDiff)
+                        dtTo = dtFrom.AddDays(6)
                     End If
-                    dtFrom = New Date(dtDoc.Year, dtDoc.Month, (dtDoc.Day - (ModResut) + 1))
-                    dtTo = dtFrom.AddDays(PaymentCycleValue - 1)
-                    Dim dtNxtPay As DateTime = dtTo.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
-                    If dtFrom.Month <> dtNxtPay.Month Then
-                        dtTo = New Date(dtFrom.Year, dtFrom.Month, 1).AddMonths(1).AddDays(-1)
-                    End If
-                ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(dtFrom, "dd")) <> 1 Then
-                        dtFrom = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
-                        dtTo = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
-                    End If
-                    dtTo = DateAdd(DateInterval.Month, PaymentCycleValue, dtFrom)
-                ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(dtFrom, "dd")) <> 1 Then
-                        dtFrom = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
-                        dtTo = "01/" & DatePart(DateInterval.Month, dtDoc) & "/" & DatePart(DateInterval.Year, dtDoc)
-                    End If
-                    dtTo = DateAdd(DateInterval.Year, PaymentCycleValue, dtFrom)
-                ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
-                    Dim today As Date = dtFrom
-                    Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
-                    dtFrom = today.AddDays(-dayDiff)
-                    dtTo = dtFrom.AddDays(6)
-                End If
 
 
-                qry = "select convert(decimal(18,2), isnull( sum(Amount*RI),0)) as Amount from (" + Environment.NewLine +
-                    "select TSPL_MILK_SRN_HEAD.DOC_CODE,(AMOUNT*TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per/100) as Amount,1 as RI,1 as Chk from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
-                    "left outer join TSPL_MILK_SRN_HEAD	on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
-                    "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_MILK_SRN_HEAD.VSP_CODE" + Environment.NewLine +
-                    "left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_SRN_HEAD.VSP_CODE" + Environment.NewLine +
-                    "where TSPL_MILK_SRN_HEAD.Posted=1 and TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per>=0" + Environment.NewLine +
-                    "union all " + Environment.NewLine +
-                    "select TSPL_SD_SHIPMENT_HEAD.Document_Code as DOC_CODE,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,-1 as RI,0 as chk  from TSPL_SD_SHIPMENT_HEAD where Trans_Type='MCC' and   TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + obj.Customer_Code + "' " + Environment.NewLine +
-                    "and TSPL_SD_SHIPMENT_HEAD.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_SD_SHIPMENT_HEAD.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_SD_SHIPMENT_HEAD.Document_Code not in ('" + obj.Document_Code + "')" + Environment.NewLine +
-                    "union all" + Environment.NewLine +
-                    "select TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_HEAD.Total_Amt,1 as RI,0 as chk from TSPL_SD_SALE_RETURN_HEAD where Trans_Type='MCC' and TSPL_SD_SALE_RETURN_HEAD.Customer_Code='" + obj.Customer_Code + "' and TSPL_SD_SALE_RETURN_HEAD.Status=1" + Environment.NewLine +
-                    "and not exists(select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN where TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Return_Doc_No=TSPL_SD_SALE_RETURN_HEAD.Document_Code)" + Environment.NewLine +
-                    "Union all" + Environment.NewLine +
-                    "select TSPL_MILK_REJECT_HEAD.DOC_CODE,cast (((case when TSPL_MILK_REJECT_DETAIL.Is_Return = 0 and TSPL_MILK_REJECT_DETAIL.Defaulter='VSP' then TSPL_MILK_REJECT_DETAIL.SNF_Deduction_Amount+(case when TSPL_MILK_REJECT_DETAIL.Reject_Type='Curd' then TSPL_MILK_REJECT_DETAIL.FAT_Deduction_Amount else 0 end) else (case when TSPL_MILK_REJECT_DETAIL.Is_Return = 1 then TSPL_MILK_REJECT_DETAIL.Amount else (case when TSPL_MILK_REJECT_DETAIL.Is_Return = 3 then TSPL_MILK_REJECT_DETAIL.Amount else 0 end ) end ) end )*TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per/100) as decimal(18,2)) as Amount ,-1 as RI,0 as chk" + Environment.NewLine +
-                    "from TSPL_MILK_REJECT_DETAIL" + Environment.NewLine +
-                    "left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE" + Environment.NewLine +
-                    "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_MILK_REJECT_DETAIL.VSP_CODE" + Environment.NewLine +
-                    "left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_REJECT_DETAIL.VSP_CODE" + Environment.NewLine +
-                    "where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per>=0" + Environment.NewLine +
-                     ")xx  "
-                Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-                If obj.Total_Amt > dblBal Then
-                    Throw New Exception("Balance Amount of Milk Received : " + clsCommon.myCstr(dblBal) + "And Document Amount :" + clsCommon.myCstr(obj.Total_Amt))
+                    qry = "select convert(decimal(18,2), isnull( sum(Amount*RI),0)) as Amount from (" + Environment.NewLine +
+                        "select TSPL_MILK_SRN_HEAD.DOC_CODE,(AMOUNT*TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per/100) as Amount,1 as RI,1 as Chk from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
+                        "left outer join TSPL_MILK_SRN_HEAD	on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
+                        "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_MILK_SRN_HEAD.VSP_CODE" + Environment.NewLine +
+                        "left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_SRN_HEAD.VSP_CODE" + Environment.NewLine +
+                        "where TSPL_MILK_SRN_HEAD.Posted=1 and TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per>=0" + Environment.NewLine +
+                        "union all " + Environment.NewLine +
+                        "select TSPL_SD_SHIPMENT_HEAD.Document_Code as DOC_CODE,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,-1 as RI,0 as chk  from TSPL_SD_SHIPMENT_HEAD where Trans_Type='MCC' and   TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + obj.Customer_Code + "' " + Environment.NewLine +
+                        "and TSPL_SD_SHIPMENT_HEAD.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_SD_SHIPMENT_HEAD.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_SD_SHIPMENT_HEAD.Document_Code not in ('" + obj.Document_Code + "')" + Environment.NewLine +
+                        "union all" + Environment.NewLine +
+                        "select TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_HEAD.Total_Amt,1 as RI,0 as chk from TSPL_SD_SALE_RETURN_HEAD where Trans_Type='MCC' and TSPL_SD_SALE_RETURN_HEAD.Customer_Code='" + obj.Customer_Code + "' and TSPL_SD_SALE_RETURN_HEAD.Status=1" + Environment.NewLine +
+                        "and not exists(select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN where TSPL_PAYMENT_PROCESS_MCC_SALE_RETURN.Return_Doc_No=TSPL_SD_SALE_RETURN_HEAD.Document_Code)" + Environment.NewLine +
+                        "Union all" + Environment.NewLine +
+                        "select TSPL_MILK_REJECT_HEAD.DOC_CODE,cast (((case when TSPL_MILK_REJECT_DETAIL.Is_Return = 0 and TSPL_MILK_REJECT_DETAIL.Defaulter='VSP' then TSPL_MILK_REJECT_DETAIL.SNF_Deduction_Amount+(case when TSPL_MILK_REJECT_DETAIL.Reject_Type='Curd' then TSPL_MILK_REJECT_DETAIL.FAT_Deduction_Amount else 0 end) else (case when TSPL_MILK_REJECT_DETAIL.Is_Return = 1 then TSPL_MILK_REJECT_DETAIL.Amount else (case when TSPL_MILK_REJECT_DETAIL.Is_Return = 3 then TSPL_MILK_REJECT_DETAIL.Amount else 0 end ) end ) end )*TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per/100) as decimal(18,2)) as Amount ,-1 as RI,0 as chk" + Environment.NewLine +
+                        "from TSPL_MILK_REJECT_DETAIL" + Environment.NewLine +
+                        "left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE" + Environment.NewLine +
+                        "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_MILK_REJECT_DETAIL.VSP_CODE" + Environment.NewLine +
+                        "left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_MILK_REJECT_DETAIL.VSP_CODE" + Environment.NewLine +
+                        "where TSPL_MILK_REJECT_HEAD.Posted=1 and TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtTo), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per>=0" + Environment.NewLine +
+                         ")xx  "
+                    Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                    If obj.Total_Amt > dblBal Then
+                        Throw New Exception("Balance Amount of Milk Received : " + clsCommon.myCstr(dblBal) + "And Document Amount :" + clsCommon.myCstr(obj.Total_Amt))
+                    End If
                 End If
             End If
-        End If
 
-        qry = "select 1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Deduction <>'" + obj.Deduction + "' and Item_Code in ("
-        For Each objtr As clsMCCMaterialSaleDetail In obj.Arr
-            If clsCommon.CompairString(objtr.Row_Type, "Item") = CompairStringResult.Equal Then
-                qry += "'" + objtr.Item_Code + "'"
+            qry = "select 1 from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Deduction <>'" + obj.Deduction + "' and Item_Code in ("
+            For Each objtr As clsMCCMaterialSaleDetail In obj.Arr
+                If clsCommon.CompairString(objtr.Row_Type, "Item") = CompairStringResult.Equal Then
+                    qry += "'" + objtr.Item_Code + "'"
+                End If
+            Next
+            qry += ")"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Deduction of All item should be [" + obj.Deduction + "]")
             End If
-        Next
-        qry += ")"
-        dt = clsDBFuncationality.GetDataTable(qry, trans)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Throw New Exception("Deduction of All item should be [" + obj.Deduction + "]")
-        End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
         Return True
     End Function
 
