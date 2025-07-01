@@ -5341,31 +5341,7 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
 
         updateSalary("0", strTableName, Pay_Period_Code, drPF, Is_Arrear, PP_END_DATE, drESI, dtPT, objPP, EmpList, trans)
 
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select PAYABLE_DAYS from TSPL_ATTENDANCE_SUMMARY where PAY_PERIOD_CODE='" & Pay_Period_Code & "' and EMP_CODE In (" & clsCommon.GetMulcallString(EmpList) & ")"))
-        '' Updating DoubleCalculation For Package
-        clsCommon.ProgressBarUpdate("updating Bonus pay heads...")
-        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT =(ACTUL_AMT*" & no & "/" & PayPeriodDays & ") WHERE PAY_HEAD_CODE LIKE '%PACKAGE%' and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
-        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
-            Throw New Exception("Error in Updating Bonus !")
-        End If
-
-        clsCommon.ProgressBarUpdate("update actual amount in two decimals ...")
-        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT=round(ACTUAL_AMOUNT,2,2) ,ACTUL_AMT=round(ACTUL_AMT,2,2) "
-        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
-            Throw New Exception("Error in Updating actual amount in two decimals !")
-        End If
-
-        clsCommon.ProgressBarUpdate("Rounding Off all pay heads...")
-        strq = "UPDATE " & strTableName & " SET ARREAR_AMT=(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ARREAR_AMT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ARREAR_AMT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ARREAR_AMT) END),ARREAR_ROUND_OFF=((CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ARREAR_AMT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ARREAR_AMT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ARREAR_AMT) END)-ARREAR_AMT),ACTUAL_AMOUNT=(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ACTUAL_AMOUNT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ACTUAL_AMOUNT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ACTUAL_AMOUNT) END)," _
-        & " PRINCIPAL_ROUND_OFF=(COALESCE(PRINCIPAL_ROUND_OFF,0)+(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ACTUAL_AMOUNT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ACTUAL_AMOUNT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ACTUAL_AMOUNT) END)-ACTUAL_AMOUNT) where  " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
-        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
-            Throw New Exception("Error in Updating Rounding off !")
-        End If
-
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(""))
 
 
         Return True

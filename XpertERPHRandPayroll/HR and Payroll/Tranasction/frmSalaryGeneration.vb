@@ -139,6 +139,7 @@ Public Class frmSalaryGeneration
         coll.Add("Pay_Days_Ratio", "varchar(max) null")
         coll.Add("Is_Professional_Tax_Applicable", "integer Not null default 0")
         coll.Add("ISESI", "integer Not null default 0")
+        coll.Add("ACTUL_AMT", "FLOAT NOT NULL default 0 ")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALARY_CALCULATION", coll, Nothing, False, False, "TSPL_GENERATE_SALARY", "SALARY_CALCULATION_CODE", "")
         Try
             clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_SALARY_CALCULATION Alter column EPS_MAX NUMERIC(12,2) NULL ")

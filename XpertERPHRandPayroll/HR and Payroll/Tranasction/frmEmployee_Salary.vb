@@ -15,6 +15,7 @@ Public Class frmEmployee_Salary
     Const colPAYPERIOD_Amount As String = "colPAYPERIOD_Amount"
     Const ColPayheadtype As String = "ColPayheadtype"
     Const ColPayhead As String = "ColPayhead"
+    Const colRowtype As String = "ColRowType"
     Public sal_structure_code As String = String.Empty
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
@@ -105,7 +106,31 @@ Public Class frmEmployee_Salary
         Payhead.ReadOnly = True
         Payhead.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvSalary.Columns.Add(Payhead)
+
+        Dim repoRowType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
+        repoRowType.FormatString = ""
+        repoRowType.HeaderText = "Attendance Wise"
+        repoRowType.Name = colRowtype
+        repoRowType.Width = 100
+        repoRowType.ReadOnly = False
+        repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        repoRowType.DataSource = GetItemType()
+        repoRowType.ValueMember = "Code"
+        repoRowType.DisplayMember = "Code"
+        gvSalary.MasterTemplate.Columns.Add(repoRowType)
     End Sub
+
+    Private Function GetItemType() As DataTable
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "Attendance Wise"
+        dt.Rows.Add(dr)
+
+        Return dt
+    End Function
+
     Private Sub frmReimbursementDetails_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
             funReset()
@@ -314,6 +339,7 @@ Public Class frmEmployee_Salary
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colPAYPERIOD_Amount).Value = obj1.PAYPERIOD_AMOUNT
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayhead).Value = obj1.Payhead
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(ColPayheadtype).Value = obj1.PayheadMode
+                    gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colRowtype).Value = obj1.Attendance_Wise
                     If clsCommon.CompairString(obj1.PayHeadCode, "DA Arrear") = CompairStringResult.Equal Then
                         gvSalary.Rows(gvSalary.Rows.Count - 1).IsVisible = False
                     End If
@@ -430,6 +456,7 @@ Public Class frmEmployee_Salary
                     obj1.PAYPERIOD_AMOUNT = clsCommon.myCdbl(grow.Cells(colPAYPERIOD_Amount).Value)
                     obj1.Payhead = clsCommon.myCstr(grow.Cells(ColPayhead).Value)
                     obj1.PayheadMode = clsCommon.myCstr(grow.Cells(ColPayheadtype).Value)
+                    obj1.Attendance_Wise = clsCommon.myCstr(grow.Cells(colRowtype).Value)
                     ObjList.Add(obj1)
                 End If
             Next
