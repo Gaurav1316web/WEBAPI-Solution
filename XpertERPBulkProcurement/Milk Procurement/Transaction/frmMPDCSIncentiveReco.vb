@@ -21,6 +21,7 @@ Public Class frmMPDCSIncentiveReco
     Public Const colMonth As String = "Month"
     Public Const colCycleNo As String = "Cycle No"
     Public Const colQty As String = "Qty"
+    Public Const colEditQty As String = "colEditQty"
     Public Const colUOM As String = "colUOM"
     Public Const colFAT As String = "colFAT"
     Public Const colSNF As String = "colSNF"
@@ -64,7 +65,6 @@ Public Class frmMPDCSIncentiveReco
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
         SettMPIncentiveEntryApplyMonthly = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, Nothing)) > 0)
         SettDCSQtyDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DCSQtyDecimalPlaces, clsFixedParameterCode.DCSQtyDecimalPlaces, Nothing))
         UcAttachment1.Form_ID = MyBase.Form_ID
@@ -140,6 +140,12 @@ Public Class frmMPDCSIncentiveReco
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
+                    btnEditDCSQty.Visible = True
+                    Try
+                        gvItem.Columns(colEditQty).ReadOnly = False
+                        gvItem.Columns(colEditQty).IsVisible = True
+                    Catch ex As Exception
+                    End Try
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
@@ -438,26 +444,31 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             'Qry += " ((Qty*MulConv.Conversion_Factor)/DivConv.Conversion_Factor) as Qty "
         End If
 
+        UpdateCurrentRow(Indx, False)
 
-        gvItem.Rows(Indx).Cells(colDiffQty).Value = clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colQty).Value) - clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPQty).Value)
-        gvItem.Rows(Indx).Cells(colDiffFAT).Value = clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colFAT).Value) - clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPFAT).Value)
-        gvItem.Rows(Indx).Cells(colDiffSNF).Value = clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colSNF).Value) - clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPSNF).Value)
-        gvItem.Rows(Indx).Cells(colDiffAmt).Value = clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colAmount).Value) - clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPAmt).Value)
+
+    End Sub
+
+    Private Sub UpdateCurrentRow(indx As Integer, isEditQty As Boolean)
+        gvItem.Rows(indx).Cells(colDiffQty).Value = clsCommon.myCDecimal(gvItem.Rows(indx).Cells(IIf(isEditQty, colEditQty, colQty)).Value) - clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPQty).Value)
+        gvItem.Rows(indx).Cells(colDiffFAT).Value = clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colFAT).Value) - clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPFAT).Value)
+        gvItem.Rows(indx).Cells(colDiffSNF).Value = clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colSNF).Value) - clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPSNF).Value)
+        gvItem.Rows(indx).Cells(colDiffAmt).Value = clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colAmount).Value) - clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPAmt).Value)
 
 
         Dim RecoStatus As Boolean = False
-        If clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPQty).Value) > 0 Then
-            If SettAllowMPQtyGreaterThanDCSQty And (clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPQty).Value) > clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colQty).Value)) Then
+        If clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPQty).Value) > 0 Then
+            If SettAllowMPQtyGreaterThanDCSQty And (clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPQty).Value) > clsCommon.myCDecimal(gvItem.Rows(indx).Cells(IIf(isEditQty, colEditQty, colQty)).Value)) Then
                 RecoStatus = True
             End If
-            If SettAllowMPQtyLessThanDCSQty And (clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPQty).Value) < clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colQty).Value)) Then
+            If SettAllowMPQtyLessThanDCSQty And (clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPQty).Value) < clsCommon.myCDecimal(gvItem.Rows(indx).Cells(IIf(isEditQty, colEditQty, colQty)).Value)) Then
                 RecoStatus = True
             End If
-            If SettAllowMPQtyEqualToDCSQty And (clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colMPQty).Value) = clsCommon.myCDecimal(gvItem.Rows(Indx).Cells(colQty).Value)) Then
+            If SettAllowMPQtyEqualToDCSQty And (clsCommon.myCDecimal(gvItem.Rows(indx).Cells(colMPQty).Value) = clsCommon.myCDecimal(gvItem.Rows(indx).Cells(IIf(isEditQty, colEditQty, colQty)).Value)) Then
                 RecoStatus = True
             End If
         End If
-        gvItem.Rows(Indx).Cells(colRecoStatus).Value = RecoStatus
+        gvItem.Rows(indx).Cells(colRecoStatus).Value = RecoStatus
     End Sub
 
     Sub loadBlankGrid()
@@ -623,6 +634,17 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Qty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvItem.Columns.Add(Qty)
 
+        Qty = New GridViewDecimalColumn
+        Qty.FormatString = ""
+        Qty.HeaderText = "Edit Qty"
+        Qty.Name = colEditQty
+        Qty.Width = 100
+        Qty.FormatString = "{0:n3}"
+        Qty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Qty.IsVisible = btnEditDCSQty.Visible
+        Qty.ReadOnly = False
+        gvItem.Columns.Add(Qty)
+
         Dim UOM As New GridViewTextBoxColumn()
         UOM.FormatString = ""
         UOM.HeaderText = "UOM"
@@ -772,10 +794,11 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Dim Smitem As New GridViewSummaryItem(colQty, "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
 
-        Smitem = New GridViewSummaryItem(colAmount, "{0:n2}", GridAggregateFunction.Sum)
+        Smitem = New GridViewSummaryItem(colEditQty, "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
 
-
+        Smitem = New GridViewSummaryItem(colAmount, "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(Smitem)
 
         Smitem = New GridViewSummaryItem(colMPCount, "{0:n0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
@@ -791,6 +814,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
 
         Smitem = New GridViewSummaryItem(colDiffAmt, "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Smitem)
+
         gvItem.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gvItem.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
@@ -964,12 +988,12 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Try
             If (deleteConfirm()) Then
                 If (clsMPDCSInsentiveReco.DeleteData(txtDocumentNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -999,7 +1023,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
 
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSlNo).Value = gvItem.Rows.Count
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colRecoStatus).Value = objTr.Reco_Staus
-
+                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colRecoStatus).Tag = objTr.Reco_Staus
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCCode).Value = objTr.MCC_Code
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCName).Value = objTr.MCC_Name
 
@@ -1018,6 +1042,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCycleNo).Value = objTr.Cycle_No
 
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
+                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colEditQty).Value = objTr.Qty
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colUOM).Value = objTr.UOM
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colFAT).Value = objTr.FAT
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSNF).Value = objTr.SNF
@@ -1113,7 +1138,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub CloseForm()
@@ -1385,7 +1410,7 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 obj.GridColumns = gvItem.ColumnCount
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -1398,7 +1423,7 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(Me.Form_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1435,7 +1460,77 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnEditDCSQty_Click(sender As Object, e As EventArgs) Handles btnEditDCSQty.Click
+        Try
+            If Not MyBase.isPostFlag Then
+                Throw New Exception("Unauthorized user")
+            End If
+
+
+            Dim Arr As New List(Of clsMPDCSInsentiveRecoDetail)
+            Dim dclTotalEditQtyOLD As Decimal = 0
+            Dim dclTotalEditQtyNew As Decimal = 0
+            For ii As Integer = 0 To gvItem.Rows.Count - 1
+                If clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colQty).Value) <> clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colEditQty).Value) Then
+                    If clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colEditQty).Value) < clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colMPQty).Value) Then
+                        Throw New Exception("DCS [" + clsCommon.myCstr(gvItem.Rows(ii).Cells(colVLCUploaderCode).Value) + "] Edit DCS Qty [" + clsCommon.myCstr(gvItem.Rows(ii).Cells(colEditQty).Value) + "] Can't be less than MP Qty [" + clsCommon.myCstr(gvItem.Rows(ii).Cells(colMPQty).Value) + "]  ")
+                    End If
+
+                    dclTotalEditQtyOLD += clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colQty).Value)
+                    dclTotalEditQtyNew += clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colEditQty).Value)
+
+
+                    Dim objTr As New clsMPDCSInsentiveRecoDetail()
+                    objTr.Reco_Staus_OLD = clsCommon.myCBool(gvItem.Rows(ii).Cells(colRecoStatus).Tag)
+                    UpdateCurrentRow(ii, True)
+                    objTr.SNo = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colSlNo).Value)
+                    objTr.PK_Id = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colPKID).Value)
+                    objTr.Reco_Staus = clsCommon.myCBool(gvItem.Rows(ii).Cells(colRecoStatus).Value)
+                    objTr.MCC_Code = clsCommon.myCstr(gvItem.Rows(ii).Cells(colBMCCode).Value)
+                    objTr.VLC_Code = clsCommon.myCstr(gvItem.Rows(ii).Cells(colVLCCode).Value)
+                    objTr.Cycle_Year = clsCommon.myCstr(gvItem.Rows(ii).Cells(colYear).Value)
+                    objTr.Cycle_Month = clsCommon.myCstr(gvItem.Rows(ii).Cells(colMonth).Value)
+                    objTr.Cycle_No = clsCommon.myCstr(gvItem.Rows(ii).Cells(colCycleNo).Value)
+                    objTr.Qty = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colEditQty).Value)
+                    objTr.UOM = clsCommon.myCstr(gvItem.Rows(ii).Cells(colUOM).Value)
+                    objTr.FAT = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colFAT).Value)
+                    objTr.SNF = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colSNF).Value)
+                    objTr.Amount = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colAmount).Value)
+                    objTr.MP_Count = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colMPCount).Value)
+                    objTr.MP_Qty = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colMPQty).Value)
+                    objTr.MP_FAT = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colMPFAT).Value)
+                    objTr.MP_SNF = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colMPSNF).Value)
+                    objTr.MP_Amount = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colMPAmt).Value)
+                    objTr.Diff_Qty = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colDiffQty).Value)
+                    objTr.Diff_FAT = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colDiffFAT).Value)
+                    objTr.Diff_SNF = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colDiffSNF).Value)
+                    objTr.Diff_Amount = clsCommon.myCDecimal(gvItem.Rows(ii).Cells(colDiffAmt).Value)
+                    Arr.Add(objTr)
+                End If
+            Next
+            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                If dclTotalEditQtyOLD <> dclTotalEditQtyNew Then
+                    Throw New Exception("Sum of Qty [" + clsCommon.myCstr(dclTotalEditQtyOLD) + "] and Edit Qty [" + clsCommon.myCstr(dclTotalEditQtyNew) + "] should be same")
+                End If
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Update"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Throw New Exception("Please provice remarks to Edit Qty")
+                Else
+                    clsMPDCSInsentiveRecoDetail.EditDCSQty(txtDocumentNo.Value, frm.strRmks, Arr)
+                    clsCommon.MyMessageBoxShow("Qty Edited Successfully", Me.Text)
+                    LoadData(txtDocumentNo.Value, NavigatorType.Current)
+                End If
+            Else
+                Throw New Exception("No Data edit")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
