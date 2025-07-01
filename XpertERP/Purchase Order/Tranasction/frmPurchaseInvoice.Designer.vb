@@ -22,17 +22,17 @@ Partial Class frmPurchaseInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPurchaseInvoice))
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -997,10 +997,10 @@ Partial Class frmPurchaseInvoice
         Me.CboxITCCateogory.IsSourceFromTable = False
         Me.CboxITCCateogory.IsSourceFromValueList = False
         Me.CboxITCCateogory.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.CboxITCCateogory.Items.Add(RadListDataItem1)
-        Me.CboxITCCateogory.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.CboxITCCateogory.Items.Add(RadListDataItem5)
+        Me.CboxITCCateogory.Items.Add(RadListDataItem6)
         Me.CboxITCCateogory.Location = New System.Drawing.Point(130, 19)
         Me.CboxITCCateogory.MendatroryField = False
         Me.CboxITCCateogory.MyLinkLable1 = Me.MyLabel7
@@ -1037,10 +1037,10 @@ Partial Class frmPurchaseInvoice
         Me.CboxITCType.IsSourceFromTable = False
         Me.CboxITCType.IsSourceFromValueList = False
         Me.CboxITCType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.CboxITCType.Items.Add(RadListDataItem3)
-        Me.CboxITCType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.CboxITCType.Items.Add(RadListDataItem1)
+        Me.CboxITCType.Items.Add(RadListDataItem2)
         Me.CboxITCType.Location = New System.Drawing.Point(49, 19)
         Me.CboxITCType.MendatroryField = True
         Me.CboxITCType.MyLinkLable1 = Me.MyLabel7
@@ -1929,7 +1929,8 @@ Partial Class frmPurchaseInvoice
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2601,7 +2602,8 @@ Partial Class frmPurchaseInvoice
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2664,7 +2666,8 @@ Partial Class frmPurchaseInvoice
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2736,7 +2739,8 @@ Partial Class frmPurchaseInvoice
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvACInsurance.MyExportFilePath = ""
         Me.gvACInsurance.MyStopExport = False
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3088,7 +3092,7 @@ Partial Class frmPurchaseInvoice
         Me.txtTCSTaxRate.TabIndex = 1404
         Me.txtTCSTaxRate.Text = "0"
         Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtTCSTaxRate.Visible = False
         '
         'MyLabel39
@@ -3149,7 +3153,7 @@ Partial Class frmPurchaseInvoice
         Me.txttcstaxbaseamount.TabIndex = 1400
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txttcstaxbaseamount.Value = 0R
+        Me.txttcstaxbaseamount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel21
         '
@@ -3372,7 +3376,7 @@ Partial Class frmPurchaseInvoice
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
         Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
+        Me.txtConversionRate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'txtCurrencyCode
         '
@@ -3617,7 +3621,8 @@ Partial Class frmPurchaseInvoice
         Me.gvDeduction.MasterTemplate.AllowDeleteRow = False
         Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvDeduction.MyExportFilePath = ""
         Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3643,7 +3648,8 @@ Partial Class frmPurchaseInvoice
         Me.gvAPInvoice.MasterTemplate.AllowDeleteRow = False
         Me.gvAPInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAPInvoice.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAPInvoice.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAPInvoice.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvAPInvoice.MyExportFilePath = ""
         Me.gvAPInvoice.MyStopExport = False
         Me.gvAPInvoice.Name = "gvAPInvoice"
         Me.gvAPInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3657,9 +3663,9 @@ Partial Class frmPurchaseInvoice
         'btnPrintInv
         '
         Me.btnPrintInv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintInv.Location = New System.Drawing.Point(561, 4)
+        Me.btnPrintInv.Location = New System.Drawing.Point(535, 4)
         Me.btnPrintInv.Name = "btnPrintInv"
-        Me.btnPrintInv.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrintInv.Size = New System.Drawing.Size(61, 22)
         Me.btnPrintInv.TabIndex = 47
         Me.btnPrintInv.Text = "Print"
         '
@@ -3667,25 +3673,24 @@ Partial Class frmPurchaseInvoice
         '
         Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnJE.Location = New System.Drawing.Point(852, 4)
+        Me.btnJE.Location = New System.Drawing.Point(843, 4)
         Me.btnJE.Name = "btnJE"
-        Me.btnJE.Size = New System.Drawing.Size(71, 22)
+        Me.btnJE.Size = New System.Drawing.Size(61, 22)
         Me.btnJE.TabIndex = 46
         Me.btnJE.Text = "Show JE"
         '
         'btnNewHistory
         '
-        Me.btnNewHistory.Location = New System.Drawing.Point(799, 4)
+        Me.btnNewHistory.Location = New System.Drawing.Point(781, 4)
         Me.btnNewHistory.Name = "btnNewHistory"
-        Me.btnNewHistory.Size = New System.Drawing.Size(50, 22)
+        Me.btnNewHistory.Size = New System.Drawing.Size(61, 22)
         Me.btnNewHistory.TabIndex = 42
         Me.btnNewHistory.Text = "&History"
         '
         'btncancel
         '
-        Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btncancel.Location = New System.Drawing.Point(201, 4)
+        Me.btncancel.Location = New System.Drawing.Point(199, 4)
         Me.btncancel.Name = "btncancel"
         Me.btncancel.Size = New System.Drawing.Size(61, 22)
         Me.btncancel.TabIndex = 12
@@ -3694,7 +3699,7 @@ Partial Class frmPurchaseInvoice
         'btnPurchaseTaxInvoice
         '
         Me.btnPurchaseTaxInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPurchaseTaxInvoice.Location = New System.Drawing.Point(632, 4)
+        Me.btnPurchaseTaxInvoice.Location = New System.Drawing.Point(597, 4)
         Me.btnPurchaseTaxInvoice.Name = "btnPurchaseTaxInvoice"
         Me.btnPurchaseTaxInvoice.Size = New System.Drawing.Size(95, 22)
         Me.btnPurchaseTaxInvoice.TabIndex = 8
@@ -3703,16 +3708,16 @@ Partial Class frmPurchaseInvoice
         'BtnHistory
         '
         Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnHistory.Location = New System.Drawing.Point(494, 4)
+        Me.BtnHistory.Location = New System.Drawing.Point(473, 4)
         Me.BtnHistory.Name = "BtnHistory"
-        Me.BtnHistory.Size = New System.Drawing.Size(65, 22)
+        Me.BtnHistory.Size = New System.Drawing.Size(61, 22)
         Me.BtnHistory.TabIndex = 7
         Me.BtnHistory.Text = "History"
         '
         'btnsetting
         '
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnpreview, Me.btnsend, Me.btnSendForApproval})
-        Me.btnsetting.Location = New System.Drawing.Point(405, 4)
+        Me.btnsetting.Location = New System.Drawing.Point(385, 4)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(87, 22)
         Me.btnsetting.TabIndex = 6
@@ -3736,27 +3741,27 @@ Partial Class frmPurchaseInvoice
         'btnprintjvl
         '
         Me.btnprintjvl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprintjvl.Location = New System.Drawing.Point(340, 4)
+        Me.btnprintjvl.Location = New System.Drawing.Point(323, 4)
         Me.btnprintjvl.Name = "btnprintjvl"
-        Me.btnprintjvl.Size = New System.Drawing.Size(62, 22)
+        Me.btnprintjvl.Size = New System.Drawing.Size(61, 22)
         Me.btnprintjvl.TabIndex = 4
         Me.btnprintjvl.Text = "Print PJV"
         '
         'btnViewTDSDetails
         '
         Me.btnViewTDSDetails.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewTDSDetails.Location = New System.Drawing.Point(270, 4)
+        Me.btnViewTDSDetails.Location = New System.Drawing.Point(261, 4)
         Me.btnViewTDSDetails.Name = "btnViewTDSDetails"
-        Me.btnViewTDSDetails.Size = New System.Drawing.Size(69, 22)
+        Me.btnViewTDSDetails.Size = New System.Drawing.Size(61, 22)
         Me.btnViewTDSDetails.TabIndex = 3
         Me.btnViewTDSDetails.Text = "View TDS"
         '
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(145, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(137, 4)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(64, 22)
+        Me.btnDelete.Size = New System.Drawing.Size(61, 22)
         Me.btnDelete.TabIndex = 2
         Me.btnDelete.Text = "Delete"
         '
@@ -3765,7 +3770,7 @@ Partial Class frmPurchaseInvoice
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnPost.Location = New System.Drawing.Point(75, 4)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 22)
+        Me.btnPost.Size = New System.Drawing.Size(61, 22)
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
         '
@@ -3773,9 +3778,9 @@ Partial Class frmPurchaseInvoice
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(929, 4)
+        Me.btnClose.Location = New System.Drawing.Point(905, 4)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(41, 22)
+        Me.btnClose.Size = New System.Drawing.Size(61, 22)
         Me.btnClose.TabIndex = 5
         Me.btnClose.Text = "Close"
         '
@@ -3791,9 +3796,9 @@ Partial Class frmPurchaseInvoice
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(728, 4)
+        Me.btnReverse.Location = New System.Drawing.Point(719, 4)
         Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(66, 22)
+        Me.btnReverse.Size = New System.Drawing.Size(61, 22)
         Me.btnReverse.TabIndex = 1
         Me.btnReverse.Text = "Unpost"
         Me.btnReverse.Visible = False
