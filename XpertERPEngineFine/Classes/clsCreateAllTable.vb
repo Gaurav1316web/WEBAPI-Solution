@@ -27542,6 +27542,8 @@ Public Class clsCreateAllTable
             coll.Add("ProcessLoss_UOM", "integer  null default 0")
             coll.Add("Report_UOM", "integer  null default 0")
             coll.Add("Decimal_UOM", "integer  null default 0")
+            coll.Add("InterUnionItem", "varchar(100) NULL Unique")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 
