@@ -1618,10 +1618,10 @@ xxx:
                 If AllCellsInString Then
                     If TypeOf gv.Columns(i) Is GridViewTextBoxColumn Then
                         If gv.Columns(i).FormatString = "{0:n2}" Then
-                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "General"
                             wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4152 ' Right Align
                         Else
-                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "@"
+                            wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).Cells.NumberFormat = "General"
                             wSheet.Range(ColumnIndexToColumnLetter(jk) & ":" & ColumnIndexToColumnLetter(jk)).HorizontalAlignment = -4131 ' Left Align
                         End If
                     ElseIf TypeOf gv.Columns(i) Is GridViewDecimalColumn AndAlso gv.Columns(i).FormatString = "{0:n2}" Then

@@ -168,69 +168,73 @@ Public Class frmDemandBooking
         End Try
     End Sub
     Private Sub FrmBookingEntry_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing Then
-            'setGridFocus()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
-            AddNew()
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"))
-                If clsCommon.CompairString(txtRouteNo.Value, RouteNo) = CompairStringResult.Equal Then
-                    SaveData(0, False)
+        Try
+            If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing Then
+                'setGridFocus()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
+                AddNew()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
+                If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    Dim RouteNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"))
+                    If clsCommon.CompairString(txtRouteNo.Value, RouteNo) = CompairStringResult.Equal Then
+                        SaveData(0, False)
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "You can't change route", Me.Text)
+                        txtRouteNo.Value = RouteNo
+                    End If
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "You can't change route", Me.Text)
-                    txtRouteNo.Value = RouteNo
+                    SaveData(0, False)
                 End If
-            Else
-                SaveData(0, False)
-            End If
 
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
-            DeleteData()
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F10 Then
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnDelete.Enabled AndAlso MyBase.isDeleteFlag Then
+                DeleteData()
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F10 Then
 
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIR
-            frm.strCode = "ShuffleDemand"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                gbShuffleDemand.Visible = True
-            End If
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
-            CloseForm()
-        ElseIf e.KeyCode = Keys.Enter Then
-            setGridFocus()
-        ElseIf e.KeyCode = Keys.PageDown Then
-            setPagedown()
-        ElseIf e.KeyCode = Keys.Home Then
-            setGridFocusHome()
-        ElseIf e.KeyCode = Keys.End Then
-            setGridFocusEnd()
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = clsFixedParameterType.SIR
-                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.strCode = "ShuffleDemand"
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
-                    btnreverse.Visible = True
+                    gbShuffleDemand.Visible = True
                 End If
-                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                  "TSPL_DEMAND_BOOKING_MASTER " + Environment.NewLine +
-                                  "TSPL_DEMAND_BOOKING_DETAIL " + Environment.NewLine +
-                "TSPL_BOOKING_MATSER " + Environment.NewLine +
-                                  "TSPL_BOOKING_DETAIL " + Environment.NewLine +
-                                  "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
-                                  "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
-                                  "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
-                                  "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
-                                  "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
-                                  "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
-            Else
-                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
-                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
+                CloseForm()
+            ElseIf e.KeyCode = Keys.Enter Then
+                setGridFocus()
+            ElseIf e.KeyCode = Keys.PageDown Then
+                setPagedown()
+            ElseIf e.KeyCode = Keys.Home Then
+                setGridFocusHome()
+            ElseIf e.KeyCode = Keys.End Then
+                setGridFocusEnd()
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnreverse.Visible = True
+                    End If
+                    ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                      "TSPL_DEMAND_BOOKING_MASTER " + Environment.NewLine +
+                                      "TSPL_DEMAND_BOOKING_DETAIL " + Environment.NewLine +
+                    "TSPL_BOOKING_MATSER " + Environment.NewLine +
+                                      "TSPL_BOOKING_DETAIL " + Environment.NewLine +
+                                      "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                      "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                      "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
+                                      "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
+                                      "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
+                                      "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub CloseForm()
         Me.Close()
@@ -571,17 +575,21 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
         End If
     End Sub
     Private Sub setPagedown()
-        Dim scrollDelta As Integer = gv1.TableElement.ViewElement.ScrollableRows.Size.Height + CInt(gv1.TableElement.ViewElement.ScrollableRows.ScrollOffset.Height)
-        Dim newVScrollValue As Integer = gv1.TableElement.VScrollBar.Value + scrollDelta
-        If newVScrollValue < gv1.TableElement.VScrollBar.Maximum - gv1.TableElement.VScrollBar.LargeChange Then
-            gv1.TableElement.VScrollBar.Value = newVScrollValue
-        Else
-            gv1.TableElement.VScrollBar.Value = gv1.TableElement.VScrollBar.Maximum - gv1.TableElement.VScrollBar.LargeChange
-        End If
-        Dim navigator As IGridNavigator = gv1.GridViewElement.Navigator
-        navigator.BeginSelection(New GridNavigationContext(GridNavigationInputType.Keyboard, MouseButtons.None, Keys.None))
-        navigator.SelectRow(Me.GetLastScrollableRow(gv1.TableElement))
-        navigator.EndSelection()
+        Try
+            Dim scrollDelta As Integer = gv1.TableElement.ViewElement.ScrollableRows.Size.Height + CInt(gv1.TableElement.ViewElement.ScrollableRows.ScrollOffset.Height)
+            Dim newVScrollValue As Integer = gv1.TableElement.VScrollBar.Value + scrollDelta
+            If newVScrollValue < gv1.TableElement.VScrollBar.Maximum - gv1.TableElement.VScrollBar.LargeChange Then
+                gv1.TableElement.VScrollBar.Value = newVScrollValue
+            Else
+                gv1.TableElement.VScrollBar.Value = gv1.TableElement.VScrollBar.Maximum - gv1.TableElement.VScrollBar.LargeChange
+            End If
+            Dim navigator As IGridNavigator = gv1.GridViewElement.Navigator
+            navigator.BeginSelection(New GridNavigationContext(GridNavigationInputType.Keyboard, MouseButtons.None, Keys.None))
+            navigator.SelectRow(Me.GetLastScrollableRow(gv1.TableElement))
+            navigator.EndSelection()
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
     Private Function GetLastScrollableRow(ByVal tableElement As GridTableElement) As GridViewRowInfo
         Dim rows As ScrollableRowsContainerElement = tableElement.ViewElement.ScrollableRows
@@ -6598,7 +6606,7 @@ WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" + clsCommon.myCstr(txtDocNo.Valu
 Convert(varchar,MAX(TSPL_ITEM_MASTER.Print_Sequence))Print_Sequence,0 As Qty from TSPL_ITEM_MASTER
 LEFT OUTER JOIN TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.DOCUMENT_NO=TSPL_DEMAND_BOOKING_DETAIL.DOCUMENT_NO
-WHERE TSPL_ITEM_MASTER.Print_Sequence is not null
+WHERE TSPL_ITEM_MASTER.Print_Sequence is not null and TSPL_ITEM_MASTER.Active=1
  group by TSPL_ITEM_MASTER.Item_Code "
             End If
 
@@ -6874,7 +6882,7 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                             ' If numeric, check for 0 and replace
                             If IsNumeric(cellValue) Then
                                 If Convert.ToDouble(cellValue) = 0 Then
-                                    newRow(col.ColumnName) = "-" ' Replace 0 with "-"
+                                    'newRow(col.ColumnName) = "-" ' Replace 0 with "-"
                                 Else
                                     newRow(col.ColumnName) = cellValue.ToString() ' Convert to string
                                 End If
@@ -6906,11 +6914,7 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                     Next
                     MyRadGridView1.Columns("Amount").FormatString = "{0:n2}"
                 End If
-                'View()
-                ' SetGridFormation()
-                'ReStoreGridLayout()
                 MyRadGridView1.MasterTemplate.AutoExpandGroups = True
-                'RadPageView1.SelectedPage = RadPageViewPage2
                 MyRadGridView1.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
@@ -6939,35 +6943,12 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                 'arrHeader.Add(("Driver No: " + clsCommon.myCstr(txtDriverMobNo.Text) + "  "))
 
             End If
-
-            'If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
-            '    arrHeader.Add("Location : " + clsCommon.GetMulcallStringWithComma(txtLocation.arrDispalyMember))
-            'End If
-            'If txtItem.arrDispalyMember IsNot Nothing AndAlso txtItem.arrDispalyMember.Count > 0 Then
-            '    arrHeader.Add("Item : " + clsCommon.GetMulcallStringWithComma(txtItem.arrDispalyMember))
-            'End If
-            'If txtTransaction.arrDispalyMember IsNot Nothing AndAlso txtTransaction.arrDispalyMember.Count > 0 Then
-            '    arrHeader.Add("Transaction : " + clsCommon.GetMulcallStringWithComma(txtTransaction.arrDispalyMember))
-            'End If
-            'If exporter = EnumExportTo.Excel Then
-            '    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-            '    'clsCommon.MyExportToExcelGrid("Demand Booking Report", Gv1, arrHeader, Me.Text)
-            '    transportSql.exportdata(Gv1, "GATEPASS DETAIL", Me.Text, False, arrHeader, False, False, False)
-            'Else
-            '    transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-            '    'clsCommon.MyExportToPDF("Demand Booking Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            '    clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, True)
-            'End If
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBoothData())
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     transportSql.exportdataBoothSlipGNG(Nothing, MyRadGridView1, "", "Supply Chart", 0, MyRadGridView1.Rows.Count, False, arrHeader, False, False, False, False, False, Nothing, True, True)
                 Else
                     clsCommon.MyExportToExcelGrid("Supply Chart", MyRadGridView1, arrHeader, "Supply Chart")
                 End If
-
-
-                ' transportSql.ExporttoExcel(dt, Me)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -6979,7 +6960,6 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             For Each cell As GridViewCellInfo In row.Cells
                 If cell IsNot Nothing AndAlso IsNumeric(cell.Value) Then
                     Dim value As Double = clsCommon.myCdbl(cell.Value)
-                    'Dim cellElement As GridCellElement = MyRadGridView1.TableElement.GetCellElement(cell.RowInfo, cell.ColumnInfo)
                     If value > 0 Then
                         ' Apply formatting directly
                         If value = Math.Floor(value) Then
@@ -6993,11 +6973,6 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
                 End If
             Next
         Next
-        ' Add CellFormatting event to make the first row bold
-        'AddHandler MyRadGridView1.CellFormatting, AddressOf MyRadGridView1_CellFormatting
-        '' Force UI refresh
-        'MyRadGridView1.TableElement.Update(False)
-        'MyRadGridView1.MasterTemplate.Refresh()
     End Sub
     Private Sub rmi_BoothSlipExcel_Click(sender As Object, e As EventArgs) Handles rmi_BoothSlipExcel.Click
         Try

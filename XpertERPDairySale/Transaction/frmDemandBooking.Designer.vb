@@ -1388,7 +1388,7 @@ Partial Class frmDemandBooking
         'RadSplitButton1
         '
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_BoothSlipExcel})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(647, 11)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(648, 11)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(86, 20)
         Me.RadSplitButton1.TabIndex = 54
@@ -1412,7 +1412,7 @@ Partial Class frmDemandBooking
         'btnSplitPrint
         '
         Me.btnSplitPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSplitPrint.Location = New System.Drawing.Point(899, 11)
+        Me.btnSplitPrint.Location = New System.Drawing.Point(900, 11)
         Me.btnSplitPrint.Name = "btnSplitPrint"
         Me.btnSplitPrint.Size = New System.Drawing.Size(62, 20)
         Me.btnSplitPrint.TabIndex = 52
@@ -1421,7 +1421,7 @@ Partial Class frmDemandBooking
         'btnReverseAndUnpost
         '
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(734, 11)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(735, 11)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(76, 20)
         Me.btnReverseAndUnpost.TabIndex = 26
@@ -1430,7 +1430,7 @@ Partial Class frmDemandBooking
         'btnPrintChallan
         '
         Me.btnPrintChallan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintChallan.Location = New System.Drawing.Point(496, 11)
+        Me.btnPrintChallan.Location = New System.Drawing.Point(497, 11)
         Me.btnPrintChallan.Name = "btnPrintChallan"
         Me.btnPrintChallan.Size = New System.Drawing.Size(80, 20)
         Me.btnPrintChallan.TabIndex = 51
@@ -1449,7 +1449,7 @@ Partial Class frmDemandBooking
         'SplitButtonTruckSheet
         '
         Me.SplitButtonTruckSheet.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_TS_PDF, Me.rmi_TS_Excel, Me.rmi_Indent_PDF, Me.rmi_Indent_Excel})
-        Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(409, 11)
+        Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(410, 11)
         Me.SplitButtonTruckSheet.Name = "SplitButtonTruckSheet"
         Me.SplitButtonTruckSheet.Size = New System.Drawing.Size(86, 20)
         Me.SplitButtonTruckSheet.TabIndex = 49
@@ -1480,7 +1480,7 @@ Partial Class frmDemandBooking
         'btn_GPCancel
         '
         Me.btn_GPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_GPCancel.Location = New System.Drawing.Point(577, 11)
+        Me.btn_GPCancel.Location = New System.Drawing.Point(578, 11)
         Me.btn_GPCancel.Name = "btn_GPCancel"
         Me.btn_GPCancel.Size = New System.Drawing.Size(69, 20)
         Me.btn_GPCancel.TabIndex = 25
@@ -1490,7 +1490,7 @@ Partial Class frmDemandBooking
         'btn_Gatepass
         '
         Me.btn_Gatepass.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Gatepass.Location = New System.Drawing.Point(345, 11)
+        Me.btn_Gatepass.Location = New System.Drawing.Point(346, 11)
         Me.btn_Gatepass.Name = "btn_Gatepass"
         Me.btn_Gatepass.Size = New System.Drawing.Size(63, 20)
         Me.btn_Gatepass.TabIndex = 24
@@ -1509,7 +1509,7 @@ Partial Class frmDemandBooking
         'btnAssessment
         '
         Me.btnAssessment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAssessment.Location = New System.Drawing.Point(254, 11)
+        Me.btnAssessment.Location = New System.Drawing.Point(255, 11)
         Me.btnAssessment.Name = "btnAssessment"
         Me.btnAssessment.Size = New System.Drawing.Size(90, 20)
         Me.btnAssessment.TabIndex = 13
@@ -1536,7 +1536,7 @@ Partial Class frmDemandBooking
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(194, 11)
+        Me.btnPrint.Location = New System.Drawing.Point(195, 11)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(59, 20)
         Me.btnPrint.TabIndex = 14
@@ -1564,7 +1564,7 @@ Partial Class frmDemandBooking
         'btnreverse
         '
         Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(811, 11)
+        Me.btnreverse.Location = New System.Drawing.Point(812, 11)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(87, 20)
         Me.btnreverse.TabIndex = 22
