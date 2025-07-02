@@ -23,7 +23,7 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -71,6 +71,11 @@ Partial Class FrmUtility
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.RadButton312 = New Telerik.WinControls.UI.RadButton()
+        Me.GroupBox114 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel71 = New common.Controls.MyLabel()
+        Me.txtDCSSaleDocument = New common.UserControls.txtMultiSelectFinder()
+        Me.txtGenerateDCSSalePDFForMobile = New Telerik.WinControls.UI.RadButton()
         Me.RadButton357 = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnInsertDataInRetestingTable = New Telerik.WinControls.UI.RadButton()
@@ -804,10 +809,6 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
-        Me.GroupBox114 = New System.Windows.Forms.GroupBox()
-        Me.MyLabel71 = New common.Controls.MyLabel()
-        Me.txtDCSSaleDocument = New common.UserControls.txtMultiSelectFinder()
-        Me.txtGenerateDCSSalePDFForMobile = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -856,6 +857,10 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel1.PanelContainer.SuspendLayout
         Me.RadScrollablePanel1.SuspendLayout
+        CType(Me.RadButton312, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox114.SuspendLayout
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtGenerateDCSSalePDFForMobile, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton357, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox4.SuspendLayout
@@ -1569,9 +1574,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
-        Me.GroupBox114.SuspendLayout
-        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtGenerateDCSSalePDFForMobile, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1682,7 +1684,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
         Me.gvShipment.Name = "gvShipment"
@@ -2011,6 +2013,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton312)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox114)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton357)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox4)
@@ -2067,6 +2070,56 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 405)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 407)
         Me.RadScrollablePanel1.TabIndex = 627
+        '
+        'RadButton312
+        '
+        Me.RadButton312.Location = New System.Drawing.Point(339, 555)
+        Me.RadButton312.Name = "RadButton312"
+        Me.RadButton312.Size = New System.Drawing.Size(312, 24)
+        Me.RadButton312.TabIndex = 1574
+        Me.RadButton312.Text = "Update Farmer DBT Capping as define in setting"
+        '
+        'GroupBox114
+        '
+        Me.GroupBox114.Controls.Add(Me.MyLabel71)
+        Me.GroupBox114.Controls.Add(Me.txtDCSSaleDocument)
+        Me.GroupBox114.Controls.Add(Me.txtGenerateDCSSalePDFForMobile)
+        Me.GroupBox114.Location = New System.Drawing.Point(666, 521)
+        Me.GroupBox114.Name = "GroupBox114"
+        Me.GroupBox114.Size = New System.Drawing.Size(381, 57)
+        Me.GroupBox114.TabIndex = 1573
+        Me.GroupBox114.TabStop = False
+        '
+        'MyLabel71
+        '
+        Me.MyLabel71.FieldName = Nothing
+        Me.MyLabel71.Location = New System.Drawing.Point(2, 12)
+        Me.MyLabel71.Name = "MyLabel71"
+        Me.MyLabel71.Size = New System.Drawing.Size(147, 18)
+        Me.MyLabel71.TabIndex = 55
+        Me.MyLabel71.Text = "DCS Sale && Entry Document"
+        '
+        'txtDCSSaleDocument
+        '
+        Me.txtDCSSaleDocument.arrDispalyMember = Nothing
+        Me.txtDCSSaleDocument.arrValueMember = Nothing
+        Me.txtDCSSaleDocument.Location = New System.Drawing.Point(149, 11)
+        Me.txtDCSSaleDocument.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDCSSaleDocument.MyLinkLable1 = Me.MyLabel71
+        Me.txtDCSSaleDocument.MyLinkLable2 = Nothing
+        Me.txtDCSSaleDocument.MyNullText = "None"
+        Me.txtDCSSaleDocument.Name = "txtDCSSaleDocument"
+        Me.txtDCSSaleDocument.Size = New System.Drawing.Size(226, 19)
+        Me.txtDCSSaleDocument.TabIndex = 54
+        '
+        'txtGenerateDCSSalePDFForMobile
+        '
+        Me.txtGenerateDCSSalePDFForMobile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGenerateDCSSalePDFForMobile.Location = New System.Drawing.Point(150, 31)
+        Me.txtGenerateDCSSalePDFForMobile.Name = "txtGenerateDCSSalePDFForMobile"
+        Me.txtGenerateDCSSalePDFForMobile.Size = New System.Drawing.Size(229, 22)
+        Me.txtGenerateDCSSalePDFForMobile.TabIndex = 17
+        Me.txtGenerateDCSSalePDFForMobile.Text = "Generate DCS Sale && Entry PDF For Mobile"
         '
         'RadButton357
         '
@@ -10114,48 +10167,6 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
-        'GroupBox114
-        '
-        Me.GroupBox114.Controls.Add(Me.MyLabel71)
-        Me.GroupBox114.Controls.Add(Me.txtDCSSaleDocument)
-        Me.GroupBox114.Controls.Add(Me.txtGenerateDCSSalePDFForMobile)
-        Me.GroupBox114.Location = New System.Drawing.Point(666, 521)
-        Me.GroupBox114.Name = "GroupBox114"
-        Me.GroupBox114.Size = New System.Drawing.Size(381, 57)
-        Me.GroupBox114.TabIndex = 1573
-        Me.GroupBox114.TabStop = False
-        '
-        'MyLabel71
-        '
-        Me.MyLabel71.FieldName = Nothing
-        Me.MyLabel71.Location = New System.Drawing.Point(2, 12)
-        Me.MyLabel71.Name = "MyLabel71"
-        Me.MyLabel71.Size = New System.Drawing.Size(147, 18)
-        Me.MyLabel71.TabIndex = 55
-        Me.MyLabel71.Text = "DCS Sale && Entry Document"
-        '
-        'txtDCSSaleDocument
-        '
-        Me.txtDCSSaleDocument.arrDispalyMember = Nothing
-        Me.txtDCSSaleDocument.arrValueMember = Nothing
-        Me.txtDCSSaleDocument.Location = New System.Drawing.Point(149, 11)
-        Me.txtDCSSaleDocument.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDCSSaleDocument.MyLinkLable1 = Me.MyLabel71
-        Me.txtDCSSaleDocument.MyLinkLable2 = Nothing
-        Me.txtDCSSaleDocument.MyNullText = "None"
-        Me.txtDCSSaleDocument.Name = "txtDCSSaleDocument"
-        Me.txtDCSSaleDocument.Size = New System.Drawing.Size(226, 19)
-        Me.txtDCSSaleDocument.TabIndex = 54
-        '
-        'txtGenerateDCSSalePDFForMobile
-        '
-        Me.txtGenerateDCSSalePDFForMobile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGenerateDCSSalePDFForMobile.Location = New System.Drawing.Point(150, 31)
-        Me.txtGenerateDCSSalePDFForMobile.Name = "txtGenerateDCSSalePDFForMobile"
-        Me.txtGenerateDCSSalePDFForMobile.Size = New System.Drawing.Size(229, 22)
-        Me.txtGenerateDCSSalePDFForMobile.TabIndex = 17
-        Me.txtGenerateDCSSalePDFForMobile.Text = "Generate DCS Sale && Entry PDF For Mobile"
-        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10219,6 +10230,11 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel1.ResumeLayout(False)
+        CType(Me.RadButton312, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox114.ResumeLayout(False)
+        Me.GroupBox114.PerformLayout
+        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtGenerateDCSSalePDFForMobile, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton357, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadGroupBox4.ResumeLayout(False)
@@ -10961,10 +10977,6 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        Me.GroupBox114.ResumeLayout(False)
-        Me.GroupBox114.PerformLayout
-        CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtGenerateDCSSalePDFForMobile, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11750,5 +11762,6 @@ Partial Class FrmUtility
     Friend WithEvents MyLabel71 As common.Controls.MyLabel
     Friend WithEvents txtDCSSaleDocument As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtGenerateDCSSalePDFForMobile As RadButton
+    Friend WithEvents RadButton312 As RadButton
 End Class
 
