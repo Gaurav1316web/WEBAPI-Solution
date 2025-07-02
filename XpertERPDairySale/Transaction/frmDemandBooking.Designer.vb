@@ -24,6 +24,7 @@ Partial Class frmDemandBooking
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
@@ -100,10 +101,11 @@ Partial Class frmDemandBooking
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.MyRadGridView1 = New common.UserControls.MyRadGridView()
         Me.chkEveningPosted = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkMorningPosted = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
-        Me.btnBoothSlip = New Telerik.WinControls.UI.RadSplitButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmi_BoothSlipExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitPrint = New Telerik.WinControls.UI.RadButton()
@@ -209,11 +211,14 @@ Partial Class frmDemandBooking
         Me.gv2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gv1.SuspendLayout()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel2.SuspendLayout()
-        CType(Me.btnBoothSlip, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1267,7 +1272,7 @@ Partial Class frmDemandBooking
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -1283,6 +1288,7 @@ Partial Class frmDemandBooking
         '
         Me.gv1.AutoScroll = True
         Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Controls.Add(Me.MyRadGridView1)
         Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1297,7 +1303,7 @@ Partial Class frmDemandBooking
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1308,6 +1314,24 @@ Partial Class frmDemandBooking
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
+        '
+        'MyRadGridView1
+        '
+        Me.MyRadGridView1.Location = New System.Drawing.Point(6, 13)
+        '
+        '
+        '
+        Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MyRadGridView1.MyExportFilePath = ""
+        Me.MyRadGridView1.MyStopExport = False
+        Me.MyRadGridView1.Name = "MyRadGridView1"
+        Me.MyRadGridView1.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.Size = New System.Drawing.Size(289, 148)
+        Me.MyRadGridView1.TabIndex = 3
+        Me.MyRadGridView1.VarID = ""
+        Me.MyRadGridView1.Visible = False
         '
         'chkEveningPosted
         '
@@ -1331,7 +1355,7 @@ Partial Class frmDemandBooking
         '
         'SplitPanel2
         '
-        Me.SplitPanel2.Controls.Add(Me.btnBoothSlip)
+        Me.SplitPanel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitPanel2.Controls.Add(Me.btnHistory)
         Me.SplitPanel2.Controls.Add(Me.btnSplitPrint)
         Me.SplitPanel2.Controls.Add(Me.btnReverseAndUnpost)
@@ -1361,15 +1385,14 @@ Partial Class frmDemandBooking
         Me.SplitPanel2.TabStop = False
         Me.SplitPanel2.Text = "SplitPanel2"
         '
-        'btnBoothSlip
+        'RadSplitButton1
         '
-        Me.btnBoothSlip.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_BoothSlipExcel})
-        Me.btnBoothSlip.Location = New System.Drawing.Point(947, 11)
-        Me.btnBoothSlip.Name = "btnBoothSlip"
-        Me.btnBoothSlip.Size = New System.Drawing.Size(86, 20)
-        Me.btnBoothSlip.TabIndex = 54
-        Me.btnBoothSlip.Text = "Booth Slip"
-        Me.btnBoothSlip.Visible = False
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_BoothSlipExcel})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(647, 11)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(86, 20)
+        Me.RadSplitButton1.TabIndex = 54
+        Me.RadSplitButton1.Text = "Booth Slip"
         '
         'rmi_BoothSlipExcel
         '
@@ -1389,7 +1412,7 @@ Partial Class frmDemandBooking
         'btnSplitPrint
         '
         Me.btnSplitPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSplitPrint.Location = New System.Drawing.Point(884, 11)
+        Me.btnSplitPrint.Location = New System.Drawing.Point(899, 11)
         Me.btnSplitPrint.Name = "btnSplitPrint"
         Me.btnSplitPrint.Size = New System.Drawing.Size(62, 20)
         Me.btnSplitPrint.TabIndex = 52
@@ -1398,7 +1421,7 @@ Partial Class frmDemandBooking
         'btnReverseAndUnpost
         '
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(719, 11)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(734, 11)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(76, 20)
         Me.btnReverseAndUnpost.TabIndex = 26
@@ -1407,7 +1430,7 @@ Partial Class frmDemandBooking
         'btnPrintChallan
         '
         Me.btnPrintChallan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintChallan.Location = New System.Drawing.Point(561, 11)
+        Me.btnPrintChallan.Location = New System.Drawing.Point(496, 11)
         Me.btnPrintChallan.Name = "btnPrintChallan"
         Me.btnPrintChallan.Size = New System.Drawing.Size(80, 20)
         Me.btnPrintChallan.TabIndex = 51
@@ -1426,7 +1449,7 @@ Partial Class frmDemandBooking
         'SplitButtonTruckSheet
         '
         Me.SplitButtonTruckSheet.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_TS_PDF, Me.rmi_TS_Excel, Me.rmi_Indent_PDF, Me.rmi_Indent_Excel})
-        Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(474, 11)
+        Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(409, 11)
         Me.SplitButtonTruckSheet.Name = "SplitButtonTruckSheet"
         Me.SplitButtonTruckSheet.Size = New System.Drawing.Size(86, 20)
         Me.SplitButtonTruckSheet.TabIndex = 49
@@ -1457,9 +1480,9 @@ Partial Class frmDemandBooking
         'btn_GPCancel
         '
         Me.btn_GPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_GPCancel.Location = New System.Drawing.Point(642, 11)
+        Me.btn_GPCancel.Location = New System.Drawing.Point(577, 11)
         Me.btn_GPCancel.Name = "btn_GPCancel"
-        Me.btn_GPCancel.Size = New System.Drawing.Size(76, 20)
+        Me.btn_GPCancel.Size = New System.Drawing.Size(69, 20)
         Me.btn_GPCancel.TabIndex = 25
         Me.btn_GPCancel.Text = "GP Cancel"
         Me.btn_GPCancel.Visible = False
@@ -1467,16 +1490,16 @@ Partial Class frmDemandBooking
         'btn_Gatepass
         '
         Me.btn_Gatepass.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Gatepass.Location = New System.Drawing.Point(397, 11)
+        Me.btn_Gatepass.Location = New System.Drawing.Point(345, 11)
         Me.btn_Gatepass.Name = "btn_Gatepass"
-        Me.btn_Gatepass.Size = New System.Drawing.Size(76, 20)
+        Me.btn_Gatepass.Size = New System.Drawing.Size(63, 20)
         Me.btn_Gatepass.TabIndex = 24
         Me.btn_Gatepass.Text = "Gate Pass"
         '
         'btn_TruckSheet
         '
         Me.btn_TruckSheet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_TruckSheet.Location = New System.Drawing.Point(397, 11)
+        Me.btn_TruckSheet.Location = New System.Drawing.Point(365, 11)
         Me.btn_TruckSheet.Name = "btn_TruckSheet"
         Me.btn_TruckSheet.Size = New System.Drawing.Size(34, 20)
         Me.btn_TruckSheet.TabIndex = 23
@@ -1486,9 +1509,9 @@ Partial Class frmDemandBooking
         'btnAssessment
         '
         Me.btnAssessment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAssessment.Location = New System.Drawing.Point(285, 11)
+        Me.btnAssessment.Location = New System.Drawing.Point(254, 11)
         Me.btnAssessment.Name = "btnAssessment"
-        Me.btnAssessment.Size = New System.Drawing.Size(111, 20)
+        Me.btnAssessment.Size = New System.Drawing.Size(90, 20)
         Me.btnAssessment.TabIndex = 13
         Me.btnAssessment.Text = "Assessment"
         '
@@ -1497,25 +1520,25 @@ Partial Class frmDemandBooking
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnPost.Location = New System.Drawing.Point(75, 11)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.Size = New System.Drawing.Size(59, 20)
         Me.btnPost.TabIndex = 15
         Me.btnPost.Text = "Post"
         '
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(145, 11)
+        Me.btnDelete.Location = New System.Drawing.Point(135, 11)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 20)
+        Me.btnDelete.Size = New System.Drawing.Size(59, 20)
         Me.btnDelete.TabIndex = 13
         Me.btnDelete.Text = "Delete"
         '
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(215, 11)
+        Me.btnPrint.Location = New System.Drawing.Point(194, 11)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 20)
+        Me.btnPrint.Size = New System.Drawing.Size(59, 20)
         Me.btnPrint.TabIndex = 14
         Me.btnPrint.Text = "Print"
         '
@@ -1541,7 +1564,7 @@ Partial Class frmDemandBooking
         'btnreverse
         '
         Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(796, 11)
+        Me.btnreverse.Location = New System.Drawing.Point(811, 11)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(87, 20)
         Me.btnreverse.TabIndex = 22
@@ -1687,11 +1710,15 @@ Partial Class frmDemandBooking
         Me.gv2.PerformLayout()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gv1.ResumeLayout(False)
+        Me.gv1.PerformLayout()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel2.ResumeLayout(False)
-        CType(Me.btnBoothSlip, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1818,7 +1845,8 @@ Partial Class frmDemandBooking
     Friend WithEvents lblshuffleRoute As common.Controls.MyLabel
     Friend WithEvents txtDemandUniqueID As common.Controls.MyLabel
     Friend WithEvents lblDemandUniqueID As common.Controls.MyLabel
-    Friend WithEvents btnBoothSlip As RadSplitButton
+    Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
+    Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents rmi_BoothSlipExcel As RadMenuItem
 End Class
 
