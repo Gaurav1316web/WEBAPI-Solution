@@ -3342,9 +3342,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmCFormEntry
                         frm = New FrmCFormEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FrmBankGuaranteeMaster1
-                    '    frm = New FrmBankGuaranteeMaster1
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmBankGuaranteeMaster
+                        frm = New FrmBankGuaranteeMaster1
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BankOpeningReco
                         frm = New frmBankOpeningReco
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
