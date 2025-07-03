@@ -3,6 +3,7 @@ Public Class clsItemUOMDetails
     Public Item_Code As String = ""
     Public UOM_Code As String = ""
     Public UOM_Description As String = ""
+    Public InterUnionItem As String = ""
     Public Conversion_Factor As Double = 0
     Public Stocking_Unit As String = ""
     Public Default_UOM As Integer = 0
@@ -58,6 +59,8 @@ Public Class clsItemUOMDetails
             clsCommon.AddColumnsForChange(coll, "Stocking_Unit", obj.Stocking_Unit)
             ''added by richa agarwal against ticket no BM00000004327
             clsCommon.AddColumnsForChange(coll, "Default_UOM", obj.Default_UOM)
+            clsCommon.AddColumnsForChange(coll, "InterUnionItem", obj.InterUnionItem)
+
             clsCommon.AddColumnsForChange(coll, "Pieces", obj.Pieces)
             '======================================
 

@@ -16036,6 +16036,7 @@ Public Class clsCreateAllTable
             coll.Add("MAX_AMOUNT", "FLOAT NOT NULL DEFAULT 0")
             coll.Add("HEAD_TYPE", "VARCHAR(30)  NULL")
             coll.Add("HEAD_TYPE_MODE", "VARCHAR(15)  NULL")
+            coll.Add("Attendance_Wise", "VARCHAR(30)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_EMPLOYEE_SALARY_PAYHEADS", coll, "", True, False, "", "EMP_SAL_CODE", "", True)
 
 
@@ -27541,6 +27542,8 @@ Public Class clsCreateAllTable
             coll.Add("ProcessLoss_UOM", "integer  null default 0")
             coll.Add("Report_UOM", "integer  null default 0")
             coll.Add("Decimal_UOM", "integer  null default 0")
+            coll.Add("InterUnionItem", "varchar(100) NULL Unique")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 
