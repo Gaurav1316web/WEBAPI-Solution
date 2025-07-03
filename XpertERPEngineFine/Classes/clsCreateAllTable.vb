@@ -466,9 +466,6 @@ Public Class clsCreateAllTable
 
             'End Try
 
-
-
-
             coll = New Dictionary(Of String, String)()
             coll.Add("Comp_Code", "varchar(8)  NOT NULL PRIMARY KEY ")
             coll.Add("Comp_Name", "varchar(100)  NOT NULL")
@@ -1226,6 +1223,8 @@ Public Class clsCreateAllTable
 
             coll.Add("Plant_Code", "VARCHAR(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("Is_MCC", "Integer Not NULL Default 1")
+            coll.Add("Integrate_DCS_Milk_Collection", "Integer NULL")
+
             coll.Add("Commission_Rate", "decimal(18,2) null")
             coll.Add("Commission_Minimum_Shift_In_Payment_Cycle", "integer null")
             coll.Add("Commission_Minimum_Qty_In_Shift", "integer null")
