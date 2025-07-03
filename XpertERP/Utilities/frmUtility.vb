@@ -26905,6 +26905,16 @@ where TSPL_INVENTORY_MOVEMENT.item_Code='" + txtAddBatchItem.Value + "' and Tab_
         End Try
 
     End Sub
+
+    Private Sub RadButton312_Click(sender As Object, e As EventArgs) Handles RadButton312.Click
+        Try
+            Dim SettCapping As String = clsCommon.myCstr(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBTMilkQtyCapping, clsFixedParameterCode.DBTMilkQtyCapping, Nothing)))
+            clsDBFuncationality.ExecuteNonQuery("update TSPL_MP_MASTER set DBT_Capping_Qty=" + SettCapping + " where isnull(DBT_Capping_Qty,0) < " + SettCapping + "")
+            clsCommon.MyMessageBoxShow(Me, "Updated Successfully.", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
