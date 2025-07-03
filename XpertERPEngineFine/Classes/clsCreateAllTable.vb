@@ -27542,9 +27542,16 @@ Public Class clsCreateAllTable
             coll.Add("ProcessLoss_UOM", "integer  null default 0")
             coll.Add("Report_UOM", "integer  null default 0")
             coll.Add("Decimal_UOM", "integer  null default 0")
-            coll.Add("InterUnionItem", "varchar(100) NULL Unique")
+            coll.Add("InterUnionItem", "varchar(30) NULL")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
+
+            'qry = clsERPFuncationality.DropTableKey("TSPL_ITEM_UOM_DETAIL", "InterUnionItem", EnumTableKeyType.Unique)
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "CREATE UNIQUE INDEX InterUnionItem ON TSPL_ITEM_UOM_DETAIL (InterUnionItem) WHERE InterUnionItem IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
 
 
