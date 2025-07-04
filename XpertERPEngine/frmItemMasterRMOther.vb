@@ -111,6 +111,35 @@ Public Class FrmItemMasterRMOther
     Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Dim query As String = ""
+        'Dim dt As DataTable = Nothing
+        'Dim coll As Dictionary(Of String, String)
+
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Item_Code", "varchar(50) null References TSPL_ITEM_MASTER(Item_Code)")
+        'coll.Add("UOM_Code", "varchar(50) NULL")
+        'coll.Add("UOM_Description", "varchar(100) NULL")
+        'coll.Add("Conversion_Factor", "decimal(18,2) NULL")
+        'coll.Add("Stocking_Unit", "char(1) NULL")
+        'coll.Add("Weight", "decimal(18,2) NOT NULL default 0.00")
+        'coll.Add("Default_UOM", "integer not null default 0")
+        'coll.Add("Gross_Weight", "Float null")
+        'coll.Add("Net_Weight", "Float null")
+        'coll.Add("Job_Work_Rate", "Float null")
+        'coll.Add("pieces", "integer not null default 0")
+        'coll.Add("Item_Cost", "Decimal(18,2) null")
+        'coll.Add("Custom_Conversion", "integer not null default 0")
+        'coll.Add("Print_UOM", "integer  null default 0")
+        'coll.Add("ProcessLoss_UOM", "integer  null default 0")
+        'coll.Add("Report_UOM", "integer  null default 0")
+        'coll.Add("Decimal_UOM", "integer  null default 0")
+        'coll.Add("InterUnionItem", "varchar(30) NULL")
+
+        'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
+        'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+        '    query = "CREATE UNIQUE INDEX InterUnionItem ON TSPL_ITEM_UOM_DETAIL (InterUnionItem) WHERE InterUnionItem IS NOT NULL;"
+        '    clsDBFuncationality.ExecuteNonQuery(query)
+        'End If
 
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
@@ -2640,7 +2669,7 @@ Public Class FrmItemMasterRMOther
         qry = "SELECT [tspl_item_masters].Code as [Code],[tspl_item_masters].Name as Name FROM [TSPL_MASTER].[dbo].[tspl_item_masters] "
         'whrCls = ""
         whrCls = " [tspl_item_masters].Code NOT IN (
-        Select InterUnionItem FROM TSPL_ITEM_UOM_DETAIL WHERE InterUnionItem Is Not NULL)"
+        Select InterUnionItem FROM TSPL_ITEM_UOM_DETAIL WHERE InterUnionItem Is Not NULL and Item_code not in ('" + txtCode.Value + "') )"
         gvUOM.CurrentRow.Cells(colRCDFITEMMaster).Value = clsCommon.ShowSelectForm("PSSaleReturnItemfnd", qry, "Code", whrCls, clsCommon.myCstr(gvUOM.CurrentRow.Cells(colRCDFITEMMaster).Value), "Code", isButtonClick)
     End Sub
     Private Sub gvUOM_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvUOM.CellValueChanged
