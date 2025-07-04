@@ -1406,7 +1406,9 @@ Public Class clsMCCMaterialSale
                         APInvoice_DebitNote(obj, trans)
                     End If
                 End If
-
+            End If
+            If (obj.TotalSubsidyAmt > 0) Then
+                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
             End If
             If clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.Sale_SMSATPOST, clsFixedParameterCode.Sale_SMSATPOST, trans) = "1", True, False)) Then
                 SMSSENDONLY(obj, trans, True)
@@ -1687,6 +1689,54 @@ Public Class clsMCCMaterialSale
         Return True
     End Function
 
+    Public Shared Function CreateARAdjustmentEntryAgainstSubsidy(ByVal obj As clsMCCMaterialSale, ByVal trans As SqlTransaction)
+        Try
+            Dim objRcpt As clsAdjustmentEntryReceivables = Nothing
+            Dim GLAcARAdj As String = ""
+            Dim GLAcDescARAdj As String = ""
+            objRcpt = New clsAdjustmentEntryReceivables
+            objRcpt.Adjustment_No = ""
+            objRcpt.Description = "AR Adjustment Against Subsidy"
+            objRcpt.Adjustment_Date = clsCommon.myCDate(obj.Document_Date)
+            objRcpt.Customer_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Cust_Code  from TSPL_CUSTOMER_VENDOR_MAPPING where Vendor_Code ='" & clsCommon.myCstr(obj.Customer_Code) & "' ", trans))
+            If clsCommon.myLen(objRcpt.Customer_No) <= 0 Then
+                Throw New Exception("Please Map customer code with Vendor code " & obj.Customer_Code & " on Customer Vendor Mapping screen")
+            End If
+
+            objRcpt.Customer_Name = clsCommon.myCstr(clsCustomerMaster.GetName(objRcpt.Customer_No, trans))
+            objRcpt.Doc_No = clsCommon.myCstr(obj.Sale_Invoice_No)
+            Dim ReturnAmt As Decimal = 0
+
+            objRcpt.ARInvoiceNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_no from TSPL_Customer_Invoice_Head where against_sale_no='" & obj.Sale_Invoice_No & "'", trans))
+            objRcpt.Doc_Amount = clsCommon.myCdbl(obj.Total_Amt)
+            objRcpt.Remarks = "AR Adjustment Against Subsidy"
+            objRcpt.Adjustment_Amount = clsCommon.myCdbl(obj.TotalSubsidyAmt)
+            objRcpt.Arr = New List(Of clsAdjustmentEntryReceivablesDetail)
+            Dim objTrRcpt As New clsAdjustmentEntryReceivablesDetail()
+
+            GLAcARAdj = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select isnull(Rate_Difference,'')Rate_Difference from TSPL_CUSTOMER_ACCOUNT_SET LEFT OUTER JOIN tspl_customer_master ON tspl_customer_master.Cust_Account = TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where tspl_customer_master.Cust_Code='" & objRcpt.Customer_No & "'", trans))
+            GLAcDescARAdj = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select description from tspl_gl_accounts where account_code='" & GLAcARAdj & "'", trans))
+
+            objTrRcpt.Discount_Code = ""
+            objTrRcpt.Discount_Description = ""
+            If clsCommon.myLen(GLAcARAdj) <= 0 Then
+                Throw New Exception("Please set Rate Difference/Subsidy account for [" + objRcpt.Customer_No + "] customer in Customer Account Set :" + GLAcARAdj)
+            End If
+
+            objTrRcpt.Account_No = GLAcARAdj
+            objTrRcpt.Account_Description = GLAcDescARAdj
+            objTrRcpt.Amount = obj.TotalSubsidyAmt
+            objTrRcpt.Remarks = ""
+            objRcpt.Arr.Add(objTrRcpt)
+            If clsCommon.myCdbl(objTrRcpt.Amount) > 0 Then
+                objRcpt.SaveData(objRcpt, True, trans)
+                clsAdjustmentEntryReceivables.FunPost(objRcpt.Adjustment_No, trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
     Public Shared Function CreateJournalEntry(ByVal strCode As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoForRecreatedOnly As String = Nothing)
         Dim RecoControlACC As String = ""

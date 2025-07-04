@@ -456,7 +456,7 @@ Public Class frmMCCMaterialSale
         txtDesc.Text = ""
         chkcashsale.Checked = False
         chkcashsale.Enabled = True
-        chkApplyTPT.Checked = True
+        chkApplyTPT.Checked = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (1) from TSPL_DCS_TRANSPORTATION_CHARGES_HEAD ") > 0)
         txtTPTVendor.Value = ""
         chkOnHold.Checked = False
         txtVendorNo.Value = ""
@@ -2018,7 +2018,7 @@ Public Class frmMCCMaterialSale
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
-        ReStoreGridLayout()
+        ' ReStoreGridLayout()
     End Sub
     Sub OpenSerialItem()
         If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsSerialseItem).Value) Then
@@ -3300,6 +3300,9 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Return False
                 End If
             End If
+            If clsCommon.myCdbl(lblTotalSubsidy.Text) > clsCommon.myCdbl(lblTotRAmt.Text) Then
+                Throw New Exception("Subsidy amount cannot be greater than Document amount")
+            End If
             For ii As Integer = 0 To gv1.RowCount - 1
                 If chkApplyTPT.Checked Then
                     Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), txtDate.Value)
@@ -3554,8 +3557,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             End If
             Return True
         Catch ex As Exception
-            Return False
             Throw New Exception(ex.Message)
+            Return False
         End Try
     End Function
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -4659,9 +4662,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColCommAmt).Value = objTr.Commission_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAmtAfterCOmm).Value = objTr.Amt_Less_Commission
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colItemwiseTaxCode).Value = objTr.ItemwiseTaxCode
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Value = objTr.Transporter_Commission_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Tag = objTr.REF_TPT_PK_ID
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTAmt).Value = objTr.Transporter_Commission_Amt
+                        If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate)) > 0 Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Value = objTr.Transporter_Commission_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Tag = objTr.REF_TPT_PK_ID
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTAmt).Value = objTr.Transporter_Commission_Amt
+                        End If
                         If obj.Status = ERPTransactionStatus.Pending Then
                             If clsCommon.myLen(obj.TAX1) > 0 Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRecoverable1).Value = clsTaxMaster.IsTaxRecoverableAC(obj.TAX1)
