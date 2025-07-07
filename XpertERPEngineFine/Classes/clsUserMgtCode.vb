@@ -661,7 +661,7 @@ Public Class clsUserMgtCode
     Public Const frmFormCollection As String = "FRM-COLL"
     Public Const FormIssue As String = "FRM-IS"
     Public Const FrmCFormEntry As String = "CFORM-ENT"
-    'Public Const FrmBankGuaranteeMaster1 As String = "BNK-GURNTE"
+    Public Const FrmBankGuaranteeMaster As String = "BNK-GURNTE"
     Public Const BankOpeningReco As String = "BNK-OPR"
     'Public Const RevaluationEntry As String = "REVO-ENT"
     '===================Reports========================
