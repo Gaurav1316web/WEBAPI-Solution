@@ -3173,7 +3173,13 @@ WHERE A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='" + strTableName +
         End If
         Dim query As String
         If objCommonVar.CurrentUserCode = objCommonVar.CurrentUserCode Then
-            query = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
+            If objCommonVar.RCDFCFP = True Then
+                query = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
+            Else
+                query = "select  DISTINCT TSPL_BANK_MASTER.BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER 
+left outer join TSPL_User_Bank_Master on TSPL_User_Bank_Master.Bank_Code=TSPL_BANK_MASTER.BANK_CODE "
+            End If
+
         Else
             Dim arrlocation As New ArrayList()
             Dim arraccount As New ArrayList()
