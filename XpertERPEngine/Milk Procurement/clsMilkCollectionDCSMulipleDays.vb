@@ -258,6 +258,7 @@ where 2=2"
                     objDCSTr.SNF = objtr.SNF
                     objDCSTr.FATKG = objtr.FATKG
                     objDCSTr.SNFKG = objtr.SNFKG
+                    objDCSTr.Against_Multiple_Detail = objtr.PK_Id
                     If Not Arr.ContainsKey(objtr.Collection_Date) Then
                         Dim ArrDCSTr As New List(Of clsMilkCollectionDCSDetail)
                         Arr.Add(objtr.Collection_Date, ArrDCSTr)

@@ -249,6 +249,7 @@ Partial Class MDI
         Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.PictureBox6 = New System.Windows.Forms.PictureBox()
         Me.SystemIdleTimer1 = New ERP.SystemIdleTimer()
+        Me.lblOTPCode = New common.Controls.MyTextBox()
         CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadStatusStrip1.SuspendLayout()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -382,6 +383,7 @@ Partial Class MDI
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblOTPCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1273,6 +1275,7 @@ Partial Class MDI
         '
         Me.SplitContainer1.Panel2.BackgroundImage = Global.ERP.My.Resources.Resources.SecondPanel
         Me.SplitContainer1.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.SplitContainer1.Panel2.Controls.Add(Me.lblOTPCode)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtPassword)
         Me.SplitContainer1.Panel2.Controls.Add(Me.pBoxFingerPrint2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.cboCompany)
@@ -2708,6 +2711,32 @@ Partial Class MDI
         '
         Me.SystemIdleTimer1.MaxIdleTime = CType(0UI, UInteger)
         '
+        'lblOTPCode
+        '
+        Me.lblOTPCode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblOTPCode.CalculationExpression = Nothing
+        Me.lblOTPCode.FieldCode = Nothing
+        Me.lblOTPCode.FieldDesc = Nothing
+        Me.lblOTPCode.FieldMaxLength = 0
+        Me.lblOTPCode.FieldName = Nothing
+        Me.lblOTPCode.isCalculatedField = False
+        Me.lblOTPCode.IsSourceFromTable = False
+        Me.lblOTPCode.IsSourceFromValueList = False
+        Me.lblOTPCode.IsUnique = False
+        Me.lblOTPCode.Location = New System.Drawing.Point(228, 305)
+        Me.lblOTPCode.MendatroryField = True
+        Me.lblOTPCode.MyLinkLable1 = Me.lblUserName
+        Me.lblOTPCode.MyLinkLable2 = Nothing
+        Me.lblOTPCode.Name = "lblOTPCode"
+        Me.lblOTPCode.NullText = "User Name"
+        Me.lblOTPCode.ReadOnly = True
+        Me.lblOTPCode.ReferenceFieldDesc = Nothing
+        Me.lblOTPCode.ReferenceFieldName = Nothing
+        Me.lblOTPCode.ReferenceTableName = Nothing
+        Me.lblOTPCode.Size = New System.Drawing.Size(107, 20)
+        Me.lblOTPCode.TabIndex = 18
+        Me.lblOTPCode.Visible = False
+        '
         'MDI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2866,6 +2895,7 @@ Partial Class MDI
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblOTPCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3097,5 +3127,6 @@ Partial Class MDI
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents PictureBox8 As PictureBox
     Friend WithEvents btnLogOff As RadButtonElement
+    Friend WithEvents lblOTPCode As common.Controls.MyTextBox
 End Class
 

@@ -24698,6 +24698,9 @@ Public Class clsCreateAllTable
             coll.Add("Remark", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_DCS_DETAIL' and COLUMN_NAME='Against_Multiple_Detail'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS(Document_No)")
@@ -24720,8 +24723,12 @@ Public Class clsCreateAllTable
             coll.Add("Suspence_VLC_Code", "Varchar(30) null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
             coll.Add("Suspence_Remarks", "varchar(200) NULL")
             coll.Add("Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Against_Multiple_Detail", "integer null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL(PK_Id)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS", "Document_No", "", True)
-
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "CREATE UNIQUE INDEX UQ_Against_Multiple_Detail ON TSPL_MILK_COLLECTION_DCS_DETAIL (Against_Multiple_Detail) WHERE Against_Multiple_Detail IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")

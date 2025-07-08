@@ -20,6 +20,7 @@ Public Class frmMilkCollectionDCS
     Const colVLCName As String = "colVLCName"
     Const colOwnDCS As String = "colOwnDCS"
     Const colEveningPKID As String = "colEveningPKID"
+    Const colEveningAgainstMultiple As String = "colEveningAgainstMultiple"
     Const colEveningQty As String = "colEveningQty"
     Const colEveningFATPerNoDecimal As String = "colEveningFATPerNoDecimal"
     Const colEveningSNFPerNoDecimal As String = "colEveningSNFPerNoDecimal"
@@ -30,6 +31,7 @@ Public Class frmMilkCollectionDCS
     Const colEveningSuspence As String = "colEveningSuspence"
     Const colEveningSuspenceRemarks As String = "colEveningSuspenceRemarks"
     Const colMorningPKID As String = "colMorningPKID"
+    Const colMorningAgainstMultiple As String = "colMorningAgainstMultiple"
     Const colMorningQty As String = "colMorningQty"
     Const colMorningFATPerNoDecimal As String = "colMorningFATPerNoDecimal"
     Const colMorningSNFPerNoDecimal As String = "colMorningSNFPerNoDecimal"
@@ -314,6 +316,15 @@ Public Class frmMilkCollectionDCS
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Against Multiple Evening"
+        repoNumBox.Name = colEveningAgainstMultiple
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
         repoNumBox.HeaderText = "Evening Qty"
         repoNumBox.Name = colEveningQty
@@ -437,6 +448,15 @@ Public Class frmMilkCollectionDCS
         repoNumBox.FormatString = ""
         repoNumBox.HeaderText = "PKID Morning"
         repoNumBox.Name = colMorningPKID
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Against Multiple Morning"
+        repoNumBox.Name = colMorningAgainstMultiple
         repoNumBox.IsVisible = False
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -971,6 +991,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
                     If flag Then
                         Dim objTr As New clsMilkCollectionDCSDetail()
                         objTr.SNo = ii + 1
+                        objTr.Against_Multiple_Detail = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningAgainstMultiple).Value)
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colRoute).Value)
                         objTr.Shift = "E"
@@ -1004,6 +1025,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
                     If flag Then
                         Dim objTr As New clsMilkCollectionDCSDetail()
                         objTr.SNo = ii + 1
+                        objTr.Against_Multiple_Detail = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningAgainstMultiple).Value)
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colRoute).Value)
                         objTr.Shift = "M"
@@ -1082,6 +1104,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
 
                         If clsCommon.CompairString(objTr.Shift, "E") = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningPKID).Value = objTr.PK_Id
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningAgainstMultiple).Value = objTr.Against_Multiple_Detail
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningQty).Value = objTr.Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningFATPer).Value = objTr.FAT
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSNFPer).Value = objTr.SNF
@@ -1093,6 +1116,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEveningSuspenceRemarks).Value = objTr.Suspence_Remarks
                         Else
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningPKID).Value = objTr.PK_Id
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningAgainstMultiple).Value = objTr.Against_Multiple_Detail
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningQty).Value = objTr.Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningFATPer).Value = objTr.FAT
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMorningSNFPer).Value = objTr.SNF

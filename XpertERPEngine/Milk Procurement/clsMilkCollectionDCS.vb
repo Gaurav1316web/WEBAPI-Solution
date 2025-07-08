@@ -624,6 +624,7 @@ Public Class clsMilkCollectionDCSDetail
     Public Suspence As Boolean
     Public Suspence_VLC_Code As String
     Public Suspence_Remarks As String
+    Public Against_Multiple_Detail As Integer
 #End Region
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction) As Boolean
         Return SaveData(strDocNo, Arr, trans, -1, False)
@@ -808,6 +809,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
         clsCommon.AddColumnsForChange(coll, "Suspence", IIf(obj.Suspence, 1, 0))
         clsCommon.AddColumnsForChange(coll, "Suspence_Remarks", obj.Suspence_Remarks)
+        clsCommon.AddColumnsForChange(coll, "Against_Multiple_Detail", obj.Against_Multiple_Detail, True)
         If clsCommon.myLen(obj.Suspence_VLC_Code) > 0 Then
             clsCommon.AddColumnsForChange(coll, "Suspence_VLC_Code", obj.Suspence_VLC_Code)
         End If
@@ -854,6 +856,7 @@ where  TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Suspence = (clsCommon.myCDecimal(dr("Suspence")) = 1)
                 objTr.Suspence_VLC_Code = clsCommon.myCstr(dr("Suspence_VLC_Code"))
                 objTr.Suspence_Remarks = clsCommon.myCstr(dr("Suspence_Remarks"))
+                objTr.Against_Multiple_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Detail"))
                 arr.Add(objTr)
             Next
         End If
