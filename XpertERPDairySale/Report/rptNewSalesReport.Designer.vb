@@ -22,7 +22,7 @@ Partial Class rptNewSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -33,6 +33,7 @@ Partial Class rptNewSalesReport
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.grpShift = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyRadioButton1 = New common.Controls.MyRadioButton()
         Me.rbtnMorning = New common.Controls.MyRadioButton()
         Me.rbtnEvening = New common.Controls.MyRadioButton()
         Me.chkExcludeGhee = New Telerik.WinControls.UI.RadCheckBox()
@@ -63,7 +64,6 @@ Partial Class rptNewSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyRadioButton1 = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -77,6 +77,7 @@ Partial Class rptNewSalesReport
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.grpShift, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpShift.SuspendLayout()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,7 +106,6 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -222,6 +222,18 @@ Partial Class rptNewSalesReport
         Me.grpShift.Size = New System.Drawing.Size(237, 43)
         Me.grpShift.TabIndex = 1486
         Me.grpShift.Text = "Shift"
+        '
+        'MyRadioButton1
+        '
+        Me.MyRadioButton1.AccessibleDescription = ""
+        Me.MyRadioButton1.Location = New System.Drawing.Point(173, 15)
+        Me.MyRadioButton1.MyLinkLable1 = Nothing
+        Me.MyRadioButton1.MyLinkLable2 = Nothing
+        Me.MyRadioButton1.Name = "MyRadioButton1"
+        Me.MyRadioButton1.Size = New System.Drawing.Size(44, 18)
+        Me.MyRadioButton1.TabIndex = 397
+        Me.MyRadioButton1.TabStop = False
+        Me.MyRadioButton1.Text = "Both"
         '
         'rbtnMorning
         '
@@ -532,7 +544,7 @@ Partial Class rptNewSalesReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -601,18 +613,6 @@ Partial Class rptNewSalesReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'MyRadioButton1
-        '
-        Me.MyRadioButton1.AccessibleDescription = ""
-        Me.MyRadioButton1.Location = New System.Drawing.Point(173, 15)
-        Me.MyRadioButton1.MyLinkLable1 = Nothing
-        Me.MyRadioButton1.MyLinkLable2 = Nothing
-        Me.MyRadioButton1.Name = "MyRadioButton1"
-        Me.MyRadioButton1.Size = New System.Drawing.Size(44, 18)
-        Me.MyRadioButton1.TabIndex = 397
-        Me.MyRadioButton1.TabStop = False
-        Me.MyRadioButton1.Text = "Both"
-        '
         'rptNewSalesReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -641,6 +641,7 @@ Partial Class rptNewSalesReport
         CType(Me.grpShift, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpShift.ResumeLayout(False)
         Me.grpShift.PerformLayout()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).EndInit()
@@ -671,7 +672,6 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
