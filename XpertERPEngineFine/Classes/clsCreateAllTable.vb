@@ -24763,7 +24763,7 @@ Public Class clsCreateAllTable
             coll.Add("Raj_Entered_SNFKg", "Decimal(18,3) null")
             ' coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", coll, Nothing, True, True, "", "Document_No", "Shift_Date", True)
-            clsDBFuncationality.ExecuteNonQuery(qry)
+
             coll("Document_No") = "Varchar(30) null"
             coll("MCC_Code") = "Varchar(30) null"
             coll("Dock_code") = "Varchar(30) null"
