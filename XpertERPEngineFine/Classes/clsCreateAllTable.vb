@@ -30385,6 +30385,13 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("User_Code", "VARCHAR(12) null REFERENCES tspl_user_master(User_Code)")
+            coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_User_Bank_Master", coll)
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_User_Bank_Master", coll, "", True, False, "", "", "", True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "Varchar(30) Not null Primary key")
             coll.Add("Document_Date", "datetime Not null")
             coll.Add("Applicable_Date", "datetime null")

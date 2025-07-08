@@ -96,13 +96,13 @@ Public Class FrmUserMaster
     End Sub
 
     Private Sub FrmUserMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("User_Code", "VARCHAR(12) null REFERENCES tspl_user_master(User_Code)")
-        coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
-        'clsCommonFunctionality.CreateOrAlterTable("TSPL_User_Bank_Master", coll)
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_User_Bank_Master", coll, "", True, False, "", "", "", True)
+        'Dim coll As Dictionary(Of String, String)
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        'coll.Add("User_Code", "VARCHAR(12) null REFERENCES tspl_user_master(User_Code)")
+        'coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
+        ''clsCommonFunctionality.CreateOrAlterTable("TSPL_User_Bank_Master", coll)
+        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_User_Bank_Master", coll, "", True, False, "", "", "", True)
 
         SetUserMgmtNew()
         fndUserCode.TabIndex = 1
