@@ -234,7 +234,12 @@ Public Class RptDepartmentWiseSalarySheet
                         dtFinalCRR.Rows(ix).Item("DivDes") = clsCommon.myCstr(DivDes)
                     Next
                     Dim frmcrystal As New frmCrystalReportViewer()
-                    frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlip", "EmployeeWise Salary Sheet Report")
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlipAJM", "EmployeeWise Salary Sheet Report")
+                    Else
+                        frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, dtFinalCRR, "EmployeeWiseSalarySlip", "EmployeeWise Salary Sheet Report")
+                    End If
+
                 End If
             End If
             For ii As Integer = 0 To Gv1.Columns.Count - 1
@@ -400,6 +405,11 @@ Public Class RptDepartmentWiseSalarySheet
             Qry = " select 0 as Serial_No,'' as Department_Code,'' as Department_Name,'' as Employees,'' as Earnings1,'' as Earnings2,'' as Earnings3," &
               " '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, " &
               " '' as Deductions5,'' as Deductions6,'' as EmployerShare1,'' as EmployerShare2, '' as Net_Payment"
+        ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            Qry = "select 0 as Serial_No,'' as Employees,'' as Employee_Name,'' as Present_Days,'' as Bank_Detail,'' as Department_Name,'' as EarningsRate1,'' as EarningsRate2,'' as EarningsRate3,
+             '' as EarningsRate4,'' as EarningsRate5,'' as EarningsRate6,'' as Attendance1,'' as Attendance2,'' as Earnings1,'' as Earnings2,'' as Earnings3,
+             '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, 
+             '' as Deductions5,'' as Deductions6,'' as EmployerShare1,'' as EmployerShare2, '' as Net_Payment"
         Else
             Qry = " select 0 as Serial_No,'' as Employees,'' as Department_Name,'' as EarningsRate1,'' as EarningsRate2,'' as EarningsRate3," &
               " '' as EarningsRate4,'' as EarningsRate5,'' as EarningsRate6,'' as Attendance1,'' as Attendance2,'' as Earnings1,'' as Earnings2,'' as Earnings3," &
@@ -460,13 +470,24 @@ Public Class RptDepartmentWiseSalarySheet
                     dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count
                     dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
                 Else
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count & Environment.NewLine & dr.Item("EMP_CODE")
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = clsCommon.myCstr(dr.Item("EMP_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("FATHERS_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Joining_date")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Designation")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PF_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ESI_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("BANK_ACC_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Bank_Name")) & Environment.NewLine & clsCommon.myCstr(dr.Item("IFSC"))
 
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = clsCommon.myCstr(dr.Item("EMP_CODE")) & Environment.NewLine & clsCommon.myCstr(dr.Item("EMP_NAME"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
 
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance1") = clsCommon.myCstr(dr.Item("PRESENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(dr.Item("HOLIDAY_DAYS") + dr.Item("WEEKLY_OFF")) & Environment.NewLine & clsCommon.myCstr(dr.Item("CL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("EL"))
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance2") = clsCommon.myCstr(dr.Item("SL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("CH")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ABSENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PAYABLE_DAYS"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance1") = clsCommon.myCstr(dr.Item("Bank_Name")) & Environment.NewLine & clsCommon.myCstr(dr.Item("IFSC")) & Environment.NewLine & clsCommon.myCstr(dr.Item("BANK_ACC_NO"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance2") = clsCommon.myCstr(dr.Item("PAYABLE_DAYS"))
+
+                    Else
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count & Environment.NewLine & dr.Item("EMP_CODE")
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = clsCommon.myCstr(dr.Item("EMP_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("FATHERS_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Joining_date")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Designation")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PF_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ESI_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("BANK_ACC_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Bank_Name")) & Environment.NewLine & clsCommon.myCstr(dr.Item("IFSC"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
+
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance1") = clsCommon.myCstr(dr.Item("PRESENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(dr.Item("HOLIDAY_DAYS") + dr.Item("WEEKLY_OFF")) & Environment.NewLine & clsCommon.myCstr(dr.Item("CL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("EL"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance2") = clsCommon.myCstr(dr.Item("SL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("CH")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ABSENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PAYABLE_DAYS"))
+
+                    End If
                 End If
 
                 'dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = dr.Item("Total") & Environment.NewLine & PF_Count_Total & Environment.NewLine & ESI_Count_Total
@@ -515,13 +536,24 @@ Public Class RptDepartmentWiseSalarySheet
                     dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count
                     dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
                 Else
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count & Environment.NewLine & dr.Item("EMP_CODE")
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = clsCommon.myCstr(dr.Item("EMP_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("FATHERS_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Joining_date")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Designation")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PF_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ESI_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("BANK_ACC_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Bank_Name")) & Environment.NewLine & clsCommon.myCstr(dr.Item("IFSC"))
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = clsCommon.myCstr(dr.Item("EMP_CODE")) & Environment.NewLine & clsCommon.myCstr(dr.Item("EMP_NAME"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
 
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance1") = clsCommon.myCstr(dr.Item("Bank_Name")) & Environment.NewLine & clsCommon.myCstr(dr.Item("IFSC")) & Environment.NewLine & clsCommon.myCstr(dr.Item("BANK_ACC_NO"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance2") = clsCommon.myCstr(dr.Item("PAYABLE_DAYS"))
 
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance1") = clsCommon.myCstr(dr.Item("PRESENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(clsCommon.myCdbl(dr.Item("HOLIDAY_DAYS")) + clsCommon.myCdbl(dr.Item("WEEKLY_OFF"))) & Environment.NewLine & clsCommon.myCstr(dr.Item("CL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("EL"))
-                    dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance2") = clsCommon.myCstr(dr.Item("SL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("CH")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ABSENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PAYABLE_DAYS"))
+                    Else
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Serial_No") = dtFinal.Rows.Count & Environment.NewLine & dr.Item("EMP_CODE")
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = clsCommon.myCstr(dr.Item("EMP_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("FATHERS_NAME")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Joining_date")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Designation")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PF_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ESI_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("BANK_ACC_NO")) & Environment.NewLine & clsCommon.myCstr(dr.Item("Bank_Name")) & Environment.NewLine & clsCommon.myCstr(dr.Item("IFSC"))
+
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Department_Name") = dr.Item("Department_Name")
+
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance1") = clsCommon.myCstr(dr.Item("PRESENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(clsCommon.myCdbl(dr.Item("HOLIDAY_DAYS")) + clsCommon.myCdbl(dr.Item("WEEKLY_OFF"))) & Environment.NewLine & clsCommon.myCstr(dr.Item("CL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("EL"))
+                        dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Attendance2") = clsCommon.myCstr(dr.Item("SL")) & Environment.NewLine & clsCommon.myCstr(dr.Item("CH")) & Environment.NewLine & clsCommon.myCstr(dr.Item("ABSENT_DAYS")) & Environment.NewLine & clsCommon.myCstr(dr.Item("PAYABLE_DAYS"))
+
+                    End If
                 End If
                 If dr.Item("ISEARNING") = True Then
                     updateEarningHeads(dtFinal, dr, EarningsTotal, EarningsRateTotal)
@@ -879,10 +911,26 @@ Public Class RptDepartmentWiseSalarySheet
             SerialCol = "Serial No"
             EmployeesCol = "Total" & Environment.NewLine & "PF_Count" & Environment.NewLine & "ESI_Count"
         Else
-            SerialCol = "Serial No" & Environment.NewLine & "Employee Code"
-            EmployeesCol = "Employee Name" & Environment.NewLine & "F/H Name" & Environment.NewLine & "Date Of Joining" & Environment.NewLine & "Designation" & Environment.NewLine & "PF Number" & Environment.NewLine & "Insurance Number" & Environment.NewLine & "Bank Name" & Environment.NewLine & "IFSC"
-            AttendanceCol1 = "W.D" & Environment.NewLine & "H.D" & Environment.NewLine & "C.L" & Environment.NewLine & "E.L"
-            AttendanceCol2 = "S.L" & Environment.NewLine & "C.H" & Environment.NewLine & "W.P" & Environment.NewLine & "P.D"
+            'SerialCol = "Serial No" & Environment.NewLine & "Employee Code"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                SerialCol = "Serial No"
+                EmployeesCol = "Employee Code" & Environment.NewLine & "Employee Name"
+                AttendanceCol1 = "Bank Name" & Environment.NewLine & "IFSC" & Environment.NewLine & "Account No."
+                AttendanceCol2 = "Present Days"
+            Else
+                SerialCol = "Serial No" & Environment.NewLine & "Employee Code"
+                EmployeesCol = "Employee Name" & Environment.NewLine & "F/H Name" & Environment.NewLine & "Date Of Joining" & Environment.NewLine & "Designation" & Environment.NewLine & "PF Number" & Environment.NewLine & "Insurance Number" & Environment.NewLine & "Bank Name" & Environment.NewLine & "IFSC"
+                AttendanceCol1 = "W.D" & Environment.NewLine & "H.D" & Environment.NewLine & "C.L" & Environment.NewLine & "E.L"
+                AttendanceCol2 = "S.L" & Environment.NewLine & "C.H" & Environment.NewLine & "W.P" & Environment.NewLine & "P.D"
+            End If
+            ' EmployeesCol = "Employee Name" & Environment.NewLine & "F/H Name" & Environment.NewLine & "Date Of Joining" & Environment.NewLine & "Designation" & Environment.NewLine & "PF Number" & Environment.NewLine & "Insurance Number" & Environment.NewLine & "Bank Name" & Environment.NewLine & "IFSC"
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            '    
+            '    'AttendanceCol2 = "S.L" & Environment.NewLine & "C.H" & Environment.NewLine & "W.P" & Environment.NewLine & "P.D"
+            'Else
+
+            'End If
+
         End If
 
         Dim EarningsRateCol1 As String = ""

@@ -9,6 +9,7 @@ Public Class frmSendSMSToDCS
 #Region "Variables"
     Dim arrFilePath As List(Of String) = Nothing
     Dim settFileUpload As Boolean = False
+    Dim DefaultFilePath As String = ""
     Dim corrFactor As Double
 #End Region
 
@@ -26,6 +27,7 @@ Public Class frmSendSMSToDCS
             LoadShift()
 
             settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmSendSMSToDCS, Nothing)) = 1)
+            DefaultFilePath = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, Nothing))
             'createAllTable()
             RadButton1.Visible = MyBase.isPostFlag
             RadButton3.Visible = MyBase.isPostFlag
@@ -776,6 +778,9 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
 
     Private Sub btnPrintPdf_Click(sender As Object, e As EventArgs) Handles btnPrintPdf.Click
         Try
+
+            'Dim basePath As String = DefaultFilePath
+
             If clsCommon.myLen(TxtDCS.Value) <= 0 Then
                 TxtDCS.Focus()
                 Throw New Exception("Please select " + TxtDCS.MyLinkLable1.Text)
@@ -799,7 +804,8 @@ where TSPL_VENDOR_MASTER.Form_Type='TTM' And (Case When IsNull(TSPL_VENDOR_MASTE
 
 
             Dim pdfPaths As New List(Of String)
-            Dim basePath As String = "C:\XpertServices\XpertFileUpload\Upload"
+            Dim basePath As String = DefaultFilePath
+            'Dim basePath As String = "C:\XpertServices\XpertFileUpload\Upload"
             For Each row As DataRow In dt.Rows
                 If clsCommon.myLen(row("FILE_INFO")) > 0 Then
                     Dim Path As String = clsCommon.myCstr(row("FILE_INFO"))
