@@ -22,10 +22,11 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gbShuffleDemand = New System.Windows.Forms.GroupBox()
@@ -37,9 +38,10 @@ Partial Class frmDemandBooking
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtShuffleDate = New common.Controls.MyDateTimePicker()
         Me.rgbDemandHead = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtDemandUniqueID = New common.Controls.MyLabel()
+        Me.lblDemandUniqueID = New common.Controls.MyLabel()
         Me.btnQuickDemand = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.btn_TSCancel = New Telerik.WinControls.UI.RadButton()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.chkMorningGatepassTruckSheetGenerated = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkEveningGatepassTruckSheetGenerated = New Telerik.WinControls.UI.RadCheckBox()
@@ -95,12 +97,16 @@ Partial Class frmDemandBooking
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.txtVehicleNo = New common.UserControls.txtFinder()
+        Me.btn_TSCancel = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.MyRadGridView1 = New common.UserControls.MyRadGridView()
         Me.chkEveningPosted = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkMorningPosted = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmi_BoothSlipExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseAndUnpost = New Telerik.WinControls.UI.RadButton()
@@ -128,8 +134,6 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtDemandUniqueID = New common.Controls.MyLabel()
-        Me.lblDemandUniqueID = New common.Controls.MyLabel()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,9 +147,10 @@ Partial Class frmDemandBooking
         CType(Me.txtShuffleDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbDemandHead, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbDemandHead.SuspendLayout()
+        CType(Me.txtDemandUniqueID, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDemandUniqueID, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btn_TSCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMorningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkEveningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -198,6 +203,7 @@ Partial Class frmDemandBooking
         CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btn_TSCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -205,10 +211,14 @@ Partial Class frmDemandBooking
         Me.gv2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gv1.SuspendLayout()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel2.SuspendLayout()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -226,8 +236,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDemandUniqueID, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDemandUniqueID, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -322,10 +330,10 @@ Partial Class frmDemandBooking
         Me.cmbShift.IsSourceFromTable = False
         Me.cmbShift.IsSourceFromValueList = False
         Me.cmbShift.IsUnique = False
-        RadListDataItem3.Text = "Morning"
-        RadListDataItem4.Text = "Evening"
-        Me.cmbShift.Items.Add(RadListDataItem3)
-        Me.cmbShift.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Morning"
+        RadListDataItem2.Text = "Evening"
+        Me.cmbShift.Items.Add(RadListDataItem1)
+        Me.cmbShift.Items.Add(RadListDataItem2)
         Me.cmbShift.Location = New System.Drawing.Point(55, 40)
         Me.cmbShift.MendatroryField = True
         Me.cmbShift.MyLinkLable1 = Nothing
@@ -447,6 +455,28 @@ Partial Class frmDemandBooking
         Me.rgbDemandHead.TabIndex = 1471
         Me.rgbDemandHead.Text = "Demand Head"
         '
+        'txtDemandUniqueID
+        '
+        Me.txtDemandUniqueID.AutoSize = False
+        Me.txtDemandUniqueID.BorderVisible = True
+        Me.txtDemandUniqueID.FieldName = Nothing
+        Me.txtDemandUniqueID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDemandUniqueID.Location = New System.Drawing.Point(663, 21)
+        Me.txtDemandUniqueID.Name = "txtDemandUniqueID"
+        Me.txtDemandUniqueID.Size = New System.Drawing.Size(85, 18)
+        Me.txtDemandUniqueID.TabIndex = 1473
+        Me.txtDemandUniqueID.TextWrap = False
+        '
+        'lblDemandUniqueID
+        '
+        Me.lblDemandUniqueID.FieldName = Nothing
+        Me.lblDemandUniqueID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDemandUniqueID.Location = New System.Drawing.Point(599, 23)
+        Me.lblDemandUniqueID.Name = "lblDemandUniqueID"
+        Me.lblDemandUniqueID.Size = New System.Drawing.Size(57, 16)
+        Me.lblDemandUniqueID.TabIndex = 1472
+        Me.lblDemandUniqueID.Text = "Unique ID"
+        '
         'btnQuickDemand
         '
         Me.btnQuickDemand.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -465,17 +495,6 @@ Partial Class frmDemandBooking
         Me.RadLabel1.Size = New System.Drawing.Size(65, 16)
         Me.RadLabel1.TabIndex = 49
         Me.RadLabel1.Text = "Booking No"
-        '
-        'btn_TSCancel
-        '
-        Me.btn_TSCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_TSCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_TSCancel.Location = New System.Drawing.Point(1126, 32)
-        Me.btn_TSCancel.Name = "btn_TSCancel"
-        Me.btn_TSCancel.Size = New System.Drawing.Size(76, 20)
-        Me.btn_TSCancel.TabIndex = 26
-        Me.btn_TSCancel.Text = "TS Cancel"
-        Me.btn_TSCancel.Visible = False
         '
         'txtDocNo
         '
@@ -1207,6 +1226,17 @@ Partial Class frmDemandBooking
         Me.txtVehicleNo.TabIndex = 1450
         Me.txtVehicleNo.Value = ""
         '
+        'btn_TSCancel
+        '
+        Me.btn_TSCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_TSCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_TSCancel.Location = New System.Drawing.Point(1126, 32)
+        Me.btn_TSCancel.Name = "btn_TSCancel"
+        Me.btn_TSCancel.Size = New System.Drawing.Size(76, 20)
+        Me.btn_TSCancel.TabIndex = 26
+        Me.btn_TSCancel.Text = "TS Cancel"
+        Me.btn_TSCancel.Visible = False
+        '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -1242,7 +1272,7 @@ Partial Class frmDemandBooking
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -1258,6 +1288,7 @@ Partial Class frmDemandBooking
         '
         Me.gv1.AutoScroll = True
         Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Controls.Add(Me.MyRadGridView1)
         Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1272,7 +1303,7 @@ Partial Class frmDemandBooking
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1283,6 +1314,24 @@ Partial Class frmDemandBooking
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
+        '
+        'MyRadGridView1
+        '
+        Me.MyRadGridView1.Location = New System.Drawing.Point(6, 13)
+        '
+        '
+        '
+        Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MyRadGridView1.MyExportFilePath = ""
+        Me.MyRadGridView1.MyStopExport = False
+        Me.MyRadGridView1.Name = "MyRadGridView1"
+        Me.MyRadGridView1.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.Size = New System.Drawing.Size(289, 148)
+        Me.MyRadGridView1.TabIndex = 3
+        Me.MyRadGridView1.VarID = ""
+        Me.MyRadGridView1.Visible = False
         '
         'chkEveningPosted
         '
@@ -1306,6 +1355,7 @@ Partial Class frmDemandBooking
         '
         'SplitPanel2
         '
+        Me.SplitPanel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitPanel2.Controls.Add(Me.btnHistory)
         Me.SplitPanel2.Controls.Add(Me.btnSplitPrint)
         Me.SplitPanel2.Controls.Add(Me.btnReverseAndUnpost)
@@ -1335,11 +1385,25 @@ Partial Class frmDemandBooking
         Me.SplitPanel2.TabStop = False
         Me.SplitPanel2.Text = "SplitPanel2"
         '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_BoothSlipExcel})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(648, 11)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(86, 20)
+        Me.RadSplitButton1.TabIndex = 54
+        Me.RadSplitButton1.Text = "Booth Slip"
+        '
+        'rmi_BoothSlipExcel
+        '
+        Me.rmi_BoothSlipExcel.Name = "rmi_BoothSlipExcel"
+        Me.rmi_BoothSlipExcel.Text = "Excel"
+        '
         'btnHistory
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(1034, 11)
+        Me.btnHistory.Location = New System.Drawing.Point(1109, 11)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(69, 20)
         Me.btnHistory.TabIndex = 53
@@ -1347,9 +1411,8 @@ Partial Class frmDemandBooking
         '
         'btnSplitPrint
         '
-        Me.btnSplitPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSplitPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSplitPrint.Location = New System.Drawing.Point(1042, 11)
+        Me.btnSplitPrint.Location = New System.Drawing.Point(900, 11)
         Me.btnSplitPrint.Name = "btnSplitPrint"
         Me.btnSplitPrint.Size = New System.Drawing.Size(62, 20)
         Me.btnSplitPrint.TabIndex = 52
@@ -1357,9 +1420,8 @@ Partial Class frmDemandBooking
         '
         'btnReverseAndUnpost
         '
-        Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(717, 11)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(735, 11)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(76, 20)
         Me.btnReverseAndUnpost.TabIndex = 26
@@ -1367,9 +1429,8 @@ Partial Class frmDemandBooking
         '
         'btnPrintChallan
         '
-        Me.btnPrintChallan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintChallan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintChallan.Location = New System.Drawing.Point(796, 11)
+        Me.btnPrintChallan.Location = New System.Drawing.Point(497, 11)
         Me.btnPrintChallan.Name = "btnPrintChallan"
         Me.btnPrintChallan.Size = New System.Drawing.Size(80, 20)
         Me.btnPrintChallan.TabIndex = 51
@@ -1377,9 +1438,9 @@ Partial Class frmDemandBooking
         '
         'btnFullMode
         '
-        Me.btnFullMode.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnFullMode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnFullMode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnFullMode.Location = New System.Drawing.Point(1177, 11)
+        Me.btnFullMode.Location = New System.Drawing.Point(1179, 11)
         Me.btnFullMode.Name = "btnFullMode"
         Me.btnFullMode.Size = New System.Drawing.Size(76, 20)
         Me.btnFullMode.TabIndex = 50
@@ -1387,9 +1448,8 @@ Partial Class frmDemandBooking
         '
         'SplitButtonTruckSheet
         '
-        Me.SplitButtonTruckSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.SplitButtonTruckSheet.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmi_TS_PDF, Me.rmi_TS_Excel, Me.rmi_Indent_PDF, Me.rmi_Indent_Excel})
-        Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(549, 11)
+        Me.SplitButtonTruckSheet.Location = New System.Drawing.Point(410, 11)
         Me.SplitButtonTruckSheet.Name = "SplitButtonTruckSheet"
         Me.SplitButtonTruckSheet.Size = New System.Drawing.Size(86, 20)
         Me.SplitButtonTruckSheet.TabIndex = 49
@@ -1419,30 +1479,27 @@ Partial Class frmDemandBooking
         '
         'btn_GPCancel
         '
-        Me.btn_GPCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_GPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_GPCancel.Location = New System.Drawing.Point(638, 11)
+        Me.btn_GPCancel.Location = New System.Drawing.Point(578, 11)
         Me.btn_GPCancel.Name = "btn_GPCancel"
-        Me.btn_GPCancel.Size = New System.Drawing.Size(76, 20)
+        Me.btn_GPCancel.Size = New System.Drawing.Size(69, 20)
         Me.btn_GPCancel.TabIndex = 25
         Me.btn_GPCancel.Text = "GP Cancel"
         Me.btn_GPCancel.Visible = False
         '
         'btn_Gatepass
         '
-        Me.btn_Gatepass.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Gatepass.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Gatepass.Location = New System.Drawing.Point(470, 11)
+        Me.btn_Gatepass.Location = New System.Drawing.Point(346, 11)
         Me.btn_Gatepass.Name = "btn_Gatepass"
-        Me.btn_Gatepass.Size = New System.Drawing.Size(76, 20)
+        Me.btn_Gatepass.Size = New System.Drawing.Size(63, 20)
         Me.btn_Gatepass.TabIndex = 24
         Me.btn_Gatepass.Text = "Gate Pass"
         '
         'btn_TruckSheet
         '
-        Me.btn_TruckSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_TruckSheet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_TruckSheet.Location = New System.Drawing.Point(430, 11)
+        Me.btn_TruckSheet.Location = New System.Drawing.Point(365, 11)
         Me.btn_TruckSheet.Name = "btn_TruckSheet"
         Me.btn_TruckSheet.Size = New System.Drawing.Size(34, 20)
         Me.btn_TruckSheet.TabIndex = 23
@@ -1451,47 +1508,43 @@ Partial Class frmDemandBooking
         '
         'btnAssessment
         '
-        Me.btnAssessment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAssessment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAssessment.Location = New System.Drawing.Point(299, 11)
+        Me.btnAssessment.Location = New System.Drawing.Point(255, 11)
         Me.btnAssessment.Name = "btnAssessment"
-        Me.btnAssessment.Size = New System.Drawing.Size(123, 20)
+        Me.btnAssessment.Size = New System.Drawing.Size(90, 20)
         Me.btnAssessment.TabIndex = 13
         Me.btnAssessment.Text = "Assessment"
         '
         'btnPost
         '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(78, 11)
+        Me.btnPost.Location = New System.Drawing.Point(75, 11)
         Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.Size = New System.Drawing.Size(59, 20)
         Me.btnPost.TabIndex = 15
         Me.btnPost.Text = "Post"
         '
         'btnDelete
         '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(151, 11)
+        Me.btnDelete.Location = New System.Drawing.Point(135, 11)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 20)
+        Me.btnDelete.Size = New System.Drawing.Size(59, 20)
         Me.btnDelete.TabIndex = 13
         Me.btnDelete.Text = "Delete"
         '
         'btnPrint
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(224, 11)
+        Me.btnPrint.Location = New System.Drawing.Point(195, 11)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 20)
+        Me.btnPrint.Size = New System.Drawing.Size(59, 20)
         Me.btnPrint.TabIndex = 14
         Me.btnPrint.Text = "Print"
         '
         'btnClose
         '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.Location = New System.Drawing.Point(1256, 11)
         Me.btnClose.Name = "btnClose"
@@ -1501,7 +1554,6 @@ Partial Class frmDemandBooking
         '
         'btnSave
         '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.Location = New System.Drawing.Point(5, 11)
         Me.btnSave.Name = "btnSave"
@@ -1511,9 +1563,8 @@ Partial Class frmDemandBooking
         '
         'btnreverse
         '
-        Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(879, 11)
+        Me.btnreverse.Location = New System.Drawing.Point(812, 11)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(87, 20)
         Me.btnreverse.TabIndex = 22
@@ -1559,28 +1610,6 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'txtDemandUniqueID
-        '
-        Me.txtDemandUniqueID.AutoSize = False
-        Me.txtDemandUniqueID.BorderVisible = True
-        Me.txtDemandUniqueID.FieldName = Nothing
-        Me.txtDemandUniqueID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDemandUniqueID.Location = New System.Drawing.Point(663, 21)
-        Me.txtDemandUniqueID.Name = "txtDemandUniqueID"
-        Me.txtDemandUniqueID.Size = New System.Drawing.Size(85, 18)
-        Me.txtDemandUniqueID.TabIndex = 1473
-        Me.txtDemandUniqueID.TextWrap = False
-        '
-        'lblDemandUniqueID
-        '
-        Me.lblDemandUniqueID.FieldName = Nothing
-        Me.lblDemandUniqueID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDemandUniqueID.Location = New System.Drawing.Point(599, 23)
-        Me.lblDemandUniqueID.Name = "lblDemandUniqueID"
-        Me.lblDemandUniqueID.Size = New System.Drawing.Size(57, 16)
-        Me.lblDemandUniqueID.TabIndex = 1472
-        Me.lblDemandUniqueID.Text = "Unique ID"
-        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1612,9 +1641,10 @@ Partial Class frmDemandBooking
         CType(Me.rgbDemandHead, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbDemandHead.ResumeLayout(False)
         Me.rgbDemandHead.PerformLayout()
+        CType(Me.txtDemandUniqueID, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDemandUniqueID, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnQuickDemand, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btn_TSCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMorningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkEveningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1671,6 +1701,7 @@ Partial Class frmDemandBooking
         CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btn_TSCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1679,10 +1710,15 @@ Partial Class frmDemandBooking
         Me.gv2.PerformLayout()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gv1.ResumeLayout(False)
+        Me.gv1.PerformLayout()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel2.ResumeLayout(False)
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1700,8 +1736,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDemandUniqueID, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDemandUniqueID, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1811,5 +1845,8 @@ Partial Class frmDemandBooking
     Friend WithEvents lblshuffleRoute As common.Controls.MyLabel
     Friend WithEvents txtDemandUniqueID As common.Controls.MyLabel
     Friend WithEvents lblDemandUniqueID As common.Controls.MyLabel
+    Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
+    Friend WithEvents RadSplitButton1 As RadSplitButton
+    Friend WithEvents rmi_BoothSlipExcel As RadMenuItem
 End Class
 

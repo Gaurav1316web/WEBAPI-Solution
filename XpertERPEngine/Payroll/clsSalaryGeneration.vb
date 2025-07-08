@@ -5367,6 +5367,38 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
         End If
 
 
+        Dim strqs As String = "   SELECT DISTINCT PAY_HEAD_CODE,ACTUAL_AMOUNT FROM " & strTableName & " WHERE LINE_NO IS NOT NULL and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
+        Dim dtSeq As DataTable = clsDBFuncationality.GetDataTable(strqS, trans)
+        Dim strEmps As String = "(" & clsCommon.GetMulcallString(EmpList) & ")"
+
+        Dim MaxAmt As String = "Select PAY_HEAD_CODE,MAX_AMOUNT from TSPL_EMPLOYEE_SALARY_PAYHEADS 
+                                left outer join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  =TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE  
+                                where TSPL_EMPLOYEE_SALARY.EMP_CODE In " & strEmps & " and APPLICABLE_FROM=(
+                                SELECT MAX(APPLICABLE_FROM) FROM TSPL_EMPLOYEE_SALARY WHERE EMP_CODE = TSPL_EMPLOYEE_SALARY.EMP_CODE) order by LINE_NO"
+        Dim dtMax As DataTable = clsDBFuncationality.GetDataTable(MaxAmt, trans)
+
+        For Each drSeq As DataRow In dtSeq.Rows
+            Dim payHeadCode As String = clsCommon.myCstr(drSeq("PAY_HEAD_CODE"))
+            Dim actualAmount As Decimal = clsCommon.myCdbl(drSeq("ACTUAL_AMOUNT"))
+
+            Dim rowsMax() As DataRow = dtMax.Select("PAY_HEAD_CODE = '" & payHeadCode & "'")
+
+            If rowsMax.Length > 0 Then
+                Dim maxAmount As Decimal = clsCommon.myCdbl(rowsMax(0)("MAX_AMOUNT"))
+
+                If maxAmount = 0 Then
+                    Continue For
+                End If
+
+                If actualAmount > maxAmount Then
+                    strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT =" & maxAmount & " WHERE " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "' and " & strTableName & ".PAY_HEAD_CODE='" & payHeadCode & "' "
+                    'Throw New Exception("Actual amount exceeds maximum for Pay Head: " & payHeadCode & ". Max: " & maxAmount.ToString() & ", Actual: " & actualAmount.ToString())
+                    If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
+                        Throw New Exception("Error in Updating actual amount  !")
+                    End If
+                End If
+            End If
+        Next
 
         Return True
     End Function

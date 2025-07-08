@@ -2448,9 +2448,15 @@ select (-1) as Type, Document_No from TSPL_BANK_REVERSE where  Cust_Code='" + cu
             If clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Then
                 strWhrcls += " and TSPL_BANK_MASTER.IsSettlementBankForAD='0' "
             End If
+            If objCommonVar.RCDFCFP = True Then
+            Else
+                strWhrcls += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+
+            End If
+
             fndBankCode.Value = clsCommon.ShowSelectForm("RcptBanFilter", Qry, "Code", strWhrcls, fndBankCode.Value, "Code", isButtonClicked)
-        Else
-            Qry = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
+            Else
+                Qry = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
             '" Where Bank_type = (Select Bank_type from TSPL_Bank_MASTER  Where BANK_CODE = '" & fndBankCode.Value & "' )"
             Dim Cond As String = ""
             If isSettlementBankOnly Then

@@ -1048,7 +1048,10 @@ Public Class FrmPaymentNew
         Else
             strWhrclas += "  and TSPL_BANK_MASTER.bank_type<>'S'"
         End If
-
+        If objCommonVar.RCDFCFP = True Then
+        Else
+            strWhrclas += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+        End If
         strWhrclas += " and TSPL_bank_master.INACTIVE ='Active' "
 
         txtBankCode.Value = clsCommon.ShowSelectForm("BankSlctr@Payment", Qry, "Code", strWhrclas, txtBankCode.Value, "Code", isButtonClicked)

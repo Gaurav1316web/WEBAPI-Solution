@@ -277,6 +277,8 @@ Public Class clsMPDCSInsentiveReco
         End Try
         Return True
     End Function
+
+
 End Class
 
 Public Class clsMPDCSInsentiveRecoDetail
@@ -319,6 +321,7 @@ Public Class clsMPDCSInsentiveRecoDetail
     Public Diff_Amount As Decimal = 0
 
     Public Reco_Staus As Boolean = False ''Not a Table Column
+    Public Reco_Staus_OLD As Boolean = False ''Not a Table Column
 
 
 #End Region
@@ -350,34 +353,10 @@ where Document_Code='" + strDocNo + "' and tspl_vendor_master.zone_Code in (" + 
 
     Public Shared Function saveData(ByVal strDocNo As String, ByVal arrObj As List(Of clsMPDCSInsentiveRecoDetail), ByVal trans As SqlTransaction) As Boolean
         Try
-            If arrObj IsNot Nothing Then
+            If arrObj IsNot Nothing AndAlso arrObj.Count > 0 Then
                 For Each obj As clsMPDCSInsentiveRecoDetail In arrObj
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
-                    clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
-                    clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code)
-                    clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
+                    saveDataOne(strDocNo, obj, trans)
 
-                    clsCommon.AddColumnsForChange(coll, "Cycle_Year", obj.Cycle_Year)
-                    clsCommon.AddColumnsForChange(coll, "Cycle_Month", obj.Cycle_Month)
-                    clsCommon.AddColumnsForChange(coll, "Cycle_No", obj.Cycle_No)
-
-                    clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                    clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
-                    clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
-                    clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
-                    clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                    clsCommon.AddColumnsForChange(coll, "MP_Count", obj.MP_Count)
-                    clsCommon.AddColumnsForChange(coll, "MP_Qty", obj.MP_Qty)
-                    clsCommon.AddColumnsForChange(coll, "MP_FAT", obj.MP_FAT)
-                    clsCommon.AddColumnsForChange(coll, "MP_SNF", obj.MP_SNF)
-                    clsCommon.AddColumnsForChange(coll, "MP_Amount", obj.MP_Amount)
-
-                    clsCommon.AddColumnsForChange(coll, "Diff_Qty", obj.Diff_Qty)
-                    clsCommon.AddColumnsForChange(coll, "Diff_FAT", obj.Diff_FAT)
-                    clsCommon.AddColumnsForChange(coll, "Diff_SNF", obj.Diff_SNF)
-                    clsCommon.AddColumnsForChange(coll, "Diff_Amount", obj.Diff_Amount)
-                    clsCommonFunctionality.UpdateDataTable(coll, IIf(obj.Reco_Staus, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID"), OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
         Catch ex As Exception
@@ -386,6 +365,35 @@ where Document_Code='" + strDocNo + "' and tspl_vendor_master.zone_Code in (" + 
         Return True
     End Function
 
+    Private Shared Sub saveDataOne(strDocNo As String, obj As clsMPDCSInsentiveRecoDetail, trans As SqlTransaction)
+        Dim coll As New Hashtable()
+        clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+        clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
+        clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code)
+        clsCommon.AddColumnsForChange(coll, "VLC_Code", obj.VLC_Code)
+
+        clsCommon.AddColumnsForChange(coll, "Cycle_Year", obj.Cycle_Year)
+        clsCommon.AddColumnsForChange(coll, "Cycle_Month", obj.Cycle_Month)
+        clsCommon.AddColumnsForChange(coll, "Cycle_No", obj.Cycle_No)
+
+        clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+        clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
+        clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
+        clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
+        clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+        clsCommon.AddColumnsForChange(coll, "MP_Count", obj.MP_Count)
+        clsCommon.AddColumnsForChange(coll, "MP_Qty", obj.MP_Qty)
+        clsCommon.AddColumnsForChange(coll, "MP_FAT", obj.MP_FAT)
+        clsCommon.AddColumnsForChange(coll, "MP_SNF", obj.MP_SNF)
+        clsCommon.AddColumnsForChange(coll, "MP_Amount", obj.MP_Amount)
+
+        clsCommon.AddColumnsForChange(coll, "Diff_Qty", obj.Diff_Qty)
+        clsCommon.AddColumnsForChange(coll, "Diff_FAT", obj.Diff_FAT)
+        clsCommon.AddColumnsForChange(coll, "Diff_SNF", obj.Diff_SNF)
+        clsCommon.AddColumnsForChange(coll, "Diff_Amount", obj.Diff_Amount)
+        clsCommonFunctionality.UpdateDataTable(coll, IIf(obj.Reco_Staus, "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID"), OMInsertOrUpdate.Insert, "", trans)
+
+    End Sub
 
     Public Shared Function getData(ByVal strDocNo As String, ByVal SelectedZone As String, ByVal trans As SqlTransaction) As List(Of clsMPDCSInsentiveRecoDetail)
         Try
@@ -456,5 +464,57 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Function
+
+    Public Shared Function EditDCSQty(ByVal strDocNo As String, ByVal strRemarks As String, ByVal Arr As List(Of clsMPDCSInsentiveRecoDetail)) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsMPDCSInsentiveReco = clsMPDCSInsentiveReco.GetData(strDocNo, NavigatorType.Current, "", trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+            End If
+
+            If obj.Status = ERPTransactionStatus.Approved Then
+                clsCommon.MyMessageBoxShow("Transaction status should be pending")
+            End If
+
+            Dim qry As String = "select Document_Code from TSPL_DBT_CAPING where Reco_Code='" + strDocNo + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("DBT Capping Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "] is generated.you cannot unpost it")
+            End If
+
+            qry = "select Document_Code from TSPL_DBT_NEFT where From_Date='" + clsCommon.GetPrintDate(obj.Reco_Date, "dd/MMM/yyyy") + "' and To_Date='" + clsCommon.GetPrintDate(obj.Reco_Date_To, "dd/MMM/yyyy") + "'"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("DBT NEFT Document No [" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "] is generated.you cannot unpost it")
+            End If
+            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommon.AddColumnsForChange(coll, "Edit_Remarks", strRemarks)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", OMInsertOrUpdate.Update, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
+
+                For Each objTR As clsMPDCSInsentiveRecoDetail In Arr
+                    If objTR.Reco_Staus_OLD Then
+                        qry = "delete from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL where Document_Code='" & obj.Document_Code & "' and PK_Id='" + clsCommon.myCstr(objTR.PK_Id) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    Else
+                        qry = "delete from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID where Document_Code='" & obj.Document_Code & "'  and PK_Id='" + clsCommon.myCstr(objTR.PK_Id) + "' "
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End If
+                    saveDataOne(obj.Document_Code, objTR, trans)
+                Next
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL", "Document_Code", "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID", "Document_Code", trans)
+                trans.Commit()
+            Else
+                Throw New Exception("No Data found to edit")
+            End If
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 End Class

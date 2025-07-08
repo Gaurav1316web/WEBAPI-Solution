@@ -1423,7 +1423,15 @@ Public Class FrmQuickEntry1
     'End Function
     Private Sub fndBank__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndBankCode._MYValidating
         Dim strWhrcls As String = ""
+        Dim strWhrclas As String = ""
+        strWhrclas += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+
+
         Dim Qry As String = clsERPFuncationality.glbankqueryNew(strWhrcls)
+        If objCommonVar.RCDFCFP = True Then
+        Else
+            strWhrcls += strWhrclas
+        End If
         fndBankCode.Value = clsCommon.ShowSelectForm("Bank Filter1", Qry, "Code", "Bank_type IN ('B','C') AND " & strWhrcls & "", fndBankCode.Value, "Code", isButtonClicked)
         FillBankDetails()
     End Sub

@@ -1193,6 +1193,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlip ForSingleEmployee.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlip.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat1.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptKDILSalarySlipFormat1AJM.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLabelPrinting.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLocationtransferletter.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptLTAClaim.rpt" />

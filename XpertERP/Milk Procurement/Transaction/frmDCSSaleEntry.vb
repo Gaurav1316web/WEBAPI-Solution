@@ -428,7 +428,7 @@ Public Class frmDCSSaleEntry
     End Sub
     Sub BlankAllControls()
         txtDiscAmt.Text = 0
-        chkApplyTPT.Checked = True
+        chkApplyTPT.Checked = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (1) from TSPL_DCS_TRANSPORTATION_CHARGES_HEAD ") > 0)
         txtTPTVendor.Value = ""
         txtRecommBy.Text = ""
         txtDiscPer.Text = 0
@@ -4189,9 +4189,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColCommAmt).Value = objTr.Commission_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAmtAfterCOmm).Value = objTr.Amt_Less_Commission
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colItemwiseTaxCode).Value = objTr.ItemwiseTaxCode
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Value = objTr.Transporter_Commission_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Tag = objTr.REF_TPT_PK_ID
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTAmt).Value = objTr.Transporter_Commission_Amt
+                        If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate)) > 0 Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Value = objTr.Transporter_Commission_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTRate).Tag = objTr.REF_TPT_PK_ID
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColTPTAmt).Value = objTr.Transporter_Commission_Amt
+                        End If
                         If obj.Status = ERPTransactionStatus.Pending Then
                             If clsCommon.myLen(objTr.TAX1) > 0 Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRecoverable1).Value = clsTaxMaster.IsTaxRecoverableAC(objTr.TAX1)

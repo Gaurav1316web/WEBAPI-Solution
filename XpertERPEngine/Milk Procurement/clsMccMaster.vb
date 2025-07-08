@@ -165,6 +165,7 @@ Public Class clsMccMaster
     Public Inactive As String = Nothing
     Public EmpOnAmountOnly As String = Nothing
     Public Is_MCC As Boolean = False
+    Public Integrate_DCS_Milk_Collection As Boolean = False
     '==================================================
     '========Add by rohit on Dec 26,2014 to save Comport for Selected Mcc======
 
@@ -663,7 +664,7 @@ Public Class clsMccMaster
                 obj.Inactive = clsCommon.myCstr(dt.Rows(0)("In_active"))
                 obj.EmpOnAmountOnly = clsCommon.myCstr(dt.Rows(0)("EmpOnAmountOnly"))
                 obj.Is_MCC = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_MCC")) = 1, True, False)
-
+                obj.Integrate_DCS_Milk_Collection = IIf(clsCommon.myCdbl(dt.Rows(0)("Integrate_DCS_Milk_Collection")) = 1, True, False)
                 obj.Deafault_MP_Grp_Code = clsCommon.myCstr(dt.Rows(0)("Deafault_MP_Grp_Code"))
                 obj.Deafault_MP_Payment_Code = clsCommon.myCstr(dt.Rows(0)("Deafault_MP_Payment_Code"))
                 obj.Deafault_MP_Payment_Cycle = clsCommon.myCstr(dt.Rows(0)("Deafault_MP_Payment_Cycle"))
@@ -869,6 +870,7 @@ Public Class clsMccMaster
             clsCommon.AddColumnsForChange(coll, "Deafault_MP_Grp_Code", obj.Deafault_MP_Grp_Code, True)
             '========================================
             clsCommon.AddColumnsForChange(coll, "is_MCC", IIf(obj.Is_MCC, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Integrate_DCS_Milk_Collection", IIf(obj.Integrate_DCS_Milk_Collection, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Collection_Method", obj.Collection_Method)
 
             clsCommon.AddColumnsForChange(coll, "Receipt_Weight_tolerance_Apply", IIf(obj.Receipt_Weight_tolerance_Apply, 1, 0))

@@ -192,9 +192,7 @@ where isnull([Status],0)=0 "
             If GroupReverse.Visible Then
                 GroupReverse.Visible = Not GroupReverse.Visible
             Else
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SIRC
-                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                Dim frm As New frmPWDHighSecrity(Nothing)
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     GroupReverse.Visible = Not GroupReverse.Visible

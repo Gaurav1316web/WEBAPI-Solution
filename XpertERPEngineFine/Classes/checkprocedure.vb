@@ -131,7 +131,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.bankTransfer, "Bank Transfer", "1.01.02.02", clsUserMgtCode.SubModuleCommonServicesTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
         InsertDefaultValue(clsUserMgtCode.FrmBankReco, "Bank Reconciliation", "1.01.02.03", clsUserMgtCode.SubModuleCommonServicesTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
         InsertDefaultValue(clsUserMgtCode.FrmCFormEntry, "CForm Entry", "1.01.02.04", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.FrmBankGuaranteeMaster1, "Bank Guarantee Master", "1.01.02.05", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmBankGuaranteeMaster, "Bank Guarantee Master", "1.01.02.05", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.BankOpeningReco, "Bank Opening Reco", "1.01.02.06", clsUserMgtCode.SubModuleCommonServicesTransaction, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         'InsertDefaultValue(clsUserMgtCode.RevaluationEntry, "Revaluation Entry", "1.01.02.07", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.ItemRackBinMapping, "Item Rack Bin Mapping", "1.01.02.08", clsUserMgtCode.SubModuleCommonServicesTransaction, 8)

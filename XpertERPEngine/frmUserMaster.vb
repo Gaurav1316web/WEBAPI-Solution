@@ -96,6 +96,14 @@ Public Class FrmUserMaster
     End Sub
 
     Private Sub FrmUserMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Dim coll As Dictionary(Of String, String)
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        'coll.Add("User_Code", "VARCHAR(12) null REFERENCES tspl_user_master(User_Code)")
+        'coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
+        ''clsCommonFunctionality.CreateOrAlterTable("TSPL_User_Bank_Master", coll)
+        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_User_Bank_Master", coll, "", True, False, "", "", "", True)
+
         SetUserMgmtNew()
         fndUserCode.TabIndex = 1
         Employee_TextChanged()
@@ -496,7 +504,17 @@ Public Class FrmUserMaster
             Next
         End If
         mulZone.arrValueMember = arrZone1
-
+        '---------------------------------
+        Dim arrBank1 As ArrayList = Nothing
+        qry = "select TSPL_User_Bank_Master.Bank_Code from TSPL_User_Bank_Master where TSPL_User_Bank_Master.User_Code='" + fndUserCode.Value + "'"
+        Dim dts As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
+            arrBank1 = New ArrayList()
+            For Each drBank As DataRow In dts.Rows
+                arrBank1.Add(clsCommon.myCstr(drBank("Bank_Code")))
+            Next
+        End If
+        TxtMultiBank.arrValueMember = arrBank1
         '---------------------------------
 
         Dim arrCustCategory1 As ArrayList = Nothing
@@ -698,8 +716,9 @@ Public Class FrmUserMaster
                     End If
                 End If
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndUserCode.Value, "TSPL_USER_MASTER", "User_Code", Nothing)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndUserCode.Value, "TSPL_USER_MASTER", "User_Code", Nothing)
+            'UpdateBankColumn()
             updateExtraColumns()
 
             If ChkSuperUser = True AndAlso PanelCNF = True Then
@@ -735,6 +754,14 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "Sub_location", txtSubLocation.Value, True)
 
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
+
+    End Sub
+    Sub UpdateBankColumn()
+        Dim coll As New Hashtable()
+        clsCommon.AddColumnsForChange(coll, "User_Code", fndUserCode.Value, True)
+        clsCommon.AddColumnsForChange(coll, "Bank_Code", TxtMultiBank.arrValueMember)
+        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_User_Bank_Master", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
+
     End Sub
 
     'Private Sub funInsert()
@@ -1029,6 +1056,8 @@ Public Class FrmUserMaster
         lblDepartmentName.Text = ""
         mulCustomerCategory.arrValueMember = Nothing
         mulZone.arrValueMember = Nothing
+        TxtMultiBank.arrValueMember = Nothing
+
         txtRoute.arrValueMember = Nothing
         'fndZone.Value = ""
         'lblzone.Text = ""
@@ -3035,6 +3064,16 @@ order by LEVEL"
     End Sub
 
     Private Sub txtOrderSaras_Load(sender As Object, e As EventArgs) Handles txtOrderSaras.Load
+        Dim StrQry As String = "select Zone_Code as Code , Description as Name from TSPL_ZONE_MASTER"
+        mulZone.arrValueMember = clsCommon.ShowMultipleSelectForm("mulZone@UserMaster", StrQry, "Code", "Name", mulZone.arrValueMember, mulZone.arrDispalyMember)
+
+    End Sub
+
+
+
+    Private Sub TxtMultiBank__My_Click(sender As Object, e As EventArgs) Handles TxtMultiBank._My_Click
+        Dim StrQry As String = "select BANK_CODE as Code , description as Name from TSPL_Bank_MASTER"
+        TxtMultiBank.arrValueMember = clsCommon.ShowMultipleSelectForm("mulBank@UserMaster", StrQry, "Code", "Name", TxtMultiBank.arrValueMember, TxtMultiBank.arrDispalyMember)
 
     End Sub
 
@@ -3071,6 +3110,17 @@ order by LEVEL"
                     clsCommon.AddColumnsForChange(collZone, "User_Code", fndUserCode.Value)
                     clsCommon.AddColumnsForChange(collZone, "Zone_Code", strZoneCode)
                     clsCommonFunctionality.UpdateDataTable(collZone, "TSPL_USER_CUSTOMER_ZONE", OMInsertOrUpdate.Insert, "")
+                Next
+            End If
+
+            If (TxtMultiBank.arrValueMember IsNot Nothing AndAlso TxtMultiBank.arrValueMember.Count > 0) Then
+                For Each strBankCode As String In TxtMultiBank.arrValueMember
+                    Dim collBank As New Hashtable()
+                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
+                    'clsCommon.AddColumnsForChange(collBank, "PK_ID", strTRCode)
+                    clsCommon.AddColumnsForChange(collBank, "User_Code", fndUserCode.Value)
+                    clsCommon.AddColumnsForChange(collBank, "Bank_Code", strBankCode)
+                    clsCommonFunctionality.UpdateDataTable(collBank, "TSPL_User_Bank_Master", OMInsertOrUpdate.Insert, "")
                 Next
             End If
 

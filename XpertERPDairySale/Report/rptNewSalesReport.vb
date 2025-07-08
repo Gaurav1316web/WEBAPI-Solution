@@ -10,9 +10,15 @@ Public Class rptNewSalesReport
     Const ReportID As String = "NewSalesReport"
 #End Region
     Private Sub rptNewSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        funreset()
-        txtToDate.Value = clsCommon.GETSERVERDATE()
-        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        Try
+            funreset()
+            txtToDate.Value = clsCommon.GETSERVERDATE()
+            txtFromDate.Value = clsCommon.GETSERVERDATE()
+            DemandChartAndBoothSlip()
+            chkShift()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtRoute__My_Click(sender As Object, e As EventArgs) Handles txtRoute._My_Click
@@ -88,11 +94,11 @@ Public Class rptNewSalesReport
             End If
             Dim whrcls As String = ""
             If rbtnDemand.IsChecked Then
-                qry = " ,TSPL_ITEM_MASTER.Sku_Seq FROM TSPL_DEMAND_BOOKING_DETAIL 
+                qry = " ,TSPL_ITEM_MASTER.Sku_Seq,TSPL_ITEM_MASTER.Print_Sequence,MAX(TSPL_ITEM_MASTER.Alies_Name2)Alies_Name2,MAX(TSPL_ITEM_MASTER.Alies_Name3)Alies_Name3 FROM TSPL_DEMAND_BOOKING_DETAIL 
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code  left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
             left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code 
             JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
-			  ) as  dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code
+			  ) as  dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code 
             where 2 = 2 "
                 whrcls = " AND TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= Convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) 
             <= Convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
@@ -131,8 +137,8 @@ Public Class rptNewSalesReport
                     whrcls += " and TSPL_ITEM_MASTER.TypeOfItm  <> 'G'"
                 End If
             End If
-            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT max(TSPL_ITEM_MASTER.Short_Description) as  Fresh_Item " & qry & " " & whrcls & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or ( 2 = 2  " & whrcls & " and (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1)) group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq  ORDER BY Sku_Seq")
-            dtProductItem = clsDBFuncationality.GetDataTable("SELECT max(TSPL_ITEM_MASTER.Short_Description) as  Product_Item " & qry & " " & whrcls & "  and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq ORDER BY Sku_Seq")
+            dtFreshItem = clsDBFuncationality.GetDataTable("SELECT max(TSPL_ITEM_MASTER.Short_Description) as  Fresh_Item " & qry & " " & whrcls & " and  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or ( 2 = 2  " & whrcls & " and (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1)) group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq,Print_Sequence  ORDER BY " & clsCommon.myCstr(IIf(rbtnRouteAndCustomer.IsChecked, "Print_Sequence", "Sku_Seq")) & "")
+            dtProductItem = clsDBFuncationality.GetDataTable("SELECT max(TSPL_ITEM_MASTER.Short_Description) as  Product_Item " & qry & " " & whrcls & "  and TSPL_ITEM_MASTER.Is_Ambient = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code,Sku_Seq,Print_Sequence ORDER BY " & clsCommon.myCstr(IIf(rbtnRouteAndCustomer.IsChecked, "Print_Sequence", "Sku_Seq")) & "")
 
             Dim ProductIemName As String = Nothing
             Dim FreshItemName As String = Nothing
@@ -239,7 +245,7 @@ Public Class rptNewSalesReport
             Dim sumqry As String = "  select Item_Code,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item,sum(qty)Qty,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,sum(Amount)Amount,sum(Receipt_Amount)Receipt_Amount,max(Days)Days,"
             If rbtnDemand.IsChecked Then
 
-                qry += " SELECT TSPL_ITEM_MASTER.Item_Code,dist.Cust_Code, TSPL_ITEM_MASTER.Item_Sub_Group_Type, DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days, TSPL_DEMAND_BOOKING_MASTER.Route_No, CONVERT(DATE,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)Document_Date,CASE WHEN isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' THEN 'AM' else 'PM'  END AS Shift_Type , case when  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
+                qry += " SELECT TSPL_ITEM_MASTER.Item_Code,dist.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_ITEM_MASTER.Item_Sub_Group_Type, DATEDIFF(day, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') as Days, TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc, CONVERT(DATE,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)Document_Date,CASE WHEN isnull(TSPL_DEMAND_BOOKING_MASTER.ShiftType,'') = 'Morning' THEN 'AM' else 'PM'  END AS Shift_Type , case when  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description end as Fresh_Item ,
                 case when  (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then  TSPL_ITEM_MASTER.Short_Description + 'Amt' end as Fresh_Item_Amt,TSPL_DEMAND_BOOKING_DETAIL.Unit_Code AS UOM ,isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) AS Qty,
                 case when (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1) then isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) end as Fresh_Qty, case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) end as Product_Qty,round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY ,round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[KG],2) as KG_QTY1
                 ,round((isnull(TSPL_DEMAND_BOOKING_DETAIL.Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/I.[LTR],2) as LTR_QTY ,case when TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 then isnull(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount + (case when TSPL_DEMAND_BOOKING_DETAIL.TAX1 = 'TCS' then TAX1_Amt  when TSPL_DEMAND_BOOKING_DETAIL.TAX2 = 'TCS' then TAX2_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX3 = 'TCS' then TAX3_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX4 = 'TCS' then TAX4_Amt
@@ -253,7 +259,7 @@ Public Class rptNewSalesReport
 		        left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No  left join ( SELECT  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No, TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code, TSPL_DISTRIBUTOR_ROUTE.Start_Date FROM  TSPL_DISTRIBUTOR_ROUTE_CUSTOMER LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
               JOIN ( SELECT Route_No,MAX(Start_Date) AS Max_Start_Date FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER  LEFT JOIN  TSPL_DISTRIBUTOR_ROUTE  ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.code = TSPL_DISTRIBUTOR_ROUTE.code
               GROUP BY Route_No) AS LatestDates ON TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No = LatestDates.Route_No AND TSPL_DISTRIBUTOR_ROUTE.Start_Date = LatestDates.Max_Start_Date 
-			  ) as  dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code
+			  ) as  dist on dist.Route_No = TSPL_DEMAND_BOOKING_MASTER.route_no left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = dist.Cust_Code left Outer join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=dist.Route_No
                 left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = I.item_code 
                 where 2 = 2 and TSPL_DEMAND_BOOKING_MASTER.Posted = 1   and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103) "
 
@@ -412,9 +418,90 @@ Public Class rptNewSalesReport
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
                 FinalQuery += "order by  Document_Date, Shift_Type "
+            ElseIf rbtnRouteAndCustomer.IsChecked Then
+                Dim strShift As String = Nothing
+                If rbtnMorning.IsChecked Then
+                    strShift = " And TSPL_DEMAND_BOOKING_MASTER.ShiftType='Morning'"
+                ElseIf rbtnEvening.IsChecked Then
+                    strShift = " And TSPL_DEMAND_BOOKING_MASTER.ShiftType='Evening'"
+                End If
+                Dim strQry As String = ""
+                FinalQuery += " Select SNo, Max(Name)OUTLET," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + " & TotalProdQty & " AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   "
+
+                strQry += " from ( " & Environment.NewLine & " Select  1 As SNo, max(Days)Days,  (Route_No)Route_No,Max(Route_Desc)Name,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & " " & sumqry & "  Route_No,MAX(Route_Desc)Route_Desc,sum(KG_QTY1)KG_QTY1,max(Document_Date)Document_Date,max(Shift_Type)Shift_Type,max(Cust_Code)Cust_Code,MAX(Customer_Name)Customer_Name,Item_Sub_Group_Type,Item_Sub_Group_Type as Item_Sub_Group_Type1 from ( " & Environment.NewLine & "" & qry + " And TSPL_CUSTOMER_MASTER.Credit_Customer='N' " + strShift + "  " & " )xx group by Route_No,Item_Sub_Group_Type,Item_Code )xxx " & Environment.NewLine & ""
+                If dtFreshItem.Rows.Count > 0 Then
+                    strQry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    strQry += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                    If dtItemSubGroup.Rows.Count > 0 Then
+                        strQry += "  pivot(sum(KG_QTY1) For Item_Sub_Group_Type In (" & ItemsSubGroup & ") )As pivot_sub "
+                    End If
+                End If
+                strQry += " Group by Route_No ,Item_Sub_Group_Type1 " + Environment.NewLine
+                strQry += " Union All " + Environment.NewLine
+                strQry += " " & Environment.NewLine & " Select 2 As SNo, max(Days)Days,  (Cust_Code)Route_No,Max(Customer_Name)Name,max(Shift_Type)Shift_Type, max(convert(varchar,Document_Date,103)) Document_Date, " & qry1 & ", " & ItemSubGroup & "  0 as Total_Qty from ( " & Environment.NewLine & " " & sumqry & "  Max(Route_No)Route_No,sum(KG_QTY1)KG_QTY1,max(Document_Date)Document_Date,max(Shift_Type)Shift_Type,Cust_Code,Max(Customer_Name)Customer_Name,Item_Sub_Group_Type,Item_Sub_Group_Type as Item_Sub_Group_Type1 from ( " & Environment.NewLine & "" & qry + " And TSPL_CUSTOMER_MASTER.Credit_Customer='Y'  " + strShift + " " & " )xx group by Cust_Code,Item_Sub_Group_Type,Item_Code )xxx " & Environment.NewLine & ""
+
+                If dtFreshItem.Rows.Count > 0 Then
+                    strQry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
+                End If
+                If dtProductItem.Rows.Count > 0 Then
+                    strQry += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
+                    If dtItemSubGroup.Rows.Count > 0 Then
+                        strQry += "  pivot(sum(KG_QTY1) For Item_Sub_Group_Type In (" & ItemsSubGroup & ") )As pivot_sub "
+                    End If
+                End If
+                strQry += " Group by Cust_Code ,Item_Sub_Group_Type1 " + Environment.NewLine
+
+                FinalQuery += strQry + ")XXFINAL GROUP BY Route_No,SNo "
+                'strQry += " order by Route_No"
+                FinalQuery += " Union All "
+                FinalQuery += " Select 3 As SNo, 'Total Demand' As OUTLET," & qry1 & ", " & ItemSubGroup & " " & TotalFreshQty + " + " & TotalProdQty & " AS [Total Qty] , case when cast(sum([Total Milk Qty])as int) = 0 or max(Days) = 0 then 0 else (sum([Total Milk Qty])/max(Days)) end as [Milk Avg] , " & ItemSubGroupAvg & " 0 as OTH " & "   "
+                FinalQuery += strQry
+                FinalQuery += " )XXFINAL "
+                FinalQuery += " Order By SNo"
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
+
+            If rbtnRouteAndCustomer.IsChecked Then
+                Dim ShiftType As String = Nothing
+                If rbtnMorning.IsChecked Then
+                    ShiftType = "Morning"
+                ElseIf rbtnEvening.IsChecked Then
+                    ShiftType = "Evening"
+                Else
+                    ShiftType = "Both"
+                End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    Dim dr As DataRow = dt.NewRow
+                    dr("OUTLET") = ShiftType 'clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + ", " + ShiftType
+                    For ii As Integer = 0 To dtFreshItem.Rows.Count - 1
+                        Dim colName As String = clsCommon.myCstr(dtFreshItem.Rows(ii)("Fresh_Item"))
+                        Dim value As Decimal = clsCommon.myCDecimal(dtFreshItem.Rows(ii)("Print_Sequence"))
+
+                        ' Check if value is numeric before assigning
+                        If IsNumeric(value) AndAlso value > 0 Then
+                            dr(colName) = clsCommon.myCDecimal(value)
+                        Else
+                            dr(colName) = DBNull.Value ' Or handle accordingly
+                        End If
+                    Next
+                    For ii As Integer = 0 To dtProductItem.Rows.Count - 1
+                        Dim colName As String = clsCommon.myCstr(dtProductItem.Rows(ii)("Product_Item"))
+                        Dim value As Decimal = clsCommon.myCDecimal(dtProductItem.Rows(ii)("Print_Sequence"))
+
+                        ' Check if value is numeric before assigning
+                        If IsNumeric(value) AndAlso value > 0 Then
+                            dr(colName) = clsCommon.myCDecimal(value)
+                        Else
+                            dr(colName) = DBNull.Value ' Or handle accordingly
+                        End If
+                    Next
+                    dt.Rows.InsertAt(dr, 0)
+                    dt.AcceptChanges()
+                End If
+            End If
 
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -426,6 +513,32 @@ Public Class rptNewSalesReport
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
             If dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
+
+                If rbtnRouteAndCustomer.IsChecked Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        ApplyFormattingManually()
+                        For i As Integer = 0 To dtFreshItem.Rows.Count - 1
+                            gv1.Columns("" + clsCommon.myCstr(dtFreshItem.Rows(i).Item("Fresh_Item")) + "").FormatString = "{0:n2}"
+                            If clsCommon.myLen(clsCommon.myCstr(dtFreshItem.Rows(i).Item("Alies_Name2"))) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dtFreshItem.Rows(i).Item("Alies_Name3"))) > 0 Then
+                                gv1.Columns("" + clsCommon.myCstr(dtFreshItem.Rows(i).Item("Fresh_Item")) + "").HeaderText = clsCommon.myCstr(dtFreshItem.Rows(i).Item("Alies_Name2")) + Environment.NewLine + clsCommon.myCstr(dtFreshItem.Rows(i).Item("Alies_Name3"))
+                            Else
+                                gv1.Columns("" + clsCommon.myCstr(dtFreshItem.Rows(i).Item("Fresh_Item")) + "").HeaderText = clsCommon.myCstr(dtFreshItem.Rows(i).Item("Fresh_Item"))
+                            End If
+                            gv1.Columns("" + clsCommon.myCstr(dtFreshItem.Rows(i).Item("Fresh_Item")) + "").HeaderTextAlignment = ContentAlignment.MiddleCenter
+                        Next
+                        For i As Integer = 0 To dtProductItem.Rows.Count - 1
+                            gv1.Columns("" + clsCommon.myCstr(dtProductItem.Rows(i).Item("Product_Item")) + "").FormatString = "{0:n2}"
+                            If clsCommon.myLen(clsCommon.myCstr(dtProductItem.Rows(i).Item("Alies_Name2"))) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(dtProductItem.Rows(i).Item("Alies_Name3"))) > 0 Then
+                                gv1.Columns("" + clsCommon.myCstr(dtProductItem.Rows(i).Item("Product_Item")) + "").HeaderText = clsCommon.myCstr(dtProductItem.Rows(i).Item("Alies_Name2")) + Environment.NewLine + clsCommon.myCstr(dtProductItem.Rows(i).Item("Alies_Name3"))
+                            Else
+                                gv1.Columns("" + clsCommon.myCstr(dtProductItem.Rows(i).Item("Product_Item")) + "").HeaderText = clsCommon.myCstr(dtProductItem.Rows(i).Item("Product_Item"))
+                            End If
+                            gv1.Columns("" + clsCommon.myCstr(dtProductItem.Rows(i).Item("Product_Item")) + "").HeaderTextAlignment = ContentAlignment.MiddleCenter
+                        Next
+                        gv1.Columns("Amount").FormatString = "{0:n2}"
+                    End If
+                End If
+
                 gv1.BestFitColumns()
                 SetGridFormation()
                 ReStoreGridLayout()
@@ -435,12 +548,33 @@ Public Class rptNewSalesReport
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found To Display", Me.Text)
                 Exit Sub
-
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
+    End Sub
+
+    Public Sub ApplyFormattingManually()
+        For Each row As GridViewRowInfo In gv1.Rows
+            For Each cell As GridViewCellInfo In row.Cells
+                If cell IsNot Nothing AndAlso IsNumeric(cell.Value) Then
+                    Dim value As Double = clsCommon.myCdbl(cell.Value)
+                    'Dim cellElement As GridCellElement = MyRadGridView1.TableElement.GetCellElement(cell.RowInfo, cell.ColumnInfo)
+                    If value > 0 Then
+                        ' Apply formatting directly
+                        If value = Math.Floor(value) Then
+                            cell.Value = value.ToString("0") ' No decimals
+                        ElseIf value * 10 = Math.Floor(value * 10) Then
+                            cell.Value = value.ToString("0.0") ' One decimal place
+                        Else
+                            cell.Value = value.ToString("0.00") ' Two decimal places
+                        End If
+                    Else
+                        cell.Value = value.ToString("0") ' No decimals
+                    End If
+                End If
+            Next
+        Next
     End Sub
 
     Private Function LoadDemandData() As DataTable
@@ -461,50 +595,64 @@ Public Class rptNewSalesReport
         Return dt
     End Function
     Sub SetGridFormation()
-        gv1.TableElement.TableHeaderHeight = 40
-        gv1.MasterTemplate.ShowRowHeaderColumn = True
-        For ii As Integer = 0 To gv1.Columns.Count - 1
-            gv1.Columns(ii).ReadOnly = True
-            gv1.Columns(ii).IsVisible = True
-            gv1.Columns(ii).FormatString = "{0:n2}"
-        Next
-        gv1.ShowGroupPanel = False
+        Try
+            gv1.TableElement.TableHeaderHeight = 40
+            gv1.MasterTemplate.ShowRowHeaderColumn = True
+            For ii As Integer = 0 To gv1.Columns.Count - 1
+                gv1.Columns(ii).ReadOnly = True
+                gv1.Columns(ii).IsVisible = True
+                gv1.Columns(ii).FormatString = "{0:n2}"
+            Next
+            gv1.ShowGroupPanel = False
+            If rbtnRouteAndCustomer.IsChecked Then
+                gv1.Columns("SNo").HeaderText = "S.No"
+                gv1.Columns("SNo").IsVisible = False
+                gv1.Columns("Amount").HeaderText = "Amount"
+                gv1.Columns("Receipt_Amount").IsVisible = False
+                gv1.Columns("Bal").IsVisible = False
+                gv1.Columns("Total").IsVisible = False
+                gv1.Columns("Total Qty").IsVisible = False
+                gv1.Columns("Total Milk Qty").IsVisible = False
+                gv1.Columns("Milk Avg").IsVisible = False
+                gv1.Columns("OTH").IsVisible = False
+            Else
+                If Not rbtnRouteAndCustomer.IsChecked Then
+                    gv1.Columns("Shift_Type").IsVisible = False
+                    gv1.Columns("Document_Date").HeaderText = "Date"
+                End If
 
+                gv1.Columns("Total").IsVisible = False
+                If rbtnRouteSummary.IsChecked Then
+                    gv1.Columns("OTH").IsVisible = False
+                    gv1.Columns("Document_Date").IsVisible = False
+                Else
+                    gv1.Columns("Total Milk Qty").IsVisible = False
+                End If
 
-        gv1.Columns("Shift_Type").IsVisible = False
-        gv1.Columns("Total").IsVisible = False
+                gv1.Columns("Amount").HeaderText = "SHIFT WISE AMOUNT RS."
+                gv1.Columns("Receipt_Amount").HeaderText = "CHQ/CASH AMOUNT"
+                gv1.Columns("Bal").HeaderText = "BAL. RS."
 
-        gv1.Columns("Document_Date").HeaderText = "Date"
-        If rbtnRouteSummary.IsChecked Then
-            gv1.Columns("OTH").IsVisible = False
-            gv1.Columns("Document_Date").IsVisible = False
-
-        Else
-            gv1.Columns("Total Milk Qty").IsVisible = False
-        End If
-
-        gv1.Columns("Amount").HeaderText = "SHIFT WISE AMOUNT RS."
-        gv1.Columns("Receipt_Amount").HeaderText = "CHQ/CASH AMOUNT"
-        gv1.Columns("Bal").HeaderText = "BAL. RS."
-
-        If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked OrElse rbtnProductSale.IsChecked Then
-            gv1.Columns("Amount").IsVisible = False
-            gv1.Columns("Receipt_Amount").IsVisible = False
-            gv1.Columns("Bal").IsVisible = False
-            If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked Then
-                Dim summaryRowItem As New GridViewSummaryRowItem()
-                For ii As Integer = 3 To gv1.Columns.Count - 1
-                    summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
-                Next
-                gv1.Columns("Route_No").HeaderText = "Route No"
-                gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked OrElse rbtnProductSale.IsChecked Then
+                    gv1.Columns("Amount").IsVisible = False
+                    gv1.Columns("Receipt_Amount").IsVisible = False
+                    gv1.Columns("Bal").IsVisible = False
+                    If rbtnRouteWise.IsChecked OrElse rbtnRouteSummary.IsChecked Then
+                        Dim summaryRowItem As New GridViewSummaryRowItem()
+                        For ii As Integer = 3 To gv1.Columns.Count - 1
+                            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+                        Next
+                        gv1.Columns("Route_No").HeaderText = "Route No"
+                        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    End If
+                ElseIf rbtnPartyWise.IsChecked Then
+                    gv1.Columns("Route_No").IsVisible = False
+                    gv1.Columns("SNO").IsVisible = False
+                End If
             End If
-        ElseIf rbtnPartyWise.IsChecked Then
-            gv1.Columns("Route_No").IsVisible = False
-            gv1.Columns("SNO").IsVisible = False
-
-        End If
-
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -547,26 +695,54 @@ Public Class rptNewSalesReport
     End Sub
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
-        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        Try
+            clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         Try
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptNewSalesReport & "'"))
-                arrHeader.Add("Date : " & clsCommon.myCDate(txtFromDate.Value) + "  To " + clsCommon.myCDate(txtToDate.Value))
-                If rbtnPartyWise.IsChecked = True Then
-                    arrHeader.Add("Report Type : " & rbtnPartyWise.Text)
-                    arrHeader.Add("Distributor : " & txtCustomer.Value)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal AndAlso rbtnRouteAndCustomer.IsChecked Then
+                    arrHeader.Add("Demand Chart")
+                    arrHeader.Add("Date: " + clsCommon.myCstr(txtFromDate.Text) + " to " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + " ")
+                    transportSql.exportdataBoothSlipGNG(Nothing, gv1, "", "Demand Chart", 0, gv1.Rows.Count, False, arrHeader, False, False, False, False, False, Nothing, True, True)
+                Else
+                    arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                    arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptNewSalesReport & "'"))
+                    arrHeader.Add("Date : " & clsCommon.myCDate(txtFromDate.Value) + "  To " + clsCommon.myCDate(txtToDate.Value))
+                    If rbtnPartyWise.IsChecked = True Then
+                        arrHeader.Add("Report Type : " & rbtnPartyWise.Text)
+                        arrHeader.Add("Distributor : " & txtCustomer.Value)
+                    End If
+                    If rbtnRouteWise.IsChecked = True Then
+                        arrHeader.Add("Report Type : " & rbtnRouteWise.Text)
+                        arrHeader.Add("Route No : " & clsCommon.GetMulcallString(txtRoute.arrDispalyMember))
+                    End If
+                    clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text)
                 End If
-                If rbtnRouteWise.IsChecked = True Then
-                    arrHeader.Add("Report Type : " & rbtnRouteWise.Text)
-                    arrHeader.Add("Route No : " & clsCommon.GetMulcallString(txtRoute.arrDispalyMember))
+            ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal AndAlso rbtnBoothSlip.IsChecked Then
+                If txtRoute.arrValueMember IsNot Nothing Then
+                    If txtRoute.arrValueMember.Count > 1 Then
+                        Throw New Exception("Select only one route for booth slip")
+                    End If
+                Else
+                    Throw New Exception("Select only one route for booth slip")
                 End If
-                clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text)
+                Dim strShift As String = Nothing
+                If rbtnMorning.IsChecked Then
+                    strShift = "Morning"
+                ElseIf rbtnEvening.IsChecked Then
+                    strShift = "Evening"
+                Else
+                    strShift = "Both"
+                End If
+                Dim frm As New frmDairyGatePass()
+                frm.Export(EnumExportTo.Excel, txtFromDate.Value, txtToDate.Value, IIf(txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0, clsCommon.GetMulcallString(txtRoute.arrValueMember), Nothing), strShift)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
@@ -611,7 +787,55 @@ Public Class rptNewSalesReport
             Dim whrcls As String = " IsDistributor = 'Y'"
             txtCustomer.Value = clsCommon.ShowSelectForm("SalesNewReportCust", sQuery, "Code", whrcls, txtCustomer.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnRouteAndCustomer_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnRouteAndCustomer.ToggleStateChanged
+        chkShift()
+    End Sub
+
+    Sub chkShift()
+        Try
+            If rbtnDispatch.IsChecked Then
+                grpShift.Visible = False
+            Else
+                If rbtnRouteAndCustomer.IsChecked Then
+                    grpShift.Visible = True
+                    btnGo.Enabled = True
+                ElseIf rbtnBoothSlip.IsChecked Then
+                    grpShift.Visible = True
+                    btnGo.Enabled = False
+                Else
+                    grpShift.Visible = False
+                    btnGo.Enabled = True
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnBoothSlip_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnBoothSlip.ToggleStateChanged
+        chkShift()
+    End Sub
+
+    Private Sub rbtnDispatch_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDispatch.ToggleStateChanged
+        DemandChartAndBoothSlip()
+    End Sub
+
+    Sub DemandChartAndBoothSlip()
+        Try
+            If rbtnDispatch.IsChecked Then
+                rbtnRouteAndCustomer.Visible = False
+                rbtnBoothSlip.Visible = False
+            Else
+                rbtnRouteAndCustomer.Visible = True
+                rbtnBoothSlip.Visible = True
+            End If
+            chkShift()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

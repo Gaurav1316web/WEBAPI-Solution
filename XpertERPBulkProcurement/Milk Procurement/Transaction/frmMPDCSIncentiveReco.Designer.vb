@@ -21,8 +21,8 @@ Partial Class frmMPDCSIncentiveReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -65,6 +65,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnEditDCSQty = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -110,6 +111,7 @@ Partial Class frmMPDCSIncentiveReco
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnEditDCSQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,6 +131,7 @@ Partial Class frmMPDCSIncentiveReco
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnEditDCSQty)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -238,7 +241,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.txtSnfPer.TabIndex = 1
         Me.txtSnfPer.Text = "0"
         Me.txtSnfPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSnfPer.Value = 0R
+        Me.txtSnfPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -275,7 +278,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.txtFatPer.TabIndex = 0
         Me.txtFatPer.Text = "0"
         Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatPer.Value = 0R
+        Me.txtFatPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel5
         '
@@ -542,7 +545,8 @@ Partial Class frmMPDCSIncentiveReco
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
@@ -584,7 +588,8 @@ Partial Class frmMPDCSIncentiveReco
         Me.gvTermsCdtion.MasterTemplate.AllowDeleteRow = False
         Me.gvTermsCdtion.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTermsCdtion.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTermsCdtion.MyExportFilePath = ""
         Me.gvTermsCdtion.MyStopExport = False
         Me.gvTermsCdtion.Name = "gvTermsCdtion"
         Me.gvTermsCdtion.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -708,6 +713,17 @@ Partial Class frmMPDCSIncentiveReco
         Me.rmDeleteLayout.Text = "Delete Layout"
         Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
+        'btnEditDCSQty
+        '
+        Me.btnEditDCSQty.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnEditDCSQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEditDCSQty.Location = New System.Drawing.Point(743, 6)
+        Me.btnEditDCSQty.Name = "btnEditDCSQty"
+        Me.btnEditDCSQty.Size = New System.Drawing.Size(125, 20)
+        Me.btnEditDCSQty.TabIndex = 44
+        Me.btnEditDCSQty.Text = "Edit DCS Qty"
+        Me.btnEditDCSQty.Visible = False
+        '
         'frmMPDCSIncentiveReco
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -768,6 +784,7 @@ Partial Class frmMPDCSIncentiveReco
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnEditDCSQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -815,5 +832,6 @@ Partial Class frmMPDCSIncentiveReco
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtFatPer As common.MyNumBox
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents btnEditDCSQty As RadButton
 End Class
 

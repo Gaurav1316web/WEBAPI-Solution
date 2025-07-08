@@ -354,7 +354,7 @@ Public Class FrmMCCMaster
             lblLocation.Text = ""
             rbtn_mcc.IsChecked = True
             txtMCCCopy.Enabled = True
-
+            chkIntDCSMilkCollection.Checked = False
             txtCommissionRate.Value = 0
             txtCommissionMinimumShiftInPaymentCycle.Value = 0
             txtCommissionMinimumQtyInShift.Value = 0
@@ -1457,6 +1457,7 @@ Public Class FrmMCCMaster
             obj.FAT_SNF_CALC_DECIMAL = clsCommon.myCstr(TxtFatSnfCalcDecimal.Text)
             obj.IFCICode = clsCommon.myCstr(txtIFCICode.Text)
             obj.Is_MCC = rbtn_mcc.IsChecked
+            obj.Integrate_DCS_Milk_Collection = chkIntDCSMilkCollection.Checked
             obj.agreemnt = clsCommon.myCstr(cmbagreemnt.Text)
             obj.agrmnt_date = txtagrmnt_date.Text
             obj.expired_date = txtexpir_date.Text
@@ -1928,6 +1929,7 @@ Public Class FrmMCCMaster
                     txtSiloInLoc.Text = clsLocation.GetName(fndSiloInLoc.Value, Nothing)
                 End If
                 isInsideLoadData = True
+                chkIntDCSMilkCollection.Checked = obj.Integrate_DCS_Milk_Collection
                 '--------------------25/06/2014----------
                 loadBlankDgvGenSet()
                 loadBlankDgvCompressor()
@@ -5573,5 +5575,13 @@ Public Class FrmMCCMaster
         Dim frm As New Enter_password
         frm.strMCCCode = fndMCCCode.Value
         frm.ShowDialog()
+    End Sub
+
+    Private Sub chkIntDCSMilkCollection_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIntDCSMilkCollection.ToggleStateChanged
+        If Not isInsideLoadData Then
+            If chkIntDCSMilkCollection.Checked Then
+                chkIntDCSMilkCollection.Checked = False
+            End If
+        End If
     End Sub
 End Class

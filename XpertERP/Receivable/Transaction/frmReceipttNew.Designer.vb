@@ -22,10 +22,10 @@ Partial Class FrmReceipttNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel14 = New common.Controls.MyLabel()
@@ -41,8 +41,8 @@ Partial Class FrmReceipttNew
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
         Me.TxtRoute = New common.UserControls.txtFinder()
+        Me.RadLabel2 = New Telerik.WinControls.UI.RadLabel()
         Me.txtLocationPrefix = New common.UserControls.txtFinder()
         Me.RadLabel18 = New Telerik.WinControls.UI.RadLabel()
         Me.txtsalesmanCode = New common.UserControls.txtFinder()
@@ -693,15 +693,6 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
         '
-        'RadLabel2
-        '
-        Me.RadLabel2.Location = New System.Drawing.Point(576, 109)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(36, 18)
-        Me.RadLabel2.TabIndex = 12138
-        Me.RadLabel2.Text = "Route"
-        Me.RadLabel2.Visible = False
-        '
         'TxtRoute
         '
         Me.TxtRoute.CalculationExpression = Nothing
@@ -728,6 +719,15 @@ Partial Class FrmReceipttNew
         Me.TxtRoute.TabIndex = 12137
         Me.TxtRoute.Value = ""
         Me.TxtRoute.Visible = False
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.Location = New System.Drawing.Point(576, 109)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(36, 18)
+        Me.RadLabel2.TabIndex = 12138
+        Me.RadLabel2.Text = "Route"
+        Me.RadLabel2.Visible = False
         '
         'txtLocationPrefix
         '
@@ -2683,7 +2683,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.EnableFiltering = True
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.dgvReceipt.MyExportFilePath = ""
         Me.dgvReceipt.MyStopExport = False
         Me.dgvReceipt.Name = "dgvReceipt"
@@ -2711,7 +2711,7 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.EnableGrouping = False
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.dgvmiscpayment.MyExportFilePath = ""
         Me.dgvmiscpayment.MyStopExport = False
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
@@ -3059,7 +3059,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvTaxDetail.MyExportFilePath = ""
         Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
@@ -3087,7 +3087,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"

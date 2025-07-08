@@ -40,7 +40,7 @@ Public Class FrmItemMasterRMOther
     Const UOMItemCost As String = "UOMItemCost"
     Const UOMCustomConversion As String = "UOMCustomConversion"
     Const UOMColIsDecimal As String = "UOMColIsDecimal"
-
+    Const colRCDFITEMMaster As String = "colRCDFITEMMaster"
 
     Dim btntooltip As ToolTip = New ToolTip()
 
@@ -111,6 +111,35 @@ Public Class FrmItemMasterRMOther
     Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Dim query As String = ""
+        'Dim dt As DataTable = Nothing
+        'Dim coll As Dictionary(Of String, String)
+
+        'coll = New Dictionary(Of String, String)()
+        'coll.Add("Item_Code", "varchar(50) null References TSPL_ITEM_MASTER(Item_Code)")
+        'coll.Add("UOM_Code", "varchar(50) NULL")
+        'coll.Add("UOM_Description", "varchar(100) NULL")
+        'coll.Add("Conversion_Factor", "decimal(18,2) NULL")
+        'coll.Add("Stocking_Unit", "char(1) NULL")
+        'coll.Add("Weight", "decimal(18,2) NOT NULL default 0.00")
+        'coll.Add("Default_UOM", "integer not null default 0")
+        'coll.Add("Gross_Weight", "Float null")
+        'coll.Add("Net_Weight", "Float null")
+        'coll.Add("Job_Work_Rate", "Float null")
+        'coll.Add("pieces", "integer not null default 0")
+        'coll.Add("Item_Cost", "Decimal(18,2) null")
+        'coll.Add("Custom_Conversion", "integer not null default 0")
+        'coll.Add("Print_UOM", "integer  null default 0")
+        'coll.Add("ProcessLoss_UOM", "integer  null default 0")
+        'coll.Add("Report_UOM", "integer  null default 0")
+        'coll.Add("Decimal_UOM", "integer  null default 0")
+        'coll.Add("InterUnionItem", "varchar(30) NULL")
+
+        'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
+        'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+        '    query = "CREATE UNIQUE INDEX InterUnionItem ON TSPL_ITEM_UOM_DETAIL (InterUnionItem) WHERE InterUnionItem IS NOT NULL;"
+        '    clsDBFuncationality.ExecuteNonQuery(query)
+        'End If
 
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
@@ -1092,6 +1121,26 @@ Public Class FrmItemMasterRMOther
         repoIsDecimal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoIsDecimal)
 
+        'Dim RdcfItem As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        'RdcfItem.FormatString = ""
+        'RdcfItem.HeaderText = "RCDF Items"
+        'RdcfItem.HeaderImage = My.Resources.search4
+        'RdcfItem.Width = 80
+        ''RdcfItem.ThreeState = False
+        'RdcfItem.IsVisible = True
+        'RdcfItem.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        'gvUOM.MasterTemplate.Columns.Add(RdcfItem)
+
+
+        Dim RdcfItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        RdcfItem.FormatString = ""
+        RdcfItem.HeaderText = "Inter Union Item"
+        RdcfItem.Name = colRCDFITEMMaster
+        RdcfItem.HeaderImage = My.Resources.search4
+        RdcfItem.TextImageRelation = TextImageRelation.TextBeforeImage
+        RdcfItem.Width = 100
+        gvUOM.MasterTemplate.Columns.Add(RdcfItem)
+
         Dim repoRMProcess As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoRMProcess.FormatString = ""
         repoRMProcess.HeaderText = "RM Process Loss Unit"
@@ -1709,6 +1758,9 @@ Public Class FrmItemMasterRMOther
                     Dim objtr As New clsItemUOMDetails()
                     objtr.UOM_Code = clsCommon.myCstr(gvUOM.Rows(ii).Cells(UOMColUnit).Value)
                     objtr.UOM_Description = clsItemUOMDetails.GetName(txtUOM.Value)
+                    'objtr.interUnionItem = clsCommon.myCstr(gvUOM.Rows(ii).Cells(colRCDFITEMMaster).Value)
+                    objtr.InterUnionItem = clsCommon.myCstr(gvUOM.Rows(ii).Cells(colRCDFITEMMaster).Value)
+
                     objtr.Stocking_Unit = clsCommon.myCstr(gvUOM.Rows(ii).Cells(UOMColStockUnit).Value)
                     If clsCommon.CompairString(objtr.Stocking_Unit, "Y") = CompairStringResult.Equal Then
                         objtr.Conversion_Factor = 1
@@ -2610,6 +2662,16 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
+
+    Sub OpenRCDFItem(ByVal isButtonClick As Boolean)
+        Dim whrCls As String = String.Empty
+        Dim qry As String = String.Empty
+        qry = "SELECT [tspl_item_masters].Code as [Code],[tspl_item_masters].Name as Name FROM [TSPL_MASTER].[dbo].[tspl_item_masters] "
+        'whrCls = ""
+        whrCls = " [tspl_item_masters].Code NOT IN (
+        Select InterUnionItem FROM TSPL_ITEM_UOM_DETAIL WHERE InterUnionItem Is Not NULL and Item_code not in ('" + txtCode.Value + "') )"
+        gvUOM.CurrentRow.Cells(colRCDFITEMMaster).Value = clsCommon.ShowSelectForm("PSSaleReturnItemfnd", qry, "Code", whrCls, clsCommon.myCstr(gvUOM.CurrentRow.Cells(colRCDFITEMMaster).Value), "Code", isButtonClick)
+    End Sub
     Private Sub gvUOM_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvUOM.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -2620,6 +2682,8 @@ Public Class FrmItemMasterRMOther
                             Dim i As Integer = e.RowIndex
                             OpenUOMCodeList(False)
                         End If
+                    ElseIf e.Column Is gvUOM.Columns(colRCDFITEMMaster) Then
+                        OpenRCDFItem(False)
                     End If
                     isCellValueChangedOpen = False
                 End If
@@ -2631,10 +2695,10 @@ Public Class FrmItemMasterRMOther
     Sub OpenUOMCodeList(ByVal isButtonClick As Boolean)
         gvUOM.CurrentRow.Cells(UOMColUnitDesc).Value = ""
         gvUOM.CurrentRow.Cells(UOMColConvFact).Value = 0
-        Dim qry As String = "select Unit_Code as Code,Unit_Desc as Description,Conv_Factor as [Conversion Factor] from TSPL_UNIT_MASTER"
+        Dim qry As String = "Select Unit_Code As Code,Unit_Desc As Description,Conv_Factor As [Conversion Factor] from TSPL_UNIT_MASTER"
         gvUOM.CurrentRow.Cells(UOMColUnit).Value = clsCommon.ShowSelectForm("IMRMUOM", qry, "Code", "", clsCommon.myCstr(gvUOM.CurrentRow.Cells(UOMColUnit).Value), "Code", isButtonClick)
         If clsCommon.myLen(gvUOM.CurrentRow.Cells(UOMColUnit).Value) > 0 Then
-            qry = "select Unit_Desc,Conv_Factor from TSPL_UNIT_MASTER  WHERE Unit_Code ='" + clsCommon.myCstr(gvUOM.CurrentRow.Cells(UOMColUnit).Value) + "'"
+            qry = "Select Unit_Desc,Conv_Factor from TSPL_UNIT_MASTER  WHERE Unit_Code ='" + clsCommon.myCstr(gvUOM.CurrentRow.Cells(UOMColUnit).Value) + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 gvUOM.CurrentRow.Cells(UOMColQty).Value = "1"
@@ -2691,6 +2755,7 @@ Public Class FrmItemMasterRMOther
         '    txtCode.MyReadOnly = True
         'End If
     End Sub
+
     Public Sub LoadData(ByVal strCode As String, ByVal NavType As common.NavigatorType)
         Try
             BlankAllConrols()
@@ -2924,6 +2989,8 @@ Public Class FrmItemMasterRMOther
                         gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMColConvFact).Value = objtr.Conversion_Factor
                         gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMColConvUom).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from tspl_item_uom_detail where Item_Code = '" + obj.Item_Code + "' and Stocking_Unit ='Y'"))
                         gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMColStockUnit).Value = objtr.Stocking_Unit
+                        gvUOM.Rows(gvUOM.RowCount - 1).Cells(colRCDFITEMMaster).Value = objtr.InterUnionItem
+
                         ''added by richa agarwal against ticket no BM00000004327
                         If objtr.Default_UOM = 1 Then
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMDefault).Value = True

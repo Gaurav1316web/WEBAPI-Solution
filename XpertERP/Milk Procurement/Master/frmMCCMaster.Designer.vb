@@ -184,6 +184,7 @@ Partial Class FrmMCCMaster
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkIntDCSMilkCollection = New common.Controls.MyCheckBox()
         Me.MyLabel95 = New common.Controls.MyLabel()
         Me.fndArea = New common.UserControls.txtFinder()
         Me.lblCity = New common.Controls.MyLabel()
@@ -563,6 +564,7 @@ Partial Class FrmMCCMaster
         Me.Pg_Bankg = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvBankG = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -632,14 +634,13 @@ Partial Class FrmMCCMaster
         Me.mnuExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadSplitContainer1.SuspendLayout
@@ -648,6 +649,7 @@ Partial Class FrmMCCMaster
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.chkIntDCSMilkCollection, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel95, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1067,13 +1069,13 @@ Partial Class FrmMCCMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SplitPanel3.SuspendLayout
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1153,6 +1155,7 @@ Partial Class FrmMCCMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIntDCSMilkCollection)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel95)
         Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.chkDefault)
@@ -1262,11 +1265,22 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage1.Controls.Add(Me.fndMCCCode)
         Me.RadPageViewPage1.Controls.Add(Me.llMCCType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(51.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1198, 521)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1198, 517)
         Me.RadPageViewPage1.Text = "General"
+        '
+        'chkIntDCSMilkCollection
+        '
+        Me.chkIntDCSMilkCollection.Location = New System.Drawing.Point(841, 223)
+        Me.chkIntDCSMilkCollection.MyLinkLable1 = Nothing
+        Me.chkIntDCSMilkCollection.MyLinkLable2 = Nothing
+        Me.chkIntDCSMilkCollection.Name = "chkIntDCSMilkCollection"
+        Me.chkIntDCSMilkCollection.Size = New System.Drawing.Size(204, 18)
+        Me.chkIntDCSMilkCollection.TabIndex = 1457
+        Me.chkIntDCSMilkCollection.Tag1 = Nothing
+        Me.chkIntDCSMilkCollection.Text = "Integration With DCS Milk Collection"
         '
         'MyLabel95
         '
@@ -1872,7 +1886,7 @@ Partial Class FrmMCCMaster
         Me.txtFailedSampleSNF.TabIndex = 101
         Me.txtFailedSampleSNF.Text = "0"
         Me.txtFailedSampleSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFailedSampleSNF.Value = 0R
+        Me.txtFailedSampleSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel77
         '
@@ -1909,7 +1923,7 @@ Partial Class FrmMCCMaster
         Me.txtFailedSampleFAT.TabIndex = 99
         Me.txtFailedSampleFAT.Text = "0"
         Me.txtFailedSampleFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFailedSampleFAT.Value = 0R
+        Me.txtFailedSampleFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel76
         '
@@ -1957,7 +1971,7 @@ Partial Class FrmMCCMaster
         Me.txtMilkReceiptWeightTolerance.TabIndex = 1066
         Me.txtMilkReceiptWeightTolerance.Text = "0"
         Me.txtMilkReceiptWeightTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMilkReceiptWeightTolerance.Value = 0R
+        Me.txtMilkReceiptWeightTolerance.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtMilkReceiptWeightTolerance.Visible = False
         '
         'chkMilkReceiptWeightTolerance
@@ -2967,7 +2981,7 @@ Partial Class FrmMCCMaster
         Me.txtMccCodeVlcUploader.TabIndex = 112
         Me.txtMccCodeVlcUploader.Text = "0"
         Me.txtMccCodeVlcUploader.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMccCodeVlcUploader.Value = 0R
+        Me.txtMccCodeVlcUploader.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtMccInchargeMailId
         '
@@ -3133,7 +3147,7 @@ Partial Class FrmMCCMaster
         Me.TxtPaymentCycle.TabIndex = 5
         Me.TxtPaymentCycle.Text = "0"
         Me.TxtPaymentCycle.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtPaymentCycle.Value = 0R
+        Me.TxtPaymentCycle.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.TxtPaymentCycle.Visible = False
         '
         'MyLabel42
@@ -3286,7 +3300,7 @@ Partial Class FrmMCCMaster
         Me.TxtFatSnfCalcDecimal.TabIndex = 19
         Me.TxtFatSnfCalcDecimal.Text = "0"
         Me.TxtFatSnfCalcDecimal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatSnfCalcDecimal.Value = 0R
+        Me.TxtFatSnfCalcDecimal.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GrpIndustry
         '
@@ -3498,7 +3512,7 @@ Partial Class FrmMCCMaster
         Me.TxtFatSNFSaveDecimal.TabIndex = 18
         Me.TxtFatSNFSaveDecimal.Text = "0"
         Me.TxtFatSNFSaveDecimal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatSNFSaveDecimal.Value = 0R
+        Me.TxtFatSNFSaveDecimal.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel41
         '
@@ -4806,7 +4820,7 @@ Partial Class FrmMCCMaster
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvEmp)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(98.0!, 24.0!)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(102.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(1198, 517)
@@ -4822,11 +4836,13 @@ Partial Class FrmMCCMaster
         Me.gvEmp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmp.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvEmp.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEmp.MyExportFilePath = ""
         Me.gvEmp.MyStopExport = False
         Me.gvEmp.Name = "gvEmp"
         Me.gvEmp.ShowHeaderCellButtons = True
         Me.gvEmp.Size = New System.Drawing.Size(1198, 517)
         Me.gvEmp.TabIndex = 204
+        Me.gvEmp.VarID = ""
         '
         'RadPageViewPage3
         '
@@ -4899,7 +4915,7 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage3.Controls.Add(Me.lblAreaOfStore)
         Me.RadPageViewPage3.Controls.Add(Me.txtMCCArea)
         Me.RadPageViewPage3.Controls.Add(Me.lblMCCArea)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(103.0!, 24.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(107.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1198, 517)
@@ -4940,7 +4956,7 @@ Partial Class FrmMCCMaster
         Me.txtTubCapacity.TabIndex = 1064
         Me.txtTubCapacity.Text = "0"
         Me.txtTubCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTubCapacity.Value = 0R
+        Me.txtTubCapacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'cboCollectionMethod
         '
@@ -5018,7 +5034,7 @@ Partial Class FrmMCCMaster
         Me.txtFlusingAdjQty.TabIndex = 1059
         Me.txtFlusingAdjQty.Text = "0"
         Me.txtFlusingAdjQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFlusingAdjQty.Value = 0R
+        Me.txtFlusingAdjQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel72
         '
@@ -5992,7 +6008,7 @@ Partial Class FrmMCCMaster
         Me.TxtSiloWiseCapacity.TabIndex = 83
         Me.TxtSiloWiseCapacity.Text = "0"
         Me.TxtSiloWiseCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSiloWiseCapacity.Value = 0R
+        Me.TxtSiloWiseCapacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel44
         '
@@ -6029,7 +6045,7 @@ Partial Class FrmMCCMaster
         Me.txtNoOfMilkPump.TabIndex = 16
         Me.txtNoOfMilkPump.Text = "0"
         Me.txtNoOfMilkPump.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfMilkPump.Value = 0R
+        Me.txtNoOfMilkPump.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblNoOfMilkPump
         '
@@ -6076,7 +6092,7 @@ Partial Class FrmMCCMaster
         Me.txtCapacityOfMilkPump.TabIndex = 17
         Me.txtCapacityOfMilkPump.Text = "0"
         Me.txtCapacityOfMilkPump.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCapacityOfMilkPump.Value = 0R
+        Me.txtCapacityOfMilkPump.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtNoOfSilo
         '
@@ -6103,7 +6119,7 @@ Partial Class FrmMCCMaster
         Me.txtNoOfSilo.TabIndex = 5
         Me.txtNoOfSilo.Text = "0"
         Me.txtNoOfSilo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfSilo.Value = 0R
+        Me.txtNoOfSilo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblNoOfSilo
         '
@@ -6141,7 +6157,7 @@ Partial Class FrmMCCMaster
         Me.txtNoOfChiller.TabIndex = 8
         Me.txtNoOfChiller.Text = "0"
         Me.txtNoOfChiller.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfChiller.Value = 0R
+        Me.txtNoOfChiller.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblNoOfChiller
         '
@@ -6222,7 +6238,7 @@ Partial Class FrmMCCMaster
         Me.txtChillerCapacity.TabIndex = 10
         Me.txtChillerCapacity.Text = "0"
         Me.txtChillerCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChillerCapacity.Value = 0R
+        Me.txtChillerCapacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtlease_chrg
         '
@@ -6249,7 +6265,7 @@ Partial Class FrmMCCMaster
         Me.txtlease_chrg.TabIndex = 27
         Me.txtlease_chrg.Text = "0"
         Me.txtlease_chrg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtlease_chrg.Value = 0R
+        Me.txtlease_chrg.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel33
         '
@@ -6286,7 +6302,7 @@ Partial Class FrmMCCMaster
         Me.txtchilling_period.TabIndex = 15
         Me.txtchilling_period.Text = "0"
         Me.txtchilling_period.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchilling_period.Value = 0R
+        Me.txtchilling_period.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblChillingMinPeriod
         '
@@ -6323,7 +6339,7 @@ Partial Class FrmMCCMaster
         Me.txtchillingassur_qty.TabIndex = 14
         Me.txtchillingassur_qty.Text = "0"
         Me.txtchillingassur_qty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchillingassur_qty.Value = 0R
+        Me.txtchillingassur_qty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblChillingMuranteeQty
         '
@@ -6360,7 +6376,7 @@ Partial Class FrmMCCMaster
         Me.txtchilling_qty.TabIndex = 13
         Me.txtchilling_qty.Text = "0"
         Me.txtchilling_qty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchilling_qty.Value = 0R
+        Me.txtchilling_qty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtchilling_qty.Visible = False
         '
         'LblChillingQt
@@ -6398,7 +6414,7 @@ Partial Class FrmMCCMaster
         Me.txtchilling_kg_ltr.TabIndex = 12
         Me.txtchilling_kg_ltr.Text = "0"
         Me.txtchilling_kg_ltr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchilling_kg_ltr.Value = 0R
+        Me.txtchilling_kg_ltr.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtchilling_kg_ltr.Visible = False
         '
         'LblChillingOn
@@ -6436,7 +6452,7 @@ Partial Class FrmMCCMaster
         Me.txtchillingRate.TabIndex = 11
         Me.txtchillingRate.Text = "0"
         Me.txtchillingRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchillingRate.Value = 0R
+        Me.txtchillingRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'LblChillingCharges
         '
@@ -6545,7 +6561,7 @@ Partial Class FrmMCCMaster
         Me.txtCoilLength.TabIndex = 24
         Me.txtCoilLength.Text = "0"
         Me.txtCoilLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCoilLength.Value = 0R
+        Me.txtCoilLength.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCoilLength
         '
@@ -6814,7 +6830,7 @@ Partial Class FrmMCCMaster
         Me.txtAreaOfReceivingDock.TabIndex = 7
         Me.txtAreaOfReceivingDock.Text = "0"
         Me.txtAreaOfReceivingDock.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAreaOfReceivingDock.Value = 0R
+        Me.txtAreaOfReceivingDock.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblAreaOfReceivingDock
         '
@@ -6852,7 +6868,7 @@ Partial Class FrmMCCMaster
         Me.txtTotalStorageCapacity.TabIndex = 6
         Me.txtTotalStorageCapacity.Text = "0"
         Me.txtTotalStorageCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalStorageCapacity.Value = 0R
+        Me.txtTotalStorageCapacity.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblTotalStorageCapacity
         '
@@ -6889,7 +6905,7 @@ Partial Class FrmMCCMaster
         Me.txtAreaOfLab.TabIndex = 4
         Me.txtAreaOfLab.Text = "0"
         Me.txtAreaOfLab.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAreaOfLab.Value = 0R
+        Me.txtAreaOfLab.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblAreaOfLab
         '
@@ -6926,7 +6942,7 @@ Partial Class FrmMCCMaster
         Me.txtOpenAreaForTankerMovement.TabIndex = 3
         Me.txtOpenAreaForTankerMovement.Text = "0"
         Me.txtOpenAreaForTankerMovement.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOpenAreaForTankerMovement.Value = 0R
+        Me.txtOpenAreaForTankerMovement.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblOpenAreaForTankerMovement
         '
@@ -6963,7 +6979,7 @@ Partial Class FrmMCCMaster
         Me.txtAreaOfOffice.TabIndex = 2
         Me.txtAreaOfOffice.Text = "0"
         Me.txtAreaOfOffice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAreaOfOffice.Value = 0R
+        Me.txtAreaOfOffice.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblAreaOfOffice
         '
@@ -7000,7 +7016,7 @@ Partial Class FrmMCCMaster
         Me.txtAreaOfStore.TabIndex = 1
         Me.txtAreaOfStore.Text = "0"
         Me.txtAreaOfStore.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAreaOfStore.Value = 0R
+        Me.txtAreaOfStore.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblAreaOfStore
         '
@@ -7037,7 +7053,7 @@ Partial Class FrmMCCMaster
         Me.txtMCCArea.TabIndex = 0
         Me.txtMCCArea.Text = "0"
         Me.txtMCCArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMCCArea.Value = 0R
+        Me.txtMCCArea.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblMCCArea
         '
@@ -7052,7 +7068,7 @@ Partial Class FrmMCCMaster
         'Pg_Uom
         '
         Me.Pg_Uom.Controls.Add(Me.gvUOM)
-        Me.Pg_Uom.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
+        Me.Pg_Uom.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.Pg_Uom.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Uom.Name = "Pg_Uom"
         Me.Pg_Uom.Size = New System.Drawing.Size(1198, 517)
@@ -7068,17 +7084,19 @@ Partial Class FrmMCCMaster
         Me.gvUOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUOM.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUOM.MyExportFilePath = ""
         Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
         Me.gvUOM.Size = New System.Drawing.Size(1198, 517)
         Me.gvUOM.TabIndex = 1
         Me.gvUOM.TabStop = False
+        Me.gvUOM.VarID = ""
         '
         'Pg_Chiller
         '
         Me.Pg_Chiller.Controls.Add(Me.RadPageView2)
-        Me.Pg_Chiller.ItemSize = New System.Drawing.SizeF(84.0!, 24.0!)
+        Me.Pg_Chiller.ItemSize = New System.Drawing.SizeF(88.0!, 28.0!)
         Me.Pg_Chiller.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Chiller.Name = "Pg_Chiller"
         Me.Pg_Chiller.Size = New System.Drawing.Size(1198, 517)
@@ -7105,7 +7123,6 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage4.Controls.Add(Me.lblNoOfDG)
         Me.RadPageViewPage4.Controls.Add(Me.dgvGenSet)
         Me.RadPageViewPage4.Controls.Add(Me.txtNoOfDG)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(90.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1177, 469)
@@ -7138,11 +7155,13 @@ Partial Class FrmMCCMaster
         Me.dgvGenSet.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvGenSet.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvGenSet.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.dgvGenSet.MyExportFilePath = ""
         Me.dgvGenSet.MyStopExport = False
         Me.dgvGenSet.Name = "dgvGenSet"
         Me.dgvGenSet.ShowHeaderCellButtons = True
         Me.dgvGenSet.Size = New System.Drawing.Size(524, 340)
         Me.dgvGenSet.TabIndex = 1
+        Me.dgvGenSet.VarID = ""
         '
         'txtNoOfDG
         '
@@ -7169,7 +7188,7 @@ Partial Class FrmMCCMaster
         Me.txtNoOfDG.TabIndex = 0
         Me.txtNoOfDG.Text = "0"
         Me.txtNoOfDG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfDG.Value = 0R
+        Me.txtNoOfDG.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadPageViewPage2
         '
@@ -7177,7 +7196,6 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage2.Controls.Add(Me.lblNoOfCompressor)
         Me.RadPageViewPage2.Controls.Add(Me.dgvCompressor)
         Me.RadPageViewPage2.Controls.Add(Me.txtNoOfCompressor)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1177, 469)
@@ -7210,11 +7228,13 @@ Partial Class FrmMCCMaster
         Me.dgvCompressor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvCompressor.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvCompressor.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.dgvCompressor.MyExportFilePath = ""
         Me.dgvCompressor.MyStopExport = False
         Me.dgvCompressor.Name = "dgvCompressor"
         Me.dgvCompressor.ShowHeaderCellButtons = True
         Me.dgvCompressor.Size = New System.Drawing.Size(524, 340)
         Me.dgvCompressor.TabIndex = 1
+        Me.dgvCompressor.VarID = ""
         '
         'txtNoOfCompressor
         '
@@ -7241,7 +7261,7 @@ Partial Class FrmMCCMaster
         Me.txtNoOfCompressor.TabIndex = 0
         Me.txtNoOfCompressor.Text = "0"
         Me.txtNoOfCompressor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfCompressor.Value = 0R
+        Me.txtNoOfCompressor.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'Pg_Silo
         '
@@ -7249,7 +7269,6 @@ Partial Class FrmMCCMaster
         Me.Pg_Silo.Controls.Add(Me.TxtNoofSiloo)
         Me.Pg_Silo.Controls.Add(Me.gvSilo)
         Me.Pg_Silo.Controls.Add(Me.MyLabel50)
-        Me.Pg_Silo.ItemSize = New System.Drawing.SizeF(34.0!, 28.0!)
         Me.Pg_Silo.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Silo.Name = "Pg_Silo"
         Me.Pg_Silo.Size = New System.Drawing.Size(1177, 469)
@@ -7288,7 +7307,7 @@ Partial Class FrmMCCMaster
         Me.TxtNoofSiloo.TabIndex = 38
         Me.TxtNoofSiloo.Text = "0"
         Me.TxtNoofSiloo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtNoofSiloo.Value = 0R
+        Me.TxtNoofSiloo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'gvSilo
         '
@@ -7299,11 +7318,13 @@ Partial Class FrmMCCMaster
         Me.gvSilo.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSilo.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSilo.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSilo.MyExportFilePath = ""
         Me.gvSilo.MyStopExport = False
         Me.gvSilo.Name = "gvSilo"
         Me.gvSilo.ShowHeaderCellButtons = True
         Me.gvSilo.Size = New System.Drawing.Size(1159, 429)
         Me.gvSilo.TabIndex = 39
+        Me.gvSilo.VarID = ""
         '
         'MyLabel50
         '
@@ -7321,7 +7342,6 @@ Partial Class FrmMCCMaster
         Me.Pg_MilkPump.Controls.Add(Me.MyLabel51)
         Me.Pg_MilkPump.Controls.Add(Me.gvMilkPump)
         Me.Pg_MilkPump.Controls.Add(Me.txtNoofMilkPumpo)
-        Me.Pg_MilkPump.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
         Me.Pg_MilkPump.Location = New System.Drawing.Point(10, 37)
         Me.Pg_MilkPump.Name = "Pg_MilkPump"
         Me.Pg_MilkPump.Size = New System.Drawing.Size(1177, 450)
@@ -7354,11 +7374,13 @@ Partial Class FrmMCCMaster
         Me.gvMilkPump.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMilkPump.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvMilkPump.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvMilkPump.MyExportFilePath = ""
         Me.gvMilkPump.MyStopExport = False
         Me.gvMilkPump.Name = "gvMilkPump"
         Me.gvMilkPump.ShowHeaderCellButtons = True
         Me.gvMilkPump.Size = New System.Drawing.Size(524, 340)
         Me.gvMilkPump.TabIndex = 39
+        Me.gvMilkPump.VarID = ""
         '
         'txtNoofMilkPumpo
         '
@@ -7385,7 +7407,7 @@ Partial Class FrmMCCMaster
         Me.txtNoofMilkPumpo.TabIndex = 38
         Me.txtNoofMilkPumpo.Text = "0"
         Me.txtNoofMilkPumpo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoofMilkPumpo.Value = 0R
+        Me.txtNoofMilkPumpo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'Pg_Chillers
         '
@@ -7393,7 +7415,6 @@ Partial Class FrmMCCMaster
         Me.Pg_Chillers.Controls.Add(Me.txtNoofChillero)
         Me.Pg_Chillers.Controls.Add(Me.gvChiller)
         Me.Pg_Chillers.Controls.Add(Me.MyLabel52)
-        Me.Pg_Chillers.ItemSize = New System.Drawing.SizeF(85.0!, 28.0!)
         Me.Pg_Chillers.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Chillers.Name = "Pg_Chillers"
         Me.Pg_Chillers.Size = New System.Drawing.Size(1177, 450)
@@ -7432,7 +7453,7 @@ Partial Class FrmMCCMaster
         Me.txtNoofChillero.TabIndex = 38
         Me.txtNoofChillero.Text = "0"
         Me.txtNoofChillero.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoofChillero.Value = 0R
+        Me.txtNoofChillero.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'gvChiller
         '
@@ -7443,11 +7464,13 @@ Partial Class FrmMCCMaster
         Me.gvChiller.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvChiller.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvChiller.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvChiller.MyExportFilePath = ""
         Me.gvChiller.MyStopExport = False
         Me.gvChiller.Name = "gvChiller"
         Me.gvChiller.ShowHeaderCellButtons = True
         Me.gvChiller.Size = New System.Drawing.Size(524, 340)
         Me.gvChiller.TabIndex = 39
+        Me.gvChiller.VarID = ""
         '
         'MyLabel52
         '
@@ -7466,7 +7489,7 @@ Partial Class FrmMCCMaster
         Me.Pg_bank.Controls.Add(Me.GrpSecurity)
         Me.Pg_bank.Controls.Add(Me.GroupBox3)
         Me.Pg_bank.Controls.Add(Me.GroupBox2)
-        Me.Pg_bank.ItemSize = New System.Drawing.SizeF(144.0!, 24.0!)
+        Me.Pg_bank.ItemSize = New System.Drawing.SizeF(148.0!, 28.0!)
         Me.Pg_bank.Location = New System.Drawing.Point(10, 37)
         Me.Pg_bank.Name = "Pg_bank"
         Me.Pg_bank.Size = New System.Drawing.Size(1198, 517)
@@ -7510,11 +7533,13 @@ Partial Class FrmMCCMaster
         Me.gvCheque.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCheque.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvCheque.MyExportFilePath = ""
         Me.gvCheque.MyStopExport = False
         Me.gvCheque.Name = "gvCheque"
         Me.gvCheque.ShowHeaderCellButtons = True
         Me.gvCheque.Size = New System.Drawing.Size(885, 62)
         Me.gvCheque.TabIndex = 3
+        Me.gvCheque.VarID = ""
         '
         'cmbsecurity
         '
@@ -7594,7 +7619,7 @@ Partial Class FrmMCCMaster
         Me.TxtTotalAmount.TabIndex = 103
         Me.TxtTotalAmount.Text = "0"
         Me.TxtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalAmount.Value = 0R
+        Me.TxtTotalAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'GrpSecurity
         '
@@ -7661,7 +7686,7 @@ Partial Class FrmMCCMaster
         Me.TxtStandardSec_Amt.TabIndex = 107
         Me.TxtStandardSec_Amt.Text = "0"
         Me.TxtStandardSec_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtStandardSec_Amt.Value = 0R
+        Me.TxtStandardSec_Amt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel55
         '
@@ -7699,7 +7724,7 @@ Partial Class FrmMCCMaster
         Me.txtBankrefundedAmount.TabIndex = 107
         Me.txtBankrefundedAmount.Text = "0"
         Me.txtBankrefundedAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBankrefundedAmount.Value = 0R
+        Me.txtBankrefundedAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSecurityDeductedAmount
         '
@@ -7727,7 +7752,7 @@ Partial Class FrmMCCMaster
         Me.txtSecurityDeductedAmount.TabIndex = 105
         Me.txtSecurityDeductedAmount.Text = "0"
         Me.txtSecurityDeductedAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSecurityDeductedAmount.Value = 0R
+        Me.txtSecurityDeductedAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel48
         '
@@ -7765,7 +7790,7 @@ Partial Class FrmMCCMaster
         Me.TxtSecurityAmount.TabIndex = 103
         Me.TxtSecurityAmount.Text = "0"
         Me.TxtSecurityAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSecurityAmount.Value = 0R
+        Me.TxtSecurityAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtGuranteeAmount
         '
@@ -7793,7 +7818,7 @@ Partial Class FrmMCCMaster
         Me.TxtGuranteeAmount.TabIndex = 101
         Me.TxtGuranteeAmount.Text = "0"
         Me.TxtGuranteeAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtGuranteeAmount.Value = 0R
+        Me.TxtGuranteeAmount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel47
         '
@@ -8007,7 +8032,7 @@ Partial Class FrmMCCMaster
         Me.txtchq_no.TabIndex = 10
         Me.txtchq_no.Text = "0"
         Me.txtchq_no.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchq_no.Value = 0R
+        Me.txtchq_no.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtchq_amt
         '
@@ -8035,7 +8060,7 @@ Partial Class FrmMCCMaster
         Me.txtchq_amt.TabIndex = 11
         Me.txtchq_amt.Text = "0"
         Me.txtchq_amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchq_amt.Value = 0R
+        Me.txtchq_amt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblBankName
         '
@@ -8430,7 +8455,7 @@ Partial Class FrmMCCMaster
         'Payment_Entry
         '
         Me.Payment_Entry.Controls.Add(Me.GVPaymentEntry)
-        Me.Payment_Entry.ItemSize = New System.Drawing.SizeF(89.0!, 24.0!)
+        Me.Payment_Entry.ItemSize = New System.Drawing.SizeF(93.0!, 28.0!)
         Me.Payment_Entry.Location = New System.Drawing.Point(10, 37)
         Me.Payment_Entry.Name = "Payment_Entry"
         Me.Payment_Entry.Size = New System.Drawing.Size(1198, 517)
@@ -8446,16 +8471,18 @@ Partial Class FrmMCCMaster
         Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.GVPaymentEntry.MyExportFilePath = ""
         Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(1198, 517)
         Me.GVPaymentEntry.TabIndex = 2
+        Me.GVPaymentEntry.VarID = ""
         '
         'Pg_Bankg
         '
         Me.Pg_Bankg.Controls.Add(Me.gvBankG)
-        Me.Pg_Bankg.ItemSize = New System.Drawing.SizeF(128.0!, 24.0!)
+        Me.Pg_Bankg.ItemSize = New System.Drawing.SizeF(132.0!, 28.0!)
         Me.Pg_Bankg.Location = New System.Drawing.Point(10, 37)
         Me.Pg_Bankg.Name = "Pg_Bankg"
         Me.Pg_Bankg.Size = New System.Drawing.Size(1198, 517)
@@ -8471,25 +8498,35 @@ Partial Class FrmMCCMaster
         Me.gvBankG.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBankG.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvBankG.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvBankG.MyExportFilePath = ""
         Me.gvBankG.MyStopExport = False
         Me.gvBankG.Name = "gvBankG"
         Me.gvBankG.ShowHeaderCellButtons = True
         Me.gvBankG.Size = New System.Drawing.Size(1198, 517)
         Me.gvBankG.TabIndex = 3
+        Me.gvBankG.VarID = ""
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1198, 517)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1198, 517)
+        Me.UcCustomFields1.TabIndex = 3
+        '
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1198, 517)
@@ -8519,7 +8556,7 @@ Partial Class FrmMCCMaster
         Me.RadPageViewPage7.Controls.Add(Me.txtCommissionRate)
         Me.RadPageViewPage7.Controls.Add(Me.MyLabel80)
         Me.RadPageViewPage7.Controls.Add(Me.RadGroupBox4)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(163.0!, 24.0!)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(167.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(1198, 517)
@@ -8550,7 +8587,7 @@ Partial Class FrmMCCMaster
         Me.MyNumBox1.TabIndex = 108
         Me.MyNumBox1.Text = "0"
         Me.MyNumBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.MyNumBox1.Value = 0R
+        Me.MyNumBox1.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel96
         '
@@ -8588,7 +8625,7 @@ Partial Class FrmMCCMaster
         Me.txtDeductionRate.TabIndex = 105
         Me.txtDeductionRate.Text = "0"
         Me.txtDeductionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionRate.Value = 0R
+        Me.txtDeductionRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel85
         '
@@ -8625,7 +8662,7 @@ Partial Class FrmMCCMaster
         Me.txtNonCompanyVSPDeduction.TabIndex = 103
         Me.txtNonCompanyVSPDeduction.Text = "0"
         Me.txtNonCompanyVSPDeduction.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNonCompanyVSPDeduction.Value = 0R
+        Me.txtNonCompanyVSPDeduction.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel92
         '
@@ -8662,7 +8699,7 @@ Partial Class FrmMCCMaster
         Me.txtCompanyVSPDeduction.TabIndex = 101
         Me.txtCompanyVSPDeduction.Text = "0"
         Me.txtCompanyVSPDeduction.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCompanyVSPDeduction.Value = 0R
+        Me.txtCompanyVSPDeduction.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel89
         '
@@ -8728,7 +8765,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIFrom5.TabIndex = 12
         Me.txtDWIFrom5.Text = "0"
         Me.txtDWIFrom5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIFrom5.Value = 0R
+        Me.txtDWIFrom5.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel88
         '
@@ -8765,7 +8802,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIRate5.TabIndex = 14
         Me.txtDWIRate5.Text = "0"
         Me.txtDWIRate5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIRate5.Value = 0R
+        Me.txtDWIRate5.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel90
         '
@@ -8802,7 +8839,7 @@ Partial Class FrmMCCMaster
         Me.txtDWITo5.TabIndex = 13
         Me.txtDWITo5.Text = "0"
         Me.txtDWITo5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWITo5.Value = 0R
+        Me.txtDWITo5.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel91
         '
@@ -8839,7 +8876,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIFrom4.TabIndex = 9
         Me.txtDWIFrom4.Text = "0"
         Me.txtDWIFrom4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIFrom4.Value = 0R
+        Me.txtDWIFrom4.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIRate4
         '
@@ -8866,7 +8903,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIRate4.TabIndex = 11
         Me.txtDWIRate4.Text = "0"
         Me.txtDWIRate4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIRate4.Value = 0R
+        Me.txtDWIRate4.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWITo4
         '
@@ -8893,7 +8930,7 @@ Partial Class FrmMCCMaster
         Me.txtDWITo4.TabIndex = 10
         Me.txtDWITo4.Text = "0"
         Me.txtDWITo4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWITo4.Value = 0R
+        Me.txtDWITo4.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIFrom3
         '
@@ -8920,7 +8957,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIFrom3.TabIndex = 6
         Me.txtDWIFrom3.Text = "0"
         Me.txtDWIFrom3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIFrom3.Value = 0R
+        Me.txtDWIFrom3.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIRate3
         '
@@ -8947,7 +8984,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIRate3.TabIndex = 8
         Me.txtDWIRate3.Text = "0"
         Me.txtDWIRate3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIRate3.Value = 0R
+        Me.txtDWIRate3.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWITo3
         '
@@ -8974,7 +9011,7 @@ Partial Class FrmMCCMaster
         Me.txtDWITo3.TabIndex = 7
         Me.txtDWITo3.Text = "0"
         Me.txtDWITo3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWITo3.Value = 0R
+        Me.txtDWITo3.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIFrom2
         '
@@ -9001,7 +9038,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIFrom2.TabIndex = 3
         Me.txtDWIFrom2.Text = "0"
         Me.txtDWIFrom2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIFrom2.Value = 0R
+        Me.txtDWIFrom2.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIRate2
         '
@@ -9028,7 +9065,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIRate2.TabIndex = 5
         Me.txtDWIRate2.Text = "0"
         Me.txtDWIRate2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIRate2.Value = 0R
+        Me.txtDWIRate2.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWITo2
         '
@@ -9055,7 +9092,7 @@ Partial Class FrmMCCMaster
         Me.txtDWITo2.TabIndex = 4
         Me.txtDWITo2.Text = "0"
         Me.txtDWITo2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWITo2.Value = 0R
+        Me.txtDWITo2.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIFrom1
         '
@@ -9082,7 +9119,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIFrom1.TabIndex = 0
         Me.txtDWIFrom1.Text = "0"
         Me.txtDWIFrom1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIFrom1.Value = 0R
+        Me.txtDWIFrom1.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWIRate1
         '
@@ -9109,7 +9146,7 @@ Partial Class FrmMCCMaster
         Me.txtDWIRate1.TabIndex = 2
         Me.txtDWIRate1.Text = "0"
         Me.txtDWIRate1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWIRate1.Value = 0R
+        Me.txtDWIRate1.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtDWITo1
         '
@@ -9136,7 +9173,7 @@ Partial Class FrmMCCMaster
         Me.txtDWITo1.TabIndex = 1
         Me.txtDWITo1.Text = "0"
         Me.txtDWITo1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDWITo1.Value = 0R
+        Me.txtDWITo1.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadGroupBox5
         '
@@ -9180,7 +9217,7 @@ Partial Class FrmMCCMaster
         Me.txtDeductionNoOfPaymentCycleForNewVSP.TabIndex = 103
         Me.txtDeductionNoOfPaymentCycleForNewVSP.Text = "0"
         Me.txtDeductionNoOfPaymentCycleForNewVSP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionNoOfPaymentCycleForNewVSP.Value = 0R
+        Me.txtDeductionNoOfPaymentCycleForNewVSP.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel84
         '
@@ -9217,7 +9254,7 @@ Partial Class FrmMCCMaster
         Me.txtDeductionMinimumSNFPer.TabIndex = 101
         Me.txtDeductionMinimumSNFPer.Text = "0"
         Me.txtDeductionMinimumSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionMinimumSNFPer.Value = 0R
+        Me.txtDeductionMinimumSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel86
         '
@@ -9254,7 +9291,7 @@ Partial Class FrmMCCMaster
         Me.txtDeductionMinimumFATPer.TabIndex = 99
         Me.txtDeductionMinimumFATPer.Text = "0"
         Me.txtDeductionMinimumFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDeductionMinimumFATPer.Value = 0R
+        Me.txtDeductionMinimumFATPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel87
         '
@@ -9291,7 +9328,7 @@ Partial Class FrmMCCMaster
         Me.txtCommissionRate.TabIndex = 99
         Me.txtCommissionRate.Text = "0"
         Me.txtCommissionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCommissionRate.Value = 0R
+        Me.txtCommissionRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel80
         '
@@ -9345,7 +9382,7 @@ Partial Class FrmMCCMaster
         Me.txtCommissionNoOfPaymentCycleForNewVSP.TabIndex = 103
         Me.txtCommissionNoOfPaymentCycleForNewVSP.Text = "0"
         Me.txtCommissionNoOfPaymentCycleForNewVSP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCommissionNoOfPaymentCycleForNewVSP.Value = 0R
+        Me.txtCommissionNoOfPaymentCycleForNewVSP.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel83
         '
@@ -9382,7 +9419,7 @@ Partial Class FrmMCCMaster
         Me.txtCommissionMinimumQtyInShift.TabIndex = 101
         Me.txtCommissionMinimumQtyInShift.Text = "0"
         Me.txtCommissionMinimumQtyInShift.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCommissionMinimumQtyInShift.Value = 0R
+        Me.txtCommissionMinimumQtyInShift.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel82
         '
@@ -9419,7 +9456,7 @@ Partial Class FrmMCCMaster
         Me.txtCommissionMinimumShiftInPaymentCycle.TabIndex = 101
         Me.txtCommissionMinimumShiftInPaymentCycle.Text = "0"
         Me.txtCommissionMinimumShiftInPaymentCycle.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCommissionMinimumShiftInPaymentCycle.Value = 0R
+        Me.txtCommissionMinimumShiftInPaymentCycle.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel81
         '
@@ -9576,6 +9613,15 @@ Partial Class FrmMCCMaster
         Me.SplitPanel3.TabStop = False
         Me.SplitPanel3.Text = "SplitPanel3"
         '
+        'RadButton3
+        '
+        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton3.Location = New System.Drawing.Point(450, 5)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(132, 19)
+        Me.RadButton3.TabIndex = 108
+        Me.RadButton3.Text = "Change Dock Password"
+        '
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -9626,23 +9672,6 @@ Partial Class FrmMCCMaster
         '
         Me.ErrorProvider1.ContainerControl = Me
         '
-        'RadButton3
-        '
-        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton3.Location = New System.Drawing.Point(450, 5)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(132, 19)
-        Me.RadButton3.TabIndex = 108
-        Me.RadButton3.Text = "Change Dock Password"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1198, 517)
-        Me.UcCustomFields1.TabIndex = 3
-        '
         'FrmMCCMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -9667,6 +9696,7 @@ Partial Class FrmMCCMaster
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.chkIntDCSMilkCollection, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel95, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).EndInit
@@ -10114,13 +10144,13 @@ Partial Class FrmMCCMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).EndInit
         Me.SplitPanel3.ResumeLayout(False)
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -10587,5 +10617,6 @@ Partial Class FrmMCCMaster
     Friend WithEvents MyNumBox1 As common.MyNumBox
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents chkIntDCSMilkCollection As common.Controls.MyCheckBox
 End Class
 

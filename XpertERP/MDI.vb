@@ -378,7 +378,7 @@ Public Class MDI
             lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm tt")
             lblDataBase.Text = objCommonVar.CurrDatabase.Trim() + "[" + clsCommon.myCstr(clsDBFuncationality.getSingleValue("select @@SPID")) + "]"
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -687,14 +687,14 @@ Public Class MDI
         Dim strFixVersion As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Fix_Version from TSPL_Version_Fix"))
         If clsCommon.myLen(strFixVersion) > 0 Then
             If Not clsCommon.CompairString(CurrEXEVersion, strFixVersion) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow(Me, "Fixed Application version is  :" + strFixVersion + " and your  Current Version :" + CurrEXEVersion)
+                clsCommon.MyMessageBoxShow(Me, "Fixed Application version is  :" + strFixVersion + " and your  Current Version :" + CurrEXEVersion)
                 Application.Exit()
             End If
         Else
             dbEXEVersion = clsDBFuncationality.getSingleValue("select Last_Version from TSPL_Version_Info")
             If Not clsCommon.CompairString(CurrEXEVersion, dbEXEVersion) = CompairStringResult.Equal Then
                 IsDBRestored = True
-                common.clsCommon.MyMessageBoxShow(Me, "Application version is not updated." + Environment.NewLine + "Update Version :" + dbEXEVersion + " Current Version :" + CurrEXEVersion)
+                clsCommon.MyMessageBoxShow(Me, "Application version is not updated." + Environment.NewLine + "Update Version :" + dbEXEVersion + " Current Version :" + CurrEXEVersion)
                 For Each P As Process In Process.GetProcessesByName("XpertAlertApp")
                     P.Kill()
                 Next
@@ -894,7 +894,7 @@ Public Class MDI
             Dim strquery As String = "select segment_code,description from TSPL_GL_SEGMENT_CODE where Seg_No='7'"
             transportSql.FillComboBox(strquery, ddllocation, "description", "segment_code")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1145,31 +1145,40 @@ Public Class MDI
 
             Dim ExpiryDate As String = clsCommon.myCstr(dt.Rows(0)("ExpiryDate"))
             If clsCommon.myLen(ExpiryDate) > 0 AndAlso clsCommon.myCDate(ExpiryDate) < clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") Then
-                common.clsCommon.MyMessageBoxShow(Me, "Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                clsCommon.MyMessageBoxShow(Me, "Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
             End If
             Dim Pwd As String = clsCommon.myCstr(dt.Rows(0)("password"))
-            If Not clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPassword.Text)) = CompairStringResult.Equal Then
-                If clsCommon.CompairString("DeveLoper", txtPassword.Text, True) = CompairStringResult.Equal Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Correct Password is: " & clsCommon.DecryptString(Pwd), Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
-                Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Please enter Correct User ID and Password ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            If clsCommon.CompairString(txtUserName.Text, "admin") = CompairStringResult.Equal Then
+                If Not clsCommon.HighSecurityVerifyNumber(clsCommon.myCDecimal(lblOTPCode.Text)) = clsCommon.myCDecimal(txtPassword.Text) Then
+                    clsCommon.MyMessageBoxShow(Me, "Wrong OTP.Try again...", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    Exit Sub
                 End If
-                Exit Sub
+                lblOTPCode.Visible = False
+            Else
+                If Not clsCommon.CompairString(Pwd, clsCommon.EncryptString(txtPassword.Text)) = CompairStringResult.Equal Then
+                    If clsCommon.CompairString("DeveLoper", txtPassword.Text, True) = CompairStringResult.Equal Then
+                        clsCommon.MyMessageBoxShow(Me, "Correct Password is: " & clsCommon.DecryptString(Pwd), Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Please enter Correct User ID and Password ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    End If
+                    Exit Sub
+                End If
             End If
+
             objCommonVar.CurrentUserCode = clsCommon.myCstr(dt.Rows(0)("User_Code"))
 
             If SettSameUserCanNotloginmultipletimes Then
                 qry = clsLoginInfo.funGetActiveUserQuery(True, clsCommon.myCstr(dt.Rows(0)("User_Code")))
                 Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "User [" + dt.Rows(0)("User_Code") + "] is already logged in From IP [" + clsCommon.myCstr(dtTemp.Rows(0)("IP Address")) + "]", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    clsCommon.MyMessageBoxShow(Me, "User [" + dt.Rows(0)("User_Code") + "] is already logged in From IP [" + clsCommon.myCstr(dtTemp.Rows(0)("IP Address")) + "]", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                     Exit Sub
                 End If
             End If
 
             If clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("InActive"))) = CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
             End If
 
@@ -1228,7 +1237,7 @@ Public Class MDI
             qry = "select 1 from sys.databases where name = '" + objCommonVar.CurrDatabase + "'"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Company :" + cboCompany.Text + " is not mapped with any Database ")
+                clsCommon.MyMessageBoxShow(Me, "Company :" + cboCompany.Text + " is not mapped with any Database ")
             Else
                 'CallCreateTableFunction()
                 Dim obj As clsLoginInfo = New clsLoginInfo()
@@ -1272,7 +1281,7 @@ Public Class MDI
 
         Else
             isLoginError = True
-            common.clsCommon.MyMessageBoxShow(Me, "User Name or Password is not Correct.Please provide the correct login information.")
+            clsCommon.MyMessageBoxShow(Me, "User Name or Password is not Correct.Please provide the correct login information.")
         End If
         Dim AllowAutoLockTransaction As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoLockTransaction, clsFixedParameterCode.AllowAutoLockTransaction, Nothing))
         If AllowAutoLockTransaction = 1 Then
@@ -1392,7 +1401,7 @@ Public Class MDI
         '==========================================
         'Dim strZoneCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Zone_Code from TSPL_USER_MASTER where User_Code = '" + objCommonVar.CurrentUserCode + "'"))
         'If clsCommon.myLen(strZoneCode) > 0 AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
-        '    If common.clsCommon.MyMessageBoxShow("Currently  you are joined " + strZoneCode + " Zone.Do you want to Continue with " + strZoneCode + " Zone?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        '    If clsCommon.MyMessageBoxShow("Currently  you are joined " + strZoneCode + " Zone.Do you want to Continue with " + strZoneCode + " Zone?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
         '        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.userMaster, txtUserName.Text)
         '    End If
         'End If
@@ -1773,7 +1782,7 @@ Public Class MDI
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     '' TO Auto Lock All Transaction location and location segment wise
@@ -1850,7 +1859,7 @@ Public Class MDI
         '        clsCommon.MyMessageBoxShow("Transaction Locked Successfully", Me.Text)
         '    Catch ex As Exception
         '        trans.Rollback()
-        '        common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        '        clsCommon.MyMessageBoxShow(Me, ex.Message)
         '    End Try
         'End If
 
@@ -3342,9 +3351,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmCFormEntry
                         frm = New FrmCFormEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FrmBankGuaranteeMaster1
-                    '    frm = New FrmBankGuaranteeMaster1
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmBankGuaranteeMaster
+                        frm = New FrmBankGuaranteeMaster1
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BankOpeningReco
                         frm = New frmBankOpeningReco
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -5471,7 +5480,7 @@ Public Class MDI
                                 frm = New FrmReverseEntry()
                                 formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                             Catch ex As Exception
-                                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                             End Try
                         End If
 
@@ -10567,7 +10576,7 @@ Public Class MDI
             End If
         Catch ex As Exception
             If Not ex.Message.Contains("Object reference not set to an instance of an object.") Then ''becuase when need to close the form this message come.
-                common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message)
                 frm.Close()
             End If
         End Try
@@ -10716,14 +10725,14 @@ Public Class MDI
             If clsCommon.MyMessageBoxShow(strMsg, Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.Yes Then
                 If RestoreDataBase("" + cmbDB.SelectedValue + "") Then
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow(Me, "DataBase Restored Sucessfully.")
+                    clsCommon.MyMessageBoxShow(Me, "DataBase Restored Sucessfully.")
                     IsDBRestored = True
                     Application.Restart()
                 End If
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11604,5 +11613,13 @@ Public Class MDI
         End If
     End Sub
 
+    Private Sub txtUserName_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtUserName.Validating
+        If clsCommon.CompairString(txtUserName.Text, "admin") = CompairStringResult.Equal Then
+            lblOTPCode.Text = clsCommon.HighSecurityGetNumber(100000, 999999)
+            lblOTPCode.Visible = True
+        Else
+            lblOTPCode.Visible = False
+        End If
 
+    End Sub
 End Class

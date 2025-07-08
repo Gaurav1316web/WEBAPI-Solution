@@ -23,13 +23,13 @@ Partial Class FrmUserMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblUserCode = New common.Controls.MyLabel()
         Me.lblUserType = New common.Controls.MyLabel()
         Me.lbl1 = New common.Controls.MyLabel()
@@ -140,6 +140,8 @@ Partial Class FrmUserMaster
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.lblBank = New common.Controls.MyLabel()
+        Me.TxtMultiBank = New common.UserControls.txtMultiSelectFinder()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -229,6 +231,7 @@ Partial Class FrmUserMaster
         CType(Me.gvUser.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -343,16 +346,16 @@ Partial Class FrmUserMaster
         Me.ddlUserType.IsSourceFromTable = False
         Me.ddlUserType.IsSourceFromValueList = False
         Me.ddlUserType.IsUnique = False
-        RadListDataItem1.Text = "Level1"
-        RadListDataItem2.Text = "Level2"
-        RadListDataItem3.Text = "Level3"
-        RadListDataItem4.Text = "Level4"
-        RadListDataItem5.Text = "Level5"
-        Me.ddlUserType.Items.Add(RadListDataItem1)
-        Me.ddlUserType.Items.Add(RadListDataItem2)
-        Me.ddlUserType.Items.Add(RadListDataItem3)
-        Me.ddlUserType.Items.Add(RadListDataItem4)
-        Me.ddlUserType.Items.Add(RadListDataItem5)
+        RadListDataItem6.Text = "Level1"
+        RadListDataItem7.Text = "Level2"
+        RadListDataItem8.Text = "Level3"
+        RadListDataItem9.Text = "Level4"
+        RadListDataItem10.Text = "Level5"
+        Me.ddlUserType.Items.Add(RadListDataItem6)
+        Me.ddlUserType.Items.Add(RadListDataItem7)
+        Me.ddlUserType.Items.Add(RadListDataItem8)
+        Me.ddlUserType.Items.Add(RadListDataItem9)
+        Me.ddlUserType.Items.Add(RadListDataItem10)
         Me.ddlUserType.Location = New System.Drawing.Point(192, 154)
         Me.ddlUserType.MendatroryField = False
         Me.ddlUserType.MyLinkLable1 = Nothing
@@ -469,6 +472,8 @@ Partial Class FrmUserMaster
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.RadGroupBox1.Controls.Add(Me.TxtMultiBank)
+        Me.RadGroupBox1.Controls.Add(Me.lblBank)
         Me.RadGroupBox1.Controls.Add(Me.lblSubLocation)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel17)
         Me.RadGroupBox1.Controls.Add(Me.txtSubLocation)
@@ -522,7 +527,7 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 480)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(601, 502)
         Me.RadGroupBox1.TabIndex = 0
         '
         'lblSubLocation
@@ -942,7 +947,7 @@ Partial Class FrmUserMaster
         Me.RadPanel1.Controls.Add(Me.fndCustCode)
         Me.RadPanel1.Controls.Add(Me.MyLabel3)
         Me.RadPanel1.Controls.Add(Me.CmbLoginType)
-        Me.RadPanel1.Location = New System.Drawing.Point(6, 377)
+        Me.RadPanel1.Location = New System.Drawing.Point(10, 402)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(578, 95)
         Me.RadPanel1.TabIndex = 1
@@ -1660,7 +1665,7 @@ Partial Class FrmUserMaster
         '
         Me.GBRoute.Controls.Add(Me.txtRoute)
         Me.GBRoute.Controls.Add(Me.MyLabel16)
-        Me.GBRoute.Location = New System.Drawing.Point(5, 481)
+        Me.GBRoute.Location = New System.Drawing.Point(13, 506)
         Me.GBRoute.Name = "GBRoute"
         Me.GBRoute.Size = New System.Drawing.Size(590, 33)
         Me.GBRoute.TabIndex = 16
@@ -1684,7 +1689,7 @@ Partial Class FrmUserMaster
         Me.lblLength.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.lblLength.FieldName = Nothing
         Me.lblLength.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblLength.Location = New System.Drawing.Point(18, 520)
+        Me.lblLength.Location = New System.Drawing.Point(18, 539)
         Me.lblLength.Name = "lblLength"
         Me.lblLength.Size = New System.Drawing.Size(471, 46)
         Me.lblLength.TabIndex = 15
@@ -1717,7 +1722,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
@@ -1753,7 +1758,7 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.AllowDeleteRow = False
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvUser.MyExportFilePath = ""
         Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
@@ -1783,6 +1788,29 @@ Partial Class FrmUserMaster
         Me.RadButton1.Size = New System.Drawing.Size(134, 23)
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
+        '
+        'lblBank
+        '
+        Me.lblBank.FieldName = Nothing
+        Me.lblBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBank.Location = New System.Drawing.Point(18, 377)
+        Me.lblBank.Name = "lblBank"
+        Me.lblBank.Size = New System.Drawing.Size(32, 16)
+        Me.lblBank.TabIndex = 407
+        Me.lblBank.Text = "Bank"
+        '
+        'TxtMultiBank
+        '
+        Me.TxtMultiBank.arrDispalyMember = Nothing
+        Me.TxtMultiBank.arrValueMember = Nothing
+        Me.TxtMultiBank.Location = New System.Drawing.Point(104, 377)
+        Me.TxtMultiBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiBank.MyLinkLable1 = Nothing
+        Me.TxtMultiBank.MyLinkLable2 = Nothing
+        Me.TxtMultiBank.MyNullText = "All"
+        Me.TxtMultiBank.Name = "TxtMultiBank"
+        Me.TxtMultiBank.Size = New System.Drawing.Size(470, 19)
+        Me.TxtMultiBank.TabIndex = 408
         '
         'FrmUserMaster
         '
@@ -1904,6 +1932,7 @@ Partial Class FrmUserMaster
         CType(Me.gvUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2021,5 +2050,7 @@ Partial Class FrmUserMaster
     Friend WithEvents btnSarasOrder As RadButton
     Friend WithEvents txtOrderSaras As UserControls.txtMultiSelectFinder
     Friend WithEvents txtProSaras As UserControls.txtMultiSelectFinder
+    Friend WithEvents lblBank As Controls.MyLabel
+    Friend WithEvents TxtMultiBank As UserControls.txtMultiSelectFinder
 End Class
 
