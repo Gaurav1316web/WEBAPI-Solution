@@ -261,6 +261,7 @@ Public Class clsPSShipmentHead
 
 
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
+    Public ArrBoothScheme As List(Of clsPSShipmentBoothWiseScheme) = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsPSShipmentHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False) As Boolean
@@ -561,6 +562,8 @@ Public Class clsPSShipmentHead
 
 
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + obj.Document_Code + "'"
@@ -949,6 +952,9 @@ Public Class clsPSShipmentHead
             If obj.ArrDemand IsNot Nothing Then
                 clsPSShipmentDemand.SaveData(obj.Document_Code, obj.ArrDemand, trans)
 
+            End If
+            If obj.ArrBoothScheme IsNot Nothing Then
+                clsPSShipmentBoothWiseScheme.SaveData(obj.Document_Code, obj.ArrBoothScheme, trans)
             End If
 
             clsPSShipmentChecklistDetail.SaveData(obj.Document_Code, obj.ArrChkList, trans)
@@ -1595,7 +1601,7 @@ Public Class clsPSShipmentHead
             "TSPL_SD_SHIPMENT_DETAIL.TAX4_Base_Amt,TSPL_SD_SHIPMENT_DETAIL.TAX5_Base_Amt,TSPL_SD_SHIPMENT_DETAIL.TAX6_Base_Amt, " &
             "TSPL_SD_SHIPMENT_DETAIL.TAX7_Base_Amt,TSPL_SD_SHIPMENT_DETAIL.TAX8_Base_Amt,TSPL_SD_SHIPMENT_DETAIL.TAX9_Base_Amt, " &
             "TSPL_SD_SHIPMENT_DETAIL.TAX10_Base_Amt,TSPL_SD_SHIPMENT_DETAIL.MRP,TSPL_SD_SHIPMENT_DETAIL.Batch_No,TSPL_SD_SHIPMENT_DETAIL.MFG_Date, " &
-            "TSPL_SD_SHIPMENT_DETAIL.Expiry_Date,TSPL_SD_SHIPMENT_DETAIL.Specification,TSPL_SD_SHIPMENT_DETAIL.Remarks,TSPL_SD_SHIPMENT_DETAIL.Assessable, " &
+            "TSPL_SD_SHIPMENT_DETAIL.Expiry_Date,TSPL_SD_SHIPMENT_DETAIL.Specification,TSPL_SD_SHIPMENT_DETAIL.Remarks,TSPL_SD_SHIPMENT_DETAIL.Assessable,TSPL_SD_SHIPMENT_DETAIL.Trip_No, " &
             "TSPL_SD_SHIPMENT_DETAIL.AssessableAmt,TSPL_SD_SHIPMENT_DETAIL.Bar_Code, " &
             "TSPL_SD_SHIPMENT_DETAIL.Scheme_Applicable,TSPL_SD_SHIPMENT_DETAIL.Scheme_Code, " &
             "TSPL_SD_SHIPMENT_DETAIL.Scheme_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Tax,TSPL_SD_SHIPMENT_DETAIL.Total_MRP_Amt, " &
@@ -1674,6 +1680,8 @@ Public Class clsPSShipmentHead
                     objTr.Bar_Code = clsCommon.myCstr(dr("Bar_Code"))
 
                     objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+
+                    objTr.Trip_No = clsCommon.myCdbl(dr("Trip_No"))
 
 
                     objTr.Free_Qty = clsCommon.myCdbl(dr("Free_Qty"))
@@ -1813,6 +1821,7 @@ Public Class clsPSShipmentHead
                     obj.Arr.Add(objTr)
                 Next
             End If
+            obj.ArrBoothScheme = clsPSShipmentBoothWiseScheme.GetData(obj.Document_Code, trans)
 
             qry = "select * from TSPL_SD_SHIPMENT_CHECKLIST_DETAIL WHERE SHIPMENT_CODE='" + obj.Document_Code + "'"
             dt = New DataTable()
@@ -3403,6 +3412,8 @@ Public Class clsPSShipmentHead
 
                 qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -3915,6 +3926,7 @@ Public Class clsPSShipmentHeadDetail
     Public Item_Group As String = Nothing
     Public TAX_PAID As String = Nothing
     Public OrgUnit_code As String = ""
+    Public Trip_No As Decimal = 1
     Public Commission_Party As String = Nothing
     Public Commission_Rate As Double = 0
     Public Commission_Amt As Double = 0
@@ -4188,6 +4200,7 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
                 clsCommon.AddColumnsForChange(coll, "MRP", obj.MRP)
                 clsCommon.AddColumnsForChange(coll, "Batch_No", obj.Batch_No)
+                clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No, True)
 
                 clsCommon.AddColumnsForChange(coll, "Specification", obj.Specification)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
@@ -4469,6 +4482,50 @@ Public Class clsPSShipmentDemand
             Next
         End If
     End Sub
+    Public Shared Function GetData(ByVal DocCode As String, ByVal ShiftType As String, ByVal supplyDate As DateTime, ByVal Route_No As String, ByVal billtoLoc As String, ByVal ItemType As String, ByVal trans As SqlTransaction) As List(Of clsPSShipmentDemand)
+        Dim Arr As List(Of clsPSShipmentDemand) = Nothing
+        Try
+            Dim obj As clsPSShipmentDemand = Nothing
+
+            Arr = New List(Of clsPSShipmentDemand)
+            '            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code  from TSPL_SD_SHIPMENT_BOOKING_DETAIL
+            'left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+            'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + DocCode + "' and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
+            'group by Booth_Code"
+
+            Dim strQry As String = "select 
+TSPL_Demand_Booking_Detail.Cust_Code
+from TSPL_Demand_Booking_Master
+left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
+ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Demand_Booking_Detail.Cust_Code 
+where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsCommon.myCstr(ShiftType), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "'  and TSPL_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(supplyDate) + "' and TSPL_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(supplyDate.AddDays(1)) + "' 
+   and TSPL_Demand_Booking_Master.Posted=1
+and TSPL_Demand_Booking_Master.Route_No='" + Route_No + "' and TSPL_Demand_Booking_Master.Location_Code='" + billtoLoc + "' 
+ "
+            If clsCommon.CompairString(clsCommon.myCstr(ItemType), "T") = CompairStringResult.Equal Then
+                strQry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+            Else
+                strQry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+            End If
+
+            strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + DocCode + "')) 
+group by TSPL_Demand_Booking_Detail.Cust_Code "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                For Each dr As DataRow In dt.Rows
+                    obj = New clsPSShipmentDemand()
+                    obj.Booth_Code = clsCommon.myCstr(dr("Cust_Code"))
+                    Arr.Add(obj)
+                Next
+            End If
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Arr
+    End Function
     Public Shared Function GetData(ByVal DocCode As String, ByVal trans As SqlTransaction) As List(Of clsPSShipmentDemand)
         Dim Arr As List(Of clsPSShipmentDemand) = Nothing
         Try
@@ -4476,14 +4533,84 @@ Public Class clsPSShipmentDemand
 
             Arr = New List(Of clsPSShipmentDemand)
             Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code  from TSPL_SD_SHIPMENT_BOOKING_DETAIL
-left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + DocCode + "' and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
-group by Booth_Code"
+            left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+            where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + DocCode + "' and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
+            group by Booth_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each dr As DataRow In dt.Rows
                     obj = New clsPSShipmentDemand()
+                    obj.Booth_Code = clsCommon.myCstr(dr("Cust_Code"))
+                    Arr.Add(obj)
+                Next
+            End If
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Arr
+    End Function
+End Class
+
+Public Class clsPSShipmentBoothWiseScheme
+    #Region "Variables"
+    Public DOCUMENT_CODE As String
+    Public Booking_TR_Code As String
+    Public Main_Item_Code As String
+    Public Main_Unit_Code As String
+    Public Booth_Code As String
+    Public Demand_Qty As Decimal
+    Public Scheme_Code As String
+    Public Scheme_Type As String
+    Public Scheme_Qty As Decimal
+    Public Item_Code As String
+    Public Unit_Code As String
+    Public Trip_No As Decimal
+#End Region
+
+    Friend Shared Sub SaveData(strDocNo As String, arrBoothScheme As List(Of clsPSShipmentBoothWiseScheme), trans As SqlTransaction)
+        If (arrBoothScheme IsNot Nothing AndAlso arrBoothScheme.Count > 0) Then
+            For Each obj As clsPSShipmentBoothWiseScheme In arrBoothScheme
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Booth_Code", obj.Booth_Code)
+                clsCommon.AddColumnsForChange(coll, "Booking_TR_Code", obj.Booking_TR_Code)
+                clsCommon.AddColumnsForChange(coll, "Main_Item_Code", obj.Main_Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Main_Unit_Code", obj.Main_Unit_Code)
+                clsCommon.AddColumnsForChange(coll, "Demand_Qty", obj.Demand_Qty)
+                clsCommon.AddColumnsForChange(coll, "Scheme_Code", obj.Scheme_Code)
+                clsCommon.AddColumnsForChange(coll, "Scheme_Type", obj.Scheme_Type)
+                clsCommon.AddColumnsForChange(coll, "Scheme_Qty", obj.Scheme_Qty)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
+                clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+    End Sub
+    Public Shared Function GetData(ByVal DocCode As String, ByVal trans As SqlTransaction) As List(Of clsPSShipmentBoothWiseScheme)
+        Dim Arr As List(Of clsPSShipmentBoothWiseScheme) = Nothing
+        Try
+            Dim obj As clsPSShipmentBoothWiseScheme = Nothing
+
+            Arr = New List(Of clsPSShipmentBoothWiseScheme)
+            Dim strQry As String = "select *  from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL.DOCUMENT_CODE='" + DocCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                For Each dr As DataRow In dt.Rows
+                    obj = New clsPSShipmentBoothWiseScheme()
+                    obj.DOCUMENT_CODE = clsCommon.myCstr(dr("DOCUMENT_CODE"))
+                    obj.Booking_TR_Code = clsCommon.myCstr(dr("Booking_TR_Code"))
+                    obj.Main_Item_Code = clsCommon.myCstr(dr("Main_Item_Code"))
+                    obj.Main_Unit_Code = clsCommon.myCstr(dr("Main_Unit_Code"))
                     obj.Booth_Code = clsCommon.myCstr(dr("Booth_Code"))
+                    obj.Demand_Qty = clsCommon.myCdbl(dr("Demand_Qty"))
+                    obj.Scheme_Code = clsCommon.myCstr(dr("Scheme_Code"))
+                    obj.Scheme_Type = clsCommon.myCstr(dr("Scheme_Type"))
+                    obj.Scheme_Qty = clsCommon.myCdbl(dr("Scheme_Qty"))
+                    obj.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
+                    obj.Trip_No = clsCommon.myCdbl(dr("Trip_No"))
                     Arr.Add(obj)
                 Next
             End If
