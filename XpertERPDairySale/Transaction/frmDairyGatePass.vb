@@ -2599,7 +2599,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
     Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
         Export(EnumExportTo.Excel)
     End Sub
-    Private Sub Export(ByVal exporter As EnumExportTo)
+    Public Sub Export(ByVal exporter As EnumExportTo, Optional ByVal FromDate As DateTime = Nothing, Optional ByVal ToDate As DateTime = Nothing, Optional ByVal strRoute As String = Nothing, Optional ByVal strShift As String = Nothing)
         Try
             Dim ShiftType As String = ""
             Dim qry As String = ""
@@ -2609,25 +2609,61 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
 
             Freshitem = "Select max(TSPL_ITEM_MASTER.Short_Description)Fresh_Item,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Print_Sequence)Print_Sequence from TSPL_SD_SHIPMENT_DETAIL
 LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
-And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' AND ((TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1))
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code WHERE "
+            If clsCommon.myLen(strShift) > 0 Then
+                Freshitem += " convert(date,Supply_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd-MMM-yyyy") + "' and convert(date,Supply_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd-MMM-yyyy") + "' "
+                If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+                    Freshitem += " and Shift_Type = '" + IIf(strShift = "Morning", "AM", "PM") + "' "
+                End If
+                If clsCommon.myLen(strRoute) > 0 Then
+                    Freshitem += " And Route_No In (" + strRoute + ") "
+                End If
+            Else
+                Freshitem += " convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' "
+                Freshitem += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
+                Freshitem += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+            End If
+            Freshitem += " and TSPL_SD_SHIPMENT_HEAD.Status=1  "
+            Freshitem += " AND ((TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 ) or (TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 1 and Is_CrateType = 1))
  group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+
             ProductItem = "Select max(TSPL_ITEM_MASTER.Short_Description)Product_item,max(TSPL_ITEM_MASTER.Item_Desc)Item_Desc,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Print_Sequence)Print_Sequence from TSPL_SD_SHIPMENT_DETAIL
 LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
-And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' AND TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1
- group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code WHERE "
+            If clsCommon.myLen(strShift) > 0 Then
+                ProductItem += " convert(date,Supply_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd-MMM-yyyy") + "' and convert(date,Supply_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd-MMM-yyyy") + "' "
+                If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+                    ProductItem += " and Shift_Type = '" + IIf(strShift = "Morning", "AM", "PM") + "' "
+                End If
+                If clsCommon.myLen(strRoute) > 0 Then
+                    ProductItem += " And Route_No In (" + strRoute + ") "
+                End If
+            Else
+                ProductItem += " convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' "
+                ProductItem += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
+                ProductItem += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+            End If
+            ProductItem += " and TSPL_SD_SHIPMENT_HEAD.Status=1 AND TSPL_ITEM_MASTER.Is_Ambient = 1 and IsTaxable = 1 group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
 
 
 
             Dim BaseItemQry As String = "Select TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Item_Desc)Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Alies_Name2)Alies_Name2,MAX(TSPL_ITEM_MASTER.Alies_Name3)Alies_Name3,Convert(varchar,MAX(TSPL_ITEM_MASTER.Print_Sequence))Print_Sequence,Sum(TSPL_SD_SHIPMENT_DETAIL.Qty)Qty from TSPL_SD_SHIPMENT_DETAIL
 LEFT OUTER JOIN TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-WHERE convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and TSPL_SD_SHIPMENT_HEAD.Status=1  and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'
-And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "'
- group by TSPL_ITEM_MASTER.Item_Code " ' ORDER BY Sku_Seq"
+LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code Where "
+            If clsCommon.myLen(strShift) > 0 Then
+                BaseItemQry += " convert(date,Supply_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd-MMM-yyyy") + "' and convert(date,Supply_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd-MMM-yyyy") + "' "
+                If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+                    BaseItemQry += " and Shift_Type = '" + IIf(strShift = "Morning", "AM", "PM") + "' "
+                End If
+                If clsCommon.myLen(strRoute) > 0 Then
+                    BaseItemQry += " And Route_No In (" + strRoute + ") "
+                End If
+            Else
+                BaseItemQry += " convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' "
+                BaseItemQry += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
+                BaseItemQry += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+            End If
+            BaseItemQry += " and TSPL_SD_SHIPMENT_HEAD.Status=1 group by TSPL_ITEM_MASTER.Item_Code " ' ORDER BY Sku_Seq"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 BaseItemQry += " union
  Select TSPL_ITEM_MASTER.Item_Code,max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Item_Desc)Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq,MAX(TSPL_ITEM_MASTER.Alies_Name2)Alies_Name2,MAX(TSPL_ITEM_MASTER.Alies_Name3)Alies_Name3,
@@ -2749,23 +2785,28 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrComp_Code1 + "'
   left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code=I.item_code 
 
-where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
-and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where "
+                If clsCommon.myLen(strShift) > 0 Then
+                    qry += " convert(date,Supply_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd-MMM-yyyy") + "' and convert(date,Supply_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd-MMM-yyyy") + "' "
+                    If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+                        qry += " and Shift_Type = '" + IIf(strShift = "Morning", "AM", "PM") + "' "
+                    End If
+                    If clsCommon.myLen(strRoute) > 0 Then
+                        qry += " And Route_No In (" + strRoute + ") "
+                    End If
+                Else
+                    qry += " convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' "
+                    qry += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
+                    qry += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+                End If
+                qry += " and status=1 )
 Union
 select Distinct '' as TR_Code,TSPL_CUSTOMER_MASTER.Cust_Code,
-IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,'' As Item_Code,'' As Short_Description
-,0 As Sku_Seq,0 As Qty,0 As ItemNetAmount,'' As Unit_code ,'' As ShiftType,
-   TSPL_ROUTE_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
-  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,
-  0 as KG_QTY ,
-  0 as KG_QTY1,
-  0 as LTR_QTY,
-'' AS Product_Item,
-'' as Fresh_Item
-
+IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,'' As Item_Code,'' As Short_Description,0 As Sku_Seq,0 As Qty,0 As ItemNetAmount,'' As Unit_code ,'' As ShiftType,TSPL_ROUTE_MASTER.Route_No, TSPL_ROUTE_MASTER.Route_Desc,    TSPL_COMPANY_MASTER.Comp_Name  as CompanyName,  TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
+  TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No ,0 as KG_QTY , 0 as KG_QTY1, 0 as LTR_QTY,'' AS Product_Item,'' as Fresh_Item
 from TSPL_CUSTOMER_MASTER
 Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
 Left Join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
@@ -2778,10 +2819,13 @@ Left Join TSPL_SD_SHIPMENT_BOOKING_DETAIL ON TSPL_SD_SHIPMENT_BOOKING_DETAIL.Boo
 Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = 'UDP'
 ----left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code=I.item_code 
 
-where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' and TSPL_CUSTOMER_MASTER.Status='N' And 
-TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "'
-)XXFinal
-group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' and TSPL_CUSTOMER_MASTER.Status='N' "
+                If clsCommon.myLen(strRoute) > 0 Then
+                    qry += " And TSPL_ROUTE_MASTER.Route_No in (" + strRoute + ") "
+                Else
+                    qry += " And TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+                End If
+                qry += " )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
 
                 If dtFresh.Rows.Count > 0 Then
                     qry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
@@ -2815,13 +2859,24 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrComp_Code1 + "'
   left join (  SELECT * FROM ( select item_code,uom_code,conversion_factor from TSPL_ITEM_UOM_DETAIL) I  PIVOT (Max(conversion_factor) FOR uom_code IN ( [KG],[LTR] )) P ) I ON TSPL_ITEM_MASTER.Item_Code = I.item_code 
 
-where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "'
-and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
-)XXFinal
-group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
+where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where "
+                If clsCommon.myLen(strShift) > 0 Then
+                    qry += " convert(date,Supply_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd-MMM-yyyy") + "' and convert(date,Supply_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd-MMM-yyyy") + "' "
+                    If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+                        qry += " and Shift_Type = '" + IIf(strShift = "Morning", "AM", "PM") + "' "
+                    End If
+                    If clsCommon.myLen(strRoute) > 0 Then
+                        qry += " And Route_No In (" + strRoute + ") "
+                    End If
+                Else
+                    qry += " convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' "
+                    qry += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
+                    qry += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+                End If
+                qry += "and status=1 ) )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code )XXXX "
                 If dtFresh.Rows.Count > 0 Then
                     qry += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
                 End If
@@ -2848,23 +2903,46 @@ left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEM
   Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
   Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
-  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'
+  Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = '" + objCommonVar.CurrComp_Code1 + "'
 
-where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' and Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' and status=1 )
-)XXFinal
-group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
-
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code from TSPL_SD_SHIPMENT_HEAD where"
+                If clsCommon.myLen(strShift) > 0 Then
+                    qry += " convert(date,Supply_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd-MMM-yyyy") + "' and convert(date,Supply_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd-MMM-yyyy") + "' "
+                    If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+                        qry += " and Shift_Type = '" + IIf(strShift = "Morning", "AM", "PM") + "' "
+                    End If
+                    If clsCommon.myLen(strRoute) > 0 Then
+                        qry += " And Route_No In (" + strRoute + ") "
+                    End If
+                Else
+                    qry += " convert(date,Supply_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' "
+                    qry += " and Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "' "
+                    qry += " And Route_No = '" + clsCommon.myCstr(fndRouteNo.Value) + "' "
+                End If
+                qry += " )XXFinal group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            If rbtnMorning.IsChecked Then
-                ShiftType = "Morning"
+            'If clsCommon.CompairString(strShift, "Both") <> CompairStringResult.Equal Then
+
+            'End If
+            If clsCommon.myLen(strShift) > 0 Then
+                ShiftType = strShift
             Else
-                ShiftType = "Evening"
+                If rbtnMorning.IsChecked Then
+                    ShiftType = "Morning"
+                Else
+                    ShiftType = "Evening"
+                End If
             End If
+
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 Dim dr As DataRow = dt.NewRow
-                dr("OUTLET") = clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + ", " + ShiftType
+                If clsCommon.myLen(strShift) > 0 Then
+                    dr("OUTLET") = ShiftType
+                Else
+                    dr("OUTLET") = clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + ", " + ShiftType
+                End If
                 For ii As Integer = 0 To dtitemName.Rows.Count - 1
                     'dr(clsCommon.myCstr(dtitemName.Rows(ii)("Short_Description"))) = clsCommon.myCstr(dtitemName.Rows(ii)("Print_Sequence"))
                     'Dim dr As DataRow = dt.NewRow
@@ -2960,7 +3038,11 @@ group by XXFinal.Cust_Code,XXFinal.Item_Code,XXFinal.Sku_Seq,XXFinal.Unit_code "
             Dim arrHeader As List(Of String) = New List(Of String)()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 arrHeader.Add("Supply Chart")
-                arrHeader.Add("Transpoter : " + clsCommon.myCstr(txtDistributorName.Text) + "" + "     Date: " + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType + "   " + "Route :" + clsCommon.myCstr(txtRouteName.Text) + "    ")
+                If clsCommon.myLen(strShift) > 0 Then
+                    arrHeader.Add("Date: " + IIf(clsCommon.myLen(strShift) > 0, clsCommon.GetPrintDate(FromDate, "dd/MM/yyyy") + " to " + clsCommon.GetPrintDate(ToDate, "dd/MM/yyyy") + "   " + strShift, clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType) + "    " + "Route :" + IIf(clsCommon.myLen(strRoute) > 0, strRoute, clsCommon.myCstr(txtRouteName.Text)) + "    ")
+                Else
+                    arrHeader.Add("Transpoter : " + clsCommon.myCstr(txtDistributorName.Text) + "" + "     Date: " + IIf(clsCommon.myLen(strShift) > 0, clsCommon.GetPrintDate(FromDate, "dd/MM/yyyy") + " to " + clsCommon.GetPrintDate(ToDate, "dd/MM/yyyy") + "   " + strShift, clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MM/yyyy") + "   " + ShiftType) + "    " + "Route :" + IIf(clsCommon.myLen(strRoute) > 0, strRoute, clsCommon.myCstr(txtRouteName.Text)) + "    ")
+                End If
 
                 'arrHeader.Add(("Vehicle No: " + clsCommon.myCstr(lblVehicleDesc.Text) + "  "))
                 'arrHeader.Add(("Shift Type: " + ShiftType + "  "))

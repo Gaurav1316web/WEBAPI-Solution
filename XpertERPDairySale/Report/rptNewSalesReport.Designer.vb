@@ -22,7 +22,7 @@ Partial Class rptNewSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,10 +32,15 @@ Partial Class rptNewSalesReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.grpShift = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMorning = New common.Controls.MyRadioButton()
+        Me.rbtnEvening = New common.Controls.MyRadioButton()
         Me.chkExcludeGhee = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtCustomer = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBoothSlip = New common.Controls.MyRadioButton()
+        Me.rbtnRouteAndCustomer = New common.Controls.MyRadioButton()
         Me.rbtnProductSale = New common.Controls.MyRadioButton()
         Me.rbtnRouteSummary = New common.Controls.MyRadioButton()
         Me.rbtnPartyWise = New common.Controls.MyRadioButton()
@@ -51,13 +56,14 @@ Partial Class rptNewSalesReport
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyRadioButton1 = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -69,10 +75,16 @@ Partial Class rptNewSalesReport
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.grpShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpShift.SuspendLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbtnBoothSlip, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnRouteAndCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnProductSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnPartyWise, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +105,7 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -148,10 +161,11 @@ Partial Class rptNewSalesReport
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 391)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -177,6 +191,7 @@ Partial Class rptNewSalesReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.grpShift)
         Me.RadGroupBox1.Controls.Add(Me.chkExcludeGhee)
         Me.RadGroupBox1.Controls.Add(Me.txtCustomer)
         Me.RadGroupBox1.Controls.Add(Me.RadGroupBox3)
@@ -191,8 +206,46 @@ Partial Class rptNewSalesReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(653, 223)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(659, 270)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'grpShift
+        '
+        Me.grpShift.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.grpShift.Controls.Add(Me.MyRadioButton1)
+        Me.grpShift.Controls.Add(Me.rbtnMorning)
+        Me.grpShift.Controls.Add(Me.rbtnEvening)
+        Me.grpShift.HeaderText = "Shift"
+        Me.grpShift.Location = New System.Drawing.Point(334, 46)
+        Me.grpShift.Name = "grpShift"
+        Me.grpShift.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.grpShift.Size = New System.Drawing.Size(237, 43)
+        Me.grpShift.TabIndex = 1486
+        Me.grpShift.Text = "Shift"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(9, 15)
+        Me.rbtnMorning.MyLinkLable1 = Nothing
+        Me.rbtnMorning.MyLinkLable2 = Nothing
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 396
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.AccessibleDescription = ""
+        Me.rbtnEvening.Location = New System.Drawing.Point(92, 15)
+        Me.rbtnEvening.MyLinkLable1 = Nothing
+        Me.rbtnEvening.MyLinkLable2 = Nothing
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 391
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
         '
         'chkExcludeGhee
         '
@@ -242,6 +295,8 @@ Partial Class rptNewSalesReport
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnBoothSlip)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnRouteAndCustomer)
         Me.RadGroupBox3.Controls.Add(Me.rbtnProductSale)
         Me.RadGroupBox3.Controls.Add(Me.rbtnRouteSummary)
         Me.RadGroupBox3.Controls.Add(Me.rbtnPartyWise)
@@ -250,8 +305,30 @@ Partial Class rptNewSalesReport
         Me.RadGroupBox3.Location = New System.Drawing.Point(5, 109)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(236, 109)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(303, 156)
         Me.RadGroupBox3.TabIndex = 441
+        '
+        'rbtnBoothSlip
+        '
+        Me.rbtnBoothSlip.Location = New System.Drawing.Point(5, 128)
+        Me.rbtnBoothSlip.MyLinkLable1 = Nothing
+        Me.rbtnBoothSlip.MyLinkLable2 = Nothing
+        Me.rbtnBoothSlip.Name = "rbtnBoothSlip"
+        Me.rbtnBoothSlip.Size = New System.Drawing.Size(71, 18)
+        Me.rbtnBoothSlip.TabIndex = 397
+        Me.rbtnBoothSlip.TabStop = False
+        Me.rbtnBoothSlip.Text = "Booth Slip"
+        '
+        'rbtnRouteAndCustomer
+        '
+        Me.rbtnRouteAndCustomer.Location = New System.Drawing.Point(5, 104)
+        Me.rbtnRouteAndCustomer.MyLinkLable1 = Nothing
+        Me.rbtnRouteAndCustomer.MyLinkLable2 = Nothing
+        Me.rbtnRouteAndCustomer.Name = "rbtnRouteAndCustomer"
+        Me.rbtnRouteAndCustomer.Size = New System.Drawing.Size(234, 18)
+        Me.rbtnRouteAndCustomer.TabIndex = 396
+        Me.rbtnRouteAndCustomer.TabStop = False
+        Me.rbtnRouteAndCustomer.Text = "Route Wise and Credit Customer Summary"
         '
         'rbtnProductSale
         '
@@ -312,7 +389,7 @@ Partial Class rptNewSalesReport
         'rbtnDemand
         '
         Me.rbtnDemand.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDemand.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnDemand.Location = New System.Drawing.Point(9, 7)
         Me.rbtnDemand.MyLinkLable1 = Nothing
         Me.rbtnDemand.MyLinkLable2 = Nothing
         Me.rbtnDemand.Name = "rbtnDemand"
@@ -323,7 +400,7 @@ Partial Class rptNewSalesReport
         '
         'rbtnDispatch
         '
-        Me.rbtnDispatch.Location = New System.Drawing.Point(89, 9)
+        Me.rbtnDispatch.Location = New System.Drawing.Point(92, 7)
         Me.rbtnDispatch.MyLinkLable1 = Nothing
         Me.rbtnDispatch.MyLinkLable2 = Nothing
         Me.rbtnDispatch.Name = "rbtnDispatch"
@@ -455,13 +532,22 @@ Partial Class rptNewSalesReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(671, 343)
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(671, 343)
+        Me.RadPageViewPage3.Text = "RadPageViewPage3"
         '
         'RadSplitButton1
         '
@@ -515,13 +601,17 @@ Partial Class rptNewSalesReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'RadPageViewPage3
+        'MyRadioButton1
         '
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(671, 343)
-        Me.RadPageViewPage3.Text = "RadPageViewPage3"
+        Me.MyRadioButton1.AccessibleDescription = ""
+        Me.MyRadioButton1.Location = New System.Drawing.Point(173, 15)
+        Me.MyRadioButton1.MyLinkLable1 = Nothing
+        Me.MyRadioButton1.MyLinkLable2 = Nothing
+        Me.MyRadioButton1.Name = "MyRadioButton1"
+        Me.MyRadioButton1.Size = New System.Drawing.Size(44, 18)
+        Me.MyRadioButton1.TabIndex = 397
+        Me.MyRadioButton1.TabStop = False
+        Me.MyRadioButton1.Text = "Both"
         '
         'rptNewSalesReport
         '
@@ -548,11 +638,18 @@ Partial Class rptNewSalesReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.grpShift, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpShift.ResumeLayout(False)
+        Me.grpShift.PerformLayout()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkExcludeGhee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbtnBoothSlip, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnRouteAndCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnProductSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnPartyWise, System.ComponentModel.ISupportInitialize).EndInit()
@@ -574,6 +671,7 @@ Partial Class rptNewSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -614,5 +712,11 @@ Partial Class rptNewSalesReport
     Friend WithEvents rbtnRouteSummary As common.Controls.MyRadioButton
     Friend WithEvents rbtnProductSale As common.Controls.MyRadioButton
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents rbtnRouteAndCustomer As common.Controls.MyRadioButton
+    Friend WithEvents grpShift As RadGroupBox
+    Friend WithEvents rbtnMorning As common.Controls.MyRadioButton
+    Friend WithEvents rbtnEvening As common.Controls.MyRadioButton
+    Friend WithEvents rbtnBoothSlip As common.Controls.MyRadioButton
+    Friend WithEvents MyRadioButton1 As common.Controls.MyRadioButton
 End Class
 
