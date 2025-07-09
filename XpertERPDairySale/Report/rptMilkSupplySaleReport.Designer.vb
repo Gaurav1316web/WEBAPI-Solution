@@ -22,12 +22,12 @@ Partial Class rptMilkSupplySaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim PropertyGroupDescription4 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
-        Dim GroupNameComparer4 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
-        Dim PropertyGroupDescription5 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
-        Dim GroupNameComparer5 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
-        Dim PropertyGroupDescription6 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
-        Dim GroupNameComparer6 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim PropertyGroupDescription1 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
+        Dim GroupNameComparer1 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim PropertyGroupDescription2 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
+        Dim GroupNameComparer2 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim PropertyGroupDescription3 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
+        Dim GroupNameComparer3 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -58,13 +58,14 @@ Partial Class rptMilkSupplySaleReport
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.PvtGrid = New Telerik.WinControls.UI.RadPivotGrid()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnDisplayMargin = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -99,11 +100,12 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.PvtGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDisplayMargin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -162,7 +164,7 @@ Partial Class rptMilkSupplySaleReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 436)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -199,7 +201,7 @@ Partial Class rptMilkSupplySaleReport
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(6, 13)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(341, 252)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(341, 248)
         Me.RadGroupBox1.TabIndex = 389
         '
         'RadGroupBox4
@@ -325,17 +327,17 @@ Partial Class rptMilkSupplySaleReport
         Me.RadGroupBox5.Controls.Add(Me.rbtnEvening)
         Me.RadGroupBox5.Controls.Add(Me.rbtnBothShift)
         Me.RadGroupBox5.HeaderText = "Shift Type"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(11, 198)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(11, 200)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox5.Size = New System.Drawing.Size(315, 39)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(315, 37)
         Me.RadGroupBox5.TabIndex = 443
         Me.RadGroupBox5.Text = "Shift Type"
         '
         'rbtnMorning
         '
         Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnMorning.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnMorning.Location = New System.Drawing.Point(5, 10)
         Me.rbtnMorning.MyLinkLable1 = Nothing
         Me.rbtnMorning.MyLinkLable2 = Nothing
         Me.rbtnMorning.Name = "rbtnMorning"
@@ -346,7 +348,7 @@ Partial Class rptMilkSupplySaleReport
         '
         'rbtnEvening
         '
-        Me.rbtnEvening.Location = New System.Drawing.Point(115, 9)
+        Me.rbtnEvening.Location = New System.Drawing.Point(114, 10)
         Me.rbtnEvening.MyLinkLable1 = Nothing
         Me.rbtnEvening.MyLinkLable2 = Nothing
         Me.rbtnEvening.Name = "rbtnEvening"
@@ -357,7 +359,7 @@ Partial Class rptMilkSupplySaleReport
         '
         'rbtnBothShift
         '
-        Me.rbtnBothShift.Location = New System.Drawing.Point(199, 9)
+        Me.rbtnBothShift.Location = New System.Drawing.Point(216, 10)
         Me.rbtnBothShift.MyLinkLable1 = Nothing
         Me.rbtnBothShift.MyLinkLable2 = Nothing
         Me.rbtnBothShift.Name = "rbtnBothShift"
@@ -375,13 +377,13 @@ Partial Class rptMilkSupplySaleReport
         Me.RadGroupBox3.Location = New System.Drawing.Point(11, 152)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(315, 39)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(315, 37)
         Me.RadGroupBox3.TabIndex = 441
         '
         'rbtnCustomer
         '
         Me.rbtnCustomer.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnCustomer.Location = New System.Drawing.Point(5, 8)
+        Me.rbtnCustomer.Location = New System.Drawing.Point(5, 9)
         Me.rbtnCustomer.MyLinkLable1 = Nothing
         Me.rbtnCustomer.MyLinkLable2 = Nothing
         Me.rbtnCustomer.Name = "rbtnCustomer"
@@ -392,7 +394,7 @@ Partial Class rptMilkSupplySaleReport
         '
         'rbtnCustRoute
         '
-        Me.rbtnCustRoute.Location = New System.Drawing.Point(116, 8)
+        Me.rbtnCustRoute.Location = New System.Drawing.Point(114, 9)
         Me.rbtnCustRoute.MyLinkLable1 = Nothing
         Me.rbtnCustRoute.MyLinkLable2 = Nothing
         Me.rbtnCustRoute.Name = "rbtnCustRoute"
@@ -404,20 +406,21 @@ Partial Class rptMilkSupplySaleReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDisplayMargin)
         Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
-        Me.RadGroupBox2.HeaderText = "Report Type"
+        Me.RadGroupBox2.HeaderText = "Data View Preference"
         Me.RadGroupBox2.Location = New System.Drawing.Point(11, 104)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(315, 37)
         Me.RadGroupBox2.TabIndex = 440
-        Me.RadGroupBox2.Text = "Report Type"
+        Me.RadGroupBox2.Text = "Data View Preference"
         '
         'rbtnDetail
         '
         Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDetail.Location = New System.Drawing.Point(5, 9)
+        Me.rbtnDetail.Location = New System.Drawing.Point(5, 11)
         Me.rbtnDetail.MyLinkLable1 = Nothing
         Me.rbtnDetail.MyLinkLable2 = Nothing
         Me.rbtnDetail.Name = "rbtnDetail"
@@ -428,7 +431,7 @@ Partial Class rptMilkSupplySaleReport
         '
         'rbtnSummary
         '
-        Me.rbtnSummary.Location = New System.Drawing.Point(118, 9)
+        Me.rbtnSummary.Location = New System.Drawing.Point(114, 11)
         Me.rbtnSummary.MyLinkLable1 = Nothing
         Me.rbtnSummary.MyLinkLable2 = Nothing
         Me.rbtnSummary.Name = "rbtnSummary"
@@ -472,39 +475,49 @@ Partial Class rptMilkSupplySaleReport
         'PvtGrid
         '
         Me.PvtGrid.ColumnGrandTotalsPosition = Telerik.WinControls.UI.TotalsPos.None
-        PropertyGroupDescription4.AutoShowSubTotals = True
-        PropertyGroupDescription4.CustomName = "Short_Description"
-        PropertyGroupDescription4.GroupComparer = GroupNameComparer4
-        PropertyGroupDescription4.GroupFilter = Nothing
-        PropertyGroupDescription4.PropertyName = "Short_Description"
-        PropertyGroupDescription4.ShowGroupsWithNoData = False
-        PropertyGroupDescription4.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
-        Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription4)
+        PropertyGroupDescription1.AutoShowSubTotals = True
+        PropertyGroupDescription1.CustomName = "Short_Description"
+        PropertyGroupDescription1.GroupComparer = GroupNameComparer1
+        PropertyGroupDescription1.GroupFilter = Nothing
+        PropertyGroupDescription1.PropertyName = "Short_Description"
+        PropertyGroupDescription1.ShowGroupsWithNoData = False
+        PropertyGroupDescription1.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
+        Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription1)
         Me.PvtGrid.ColumnHeaderHeight = 29
         Me.PvtGrid.ColumnsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.None
         Me.PvtGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PvtGrid.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PvtGrid.Location = New System.Drawing.Point(0, 0)
         Me.PvtGrid.Name = "PvtGrid"
-        PropertyGroupDescription5.AutoShowSubTotals = True
-        PropertyGroupDescription5.CustomName = "Customer Code"
-        PropertyGroupDescription5.GroupComparer = GroupNameComparer5
-        PropertyGroupDescription5.GroupFilter = Nothing
-        PropertyGroupDescription5.PropertyName = "Cust_Code"
-        PropertyGroupDescription5.ShowGroupsWithNoData = False
-        PropertyGroupDescription5.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
-        PropertyGroupDescription6.AutoShowSubTotals = True
-        PropertyGroupDescription6.CustomName = "Customer Name"
-        PropertyGroupDescription6.GroupComparer = GroupNameComparer6
-        PropertyGroupDescription6.GroupFilter = Nothing
-        PropertyGroupDescription6.PropertyName = "Customer_Name"
-        PropertyGroupDescription6.ShowGroupsWithNoData = False
-        PropertyGroupDescription6.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
-        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription5)
-        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription6)
+        PropertyGroupDescription2.AutoShowSubTotals = True
+        PropertyGroupDescription2.CustomName = "Customer Code"
+        PropertyGroupDescription2.GroupComparer = GroupNameComparer2
+        PropertyGroupDescription2.GroupFilter = Nothing
+        PropertyGroupDescription2.PropertyName = "Cust_Code"
+        PropertyGroupDescription2.ShowGroupsWithNoData = False
+        PropertyGroupDescription2.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
+        PropertyGroupDescription3.AutoShowSubTotals = True
+        PropertyGroupDescription3.CustomName = "Customer Name"
+        PropertyGroupDescription3.GroupComparer = GroupNameComparer3
+        PropertyGroupDescription3.GroupFilter = Nothing
+        PropertyGroupDescription3.PropertyName = "Customer_Name"
+        PropertyGroupDescription3.ShowGroupsWithNoData = False
+        PropertyGroupDescription3.SortOrder = Telerik.Pivot.Core.SortOrder.Ascending
+        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription2)
+        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription3)
         Me.PvtGrid.RowsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.None
         Me.PvtGrid.Size = New System.Drawing.Size(671, 388)
         Me.PvtGrid.TabIndex = 2
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(263, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrint.TabIndex = 155
+        Me.btnPrint.Text = "Print"
         '
         'RadSplitButton1
         '
@@ -558,15 +571,16 @@ Partial Class rptMilkSupplySaleReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'btnPrint
+        'rbtnDisplayMargin
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(263, 15)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 22)
-        Me.btnPrint.TabIndex = 155
-        Me.btnPrint.Text = "Print"
+        Me.rbtnDisplayMargin.Location = New System.Drawing.Point(216, 11)
+        Me.rbtnDisplayMargin.MyLinkLable1 = Nothing
+        Me.rbtnDisplayMargin.MyLinkLable2 = Nothing
+        Me.rbtnDisplayMargin.Name = "rbtnDisplayMargin"
+        Me.rbtnDisplayMargin.Size = New System.Drawing.Size(95, 18)
+        Me.rbtnDisplayMargin.TabIndex = 397
+        Me.rbtnDisplayMargin.TabStop = False
+        Me.rbtnDisplayMargin.Text = "Display Margin"
         '
         'rptMilkSupplySaleReport
         '
@@ -620,11 +634,12 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.PvtGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDisplayMargin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -667,5 +682,6 @@ Partial Class rptMilkSupplySaleReport
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents PvtGrid As RadPivotGrid
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents rbtnDisplayMargin As common.Controls.MyRadioButton
 End Class
 

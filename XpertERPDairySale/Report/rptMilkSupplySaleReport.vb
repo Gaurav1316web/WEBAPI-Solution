@@ -74,6 +74,7 @@ Public Class rptMilkSupplySaleReport
 
     Sub funreset()
         EnableDisableControls(True)
+        chkShift()
         PvtGrid.DataSource = Nothing
         txtRoute.arrValueMember = Nothing
         txtCustomer.arrValueMember = Nothing
@@ -90,144 +91,148 @@ Public Class rptMilkSupplySaleReport
     Private Sub LoadData()
         Try
             Dim BaseQry As String = ""
-            BaseQry = ReturnQry()
-            Me.PvtGrid.RowGroupDescriptions.Clear()
-            Me.PvtGrid.AggregateDescriptions.Clear()
-            Me.PvtGrid.ColumnGroupDescriptions.Clear()
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
-            If dt.Rows.Count > 0 Then
-                PvtGrid.DataSource = dt
-                Me.PvtGrid.PivotGridElement.AggregateDescriptorsArea.Visibility = ElementVisibility.Collapsed
-                Me.PvtGrid.PivotGridElement.ColumnDescriptorsArea.Visibility = ElementVisibility.Hidden
-                Me.PvtGrid.PivotGridElement.Margin = New Padding(0, -30, 0, 0)
-                Me.PvtGrid.PivotGridElement.VScrollBar.Margin = New Padding(0, 30, 0, 0)
-
-                Dim PropertyGroupDescription1 As PropertyGroupDescription = New PropertyGroupDescription()
-                Dim GroupNameComparer1 As GroupNameComparer = New GroupNameComparer()
-                Dim PropertyGroupDescription2 As PropertyGroupDescription = New PropertyGroupDescription()
-                Dim GroupNameComparer2 As GroupNameComparer = New GroupNameComparer()
-                Dim PropertyGroupDescription3 As PropertyGroupDescription = New PropertyGroupDescription()
-                Dim GroupNameComparer3 As GroupNameComparer = New GroupNameComparer()
-                Dim PropertyGroupDescription4 As PropertyGroupDescription = New PropertyGroupDescription()
-                Dim GroupNameComparer4 As GroupNameComparer = New GroupNameComparer()
-                Dim PropertyGroupDescription5 As PropertyGroupDescription = New PropertyGroupDescription()
-                Dim GroupNameComparer5 As GroupNameComparer = New GroupNameComparer()
-                Dim PropertyGroupDescription6 As PropertyGroupDescription = New PropertyGroupDescription()
-                Dim GroupNameComparer6 As GroupNameComparer = New GroupNameComparer()
-
-                Dim PropertyAggregateDescription1 As PropertyAggregateDescription = New PropertyAggregateDescription()
-                Dim SumAggregateFunction1 As SumAggregateFunction = New SumAggregateFunction()
-                Dim PropertyAggregateDescription2 As PropertyAggregateDescription = New PropertyAggregateDescription()
-                Dim SumAggregateFunction2 As SumAggregateFunction = New SumAggregateFunction()
-
-
-                PropertyAggregateDescription1.AggregateFunction = SumAggregateFunction1
-                PropertyAggregateDescription1.CustomName = "Qty"
-                PropertyAggregateDescription1.IgnoreNullValues = False
-                PropertyAggregateDescription1.PropertyName = "Report_UOM_Qty"
-                PropertyAggregateDescription1.StringFormat = Nothing
-                PropertyAggregateDescription1.StringFormatSelector = Nothing
-                PropertyAggregateDescription1.TotalFormat = Nothing
-                PropertyAggregateDescription2.AggregateFunction = SumAggregateFunction2
-                PropertyAggregateDescription2.CustomName = "Amount"
-                PropertyAggregateDescription2.IgnoreNullValues = False
-                PropertyAggregateDescription2.PropertyName = "Amount"
-                PropertyAggregateDescription2.StringFormat = Nothing
-                PropertyAggregateDescription2.StringFormatSelector = Nothing
-                PropertyAggregateDescription2.TotalFormat = Nothing
-
-                Me.PvtGrid.AggregateDescriptions.Add(PropertyAggregateDescription1)
-                Me.PvtGrid.AggregateDescriptions.Add(PropertyAggregateDescription2)
-                Me.PvtGrid.AllowFieldsDragDrop = True
-                Me.PvtGrid.ColumnGrandTotalsPosition = Telerik.WinControls.UI.TotalsPos.Last
-
-                PropertyGroupDescription2.AutoShowSubTotals = False
-                PropertyGroupDescription2.CustomName = "Sku_Seq"
-                PropertyGroupDescription2.GroupComparer = GroupNameComparer2
-                PropertyGroupDescription2.GroupFilter = Nothing
-                PropertyGroupDescription2.PropertyName = "Sku_Seq"
-                PropertyGroupDescription2.ShowGroupsWithNoData = False
-                PropertyGroupDescription2.SortOrder = SortOrder.Ascending
-                Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription2)
-
-                PropertyGroupDescription1.AutoShowSubTotals = True
-                PropertyGroupDescription1.CustomName = "Item Name"
-                PropertyGroupDescription1.GroupComparer = GroupNameComparer1
-                PropertyGroupDescription1.GroupFilter = Nothing
-                PropertyGroupDescription1.PropertyName = "Short_Description"
-                PropertyGroupDescription1.ShowGroupsWithNoData = False
-                PropertyGroupDescription1.SortOrder = SortOrder.None
-                Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription1)
-
-                Me.PvtGrid.ColumnsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.Last
-                Me.PvtGrid.Location = New System.Drawing.Point(0, 0)
-
-                'PropertyGroupDescription2.AutoShowSubTotals = True
-                'PropertyGroupDescription2.GroupComparer = GroupNameComparer2
-                'PropertyGroupDescription2.GroupFilter = Nothing
-                'PropertyGroupDescription2.ShowGroupsWithNoData = False
-                'PropertyGroupDescription2.SortOrder =  SortOrder.Ascending
-                'PropertyGroupDescription2.CustomName = "Customer"
-                'PropertyGroupDescription2.PropertyName = "Cust_Code"
-
-                PropertyGroupDescription3.AutoShowSubTotals = True
-                PropertyGroupDescription3.GroupComparer = GroupNameComparer3
-                PropertyGroupDescription3.GroupFilter = Nothing
-                PropertyGroupDescription3.ShowGroupsWithNoData = False
-                PropertyGroupDescription3.SortOrder = SortOrder.Ascending
-                PropertyGroupDescription3.CustomName = "Customer Name"
-                PropertyGroupDescription3.PropertyName = "Customer_Name"
-
-                PropertyGroupDescription4.AutoShowSubTotals = False
-                PropertyGroupDescription4.GroupComparer = GroupNameComparer4
-                PropertyGroupDescription4.GroupFilter = Nothing
-                PropertyGroupDescription4.ShowGroupsWithNoData = False
-                PropertyGroupDescription4.SortOrder = SortOrder.None
-                PropertyGroupDescription4.CustomName = "Supply Date"
-                PropertyGroupDescription4.PropertyName = "Supply_Date"
-
-                PropertyGroupDescription5.AutoShowSubTotals = True
-                PropertyGroupDescription5.GroupComparer = GroupNameComparer5
-                PropertyGroupDescription5.GroupFilter = Nothing
-                PropertyGroupDescription5.ShowGroupsWithNoData = False
-                PropertyGroupDescription5.SortOrder = SortOrder.Ascending
-                PropertyGroupDescription5.CustomName = "Route"
-                PropertyGroupDescription5.PropertyName = "Route_No"
-
-                PropertyGroupDescription6.AutoShowSubTotals = False
-                PropertyGroupDescription6.GroupComparer = GroupNameComparer6
-                PropertyGroupDescription6.GroupFilter = Nothing
-                PropertyGroupDescription6.ShowGroupsWithNoData = False
-                PropertyGroupDescription6.SortOrder = SortOrder.Descending
-                PropertyGroupDescription6.CustomName = "Shift"
-                PropertyGroupDescription6.PropertyName = "Shift_Type"
-
-                'Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription2)
-                Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription3)
-
-                If rbtnCustomer.IsChecked Then
-                    If rbtnDetail.IsChecked Then
-                        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription4)
-                        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription6)
-                    End If
-                ElseIf rbtnCustRoute.IsChecked Then
-                    If rbtnDetail.IsChecked Then
-                        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription5)
-                        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription4)
-                        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription6)
-                    ElseIf rbtnSummary.IsChecked Then
-                        Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription5)
-                    End If
-                End If
-
-                Me.PvtGrid.RowsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.Last
-                Me.PvtGrid.PivotGridElement.BestFitHelper.BestFitColumns()
-                Me.PvtGrid.ColumnWidth = 90
-                FindAndRestoreGridLayout(Me)
-                RadPageView1.SelectedPage = RadPageViewPage2
+            If rbtnDisplayMargin.IsChecked Then
+                BaseQry = ReturnQry()
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
-                Exit Sub
+                BaseQry = ReturnQry()
+                Me.PvtGrid.RowGroupDescriptions.Clear()
+                Me.PvtGrid.AggregateDescriptions.Clear()
+                Me.PvtGrid.ColumnGroupDescriptions.Clear()
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
+                If dt.Rows.Count > 0 Then
+                    PvtGrid.DataSource = dt
+                    Me.PvtGrid.PivotGridElement.AggregateDescriptorsArea.Visibility = ElementVisibility.Collapsed
+                    Me.PvtGrid.PivotGridElement.ColumnDescriptorsArea.Visibility = ElementVisibility.Hidden
+                    Me.PvtGrid.PivotGridElement.Margin = New Padding(0, -30, 0, 0)
+                    Me.PvtGrid.PivotGridElement.VScrollBar.Margin = New Padding(0, 30, 0, 0)
+
+                    Dim PropertyGroupDescription1 As PropertyGroupDescription = New PropertyGroupDescription()
+                    Dim GroupNameComparer1 As GroupNameComparer = New GroupNameComparer()
+                    Dim PropertyGroupDescription2 As PropertyGroupDescription = New PropertyGroupDescription()
+                    Dim GroupNameComparer2 As GroupNameComparer = New GroupNameComparer()
+                    Dim PropertyGroupDescription3 As PropertyGroupDescription = New PropertyGroupDescription()
+                    Dim GroupNameComparer3 As GroupNameComparer = New GroupNameComparer()
+                    Dim PropertyGroupDescription4 As PropertyGroupDescription = New PropertyGroupDescription()
+                    Dim GroupNameComparer4 As GroupNameComparer = New GroupNameComparer()
+                    Dim PropertyGroupDescription5 As PropertyGroupDescription = New PropertyGroupDescription()
+                    Dim GroupNameComparer5 As GroupNameComparer = New GroupNameComparer()
+                    Dim PropertyGroupDescription6 As PropertyGroupDescription = New PropertyGroupDescription()
+                    Dim GroupNameComparer6 As GroupNameComparer = New GroupNameComparer()
+
+                    Dim PropertyAggregateDescription1 As PropertyAggregateDescription = New PropertyAggregateDescription()
+                    Dim SumAggregateFunction1 As SumAggregateFunction = New SumAggregateFunction()
+                    Dim PropertyAggregateDescription2 As PropertyAggregateDescription = New PropertyAggregateDescription()
+                    Dim SumAggregateFunction2 As SumAggregateFunction = New SumAggregateFunction()
+
+
+                    PropertyAggregateDescription1.AggregateFunction = SumAggregateFunction1
+                    PropertyAggregateDescription1.CustomName = "Qty"
+                    PropertyAggregateDescription1.IgnoreNullValues = False
+                    PropertyAggregateDescription1.PropertyName = "Report_UOM_Qty"
+                    PropertyAggregateDescription1.StringFormat = Nothing
+                    PropertyAggregateDescription1.StringFormatSelector = Nothing
+                    PropertyAggregateDescription1.TotalFormat = Nothing
+                    PropertyAggregateDescription2.AggregateFunction = SumAggregateFunction2
+                    PropertyAggregateDescription2.CustomName = "Amount"
+                    PropertyAggregateDescription2.IgnoreNullValues = False
+                    PropertyAggregateDescription2.PropertyName = "Amount"
+                    PropertyAggregateDescription2.StringFormat = Nothing
+                    PropertyAggregateDescription2.StringFormatSelector = Nothing
+                    PropertyAggregateDescription2.TotalFormat = Nothing
+
+                    Me.PvtGrid.AggregateDescriptions.Add(PropertyAggregateDescription1)
+                    Me.PvtGrid.AggregateDescriptions.Add(PropertyAggregateDescription2)
+                    Me.PvtGrid.AllowFieldsDragDrop = True
+                    Me.PvtGrid.ColumnGrandTotalsPosition = Telerik.WinControls.UI.TotalsPos.Last
+
+                    PropertyGroupDescription2.AutoShowSubTotals = False
+                    PropertyGroupDescription2.CustomName = "Sku_Seq"
+                    PropertyGroupDescription2.GroupComparer = GroupNameComparer2
+                    PropertyGroupDescription2.GroupFilter = Nothing
+                    PropertyGroupDescription2.PropertyName = "Sku_Seq"
+                    PropertyGroupDescription2.ShowGroupsWithNoData = False
+                    PropertyGroupDescription2.SortOrder = SortOrder.Ascending
+                    Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription2)
+
+                    PropertyGroupDescription1.AutoShowSubTotals = True
+                    PropertyGroupDescription1.CustomName = "Item Name"
+                    PropertyGroupDescription1.GroupComparer = GroupNameComparer1
+                    PropertyGroupDescription1.GroupFilter = Nothing
+                    PropertyGroupDescription1.PropertyName = "Short_Description"
+                    PropertyGroupDescription1.ShowGroupsWithNoData = False
+                    PropertyGroupDescription1.SortOrder = SortOrder.None
+                    Me.PvtGrid.ColumnGroupDescriptions.Add(PropertyGroupDescription1)
+
+                    Me.PvtGrid.ColumnsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.Last
+                    Me.PvtGrid.Location = New System.Drawing.Point(0, 0)
+
+                    'PropertyGroupDescription2.AutoShowSubTotals = True
+                    'PropertyGroupDescription2.GroupComparer = GroupNameComparer2
+                    'PropertyGroupDescription2.GroupFilter = Nothing
+                    'PropertyGroupDescription2.ShowGroupsWithNoData = False
+                    'PropertyGroupDescription2.SortOrder =  SortOrder.Ascending
+                    'PropertyGroupDescription2.CustomName = "Customer"
+                    'PropertyGroupDescription2.PropertyName = "Cust_Code"
+
+                    PropertyGroupDescription3.AutoShowSubTotals = True
+                    PropertyGroupDescription3.GroupComparer = GroupNameComparer3
+                    PropertyGroupDescription3.GroupFilter = Nothing
+                    PropertyGroupDescription3.ShowGroupsWithNoData = False
+                    PropertyGroupDescription3.SortOrder = SortOrder.Ascending
+                    PropertyGroupDescription3.CustomName = "Customer Name"
+                    PropertyGroupDescription3.PropertyName = "Customer_Name"
+
+                    PropertyGroupDescription4.AutoShowSubTotals = False
+                    PropertyGroupDescription4.GroupComparer = GroupNameComparer4
+                    PropertyGroupDescription4.GroupFilter = Nothing
+                    PropertyGroupDescription4.ShowGroupsWithNoData = False
+                    PropertyGroupDescription4.SortOrder = SortOrder.None
+                    PropertyGroupDescription4.CustomName = "Supply Date"
+                    PropertyGroupDescription4.PropertyName = "Supply_Date"
+
+                    PropertyGroupDescription5.AutoShowSubTotals = True
+                    PropertyGroupDescription5.GroupComparer = GroupNameComparer5
+                    PropertyGroupDescription5.GroupFilter = Nothing
+                    PropertyGroupDescription5.ShowGroupsWithNoData = False
+                    PropertyGroupDescription5.SortOrder = SortOrder.Ascending
+                    PropertyGroupDescription5.CustomName = "Route"
+                    PropertyGroupDescription5.PropertyName = "Route_No"
+
+                    PropertyGroupDescription6.AutoShowSubTotals = False
+                    PropertyGroupDescription6.GroupComparer = GroupNameComparer6
+                    PropertyGroupDescription6.GroupFilter = Nothing
+                    PropertyGroupDescription6.ShowGroupsWithNoData = False
+                    PropertyGroupDescription6.SortOrder = SortOrder.Descending
+                    PropertyGroupDescription6.CustomName = "Shift"
+                    PropertyGroupDescription6.PropertyName = "Shift_Type"
+
+                    'Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription2)
+                    Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription3)
+
+                    If rbtnCustomer.IsChecked Then
+                        If rbtnDetail.IsChecked Then
+                            Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription4)
+                            Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription6)
+                        End If
+                    ElseIf rbtnCustRoute.IsChecked Then
+                        If rbtnDetail.IsChecked Then
+                            Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription5)
+                            Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription4)
+                            Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription6)
+                        ElseIf rbtnSummary.IsChecked Then
+                            Me.PvtGrid.RowGroupDescriptions.Add(PropertyGroupDescription5)
+                        End If
+                    End If
+
+                    Me.PvtGrid.RowsSubTotalsPosition = Telerik.WinControls.UI.TotalsPos.Last
+                    Me.PvtGrid.PivotGridElement.BestFitHelper.BestFitColumns()
+                    Me.PvtGrid.ColumnWidth = 90
+                    FindAndRestoreGridLayout(Me)
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -247,46 +252,51 @@ Public Class rptMilkSupplySaleReport
                 End If
             End If
         End If
-        Dim BaseQry As String
+
+        Dim strQry As String = Nothing
+        Dim BaseQry As String = Nothing
         Dim whrcls As String = ""
 
-        whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)"
+        If Not rbtnDisplayMargin.IsChecked Then
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-            If rbtnMorning.IsChecked Then
-                If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                    whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
-                Else
-                    whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+            whrcls = " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103)  and   convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "', 103)"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                If rbtnMorning.IsChecked Then
+                    If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
+                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
+                    Else
+                        whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+                    End If
+                ElseIf rbtnEvening.IsChecked Then
+                    If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
+                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
+                    Else
+                        whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
+                    End If
+                ElseIf rbtnBothShift.IsChecked Then
+                    If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
+                        If txtFromDate.Value.Day <> 1 Then
+                            whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
+                        End If
+                    Else
+                        If txtFromDate.Value.Day <> 1 Then
+                            whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
+                        End If
+                        If (txtToDate.Value.Day <> DateTime.DaysInMonth(txtToDate.Value.Year, txtToDate.Value.Month)) Then
+                            whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
+                        End If
+                    End If
                 End If
-            ElseIf rbtnEvening.IsChecked Then
-                If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                    whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
-                Else
+            Else
+                If rbtnMorning.IsChecked Then
+                    whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+                ElseIf rbtnEvening.IsChecked Then
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
                 End If
-            ElseIf rbtnBothShift.IsChecked Then
-                If clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") = clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") Then
-                    If txtFromDate.Value.Day <> 1 Then
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
-                    End If
-                Else
-                    If txtFromDate.Value.Day <> 1 Then
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 3 else 2 end  )"
-                    End If
-                    If (txtToDate.Value.Day <> DateTime.DaysInMonth(txtToDate.Value.Year, txtToDate.Value.Month)) Then
-                        whrcls += " and 2=( case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date, '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' then 3 else 2 end  )"
-                    End If
-                End If
             End If
-            Else
-            If rbtnMorning.IsChecked Then
-                whrcls += " And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
-            ElseIf rbtnEvening.IsChecked Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
-            End If
+            whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
         End If
-        whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
 
         If txtRoute.arrValueMember IsNot Nothing Then
             whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
@@ -296,14 +306,29 @@ Public Class rptMilkSupplySaleReport
             whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
         End If
 
-        BaseQry = " Select  '" & objCommonVar.CurrentUserCode & "' as UserName,tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate, TSPL_ITEM_MASTER.Item_Code ,Sku_Seq, TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,"
-        If rbtnDetail.IsChecked Then
-            BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'Morning' else 'Evening' END AS Shift_Type,convert(varchar, Supply_Date,103) as Supply_Date,"
+        If rbtnDisplayMargin.IsChecked Then
+            BaseQry = "Select TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Shift_Type,TSPL_CUSTOMER_MASTER.Cust_Code As [Party Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Party Name],TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As Zone_Desc,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_Detail.Qty,TSPL_SD_SALE_INVOICE_Detail.Unit_code,((TSPL_SD_SALE_INVOICE_Detail.Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / I.Conversion_Factor) AS CinCFQty,I.UOM_Code,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,I.Conversion_Factor As CinCF,TSPL_SD_SALE_INVOICE_Detail.Amt_Less_Discount As [Basic Amount],TSPL_SD_SALE_INVOICE_Detail.Disc_Amt,TSPL_SD_SALE_INVOICE_Detail.Total_Tax_Amt,TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt As [Total Amount],TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt "
+        Else
+            BaseQry = " Select  '" & objCommonVar.CurrentUserCode & "' as UserName,tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate, TSPL_ITEM_MASTER.Item_Code ,Sku_Seq, TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,"
+            If rbtnDetail.IsChecked Then
+                BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'Morning' else 'Evening' END AS Shift_Type,convert(varchar, Supply_Date,103) as Supply_Date,"
+            End If
+            BaseQry += " TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description + ' (' +  isnull( I.UOM_Code,'') + ' )' as Short_Description,isnull((TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Report_UOM_Qty "
         End If
-        BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description + ' (' +  isnull( I.UOM_Code,'') + ' )' as Short_Description,isnull((TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(I.Conversion_Factor),0) As Report_UOM_Qty
-            From TSPL_SD_SALE_INVOICE_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-            LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code	LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = I.item_code
-          left outer join tspl_company_master on 2 = 2  where 2 = 2   and TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " order by convert(date,Supply_Date, 103), TSPL_SD_SHIPMENT_HEAD.Shift_Type, Sku_Seq "
+        BaseQry += " From TSPL_SD_SALE_INVOICE_DETAIL 
+Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE 
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No 
+Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_Detail.Item_Code
+Left Outer Join TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE =TSPL_SD_SHIPMENT_HEAD.Document_Code And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code	
+LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  I ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = I.item_code
+Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+Left Outer Join TSPL_ZONE_MASTER On TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code
+left outer join tspl_company_master on 2 = 2  "
+        BaseQry += " where 2 = 2   and TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " "
+        If Not rbtnDisplayMargin.IsChecked Then
+            BaseQry += " order by convert(date,Supply_Date, 103), TSPL_SD_SHIPMENT_HEAD.Shift_Type, Sku_Seq "
+        End If
 
         Return BaseQry
     End Function
@@ -442,5 +467,21 @@ Public Class rptMilkSupplySaleReport
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub rbtnDisplayMargin_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDisplayMargin.ToggleStateChanged
+        chkShift()
+    End Sub
+
+    Sub chkShift()
+        Try
+            If rbtnDisplayMargin.IsChecked Then
+                RadGroupBox5.Visible = False
+            Else
+                RadGroupBox5.Visible = True
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
