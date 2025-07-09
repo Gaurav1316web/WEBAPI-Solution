@@ -617,14 +617,6 @@ Public Class frmCustomer
 #End Region
 #Region "Page Load"
     Private Sub frmCustomer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim colls As Dictionary(Of String, String)
-        colls = New Dictionary(Of String, String)()
-        colls.Add("Customer_Code", "VARCHAR(12) null REFERENCES Tspl_Customer_master(Cust_Code)")
-        colls.Add("perInactive", "integer NOT NULL DEFAULT 1")
-        colls.Add("perInactive_By", "varchar(12) NULL")
-        colls.Add("perInactive_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Customer_Master_ParaInactive", colls, "", True, False, "", "", "", True)
-
         popupcustomernamewhileupdating = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.popupcustomernamewhileupdating, clsFixedParameterCode.popupcustomernamewhileupdating, Nothing)) = 1, True, False)
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         SuperUserCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SuperUserCustomer, clsFixedParameterCode.SuperUserCustomer, Nothing)) = 0, False, True)

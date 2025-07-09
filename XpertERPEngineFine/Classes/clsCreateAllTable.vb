@@ -15185,6 +15185,12 @@ Public Class clsCreateAllTable
             'End Try
 
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Customer_Code", "VARCHAR(12) null REFERENCES Tspl_Customer_master(Cust_Code)")
+            coll.Add("perInactive", "integer NOT NULL DEFAULT 1")
+            coll.Add("perInactive_By", "varchar(12) NULL")
+            coll.Add("perInactive_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Customer_Master_ParaInactive", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("LINE_NO", "INTEGER NOT NULL")
