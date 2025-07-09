@@ -59,7 +59,7 @@ Public Class clsItemUOMDetails
             clsCommon.AddColumnsForChange(coll, "Stocking_Unit", obj.Stocking_Unit)
             ''added by richa agarwal against ticket no BM00000004327
             clsCommon.AddColumnsForChange(coll, "Default_UOM", obj.Default_UOM)
-            clsCommon.AddColumnsForChange(coll, "InterUnionItem", obj.InterUnionItem)
+            clsCommon.AddColumnsForChange(coll, "InterUnionItem", obj.InterUnionItem, True)
 
             clsCommon.AddColumnsForChange(coll, "Pieces", obj.Pieces)
             '======================================
