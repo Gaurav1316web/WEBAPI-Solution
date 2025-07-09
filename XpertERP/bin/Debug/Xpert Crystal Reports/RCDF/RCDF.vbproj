@@ -1171,6 +1171,7 @@
     <None Include="Crystal Reports\HR_Payroll\crptAnnualCensus.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptBankStatement.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptBankSummary.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\crptBankSummaryAdvice.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptBonusStatement.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptDamageLoss.rpt" />
     <None Include="Crystal Reports\HR_Payroll\crptEmployeeGratuityReport.rpt" />
@@ -1223,9 +1224,12 @@
     <None Include="Crystal Reports\HR_Payroll\DepartmentWiseSalarySlip.rpt" />
     <None Include="Crystal Reports\HR_Payroll\DepartmentWiseSalarySlipSubReport.rpt" />
     <None Include="Crystal Reports\HR_Payroll\EmployeeWiseSalarySlip.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\EmployeeWiseSalarySlipAJM.rpt" />
     <None Include="Crystal Reports\HR_Payroll\EmployeeWiseSalarySlipOld.rpt" />
     <None Include="Crystal Reports\HR_Payroll\EmployeeWiseSubReport.rpt" />
     <None Include="Crystal Reports\HR_Payroll\ESICcrpt.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptDeductionRegister.rpt" />
+    <None Include="Crystal Reports\HR_Payroll\rptDeductionRegisterkkk.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptDetailOfWelfareFundAmount.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptPayrollBankTransferDetail.rpt" />
     <None Include="Crystal Reports\HR_Payroll\rptTentativeSalary.rpt" />
