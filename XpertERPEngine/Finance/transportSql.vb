@@ -145,7 +145,8 @@ a:          Dim frmFilter As New frmFilterToExport()
                 sql = sql & " Order by " + OrderByClaus
             End If
             ''************* Filter Block End
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads" + "\"
+            'Dim forlderName As String = "D" + ":\ERPTempFolder" + "\Downloads"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -2736,7 +2737,8 @@ a:          Dim frmFilter As New frmFilterToExport()
             End If
             sql = frmFilter.qry
             ''************* Filter Block End
-            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads"
+            Dim forlderName As String = clsCommon.myCstr(objCommonVar.ImportExportDrive) + ":\ERPTempFolder" + "\" + objCommonVar.CurrDatabase + "\" + objCommonVar.CurrentUserCode + "\Downloads" + "\"
+            'Dim forlderName As String = "D" + ":\ERPTempFolder" + "\Downloads" + "\"
             Dim IsExists As Boolean = System.IO.Directory.Exists(forlderName)
             If IsExists = False Then
                 System.IO.Directory.CreateDirectory(forlderName)
@@ -2751,7 +2753,7 @@ a:          Dim frmFilter As New frmFilterToExport()
             sfd.FileName = frm.Text
             sfd.Filter = "Excel (*.xlsx;*.xls)|*.xlsx;*.xls"
             ' If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            path = forlderName
+            path = forlderName + frm.Text
             'Else
             '    Return False
             'End If
@@ -2816,7 +2818,20 @@ a:          Dim frmFilter As New frmFilterToExport()
                     'My.Computer.FileSystem.RenameFile(Microsoft.VisualBasic.Left(path, Len(path) - 1), path.Substring(path.LastIndexOf("\") + 1, path.Length - path.LastIndexOf("\") - 1))
                     clsCommon.ProgressBarHide()
                     common.clsCommon.MyMessageBoxShow("Data transfer Completed!", "Export", MessageBoxButtons.OK)
-                    System.Diagnostics.Process.Start(path)
+
+                    ' Ensure the path ends with ".xls"
+                    If Not path.ToLower().EndsWith(".xls") Then
+                        path &= ".xls"
+                    End If
+
+                    ' Now start the file if it exists
+                    If System.IO.File.Exists(path) Then
+                        System.Diagnostics.Process.Start(path)
+                    Else
+                        MessageBox.Show("File not found: " & path)
+                    End If
+
+                    'System.Diagnostics.Process.Start(path)
                     'Dim excel As New Microsoft.Office.Interop.Excel.ApplicationClass
                     'excel.Workbooks.Open(path)
                     'excel.Visible = True

@@ -17,7 +17,12 @@ Public Class frmBankSummary_Report
 #End Region
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        PrintData(True)
+        If rdbEmployeeBankAdvice.IsChecked = True Then
+            PrintAdvice()
+        Else
+            PrintData(True)
+        End If
+
     End Sub
 
     Private Sub frmBankSummary_Report_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -72,7 +77,49 @@ Public Class frmBankSummary_Report
         Me.Close()
     End Sub
 
+    Sub PrintAdvice()
+        Try
+            If clsCommon.myLen(txtFromPP.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Pay Period.", Me.Text)
+                Return
+            End If
 
+            Dim Comp_Logo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Logo_Img from TSPL_COMPANY_MASTER where Comp_code='" + objCommonVar.CurrentCompanyCode + "'"))
+            Dim Qry As String = ""
+            Qry = " select  '" + Comp_Logo + "'  as Logo_Img,max(TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then '' else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_STATE_MASTER.State_Name ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_STATE_MASTER.State_Name) End End End ) as Loc_Add,
+                    sum( case when TSPL_PAYHEAD_MASTER.isearning=1 then  TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else -TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT end  )as 'sum amt', 
+                    max(TSPL_GENERATE_SALARY.PAY_PERIOD_CODE) as pay_period, '" + objCommonVar.CurrentCompanyName + "'  as Company_Name,'" + objCommonVar.CurrentCompanyCode + "' as Comp_Code ,MAX(TSPL_LOCATION_MASTER.Location_Code) as Location_Code, (TSPL_EMPLOYEE_MASTER.BANK_CODE) as Bank_Name ,max(TSPL_EMPLOYEE_MASTER.Emp_Name)Emp_Name,TSPL_EMPLOYEE_MASTER.EMP_CODE,max(TSPL_EMPLOYEE_MASTER.BANK_ACC_NO)BANK_ACC_NO
+
+from TSPL_GENERATE_SALARY_PAYHEADS 
+left outer join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE  
+left join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.Pay_HEAD_Code=TSPL_GENERATE_SALARY_PAYHEADS.Pay_HEAD_Code  
+left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE =TSPL_GENERATE_SALARY.PAY_PERIOD_CODE   
+left outer join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE  
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code =TSPL_GENERATE_SALARY.LOCATION_CODE   
+left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State  
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER  .Comp_Code =TSPL_LOCATION_MASTER.Comp_code   
+left join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER .Designation_id =TSPL_EMPLOYEE_MASTER.Designation  
+left outer join TSPL_DEVISION_MASTER   on TSPL_DEVISION_MASTER .DEVISION_CODE  =TSPL_GENERATE_SALARY.DEVISION_CODE  
+left outer join TSPL_PAYMENT_MODE PM on TSPL_EMPLOYEE_MASTER.PAYMENT_MODE_New  = PM.Code 
+WHERE  TSPL_GENERATE_SALARY.PAY_PERIOD_CODE = '" + txtFromPP.Value + "' "
+            If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
+                Qry += " AND TSPL_LOCATION_MASTER.LOCATION_CODE  in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ") "
+            End If
+
+            Qry += "Group by TSPL_EMPLOYEE_MASTER.BANK_CODE,TSPL_EMPLOYEE_MASTER.EMP_CODE "
+
+            Dim DT As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If DT IsNot Nothing AndAlso DT.Rows.Count > 0 Then
+                Dim frmcrystal As New frmCrystalReportViewer()
+                frmcrystal.funreport(MyBase.Form_ID, CrystalReportFolder.HRPayroll, DT, "crptBankSummaryAdvice", "Bank Summary Report")
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
     Sub PrintData(ByVal is_Print As Boolean)
         '' changed by Panch raj against Ticket No:BM00000007951
