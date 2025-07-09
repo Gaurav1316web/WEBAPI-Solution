@@ -581,6 +581,7 @@ Public Class frmDairyGatePass
     Private Sub funFillGrid()
         Try
             LoadBlankGrid()
+            Dim itemdispatchQty As New List(Of String)
             Dim totalCrate As Integer = 0
             If ApplyDepartmentRoute Then
                 isDepartmentRoute = clsCommon.myCBool(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Department_Route from TSPL_ROUTE_MASTER where Route_No='" + fndRouteNo.Value + "'")))
@@ -724,10 +725,37 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
                 If AllowManualCrateForDispatch Then
-                    Dim strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head where 
-          convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
-          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1"
-                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
+                    Dim strCrateQty As String = ""
+                    Dim Whrcls As String = ""
+                    '                    If AllowGatePassDemandTripWise Then
+                    '                        strCrateQty = " select sum(TSPL_SD_SHIPMENT_DETAIL.Crate)  as Crate from tspl_sd_shipment_head
+                    'left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=tspl_sd_shipment_head.Document_Code  "
+                    '                        Whrcls = " and TSPL_SD_SHIPMENT_DETAIL.Trip_No='" + txtTripNo.Text + "' "
+                    '                    Else
+                    '                        strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head "
+                    '                    End If
+                    '                    strCrateQty += " where
+                    '                    Convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
+                    '          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1 " + Whrcls
+                    '                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
+
+                    totalCrate = 0
+                    Dim groupbyItem = From i In lstDRobj
+                                      Group By i.Item_Code, i.Unit_Code Into Group
+                                      Select New With {
+                        Key .Item = Item_Code,
+                        Key .Unit = Unit_Code,
+                        Key .TotalQty = Group.Sum(Function(x) x.Qty)
+                    }
+                    For Each result In groupbyItem
+                        Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                        Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(result.Unit) & "' "))
+                        Dim DispatchQty As Decimal = clsCommon.myCdbl(result.TotalQty) * ItemConvFactor
+                        If DispatchQty > (CrateConvFactor / 2) AndAlso CrateConvFactor > 0 Then
+                            totalCrate += clsCommon.myRoundOFF((DispatchQty / CrateConvFactor), 0, 4)
+                        End If
+                    Next
+                    txtCrateQty.Text = totalCrate
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
