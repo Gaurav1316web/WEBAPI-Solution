@@ -4505,7 +4505,6 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMPouch, clsFixedParameterCode.QuickDemandUOMPouch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, "0", "0:Off, 1:On;")
-
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OfflineDCSMilkCollectionExeVersion, clsFixedParameterCode.OfflineDCSMilkCollectionExeVersion, "", "")
         clsFixedParameterProgramMapping.SetDefaultValues()
