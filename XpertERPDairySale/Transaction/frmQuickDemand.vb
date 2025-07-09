@@ -312,8 +312,10 @@ Public Class frmQuickDemand
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             If Not clsCommon.CompairString(dt.Rows(0)("Status"), "N") = CompairStringResult.Equal Then
                                 qry = clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value)
-                                gv1.CurrentRow.Cells(colCustCode).Value = ""
-                                Throw New Exception("Inactive Customer [ " + qry + " ]")
+                                Dim rt As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + qry + "'"))
+                                'gv1.CurrentRow.Cells(colCustCode).Value = ""
+                                LoadBlankGrid()
+                                Throw New Exception("Inactive Customer [ " + qry + " ], Route No [" + rt + " ]")
                             End If
                         End If
                         gv1.CurrentRow.Cells(colCustCode).Value = clsDistributorRouteTagging.getFinder(" Status='N' and IsDistributor='N' and form_type not in('TPT','VSP') ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False)
@@ -327,6 +329,7 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
                         Dim isDemandPosted As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
                         Dim cust As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNo).Value)
                         If clsCommon.myLen(isDemandPosted) > 0 Then
+                            LoadBlankGrid()
                             Throw New Exception("Demand Already Posted for Route_No Code [" + clsCommon.myCstr(cust) + "]")
                         End If
                         FindDemand(gv1.CurrentRow.Cells(colCustCode).Value, gv1.CurrentRow.Cells(colRouteNo).Value)
@@ -1073,8 +1076,26 @@ where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.
                                     Throw New Exception(ex.Message)
                                 End Try
                             Next
+                        Else
+                            Dim k As Integer = 1
+                            For dblcolumns As Integer = 5 To gv1.Columns.Count - 2
+                                Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                                k = k + 1
+                                If obj1 IsNot Nothing Then
+                                    gv1.CurrentRow.Cells(dblcolumns).Value = 0
+                                End If
+                            Next
 
                         End If
+                    Else
+                        Dim k As Integer = 1
+                        For dblcolumns As Integer = 5 To gv1.Columns.Count - 2
+                            Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+                            k = k + 1
+                            If obj1 IsNot Nothing Then
+                                gv1.CurrentRow.Cells(dblcolumns).Value = 0
+                            End If
+                        Next
                     End If
                 Else
 

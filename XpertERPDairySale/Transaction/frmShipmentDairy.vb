@@ -8794,7 +8794,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
 
                         If clsCommon.myLen(ParentDocNo) <= 0 Then
                             ParentDocNo = obj.Document_Code
-                            For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, obj.Shift_Type, obj.Supply_Date, obj.Route_No, obj.Bill_To_Location, obj.Item_Type, trans)
+                            For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, obj.Shift_Type, obj.Supply_Date, obj.Route_No, obj.Bill_To_Location, obj.DO_Item_Type, trans)
                                 lstobj.Add(lst)
                             Next
                         Else
@@ -13274,16 +13274,16 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
         txtVehicleCode.Enabled = True
         cmbShift.Enabled = True
         cmbDisItemType.Enabled = False
-        If Not isProcessShipment Then
-            If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
-                btnSave_Click(btnSave, New EventArgs())
-            Else
-                txtRouteNo.Value = ""
-                txtVendorNo.Value = ""
-                lblVendorName.Text = ""
-                clsCommon.MyMessageBoxShow(Me, "Data not found!")
-            End If
-        End If
+        'If Not isProcessShipment Then
+        '    If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
+        '        btnSave_Click(btnSave, New EventArgs())
+        '    Else
+        '        txtRouteNo.Value = ""
+        '        txtVendorNo.Value = ""
+        '        lblVendorName.Text = ""
+        '        clsCommon.MyMessageBoxShow(Me, "Data not found!")
+        '    End If
+        'End If
     End Sub
     Private Sub Vehicle()
         Dim Qry As String = "select TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number from TSPL_VEHICLE_MASTER
