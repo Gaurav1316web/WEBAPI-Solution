@@ -55,6 +55,7 @@ Partial Class frmBankSummary_Report
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdbEmployeeBankAdvice = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,6 +79,7 @@ Partial Class frmBankSummary_Report
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbEmployeeBankAdvice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -257,7 +259,7 @@ Partial Class frmBankSummary_Report
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(900, 407)
         Me.RadPageView1.TabIndex = 352
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -283,13 +285,14 @@ Partial Class frmBankSummary_Report
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.rdbEmployeeBankAdvice)
         Me.RadGroupBox6.Controls.Add(Me.rbtnPM)
         Me.RadGroupBox6.Controls.Add(Me.rbtnBankwise)
         Me.RadGroupBox6.HeaderText = "Options"
         Me.RadGroupBox6.Location = New System.Drawing.Point(20, 19)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(263, 37)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(317, 37)
         Me.RadGroupBox6.TabIndex = 354
         Me.RadGroupBox6.Text = "Options"
         '
@@ -305,7 +308,7 @@ Partial Class frmBankSummary_Report
         '
         'rbtnBankwise
         '
-        Me.rbtnBankwise.Location = New System.Drawing.Point(181, 10)
+        Me.rbtnBankwise.Location = New System.Drawing.Point(132, 10)
         Me.rbtnBankwise.Name = "rbtnBankwise"
         Me.rbtnBankwise.Size = New System.Drawing.Size(44, 18)
         Me.rbtnBankwise.TabIndex = 307
@@ -331,6 +334,7 @@ Partial Class frmBankSummary_Report
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -393,6 +397,15 @@ Partial Class frmBankSummary_Report
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
+        'rdbEmployeeBankAdvice
+        '
+        Me.rdbEmployeeBankAdvice.Location = New System.Drawing.Point(182, 10)
+        Me.rdbEmployeeBankAdvice.Name = "rdbEmployeeBankAdvice"
+        Me.rdbEmployeeBankAdvice.Size = New System.Drawing.Size(130, 18)
+        Me.rdbEmployeeBankAdvice.TabIndex = 308
+        Me.rdbEmployeeBankAdvice.TabStop = False
+        Me.rdbEmployeeBankAdvice.Text = "Employee BankAdvice"
+        '
         'frmBankSummary_Report
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -431,6 +444,7 @@ Partial Class frmBankSummary_Report
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbEmployeeBankAdvice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -466,5 +480,6 @@ Partial Class frmBankSummary_Report
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmSaveLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmDeleteLayout As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents rdbEmployeeBankAdvice As Telerik.WinControls.UI.RadRadioButton
 End Class
 
