@@ -3084,6 +3084,7 @@ order by LEVEL"
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_BULK_ROUTE_MAPPING  where User_Code ='" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Bank_Master  where User_Code ='" + fndUserCode.Value + "' ")
 
             For Each grow As GridViewRowInfo In gvUser.Rows
                 If IsDBNull(grow.Cells(colSelectUser).Value) = False Then

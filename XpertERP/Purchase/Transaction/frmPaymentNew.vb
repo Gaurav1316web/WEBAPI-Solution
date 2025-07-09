@@ -1039,23 +1039,38 @@ Public Class FrmPaymentNew
 #Region "Finders"
     Private Sub txtBankCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBankCode._MYValidating
         Dim strWhrclas As String = ""
+        Dim strWhereClause As String = ""
         Qry = clsERPFuncationality.glbankqueryNew(strWhrclas)
         If isNewEntry = False Then
             strWhrclas += "  and Bank_type=(Select Bank_type from TSPL_BANK_MASTER WHERE BANK_CODE=(Select Bank_Code from TSPL_PAYMENT_HEADER WHERE Payment_No='" & txtPaymentNo.Value & "')) AND RIGHT(BANKACC,3)=(Select RIGHT(BANKACC,3) from TSPL_BANK_MASTER WHERE BANK_CODE=(Select Bank_Code from TSPL_PAYMENT_HEADER WHERE Payment_No='" & txtPaymentNo.Value & "'))"
         End If
         If isSettlementBankOnly Then
             strWhrclas += " and TSPL_BANK_MASTER.bank_type='S'"
+            strWhereClause += "  TSPL_BANK_MASTER.bank_type='S'"
         Else
             strWhrclas += "  and TSPL_BANK_MASTER.bank_type<>'S'"
+            strWhereClause += "   TSPL_BANK_MASTER.bank_type<>'S'"
         End If
         If objCommonVar.RCDFCFP = True Then
         Else
-            strWhrclas += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+            'strWhrclas += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+            strWhereClause += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
         End If
         strWhrclas += " and TSPL_bank_master.INACTIVE ='Active' "
+        strWhereClause += " and TSPL_bank_master.INACTIVE ='Active' "
 
-        txtBankCode.Value = clsCommon.ShowSelectForm("BankSlctr@Payment", Qry, "Code", strWhrclas, txtBankCode.Value, "Code", isButtonClicked)
-        lblBankDesc.Text = connectSql.RunScalar("select description from TSPL_BANK_MASTER where bank_code = '" + txtBankCode.Value + "'")
+        Dim query As String = Qry & "where " & strWhereClause
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+        If dt.Rows.Count > 0 Then
+            txtBankCode.Value = clsCommon.ShowSelectForm("BankSlctr@Payment", Qry, "Code", strWhereClause, txtBankCode.Value, "Code", isButtonClicked)
+            lblBankDesc.Text = connectSql.RunScalar("select description from TSPL_BANK_MASTER where bank_code = '" + txtBankCode.Value + "'")
+
+        Else
+            Dim qrys As String = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
+            txtBankCode.Value = clsCommon.ShowSelectForm("BankSlctr@Payment", qrys, "Code", strWhrclas, txtBankCode.Value, "Code", isButtonClicked)
+            lblBankDesc.Text = connectSql.RunScalar("select description from TSPL_BANK_MASTER where bank_code = '" + txtBankCode.Value + "'")
+
+        End If
         txtPaymentMode.Value = connectSql.RunScalar("select TSPL_PAYMENT_CODE.Payment_Code   from TSPL_PAYMENT_CODE Where TSPL_PAYMENT_CODE.Payment_Code=  (select DISTINCT (case when Bank_type = 'C' THEN 'CASH' WHEN BANK_TYPE = 'B' THEN 'CHEQUE' WHEN BANK_TYPE = 'O' THEN 'OTHER' WHEN Bank_type = 'P' THEN 'PETTYCASH' END ) AS [Paymet Type] from TSPL_BANK_MASTER Where BANK_CODE='" + txtBankCode.Value + "' )")
         HandleCheque()
 

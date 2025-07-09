@@ -556,6 +556,12 @@ Public Class frmCustomer
                     End If
                 End If
             End If
+            If chkpermanentInactive.Checked Then
+                chkInActive.Checked = True
+                chkInActive.Enabled = False
+
+            End If
+
             If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
                 txtPhone1.Focus()
                 Throw New Exception("Please enter a valid 10-digit phone number")
@@ -611,6 +617,14 @@ Public Class frmCustomer
 #End Region
 #Region "Page Load"
     Private Sub frmCustomer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim colls As Dictionary(Of String, String)
+        colls = New Dictionary(Of String, String)()
+        colls.Add("Customer_Code", "VARCHAR(12) null REFERENCES Tspl_Customer_master(Cust_Code)")
+        colls.Add("perInactive", "integer NOT NULL DEFAULT 1")
+        colls.Add("perInactive_By", "varchar(12) NULL")
+        colls.Add("perInactive_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Customer_Master_ParaInactive", colls, "", True, False, "", "", "", True)
+
         popupcustomernamewhileupdating = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.popupcustomernamewhileupdating, clsFixedParameterCode.popupcustomernamewhileupdating, Nothing)) = 1, True, False)
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         SuperUserCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SuperUserCustomer, clsFixedParameterCode.SuperUserCustomer, Nothing)) = 0, False, True)
@@ -1459,6 +1473,12 @@ Public Class frmCustomer
                 obj.Status = "N"                    '******* for:Active ******** 
                 obj.Closing_Date = Nothing
             End If
+            If chkpermanentInactive.Checked = True Then
+                obj.perinactive = 1
+            Else
+                obj.perinactive = 0
+
+            End If
             If chkHold.Checked = True Then
                 obj.OnHold = "Y"                      '******* for:Hold ******** 
             ElseIf chkHold.Checked = False Then
@@ -1995,6 +2015,7 @@ Public Class frmCustomer
                 strCmd = clsCustomerMaster.getFillDataQueryForCustomerMaster(fndCustomer.Value)
 
             End If
+
             'For ii As Integer = 0 To gvDB.Rows.Count - 1
             '    If clsCommon.CompairString(clsCommon.myCstr(gvDB.Rows(ii).Cells(colCompCode).Value), objCommonVar.CurrentCompanyCode) = CompairStringResult.Equal Then
             '        gvDB.Rows(ii).Cells(colSelect).Value = True
@@ -2133,6 +2154,15 @@ Public Class frmCustomer
                 Else
                     chkSkipTaxableInvoice.Checked = False
                 End If
+                Dim permanentInactive As Integer = clsCommon.myCDecimal(myDr("perInactive"))
+                If permanentInactive = 1 Then
+                    chkpermanentInactive.Checked = True
+                    chkInActive.Checked = True
+                    chkInActive.Enabled = False
+                Else
+                    chkpermanentInactive.Checked = False
+                End If
+
                 Dim SkipNonTaxableInvoice As Integer = clsCommon.myCDecimal(myDr("SkipNonTaxableInvoice"))
                 If SkipNonTaxableInvoice = 1 Then
                     chkSkipNonTaxableInvoice.Checked = True
@@ -2606,6 +2636,7 @@ Public Class frmCustomer
         Me.dtClosing.Value = connectSql.serverDate()
         Me.txtRoute.Text = ""
         chkHold.Checked = False
+        chkpermanentInactive.Checked = False
         chkInActive.Checked = False
         chkInActive.Enabled = False
         chkcredit.Checked = False
@@ -3959,7 +3990,7 @@ Public Class frmCustomer
         cmbCustomerCategory.Text = "Select"
         If clsCommon.myCstr(strId).ToUpper() = fndCustomer.Value Then
             funFill()
-            chkInActive.Enabled = True
+            'chkInActive.Enabled = True
             If clsCommon.myLen(fndCustomer.Value) > 0 AndAlso ChkDcsOnly.Checked Then
                 ChkDcsOnly.ReadOnly = True
             End If
@@ -6115,6 +6146,17 @@ Public Class frmCustomer
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+
+
+    Private Sub chkpermanentInactive_CheckStateChanged(sender As Object, e As EventArgs) Handles chkpermanentInactive.CheckStateChanged
+        If chkpermanentInactive.Checked Then
+            chkInActive.Enabled = True
+            chkInActive.Checked = True
+        Else
+
+        End If
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

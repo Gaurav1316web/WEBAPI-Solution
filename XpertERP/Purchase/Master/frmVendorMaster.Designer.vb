@@ -119,6 +119,7 @@ Partial Class frmVendorMaster
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkHold = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkpermanentInactive = New Telerik.WinControls.UI.RadCheckBox()
         Me.dtClosing = New common.Controls.MyDateTimePicker()
         Me.RadLabel18 = New common.Controls.MyLabel()
         Me.chkInActive = New Telerik.WinControls.UI.RadCheckBox()
@@ -380,6 +381,7 @@ Partial Class frmVendorMaster
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.chkpermanentInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtClosing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1742,6 +1744,7 @@ Partial Class frmVendorMaster
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.chkpermanentInactive)
         Me.RadGroupBox2.Controls.Add(Me.dtClosing)
         Me.RadGroupBox2.Controls.Add(Me.RadLabel18)
         Me.RadGroupBox2.Controls.Add(Me.chkInActive)
@@ -1749,8 +1752,17 @@ Partial Class frmVendorMaster
         Me.RadGroupBox2.Location = New System.Drawing.Point(396, 63)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(293, 33)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(470, 33)
         Me.RadGroupBox2.TabIndex = 7
+        '
+        'chkpermanentInactive
+        '
+        Me.chkpermanentInactive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkpermanentInactive.Location = New System.Drawing.Point(321, 7)
+        Me.chkpermanentInactive.Name = "chkpermanentInactive"
+        Me.chkpermanentInactive.Size = New System.Drawing.Size(118, 16)
+        Me.chkpermanentInactive.TabIndex = 7358
+        Me.chkpermanentInactive.Text = "Permanent Inactive"
         '
         'dtClosing
         '
@@ -3115,6 +3127,7 @@ Partial Class frmVendorMaster
         Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
         Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdTax.MyExportFilePath = ""
         Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4379,6 +4392,7 @@ Partial Class frmVendorMaster
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategory.MyExportFilePath = ""
         Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
@@ -4713,7 +4727,7 @@ Partial Class frmVendorMaster
         Me.txtGSTStateCode.TabIndex = 307
         Me.txtGSTStateCode.Text = "0"
         Me.txtGSTStateCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGSTStateCode.Value = 0R
+        Me.txtGSTStateCode.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'btnclear
         '
@@ -4906,6 +4920,7 @@ Partial Class frmVendorMaster
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.chkpermanentInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtClosing, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5354,5 +5369,6 @@ Partial Class frmVendorMaster
     Friend WithEvents chkSecurityDed As RadCheckBox
     Friend WithEvents chkPenaltyDed As RadCheckBox
     Friend WithEvents CFP_Unitchk As RadCheckBox
+    Friend WithEvents chkpermanentInactive As RadCheckBox
 End Class
 
