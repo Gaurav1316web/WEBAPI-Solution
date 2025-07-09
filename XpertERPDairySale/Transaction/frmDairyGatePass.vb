@@ -423,7 +423,7 @@ Public Class frmDairyGatePass
                     strQuery = "select TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.VehicleNo, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date],Customer_Code,Customer_Name, " &
                       "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit"
                     If AllowGatePassDemandTripWise Then
-                        strQuery += " ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty, TSPL_SD_SHIPMENT_BOOKING_DETAIL.trip_no "
+                        strQuery += " ,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty, TSPL_SD_SHIPMENT_DETAIL.trip_no "
                     Else
                         strQuery += " ,Qty"
                     End If
@@ -434,9 +434,9 @@ Public Class frmDairyGatePass
                     End If
                     strQuery += "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                       "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  "
-                    If AllowGatePassDemandTripWise Then
-                        strQuery += "   left outer  join  TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.item_code And TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code "
-                    End If
+                    'If AllowGatePassDemandTripWise Then
+                    '    strQuery += "   left outer  join  TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE And TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.item_code And TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code and TSPL_SD_SHIPMENT_DETAIL.Trip_No='" + txtTripNo.Text + "'"
+                    'End If
                     strQuery += "where convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                       "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
                     If clsCommon.myLen(fndRouteNo.Value) > 0 Then
@@ -478,7 +478,7 @@ Public Class frmDairyGatePass
 
                     If AllowGatePassDemandTripWise Then
                         If clsCommon.myLen(txtTripNo.Text) > 0 Then
-                            strQuery += "  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No='" + txtTripNo.Text + "'"
+                            strQuery += "  and TSPL_SD_SHIPMENT_DETAIL.Trip_No='" + txtTripNo.Text + "'"
                         Else
                             Throw New Exception("Please Enter Trip No. ")
                         End If

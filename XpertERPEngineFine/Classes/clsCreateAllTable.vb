@@ -8363,7 +8363,7 @@ Public Class clsCreateAllTable
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                     clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD Demand_UniqueID INT IDENTITY(1,1)")
-                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD CONSTRAINT UQ_UniqueIDUNIQUE (Demand_UniqueID)")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER ADD CONSTRAINT UQ_UniqueID UNIQUE (Demand_UniqueID)")
                     clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER_Delete_Data add Demand_UniqueID int null")
                     clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_DEMAND_BOOKING_MASTER_Hist_Data add Demand_UniqueID int null")
                 End If
@@ -24764,7 +24764,7 @@ Public Class clsCreateAllTable
             coll.Add("Raj_Entered_SNFKg", "Decimal(18,3) null")
             ' coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_HEAD", coll, Nothing, True, True, "", "Document_No", "Shift_Date", True)
-            clsDBFuncationality.ExecuteNonQuery(qry)
+
             coll("Document_No") = "Varchar(30) null"
             coll("MCC_Code") = "Varchar(30) null"
             coll("Dock_code") = "Varchar(30) null"
@@ -31472,6 +31472,7 @@ Public Class clsCreateAllTable
             coll.Add("Disc_Unit_Amt", "decimal(18, 2) NULL")
             coll.Add("REF_PK_ID", "integer null references TSPL_DCS_SALE_ENTRY_DETAIL(PK_ID)")
             coll.Add("REF_TPT_PK_ID", "integer null references TSPL_DCS_Transportation_Charges_Detail(PK_ID)")
+            coll.Add("Trip_No", "integer null ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "", True)
 
             qry = "alter table TSPL_SD_SHIPMENT_detail alter column Amount Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Base_Amt Decimal(18,6) null "
@@ -31508,6 +31509,8 @@ Public Class clsCreateAllTable
             coll.Add("Trip_No", "integer null")
             coll.Add("Commission_Amt", "decimal(18,4) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
+            coll.Add("isSchemeItem", "varchar(12) NULL")
+            coll.Add("Scheme_Code", "varchar(12) NULL References TSPL_SCHEME_MASTER_NEW(Scheme_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SHIPMENT_BOOKING_DETAIL'"))
@@ -31519,6 +31522,21 @@ Public Class clsCreateAllTable
                 End If
             Catch ex As Exception
             End Try
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Booking_TR_Code", "Varchar(30) not null")
+            coll.Add("Main_Item_Code", "Varchar(30) not null")
+            coll.Add("Main_Unit_Code", "Varchar(30) not null")
+            coll.Add("Booth_Code", "varchar(12) NULL")
+            coll.Add("Demand_Qty", "decimal(18,2) null")
+            coll.Add("Scheme_Code", "varchar(12) NULL References TSPL_SCHEME_MASTER_NEW(Scheme_Code)")
+            coll.Add("Scheme_Type", "varchar(12) NULL ")
+            coll.Add("Scheme_Qty", "decimal(18,2) null")
+            coll.Add("Item_Code", "varchar(50) NULL")
+            coll.Add("Unit_code", "varchar(12) NULL")
+            coll.Add("Trip_No", "integer null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")

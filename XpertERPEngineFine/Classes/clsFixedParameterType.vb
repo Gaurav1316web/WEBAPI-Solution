@@ -1344,6 +1344,7 @@ Public Class clsFixedParameterType
     Public Const QuickDemandUOMCrate = "Quick Demand UOM Crate"
     Public Const QuickDemandUOMPouch = "Quick Demand UOM Pouch"
     Public Const QuickDemandUOMLtr = "Quick Demand UOM Ltr"
+    Public Const ApplyBoothWiseScheme = "Apply Booth Wise Scheme"
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
 End Class
 Public Class clsFixedParameterCode
@@ -2838,6 +2839,7 @@ Public Class clsFixedParameterCode
     Public Const QuickDemandUOMCrate = "Quick Demand UOM Crate"
     Public Const QuickDemandUOMPouch = "Quick Demand UOM Pouch"
     Public Const QuickDemandUOMLtr = "Quick Demand UOM Ltr"
+    Public Const ApplyBoothWiseScheme = "Apply Booth Wise Scheme"
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
 End Class
 Public Class clsFixedParameter
@@ -4502,6 +4504,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMCrate, clsFixedParameterCode.QuickDemandUOMCrate, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMPouch, clsFixedParameterCode.QuickDemandUOMPouch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, "0", "0:Off, 1:On;")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OfflineDCSMilkCollectionExeVersion, clsFixedParameterCode.OfflineDCSMilkCollectionExeVersion, "", "")
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6368,5 +6372,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMCrate, clsFixedParameterCode.QuickDemandUOMCrate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMPouch, clsFixedParameterCode.QuickDemandUOMPouch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, EnumControlType.CheckBox)
     End Sub
 End Class

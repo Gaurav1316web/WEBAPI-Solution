@@ -2993,6 +2993,7 @@ Public Class clsSNShipmentDCSItemDetail
     Public FPKID As Double = 0
     Public Frieght_Rate As Double = 0
     Public Frieght_Amt As Double = 0
+    Public Trip_No As Double = 0
 
 #End Region
 
