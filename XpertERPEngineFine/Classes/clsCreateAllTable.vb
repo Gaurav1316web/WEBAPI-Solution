@@ -24287,6 +24287,7 @@ Public Class clsCreateAllTable
             coll.Add("Approve_Date", "datetime null")
             coll.Add("Approve_By", "varchar(12)  NULL")
             coll.Add("Source_API", "int Null")
+            coll.Add("Against_Offline_Document_No", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", coll, Nothing, True, False, "", "Document_No", "Document_Date")
             coll("Document_No") = "Varchar(30) null"
             coll("MCC_Code") = "Varchar(30) null"
