@@ -365,60 +365,60 @@ Public Class FrmPendingAproval
         dt1.Columns.Add("Name", GetType(String))
 
 
-        dr = dt1.NewRow()
-        dr("Code") = "Purchase Requisition"
-        dr("Name") = "Purchase Requisition"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Purchase Requisition"
+        'dr("Name") = "Purchase Requisition"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Purchase Order"
-        dr("Name") = "Purchase Order"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Purchase Order"
+        'dr("Name") = "Purchase Order"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Gate Receipt Note"
-        dr("Name") = "Gate Receipt Note"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Gate Receipt Note"
+        'dr("Name") = "Gate Receipt Note"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Material Receipt Note"
-        dr("Name") = "Material Receipt Note"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Material Receipt Note"
+        'dr("Name") = "Material Receipt Note"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Store Receipt Note"
-        dr("Name") = "Store Receipt Note"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Store Receipt Note"
+        'dr("Name") = "Store Receipt Note"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Purchase Invoice"
-        dr("Name") = "Purchase Invoice"
-        dt1.Rows.Add(dr)
-        ''''Added By ---Pankaj Kumar Chaudhary ----on 12/10/2011
-        dr = dt1.NewRow()
-        dr("Code") = "Purchase Return"
-        dr("Name") = "Purchase Return"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Purchase Invoice"
+        'dr("Name") = "Purchase Invoice"
+        'dt1.Rows.Add(dr)
+        '''''Added By ---Pankaj Kumar Chaudhary ----on 12/10/2011
+        'dr = dt1.NewRow()
+        'dr("Code") = "Purchase Return"
+        'dr("Name") = "Purchase Return"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "RGP/NRGP"
-        dr("Name") = "RGP/NRGP"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "RGP/NRGP"
+        'dr("Name") = "RGP/NRGP"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Issue/Return/Transfer"
-        dr("Name") = "Issue/Return/Transfer"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Issue/Return/Transfer"
+        'dr("Name") = "Issue/Return/Transfer"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Scrap LoadOut"
-        dr("Name") = "Scrap LoadOut"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Scrap LoadOut"
+        'dr("Name") = "Scrap LoadOut"
+        'dt1.Rows.Add(dr)
 
-        dr = dt1.NewRow()
-        dr("Code") = "Scrap Invoice"
-        dr("Name") = "Scrap Invoice"
-        dt1.Rows.Add(dr)
+        'dr = dt1.NewRow()
+        'dr("Code") = "Scrap Invoice"
+        'dr("Name") = "Scrap Invoice"
+        'dt1.Rows.Add(dr)
 
 
 
@@ -1150,7 +1150,10 @@ Public Class FrmPendingAproval
         For i As Integer = 2 To count - 2
             Me.gv1.MasterTemplate.Columns(i).Width = 120
         Next i
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "NIR QC") = CompairStringResult.Equal Then
+            Me.gv1.MasterTemplate.Columns("Amount").IsVisible = False    ''Third Column
 
+        End If
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "BMC Mobile Entry") = CompairStringResult.Equal Then
             Me.gv1.MasterTemplate.Columns("Date").Width = 200    ''Third Column
             Me.gv1.MasterTemplate.Columns("BMC Code").Width = 200    ''Fourth Column
@@ -1796,18 +1799,38 @@ Public Class FrmPendingAproval
 
             '---VARSHA ADD NIRQC
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "NIR QC") = CompairStringResult.Equal Then
-            Load_Authorisation(clsUserMgtCode.mbtnIssueReturn)
+            Load_Authorisation(clsUserMgtCode.mbtnPendingApproval1)
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "SELECT CAST(TSPL_NIR_QC.Status as BIT ) as Status, TSPL_NIR_QC.Document_No as [Document Id],
-TSPL_NIR_QC.Document_Date as [Document Date],
-isnull(TSPL_MRN_HEAD.MRN_Total_Amt,0) as [Amount], TSPL_MRN_HEAD.Vendor_Code as [Vendor Code], TSPL_MRN_HEAD.Vendor_Name as [Vendor Name], TSPL_MRN_HEAD.Description, CAST(TSPL_MRN_HEAD.On_Hold as bit) as Hold,
-TSPL_NIR_QC.Created_By AS 'Created By' 
-FROM TSPL_NIR_QC 
-LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.MRN_No=TSPL_NIR_QC.MRN_No 
-WHERE
-convert(date,TSPL_NIR_QC.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_NIR_QC.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+                    '                    qry = "SELECT CAST(TSPL_NIR_QC.Status as BIT ) as Status, TSPL_NIR_QC.Document_No as [Document Id],
+                    'TSPL_NIR_QC.Document_Date as [Document Date],
+                    'isnull(TSPL_MRN_HEAD.MRN_Total_Amt,0) as [Amount], TSPL_MRN_HEAD.Vendor_Code as [Vendor Code], TSPL_MRN_HEAD.Vendor_Name as [Vendor Name], TSPL_MRN_HEAD.Description, CAST(TSPL_MRN_HEAD.On_Hold as bit) as Hold,
+                    'TSPL_NIR_QC.Created_By AS 'Created By' 
+                    'FROM TSPL_NIR_QC 
+                    'LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.MRN_No=TSPL_NIR_QC.MRN_No 
+                    'WHERE
+                    'convert(date,TSPL_NIR_QC.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_NIR_QC.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+
+                    qry = "select CAST(TSPL_NIR_QC.Status as BIT ) as Status, TSPL_NIR_QC.Document_No as [Document Id],
+                    TSPL_NIR_QC.Document_Date as [Document Date],
+isnull(TSPL_MRN_HEAD.MRN_Total_Amt,0) as [Amount],TSPL_MRN_HEAD.VehicleNo AS [Vehicle No],
+CAST(TSPL_MRN_HEAD.On_Hold as bit) as Hold,
+TSPL_MRN_HEAD.Against_GRN as [GRN No],TSPL_GRN_HEAD.GRN_Date  [GRN Date],
+TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment Code],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as [Weighment Date],
+TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [RAL NO],TSPL_MRN_HEAD.Vendor_Code as [Vendor Code],TSPL_MRN_HEAD.Vendor_Name as [Vendor Name],
+TSPL_LOCATION_MASTER.Location_Desc AS [Location Desc],TSPL_MRN_DETAIL.Item_Code AS [Item Code],TSPL_MRN_HEAD.Description
+from TSPL_NIR_QC
+left outer join TSPL_MRN_HEAD  on TSPL_MRN_HEAD.MRN_No=TSPL_NIR_QC.MRN_No
+left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
+left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_HEAD.Against_GRN
+left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_HEAD.Bill_To_Location
+                    WHERE
+                    convert(date,TSPL_NIR_QC.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_NIR_QC.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+
                     If rbtnStatusPending.IsChecked = True Then
                         qry += " and TSPL_NIR_QC.Status=0 "
                         Isrefreshed = False
