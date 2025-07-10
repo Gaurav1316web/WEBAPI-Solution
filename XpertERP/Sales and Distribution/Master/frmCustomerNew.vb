@@ -556,6 +556,12 @@ Public Class frmCustomer
                     End If
                 End If
             End If
+            If chkpermanentInactive.Checked Then
+                chkInActive.Checked = True
+                chkInActive.Enabled = False
+
+            End If
+
             If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
                 txtPhone1.Focus()
                 Throw New Exception("Please enter a valid 10-digit phone number")
@@ -1459,6 +1465,12 @@ Public Class frmCustomer
                 obj.Status = "N"                    '******* for:Active ******** 
                 obj.Closing_Date = Nothing
             End If
+            If chkpermanentInactive.Checked = True Then
+                obj.perinactive = 1
+            Else
+                obj.perinactive = 0
+
+            End If
             If chkHold.Checked = True Then
                 obj.OnHold = "Y"                      '******* for:Hold ******** 
             ElseIf chkHold.Checked = False Then
@@ -1995,6 +2007,7 @@ Public Class frmCustomer
                 strCmd = clsCustomerMaster.getFillDataQueryForCustomerMaster(fndCustomer.Value)
 
             End If
+
             'For ii As Integer = 0 To gvDB.Rows.Count - 1
             '    If clsCommon.CompairString(clsCommon.myCstr(gvDB.Rows(ii).Cells(colCompCode).Value), objCommonVar.CurrentCompanyCode) = CompairStringResult.Equal Then
             '        gvDB.Rows(ii).Cells(colSelect).Value = True
@@ -2133,6 +2146,15 @@ Public Class frmCustomer
                 Else
                     chkSkipTaxableInvoice.Checked = False
                 End If
+                Dim permanentInactive As Integer = clsCommon.myCDecimal(myDr("perInactive"))
+                If permanentInactive = 1 Then
+                    chkpermanentInactive.Checked = True
+                    chkInActive.Checked = True
+                    chkInActive.Enabled = False
+                Else
+                    chkpermanentInactive.Checked = False
+                End If
+
                 Dim SkipNonTaxableInvoice As Integer = clsCommon.myCDecimal(myDr("SkipNonTaxableInvoice"))
                 If SkipNonTaxableInvoice = 1 Then
                     chkSkipNonTaxableInvoice.Checked = True
@@ -2606,6 +2628,7 @@ Public Class frmCustomer
         Me.dtClosing.Value = connectSql.serverDate()
         Me.txtRoute.Text = ""
         chkHold.Checked = False
+        chkpermanentInactive.Checked = False
         chkInActive.Checked = False
         chkInActive.Enabled = False
         chkcredit.Checked = False
@@ -3183,9 +3206,11 @@ Public Class frmCustomer
             strCmd += " ,case when isnull(a.Bank_Name,'')='' then '' else a.Bank_Name end as [Bank Name],case when isnull(a.IFSC_Code,'')='' then '' else a.IFSC_Code end as [IFSC Code],case when isnull(a.Branch_Name,'')='' then '' else a.Branch_Name end as [Branch Name],case when isnull(a.Account_No,'')='' then '' else a.Account_No end as [Account No]"
             strCmd += " ,a.RSM as [RSM Code],P.Emp_Name as [RSM Name],a.ZSM as [ZSM Code],Q.Emp_Name as [ZSM Name],a.ASM as [ASM Code],R.Emp_Name as [ASM Name],a.ASO as [ASO Code],S.Emp_Name as [ASO Name],a.CheckCreditLimit as [Check Credit Limit], case when  isnull (a.IsTCSGreaterthan50K,0) = 1 then 'Yes' else 'No' end as [TCS Greater than 50K], case when  isnull (a.IsTurnoverMorethan10CR,0) = 1 then 'Yes' else 'No' end as [Turnover More than 10CR], case when  isnull (a.IsITRfilledinLast2Years,0) = 1  then 'Yes' else 'No' end as [ITR filled in Last 2 Years] "
             strCmd += " ,(case when a.Status='Y' then 'Inactive' else 'Active' end) as [Customer Status] "
-            strCmd += " ,isnull(a.MaritalStatus,'') as [Marital Status(Married-Unmarried)],a.DOB as [DOB],isnull(a.F_H_Name,'') as [Father-Husband name],isnull(a.Education,'') as [Education],isnull(a.ResidentialAdd1,'') as [ResidentialAdd1],isnull(a.ResidentialAdd2,'') as [ResidentialAdd2],isnull(a.CustStatus,'') as [Cust Status],a.Inter_Union_Sale as [Inter Union Sale]"
+            strCmd += " ,isnull(a.MaritalStatus,'') as [Marital Status(Married-Unmarried)],a.DOB as [DOB],isnull(a.F_H_Name,'') as [Father-Husband name],isnull(a.Education,'') as [Education],isnull(a.ResidentialAdd1,'') as [ResidentialAdd1],isnull(a.ResidentialAdd2,'') as [ResidentialAdd2],isnull(a.CustStatus,'') as [Cust Status],a.Inter_Union_Sale as [Inter Union Sale] "
+            'strCmd += ",CP.perInactive AS[Permanent Inactive]"
             strCmd += " FROM [TSPL_CUSTOMER_MASTER] as a left outer join TSPL_EMPLOYEE_MASTER as b on a.service_dealer_code=b.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as c on a.tdm_code=c.EMP_CODE left outer join TSPL_customer_MASTER as d on a.distributor_code=d.Cust_Code left join tspl_vendor_Master frnc on frnc.vendor_code=a.Franchise_Code"
             strCmd += " left outer join TSPL_EMPLOYEE_MASTER as P on a.RSM=P.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as Q on a.ZSM=Q.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as R on a.ASM=R.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as S on a.ASO=S.EMP_CODE"
+            'strCmd += " left outer join TSPL_Customer_Master_ParaInactive  as CP on CP.customer_code=a.cust_code "
             ListImpExpColumnsMandatory = New List(Of String)({"Customer Code", "Name", "GSTIN NO", "Group Code", "CURRENCY CODE"})
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
             transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
@@ -3223,7 +3248,7 @@ Public Class frmCustomer
                         If clsCommon.myLen(strCusCode) > 0 Then
                             If clsCommon.myLen(strCusCode) > 12 Then
                                 Throw New Exception("Customer code can Not be greater than 12 characters at line '" + LineNo + "'.")
-        End If
+                            End If
                         Else
                             Throw New Exception("Customer code can not be left blank at line '" + LineNo + "'.")
                         End If
@@ -3265,6 +3290,8 @@ Public Class frmCustomer
                     Dim strComposition As Integer = 0
                     Dim Other_For_Pan As Integer = clsCommon.myCdbl(grow.Cells("Other For Pan").Value)
                     Dim Inter_Union_Sale As Double = clsCommon.myCdbl(grow.Cells("Inter Union Sale").Value)
+                    ' Dim per_Inactive As Double = clsCommon.myCdbl(grow.Cells("Permanent Inactive").Value)
+
                     If GstApplicable Then
                         strRegistered = clsCommon.myCdbl(grow.Cells("Registered").Value)
                         strComposition = clsCommon.myCdbl(grow.Cells("Composition").Value)
@@ -3300,6 +3327,8 @@ Public Class frmCustomer
                             End If
                         End If
                     End If
+                    ' clsCommon.AddColumnsForChange(coll, "perInactive", per_Inactive)
+
                     clsCommon.AddColumnsForChange(coll, "Inter_Union_Sale", Inter_Union_Sale)
                     clsCommon.AddColumnsForChange(coll, "Other_For_PAN", Other_For_Pan)
                     clsCommon.AddColumnsForChange(coll, "GSTNO", strGstNo)
@@ -3959,7 +3988,7 @@ Public Class frmCustomer
         cmbCustomerCategory.Text = "Select"
         If clsCommon.myCstr(strId).ToUpper() = fndCustomer.Value Then
             funFill()
-            chkInActive.Enabled = True
+            'chkInActive.Enabled = True
             If clsCommon.myLen(fndCustomer.Value) > 0 AndAlso ChkDcsOnly.Checked Then
                 ChkDcsOnly.ReadOnly = True
             End If
@@ -6115,6 +6144,17 @@ Public Class frmCustomer
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+
+
+    Private Sub chkpermanentInactive_CheckStateChanged(sender As Object, e As EventArgs) Handles chkpermanentInactive.CheckStateChanged
+        If chkpermanentInactive.Checked Then
+            chkInActive.Enabled = True
+            chkInActive.Checked = True
+        Else
+
+        End If
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

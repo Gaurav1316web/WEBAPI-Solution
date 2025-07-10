@@ -100,6 +100,7 @@ Partial Class frmCustomer
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkpermanentInactive = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkInterUnionSale = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSkipNonTaxableInvoice = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSkipTaxableInvoice = New Telerik.WinControls.UI.RadCheckBox()
@@ -430,6 +431,7 @@ Partial Class frmCustomer
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkpermanentInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInterUnionSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipNonTaxableInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipTaxableInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -905,6 +907,7 @@ Partial Class frmCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkpermanentInactive)
         Me.RadPageViewPage1.Controls.Add(Me.chkInterUnionSale)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipNonTaxableInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.chkSkipTaxableInvoice)
@@ -980,6 +983,15 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1058, 424)
         Me.RadPageViewPage1.Text = "Address"
+        '
+        'chkpermanentInactive
+        '
+        Me.chkpermanentInactive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkpermanentInactive.Location = New System.Drawing.Point(726, 170)
+        Me.chkpermanentInactive.Name = "chkpermanentInactive"
+        Me.chkpermanentInactive.Size = New System.Drawing.Size(118, 16)
+        Me.chkpermanentInactive.TabIndex = 1387
+        Me.chkpermanentInactive.Text = "Permanent Inactive"
         '
         'chkInterUnionSale
         '
@@ -6588,6 +6600,7 @@ Partial Class frmCustomer
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkpermanentInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInterUnionSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipNonTaxableInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipTaxableInvoice, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7259,5 +7272,6 @@ Partial Class frmCustomer
     Friend WithEvents chkSkipTaxableInvoice As RadCheckBox
     Friend WithEvents chkSkipNonTaxableInvoice As RadCheckBox
     Friend WithEvents chkInterUnionSale As RadCheckBox
+    Friend WithEvents chkpermanentInactive As RadCheckBox
 End Class
 

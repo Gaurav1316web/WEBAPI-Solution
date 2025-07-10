@@ -581,6 +581,7 @@ Public Class frmDairyGatePass
     Private Sub funFillGrid()
         Try
             LoadBlankGrid()
+            Dim itemdispatchQty As New List(Of String)
             Dim totalCrate As Integer = 0
             If ApplyDepartmentRoute Then
                 isDepartmentRoute = clsCommon.myCBool(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Department_Route from TSPL_ROUTE_MASTER where Route_No='" + fndRouteNo.Value + "'")))
@@ -724,10 +725,37 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
                 If AllowManualCrateForDispatch Then
-                    Dim strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head where 
-          convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
-          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1"
-                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
+                    Dim strCrateQty As String = ""
+                    Dim Whrcls As String = ""
+                    '                    If AllowGatePassDemandTripWise Then
+                    '                        strCrateQty = " select sum(TSPL_SD_SHIPMENT_DETAIL.Crate)  as Crate from tspl_sd_shipment_head
+                    'left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=tspl_sd_shipment_head.Document_Code  "
+                    '                        Whrcls = " and TSPL_SD_SHIPMENT_DETAIL.Trip_No='" + txtTripNo.Text + "' "
+                    '                    Else
+                    '                        strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head "
+                    '                    End If
+                    '                    strCrateQty += " where
+                    '                    Convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
+                    '          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1 " + Whrcls
+                    '                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
+
+                    totalCrate = 0
+                    Dim groupbyItem = From i In lstDRobj
+                                      Group By i.Item_Code, i.Unit_Code Into Group
+                                      Select New With {
+                        Key .Item = Item_Code,
+                        Key .Unit = Unit_Code,
+                        Key .TotalQty = Group.Sum(Function(x) x.Qty)
+                    }
+                    For Each result In groupbyItem
+                        Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                        Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(result.Unit) & "' "))
+                        Dim DispatchQty As Decimal = clsCommon.myCdbl(result.TotalQty) * ItemConvFactor
+                        If DispatchQty > (CrateConvFactor / 2) AndAlso CrateConvFactor > 0 Then
+                            totalCrate += clsCommon.myRoundOFF((DispatchQty / CrateConvFactor), 0, 4)
+                        End If
+                    Next
+                    txtCrateQty.Text = totalCrate
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
@@ -2763,7 +2791,7 @@ WHERE TSPL_ITEM_MASTER.Print_Sequence is not null and TSPL_ITEM_MASTER.Active=1
                 Next
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                qry = "Select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],max(Customer_Name)OUTLET,max(Display_Seq)as Display_Seq, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
+                qry = "Select max(Customer_Name)OUTLET,max(Display_Seq)as Display_Seq, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
 
 from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
@@ -2836,7 +2864,7 @@ where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' and TSPL_CUSTOMER_MAS
                 qry += " group by Cust_Code "
 
                 qry += " Union all 
-                       Select '' As [SR.],'TOTAL QNTY' as OUTLET,100000 as Display_Seq ," & itemName1 & " ,sum(Amount) as Amount
+                       Select 'TOTAL QNTY' as OUTLET,100000 as Display_Seq ," & itemName1 & " ,sum(Amount) as Amount
 from (Select 1 AS Sno,Cust_Code,max(Customer_Name)Customer_Name,max(Display_Seq)as Display_Seq, " & itemName1 & " ,sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
 
@@ -2886,7 +2914,7 @@ where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT
 
                 qry += " group by Cust_Code )XX group by SNo "
 
-                qry = "select * from (" + qry + ") XXXFinal order by Display_Seq "
+                qry = "select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],* from (" + qry + ") XXXFinal order by Display_Seq "
             Else
                 qry = "select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount

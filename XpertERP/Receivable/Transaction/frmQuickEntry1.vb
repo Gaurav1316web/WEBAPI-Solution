@@ -1424,15 +1424,28 @@ Public Class FrmQuickEntry1
     Private Sub fndBank__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndBankCode._MYValidating
         Dim strWhrcls As String = ""
         Dim strWhrclas As String = ""
-        strWhrclas += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
-
-
-        Dim Qry As String = clsERPFuncationality.glbankqueryNew(strWhrcls)
         If objCommonVar.RCDFCFP = True Then
         Else
-            strWhrcls += strWhrclas
+            strWhrclas += " User_Code='" + objCommonVar.CurrentUserCode + "' "
         End If
-        fndBankCode.Value = clsCommon.ShowSelectForm("Bank Filter1", Qry, "Code", "Bank_type IN ('B','C') AND " & strWhrcls & "", fndBankCode.Value, "Code", isButtonClicked)
+
+        Dim Qry As String = clsERPFuncationality.glbankqueryNew(strWhrcls)
+        Dim query As String = Qry & "where " & strWhrclas
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+
+        If dt.Rows.Count > 0 Then
+            fndBankCode.Value = clsCommon.ShowSelectForm("Bank Filter1", Qry, "Code", "Bank_type IN ('B','C') AND " & strWhrclas & "", fndBankCode.Value, "Code", isButtonClicked)
+
+        Else
+            Dim qrys As String = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
+            fndBankCode.Value = clsCommon.ShowSelectForm("Bank Filter1", qrys, "Code", "Bank_type IN ('B','C') AND " & strWhrcls & "", fndBankCode.Value, "Code", isButtonClicked)
+
+        End If
+        'If objCommonVar.RCDFCFP = True Then
+        'Else
+        '    strWhrcls += strWhrclas
+        'End If
+        'fndBankCode.Value = clsCommon.ShowSelectForm("Bank Filter1", Qry, "Code", "Bank_type IN ('B','C') AND " & strWhrcls & "", fndBankCode.Value, "Code", isButtonClicked)
         FillBankDetails()
     End Sub
     Private Sub MasterTemplate_CreateRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCreateRowEventArgs) Handles MasterTemplate.CreateRow

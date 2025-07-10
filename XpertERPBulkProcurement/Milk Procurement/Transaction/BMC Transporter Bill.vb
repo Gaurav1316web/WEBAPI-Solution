@@ -331,8 +331,8 @@ Public Class BMC_Transporter_Bill
         loadGridData()
         FatSnfShortageDetail()
         FatSnfRate()
-        IceCharge()
         FatSnfCalculation()
+        IceCharge()
     End Sub
 
     Sub FatSnfCalculation()
@@ -348,10 +348,17 @@ Public Class BMC_Transporter_Bill
     Sub IceCharge()
         Try
             Dim rowCount As Integer = gv1.Rows.Count
+            Dim GrossAmt As Double = 0
+            Dim totalAmt As Double = 0
             Dim Icecharge As Double = clsCommon.myCdbl(TxtIceCharge.Text)
             If rowCount > 0 Then
                 TxtTotalIceCharge.Text = clsCommon.myCdbl(Icecharge * rowCount)
+                GrossAmt = clsCommon.myCdbl(TxtGrossAmount.Text)
+                totalAmt = clsCommon.myCdbl(TxtTotalAmount.Text)
+                TxtTotalAmount.Text = totalAmt + clsCommon.myCdbl(TxtTotalIceCharge.Text)
+                TxtGrossAmount.Text = GrossAmt + clsCommon.myCdbl(TxtTotalIceCharge.Text)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

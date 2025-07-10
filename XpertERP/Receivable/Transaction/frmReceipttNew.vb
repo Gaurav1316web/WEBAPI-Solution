@@ -2433,6 +2433,7 @@ select (-1) as Type, Document_No from TSPL_BANK_REVERSE where  Cust_Code='" + cu
 
     Private Sub fndBankCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndBankCode._MYValidating
         Dim strWhrcls As String = ""
+        Dim strWhereClause As String = ""
 
 
         Dim Qry As String
@@ -2440,22 +2441,38 @@ select (-1) as Type, Document_No from TSPL_BANK_REVERSE where  Cust_Code='" + cu
         If IsNewEntry Then
             Qry = clsERPFuncationality.glbankqueryNew(strWhrcls)
             strWhrcls += " and TSPL_bank_master.INACTIVE ='Active' "
+            strWhereClause += "  TSPL_bank_master.INACTIVE ='Active' "
             If isSettlementBankOnly Then
-                strWhrcls += " and TSPL_BANK_MASTER.bank_type='S'"
+                strWhrcls += " And TSPL_BANK_MASTER.bank_type ='S'"
+                strWhereClause += " And TSPL_BANK_MASTER.bank_type ='S'"
+
             Else
                 strWhrcls += " and TSPL_BANK_MASTER.bank_type<>'S'"
+                strWhereClause += " and TSPL_BANK_MASTER.bank_type<>'S'"
+
             End If
             If clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Then
                 strWhrcls += " and TSPL_BANK_MASTER.IsSettlementBankForAD='0' "
+                strWhereClause += " and TSPL_BANK_MASTER.IsSettlementBankForAD='0' "
+
             End If
             If objCommonVar.RCDFCFP = True Then
             Else
-                strWhrcls += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+                'strWhrcls += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
+                strWhereClause += " and User_Code='" + objCommonVar.CurrentUserCode + "' "
 
             End If
-
-            fndBankCode.Value = clsCommon.ShowSelectForm("RcptBanFilter", Qry, "Code", strWhrcls, fndBankCode.Value, "Code", isButtonClicked)
+            Dim query As String = Qry & "where " & strWhereClause
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+            If dt.Rows.Count > 0 Then
+                fndBankCode.Value = clsCommon.ShowSelectForm("RcptBanFilter", Qry, "Code", strWhereClause, fndBankCode.Value, "Code", isButtonClicked)
             Else
+                Dim qrys As String = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
+                fndBankCode.Value = clsCommon.ShowSelectForm("RcptBanFilter", qrys, "Code", strWhrcls, fndBankCode.Value, "Code", isButtonClicked)
+            End If
+
+            'fndBankCode.Value = clsCommon.ShowSelectForm("RcptBanFilter", Qry, "Code", strWhrcls, fndBankCode.Value, "Code", isButtonClicked)
+        Else
                 Qry = "select BANK_CODE as [Code], DESCRIPTION,BANKACCNUMBER as [Bank Account No]  from TSPL_BANK_MASTER "
             '" Where Bank_type = (Select Bank_type from TSPL_Bank_MASTER  Where BANK_CODE = '" & fndBankCode.Value & "' )"
             Dim Cond As String = ""

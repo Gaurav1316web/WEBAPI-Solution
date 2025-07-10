@@ -56,6 +56,14 @@ Public Class frmVendorMaster
 
 #Region "Page Load"
     Private Sub frmVendorMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim colls As Dictionary(Of String, String)
+        colls = New Dictionary(Of String, String)()
+        colls.Add("vendor_code", "VARCHAR(12) null REFERENCES TSPL_VENDOR_MASTER(vendor_code)")
+        colls.Add("perInactive", "integer NOT NULL DEFAULT 1")
+        colls.Add("perInactive_By", "varchar(12) NULL")
+        colls.Add("perInactive_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Vendor_Master_ParaInactive", colls, "", True, False, "", "", "", True)
+
         EnableBankFromMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableBankFromMaster, clsFixedParameterCode.EnableBankFromMaster, Nothing)) = 1, True, False)
         SettEnableTDSforServiceVendorSeparately = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTDSforServiceVendorSeparately, clsFixedParameterCode.EnableTDSforServiceVendorSeparately, Nothing)) = 1)
         DoNotCheckAnyValidationOnVendorInactive = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotCheckAnyValidationOnVendorInactive, clsFixedParameterCode.DoNotCheckAnyValidationOnVendorInactive, Nothing)) = 1, True, False)
@@ -489,14 +497,18 @@ Public Class frmVendorMaster
                      "Contact_Person_Fax ,Contact_Person_Website ,Contact_Person_Email ,Terms_Code ,Terms_Code_Desc ,Vendor_Account ,Vendor_Account_Desc ," &
                      "Payment_Code,Payment_Code_Desc ,Ven_Type_Code ,Ven_Type_Desc ,Bank_Code ,Bank_Code_Desc ,Service_Tax_No ,Lst_No ,Tin_No ,	Credit_Limit," &
                      "Tax_Group ,Tax_Group_Desc ,TAX1 ,TAX1_Rate ,TAX2,TAX2_Rate ,TAX3 ,TAX3_Rate ,TAX4 ,TAX4_Rate ,TAX5 ,TAX5_Rate ,TAX6 ,TAX6_Rate ," &
-                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,weight,JWPriceCode,IsEmployee,isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF,isSecurityDeduction,isPenaltyDeduction,CFP_Unit  from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' " 'and form_type='ALL'	"
+                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,weight,JWPriceCode,IsEmployee,isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF,isSecurityDeduction,isPenaltyDeduction,CFP_Unit 
+                     from tspl_vendor_master where vendor_code='" + fndvendorNo.Value + "' " 'and form_type='ALL'	"
             Else
                 strCmd = " Select Vendor_Name, Vendor_Group_Code,  Vendor_Group_Code_Desc,  Status ,OnHold  ,Convert(Date,Closing_Date,103) ,Add1 ,	Add2 ,Add3 ," &
                      "City_Code ,City_Code_Desc ,State ,Country ,	Phone1 ,Phone2 ,Fax,Email ,WebSite ,Contact_Person_Name ,Contact_Person_Phone ," &
                      "Contact_Person_Fax ,Contact_Person_Website ,Contact_Person_Email ,Terms_Code ,Terms_Code_Desc ,Vendor_Account ,Vendor_Account_Desc ," &
                      "Payment_Code,Payment_Code_Desc ,Ven_Type_Code ,Ven_Type_Desc ,Bank_Code ,Bank_Code_Desc ,Service_Tax_No ,Lst_No ,Tin_No ,	Credit_Limit ," &
                      "Tax_Group ,Tax_Group_Desc ,TAX1 ,TAX1_Rate ,TAX2,TAX2_Rate ,TAX3 ,TAX3_Rate ,TAX4 ,TAX4_Rate ,TAX5 ,TAX5_Rate ,TAX6 ,TAX6_Rate ," &
-                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,Vendor_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,DFOption,BusinessCondition,GSTRegistered,GST_Composition_scheme,GSTEntity,GSTLastEntity,GSTFinalNo,weight,JWPriceCode,IsEmployee, isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF,isSecurityDeduction,isPenaltyDeduction,CFP_Unit  from TSPL_VENDOR_MASTER where vendor_code='" + VCode + "'" ' and form_type='ALL'	"
+                     "TAX7 ,TAX7_Rate ,TAX8 ,TAX8_Rate ,TAX9 ,TAX9_Rate ,TAX10 ,TAX10_Rate ,Remarks1 ,Remarks2 ,Additional1 ,Additional2 ,Additional3,transporter,CST,ECC,Range,Collectorate,PAN,is_Gross_Receipt,Inter_branch,currency_code,franchise_yn,state_code,country_code,Parent_Vendor_Code,Is_Parent_Vendor,Category_Struct_Code,branch_code,Branch_Name,Account_No,Bank_Name,IFSC_Code,Account_Type,Vendor_Type,Pin_Code,TSPL_VENDOR_MASTER.Vendor_Code,Is_Chilling_Vendor,Is_TDS_Applicable,TDS_Branch_Code,Deduction_Code,TDS_Vendor_Type,TDS_Status,TDS_State_Code,csa_type,ISNULL(Alies_Name,'') As [Alies Name],ISNULL(Vendor_Type_CHA,'') As Vendor_Type_CHA,IsVendorInvoiceNo,cha_doc_no,Is_TC_Certified,TC_Certified,ISNULL(Other_For_Pan,0) AS Other_For_Pan,Cheque_In_Favour_Of,tspl_vendor_master.PC_CODE,tspl_vendor_master.Vendor_Distance,tspl_vendor_master.Industry_Type,tspl_vendor_master.oldname,tspl_vendor_master.SSI_No,tspl_vendor_master.Is_Blacklist,DFOption,BusinessCondition,GSTRegistered,GST_Composition_scheme,GSTEntity,GSTLastEntity,GSTFinalNo,weight,JWPriceCode,IsEmployee, isHighClass , Bulk_ROUTE_NO,EMP_CODE,Registration_No,TSPL_VENDOR_MASTER.IsTCSnotApplicable,TSPL_VENDOR_MASTER.Isbuyerfilereturninlasttwoyears,TSPL_VENDOR_MASTER.IsTCS_TDSamountgreaterthan50KpreviousYear,Deduction_Code_Service,TDS_State_Code_Service,TDS_Branch_Code_Service,TDS_Vendor_Type_Service,TDS_Status_Service,TSPL_VENDOR_MASTER.IsAllowSkipPurchaseQC,TSPL_VENDOR_MASTER.OEM,TSPL_VENDOR_MASTER.Is_Provisional,Is_Default_Grower,In_Active_CF,isSecurityDeduction,isPenaltyDeduction,CFP_Unit ,perInactive
+                     from TSPL_VENDOR_MASTER
+                                          left outer join TSPL_Vendor_Master_ParaInactive on TSPL_Vendor_Master_ParaInactive.Vendor_code=TSPL_VENDOR_MASTER.vendor_code
+                                          where TSPL_VENDOR_MASTER.vendor_code='" + VCode + "'" ' and form_type='ALL'	"
             End If
 
 
@@ -530,6 +542,13 @@ Public Class frmVendorMaster
                     chkInActive.Checked = False
                 ElseIf strStatus = "Y" Then
                     chkInActive.Checked = True
+                End If
+                Dim strpermanentInactive As Integer = 0
+                strpermanentInactive = clsCommon.myCdbl(myDr("perinactive"))
+                If strpermanentInactive = 1 Then
+                    chkpermanentInactive.Checked = True
+                Else
+                    chkpermanentInactive.Checked = False
                 End If
 
                 'IsVendorInvoiceNo In_Active_CF
@@ -1365,13 +1384,25 @@ Public Class frmVendorMaster
                 strHold = "N"                      '******* for:Remove Hold ********
             End If
 
+
+
+
             Dim IsVendorInvoiceNo As Integer = 0
             If chkVendorInvoiceNo.Checked Then
                 IsVendorInvoiceNo = 1
             Else
                 IsVendorInvoiceNo = 0
             End If
+            Dim IspermanentInactive As Integer = 0
 
+            If chkpermanentInactive.checked Then
+                IspermanentInactive = 1
+                chkInActive.Checked = True
+            Else
+                IspermanentInactive = 0
+                chkInActive.Checked = False
+
+            End If
 
             Dim strInterBranch As String
             If chkInterBranch.Checked = True Then
@@ -1544,6 +1575,7 @@ Public Class frmVendorMaster
 
             updateRemainingColmns(trans, IS_TDS_App, State, DFoption, Registered, GST_Composition_scheme, VenCHA, IsVendorInvoiceNo, Other_For_Pan, chillingven, csatype, strTagAsFranchise)
 
+            SaveParmanentInactive(fndvendorNo.Value, IspermanentInactive, trans)
 
 
 
@@ -1569,6 +1601,25 @@ Public Class frmVendorMaster
         End Try
     End Sub
 
+    Dim coll As New Hashtable()
+    Public Shared Function SaveParmanentInactive(ByVal stcode As String, ByVal preInactive As Integer, ByVal trans As SqlTransaction)
+        Dim StrQry As String = "delete from TSPL_Vendor_Master_ParaInactive where Vendor_Code='" + stcode + "'"
+        clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "perinactive", preInactive)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Code", stcode)
+            clsCommon.AddColumnsForChange(coll, "perInactive_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "perInactive_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Master_ParaInactive", OMInsertOrUpdate.Insert, "", trans)
+            Return True
+
+        Catch ex As Exception
+            ' Optional: log error
+            'Return False
+
+        End Try
+    End Function
     Sub updateRemainingColmns(ByVal trans As SqlTransaction, ByVal IS_TDS_App As Integer, ByVal State As String, ByVal DFoption As String, ByVal Registered As Integer, ByVal GST_Composition_scheme As Integer, ByVal VenCHA As String, ByVal IsVendorInvoiceNo As Integer, ByVal Other_For_Pan As Integer, ByVal chillingven As String, ByVal csatype As String, ByVal strTagAsFranchise As String)
 
         If (clsCommon.myCBool(chkDefaultGrower.Checked) = True) Then
@@ -1686,7 +1737,11 @@ Public Class frmVendorMaster
             clsDBFuncationality.ExecuteNonQuery(streq, trans)
         End If
         ''----ENd
-
+        'Dim strpermanetdate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+        'If chkpermanentInactive.Checked = True Then
+        '    Dim streq As String = "Update TSPL_Vendor_Master_ParaInactive set perInactive= " + IIf(chkpermanentInactive.Checked, "1", "0") + " ,perInactive_By='" + objCommonVar.CurrentUserCode + "',perInactive_Date='" + strpermanetdate + "'  where Vendor_Code='" + fndvendorNo.Value + "'"
+        '    clsDBFuncationality.ExecuteNonQuery(streq, trans)
+        'End If
         ''---- Added by Parteek Weight
         Dim strqry As String = ""
         strqry = " update TSPL_VENDOR_MASTER set OEM=" + IIf(chkOEM.Checked, "1", "0") + " ,Weight='" & clsCommon.myCdbl(txtWeight.Text) & "', JWPriceCode='" & txtJWPriceCode.Value & "' where Vendor_Code='" + fndvendorNo.Value + "'"
@@ -1833,6 +1888,7 @@ Public Class frmVendorMaster
     'this function will reset all the fields for new entry
     Public Sub funreset()
         'chkcsa.Checked = False
+        chkpermanentInactive.Checked = False
         chkSecurityDed.Checked = False
         chkPenaltyDed.Checked = False
         chkIsAllowSkipPurchaseQC.Checked = False
@@ -4219,7 +4275,11 @@ Public Class frmVendorMaster
                     fndCHA_Code.Select()
                     Return
                 End If
+                If chkpermanentInactive.Checked Then
+                    chkInActive.Checked = True
+                    chkInActive.Enabled = False
 
+                End If
                 If clsCommon.myLen(txtPhone1.Text) > 0 AndAlso Not IsValidPhoneNumber(txtPhone1.Text) Then
                     txtPhone1.Focus()
                     Throw New Exception("Please enter a valid 10-digit phone number")
@@ -5418,6 +5478,15 @@ Public Class frmVendorMaster
 
     Private Sub RadCheckBox1_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles InActiveCF.ToggleStateChanged
 
+    End Sub
+
+    Private Sub chkpermanentInactive_CheckStateChanged(sender As Object, e As EventArgs) Handles chkpermanentInactive.CheckStateChanged
+        If chkpermanentInactive.Checked Then
+            chkInActive.Enabled = True
+            chkInActive.Checked = True
+        Else
+
+        End If
     End Sub
 
     Public Sub SaveasCustomer(ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean)

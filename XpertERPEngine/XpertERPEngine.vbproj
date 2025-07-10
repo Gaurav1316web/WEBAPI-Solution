@@ -210,7 +210,6 @@
     <Compile Include="Common\clsAllStoreProcedure.vb" />
     <Compile Include="Common\clsApprovalScreen.vb" />
     <Compile Include="Common\clsApproverCreation.vb" />
-    <Compile Include="Common\clsBackUp.vb" />
     <Compile Include="Common\clsBankGuaranteeMaster.vb" />
     <Compile Include="Common\clsBankReco.vb" />
     <Compile Include="Common\clsBankTrasnferNew.vb" />
