@@ -292,10 +292,10 @@ Public Class clsEmployeeSalary
         'Dim dt As DataTable
 
         qry = " select left(fields,len(fields)-1)  from (select ( select '['+PAY_HEAD_CODE   +'],'   " &
-              " from (select distinct TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE   from TSPL_EMPLOYEE_SALARY_PAYHEADS" &
+              " from (select distinct TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE ,LINE_NO  from TSPL_EMPLOYEE_SALARY_PAYHEADS" &
               " inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE " &
               " where TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & SalStructCode & "' " &
-              " ) xx  FOR XML PATH ('')) Fields ) yy"
+              " ) xx ORDER BY LINE_NO  FOR XML PATH ('')) Fields ) yy"
         SalStructStr = clsDBFuncationality.getSingleValue(qry)
         Dim arrPayHead() As String
         arrPayHead = SalStructStr.Split(",")
