@@ -1816,8 +1816,8 @@ Public Class FrmPendingAproval
                     TSPL_NIR_QC.Document_Date as [Document Date],
 isnull(TSPL_MRN_HEAD.MRN_Total_Amt,0) as [Amount],TSPL_MRN_HEAD.VehicleNo AS [Vehicle No],
 CAST(TSPL_MRN_HEAD.On_Hold as bit) as Hold,
-TSPL_MRN_HEAD.Against_GRN as [GRN No],TSPL_GRN_HEAD.GRN_Date  [GRN Date],
-TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment Code],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as [Weighment Date],
+TSPL_MRN_HEAD.Against_GRN as [GRN No],FORMAT(TSPL_GRN_HEAD.GRN_Date, 'dd/MM/yyyy')as [GRN Date],
+TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment Code],FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, 'dd/MM/yyyy') as [Weighment Date],
 TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [RAL NO],TSPL_MRN_HEAD.Vendor_Code as [Vendor Code],TSPL_MRN_HEAD.Vendor_Name as [Vendor Name],
 TSPL_LOCATION_MASTER.Location_Desc AS [Location Desc],TSPL_MRN_DETAIL.Item_Code AS [Item Code],TSPL_MRN_HEAD.Description
 from TSPL_NIR_QC
