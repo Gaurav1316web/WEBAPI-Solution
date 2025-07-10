@@ -23,7 +23,7 @@ Partial Class FrmBoothCountReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -41,13 +41,13 @@ Partial Class FrmBoothCountReport
         Me.txtToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.txtfDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvData = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmenuPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.gvData = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,12 +69,12 @@ Partial Class FrmBoothCountReport
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,7 +106,7 @@ Partial Class FrmBoothCountReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(693, 353)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -290,6 +290,24 @@ Partial Class FrmBoothCountReport
         Me.RadPageViewPage2.Size = New System.Drawing.Size(672, 305)
         Me.RadPageViewPage2.Text = "Report"
         '
+        'gvData
+        '
+        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvData.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MyExportFilePath = ""
+        Me.gvData.MyStopExport = False
+        Me.gvData.Name = "gvData"
+        Me.gvData.ShowHeaderCellButtons = True
+        Me.gvData.Size = New System.Drawing.Size(672, 305)
+        Me.gvData.TabIndex = 1
+        Me.gvData.VarID = ""
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -339,23 +357,6 @@ Partial Class FrmBoothCountReport
         Me.btnGo.TabIndex = 162
         Me.btnGo.Text = ">>>"
         '
-        'gvData
-        '
-        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvData.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gvData.MyStopExport = False
-        Me.gvData.Name = "gvData"
-        Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(672, 305)
-        Me.gvData.TabIndex = 1
-        Me.gvData.VarID = ""
-        '
         'FrmBoothCountReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -392,12 +393,12 @@ Partial Class FrmBoothCountReport
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtfDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
