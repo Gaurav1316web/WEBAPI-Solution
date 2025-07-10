@@ -421,6 +421,12 @@ Public Class FrmPendingAproval
         dt1.Rows.Add(dr)
 
 
+
+        dr = dt1.NewRow()
+        dr("Code") = "NIR QC"
+        dr("Name") = "NIR QC"
+        dt1.Rows.Add(dr)
+
         cboTransaction.DataSource = dt1
         cboTransaction.DisplayMember = "Name"
         cboTransaction.ValueMember = "Code"
@@ -1785,6 +1791,42 @@ Public Class FrmPendingAproval
                         End If
                     End If
                     qry += "ORDER BY TSPL_SCRAPINVOICE_HEAD.shipment_Date , TSPL_SCRAPINVOICE_HEAD.invoice_No "
+                End If
+            End If
+
+            '---VARSHA ADD NIRQC
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "NIR QC") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.mbtnIssueReturn)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "SELECT CAST(TSPL_NIR_QC.Status as BIT ) as Status, TSPL_NIR_QC.Document_No as [Document Id],
+TSPL_NIR_QC.Document_Date as [Document Date],
+isnull(TSPL_MRN_HEAD.MRN_Total_Amt,0) as [Amount], TSPL_MRN_HEAD.Vendor_Code as [Vendor Code], TSPL_MRN_HEAD.Vendor_Name as [Vendor Name], TSPL_MRN_HEAD.Description, CAST(TSPL_MRN_HEAD.On_Hold as bit) as Hold,
+TSPL_NIR_QC.Created_By AS 'Created By' 
+FROM TSPL_NIR_QC 
+LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.MRN_No=TSPL_NIR_QC.MRN_No 
+WHERE
+convert(date,TSPL_NIR_QC.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_NIR_QC.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_NIR_QC.Status=0 "
+                        Isrefreshed = False
+                    ElseIf rbtnStatusPosted.IsChecked = True Then
+                        qry += " and TSPL_NIR_QC.Status=1 "
+                        Isrefreshed = True
+                    End If
+                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                        qry += " and TSPL_MRN_HEAD.Bill_To_Location    IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+                    End If
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+
+                            qry += " and TSPL_NIR_QC.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_NIR_QC.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
+                    End If
+                    qry += " ORDER BY TSPL_NIR_QC.Document_Date , TSPL_NIR_QC.Document_No "
                 End If
             End If
         End If
@@ -4855,6 +4897,23 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         DtError.Rows.Add(dr)
                     End Try
                 Next
+
+                '---VARSHA ADD NIRQC
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "NIR QC") = CompairStringResult.Equal Then
+                For j As Integer = 0 To trnsLst.Count - 1
+                    Try
+                        clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                        strDocNo = trnsLst.Item(j)
+                        clsNIRQC.PostData(strDocNo)
+                        countPostedDoc = countPostedDoc + 1 '  Added By [Pankaj Kumar]-for Counting Posted Documents, And Creating Error Record-18/06/2012
+                    Catch ex As Exception
+                        dr = DtError.NewRow()
+                        dr("Code") = strDocNo
+                        dr("Error") = ex.Message
+                        DtError.Rows.Add(dr)
+                    End Try
+                Next
+
 
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Store Receipt Note") = CompairStringResult.Equal Then
                 For j As Integer = 0 To trnsLst.Count - 1
