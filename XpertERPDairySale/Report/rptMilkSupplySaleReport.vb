@@ -125,11 +125,12 @@ FROM (SELECT Convert(varchar,Supply_Date,103)Supply_Date,[Party Code],[Party Nam
                     gv.GroupDescriptors.Clear()
                     gv.MasterView.Refresh()
                     gv.GroupDescriptors.Clear()
+                    gv.MasterTemplate.SummaryRowsBottom.Clear()
                     gv.AllowAddNewRow = False
                     gv.EnableFiltering = True
-                    gv.MasterTemplate.SummaryRowsBottom.Clear()
                     gv.DataSource = dt
-                    gv.BestFitColumns()
+                    gv.ReadOnly = True
+                    gv.ShowGroupPanel = False
                     ReStoreGridLayout()
                     gv.MasterTemplate.AutoExpandGroups = False
 
@@ -139,11 +140,8 @@ FROM (SELECT Convert(varchar,Supply_Date,103)Supply_Date,[Party Code],[Party Nam
                         item = New GridViewSummaryItem(clsCommon.myCstr(gv.Columns(i).Name), "{0:n2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(item)
                     Next
-
-
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                     gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-
                     RadPageView1.SelectedPage = RadPageViewPage3
                     gv.BestFitColumns()
                 Else

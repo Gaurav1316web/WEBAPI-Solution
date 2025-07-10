@@ -2791,7 +2791,7 @@ WHERE TSPL_ITEM_MASTER.Print_Sequence is not null and TSPL_ITEM_MASTER.Active=1
                 Next
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                qry = "Select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],max(Customer_Name)OUTLET,max(Display_Seq)as Display_Seq, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
+                qry = "Select max(Customer_Name)OUTLET,max(Display_Seq)as Display_Seq, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
 
 from (select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,IsNull(TSPL_CUSTOMER_MASTER.Customer_Name_Hindi,TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,isnull(TSPL_CUSTOMER_MASTER.Display_Seq,0) as Display_Seq,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,
@@ -2864,7 +2864,7 @@ where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N' and TSPL_CUSTOMER_MAS
                 qry += " group by Cust_Code "
 
                 qry += " Union all 
-                       Select '' As [SR.],'TOTAL QNTY' as OUTLET,100000 as Display_Seq ," & itemName1 & " ,sum(Amount) as Amount
+                       Select 'TOTAL QNTY' as OUTLET,100000 as Display_Seq ," & itemName1 & " ,sum(Amount) as Amount
 from (Select 1 AS Sno,Cust_Code,max(Customer_Name)Customer_Name,max(Display_Seq)as Display_Seq, " & itemName1 & " ,sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
 
@@ -2914,7 +2914,7 @@ where IsNull(TSPL_CUSTOMER_MASTER.Credit_Customer,'N')='N'  And TSPL_SD_SHIPMENT
 
                 qry += " group by Cust_Code )XX group by SNo "
 
-                qry = "select * from (" + qry + ") XXXFinal order by Display_Seq "
+                qry = "select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],* from (" + qry + ") XXXFinal order by Display_Seq "
             Else
                 qry = "select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount
