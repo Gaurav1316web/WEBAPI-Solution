@@ -592,7 +592,7 @@ where 2=2 "
 
   "
             If Not isprint Then
-                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code,FinalXX.Route_No,FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
+                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_No", "FinalXX.Route_No") + ",FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
 from(
 select FinalQ.*,
 case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
@@ -615,7 +615,29 @@ case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxt
 
 from( " + qry + " )FinalQ )FinalXX " + order
             Else
-                qry += order
+                'qry += order
+                qry = "select FinalXX.*," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_Nos", "") + "
+from(
+select FinalQ.*,
+case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
+case when FinalQ.Taxtype1='M' then 'Mandi Tax' else (case when FinalQ.Taxtype2='M' then 'Mandi Tax' else(case when FinalQ.Taxtype3='M' then 'Mandi Tax' else(case when FinalQ.Taxtype4='M' then 'Mandi Tax' else(case when FinalQ.Taxtype5='M' then 'Mandi Tax' else'' end)end)end)end)end as Mandi_Tax,
+case when FinalQ.Taxtype1='CGST' then 'CGST' else (case when FinalQ.Taxtype2='CGST' then 'CGST' else(case when FinalQ.Taxtype3='CGST' then 'CGST' else(case when FinalQ.Taxtype4='CGST' then 'CGST' else(case when FinalQ.Taxtype5='CGST' then 'CGST' else'' end)end)end)end)end as CGST,
+case when FinalQ.Taxtype1='SGST' then 'SGST' else (case when FinalQ.Taxtype2='SGST' then 'SGST' else(case when FinalQ.Taxtype3='SGST' then 'SGST' else(case when FinalQ.Taxtype4='SGST' then 'SGST' else(case when FinalQ.Taxtype5='SGST' then 'SGST' else'' end)end)end)end)end as SGST,
+case when FinalQ.Taxtype1='TCS' then 'TCS' else (case when FinalQ.Taxtype2='TCS' then 'TCS' else(case when FinalQ.Taxtype3='TCS' then 'TCS' else(case when FinalQ.Taxtype4='TCS' then 'TCS' else(case when FinalQ.Taxtype5='TCS' then 'TCS' else'' end)end)end)end)end as TCS,
+
+case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as KKF_Rate,
+case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as Mandi_Rate,
+case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as CGST_Rate,
+case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Rate else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Rate else 0 end)end)end)end)end as SGST_Rate,
+case when FinalQ.Taxtype1='TCS' then isnull(FinalQ.TAX1_Rate,0) else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Rate else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Rate else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Rate else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_RATE,0) else 0 end)end)end)end)end as TCS_Rate,
+
+case when FinalQ.Taxtype1='K' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='K' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='K' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='K' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='K' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as KKF_Amt,
+case when FinalQ.Taxtype1='M' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='M' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='M' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='M' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='M' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as Mandi_Amt,
+case when FinalQ.Taxtype1='CGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='CGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='CGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='CGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='CGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as CGST_Amt,
+case when FinalQ.Taxtype1='SGST' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='SGST' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='SGST' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='SGST' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='SGST' then FinalQ.TAX1_Amt else 0 end)end)end)end)end as SGST_Amt,
+case when FinalQ.Taxtype1='TCS' then FinalQ.TAX1_Amt else (case when FinalQ.Taxtype2='TCS' then FinalQ.TAX2_Amt else(case when FinalQ.Taxtype3='TCS' then FinalQ.TAX3_Amt else(case when FinalQ.Taxtype4='TCS' then FinalQ.TAX4_Amt else(case when FinalQ.Taxtype5='TCS' then isnull(FinalQ.ITAX5_Amt,0) else 0 end)end)end)end)end as TCS_Amt
+
+from( " + qry + " )FinalQ )FinalXX " + order
             End If
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
