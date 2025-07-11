@@ -8890,7 +8890,7 @@ Public Class clsCreateAllTable
             coll.Add("Payment_Mode", "varchar(12) NULL")
             coll.Add("Amount", "float not NULL Default 0")
             coll.Add("Against_Receipt_No", "varchar(30) NULL REFERENCES TSPL_RECEIPT_HEADER(Receipt_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_PAYMENT_MODE_DETAIL", coll, "", True, False, "TSPL_BOOKING_MATSER", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_PAYMENT_MODE_DETAIL", coll, "", True, True, "TSPL_BOOKING_MATSER", "Document_No", "", True)
 
 
             coll = New Dictionary(Of String, String)()
