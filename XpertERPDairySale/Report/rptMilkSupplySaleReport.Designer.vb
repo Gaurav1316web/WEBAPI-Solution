@@ -28,6 +28,7 @@ Partial Class rptMilkSupplySaleReport
         Dim GroupNameComparer2 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
         Dim PropertyGroupDescription3 As Telerik.Pivot.Core.PropertyGroupDescription = New Telerik.Pivot.Core.PropertyGroupDescription()
         Dim GroupNameComparer3 As Telerik.Pivot.Core.GroupNameComparer = New Telerik.Pivot.Core.GroupNameComparer()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -52,6 +53,7 @@ Partial Class rptMilkSupplySaleReport
         Me.rbtnCustomer = New common.Controls.MyRadioButton()
         Me.rbtnCustRoute = New common.Controls.MyRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDisplayMargin = New common.Controls.MyRadioButton()
         Me.rbtnDetail = New common.Controls.MyRadioButton()
         Me.rbtnSummary = New common.Controls.MyRadioButton()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
@@ -65,7 +67,8 @@ Partial Class rptMilkSupplySaleReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnDisplayMargin = New common.Controls.MyRadioButton()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv = New Telerik.WinControls.UI.RadGridView()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -95,6 +98,7 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.rbtnCustRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDisplayMargin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,7 +109,9 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDisplayMargin, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -161,10 +167,11 @@ Partial Class rptMilkSupplySaleReport
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(692, 436)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -417,6 +424,17 @@ Partial Class rptMilkSupplySaleReport
         Me.RadGroupBox2.TabIndex = 440
         Me.RadGroupBox2.Text = "Data View Preference"
         '
+        'rbtnDisplayMargin
+        '
+        Me.rbtnDisplayMargin.Location = New System.Drawing.Point(216, 11)
+        Me.rbtnDisplayMargin.MyLinkLable1 = Nothing
+        Me.rbtnDisplayMargin.MyLinkLable2 = Nothing
+        Me.rbtnDisplayMargin.Name = "rbtnDisplayMargin"
+        Me.rbtnDisplayMargin.Size = New System.Drawing.Size(95, 18)
+        Me.rbtnDisplayMargin.TabIndex = 397
+        Me.rbtnDisplayMargin.TabStop = False
+        Me.rbtnDisplayMargin.Text = "Display Margin"
+        '
         'rbtnDetail
         '
         Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
@@ -571,16 +589,26 @@ Partial Class rptMilkSupplySaleReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnDisplayMargin
+        'RadPageViewPage3
         '
-        Me.rbtnDisplayMargin.Location = New System.Drawing.Point(216, 11)
-        Me.rbtnDisplayMargin.MyLinkLable1 = Nothing
-        Me.rbtnDisplayMargin.MyLinkLable2 = Nothing
-        Me.rbtnDisplayMargin.Name = "rbtnDisplayMargin"
-        Me.rbtnDisplayMargin.Size = New System.Drawing.Size(95, 18)
-        Me.rbtnDisplayMargin.TabIndex = 397
-        Me.rbtnDisplayMargin.TabStop = False
-        Me.rbtnDisplayMargin.Text = "Display Margin"
+        Me.RadPageViewPage3.Controls.Add(Me.gv)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(671, 388)
+        Me.RadPageViewPage3.Text = "Report"
+        '
+        'gv
+        '
+        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.Name = "gv"
+        Me.gv.Size = New System.Drawing.Size(671, 388)
+        Me.gv.TabIndex = 1
         '
         'rptMilkSupplySaleReport
         '
@@ -629,6 +657,7 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDisplayMargin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -639,7 +668,9 @@ Partial Class rptMilkSupplySaleReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDisplayMargin, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -683,5 +714,7 @@ Partial Class rptMilkSupplySaleReport
     Friend WithEvents PvtGrid As RadPivotGrid
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents rbtnDisplayMargin As common.Controls.MyRadioButton
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents gv As RadGridView
 End Class
 

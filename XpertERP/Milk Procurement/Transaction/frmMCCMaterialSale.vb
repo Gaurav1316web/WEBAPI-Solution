@@ -3303,6 +3303,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             If clsCommon.myCdbl(lblTotalSubsidy.Text) > clsCommon.myCdbl(lblTotRAmt.Text) Then
                 Throw New Exception("Subsidy amount cannot be greater than Document amount")
             End If
+            If clsCommon.myCdbl(txtRateAmt.Text) < 0 Then
+                Throw New Exception("Rate amount cannot be negative")
+            End If
+            If clsCommon.myCdbl(lblTotalSubsidy.Text) < 0 Then
+                Throw New Exception("Subsidy amount cannot be negative")
+            End If
             For ii As Integer = 0 To gv1.RowCount - 1
                 If chkApplyTPT.Checked Then
                     Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), txtDate.Value)
@@ -8695,9 +8701,10 @@ a:          End If
     End Sub
     Private Sub CalculateRateDiffAmount()
         Try
-
             If clsCommon.myCdbl(txtRateAmt.Text) > (clsCommon.myCdbl(lblAmtAfterDiscount.Text) + clsCommon.myCdbl(lblTaxAmt.Text)) Then
-                clsCommon.MyMessageBoxShow(Me, "Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount", Me.Text)
+                txtRateAmt.Text = 0
+                lblTotalSubsidy.Text = 0
+                Throw New Exception("Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount")
             End If
             If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
                 txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
@@ -8725,7 +8732,6 @@ a:          End If
                 lblTotalSubsidy.Text = clsCommon.myCdbl(lblTotRAmt.Text * txtRatePer.Text) / 100
                 lblGrossAmount.Text = clsCommon.myCdbl(lblTotRAmt.Text - lblTotalSubsidy.Text)
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

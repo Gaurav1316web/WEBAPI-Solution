@@ -74,7 +74,8 @@ Public Class rptMilkSupplySaleReport
 
     Sub funreset()
         EnableDisableControls(True)
-        chkShift()
+        chkMargin()
+        gv.DataSource = Nothing
         PvtGrid.DataSource = Nothing
         txtRoute.arrValueMember = Nothing
         txtCustomer.arrValueMember = Nothing
@@ -91,14 +92,67 @@ Public Class rptMilkSupplySaleReport
     Private Sub LoadData()
         Try
             Dim BaseQry As String = ""
+            Dim dt As DataTable = Nothing
             If rbtnDisplayMargin.IsChecked Then
-                BaseQry = ReturnQry()
+                Dim strItem As String = Nothing
+                Dim strPivotItem As String = Nothing
+                Dim strSumItem As String = Nothing
+                BaseQry = "Select Item_Code,Max(Item_Desc)Item_Desc,Max(Short_Description)Short_Description from(" + ReturnQry() + ")Item Group By Item_Code,Sku_Seq Order By Sku_Seq "
+                dt = clsDBFuncationality.GetDataTable(BaseQry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each rows In dt.Rows
+                        If clsCommon.myLen(strItem) > 0 AndAlso clsCommon.CompairString(strItem, clsCommon.myCstr(rows("Short_Description"))) Then
+                            strItem += ",[" + clsCommon.myCstr(rows("Short_Description")) + "]"
+                            strPivotItem += ",[" + clsCommon.myCstr(rows("Short_Description")) + "]"
+                            strSumItem += ",Sum(IsNull([" + clsCommon.myCstr(rows("Short_Description")) + "],0))[" + clsCommon.myCstr(rows("Short_Description")) + "]"
+                        Else
+                            strItem = "[" + clsCommon.myCstr(rows("Short_Description")) + "]"
+                            strPivotItem = " [" + clsCommon.myCstr(rows("Short_Description")) + "]"
+                            strSumItem = " Sum(IsNull([" + clsCommon.myCstr(rows("Short_Description")) + "],0))[" + clsCommon.myCstr(rows("Short_Description")) + "]"
+                        End If
+                    Next
+                Else
+                    Throw New Exception("No Data Found !")
+                End If
+
+                BaseQry = "SELECT Supply_Date As [Date],[Party Code],Max([Party Name])[Party Name],Max(Route_Desc) As [Area],Max(Zone_Desc) AS [Zone]," + strSumItem + ",Sum([Basic Amount])[Basic Amount],Sum(Margin_Rate) As [Margin Rate],Sum(Margin_Amt) As [Margin Amt],Sum(Total_Tax_Amt) As [Total Tax],Sum([Total Amount])[Net Amount],Sum(Crate)[Total Crate]
+FROM (SELECT Convert(varchar,Supply_Date,103)Supply_Date,[Party Code],[Party Name],Route_No,Route_Desc,Zone_Code,Zone_Desc,Item_Code,Short_Description,Convert(Decimal(18,2),CinCFQty)CinCFQty,[Basic Amount],Convert(Decimal(18,3),Margin_Rate)Margin_Rate,Margin_Amt,Total_Tax_Amt,[Total Amount],Crate FROM (" + ReturnQry() + ") AS BaseQry) AS SourceTable PIVOT (SUM(CinCFQty) FOR Short_Description IN (" + strItem + ")) AS PivotTable Group By Supply_Date,[Party Code]"
+                dt = clsDBFuncationality.GetDataTable(BaseQry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    gv.DataSource = Nothing
+                    gv.Rows.Clear()
+                    gv.Columns.Clear()
+                    gv.GroupDescriptors.Clear()
+                    gv.MasterView.Refresh()
+                    gv.GroupDescriptors.Clear()
+                    gv.MasterTemplate.SummaryRowsBottom.Clear()
+                    gv.AllowAddNewRow = False
+                    gv.EnableFiltering = True
+                    gv.DataSource = dt
+                    gv.ReadOnly = True
+                    gv.ShowGroupPanel = False
+                    ReStoreGridLayout()
+                    gv.MasterTemplate.AutoExpandGroups = False
+
+                    Dim summaryRowItem As New GridViewSummaryRowItem()
+                    Dim item As GridViewSummaryItem
+                    For i As Integer = 5 To gv.Columns.Count - 1
+                        item = New GridViewSummaryItem(clsCommon.myCstr(gv.Columns(i).Name), "{0:n2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(item)
+                    Next
+                    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                    gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+                    RadPageView1.SelectedPage = RadPageViewPage3
+                    gv.BestFitColumns()
+                Else
+                    Throw New Exception("No Data Found !")
+                End If
             Else
                 BaseQry = ReturnQry()
                 Me.PvtGrid.RowGroupDescriptions.Clear()
                 Me.PvtGrid.AggregateDescriptions.Clear()
                 Me.PvtGrid.ColumnGroupDescriptions.Clear()
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
+                dt = clsDBFuncationality.GetDataTable(BaseQry)
                 If dt.Rows.Count > 0 Then
                     PvtGrid.DataSource = dt
                     Me.PvtGrid.PivotGridElement.AggregateDescriptorsArea.Visibility = ElementVisibility.Collapsed
@@ -240,6 +294,25 @@ Public Class rptMilkSupplySaleReport
         End Try
     End Sub
 
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= gv.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To gv.Columns.Count - 1 Step ii + 1
+                        gv.Columns(ii).IsVisible = False
+                        gv.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    gv.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
+    End Sub
     Private Function ReturnQry() As String
         If rbtnDetail.IsChecked Then
             If rbtnCustRoute.IsChecked Then
@@ -307,7 +380,7 @@ Public Class rptMilkSupplySaleReport
         End If
 
         If rbtnDisplayMargin.IsChecked Then
-            BaseQry = "Select TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Shift_Type,TSPL_CUSTOMER_MASTER.Cust_Code As [Party Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Party Name],TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As Zone_Desc,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_Detail.Qty,TSPL_SD_SALE_INVOICE_Detail.Unit_code,((TSPL_SD_SALE_INVOICE_Detail.Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / I.Conversion_Factor) AS CinCFQty,I.UOM_Code,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,I.Conversion_Factor As CinCF,TSPL_SD_SALE_INVOICE_Detail.Amt_Less_Discount As [Basic Amount],TSPL_SD_SALE_INVOICE_Detail.Disc_Amt,TSPL_SD_SALE_INVOICE_Detail.Total_Tax_Amt,TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt As [Total Amount],TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt "
+            BaseQry = "TSPL_SD_SHIPMENT_HEAD.Shift_Type,TSPL_CUSTOMER_MASTER.Cust_Code As [Party Code],TSPL_CUSTOMER_MASTER.Customer_Name As [Party Name],TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_CUSTOMER_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As Zone_Desc,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Sku_Seq,TSPL_SD_SALE_INVOICE_Detail.Qty,TSPL_SD_SALE_INVOICE_Detail.Unit_code,((TSPL_SD_SALE_INVOICE_Detail.Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / I.Conversion_Factor) AS CinCFQty,I.UOM_Code,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,I.Conversion_Factor As CinCF,TSPL_SD_SALE_INVOICE_Detail.Amt_Less_Discount As [Basic Amount],TSPL_SD_SALE_INVOICE_Detail.Disc_Amt,TSPL_SD_SALE_INVOICE_Detail.Total_Tax_Amt,TSPL_SD_SALE_INVOICE_Detail.Item_Net_Amt As [Total Amount],TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Crate "
         Else
             BaseQry = " Select  '" & objCommonVar.CurrentUserCode & "' as UserName,tspl_company_master.State,tspl_company_master.City_Code,tspl_company_master.Circle_No,tspl_company_master.Phone1,tspl_company_master.Phone2,   tspl_company_master.Comp_Name,tspl_company_master.Add1,tspl_company_master.Add2,tspl_company_master.Pincode,tspl_company_master.Fax,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate, TSPL_ITEM_MASTER.Item_Code ,Sku_Seq, TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name, TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,"
             If rbtnDetail.IsChecked Then
@@ -329,6 +402,28 @@ left outer join tspl_company_master on 2 = 2  "
         If Not rbtnDisplayMargin.IsChecked Then
             BaseQry += " order by convert(date,Supply_Date, 103), TSPL_SD_SHIPMENT_HEAD.Shift_Type, Sku_Seq "
         End If
+
+        If rbtnDisplayMargin.IsChecked Then
+            strQry = "Select Supply_Date,[Party Code],MAX([Party Name])[Party Name],Route_No,MAX(Route_Desc)Route_Desc,Zone_Code,MAX(Zone_Desc)Zone_Desc,Item_Code,
+MAX(Item_Desc)Item_Desc,MAX(Short_Description)Short_Description,MAX(Sku_Seq)Sku_Seq,SUM(Qty)Qty,MAX(Unit_code)Unit_code,Sum(CinCFQty)CinCFQty,MAX(UOM_Code)Report_UOM,SUM([Basic Amount])[Basic Amount],
+SUM(Disc_Amt)Disc_Amt,Max(Distributor_Commission_Rate) As Margin_Rate,SUM(Distributor_Commission_Amt) As Margin_Amt,
+SUM(Total_Tax_Amt)Total_Tax_Amt,SUM([Total Amount])[Total Amount],SUM(Crate)Crate from ("
+            strQry += " Select dateadd(day,1,TSPL_SD_SHIPMENT_HEAD.Supply_Date)Supply_Date," + BaseQry + ""
+            strQry += " and TSPL_SD_SALE_INVOICE_HEAD.Status = 1  
+And TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' 
+ and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)>=dateadd(day,-1,convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103)) 
+ AND convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)<=dateadd(day,-1,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)) "
+            strQry += " Union All "
+            strQry += " Select TSPL_SD_SHIPMENT_HEAD.Supply_Date," + BaseQry + ""
+            strQry += " and TSPL_SD_SALE_INVOICE_HEAD.Status = 1  And TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' 
+ and convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) 
+ AND convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103))BaseQry
+ Group By Supply_Date,[Party Code],Route_No,Zone_Code,Item_Code"
+
+            BaseQry = Nothing
+            BaseQry = strQry
+        End If
+
 
         Return BaseQry
     End Function
@@ -365,12 +460,17 @@ left outer join tspl_company_master on 2 = 2  "
             Else
                 Exit Sub
             End If
-            Dim Export As New PivotExportToExcelML(Me.PvtGrid)
-
-            Export.RunExport(filePath)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
-            Process.Start(filePath)
-
+            If rbtnDisplayMargin.IsChecked Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Margin Report")
+                arrHeader.Add("Date: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "  ")
+                clsCommon.MyExportToExcelGrid("Margin Report", gv, arrHeader, "Margin Report")
+            Else
+                Dim Export As New PivotExportToExcelML(Me.PvtGrid)
+                Export.RunExport(filePath)
+                common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+                Process.Start(filePath)
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -470,15 +570,19 @@ left outer join tspl_company_master on 2 = 2  "
     End Sub
 
     Private Sub rbtnDisplayMargin_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDisplayMargin.ToggleStateChanged
-        chkShift()
+        chkMargin()
     End Sub
 
-    Sub chkShift()
+    Sub chkMargin()
         Try
             If rbtnDisplayMargin.IsChecked Then
+                RadGroupBox3.Visible = False
                 RadGroupBox5.Visible = False
+                btnPrint.Enabled = False
             Else
+                RadGroupBox3.Visible = True
                 RadGroupBox5.Visible = True
+                btnPrint.Enabled = True
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

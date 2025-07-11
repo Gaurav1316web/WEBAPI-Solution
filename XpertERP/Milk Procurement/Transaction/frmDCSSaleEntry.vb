@@ -3152,6 +3152,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 txtDate.Focus()
                 Return False
             End If
+            If clsCommon.myCdbl(lblTotalSubsidy.Text) > clsCommon.myCdbl(lblTotRAmt.Text) Then
+                Throw New Exception("Subsidy amount cannot be greater than Document amount")
+            End If
+            If clsCommon.myCdbl(txtRateAmt.Text) < 0 Then
+                Throw New Exception("Rate amount cannot be negative")
+            End If
+            If clsCommon.myCdbl(lblTotalSubsidy.Text) < 0 Then
+                Throw New Exception("Subsidy amount cannot be negative")
+            End If
             If chkApplyTPT.Checked Then
                 If clsCommon.myLen(txtTPTVendor.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please select TPT Vendor", Me.Text)
@@ -6648,9 +6657,10 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
     End Sub
     Private Sub CalculateRateDiffAmount()
         Try
-
             If clsCommon.myCdbl(txtRateAmt.Text) > (clsCommon.myCdbl(lblAmtAfterDiscount.Text) + clsCommon.myCdbl(lblTaxAmt.Text)) Then
-                clsCommon.MyMessageBoxShow(Me, "Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount", Me.Text)
+                txtRateAmt.Text = 0
+                lblTotalSubsidy.Text = 0
+                Throw New Exception("Rate Difference amount cannot be greater than sum of Discount after amount and Tax amount")
             End If
             If clsCommon.myCdbl(txtRatePer.Text) > 0 Then
                 txtRateAmt.Text = clsCommon.myCdbl(lblTotRAmt.Text) * clsCommon.myCdbl(txtRatePer.Text) / 100
