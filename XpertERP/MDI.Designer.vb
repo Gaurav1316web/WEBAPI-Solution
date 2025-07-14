@@ -124,6 +124,8 @@ Partial Class MDI
         Me.pBoxFingerPrint1 = New System.Windows.Forms.PictureBox()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.PictureBox7 = New System.Windows.Forms.PictureBox()
+        Me.lblOTPCode = New common.Controls.MyTextBox()
+        Me.lblUserName = New common.Controls.MyLabel()
         Me.txtPassword = New common.Controls.MyTextBox()
         Me.lblPassword = New common.Controls.MyLabel()
         Me.pBoxFingerPrint2 = New System.Windows.Forms.PictureBox()
@@ -131,7 +133,6 @@ Partial Class MDI
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadButton17 = New Telerik.WinControls.UI.RadButton()
         Me.txtUserName = New common.Controls.MyTextBox()
-        Me.lblUserName = New common.Controls.MyLabel()
         Me.btnChangePassword = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.ddllocation = New common.Controls.MyComboBox()
@@ -249,7 +250,6 @@ Partial Class MDI
         Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.PictureBox6 = New System.Windows.Forms.PictureBox()
         Me.SystemIdleTimer1 = New ERP.SystemIdleTimer()
-        Me.lblOTPCode = New common.Controls.MyTextBox()
         CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadStatusStrip1.SuspendLayout()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -295,6 +295,8 @@ Partial Class MDI
         CType(Me.pBoxFingerPrint1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblOTPCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblUserName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPassword, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPassword, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pBoxFingerPrint2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -302,7 +304,6 @@ Partial Class MDI
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtUserName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblUserName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnChangePassword, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddllocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -383,7 +384,6 @@ Partial Class MDI
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblOTPCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1368,6 +1368,45 @@ Partial Class MDI
         Me.PictureBox7.TabIndex = 18
         Me.PictureBox7.TabStop = False
         '
+        'lblOTPCode
+        '
+        Me.lblOTPCode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblOTPCode.CalculationExpression = Nothing
+        Me.lblOTPCode.FieldCode = Nothing
+        Me.lblOTPCode.FieldDesc = Nothing
+        Me.lblOTPCode.FieldMaxLength = 0
+        Me.lblOTPCode.FieldName = Nothing
+        Me.lblOTPCode.isCalculatedField = False
+        Me.lblOTPCode.IsSourceFromTable = False
+        Me.lblOTPCode.IsSourceFromValueList = False
+        Me.lblOTPCode.IsUnique = False
+        Me.lblOTPCode.Location = New System.Drawing.Point(228, 305)
+        Me.lblOTPCode.MendatroryField = True
+        Me.lblOTPCode.MyLinkLable1 = Me.lblUserName
+        Me.lblOTPCode.MyLinkLable2 = Nothing
+        Me.lblOTPCode.Name = "lblOTPCode"
+        Me.lblOTPCode.NullText = "User Name"
+        Me.lblOTPCode.ReadOnly = True
+        Me.lblOTPCode.ReferenceFieldDesc = Nothing
+        Me.lblOTPCode.ReferenceFieldName = Nothing
+        Me.lblOTPCode.ReferenceTableName = Nothing
+        Me.lblOTPCode.Size = New System.Drawing.Size(107, 20)
+        Me.lblOTPCode.TabIndex = 18
+        Me.lblOTPCode.Visible = False
+        '
+        'lblUserName
+        '
+        Me.lblUserName.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblUserName.BackColor = System.Drawing.Color.Transparent
+        Me.lblUserName.FieldName = Nothing
+        Me.lblUserName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.lblUserName.ForeColor = System.Drawing.Color.DarkSlateBlue
+        Me.lblUserName.Location = New System.Drawing.Point(16, 267)
+        Me.lblUserName.Name = "lblUserName"
+        Me.lblUserName.Size = New System.Drawing.Size(74, 21)
+        Me.lblUserName.TabIndex = 6
+        Me.lblUserName.Text = "User Name"
+        '
         'txtPassword
         '
         Me.txtPassword.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1491,19 +1530,6 @@ Partial Class MDI
         Me.txtUserName.ReferenceTableName = Nothing
         Me.txtUserName.Size = New System.Drawing.Size(238, 20)
         Me.txtUserName.TabIndex = 0
-        '
-        'lblUserName
-        '
-        Me.lblUserName.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblUserName.BackColor = System.Drawing.Color.Transparent
-        Me.lblUserName.FieldName = Nothing
-        Me.lblUserName.Font = New System.Drawing.Font("Segoe UI", 10.0!)
-        Me.lblUserName.ForeColor = System.Drawing.Color.DarkSlateBlue
-        Me.lblUserName.Location = New System.Drawing.Point(16, 267)
-        Me.lblUserName.Name = "lblUserName"
-        Me.lblUserName.Size = New System.Drawing.Size(74, 21)
-        Me.lblUserName.TabIndex = 6
-        Me.lblUserName.Text = "User Name"
         '
         'btnChangePassword
         '
@@ -2711,32 +2737,6 @@ Partial Class MDI
         '
         Me.SystemIdleTimer1.MaxIdleTime = CType(0UI, UInteger)
         '
-        'lblOTPCode
-        '
-        Me.lblOTPCode.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblOTPCode.CalculationExpression = Nothing
-        Me.lblOTPCode.FieldCode = Nothing
-        Me.lblOTPCode.FieldDesc = Nothing
-        Me.lblOTPCode.FieldMaxLength = 0
-        Me.lblOTPCode.FieldName = Nothing
-        Me.lblOTPCode.isCalculatedField = False
-        Me.lblOTPCode.IsSourceFromTable = False
-        Me.lblOTPCode.IsSourceFromValueList = False
-        Me.lblOTPCode.IsUnique = False
-        Me.lblOTPCode.Location = New System.Drawing.Point(228, 305)
-        Me.lblOTPCode.MendatroryField = True
-        Me.lblOTPCode.MyLinkLable1 = Me.lblUserName
-        Me.lblOTPCode.MyLinkLable2 = Nothing
-        Me.lblOTPCode.Name = "lblOTPCode"
-        Me.lblOTPCode.NullText = "User Name"
-        Me.lblOTPCode.ReadOnly = True
-        Me.lblOTPCode.ReferenceFieldDesc = Nothing
-        Me.lblOTPCode.ReferenceFieldName = Nothing
-        Me.lblOTPCode.ReferenceTableName = Nothing
-        Me.lblOTPCode.Size = New System.Drawing.Size(107, 20)
-        Me.lblOTPCode.TabIndex = 18
-        Me.lblOTPCode.Visible = False
-        '
         'MDI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2806,6 +2806,8 @@ Partial Class MDI
         CType(Me.pBoxFingerPrint1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblOTPCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblUserName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPassword, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPassword, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pBoxFingerPrint2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2813,7 +2815,6 @@ Partial Class MDI
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtUserName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblUserName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnChangePassword, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddllocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2895,7 +2896,6 @@ Partial Class MDI
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblOTPCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
