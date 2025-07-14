@@ -8799,6 +8799,10 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.YearlyBillReport
                         frm = New YearlyBillReport
+
+                    Case clsUserMgtCode.FrmLastDCSCollectionItem
+                        frm = New FrmLastDCSCollectionItem
+
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport
