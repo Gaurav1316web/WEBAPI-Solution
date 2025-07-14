@@ -5224,6 +5224,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeItem).Value = "Yes"
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = objD.Schm_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = 1
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAbatementPer).Value = 0
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colActualCost).Value = 0
                         If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
@@ -5505,6 +5506,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMainIUOM).Value = MainItemUnit
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = MainSaleOrderCode
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = 1
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colICodeGrp).Value = clsDBFuncationality.getSingleValue("select CSA_TYPE from TSPL_ITEM_MASTER where Item_Code='" & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "' ", trans)
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(objtr.Schm_Icode, trans)
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
