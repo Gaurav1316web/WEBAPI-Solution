@@ -376,6 +376,9 @@ Public Class frmMCCMaterialSale
             End If
         End If
         btnDeliveredTo.Enabled = False
+        If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+            txtReceiptNo.Enabled = False
+        End If
     End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
@@ -3214,6 +3217,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         txtTaxGroup.Enabled = True
         txtReceiptNo.Value = ""
         lblReceiptAmt.Text = ""
+        txtBankCode.Value = ""
+        txtBankCode.Enabled = True
         txtVehicleNo.Text = ""
         txtReceiverName.Text = ""
         lblTotalSubsidy.Text = ""
@@ -3293,6 +3298,16 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             If CalculateTaxRatefromItemwsieTaxOnSale = 1 Then
                 SetitemWiseTaxSetting(True, False)
             End If
+            If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+                If chkcashsale.Checked Then
+                    If clsCommon.myLen(txtBankCode.Value) <= 0 Then
+                        clsCommon.MyMessageBoxShow(Me, "Please select Bank Code", Me.Text)
+                        txtBankCode.Focus()
+                        Return False
+                    End If
+                End If
+            End If
+
             If chkApplyTPT.Checked Then
                 If clsCommon.myLen(txtTPTVendor.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "Please select TPT Vendor", Me.Text)
@@ -3795,6 +3810,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     obj.Receipt_No = txtReceiptNo.Value
                     obj.ReceiptAmt = clsCommon.myCdbl(lblReceiptAmt.Text)
                     obj.Payment_Terms = cmbPaymentType.Text
+                    obj.Bank_Code = txtBankCode.Value
                 End If
                 obj.VehicleNo = txtVehicleNo.Text
                 obj.ReceiverName = txtReceiverName.Text
@@ -4172,6 +4188,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     txtReceiptNo.Value = obj.Receipt_No
                     lblReceiptAmt.Text = obj.ReceiptAmt
                     cmbPaymentType.SelectedValue = obj.Payment_Terms
+                    txtBankCode.Value = obj.Bank_Code
                 End If
 
                 lblTotalSubsidy.Text = obj.TotalSubsidyAmt
@@ -8742,6 +8759,17 @@ a:          End If
                 lblReceiptNo.Visible = True
                 txtReceiptNo.Visible = True
                 lblReceiptAmt.Visible = True
+                lblBankCode.Visible = True
+                If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+                    lblBankCode.Visible = True
+                    txtBankCode.Visible = True
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBankcodeData(False))
+                    If dt.Rows.Count > 0 Then
+                        If dt.Rows.Count = 1 Then
+                            txtBankCode.Value = dt.Rows(0)("Code")
+                        End If
+                    End If
+                End If
                 'lblTotalSubsidy.Visible = True
                 lblPaymentType.Visible = True
                 cmbPaymentType.Visible = True
@@ -8750,6 +8778,8 @@ a:          End If
                 MyLabel14.Text = "Subsidy"
                 'lblPaymentType
             Else
+                lblBankCode.Visible = False
+                txtBankCode.Visible = False
                 lblReceiptNo.Visible = False
                 txtReceiptNo.Visible = False
                 lblReceiptAmt.Visible = False
@@ -8761,6 +8791,16 @@ a:          End If
         Else
             If chkcashsale.Checked Then
                 lblReceiptNo.Visible = True
+                If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+                    lblBankCode.Visible = True
+                    txtBankCode.Visible = True
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBankcodeData(False))
+                    If dt.Rows.Count > 0 Then
+                        If dt.Rows.Count = 1 Then
+                            txtBankCode.Value = dt.Rows(0)("Code")
+                        End If
+                    End If
+                End If
                 txtReceiptNo.Visible = True
                 lblReceiptAmt.Visible = True
                 'lblTotalSubsidy.Visible = True
@@ -8768,6 +8808,8 @@ a:          End If
                 cmbPaymentType.Visible = True
                 MyLabel14.Text = "Subsidy"
             Else
+                lblBankCode.Visible = False
+                txtBankCode.Visible = False
                 lblReceiptNo.Visible = False
                 txtReceiptNo.Visible = False
                 lblReceiptAmt.Visible = False
@@ -8898,4 +8940,24 @@ a:          End If
             txtTPTVendor.Visible = False
         End If
     End Sub
+    Private Sub txtBankCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBankCode._MYValidating
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetBankcodeData(False))
+            If dt.Rows.Count > 1 Then
+                txtBankCode.Value = clsCommon.ShowSelectForm("ShipmentBankCodefnd", GetBankcodeData(True), "Code", " TSPL_USER_BANK_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "'", txtBankCode.Value, "Code", isButtonClicked)
+            Else
+                txtBankCode.Value = clsCommon.ShowSelectForm("ShipmentBankCodefnd", GetBankcodeData(True), "Code", " TSPL_USER_BANK_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "'", txtBankCode.Value, "Code", isButtonClicked)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function GetBankcodeData(ByVal ShowAllbank As Boolean) As String
+        Dim qry As String = "SELECT TSPL_BANK_MASTER.BANK_CODE AS Code,DESCRIPTION as Name FROM TSPL_BANK_MASTER left outer join TSPL_USER_BANK_MASTER on TSPL_USER_BANK_MASTER.BANK_CODE= TSPL_BANK_MASTER.Bank_Code  "
+        If Not ShowAllbank Then
+            qry += " where TSPL_USER_BANK_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "'"
+        End If
+        Return qry
+    End Function
+
 End Class

@@ -216,8 +216,6 @@
     <Compile Include="Common\clsBranchMaster.vb" />
     <Compile Include="Common\ClsCancelAfterPosting.vb" />
     <Compile Include="Common\clsCancelLog.vb" />
-    <Compile Include="Common\ClsCardSale.vb" />
-    <Compile Include="Common\ClsCatalogMaster.vb" />
     <Compile Include="Common\clsCHAChargeMaster.vb" />
     <Compile Include="Common\clsCityMaster.vb" />
     <Compile Include="Common\clsClaimDetails.vb" />

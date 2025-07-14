@@ -500,6 +500,7 @@ Public Class clsFixedParameterType
     Public Const GLACAccordingToTaxRate As String = "GLACAccordingToTaxRate"
     Public Const AutoSchemeOn As String = "AutoSchemeOn"
     Public Const MultiplySubsidyWithQuantity As String = "Multiply Subsidy With Quantity"
+    Public Const CreateAutoReceiptEntryDCSSale As String = "CreateAutoReceiptEntryDCSSale"
     Public Const GeneratePDFForMobile As String = "Generate PDF For Mobile"
     Public Const IsTransferQtyEditableOnAutoSTN As String = "IsTransferQtyEditableOnAutoSTN"
     Public Const IsItemRateEditableOnSales As String = "IsItemRateEditableOnSales"
@@ -1959,6 +1960,7 @@ Public Class clsFixedParameterCode
     Public Const GLACAccordingToTaxRate As String = "GLACAccordingToTaxRate"
     Public Const AutoSchemeOn As String = "AutoSchemeOn"
     Public Const MultiplySubsidyWithQuantity As String = "Multiply Subsidy With Quantity"
+    Public Const CreateAutoReceiptEntryDCSSale As String = "CreateAutoReceiptEntryDCSSale"
     Public Const GeneratePDFForMobile As String = "Generate PDF For Mobile"
     Public Const IsTransferQtyEditableOnAutoSTN As String = "IsTransferQtyEditableOnAutoSTN"
     Public Const IsItemRateEditableOnSales As String = "IsItemRateEditableOnSales"
@@ -3405,6 +3407,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsItemRateEditableOnTransfer, clsFixedParameterCode.IsItemRateEditableOnTransfer, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, "0", "0-Off 1-ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CreateAutoReceiptEntryDCSSale, clsFixedParameterCode.CreateAutoReceiptEntryDCSSale, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsTransferQtyEditableOnAutoSTN, clsFixedParameterCode.IsTransferQtyEditableOnAutoSTN, "0", "0-Off 1-ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsItemRateEditableOnSales, clsFixedParameterCode.IsItemRateEditableOnSales, "0", "0-Off 1-ON")
@@ -6073,7 +6076,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.rptBalanceSheet, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CreateAutoReceiptEntryDCSSale, clsFixedParameterCode.CreateAutoReceiptEntryDCSSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.CreateAutoReceiptEntryDCSSale, clsFixedParameterCode.CreateAutoReceiptEntryDCSSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmCSADeliveryOrder, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCSATransfer, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
