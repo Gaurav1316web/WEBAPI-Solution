@@ -6478,12 +6478,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                         Return False
                     End If
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
-                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "") <> CompairStringResult.Equal Then
-                            If clsCommon.myLen(strSubLocation) <= 0 Then
-                                Throw New Exception("Please enter Sub Location for " + strIName + " into Item Sub Location Mapping Screen .")
-                                Return False
-                            End If
-                        End If
+                        'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "Others") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(txtVendorNo.Value) & "' ")), "") <> CompairStringResult.Equal Then
+                        '    If clsCommon.myLen(strSubLocation) <= 0 Then
+                        '        Throw New Exception("Please enter Sub Location for " + strIName + " into Item Sub Location Mapping Screen .")
+                        '        Return False
+                        '    End If
+                        'End If
                     End If
                 End If
                 Dim objCustItem As clsCustomeritemDetails = clsCustomeritemDetails.GetItemRateAndDiscount(txtVendorNo.Value, strICode, clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value), txtDate.Value)
@@ -11096,7 +11096,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 '    gv1.Rows(IntRowNo).Cells(colCashSchemeCode).Value = Nothing
                 '    gv1.Rows(IntRowNo).Cells(colCashSchemeType).Value = Nothing
                 'End If
-                loadSublocationForMarketing(IntRowNo, trans)
+                'loadSublocationForMarketing(IntRowNo, trans)
                 If AutoCalculateCrate = 1 Then
                     If clsCommon.myLen(strICode) > 0 Then 'AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0
                         '' Anubhooti 11-Sep-2014 BM00000003847
