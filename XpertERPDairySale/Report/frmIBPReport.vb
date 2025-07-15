@@ -18,11 +18,23 @@ Public Class frmIBPReport
         End Try
     End Sub
 
+    Sub EnabledControls()
+        RadGroupBox4.Enabled = True
+        txtMultMCC.Enabled = True
+        txtMultItem.Enabled = True
+    End Sub
+    Sub DisabledControls()
+        RadGroupBox4.Enabled = False
+        txtMultMCC.Enabled = False
+        txtMultItem.Enabled = False
+    End Sub
+
     Sub Reset()
         gv.DataSource = Nothing
         gv.Rows.Clear()
         gv.MasterTemplate.Rows.Clear()
         gv.Refresh()
+        EnabledControls()
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -85,9 +97,10 @@ Left Outer Join TSPL_CITY_MASTER  On TSPL_CITY_MASTER.City_Code=TSPL_COMPANY_MAS
                 gv.ShowFilteringRow = True
                 gv.BestFitColumns()
                 SetGridFormat()
-                View()
+                'View()
                 gv.BestFitColumns()
                 RadPageView1.SelectedPage = RadPageViewPage2
+                DisabledControls()
             Else
                 Throw New Exception("No Data Found !")
             End If
@@ -113,7 +126,7 @@ Left Outer Join TSPL_CITY_MASTER  On TSPL_CITY_MASTER.City_Code=TSPL_COMPANY_MAS
         gv.Columns("Item_Desc").HeaderText = "Particular"
         gv.Columns("Item_Desc").IsVisible = True
 
-        gv.Columns("OPBal").HeaderText = "O/B"
+        gv.Columns("OPBal").HeaderText = "Opening Balance"
         gv.Columns("OPBal").IsVisible = True
 
         gv.Columns("RecieptProd").HeaderText = "Production"
@@ -143,7 +156,7 @@ Left Outer Join TSPL_CITY_MASTER  On TSPL_CITY_MASTER.City_Code=TSPL_COMPANY_MAS
             summaryRowItem.Add(New GridViewSummaryItem(gv.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
         Next
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
+        gv.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Sub View()

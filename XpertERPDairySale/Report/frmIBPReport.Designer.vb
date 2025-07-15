@@ -22,7 +22,7 @@ Partial Class frmIBPReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -118,14 +118,14 @@ Partial Class frmIBPReport
         '
         Me.txtMultMCC.arrDispalyMember = Nothing
         Me.txtMultMCC.arrValueMember = Nothing
-        Me.txtMultMCC.Location = New System.Drawing.Point(94, 68)
+        Me.txtMultMCC.Location = New System.Drawing.Point(67, 68)
         Me.txtMultMCC.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMultMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultMCC.MyLinkLable1 = Nothing
         Me.txtMultMCC.MyLinkLable2 = Nothing
         Me.txtMultMCC.MyNullText = "All"
         Me.txtMultMCC.Name = "txtMultMCC"
-        Me.txtMultMCC.Size = New System.Drawing.Size(266, 19)
+        Me.txtMultMCC.Size = New System.Drawing.Size(255, 19)
         Me.txtMultMCC.TabIndex = 452
         '
         'MyLabel1
@@ -135,22 +135,22 @@ Partial Class frmIBPReport
         Me.MyLabel1.Location = New System.Drawing.Point(12, 68)
         Me.MyLabel1.Margin = New System.Windows.Forms.Padding(4)
         Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(77, 18)
+        Me.MyLabel1.Size = New System.Drawing.Size(49, 18)
         Me.MyLabel1.TabIndex = 451
-        Me.MyLabel1.Text = "MCC/Location"
+        Me.MyLabel1.Text = "Location"
         '
         'txtMultItem
         '
         Me.txtMultItem.arrDispalyMember = Nothing
         Me.txtMultItem.arrValueMember = Nothing
-        Me.txtMultItem.Location = New System.Drawing.Point(94, 94)
+        Me.txtMultItem.Location = New System.Drawing.Point(67, 94)
         Me.txtMultItem.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMultItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultItem.MyLinkLable1 = Nothing
         Me.txtMultItem.MyLinkLable2 = Nothing
         Me.txtMultItem.MyNullText = "All"
         Me.txtMultItem.Name = "txtMultItem"
-        Me.txtMultItem.Size = New System.Drawing.Size(266, 19)
+        Me.txtMultItem.Size = New System.Drawing.Size(255, 19)
         Me.txtMultItem.TabIndex = 450
         '
         'LblRoute
@@ -241,7 +241,7 @@ Partial Class frmIBPReport
         '
         '
         '
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.Name = "gv"
         Me.gv.Size = New System.Drawing.Size(779, 354)
         Me.gv.TabIndex = 0
