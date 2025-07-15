@@ -19,12 +19,14 @@ Public Class frmIBPReport
     End Sub
 
     Sub EnabledControls()
-        RadGroupBox4.Enabled = True
+        txtFromDate.Enabled = True
+        txtToDate.Enabled = True
         txtMultMCC.Enabled = True
         txtMultItem.Enabled = True
     End Sub
     Sub DisabledControls()
-        RadGroupBox4.Enabled = False
+        txtFromDate.Enabled = False
+        txtToDate.Enabled = False
         txtMultMCC.Enabled = False
         txtMultItem.Enabled = False
     End Sub
