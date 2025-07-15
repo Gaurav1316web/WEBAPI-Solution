@@ -3141,7 +3141,12 @@ Public Class FrmMCCMilkRegister
                                     FinalQuery += " order by [DCS Code]"
                                 End If
                             Else
-                                FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                                If OwnBMCchk.Checked Then
+                                    FinalQuery = "" & qry & " and [isOwnBMC(Y/N)]='Y' order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                                Else
+                                    FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                                End If
+                                'FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
                             End If
                         End If
 
@@ -3887,7 +3892,12 @@ Public Class FrmMCCMilkRegister
                             FinalQuery = qry
                         Else
                             If BulkExport <> 5 AndAlso BulkExport <> 3 AndAlso BulkExport <> 6 Then
-                                FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                                If OwnBMCchk.Checked Then
+                                    FinalQuery = "" & qry & " and [isOwnBMC(Y/N)]='Y' order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                                Else
+                                    FinalQuery = "" & qry & " order by final.[Doc Date],final.[Milk Receipt Code] ,final.[Sample No] "
+                                End If
+
                             Else
                                 FinalQuery = "" & qry & ""
                             End If
@@ -3949,7 +3959,12 @@ Public Class FrmMCCMilkRegister
                         " ) as xxx" & Environment.NewLine &
                         " ) as aa" & Environment.NewLine
                         If BulkExport <> 4 Then
-                            FinalQuery += " order by [MCC Code],[Route Code],[Vlc Code] "
+                            If OwnBMCchk.Checked Then
+                                FinalQuery += " where [isOwnBMC(Y/N)]='Y' order by [MCC Code],[Route Code],[Vlc Code] "
+                            Else
+                                FinalQuery += " order by [MCC Code],[Route Code],[Vlc Code] "
+                            End If
+
                         End If
                         ''richa MIL/01/02/19-000039 show empAmount in case of route wise 
                     ElseIf chkRoutewise.Checked Then
