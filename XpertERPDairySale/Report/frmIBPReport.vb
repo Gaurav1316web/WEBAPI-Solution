@@ -67,7 +67,7 @@ Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MO
 Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_INVENTORY_MOVEMENT.Stock_UOM
 Left Outer Join (Select Item_Code,UOM_Code,Conversion_Factor,IsNull(Report_UOM,0)Report_UOM from TSPL_ITEM_UOM_DETAIL Where Report_UOM=1)CinCF On CinCF.Item_Code=TSPL_ITEM_MASTER.Item_Code 
 Left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code
-Where  TSPL_INVENTORY_MOVEMENT.Punching_Date<='" + strToDate + "'"
+Where TSPL_ITEM_MASTER.Item_Used_as='S' And  TSPL_INVENTORY_MOVEMENT.Punching_Date<='" + strToDate + "'"
         If txtMultMCC.arrValueMember IsNot Nothing AndAlso txtMultMCC.arrValueMember.Count > 0 Then
             strQry += " And TSPL_LOCATION_MASTER.Location_Code In (" & clsCommon.GetMulcallString(txtMultMCC.arrValueMember) & ")"
         End If
