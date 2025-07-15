@@ -992,6 +992,8 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
             Dim strMilkType As String = objHead.Dock_Collection_Milk_Type
             If objCommonVar.DisplayTypeInMilkReceipt Then
                 objHead.Dock_Collection_Milk_Type = strType
+            ElseIf (objCommonVar.SepratePriceChartForCamel AndAlso clsCommon.CompairString(strType, "L") = CompairStringResult.Equal) Then
+                objHead.Dock_Collection_Milk_Type = strType
             End If
             If MarkAsSuspence OrElse MarkAsAdulteration Then
                 qry = "select VLC_Code_VLC_Uploader,VLC_Code,VLC_Name,Route_Code from TSPL_VLC_MASTER_HEAD where IsSuspense=1"

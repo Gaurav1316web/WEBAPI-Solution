@@ -976,6 +976,7 @@ Public Class clsFixedParameterType
     Public Const CheckBalanceFromInvMoveSummry As String = "CheckBalanceFromInvMoveSummry"
     Public Const ItemwiseFatSNFStockControl As String = "ItemwiseFatSNFStockControl"
     Public Const SepratePriceChartForCowMilk As String = "Seprate Price Chart For Cow Milk"
+    Public Const SepratePriceChartForCamelMilk As String = "Seprate Price Chart For Camel Milk"
     Public Const ApplyStdFATSNFRate As String = "Apply Standard FAT SNF Rate"
     Public Const AllowRoundInFixedAsset As String = "Allow Round In Fixed Asset"
     Public Const AllowDecimalInFixedAsset As String = "Allow Decimal In Fixed Asset"
@@ -2456,6 +2457,7 @@ Public Class clsFixedParameterCode
     Public Const CheckBalanceFromInvMoveSummry As String = "CheckBalanceFromInvMoveSummry"
     Public Const ItemwiseFatSNFStockControl As String = "ItemwiseFatSNFStockControl"
     Public Const SepratePriceChartForCowMilk As String = "Seprate Price Chart For Cow Milk"
+    Public Const SepratePriceChartForCamelMilk As String = "Seprate Price Chart For Camel Milk"
     '=======================Added by preeti gupta [20/02/207]=====================================
     Public Const AllowRoundInFixedAsset As String = "Allow Round In Fixed Asset"
     Public Const AllowDecimalInFixedAsset As String = "Allow Decimal In Fixed Asset"
@@ -4090,6 +4092,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckBalanceFromInvMoveSummry, clsFixedParameterCode.CheckBalanceFromInvMoveSummry, "0", "0-Off;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ItemwiseFatSNFStockControl, clsFixedParameterCode.ItemwiseFatSNFStockControl, "0", "0-Off;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SepratePriceChartForCowMilk, clsFixedParameterCode.SepratePriceChartForCowMilk, "0", "0-Off;1-On")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SepratePriceChartForCamelMilk, clsFixedParameterCode.SepratePriceChartForCamelMilk, "0", "0-Off;1-On")
         '================Added by preeti gupta[20/02/2017]==========================
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRoundInFixedAsset, clsFixedParameterCode.AllowRoundInFixedAsset, "Round Type", "Apply Round In Fixed Asset Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowDecimalInFixedAsset, clsFixedParameterCode.AllowDecimalInFixedAsset, "2", "Apply Decimal In Fixed Asset Module")
@@ -5175,6 +5178,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmCSATransfer, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploader, clsFixedParameterType.SepratePriceChartForCowMilk, clsFixedParameterCode.SepratePriceChartForCowMilk, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploader, clsFixedParameterType.SepratePriceChartForCamelMilk, clsFixedParameterCode.SepratePriceChartForCamelMilk, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.OpenPriceChartPlanningScreenOnTotalSolid, clsFixedParameterCode.OpenPriceChartPlanningScreenOnTotalSolid, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxFATPerLimit, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkPricePlanning, clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxSNFPerLimit, EnumControlType.NumericBox)
