@@ -463,6 +463,11 @@ Public Class clsMilkReceiptMCC
         dr("Name") = "Cow"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "L"
+        dr("Name") = "Camel"
+        dt.Rows.Add(dr)
+
         Return dt
     End Function
 
@@ -529,6 +534,11 @@ order by SNo"
         dr = dt.NewRow()
         dr("Code") = "C"
         dr("Name") = "Cow"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "L"
+        dr("Name") = "Camel"
         dt.Rows.Add(dr)
 
         Return dt

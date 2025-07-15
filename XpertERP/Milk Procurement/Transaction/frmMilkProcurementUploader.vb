@@ -844,6 +844,7 @@ Public Class frmMilkProcurementUploader
                         ' objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
                         objTr.Shift = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
+                        objTr.Dock_Collection_Milk_Type_Auto = Not objCommonVar.SepratePriceChartForCamel
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Bulk_Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colBulkRouteCode).Value)
                         objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)

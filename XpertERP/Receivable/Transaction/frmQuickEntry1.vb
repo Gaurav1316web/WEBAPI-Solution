@@ -1677,17 +1677,17 @@ Public Class FrmQuickEntry1
         IsLoadData = False
         IsNewEntry = True
         txtLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtLocation.Text) > 0 Then
-            Dim Qry As String = "select top 1 DESCRIPTION,BANK_CODE   from TSPL_BANK_MASTER where Substring(bankacc,len(bankacc)-2,3) ='" + txtLocation.Text + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt.Rows.Count > 0 Then
-                fndBankCode.Value = clsCommon.myCstr(dt.Rows(0).Item("BANK_CODE"))
-                txtBankName.Text = clsCommon.myCstr(dt.Rows(0).Item("DESCRIPTION"))
-            Else
-                fndBankCode.Value = ""
-                txtBankName.Text = ""
-            End If
-        End If
+        'If clsCommon.myLen(txtLocation.Text) > 0 Then
+        '    Dim Qry As String = "select top 1 DESCRIPTION,BANK_CODE   from TSPL_BANK_MASTER where Substring(bankacc,len(bankacc)-2,3) ='" + txtLocation.Text + "'"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        '    If dt.Rows.Count > 0 Then
+        '        fndBankCode.Value = clsCommon.myCstr(dt.Rows(0).Item("BANK_CODE"))
+        '        txtBankName.Text = clsCommon.myCstr(dt.Rows(0).Item("DESCRIPTION"))
+        '    Else
+        '        fndBankCode.Value = ""
+        '        txtBankName.Text = ""
+        '    End If
+        'End If
 
     End Sub
 

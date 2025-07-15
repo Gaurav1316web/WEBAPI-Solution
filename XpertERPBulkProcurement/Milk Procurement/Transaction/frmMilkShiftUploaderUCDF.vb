@@ -65,7 +65,7 @@ Public Class frmMilkShiftUploaderUCDF
 
         cboDockCollectionMilkType.SelectedValue = "M"
 
-        cboDockCollectionMilkType.Enabled = objCommonVar.DisplayTypeInMilkReceipt
+        cboDockCollectionMilkType.Enabled = (objCommonVar.DisplayTypeInMilkReceipt OrElse objCommonVar.SepratePriceChartForCamel)
     End Sub
 
     Public Sub LoadLate()
@@ -382,6 +382,7 @@ where  tspl_mcc_master.MCC_Code='" + txtMCC.Value + "' and    tspl_mcc_master.mc
                     objTr.SNo = gv1.Rows.Count + 1
                 End If
                 objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue)
+                objTr.Dock_Collection_Milk_Type_Auto = Not objCommonVar.SepratePriceChartForCamel
                 objTr.VLC_Code = txtVLC.Tag
                 'objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
                 objTr.Milk_Weight = txtQty.Value
