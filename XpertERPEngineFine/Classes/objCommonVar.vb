@@ -39,6 +39,7 @@ Public Class objCommonVar
     Private Shared _IsAutoTabOrdering As Boolean = False
     Private Shared _CurrentTabOrderPattern As Integer = 1
     Private Shared _AutoRestoreGridLayout As Integer = 1
+    Private Shared _CreateAutoReceiptEntryDCSSale As Boolean = False
     Private Shared _AutoSetTabStopFalseToReadOnlyControls As Integer = 1
 
     Private Shared _CurrFiscalYear As String
@@ -952,6 +953,7 @@ Public Class objCommonVar
         objCommonVar.IsPromptForTally = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PromptForTally, clsFixedParameterCode.PromptForTally, Nothing)) = 1, True, False)
         objCommonVar.CurrentIndustryType = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing))
         objCommonVar.IsAutoTabOrdering = IIf(clsFixedParameter.GetData(clsFixedParameterType.TabOrder, clsFixedParameterCode.AutoTabOrdering, Nothing) = "1", True, False)
+        objCommonVar.CreateAutoReceiptEntryDCSSale = IIf(clsFixedParameter.GetData(clsFixedParameterType.CreateAutoReceiptEntryDCSSale, clsFixedParameterCode.CreateAutoReceiptEntryDCSSale, Nothing) = "1", True, False)
         objCommonVar.CurrentTabOrderPattern = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TabOrder, clsFixedParameterCode.AutoTabOrderingPattern, Nothing))
         objCommonVar.AutoRestoreGridLayout = IIf(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.AutoRestoreGridLayout, Nothing) = "1", True, False)
         objCommonVar.AutoSetTabStopForReadOnlyControls = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.AutoSetTabStopFalseForReadonlyControls, Nothing))
@@ -1350,6 +1352,15 @@ Public Class objCommonVar
         End Get
         Set(ByVal Value As Boolean)
             _AutoRestoreGridLayout = Value
+        End Set
+    End Property
+
+    Public Shared Property CreateAutoReceiptEntryDCSSale() As Boolean
+        Get
+            Return _CreateAutoReceiptEntryDCSSale
+        End Get
+        Set(ByVal Value As Boolean)
+            _CreateAutoReceiptEntryDCSSale = Value
         End Set
     End Property
 

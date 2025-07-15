@@ -157,6 +157,8 @@
     <Compile Include="Classes\clsSlabRangeDetail.vb" />
     <Compile Include="Classes\ClsSolutionKnowledgeBase.vb" />
     <Compile Include="Classes\clsWeeklyHolidays.vb" />
+    <Compile Include="ClsCardSale.vb" />
+    <Compile Include="ClsCatalogMaster.vb" />
     <Compile Include="clsLanguage.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />

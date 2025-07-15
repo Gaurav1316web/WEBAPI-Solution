@@ -22,17 +22,19 @@ Partial Class frmDCSSaleEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblBankCode = New common.Controls.MyLabel()
+        Me.txtBankCode = New common.UserControls.txtFinder()
         Me.lblTPTVendor = New common.Controls.MyLabel()
         Me.txtTPTVendor = New common.UserControls.txtFinder()
         Me.RadLabel2 = New common.Controls.MyLabel()
@@ -211,6 +213,7 @@ Partial Class frmDCSSaleEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -422,6 +425,8 @@ Partial Class frmDCSSaleEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblBankCode)
+        Me.RadPageViewPage1.Controls.Add(Me.txtBankCode)
         Me.RadPageViewPage1.Controls.Add(Me.lblTPTVendor)
         Me.RadPageViewPage1.Controls.Add(Me.txtTPTVendor)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel18)
@@ -497,6 +502,44 @@ Partial Class frmDCSSaleEntry
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 387)
         Me.RadPageViewPage1.Text = "DCS Sale Entry"
+        '
+        'lblBankCode
+        '
+        Me.lblBankCode.FieldName = Nothing
+        Me.lblBankCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBankCode.Location = New System.Drawing.Point(980, 138)
+        Me.lblBankCode.Name = "lblBankCode"
+        Me.lblBankCode.Size = New System.Drawing.Size(32, 16)
+        Me.lblBankCode.TabIndex = 318
+        Me.lblBankCode.Text = "Bank"
+        Me.lblBankCode.Visible = False
+        '
+        'txtBankCode
+        '
+        Me.txtBankCode.CalculationExpression = Nothing
+        Me.txtBankCode.FieldCode = Nothing
+        Me.txtBankCode.FieldDesc = Nothing
+        Me.txtBankCode.FieldMaxLength = 0
+        Me.txtBankCode.FieldName = Nothing
+        Me.txtBankCode.isCalculatedField = False
+        Me.txtBankCode.IsSourceFromTable = False
+        Me.txtBankCode.IsSourceFromValueList = False
+        Me.txtBankCode.IsUnique = False
+        Me.txtBankCode.Location = New System.Drawing.Point(1019, 136)
+        Me.txtBankCode.MendatroryField = True
+        Me.txtBankCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBankCode.MyLinkLable1 = Nothing
+        Me.txtBankCode.MyLinkLable2 = Nothing
+        Me.txtBankCode.MyReadOnly = False
+        Me.txtBankCode.MyShowMasterFormButton = False
+        Me.txtBankCode.Name = "txtBankCode"
+        Me.txtBankCode.ReferenceFieldDesc = Nothing
+        Me.txtBankCode.ReferenceFieldName = Nothing
+        Me.txtBankCode.ReferenceTableName = Nothing
+        Me.txtBankCode.Size = New System.Drawing.Size(143, 21)
+        Me.txtBankCode.TabIndex = 319
+        Me.txtBankCode.Value = ""
+        Me.txtBankCode.Visible = False
         '
         'lblTPTVendor
         '
@@ -623,16 +666,16 @@ Partial Class frmDCSSaleEntry
         Me.cmbPaymentType.IsSourceFromTable = False
         Me.cmbPaymentType.IsSourceFromValueList = False
         Me.cmbPaymentType.IsUnique = False
-        RadListDataItem1.Text = "CASH"
-        RadListDataItem2.Text = "NEFT"
-        RadListDataItem3.Text = "RTGS"
-        RadListDataItem4.Text = "CHEQUE"
-        RadListDataItem5.Text = "UPI"
-        Me.cmbPaymentType.Items.Add(RadListDataItem1)
-        Me.cmbPaymentType.Items.Add(RadListDataItem2)
-        Me.cmbPaymentType.Items.Add(RadListDataItem3)
-        Me.cmbPaymentType.Items.Add(RadListDataItem4)
-        Me.cmbPaymentType.Items.Add(RadListDataItem5)
+        RadListDataItem6.Text = "CASH"
+        RadListDataItem7.Text = "NEFT"
+        RadListDataItem8.Text = "RTGS"
+        RadListDataItem9.Text = "CHEQUE"
+        RadListDataItem10.Text = "UPI"
+        Me.cmbPaymentType.Items.Add(RadListDataItem6)
+        Me.cmbPaymentType.Items.Add(RadListDataItem7)
+        Me.cmbPaymentType.Items.Add(RadListDataItem8)
+        Me.cmbPaymentType.Items.Add(RadListDataItem9)
+        Me.cmbPaymentType.Items.Add(RadListDataItem10)
         Me.cmbPaymentType.Location = New System.Drawing.Point(1077, 24)
         Me.cmbPaymentType.MendatroryField = True
         Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
@@ -1468,7 +1511,7 @@ Partial Class frmDCSSaleEntry
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1702,7 +1745,7 @@ Partial Class frmDCSSaleEntry
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -2925,9 +2968,9 @@ Partial Class frmDCSSaleEntry
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
         '
         'RadMenu1
         '
@@ -2959,6 +3002,7 @@ Partial Class frmDCSSaleEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3306,5 +3350,7 @@ Partial Class frmDCSSaleEntry
     Friend WithEvents txtRecommBy As common.Controls.MyTextBox
     Friend WithEvents txtTPTVendor As common.UserControls.txtFinder
     Friend WithEvents lblTPTVendor As common.Controls.MyLabel
+    Friend WithEvents lblBankCode As common.Controls.MyLabel
+    Friend WithEvents txtBankCode As common.UserControls.txtFinder
 End Class
 

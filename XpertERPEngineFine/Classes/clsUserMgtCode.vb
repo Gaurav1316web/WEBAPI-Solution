@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmIBPReport As String = "IBP-RPT"
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
@@ -2264,6 +2265,8 @@ Public Class clsUserMgtCode
     Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"
     Public Const rptBMCMobileHistory As String = "BMC-MOB-HIS"
     Public Const YearlyBillReport As String = "DCS-INC"
+    Public Const FrmLastDCSCollectionItem As String = "Las-DCS-ITE"
+
     Public Const frmDBTRecoVsIncentiveReport As String = "DBTREC_INC_R"
     Public Const frmAutoAdditionDeductionReport As String = "AUTO_AD_R"
     'Public Const rptTankerStatusReport As String = "R-T-STAT"
