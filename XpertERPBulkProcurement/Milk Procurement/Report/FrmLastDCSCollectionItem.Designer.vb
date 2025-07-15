@@ -23,11 +23,12 @@ Partial Class FrmLastDCSCollectionItem
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMultBmc = New common.UserControls.txtMultiSelectFinder()
         Me.lblDCS = New common.Controls.MyLabel()
         Me.lblBMC = New common.Controls.MyLabel()
         Me.txtMultDCS = New common.UserControls.txtMultiSelectFinder()
@@ -38,13 +39,11 @@ Partial Class FrmLastDCSCollectionItem
         Me.txtDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.txtMultBmc = New common.UserControls.txtMultiSelectFinder()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,10 +61,10 @@ Partial Class FrmLastDCSCollectionItem
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,6 +126,19 @@ Partial Class FrmLastDCSCollectionItem
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(558, 183)
         Me.RadGroupBox3.TabIndex = 53
+        '
+        'txtMultBmc
+        '
+        Me.txtMultBmc.arrDispalyMember = Nothing
+        Me.txtMultBmc.arrValueMember = Nothing
+        Me.txtMultBmc.Location = New System.Drawing.Point(67, 42)
+        Me.txtMultBmc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultBmc.MyLinkLable1 = Nothing
+        Me.txtMultBmc.MyLinkLable2 = Nothing
+        Me.txtMultBmc.MyNullText = "All"
+        Me.txtMultBmc.Name = "txtMultBmc"
+        Me.txtMultBmc.Size = New System.Drawing.Size(234, 20)
+        Me.txtMultBmc.TabIndex = 412
         '
         'lblDCS
         '
@@ -200,7 +212,7 @@ Partial Class FrmLastDCSCollectionItem
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
         Me.RadLabel1.TabIndex = 2
-        Me.RadLabel1.Text = "From Date"
+        Me.RadLabel1.Text = "Date"
         '
         'txtDate
         '
@@ -240,7 +252,7 @@ Partial Class FrmLastDCSCollectionItem
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -250,10 +262,20 @@ Partial Class FrmLastDCSCollectionItem
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
         '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(704, 6)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(84, 22)
+        Me.btnClose.TabIndex = 166
+        Me.btnClose.Text = "Close"
+        '
         'btnSplitExport
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel})
         Me.btnSplitExport.Location = New System.Drawing.Point(163, 5)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
@@ -265,12 +287,6 @@ Partial Class FrmLastDCSCollectionItem
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         Me.rmiExcel.UseCompatibleTextRendering = False
-        '
-        'rmiPDF
-        '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
-        Me.rmiPDF.UseCompatibleTextRendering = False
         '
         'btnGo
         '
@@ -291,29 +307,6 @@ Partial Class FrmLastDCSCollectionItem
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 158
         Me.btnReset.Text = "Reset"
-        '
-        'txtMultBmc
-        '
-        Me.txtMultBmc.arrDispalyMember = Nothing
-        Me.txtMultBmc.arrValueMember = Nothing
-        Me.txtMultBmc.Location = New System.Drawing.Point(67, 42)
-        Me.txtMultBmc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMultBmc.MyLinkLable1 = Nothing
-        Me.txtMultBmc.MyLinkLable2 = Nothing
-        Me.txtMultBmc.MyNullText = "All"
-        Me.txtMultBmc.Name = "txtMultBmc"
-        Me.txtMultBmc.Size = New System.Drawing.Size(234, 20)
-        Me.txtMultBmc.TabIndex = 412
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(704, 6)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(84, 22)
-        Me.btnClose.TabIndex = 166
-        Me.btnClose.Text = "Close"
         '
         'FrmLastDCSCollectionItem
         '
@@ -346,10 +339,10 @@ Partial Class FrmLastDCSCollectionItem
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -358,7 +351,6 @@ Partial Class FrmLastDCSCollectionItem
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents btnSplitExport As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
     Friend WithEvents RadPageView1 As RadPageView

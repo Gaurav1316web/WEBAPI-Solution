@@ -280,6 +280,7 @@ Public Class BMC_Transporter_Bill
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
+        LoadHeadData()
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
