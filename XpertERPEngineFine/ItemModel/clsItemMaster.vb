@@ -5,6 +5,7 @@ Public Class clsItemMaster
     Public isPenaltyDeduction As Integer = 0
     Public isHighClass As Integer = 0
     Public FG_for_CF As Integer = 0
+    Public DCS_Sale_Zero_Cost As Integer = 0
     Public BomBuildQty As Double = 0
     Public NIR_QC As Boolean = False
     Public AllowSRNWithoutShortReject As Integer = 0
@@ -1507,6 +1508,8 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 clsCommon.AddColumnsForChange(coll, "Item_Category_Struct_Code", obj.Item_Category_Struct_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Is_Serial_Item", IIf(obj.Is_Serial_Item, 1, 0))
+                clsCommon.AddColumnsForChange(coll, "DCS_Sale_Zero_Cost", IIf(obj.DCS_Sale_Zero_Cost, 1, 0))
+
                 clsCommon.AddColumnsForChange(coll, "Is_Pick_Auto_SrNo", IIf(obj.Is_Pick_Auto_SrNo, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "Serial_Counter", obj.Serial_Counter)
                 clsCommon.AddColumnsForChange(coll, "Warranty_Code", obj.Warranty_Code, True)
@@ -1777,6 +1780,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
                 obj.Uploader_Seq = clsCommon.myCdbl(dt.Rows(0)("Uploader_Seq"))
                 obj.DcsSeqNo = clsCommon.myCdbl(dt.Rows(0)("DcsSeqNo"))
+                obj.DCS_Sale_Zero_Cost = IIf(clsCommon.myCdbl(dt.Rows(0)("DCS_Sale_Zero_Cost")) = 1, True, False)
                 obj.Is_DisplayDemand = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_DisplayDemand")) = 1, True, False)
                 obj.Is_ExcludeAPP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_ExcludeAPP")) = 1, True, False)
                 obj.BuyBackType = clsCommon.myCdbl(dt.Rows(0)("BuyBackType"))

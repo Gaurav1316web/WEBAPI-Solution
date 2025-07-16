@@ -1609,6 +1609,12 @@ Public Class FrmItemMasterRMOther
                 obj.isPenaltyDeduction = clsCommon.myCdbl(IIf(chkSkipPenaltyDed.Checked, 1, 0))
                 obj.isHighClass = clsCommon.myCdbl(IIf(chkHighClass.Checked, 1, 0))
                 obj.AllowEntryInDecimal = clsCommon.myCdbl(IIf(chkAllowDecimal.Checked, 1, 0))
+                If chkDcsSaleZeroCost.Checked = True Then
+                    obj.DCS_Sale_Zero_Cost = 1
+                Else
+                    obj.DCS_Sale_Zero_Cost = 0
+                End If
+
                 If rbtnBBNA.IsChecked Then
                     obj.BuyBackType = 0
 
@@ -1658,6 +1664,7 @@ Public Class FrmItemMasterRMOther
                 If chkFGforCF.Checked = True Then
                     obj.BomBuildQty = txtBmBdQty.Text
                 End If
+
                 obj.NIR_QC = chkNIRQC.Checked
                 ' Ticket No - BM00000003041 3/July/2014 by Puran
                 obj.Is_Scheme_Item = chkSchemeItem.Checked
@@ -1670,11 +1677,19 @@ Public Class FrmItemMasterRMOther
                 '' Anubhooti 11-Sep-2014
                 obj.Is_CrateType = ChkCrateType.Checked
                 obj.Is_CAN_Type = chkIsCanType.Checked
+
                 'If CreateGLAccToItem = True AndAlso fndGLAcc.Visible = True Then
                 '    obj.GL_Account = fndGLAcc.Value
                 'End If
                 ' Ticket No : BHA/02/08/18-000209 By Prabhakar - For Scrap Item 
                 obj.Is_Scrap_Item = chkScrapItem.Checked
+
+                If chkDcsSaleZeroCost.Checked Then
+                    obj.DCS_Sale_Zero_Cost = 1
+                Else
+                    obj.DCS_Sale_Zero_Cost = 0
+                End If
+
                 obj.Scrap_Item_Code = fndScrapItem.Value
                 obj.Is_Milk_Pouch = chkMilkPouch.Checked
                 obj.Is_QC_SNF_Based = IIf(chkQCSNFBssed.Checked = True, 1, 0)
@@ -2791,6 +2806,10 @@ Public Class FrmItemMasterRMOther
                 txtstnd_pur_rate.Text = obj.std_pur_rate
                 txtUOM.Value = obj.Unit_Code
                 txtCost.Value = obj.Cost
+
+                chkDcsSaleZeroCost.Checked = obj.DCS_Sale_Zero_Cost
+
+                'chkDcsSaleZeroCost.Checked = IIf(obj.DCS_Sale_Zero_Cost = 1, True, False)
                 chkSkipSecurityDed.Checked = IIf(obj.isSecurityDeduction = 1, True, False)
                 chkSkipPenaltyDed.Checked = IIf(obj.isPenaltyDeduction = 1, True, False)
                 chkHighClass.Checked = IIf(obj.isHighClass = 1, True, False)
