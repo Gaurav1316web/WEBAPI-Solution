@@ -10137,45 +10137,55 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
             Dim msg As String = ""
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
-            If trans Is Nothing Then
-                If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
-                    msg = "Successfully Posted"
-                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                    'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    '    funPrint(txtDocNo.Value)
-                    'End If
-                Else
-                    qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
-                    dt = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Dim level As String = dt.Rows(0)("LEVEL").ToString()
-                        Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
-                        If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
-                            msg = "Level 1 Approval done. "
-                            If NoOflevel = 1 Then
-                                msg += "Successfully Posted. "
+            Dim supplyDate As DateTime = txtSupplyDate.Value
+            Dim documentDate As DateTime = clsCommon.GETSERVERDATE
+
+            ' Check if supplyDate is the first day of its month and documentDate is the last day of its month
+            If supplyDate.Day = 1 And documentDate.Day = DateTime.DaysInMonth(documentDate.Year, documentDate.Month) Then
+                Throw New Exception(" Supply date is the first day of the month and Current Date is the last day of the month.")
+            Else
+                If trans Is Nothing Then
+                    If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
+                        msg = "Successfully Posted"
+                        clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                        'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                        '    funPrint(txtDocNo.Value)
+                        'End If
+                    Else
+                        qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim level As String = dt.Rows(0)("LEVEL").ToString()
+                            Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
+                            If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
+                                msg = "Level 1 Approval done. "
+                                If NoOflevel = 1 Then
+                                    msg += "Successfully Posted. "
+                                Else
+                                    msg += "Level 2 Approval Required."
+                                End If
+                            ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
+                                msg = "Level 2 Approval done. "
+                                If NoOflevel = 2 Then
+                                    msg += "Successfully Posted "
+                                Else
+                                    msg += "Level 3 Approval Required."
+                                End If
                             Else
-                                msg += "Level 2 Approval Required."
+                                msg = "Level 3 Approval done. Successfully Posted"
                             End If
-                        ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
-                            msg = "Level 2 Approval done. "
-                            If NoOflevel = 2 Then
-                                msg += "Successfully Posted "
-                            Else
-                                msg += "Level 3 Approval Required."
-                            End If
-                        Else
-                            msg = "Level 3 Approval done. Successfully Posted"
                         End If
                     End If
-                End If
-                LoadData(txtDocNo.Value, NavigatorType.Current)
-            Else
-                ' For Recreate entry 
-                If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, trans, strVoucherNoForRecreateOnly, True, strARInvoiceNoRecreateOnly, strDispatchVoucherNo)) Then
-                    strMessages += txtDocNo.Value + "    "
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                Else
+                    ' For Recreate entry 
+                    If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, trans, strVoucherNoForRecreateOnly, True, strARInvoiceNoRecreateOnly, strDispatchVoucherNo)) Then
+                        strMessages += txtDocNo.Value + "    "
+                    End If
                 End If
             End If
+
+
             Return True
         Catch ex As Exception
             If blnReverse = False Then

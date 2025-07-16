@@ -169,6 +169,8 @@ Public Class clsDairyGatePassEntry
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
+            CrateReceiveDairy(obj, isNewEntry, trans)
+
             If isSaved Then
                 trans.Commit()
             End If
@@ -178,7 +180,70 @@ Public Class clsDairyGatePassEntry
         End Try
         Return isSaved
     End Function
+    Public Shared Function CrateReceiveDairy(ByVal objGp As clsDairyGatePassEntry, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As New clsCrateReceivedHead()
 
+            If Not isNewEntry Then
+                obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + objGp.GPCode + "'", trans))
+            End If
+            obj.TotalCrateQty = objGp.TotalCrate
+            'obj.Document_No = txtDocNo.Value
+            obj.Document_Date = objGp.GPDate
+            obj.Invoice_Date = objGp.Supply_Date
+            obj.Location_Code = objGp.Location_Code
+            obj.Comments = ""
+            obj.Vehicle_Code = objGp.Vehicle_Id
+            obj.Route_code = objGp.Route_No
+            obj.Driver = objGp.Driver_Name
+            obj.SalesMan = ""
+            obj.ShiftType = objGp.ShiftType.Substring(0, 1)
+            obj.Type = "O"
+            obj.Source_Document_Code = objGp.GPCode
+            obj.Arr = New List(Of clsCrateReceivedDetail)
+
+            Dim objTr As New clsCrateReceivedDetail()
+            objTr.Line_No = 1
+
+            objTr.Customer_Code = objGp.Arr(0).Cust_Code
+
+            objTr.Sale_Invoice_Date = objGp.Supply_Date
+
+            objTr.Vehicle_Code = objGp.Vehicle_Id
+            objTr.VehicleNo = clsDBFuncationality.getSingleValue("Select Number from tspl_vehicle_master where vehicle_id='" & objGp.Vehicle_Id & "'", trans)
+            objTr.CrateQty = 0
+            objTr.CrateQtyRecd = 0
+            objTr.Balance = 0
+            objTr.Remarks = ""
+            objTr.OutQty = objGp.TotalCrate
+            objTr.Adjustment = 0
+            objTr.Jaali = 0
+            objTr.Box = 0
+
+            objTr.CrateQtyManual = 0
+            objTr.JaaliQtyRecd = 0
+            objTr.BoxQtyRecd = 0
+            objTr.jaaliAdjustment = 0
+            objTr.boxAdjustment = 0
+            objTr.jaaliOutQty = 0
+            objTr.boxOutQty = 0
+
+            objTr.CANQty = 0
+            objTr.CANRecQty = 0
+            objTr.CANOutQty = 0
+            objTr.CANAdjustment = 0
+
+            If (clsCommon.myLen(objTr.OutQty) > 0) Then
+                obj.Arr.Add(objTr)
+            End If
+            obj.SaveData(obj, isNewEntry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+
+    End Function
     Public Shared Function UpdateClosingKMAndCreateProvision(ByVal strDocNo As String, ByVal dclClosingKM As Decimal, ByVal dclDistanceInRoute As Decimal, ByVal dclPriceKMInVehicle As Decimal, ByVal dclTollAmt As Decimal, ByVal FormId As String) As Boolean
         If clsCommon.myLen(strDocNo) <= 0 Then
             Throw New Exception("No Document found")
@@ -313,7 +378,7 @@ Public Class clsDairyGatePassEntry
                 Throw New Exception("Already Posted")
             End If
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, trans)) = 1 Then
-                Dim strqry As String = "select distinct Document_Code from TSPL_SD_SHIPMENT_DETAIL where PK_ID in(select PK_ID from                          where GPCode='" + obj.GPCode + "')"
+                Dim strqry As String = "select distinct Document_Code from TSPL_SD_SHIPMENT_DETAIL where PK_ID in(select PK_ID from  TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + obj.GPCode + "')"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     'Dim objGP As clsPSShipmentHead
@@ -344,6 +409,8 @@ Public Class clsDairyGatePassEntry
             If (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, trans))) = 0) Then
                 CreateProvison(obj, FormId, trans)
             End If
+            Dim CrateReceivedDoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'", trans))
+            clsCrateReceivedHead.PostData(FormId, CrateReceivedDoc, trans)
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  where gpcode='" & obj.GPCode & "'", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 
@@ -385,6 +452,18 @@ Public Class clsDairyGatePassEntry
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
+
+
+            qry = "select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'"
+            Dim CrateReceivedDoc As String = clsDBFuncationality.getSingleValue(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
+            qry = "delete from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" + CrateReceivedDoc + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Document_No='" + CrateReceivedDoc + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
+
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + obj.GPCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" + obj.GPCode + "'"
@@ -513,6 +592,14 @@ Public Class clsDairyGatePassEntry
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = ""
+            qry = "select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'"
+            Dim CrateReceivedDoc As String = clsDBFuncationality.getSingleValue(qry, trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
+            qry = "delete from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" + CrateReceivedDoc + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Document_No='" + CrateReceivedDoc + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + obj.GPCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -609,7 +696,9 @@ Public Class clsDairyGatePassEntry
                 clsProvisionEntry.ReverseAndUnpost(strProvNo, trans)
                 clsProvisionEntry.deleteData(strProvNo, trans)
             End If
-
+            Qry = "select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'"
+            Dim CrateReceivedDoc As String = clsDBFuncationality.getSingleValue(Qry, trans)
+            clsCrateReceivedHead.ReverseAndRecrate(CrateReceivedDoc, trans)
 
 
             Qry = "update TSPL_DAIRYSALE_GATEPASS_MASTER set post='N',Closing_Km=0 , Closing_Date = null where GPCode='" + strCode + "'"

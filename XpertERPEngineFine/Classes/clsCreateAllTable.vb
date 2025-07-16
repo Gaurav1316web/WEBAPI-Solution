@@ -8923,6 +8923,7 @@ Public Class clsCreateAllTable
             coll.Add("Driver", "char(1) null default 'H'")
             coll.Add("SalesMan", "char(1) null default 'H'")
             coll.Add("ShiftType", "varchar(20) NULL")
+            coll.Add("Source_Document_Code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()

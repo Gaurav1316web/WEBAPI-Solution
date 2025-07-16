@@ -409,7 +409,7 @@ where TSPL_DEMAND_BOOKING_DETAIL_HISTORY.ShiftType='" + Shift + "' and Convert(d
             End If
 
             Dim strQry As String = "WITH VersionedData AS (
-    SELECT item_code,Unit_code,Qty,Operation_Type,Operation_Source,Hist_Version,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Hist_By,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.change_timestamp,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Document_No,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Cust_Code,LAG(Qty) OVER (PARTITION BY item_code ORDER BY Hist_Version) AS PreviousQty
+    SELECT item_code,Unit_code,Qty,Operation_Type,Operation_Source,Hist_Version,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Hist_By,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.change_timestamp,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Document_No,TSPL_DEMAND_BOOKING_DETAIL_HISTORY.Cust_Code,LAG(Qty) OVER (PARTITION BY item_code,Unit_code ORDER BY Hist_Version) AS PreviousQty
     FROM  TSPL_DEMAND_BOOKING_DETAIL_HISTORY 
     WHERE Document_No in (" + clsCommon.GetMulcallString(DocNo) + ") AND Cust_Code = '" + Booth + "')
 SELECT 
