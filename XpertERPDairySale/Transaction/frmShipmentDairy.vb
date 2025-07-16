@@ -14643,9 +14643,9 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
     End Sub
     Function CancelData() As Boolean
         Try
-            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-                Throw New Exception("Code is empty")
-            End If
+            'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+            '    Throw New Exception("Code is empty")
+            'End If
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If

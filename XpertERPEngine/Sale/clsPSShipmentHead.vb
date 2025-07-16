@@ -369,8 +369,13 @@ Public Class clsPSShipmentHead
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
+                    If clsCommon.myLen(InvoiceNo) > 0 Then
+                        CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans)
 
-                    CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans)
+                    Else
+                        CancelData(clsCommon.myCstr(dr("Document_Code")), Form_Id, trans)
+
+                    End If
                 Next
                 'trans.Commit()
             Else
@@ -522,6 +527,82 @@ Public Class clsPSShipmentHead
 
             qry = "delete from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & InvoiceNo & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+
+    End Function
+    Public Shared Function CancelData(ByVal Doc_No As String, ByVal Form_Id As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim qry As String = ""
+            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavigatorType.Current, trans, True)
+
+            If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
+                Throw New Exception("Document- " & Doc_No & " not found")
+            End If
+            Dim strInvTransType As String = String.Empty
+
+            clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
+            '' transfer data into cancel table
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "tspl_sd_shipment_head", "Document_Code", "tspl_sd_shipment_DETAIL", "Document_Code", trans)
+            '' Cancel TSPL_DAIRYSALE_GATEPASS_MASTER 
+            Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & Doc_No & "' ", trans))
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDairyGAtePassCount, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
+
+
+
+            '' cancel journal master data shipment
+            qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No='" & Doc_No & "'"
+            Dim Voucher_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(Voucher_No) > 0 Then
+                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
+            End If
+
+
+            qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No  ='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            ''Delete GatePass"
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
+                qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            Else
+                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDairyGAtePassCount), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
+
+            qry = "select COUNT(*) as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code='" + Doc_No + "')"
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
+                Throw New Exception("Gate Pass has already been created.")
+            End If
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
