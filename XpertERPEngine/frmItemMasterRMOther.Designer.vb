@@ -321,6 +321,7 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.chkDcsSaleZeroCost = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -570,6 +571,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -613,13 +615,14 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage10
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkDcsSaleZeroCost)
         Me.RadPageViewPage1.Controls.Add(Me.chkAllowDecimal)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsRepeat)
         Me.RadPageViewPage1.Controls.Add(Me.chkSFGCF)
@@ -4655,6 +4658,17 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'chkDcsSaleZeroCost
+        '
+        Me.chkDcsSaleZeroCost.Location = New System.Drawing.Point(867, 326)
+        Me.chkDcsSaleZeroCost.MyLinkLable1 = Nothing
+        Me.chkDcsSaleZeroCost.MyLinkLable2 = Nothing
+        Me.chkDcsSaleZeroCost.Name = "chkDcsSaleZeroCost"
+        Me.chkDcsSaleZeroCost.Size = New System.Drawing.Size(116, 18)
+        Me.chkDcsSaleZeroCost.TabIndex = 219
+        Me.chkDcsSaleZeroCost.Tag1 = Nothing
+        Me.chkDcsSaleZeroCost.Text = "DCS Sale Zero Cost"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4931,6 +4945,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5208,5 +5223,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkAllowDecimal As Controls.MyCheckBox
     Friend WithEvents RadPageViewPage10 As RadPageViewPage
     Friend WithEvents gvSlabTolerance As RadGridView
+    Friend WithEvents chkDcsSaleZeroCost As Controls.MyCheckBox
 End Class
 

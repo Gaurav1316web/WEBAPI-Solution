@@ -559,6 +559,8 @@ Public Class frmCustomer
             If chkpermanentInactive.Checked Then
                 chkInActive.Checked = True
                 chkInActive.Enabled = False
+                chkpermanentInactive.Enabled = False
+                clsCommon.MyMessageBoxShow(Me, "Parmanenty Inactive of this Customer " + fndCustomer.Value + " and InActive Date is " + dtClosing.Value + "", Me.Text)
 
             End If
 
@@ -2151,6 +2153,8 @@ Public Class frmCustomer
                     chkpermanentInactive.Checked = True
                     chkInActive.Checked = True
                     chkInActive.Enabled = False
+                    chkpermanentInactive.Enabled = True
+
                 Else
                     chkpermanentInactive.Checked = False
                 End If
@@ -2629,8 +2633,10 @@ Public Class frmCustomer
         Me.txtRoute.Text = ""
         chkHold.Checked = False
         chkpermanentInactive.Checked = False
-        chkInActive.Checked = False
-        chkInActive.Enabled = False
+        chkpermanentInactive.Enabled = True
+
+        'chkInActive.Checked = True
+        chkInActive.Enabled = True
         chkcredit.Checked = False
         chkIsRepeatOrder.Checked = False
         Me.txtPriceCode.Value = ""
@@ -6150,9 +6156,11 @@ Public Class frmCustomer
 
     Private Sub chkpermanentInactive_CheckStateChanged(sender As Object, e As EventArgs) Handles chkpermanentInactive.CheckStateChanged
         If chkpermanentInactive.Checked Then
-            chkInActive.Enabled = True
+            chkInActive.Enabled = False
             chkInActive.Checked = True
         Else
+            chkInActive.Checked = False
+            chkInActive.Enabled = True
 
         End If
     End Sub
