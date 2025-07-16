@@ -1552,6 +1552,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptDCSWiseAvgFatSnfPrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSWiseAvgFatSnfPrintUDP_OR_RJS.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDispatchChallan.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptGheeAndCattleFeedDeductionStatement.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMCCMaterialSale.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMilkAnalysis.rpt" />
