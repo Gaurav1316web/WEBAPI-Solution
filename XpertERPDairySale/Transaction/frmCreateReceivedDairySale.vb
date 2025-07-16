@@ -383,7 +383,7 @@ Public Class frmCreateReceivedDairySale
         repoCANQty.Width = 100
         repoCANQty.Minimum = 0
         repoCANQty.ReadOnly = True
-        'repoCrateQtyManual.IsVisible = False
+        repoCANQty.IsVisible = False
         repoCANQty.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoCANQty)
 
@@ -394,7 +394,7 @@ Public Class frmCreateReceivedDairySale
         repojaali.FormatString = "{0:n0}"
         repojaali.DecimalPlaces = 0
         repojaali.HeaderText = "Jaali"
-        'repojaali.IsVisible = False
+        repojaali.IsVisible = False
         repojaali.Name = colJaali
         repojaali.Width = 80
         repojaali.Minimum = 0
@@ -411,7 +411,7 @@ Public Class frmCreateReceivedDairySale
         repoBox.Width = 80
         repoBox.Minimum = 0
         repoBox.ReadOnly = True
-        repoBox.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repoBox.IsVisible = False 'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repoBox.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoBox)
 
@@ -437,6 +437,7 @@ Public Class frmCreateReceivedDairySale
         repoCANRecQty.Width = 80
         repoCANRecQty.Minimum = 0
         repoCANRecQty.ReadOnly = False
+        repoCANRecQty.IsVisible = False
         repoCANRecQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoCANRecQty)
 
@@ -450,7 +451,7 @@ Public Class frmCreateReceivedDairySale
         repojaaliQtyRecd.Width = 100
         repojaaliQtyRecd.Minimum = 0
         repojaaliQtyRecd.ReadOnly = False
-        repojaaliQtyRecd.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repojaaliQtyRecd.IsVisible = False  'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repojaaliQtyRecd.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repojaaliQtyRecd)
 
@@ -463,7 +464,7 @@ Public Class frmCreateReceivedDairySale
         repoBoxQtyRecd.Width = 100
         repoBoxQtyRecd.Minimum = 0
         repoBoxQtyRecd.ReadOnly = False
-        repoBoxQtyRecd.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repoBoxQtyRecd.IsVisible = False  'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repoBoxQtyRecd.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoBoxQtyRecd)
 
@@ -489,6 +490,7 @@ Public Class frmCreateReceivedDairySale
         repoCANOutQty.Width = 100
         repoCANOutQty.Minimum = 0
         repoCANOutQty.ReadOnly = False
+        repoCANOutQty.IsVisible = False
 
         repoCANOutQty.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoCANOutQty)
@@ -502,7 +504,7 @@ Public Class frmCreateReceivedDairySale
         repojaaliQutQty.Width = 100
         repojaaliQutQty.Minimum = 0
         repojaaliQutQty.ReadOnly = False
-        repojaaliQutQty.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repojaaliQutQty.IsVisible = False 'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repojaaliQutQty.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repojaaliQutQty)
 
@@ -515,7 +517,7 @@ Public Class frmCreateReceivedDairySale
         repoBoxOutQty.Width = 100
         repoBoxOutQty.Minimum = 0
         repoBoxOutQty.ReadOnly = False
-        repoBoxOutQty.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repoBoxOutQty.IsVisible = False 'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repoBoxOutQty.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoBoxOutQty)
 
@@ -528,7 +530,7 @@ Public Class frmCreateReceivedDairySale
         repoAdjustment.Width = 100
         repoAdjustment.Minimum = 0
         repoAdjustment.ReadOnly = False
-        repoAdjustment.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repoAdjustment.IsVisible = False  'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repoAdjustment.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoAdjustment)
 
@@ -541,7 +543,7 @@ Public Class frmCreateReceivedDairySale
         repoCANAdjustment.Width = 100
         repoCANAdjustment.Minimum = 0
         repoCANAdjustment.ReadOnly = False
-        repoCANAdjustment.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repoCANAdjustment.IsVisible = False  'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repoCANAdjustment.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoCANAdjustment)
 
@@ -555,7 +557,7 @@ Public Class frmCreateReceivedDairySale
         repojaaliAdjustment.Width = 100
         repojaaliAdjustment.Minimum = 0
         repojaaliAdjustment.ReadOnly = False
-        repojaaliAdjustment.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repojaaliAdjustment.IsVisible = False 'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repojaaliAdjustment.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repojaaliAdjustment)
 
@@ -568,7 +570,7 @@ Public Class frmCreateReceivedDairySale
         repoBoxAdjustment.Width = 100
         repoBoxAdjustment.Minimum = 0
         repoBoxAdjustment.ReadOnly = False
-        repoBoxAdjustment.IsVisible = IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
+        repoBoxAdjustment.IsVisible = False 'IIf(AllowShowCoumnInCrateReceivedDairy, False, True)
         repoBoxAdjustment.TextAlignment = System.Drawing.ContentAlignment.BottomRight
         gv1.MasterTemplate.Columns.Add(repoBoxAdjustment)
 

@@ -2293,49 +2293,70 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
-                        If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                            If rbtn_Fresh.IsChecked Then
-                                If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
-                                    gv1.Columns(dblcolumns).IsVisible = True
-                                    gv1.Columns(colMAmt).IsVisible = True
-                                    gv1.Columns(colCrate).IsVisible = True
-                                    gv1.Columns(colLitre).IsVisible = True
-                                Else
-                                    'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                    gv1.Columns(dblcolumns).IsVisible = False
+                        If rbtn_Fresh.IsChecked Then
+                            If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                                     gv1.Columns(colPAmt).IsVisible = False
                                     gv1.Columns(colPCount).IsVisible = False
-                                End If
-                            ElseIf rbtn_Ambient.IsChecked Then
-                                If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Ambient") = CompairStringResult.Equal Then
-                                    gv1.Columns(dblcolumns).IsVisible = True
-                                    gv1.Columns(colPAmt).IsVisible = True
-                                    gv1.Columns(colPCount).IsVisible = True
-                                Else
-                                    'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                    gv1.Columns(dblcolumns).IsVisible = False
                                     gv1.Columns(colMAmt).IsVisible = False
                                     gv1.Columns(colCrate).IsVisible = False
                                     gv1.Columns(colLitre).IsVisible = False
+                                Else
+                                    gv1.Columns(colMAmt).IsVisible = True
+                                    gv1.Columns(colCrate).IsVisible = True
+                                    gv1.Columns(colLitre).IsVisible = True
                                 End If
-                            ElseIf rdbnFreshAmbientBoth.IsChecked Then
-                                gv1.Columns(dblcolumns).IsVisible = True
-                                gv1.Columns(colPAmt).IsVisible = True
-                                gv1.Columns(colPCount).IsVisible = True
-                                gv1.Columns(colMAmt).IsVisible = True
-                                gv1.Columns(colCrate).IsVisible = True
-                                gv1.Columns(colLitre).IsVisible = True
-                            End If
-                        Else
-                            gv1.Columns(dblcolumns).IsVisible = True
-                            gv1.Columns(colPAmt).IsVisible = False
-                            gv1.Columns(colPCount).IsVisible = False
-                            gv1.Columns(colMAmt).IsVisible = False
-                            gv1.Columns(colCrate).IsVisible = False
-                            gv1.Columns(colLitre).IsVisible = False
-                        End If
 
-                    End If
+                            Else
+                                'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                gv1.Columns(dblcolumns).IsVisible = False
+                                gv1.Columns(colPAmt).IsVisible = False
+                                gv1.Columns(colPCount).IsVisible = False
+                            End If
+                        ElseIf rbtn_Ambient.IsChecked Then
+                            If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Ambient") = CompairStringResult.Equal Then
+                                gv1.Columns(dblcolumns).IsVisible = True
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                    gv1.Columns(colPAmt).IsVisible = False
+                                    gv1.Columns(colPCount).IsVisible = False
+                                    gv1.Columns(colMAmt).IsVisible = False
+                                    gv1.Columns(colCrate).IsVisible = False
+                                    gv1.Columns(colLitre).IsVisible = False
+                                Else
+
+                                    gv1.Columns(colPAmt).IsVisible = True
+                                    gv1.Columns(colPCount).IsVisible = True
+                                End If
+
+                            Else
+                                'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                gv1.Columns(dblcolumns).IsVisible = False
+                                gv1.Columns(colMAmt).IsVisible = False
+                                gv1.Columns(colCrate).IsVisible = False
+                                gv1.Columns(colLitre).IsVisible = False
+                            End If
+                        ElseIf rdbnFreshAmbientBoth.IsChecked Then
+                            gv1.Columns(dblcolumns).IsVisible = True
+                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                    gv1.Columns(colPAmt).IsVisible = False
+                                    gv1.Columns(colPCount).IsVisible = False
+                                    gv1.Columns(colMAmt).IsVisible = False
+                                    gv1.Columns(colCrate).IsVisible = False
+                                    gv1.Columns(colLitre).IsVisible = False
+                                Else
+
+                                    gv1.Columns(colPAmt).IsVisible = True
+                                    gv1.Columns(colPCount).IsVisible = True
+                                    gv1.Columns(colMAmt).IsVisible = True
+                                    gv1.Columns(colCrate).IsVisible = True
+                                    gv1.Columns(colLitre).IsVisible = True
+                                End If
+
+                            End If
+
+
+                        End If
                 End If
                 k = k + 1
             Next

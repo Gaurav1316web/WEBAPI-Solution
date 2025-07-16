@@ -5386,7 +5386,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
             'End If
         End If
     End Sub
-    Private Sub findQtyandPromoSchemeCode(ByVal isButtonClick As Boolean, Optional ByVal SchemeCode As String = Nothing, Optional ByVal OrderDate? As DateTime = Nothing, Optional ByVal trans As SqlTransaction = Nothing)
+    Private Sub findQtyandPromoSchemeCode(ByVal isButtonClick As Boolean, ByVal Tripno As String, Optional ByVal SchemeCode As String = Nothing, Optional ByVal OrderDate? As DateTime = Nothing, Optional ByVal trans As SqlTransaction = Nothing)
         If chkSampling.Checked = False Then
             If Not clsCommon.CompairString(gv1.CurrentRow.Cells(colSchmCodeType).Value, "VolumeSlab") = CompairStringResult.Equal Then
                 Dim LocCodeCol As String
@@ -5444,7 +5444,10 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colSchemeApplicable).Value), "Yes") = CompairStringResult.Equal Then
                             For schemeRow As Integer = gv1.Rows.Count - 1 To 0 Step -1
                                 If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colSchemeApplicable).Value), "No") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(ColFOC).Value), 1) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colMainIcode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(schemeRow).Cells(colOrderNo).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colOrderNo).Value)) = CompairStringResult.Equal Then
-                                    gv1.Rows.RemoveAt(schemeRow)
+                                    If Not AllowGatePassDemandTripWise Then
+                                        gv1.Rows.RemoveAt(schemeRow)
+
+                                    End If
                                 End If
                             Next
                             Dim objD As clsSchemeApplyOnDairy = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colQty).Value), txtVendorNo.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colSchmCodeType).Value), clsCommon.myCstr(SchemeCode), OrderDate, trans)
@@ -5506,7 +5509,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMainIUOM).Value = MainItemUnit
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = MainSaleOrderCode
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(ColFOC).Value = 1
-                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = Tripno
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colICodeGrp).Value = clsDBFuncationality.getSingleValue("select CSA_TYPE from TSPL_ITEM_MASTER where Item_Code='" & gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value & "' ", trans)
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(objtr.Schm_Icode, trans)
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
@@ -5524,7 +5527,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                         SKU_VALUE = clsCommon.myCdbl(dtWt.Rows(0).Item("Weight_Value"))
                                         Weight_UOM = clsCommon.myCstr(dtWt.Rows(0).Item("Weight_UOM"))
                                     End If
-                                    gv1.Rows.Move(gv1.Rows.Count - 1, Index + 1)
+                                    'gv1.Rows.Move(gv1.Rows.Count - 1, Index + 1)
                                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                                         UpdateCurrentRow1(gv1.Rows(Index + 1).Index, Nothing)
                                     Else
@@ -7862,13 +7865,17 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     txtTransNo.Text = txtVendorNo.Value
                     SaveData(False, trans)
                 Else
-                    txtTransNo.Text = txtVendorNo.Value
+                    'txtTransNo.Text = txtVendorNo.Value
 
-                    txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
-                    lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
-                    BoothCode = txtVendorNo.Value
-                    MergeDistributorItems(True, True, trans)
-                    SaveData(False, trans)
+                    'txtVendorNo.Value = clsCommon.myCstr(gvDistributor.Rows(0).Cells("Cust_Code").Value)
+                    'lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'", trans))
+                    'BoothCode = txtVendorNo.Value
+                    'MergeDistributorItems(True, True, trans)
+                    'SaveData(False, trans)
+                    lstobj = New List(Of clsPSShipmentDemand)
+                    For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, cmbShift.SelectedValue, txtSupplyDate.Value, txtRouteNo.Value, txtBillToLocation.Value, cmbDisItemType.SelectedValue, trans)
+                        lstobj.Add(lst)
+                    Next
                 End If
 
                 If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
@@ -7937,7 +7944,9 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                             If Not DispatchPriceCodeForCreditCustomer Then
                                 txtVendorNo.Value = txtTransNo.Text
                             End If
+
                             clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + CreditCustDoc + "'", trans)
+
                         End If
 
                     Next
@@ -8794,13 +8803,18 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                         'txtDocNo.Value = obj.Document_Code
                         'txtInvoiceNo.Text = obj.Sale_Invoice_No
 
-                        If clsCommon.myLen(ParentDocNo) <= 0 Then
+                        If clsCommon.myLen(ParentDocNo) <= 0 AndAlso Not IsOnlyCreditCust Then
                             ParentDocNo = obj.Document_Code
                             For Each lst As clsPSShipmentDemand In clsPSShipmentDemand.GetData(ParentDocNo, obj.Shift_Type, obj.Supply_Date, obj.Route_No, obj.Bill_To_Location, obj.DO_Item_Type, trans)
                                 lstobj.Add(lst)
                             Next
                         Else
-                            CreditCustDoc = obj.Document_Code
+                            If clsCommon.myLen(ParentDocNo) <= 0 Then
+                                ParentDocNo = obj.Document_Code
+                            Else
+                                CreditCustDoc = obj.Document_Code
+                            End If
+
                         End If
                     End If
                     End If
@@ -10123,45 +10137,55 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
             Dim msg As String = ""
             Dim qry As String = ""
             Dim dt As DataTable = Nothing
-            If trans Is Nothing Then
-                If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
-                    msg = "Successfully Posted"
-                    clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
-                    'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    '    funPrint(txtDocNo.Value)
-                    'End If
-                Else
-                    qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
-                    dt = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        Dim level As String = dt.Rows(0)("LEVEL").ToString()
-                        Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
-                        If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
-                            msg = "Level 1 Approval done. "
-                            If NoOflevel = 1 Then
-                                msg += "Successfully Posted. "
+            Dim supplyDate As DateTime = txtSupplyDate.Value
+            Dim documentDate As DateTime = clsCommon.GETSERVERDATE
+
+            ' Check if supplyDate is the first day of its month and documentDate is the last day of its month
+            If supplyDate.Day = 1 And documentDate.Day = DateTime.DaysInMonth(documentDate.Year, documentDate.Month) Then
+                Throw New Exception(" Supply date is the first day of the month and Current Date is the last day of the month.")
+            Else
+                If trans Is Nothing Then
+                    If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, True)) Then
+                        msg = "Successfully Posted"
+                        clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
+                        'If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                        '    funPrint(txtDocNo.Value)
+                        'End If
+                    Else
+                        qry = "select No_Of_Level, LEVEL from TSPL_APPROVAL_LEVEL_SCREEN where User_Code='" + objCommonVar.CurrentUserCode + "' and Trans_Code='" + MyBase.Form_ID + "' "
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim level As String = dt.Rows(0)("LEVEL").ToString()
+                            Dim NoOflevel As Integer = clsCommon.myCdbl(dt.Rows(0)("No_Of_Level"))
+                            If clsCommon.CompairString(level, "Level1") = CompairStringResult.Equal Then
+                                msg = "Level 1 Approval done. "
+                                If NoOflevel = 1 Then
+                                    msg += "Successfully Posted. "
+                                Else
+                                    msg += "Level 2 Approval Required."
+                                End If
+                            ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
+                                msg = "Level 2 Approval done. "
+                                If NoOflevel = 2 Then
+                                    msg += "Successfully Posted "
+                                Else
+                                    msg += "Level 3 Approval Required."
+                                End If
                             Else
-                                msg += "Level 2 Approval Required."
+                                msg = "Level 3 Approval done. Successfully Posted"
                             End If
-                        ElseIf clsCommon.CompairString(level, "Level2") = CompairStringResult.Equal Then
-                            msg = "Level 2 Approval done. "
-                            If NoOflevel = 2 Then
-                                msg += "Successfully Posted "
-                            Else
-                                msg += "Level 3 Approval Required."
-                            End If
-                        Else
-                            msg = "Level 3 Approval done. Successfully Posted"
                         End If
                     End If
-                End If
-                LoadData(txtDocNo.Value, NavigatorType.Current)
-            Else
-                ' For Recreate entry 
-                If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, trans, strVoucherNoForRecreateOnly, True, strARInvoiceNoRecreateOnly, strDispatchVoucherNo)) Then
-                    strMessages += txtDocNo.Value + "    "
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                Else
+                    ' For Recreate entry 
+                    If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, trans, strVoucherNoForRecreateOnly, True, strARInvoiceNoRecreateOnly, strDispatchVoucherNo)) Then
+                        strMessages += txtDocNo.Value + "    "
+                    End If
                 End If
             End If
+
+
             Return True
         Catch ex As Exception
             If blnReverse = False Then
@@ -13276,16 +13300,38 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
         txtVehicleCode.Enabled = True
         cmbShift.Enabled = True
         cmbDisItemType.Enabled = False
-        'If Not isProcessShipment Then
-        '    If gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0 Then
-        '        btnSave_Click(btnSave, New EventArgs())
-        '    Else
-        '        txtRouteNo.Value = ""
-        '        txtVendorNo.Value = ""
-        '        lblVendorName.Text = ""
-        '        clsCommon.MyMessageBoxShow(Me, "Data not found!")
-        '    End If
-        'End If
+        If Not isProcessShipment Then
+            Dim count As Integer = 0
+            If Not chkIndividualCustomer.Checked Then
+                Dim qry As String = "select 
+count(TSPL_Demand_Booking_Detail.TR_Code) as noofrecord
+from TSPL_Demand_Booking_Master
+left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
+ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Demand_Booking_Detail.Cust_Code 
+where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "'  and TSPL_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
+   and TSPL_Demand_Booking_Master.Posted=1
+and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
+ "
+
+                If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                    qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+                Else
+                    qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+                End If
+                qry += "  and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "'))  "
+                count = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            End If
+
+            If (gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0) OrElse count > 0 Then
+                btnSave_Click(btnSave, New EventArgs())
+            Else
+                txtRouteNo.Value = ""
+                txtVendorNo.Value = ""
+                lblVendorName.Text = ""
+                clsCommon.MyMessageBoxShow(Me, "Data not found!")
+            End If
+        End If
     End Sub
     Private Sub Vehicle()
         Dim Qry As String = "select TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number from TSPL_VEHICLE_MASTER
@@ -14607,9 +14653,9 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
     End Sub
     Function CancelData() As Boolean
         Try
-            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-                Throw New Exception("Code is empty")
-            End If
+            'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+            '    Throw New Exception("Code is empty")
+            'End If
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
             End If
@@ -16006,6 +16052,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + clsCommon.myCstr(gvDistributor.Row
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
                         If AllowGatePassDemandTripWise Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = myDictionary(strKey).Trip_No
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = "1"
                         End If
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = 0
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = 0
@@ -16032,7 +16080,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                 If Not IsLoadCreditCust Then
                                     If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value) > 0 Then
                                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
-                                        findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value, trans)
+                                        findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value), clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value, trans)
                                     End If
                                 End If
                             End If
@@ -16215,6 +16263,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
                         If AllowGatePassDemandTripWise Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = myDictionary(strKey).Trip_No
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = "1"
                         End If
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = 0
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = 0
@@ -16242,7 +16292,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                                     If Not IsLoadCreditCust Then
                                         If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value) > 0 Then
                                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
-                                            findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value, trans)
+                                            findQtyandPromoSchemeCode(False, clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value), clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value), txtDate.Value, trans)
                                         End If
                                     End If
                                 End If

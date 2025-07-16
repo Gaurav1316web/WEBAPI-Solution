@@ -1905,6 +1905,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDCSWiseHoldPayments, "DCS Wise Hold Payment & TDS", "1.17.03.145", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCMobileHistory, "BMC Mobile History Report", "1.17.03.146", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.YearlyBillReport, "DCS Income", "1.17.03.150", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmLastDCSCollectionItem, "Last DCS Collection/Item", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptGheeAndCattleFeedDeductionStatementReport, "Ghee And Cattle Feed Deduction Statement Report", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
@@ -2467,6 +2468,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCustItemWiseSaleReport, "Customer Item Wise Sale Report", "1.06.03.63", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptItemAndShiftWiseSaleSummaryReport, "Item And Shift Wise Sale Summary Report", "1.06.03.64", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmQuickDemandReport, "Quick Demand Report", "1.06.03.65", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmIBPReport, "I B P Report", "1.06.03.66", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

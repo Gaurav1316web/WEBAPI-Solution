@@ -2469,6 +2469,8 @@ Public Class clsCreateAllTable
             coll.Add("IsRepeat", "integer NOT Null DEFAULT 1")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Print_Sequence", "integer Null")
+            coll.Add("DCS_Sale_Zero_Cost", "integer Null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -8923,6 +8925,7 @@ Public Class clsCreateAllTable
             coll.Add("Driver", "char(1) null default 'H'")
             coll.Add("SalesMan", "char(1) null default 'H'")
             coll.Add("ShiftType", "varchar(20) NULL")
+            coll.Add("Source_Document_Code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -24795,7 +24798,7 @@ Public Class clsCreateAllTable
             coll.Add("QAT", "Integer null")
             coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", coll, Nothing, True, True, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "", True)
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            'clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll.Item("Document_No") = "Varchar(30) not null"
 

@@ -856,13 +856,14 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 If obj.Post = "Y" Then
                     UsLock1.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
-                    btnPrint.Enabled = True
+                    btnPost.Enabled = False
+                    btnSave.Enabled = False
                 Else
                     If obj.Status = "Y" Then
                         UsLock1.Status = ERPTransactionStatus.Cancel
                         btnSave.Enabled = False
                         btnDelete.Enabled = False
-                        btnPrint.Enabled = False
+                        'btnPrint.Enabled = False
                         btnPost.Enabled = False
                     Else
                         UsLock1.Status = ERPTransactionStatus.Pending

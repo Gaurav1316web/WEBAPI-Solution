@@ -30,6 +30,7 @@ Public Class clsCrateReceivedHead
     Public Route_Name As String = Nothing
     Public Driver As String = Nothing
     Public SalesMan As String = Nothing
+    Public Source_Document_Code As String = Nothing
 
 #End Region
     Public Function SaveData(ByVal obj As clsCrateReceivedHead, ByVal isNewEntry As Boolean) As Boolean
@@ -88,6 +89,7 @@ Public Class clsCrateReceivedHead
         clsCommon.AddColumnsForChange(coll, "Driver", obj.Driver)
         clsCommon.AddColumnsForChange(coll, "SalesMan", obj.SalesMan)
         clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
+        clsCommon.AddColumnsForChange(coll, "Source_Document_Code", obj.Source_Document_Code, True)
         If isNewEntry Then
             clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -171,7 +173,7 @@ Public Class clsCrateReceivedHead
         Dim obj As clsCrateReceivedHead = Nothing
         Dim qry = "select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Driver,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.salesMan,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_Item,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_ItemUnit,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Can_ItemRate,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCanQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCrateQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_Item,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_ItemUnit,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Crate_ItemRate,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Trans_Type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Closing_Cust,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date, " &
         "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posting_Date, " &
-        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_By, " &
+        "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_By,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Source_Document_Code, " &
         "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Modified_By,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Modified_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_code,tspl_route_master.route_desc,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType " &
         "From TSPL_CRATE_RECEIVED_HEAD_FRESHSALE left join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code where 2=2 "
         Dim whrCls As String = ""
@@ -222,6 +224,7 @@ Public Class clsCrateReceivedHead
             obj.Route_Name = clsCommon.myCstr(dt.Rows(0)("route_desc"))
             obj.Driver = clsCommon.myCstr(dt.Rows(0)("Driver"))
             obj.SalesMan = clsCommon.myCstr(dt.Rows(0)("SalesMan"))
+            obj.Source_Document_Code = clsCommon.myCstr(dt.Rows(0)("Source_Document_Code"))
 
             qry = "select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Route_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyPreviousDay,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.BoxQtyRecd ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaaliOutQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.boxOutQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaaliAdjustment ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.boxAdjustment, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaali,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.box,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.OutQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Adjustment,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No, " &
             "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No, " &

@@ -347,17 +347,17 @@ left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
                 qry += " And TSPL_VLC_MASTER_HEAD.MCC ='" + txtMCC.Value + "' "
             End If
             If clsCommon.myLen(txtDeduction.Value) > 0 Then
-            qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
-        End If
-        If rbtnActive.Checked Then
-            'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
-            qry += " And xxx.Active=1 "
-        ElseIf rbtnInActive.Checked Then
-            'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
-            qry += " And xxx.Active=0 "
-        Else
-            qry += Nothing
-        End If
+                qry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode='" + txtDeduction.Value + "'"
+            End If
+            If rbtnActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=1 "
+                qry += " And xxx.Active=1 "
+            ElseIf rbtnInActive.Checked Then
+                'whrActiveInactive = " And TSPL_VLC_MASTER_HEAD.Active=0 "
+                qry += " And xxx.Active=0 "
+            Else
+                qry += Nothing
+            End If
 
         End If
         Return qry
@@ -738,7 +738,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         inner Join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
                         inner Join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
                         inner Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No"
-If AreaWiseBilling Then
+                If AreaWiseBilling Then
                     qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
                 End If
@@ -800,7 +800,7 @@ If AreaWiseBilling Then
                 If btnPrint.Text = "Print" Then
                     subNewQry = "select '" + clsCommon.myCstr(objCommonVar.CurrentUser) + "' As PrintedBy,'" + clsCommon.GetPrintDate(fromDate.Value) + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate.Value) + "' As ToDate,(Select Comp_Name From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As Comp_Name,(Select City_Code From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As City_Code,Document_Date, "
                 Else
-                            subNewQry = "Select "
+                    subNewQry = "Select "
                 End If
                 qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount * RI) as [Amount] from (
@@ -812,7 +812,7 @@ If AreaWiseBilling Then
                         from TSPL_MULTIPLE_DEDUCTION_HEAD 
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                         left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code"
-                        If AreaWiseBilling Then
+                If AreaWiseBilling Then
                     qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
                 End If
@@ -878,7 +878,29 @@ union all
                 Else
                     qry += subMCCQry1
                 End If
-                qry += " " + whrActiveInactive + " ) Final " + subQryWhere + " " + MCCWhere + "  group by  Final.Ded_Code  " + subQry + "  ,[Type], Document_Date  order by [Type] desc"
+                qry += " " + whrActiveInactive + " "
+
+                qry += " union all
+                select  '' AS Document_Date, 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_CODE,
+                TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_NAME, TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_DEDUCTION_MASTER.Description as Ded_Desc,
+                isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0) as Amount,-1 as RI 
+                from TSPL_PAYMENT_PROCESS_MCC_SALE
+                left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE
+                left  join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no
+                left join TSPL_SD_SHIPMENT_detail on TSPL_SD_SHIPMENT_detail.document_code=TSPL_PAYMENT_PROCESS_MCC_SALE.shipment_doc_no and TSPL_SD_SHIPMENT_detail.Line_No=1
+                left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_detail.Item_Code
+                left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
+                left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
+                where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No in(" + strDocNo + ")  and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS' "
+
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+                qry += " " + whrActiveInactive + " "
+
+                qry += " ) Final " + subQryWhere + " " + MCCWhere + "  group by  Final.Ded_Code  " + subQry + "  ,[Type], Document_Date  order by [Type] desc"
 
             ElseIf chkWithOpening.Checked = True Then ''4
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
@@ -892,7 +914,7 @@ union all
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 
                         left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.Active,TSPL_VLC_MASTER_HEAD.mcc from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code"
-                   If AreaWiseBilling Then
+                If AreaWiseBilling Then
                     qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
                 End If
@@ -918,7 +940,7 @@ union all
                         Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt as Amount 
                         from TSPL_PAYMENT_PROCESS_DEDUCTION 
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE"
-                         If AreaWiseBilling Then
+                If AreaWiseBilling Then
                     qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
                 End If
