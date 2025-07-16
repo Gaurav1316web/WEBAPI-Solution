@@ -55,17 +55,20 @@ where " & whrcls & " )xx
 )xxx where sno=1"
             Else
                 strQry = "select * from (
- select row_number() over (Partition by [DCS Code] order by [Date] desc) as sno ,xx.* from 
+ select  ROW_NUMBER() OVER (PARTITION BY
+                               [DCS CODE], 
+                               [iTEM CODE]
+                           ORDER BY [DATE] DESC) AS sno ,xx.* from 
  (
- SELECT TSPL_MCC_MASTER.MCC_Code as [BMC Code],
+ SELECT FORMAT(TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 'dd/MM/yyyy') as [Date] , TSPL_MCC_MASTER.MCC_Code as [BMC Code],
 (MCC_NAME) as[BMC NAME],
 (TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,
 TSPL_VLC_MASTER_HEAD.VLC_Code as [DCS Code],
 (TSPL_VLC_MASTER_HEAD.VLC_Name) as [DCS Name],
 (TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader ,
 (Item_Code) as [Item Code],
-(qty) as Qty,
-FORMAT(TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 'dd/MM/yyyy') as [Date] FROM TSPL_SD_SALE_INVOICE_DETAIL
+(qty) as Qty
+FROM TSPL_SD_SALE_INVOICE_DETAIL
 
 LEFT OUTER JOIN  TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
@@ -75,7 +78,7 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER
   Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 
 where  " & whrclsDCSSALE & "   )xx
-)xxx where sno=1  AND ISNULL(LTRIM(RTRIM([DCS Code])), '') <> ''"
+)xxx where sno=1  AND ISNULL(LTRIM(RTRIM([DCS Code])), '') <> '' order by [Date] ASC; "
             End If
             dt = clsDBFuncationality.GetDataTable(strQry)
             Gv1.DataSource = Nothing
