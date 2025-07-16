@@ -616,7 +616,7 @@ Public Class clsPSShipmentHead
                 qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Else
-                qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + invoice_No + "' where Document_Code='" + Doc_No + "' "
+                qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + Doc_No + "' where Document_Code='" + Doc_No + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
