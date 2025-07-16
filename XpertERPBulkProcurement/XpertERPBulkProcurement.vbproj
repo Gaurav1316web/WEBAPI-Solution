@@ -297,6 +297,12 @@
     <Compile Include="Milk Procurement\Report\rptBMCMobileHistory.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.Designer.vb">
+      <DependentUpon>rptGheeAndCattleFeedDeductionStatementReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptUnionMilkRegister.Designer.vb">
       <DependentUpon>rptUnionMilkRegister.vb</DependentUpon>
     </Compile>
@@ -1195,6 +1201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptBMCMobileHistory.resx">
       <DependentUpon>rptBMCMobileHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptGheeAndCattleFeedDeductionStatementReport.resx">
+      <DependentUpon>rptGheeAndCattleFeedDeductionStatementReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptUnionBookingReport.resx">
       <DependentUpon>rptUnionBookingReport.vb</DependentUpon>

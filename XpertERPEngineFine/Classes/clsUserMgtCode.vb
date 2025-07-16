@@ -2264,6 +2264,7 @@ Public Class clsUserMgtCode
     Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"
     Public Const rptBMCMobileHistory As String = "BMC-MOB-HIS"
     Public Const YearlyBillReport As String = "DCS-INC"
+    Public Const rptGheeAndCattleFeedDeductionStatementReport As String = "GH-CF-D-SMT"
     Public Const frmDBTRecoVsIncentiveReport As String = "DBTREC_INC_R"
     Public Const frmAutoAdditionDeductionReport As String = "AUTO_AD_R"
     'Public Const rptTankerStatusReport As String = "R-T-STAT"
