@@ -1461,6 +1461,7 @@ Public Class clsDocType
             'InsertDefaultValue(clsDocType.VSPMASTER, "", False, False, True)
             InsertDefaultValue(clsDocType.MilkCollectionMCCMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionMCC, "", False, False, False)
+            InsertDefaultValue(clsDocType.MilkShiftUploader, "", False, True, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCSMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCSMulipleMerge, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCS, "", False, False, False)

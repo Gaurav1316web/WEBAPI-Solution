@@ -86,6 +86,7 @@ Public Class objCommonVar
     Private Shared _maxNameTableCharCount As Integer
 
     Private Shared _SepratePriceChartForCow As Boolean
+    Private Shared _SepratePriceChartForCamel As Boolean
     Private Shared _DisplayTypeInMilkReceipt As Boolean
     Private Shared _ApplyStdFATSNFRate As Boolean
     Private Shared _ApplyTransFATSNFRateForCalculateFATSNFRate As Boolean
@@ -557,6 +558,15 @@ Public Class objCommonVar
         End Set
     End Property
 
+    Public Shared Property SepratePriceChartForCamel() As Boolean
+        Get
+            Return _SepratePriceChartForCamel
+        End Get
+        Set(ByVal Value As Boolean)
+            _SepratePriceChartForCamel = Value
+        End Set
+    End Property
+
     Public Shared Property DisplayTypeInMilkReceipt() As Boolean
         Get
             Return _DisplayTypeInMilkReceipt
@@ -980,6 +990,7 @@ Public Class objCommonVar
         End If
         objCommonVar.GSTActiveTaxGroup = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GSTActiveTaxesRatesGroup, clsFixedParameterCode.GSTActiveTaxesRatesGroup, Nothing)) > 0
         objCommonVar.SepratePriceChartForCow = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SepratePriceChartForCowMilk, clsFixedParameterCode.SepratePriceChartForCowMilk, Nothing)) = 1
+        objCommonVar.SepratePriceChartForCamel = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SepratePriceChartForCamelMilk, clsFixedParameterCode.SepratePriceChartForCamelMilk, Nothing)) = 1
         objCommonVar.DisplayTypeInMilkReceipt = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DisplayTypeInMilkReceipt, clsFixedParameterCode.DisplayTypeInMilkReceipt, Nothing)) = 1
         objCommonVar.ApplyStdFATSNFRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyStdFATSNFRate, clsFixedParameterCode.ApplyStdFATSNFRate, Nothing)) = 1
         objCommonVar.TreatUnregisteredVendorAsRegisteredVendor = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TreatUnregisteredVendorAsRegisteredVendor, clsFixedParameterCode.TreatUnregisteredVendorAsRegisteredVendor, Nothing)) = 1, True, False)

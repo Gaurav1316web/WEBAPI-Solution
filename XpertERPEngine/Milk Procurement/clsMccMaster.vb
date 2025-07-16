@@ -2522,6 +2522,8 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
                     End If
                     If objCommonVar.DisplayTypeInMilkReceipt Then
                         qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='" + strMilkType + "' "
+                    ElseIf objCommonVar.SepratePriceChartForCamel AndAlso clsCommon.CompairString(strMilkType, "L") = CompairStringResult.Equal Then
+                        qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='L' "
                     ElseIf objCommonVar.SepratePriceChartForCow AndAlso clsCommon.CompairString(strMilkType, "C") = CompairStringResult.Equal Then
                         qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='C' "
                     Else

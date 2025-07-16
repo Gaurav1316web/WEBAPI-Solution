@@ -24797,7 +24797,7 @@ Public Class clsCreateAllTable
             coll.Add("QAT", "Integer null")
             coll.Add("Tanker_No", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SHIFT_UPLOADER_DETAIL", coll, Nothing, True, True, "TSPL_MILK_SHIFT_UPLOADER_HEAD", "Document_No", "", True)
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            'clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll.Item("Document_No") = "Varchar(30) not null"
 
