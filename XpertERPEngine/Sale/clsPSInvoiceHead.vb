@@ -218,6 +218,8 @@ Public Class clsPSInvoiceHead
     Public Is_Apply_TPT As Boolean = False
     Public TPT_Vendor As String = Nothing
     Public Recommended_By As String = Nothing
+    Public Bank_Code As String = Nothing
+    Public Exclude_KKF_And_Mandi As Boolean = False
 #End Region
 
     Public Function SaveData(ByVal obj As clsPSInvoiceHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal IsTaxable As Boolean = False) As Boolean
@@ -603,6 +605,8 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Is_Apply_TPT", IIf(obj.Is_Apply_TPT, 1, 0))
             clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
             clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
+            clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", obj.Exclude_KKF_And_Mandi, True)
 
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))

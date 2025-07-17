@@ -26,6 +26,7 @@ Public Class clsDCSSaleEntry
     Public Customer_Name As String = Nothing  'Not a table field
     Public Is_Apply_TPT As Boolean = False
     Public TPT_Vendor As String = Nothing
+    Public Exclude_KKF_And_Mandi As Boolean = False
     Public Recommended_By As String = Nothing
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Rate_Status As Integer = 1
@@ -112,6 +113,7 @@ Public Class clsDCSSaleEntry
     Public ConvRate As Decimal
     Public ApplicableFrom As Date? = Nothing
     Public PROJECT_ID As String = Nothing
+    Public No_Of_Instalment As Integer
     Public IS_TCS As Integer = 0
     Public Price_Code As String = Nothing
     Public Route_No As String = Nothing
@@ -275,6 +277,7 @@ Public Class clsDCSSaleEntry
             clsCommon.AddColumnsForChange(coll, "Is_CashSale", obj.Is_CashSale)
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location)
             clsCommon.AddColumnsForChange(coll, "Is_Apply_TPT", IIf(obj.Is_Apply_TPT, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", IIf(obj.Exclude_KKF_And_Mandi, 1, 0))
             clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
             clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
             clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code)
@@ -390,6 +393,7 @@ Public Class clsDCSSaleEntry
                 obj.Direct_Dispatch = 1
             End If
             clsCommon.AddColumnsForChange(coll, "Direct_Dispatch", obj.Direct_Dispatch)
+            clsCommon.AddColumnsForChange(coll, "No_Of_Instalment", obj.No_Of_Instalment)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Trans_Type", "MCC")
                 clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
@@ -503,11 +507,11 @@ Public Class clsDCSSaleEntry
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsDCSSaleEntry
         Dim obj As clsDCSSaleEntry = Nothing
-        Dim qry As String = "SELECT TSPL_DCS_SALE_ENTRY.No_Of_Instalment,TSPL_DCS_SALE_ENTRY.IS_TCS,TSPL_DCS_SALE_ENTRY.Road_Permit_No,TSPL_DCS_SALE_ENTRY.Bank_Code,TSPL_DCS_SALE_ENTRY.Is_Delivered,TSPL_DCS_SALE_ENTRY.HeadDisc_PerAmt,TSPL_DCS_SALE_ENTRY.RateDiff_Per,TSPL_DCS_SALE_ENTRY.Gross_Amount,TSPL_DCS_SALE_ENTRY.RateDiff_Amt,TSPL_DCS_SALE_ENTRY.cust_po_date,TSPL_DCS_SALE_ENTRY.Cust_PO_No,TSPL_DCS_SALE_ENTRY.Vehicle_Code,TSPL_DCS_SALE_ENTRY.price_group_code,TSPL_DCS_SALE_ENTRY.HeadDisc_Per,TSPL_DCS_SALE_ENTRY.HeadDisc_Amt,TSPL_DCS_SALE_ENTRY.TotCashDiscAmt,TSPL_DCS_SALE_ENTRY.Route_No,TSPL_DCS_SALE_ENTRY.Route_Desc,TSPL_DCS_SALE_ENTRY.Price_Code,TSPL_DCS_SALE_ENTRY.Document_Code,TSPL_DCS_SALE_ENTRY.Document_Date,TSPL_DCS_SALE_ENTRY.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DCS_SALE_ENTRY.Status,TSPL_DCS_SALE_ENTRY.On_Hold,TSPL_DCS_SALE_ENTRY.Ref_No,TSPL_DCS_SALE_ENTRY.Description,TSPL_DCS_SALE_ENTRY.Is_Apply_TPT,TSPL_DCS_SALE_ENTRY.TPT_Vendor,TSPL_DCS_SALE_ENTRY.Recommended_By,TSPL_DCS_SALE_ENTRY.Is_CashSale,TSPL_DCS_SALE_ENTRY.Remarks,TSPL_DCS_SALE_ENTRY.Bill_To_Location,TSPL_DCS_SALE_ENTRY.Sub_Location_code,TSPL_DCS_SALE_ENTRY.Ship_To_Location,TSPL_DCS_SALE_ENTRY.TAX1,TSPL_DCS_SALE_ENTRY.TAX1_Rate,TSPL_DCS_SALE_ENTRY.TAX1_Amt,TSPL_DCS_SALE_ENTRY.TAX1_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX2,TSPL_DCS_SALE_ENTRY.TAX2_Rate,TSPL_DCS_SALE_ENTRY.TAX2_Amt,TSPL_DCS_SALE_ENTRY.TAX2_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX3,TSPL_DCS_SALE_ENTRY.TAX3_Rate,TSPL_DCS_SALE_ENTRY.TAX3_Amt,TSPL_DCS_SALE_ENTRY.TAX3_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX4,TSPL_DCS_SALE_ENTRY.TAX4_Rate,TSPL_DCS_SALE_ENTRY.TAX4_Amt,TSPL_DCS_SALE_ENTRY.TAX4_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX5,TSPL_DCS_SALE_ENTRY.TAX5_Rate,TSPL_DCS_SALE_ENTRY.TAX5_Amt,TSPL_DCS_SALE_ENTRY.TAX5_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX6,TSPL_DCS_SALE_ENTRY.TAX6_Rate,TSPL_DCS_SALE_ENTRY.TAX6_Amt,TSPL_DCS_SALE_ENTRY.TAX6_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX7,TSPL_DCS_SALE_ENTRY.TAX7_Rate,TSPL_DCS_SALE_ENTRY.TAX7_Amt,TSPL_DCS_SALE_ENTRY.TAX7_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX8,TSPL_DCS_SALE_ENTRY.TAX8_Rate,TSPL_DCS_SALE_ENTRY.TAX8_Amt,TSPL_DCS_SALE_ENTRY.TAX8_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX9,TSPL_DCS_SALE_ENTRY.TAX9_Rate,TSPL_DCS_SALE_ENTRY.TAX9_Amt,TSPL_DCS_SALE_ENTRY.TAX9_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX10,TSPL_DCS_SALE_ENTRY.TAX10_Rate,TSPL_DCS_SALE_ENTRY.TAX10_Amt,TSPL_DCS_SALE_ENTRY.TAX10_Base_Amt,TSPL_DCS_SALE_ENTRY.Discount_Base,TSPL_DCS_SALE_ENTRY.Discount_Amt,TSPL_DCS_SALE_ENTRY.Amount_Less_Discount,TSPL_DCS_SALE_ENTRY.Total_Tax_Amt,TSPL_DCS_SALE_ENTRY.Comments,TSPL_DCS_SALE_ENTRY.Comp_Code,TSPL_DCS_SALE_ENTRY.Terms_Code,TSPL_DCS_SALE_ENTRY.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_DCS_SALE_ENTRY.Posting_Date,TSPL_DCS_SALE_ENTRY.Total_Amt,TSPL_DCS_SALE_ENTRY.Carrier,TSPL_DCS_SALE_ENTRY.VehicleNo,TSPL_DCS_SALE_ENTRY.GRNo,TSPL_DCS_SALE_ENTRY.GENo,TSPL_DCS_SALE_ENTRY.GEDate, TSPL_DCS_SALE_ENTRY.Dept,TSPL_DCS_SALE_ENTRY.Dept_Desc,TSPL_DCS_SALE_ENTRY.Item_Type,TSPL_DCS_SALE_ENTRY.Against_Sales_Order ,TSPL_DCS_SALE_ENTRY.Against_Sales_Order,TSPL_DCS_SALE_ENTRY.Add_Charge_Code1,TSPL_DCS_SALE_ENTRY.Add_Charge_Name1,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt1,TSPL_DCS_SALE_ENTRY.Add_Charge_Code2,TSPL_DCS_SALE_ENTRY.Add_Charge_Name2,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt2,TSPL_DCS_SALE_ENTRY.Add_Charge_Code3,TSPL_DCS_SALE_ENTRY.Add_Charge_Name3,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt3,TSPL_DCS_SALE_ENTRY.Add_Charge_Code4,TSPL_DCS_SALE_ENTRY.Add_Charge_Name4,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt4,TSPL_DCS_SALE_ENTRY.Add_Charge_Code5,TSPL_DCS_SALE_ENTRY.Add_Charge_Name5,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt5,TSPL_DCS_SALE_ENTRY.Add_Charge_Code6,TSPL_DCS_SALE_ENTRY.Add_Charge_Name6,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt6,TSPL_DCS_SALE_ENTRY.Add_Charge_Code7,TSPL_DCS_SALE_ENTRY.Add_Charge_Name7,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt7,TSPL_DCS_SALE_ENTRY.Add_Charge_Code8,TSPL_DCS_SALE_ENTRY.Add_Charge_Name8,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt8,TSPL_DCS_SALE_ENTRY.Add_Charge_Code9 ,TSPL_DCS_SALE_ENTRY.Add_Charge_Name9,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt9 ,TSPL_DCS_SALE_ENTRY.Add_Charge_Code10 ,TSPL_DCS_SALE_ENTRY.Add_Charge_Name10,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt10,TSPL_DCS_SALE_ENTRY.Total_Add_Charge,TSPL_DCS_SALE_ENTRY.Tax_Calculation_Type,TSPL_DCS_SALE_ENTRY.Challan_No, TSPL_DCS_SALE_ENTRY.Challan_Date,  TSPL_DCS_SALE_ENTRY.Is_Internal,TSPL_DCS_SALE_ENTRY.Is_Create_Auto_Receipt,TSPL_DCS_SALE_ENTRY.Salesman_Code ,TSPL_DCS_SALE_ENTRY.Salesman_Name,  "
+        Dim qry As String = "SELECT TSPL_DCS_SALE_ENTRY.No_Of_Instalment,TSPL_DCS_SALE_ENTRY.IS_TCS,TSPL_DCS_SALE_ENTRY.Road_Permit_No,TSPL_DCS_SALE_ENTRY.Bank_Code,TSPL_DCS_SALE_ENTRY.Is_Delivered,TSPL_DCS_SALE_ENTRY.HeadDisc_PerAmt,TSPL_DCS_SALE_ENTRY.RateDiff_Per,TSPL_DCS_SALE_ENTRY.Gross_Amount,TSPL_DCS_SALE_ENTRY.RateDiff_Amt,TSPL_DCS_SALE_ENTRY.cust_po_date,TSPL_DCS_SALE_ENTRY.Cust_PO_No,TSPL_DCS_SALE_ENTRY.Vehicle_Code,TSPL_DCS_SALE_ENTRY.price_group_code,TSPL_DCS_SALE_ENTRY.HeadDisc_Per,TSPL_DCS_SALE_ENTRY.HeadDisc_Amt,TSPL_DCS_SALE_ENTRY.TotCashDiscAmt,TSPL_DCS_SALE_ENTRY.Route_No,TSPL_DCS_SALE_ENTRY.Route_Desc,TSPL_DCS_SALE_ENTRY.Price_Code,TSPL_DCS_SALE_ENTRY.Document_Code,TSPL_DCS_SALE_ENTRY.Document_Date,TSPL_DCS_SALE_ENTRY.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DCS_SALE_ENTRY.Status,TSPL_DCS_SALE_ENTRY.On_Hold,TSPL_DCS_SALE_ENTRY.Ref_No,TSPL_DCS_SALE_ENTRY.Description,TSPL_DCS_SALE_ENTRY.Is_Apply_TPT,TSPL_DCS_SALE_ENTRY.Exclude_KKF_And_Mandi,TSPL_DCS_SALE_ENTRY.TPT_Vendor,TSPL_DCS_SALE_ENTRY.Recommended_By,TSPL_DCS_SALE_ENTRY.Is_CashSale,TSPL_DCS_SALE_ENTRY.Remarks,TSPL_DCS_SALE_ENTRY.Bill_To_Location,TSPL_DCS_SALE_ENTRY.Sub_Location_code,TSPL_DCS_SALE_ENTRY.Ship_To_Location,TSPL_DCS_SALE_ENTRY.TAX1,TSPL_DCS_SALE_ENTRY.TAX1_Rate,TSPL_DCS_SALE_ENTRY.TAX1_Amt,TSPL_DCS_SALE_ENTRY.TAX1_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX2,TSPL_DCS_SALE_ENTRY.TAX2_Rate,TSPL_DCS_SALE_ENTRY.TAX2_Amt,TSPL_DCS_SALE_ENTRY.TAX2_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX3,TSPL_DCS_SALE_ENTRY.TAX3_Rate,TSPL_DCS_SALE_ENTRY.TAX3_Amt,TSPL_DCS_SALE_ENTRY.TAX3_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX4,TSPL_DCS_SALE_ENTRY.TAX4_Rate,TSPL_DCS_SALE_ENTRY.TAX4_Amt,TSPL_DCS_SALE_ENTRY.TAX4_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX5,TSPL_DCS_SALE_ENTRY.TAX5_Rate,TSPL_DCS_SALE_ENTRY.TAX5_Amt,TSPL_DCS_SALE_ENTRY.TAX5_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX6,TSPL_DCS_SALE_ENTRY.TAX6_Rate,TSPL_DCS_SALE_ENTRY.TAX6_Amt,TSPL_DCS_SALE_ENTRY.TAX6_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX7,TSPL_DCS_SALE_ENTRY.TAX7_Rate,TSPL_DCS_SALE_ENTRY.TAX7_Amt,TSPL_DCS_SALE_ENTRY.TAX7_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX8,TSPL_DCS_SALE_ENTRY.TAX8_Rate,TSPL_DCS_SALE_ENTRY.TAX8_Amt,TSPL_DCS_SALE_ENTRY.TAX8_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX9,TSPL_DCS_SALE_ENTRY.TAX9_Rate,TSPL_DCS_SALE_ENTRY.TAX9_Amt,TSPL_DCS_SALE_ENTRY.TAX9_Base_Amt,TSPL_DCS_SALE_ENTRY.TAX10,TSPL_DCS_SALE_ENTRY.TAX10_Rate,TSPL_DCS_SALE_ENTRY.TAX10_Amt,TSPL_DCS_SALE_ENTRY.TAX10_Base_Amt,TSPL_DCS_SALE_ENTRY.Discount_Base,TSPL_DCS_SALE_ENTRY.Discount_Amt,TSPL_DCS_SALE_ENTRY.Amount_Less_Discount,TSPL_DCS_SALE_ENTRY.Total_Tax_Amt,TSPL_DCS_SALE_ENTRY.Comments,TSPL_DCS_SALE_ENTRY.Comp_Code,TSPL_DCS_SALE_ENTRY.Terms_Code,TSPL_DCS_SALE_ENTRY.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_DCS_SALE_ENTRY.Posting_Date,TSPL_DCS_SALE_ENTRY.Total_Amt,TSPL_DCS_SALE_ENTRY.Carrier,TSPL_DCS_SALE_ENTRY.VehicleNo,TSPL_DCS_SALE_ENTRY.GRNo,TSPL_DCS_SALE_ENTRY.GENo,TSPL_DCS_SALE_ENTRY.GEDate, TSPL_DCS_SALE_ENTRY.Dept,TSPL_DCS_SALE_ENTRY.Dept_Desc,TSPL_DCS_SALE_ENTRY.Item_Type,TSPL_DCS_SALE_ENTRY.Against_Sales_Order ,TSPL_DCS_SALE_ENTRY.Against_Sales_Order,TSPL_DCS_SALE_ENTRY.Add_Charge_Code1,TSPL_DCS_SALE_ENTRY.Add_Charge_Name1,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt1,TSPL_DCS_SALE_ENTRY.Add_Charge_Code2,TSPL_DCS_SALE_ENTRY.Add_Charge_Name2,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt2,TSPL_DCS_SALE_ENTRY.Add_Charge_Code3,TSPL_DCS_SALE_ENTRY.Add_Charge_Name3,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt3,TSPL_DCS_SALE_ENTRY.Add_Charge_Code4,TSPL_DCS_SALE_ENTRY.Add_Charge_Name4,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt4,TSPL_DCS_SALE_ENTRY.Add_Charge_Code5,TSPL_DCS_SALE_ENTRY.Add_Charge_Name5,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt5,TSPL_DCS_SALE_ENTRY.Add_Charge_Code6,TSPL_DCS_SALE_ENTRY.Add_Charge_Name6,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt6,TSPL_DCS_SALE_ENTRY.Add_Charge_Code7,TSPL_DCS_SALE_ENTRY.Add_Charge_Name7,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt7,TSPL_DCS_SALE_ENTRY.Add_Charge_Code8,TSPL_DCS_SALE_ENTRY.Add_Charge_Name8,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt8,TSPL_DCS_SALE_ENTRY.Add_Charge_Code9 ,TSPL_DCS_SALE_ENTRY.Add_Charge_Name9,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt9 ,TSPL_DCS_SALE_ENTRY.Add_Charge_Code10 ,TSPL_DCS_SALE_ENTRY.Add_Charge_Name10,TSPL_DCS_SALE_ENTRY.Add_Charge_Amt10,TSPL_DCS_SALE_ENTRY.Total_Add_Charge,TSPL_DCS_SALE_ENTRY.Tax_Calculation_Type,TSPL_DCS_SALE_ENTRY.Challan_No, TSPL_DCS_SALE_ENTRY.Challan_Date,  TSPL_DCS_SALE_ENTRY.Is_Internal,TSPL_DCS_SALE_ENTRY.Is_Create_Auto_Receipt,TSPL_DCS_SALE_ENTRY.Salesman_Code ,TSPL_DCS_SALE_ENTRY.Salesman_Name,  "
         qry += " TSPL_DCS_SALE_ENTRY.CURRENCY_CODE,TSPL_DCS_SALE_ENTRY.CONVRATE,TSPL_DCS_SALE_ENTRY.APPLICABLEFROM,TSPL_DCS_SALE_ENTRY.PRoject_ID ,TSPL_DCS_SALE_ENTRY.Mannual_Invoice_No,TSPL_DCS_SALE_ENTRY. Mannual_Invoice_No_StringType,TSPL_DCS_SALE_ENTRY.Form_38_No " &
         " ,TSPL_DCS_SALE_ENTRY.SO_Validity,TSPL_DCS_SALE_ENTRY.Commission_Apply,TSPL_DCS_SALE_ENTRY.Total_Comm_Amt,TSPL_DCS_SALE_ENTRY.Dispatch_date" &
         " ,TSPL_DCS_SALE_ENTRY.Dispatch_Terms,TSPL_DCS_SALE_ENTRY.Payment_Terms,TSPL_DCS_SALE_ENTRY.Dispatch_Period,TSPL_DCS_SALE_ENTRY.Vehicle_Capacity,TSPL_DCS_SALE_ENTRY.RoundOffAmount,TSPL_DCS_SALE_ENTRY.Is_Taxable " &
-        ",TSPL_DCS_SALE_ENTRY.Receipt_No,TSPL_DCS_SALE_ENTRY.ReceiptAmt,TSPL_DCS_SALE_ENTRY.VehicleNo,TSPL_DCS_SALE_ENTRY.ReceiverName,TSPL_DCS_SALE_ENTRY.TotalSubsidyAmt ,TSPL_DCS_SALE_ENTRY.TotalSubsidyDisAmt,TSPL_DCS_SALE_ENTRY.Transporter_Commission_TotalAmt"
+        ",TSPL_DCS_SALE_ENTRY.Receipt_No,TSPL_DCS_SALE_ENTRY.ReceiptAmt,TSPL_DCS_SALE_ENTRY.VehicleNo,TSPL_DCS_SALE_ENTRY.ReceiverName,TSPL_DCS_SALE_ENTRY.TotalSubsidyAmt ,TSPL_DCS_SALE_ENTRY.TotalSubsidyDisAmt,TSPL_DCS_SALE_ENTRY.Transporter_Commission_TotalAmt,TSPL_DCS_SALE_ENTRY.No_Of_Instalment "
         qry += "  FROM TSPL_DCS_SALE_ENTRY "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_DCS_SALE_ENTRY.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_DCS_SALE_ENTRY.Ship_To_Location "
@@ -556,6 +560,7 @@ Public Class clsDCSSaleEntry
             If dt.Rows(0)("Dispatch_date") IsNot DBNull.Value Then
                 obj.Dispatch_date = clsCommon.GetPrintDate((dt.Rows(0)("Dispatch_date")), "dd/MMM/yyyy")
             End If
+            obj.No_Of_Instalment = clsCommon.myCdbl(dt.Rows(0)("No_Of_Instalment"))
             obj.Vehicle_Capacity = clsCommon.myCdbl(dt.Rows(0)("Vehicle_Capacity"))
             obj.Dispatch_Terms = clsCommon.myCstr(dt.Rows(0)("Dispatch_Terms"))
             obj.Payment_Terms = clsCommon.myCstr(dt.Rows(0)("Payment_Terms"))
@@ -575,6 +580,7 @@ Public Class clsDCSSaleEntry
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Is_CashSale = clsCommon.myCstr(dt.Rows(0)("Is_CashSale"))
             obj.Is_Apply_TPT = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Apply_TPT")) = 1, True, False)
+            obj.Exclude_KKF_And_Mandi = IIf(clsCommon.myCdbl(dt.Rows(0)("Exclude_KKF_And_Mandi")) = 1, True, False)
             obj.TPT_Vendor = clsCommon.myCstr(dt.Rows(0)("TPT_Vendor"))
             obj.Recommended_By = clsCommon.myCstr(dt.Rows(0)("Recommended_By"))
             obj.Receipt_No = clsCommon.myCstr(dt.Rows(0)("Receipt_No"))
@@ -707,7 +713,7 @@ Public Class clsDCSSaleEntry
             End If
             qry = "SELECT TSPL_DCS_SALE_ENTRY_DETAIL.PK_ID, TSPL_DCS_SALE_ENTRY_DETAIL.ItemwiseTaxCode,TSPL_DCS_SALE_ENTRY_DETAIL.OrgUnit_code,TSPL_DCS_SALE_ENTRY_DETAIL.Is_Mannual_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.Document_Code,TSPL_DCS_SALE_ENTRY_DETAIL.Line_No, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.Status,TSPL_DCS_SALE_ENTRY_DETAIL.Row_Type,TSPL_DCS_SALE_ENTRY_DETAIL.status,TSPL_DCS_SALE_ENTRY_DETAIL.Item_Code, " &
-            "TSPL_ITEM_MASTER.Item_Desc,TSPL_DCS_SALE_ENTRY_DETAIL.Qty,TSPL_DCS_SALE_ENTRY_DETAIL.Free_Qty,TSPL_DCS_SALE_ENTRY_DETAIL.Order_Code, " &
+            "TSPL_ITEM_MASTER.Item_Desc,isnull(TSPL_ITEM_MASTER.DCS_Sale_Zero_Cost,0)as DCS_Sale_Zero_Cost,TSPL_DCS_SALE_ENTRY_DETAIL.Qty,TSPL_DCS_SALE_ENTRY_DETAIL.Free_Qty,TSPL_DCS_SALE_ENTRY_DETAIL.Order_Code, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.Order_Code,TSPL_DCS_SALE_ENTRY_DETAIL.Balance_Qty,TSPL_DCS_SALE_ENTRY_DETAIL.Unit_code, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.Location,TSPL_DCS_SALE_ENTRY_DETAIL.Item_Cost,TSPL_DCS_SALE_ENTRY_DETAIL.TAX1,TSPL_DCS_SALE_ENTRY_DETAIL.TAX1_Rate, " &
             "TSPL_DCS_SALE_ENTRY_DETAIL.TAX1_Amt,TSPL_DCS_SALE_ENTRY_DETAIL.TAX2,TSPL_DCS_SALE_ENTRY_DETAIL.TAX2_Rate,TSPL_DCS_SALE_ENTRY_DETAIL.TAX2_Amt, " &
@@ -761,6 +767,7 @@ Public Class clsDCSSaleEntry
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                     objTr.Bar_Code = clsCommon.myCstr(dr("Bar_Code"))
                     objTr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
+                    objTr.DCS_Sale_Zero_Cost = clsCommon.myCdbl(dr("DCS_Sale_Zero_Cost"))
                     objTr.Deduction = clsCommon.myCstr(dr("Deduction"))
                     objTr.Deduction_Name = clsCommon.myCstr(dr("Deduction_Name"))
                     objTr.Tax_Group = clsCommon.myCstr(dr("Tax_Group"))
@@ -1018,6 +1025,8 @@ Public Class clsDCSSaleEntry
                     objDCSSale.Is_Apply_TPT = obj.Is_Apply_TPT
                     objDCSSale.Recommended_By = obj.Recommended_By
                     objDCSSale.TPT_Vendor = obj.TPT_Vendor
+                    objDCSSale.No_Of_Instalment = obj.No_Of_Instalment
+                    objDCSSale.Exclude_KKF_And_Mandi = obj.Exclude_KKF_And_Mandi
                     objDCSSale.RoundOffAmount = 0
                     Dim isTaxable As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select IsTaxable from tspl_item_master where item_code ='" + objDCSEntrySale.Item_Code + "'", trans) = 1)
                     objDCSSale.Invoice_Type = IIf(isTaxable, "T", "N")
@@ -1671,6 +1680,7 @@ Public Class clsDCSSaleEntryDetail
     Public Row_Type As String = Nothing
     Public Item_Code As String = Nothing
     Public Item_Desc As String = Nothing
+    Public DCS_Sale_Zero_Cost As String = Nothing
     Public Bar_Code As String = Nothing
     Public Qty As Double = 0
     Public Balance_Qty As Double = 0

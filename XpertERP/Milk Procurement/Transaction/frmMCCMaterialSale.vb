@@ -18,7 +18,7 @@ Public Class frmMCCMaterialSale
     Private StrSql As String
     Private AutoScheme As Boolean = False
     Private MultiplySubsidyWithQuantity As Boolean = False
-    Private ExcludeKKFAndMandiForDCS As Boolean = False
+    'Private ExcludeKKFAndMandiForDCS As Boolean = False
     Private attachQry As String = ""
     Private blnBackCalculation As Boolean = False
     Private AllowChangeInvoiceType As Boolean = False
@@ -27,6 +27,7 @@ Public Class frmMCCMaterialSale
     Private ItemRateEditable As Boolean = False
     Private ItemMRPEditable As Boolean = False
     Dim RunBatchFifowise As Integer = 0
+    Dim RunBatchFifowisewithmodifyfunctionality As Boolean = False
     Public strExcise As Boolean
     Public intMRPwithabatement As Integer
     Private isPO_GRN_MRN_Editable As Boolean = False
@@ -47,6 +48,7 @@ Public Class frmMCCMaterialSale
     Const colICode As String = "COLICODE"
     Const colShortDesc As String = "colShortDesc"
     Const colIName As String = "COLINAME"
+    Const colDCSSaleZeroCost As String = "colDCSSaleZeroCost"
     Const colHSNNo As String = "COLHSNNo"
     Const colBarCode As String = "COLBARCODE"
     Const colPendingQty As String = "COLPENDINGQTY"
@@ -270,9 +272,10 @@ Public Class frmMCCMaterialSale
         ItemRateEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemRateEditableOnSales & "'")) = 0, False, True)
         ItemMRPEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemMRPEditableOnSales & "'")) = 0, False, True)
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
+        RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         AutoScheme = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoSchemeOn & "'")) = 0, False, True)
         MultiplySubsidyWithQuantity = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultiplySubsidyWithQuantity, clsFixedParameterCode.MultiplySubsidyWithQuantity, Nothing))
-        ExcludeKKFAndMandiForDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, Nothing))
+        'ExcludeKKFAndMandiForDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ExcludeKKFAndMandiForDCS, clsFixedParameterCode.ExcludeKKFAndMandiForDCS, Nothing))
         blnBackCalculation = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsRateBackCalculation from TSPL_inv_parameters")) = 0, False, True)
         PurchaseOneItemOneVendor = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='PurchaseOneItemOneVendor'")) = 0, False, True)
         intMRPwithabatement = clsDBFuncationality.getSingleValue("select IsMRPwithAbatement from TSPL_INV_PARAMETERS")
@@ -449,6 +452,7 @@ Public Class frmMCCMaterialSale
         chkDiscountOnAmt.IsChecked = True
         chkRateDiffAmt.IsChecked = True
         txtNoOfInsallment.Value = 0
+        chkExcludeKKFMandi.Checked = False
         LblVlc_Code.Text = ""
         LblVlc_Code.Tag = Nothing
         LblVlc_Name.Text = ""
@@ -586,6 +590,16 @@ Public Class frmMCCMaterialSale
         repoIName.Width = 150
         repoIName.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoIName)
+
+        Dim repoDCSSaleZeroCost As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDCSSaleZeroCost.FormatString = ""
+        repoDCSSaleZeroCost.HeaderText = "Is DCS Sale Zero Cost"
+        repoDCSSaleZeroCost.Name = colDCSSaleZeroCost
+        repoDCSSaleZeroCost.Width = 150
+        repoDCSSaleZeroCost.ReadOnly = True
+        repoDCSSaleZeroCost.IsVisible = False
+        gv1.MasterTemplate.Columns.Add(repoDCSSaleZeroCost)
+
         repoIName = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
         repoIName.HeaderText = "HSN No"
@@ -2727,7 +2741,7 @@ Public Class frmMCCMaterialSale
             Dim qry As String
             qry = "select * from (
 select a.DESCRIPTION,a.cat_value, TSPL_ITEM_MASTER.item_code as Item,TSPL_ITEM_MASTER.item_desc as [ItemDesc],TSPL_ITEM_MASTER.Short_Description, 
-TSPL_ITEM_MASTER.Unit_Code as Unit , TSPL_ITEM_MASTER.Rate as BasicRate,TSPL_ITEM_MASTER.rate as MRP, Weight_Value as [Weight Value] 
+TSPL_ITEM_MASTER.Unit_Code as Unit , TSPL_ITEM_MASTER.Rate as BasicRate,TSPL_ITEM_MASTER.rate as MRP, Weight_Value as [Weight Value],isnull(DCS_Sale_Zero_Cost,0)as DCS_Sale_Zero_Cost
 from TSPL_ITEM_MASTER    
 left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,
 TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value  from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE= TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' 
@@ -2757,7 +2771,12 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     gv1.CurrentRow.Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) + "'")
                     gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr(0).Item("Unit"))
                     gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr(0).Item("MRP"))
-                    gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+                    gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value = clsCommon.myCBool(dr(0).Item("DCS_Sale_Zero_Cost") = 1)
+                    If gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value Then
+                        gv1.CurrentRow.Cells(colRate).Value = 0
+                    Else
+                        gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
+                    End If
                     gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
                     gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
                     gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
@@ -3576,6 +3595,11 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             If GSTStatus = True AndAlso chkTaxable.Checked Then
                 clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value, Nothing)
             End If
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If gv1.Rows(ii).Cells(colDCSSaleZeroCost).Value Then
+                    gv1.Rows(ii).Cells(colRate).Value = 0
+                End If
+            Next
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3650,6 +3674,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 obj.Is_Internal = chkInternal.Checked
                 obj.PROJECT_ID = fndProject.Value
                 obj.No_Of_Instalment = txtNoOfInsallment.Value
+                obj.Exclude_KKF_And_Mandi = chkExcludeKKFMandi.Checked
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
                     obj.TAX1_Rate = clsCommon.myCdbl(gv2.Rows(0).Cells(colTTaxRate).Value)
@@ -4223,6 +4248,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     txtDueDate.Value = obj.Due_Date
                 End If
                 txtNoOfInsallment.Value = obj.No_Of_Instalment
+                chkExcludeKKFMandi.Checked = obj.Exclude_KKF_And_Mandi
                 lblAmtWithDiscount.Text = clsCommon.myFormat(obj.Discount_Base)
                 lblDiscountAmt.Text = clsCommon.myFormat(obj.Discount_Amt)
                 lblAmtAfterDiscount.Text = clsCommon.myFormat(obj.Amount_Less_Discount)
@@ -4563,6 +4589,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = objTr.arrBatchItem ' change by prabhakar
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShortDesc).Value = clsItemMaster.GetItemShortDescription(objTr.Item_Code, Nothing)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDCSSaleZeroCost).Value = clsCommon.myCBool(objTr.DCS_Sale_Zero_Cost = 1)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(objTr.Item_Code, Nothing)
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colBarCode).Value = objTr.Bar_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(objTr.Item_Code)
@@ -6776,7 +6803,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                             End If
                         Else
                             Dim FormType As String = clsDBFuncationality.getSingleValue("select CUSTOMER_FORM_TYPE from TSPL_CUSTOMER_MASTER where  cust_code = '" + txtVendorNo.Value + "' ")
-                            If ExcludeKKFAndMandiForDCS AndAlso clsCommon.CompairString(FormType, "VSP") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(strTaxType, "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(strTaxType, "M") = CompairStringResult.Equal) Then
+                            If chkExcludeKKFMandi.Checked AndAlso clsCommon.CompairString(FormType, "VSP") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(strTaxType, "K") = CompairStringResult.Equal OrElse clsCommon.CompairString(strTaxType, "M") = CompairStringResult.Equal) Then
                                 dblTaxRate = 0
                             Else
                                 dblTaxRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
@@ -6993,7 +7020,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         End If
         If e.KeyCode = Keys.F5 Then
             '======update by preeti gupta 17/10/2018
-            If RunBatchFifowise = 0 Then
+            If RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality = True Then
                 OpenBatchItem()
             Else
                 OpenBatchItemIfFIFIOSettingON()

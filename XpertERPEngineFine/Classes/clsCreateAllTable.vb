@@ -30785,6 +30785,7 @@ Public Class clsCreateAllTable
             coll.Add("Recommended_By", "Varchar(50) null")
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
+            coll.Add("Exclude_KKF_And_Mandi", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_SALE_ENTRY", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
@@ -31293,6 +31294,7 @@ Public Class clsCreateAllTable
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Demand_UniqueID", "Integer null")
             coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
+            coll.Add("Exclude_KKF_And_Mandi", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -33079,6 +33081,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Apply_TPT", "integer null")
             coll.Add("Recommended_By", "Varchar(50) null")
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
+            coll.Add("Exclude_KKF_And_Mandi", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)
