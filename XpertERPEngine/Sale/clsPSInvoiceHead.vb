@@ -606,7 +606,7 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
             clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
-            clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", obj.Exclude_KKF_And_Mandi, True)
+            clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", IIf(obj.Exclude_KKF_And_Mandi, 1, 0))
 
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
