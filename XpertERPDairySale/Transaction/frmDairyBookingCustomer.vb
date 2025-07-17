@@ -2771,6 +2771,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         Else
             chkTPT.Checked = False
         End If
+        chkExcludeKKFMND.Checked = False
+        chkExcludeKKFMND.Enabled = True
         chkisTCS.Checked = False
         chkisTCS.Visible = False
         lblShiftType.Text = ""
@@ -3440,6 +3442,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     obj.TRANSACTION_TYPE = ""
                 Else
                     obj.TRANSACTION_TYPE = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
+                End If
+                If chkExcludeKKFMND.Checked Then
+                    obj.Exclude_KKF_And_Mandi = 1
+                Else
+                    obj.Exclude_KKF_And_Mandi = 0
                 End If
                 obj.From_Screen_code = clsUserMgtCode.frmDairyBookingCustomer
                 If EnableCustomerPODetailonDairyBooking = 1 Then
@@ -4174,6 +4181,8 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     End If
                     txtPONo.Text = obj.Cust_PO_No
                 End If
+                chkExcludeKKFMND.Checked = IIf(obj.Exclude_KKF_And_Mandi = 1, True, False)
+                chkExcludeKKFMND.Enabled = False
                 txtFATPER.Text = obj.FAT_Per
                 txtSNFPER.Text = obj.SNF_Per
                 txtAcidity.Text = obj.Acidity
@@ -8530,6 +8539,7 @@ from
                         obj.CrateQty = txtCrate.Text
                         obj.Crate = txtCrate.Text
                         obj.Box = txtBox.Text
+                        obj.Exclude_KKF_And_Mandi = IIf(chkExcludeKKFMND.Checked, 1, 0)
                         'obj.Against_Delivery_Code = Against_Delivery_Code 'clsDBFuncationality.getSingleValue("select Delivery_No from TSPL_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "' ", trans)
                         obj.Against_Booking_No = txtDocNo.Value
                         obj.Payment_Terms = cmbPaymentType.Text
@@ -9067,7 +9077,11 @@ from
                         End If
                         txtTCSTaxRate.Value = clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)
                     Else
-                        gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = dr("TaxRate")
+                        If chkExcludeKKFMND.Checked AndAlso (clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "K") = CompairStringResult.Equal) Then
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                        Else
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = dr("TaxRate")
+                        End If
                     End If
                 End If
             Next
@@ -9138,7 +9152,12 @@ from
                         '' == Changes by Parteek 21/09/2017
                         'If CalculateTaxRatefromItemwsieTaxOnSale = 0 Then
                         '    If isChangeRate Then
-                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                        If chkExcludeKKFMND.Checked AndAlso (clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "K") = CompairStringResult.Equal) Then
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = 0
+                        Else
+                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+
+                        End If
                         '    End If
                         'End If
                         ''tcs tax rate

@@ -8739,6 +8739,8 @@ Public Class clsCreateAllTable
             coll.Add("Manual_VehicleNo", "varchar(12) null")
             coll.Add("NoCrateIssue", "integer null")
             coll.Add("IsEwaybill", "integer null")
+            coll.Add("Exclude_KKF_And_Mandi", "integer null")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set supply_date=Document_Date where supply_date is null")
