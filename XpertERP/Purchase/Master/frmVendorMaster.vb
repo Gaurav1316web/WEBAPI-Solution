@@ -545,12 +545,25 @@ Public Class frmVendorMaster
                 End If
                 Dim strpermanentInactive As Integer = 0
                 strpermanentInactive = clsCommon.myCdbl(myDr("perinactive"))
+                'If strpermanentInactive = 1 Then
+                '    chkpermanentInactive.Checked = True
+                'Else
+                '    chkpermanentInactive.Checked = False
+                'End If
+
                 If strpermanentInactive = 1 Then
                     chkpermanentInactive.Checked = True
+                    chkInActive.Checked = True
+                    chkInActive.Enabled = False
+                    chkpermanentInactive.Enabled = False
+                    btnsave.Enabled = False
                 Else
                     chkpermanentInactive.Checked = False
-                End If
+                    chkpermanentInactive.Enabled = True
+                    chkInActive.Enabled = True
 
+
+                End If
                 'IsVendorInvoiceNo In_Active_CF
                 Dim IsVendorInvoiceNo As Integer = 0
                 IsVendorInvoiceNo = clsCommon.myCdbl(myDr("IsVendorInvoiceNo"))
@@ -1395,7 +1408,7 @@ Public Class frmVendorMaster
             End If
             Dim IspermanentInactive As Integer = 0
 
-            If chkpermanentInactive.checked Then
+            If chkpermanentInactive.Checked Then
                 IspermanentInactive = 1
                 chkInActive.Checked = True
             Else
@@ -4493,6 +4506,9 @@ Public Class frmVendorMaster
                 btndelete.Enabled = False
             End If
             fndvendorNo_text_changed()
+            If chkpermanentInactive.Checked Then
+                chkpermanentInactive.Enabled = False
+            End If
         ElseIf fndvendorNo.MyReadOnly OrElse fndvendorNo.Value IsNot Nothing Then
             Dim qry As String = "Select * from TSPL_VENDOR_MASTER where Vendor_Code ='" + fndvendorNo.Value + "' and form_type='" + txtvndrtype.Text + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

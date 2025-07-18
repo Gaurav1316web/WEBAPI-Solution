@@ -1760,9 +1760,9 @@ Partial Class frmVendorMaster
         Me.chkpermanentInactive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkpermanentInactive.Location = New System.Drawing.Point(321, 7)
         Me.chkpermanentInactive.Name = "chkpermanentInactive"
-        Me.chkpermanentInactive.Size = New System.Drawing.Size(118, 16)
+        Me.chkpermanentInactive.Size = New System.Drawing.Size(108, 16)
         Me.chkpermanentInactive.TabIndex = 7358
-        Me.chkpermanentInactive.Text = "Permanent Inactive"
+        Me.chkpermanentInactive.Text = "Permanent Close"
         '
         'dtClosing
         '

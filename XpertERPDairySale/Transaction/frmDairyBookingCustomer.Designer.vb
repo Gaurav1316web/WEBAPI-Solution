@@ -319,6 +319,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -594,6 +595,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -659,6 +661,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsEwayBill)
@@ -4541,6 +4544,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
+        'chkExcludeKKFMND
+        '
+        Me.chkExcludeKKFMND.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExcludeKKFMND.Location = New System.Drawing.Point(910, 43)
+        Me.chkExcludeKKFMND.Name = "chkExcludeKKFMND"
+        Me.chkExcludeKKFMND.Size = New System.Drawing.Size(142, 16)
+        Me.chkExcludeKKFMND.TabIndex = 1586
+        Me.chkExcludeKKFMND.Text = "Exclude KKF Mandi Tax"
+        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4851,6 +4863,7 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -5140,5 +5153,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents chkIsEwayBill As RadCheckBox
     Friend WithEvents txtSupplyDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblSupplyDate As common.Controls.MyLabel
+    Friend WithEvents chkExcludeKKFMND As RadCheckBox
 End Class
 

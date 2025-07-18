@@ -991,7 +991,7 @@ Partial Class frmCustomer
         Me.chkpermanentInactive.Name = "chkpermanentInactive"
         Me.chkpermanentInactive.Size = New System.Drawing.Size(118, 16)
         Me.chkpermanentInactive.TabIndex = 1387
-        Me.chkpermanentInactive.Text = "Permanent Inactive"
+        Me.chkpermanentInactive.Text = "Permanent Close"
         '
         'chkInterUnionSale
         '

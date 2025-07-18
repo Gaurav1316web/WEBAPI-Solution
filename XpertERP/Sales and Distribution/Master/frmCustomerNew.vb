@@ -560,7 +560,7 @@ Public Class frmCustomer
                 chkInActive.Checked = True
                 chkInActive.Enabled = False
                 chkpermanentInactive.Enabled = False
-                clsCommon.MyMessageBoxShow(Me, "Parmanenty Inactive of this Customer " + fndCustomer.Value + " and InActive Date is " + dtClosing.Value + "", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Parmanenty Close of this Customer " + fndCustomer.Value + " and InActive Date is " + dtClosing.Value + "", Me.Text)
 
             End If
 
@@ -2560,6 +2560,7 @@ Public Class frmCustomer
         End If
     End Sub
     Public Sub funNew()
+        btnSave.Enabled = True
         ChkDcsOnly.ReadOnly = False
         txtCastCategory.Value = ""
         lblCastCategoryName.Text = ""
@@ -4894,13 +4895,18 @@ Public Class frmCustomer
                 fndCustomer.MyReadOnly = True
                 ChkDcsOnly.ReadOnly = True
                 ChkDcsOnly.Checked = False
+
             End If
+
             If fndCustomer.MyReadOnly OrElse isButtonClicked Then
                 'Dim qry As String = "select Cust_Code as [CustomerCode],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status] from TSPL_CUSTOMER_MASTER  "
                 'fndCustomer.Value = clsCommon.ShowSelectForm("CUSTOMEFND", qry, "CustomerCode", "", fndCustomer.Value, "", isButtonClicked)
                 fndCustomer.Value = clsCustomerMaster.getFinder("CUSTOMER_FORM_TYPE='ALL'", fndCustomer.Value, isButtonClicked)
                 txtCustomerName.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER  where Cust_Code='" + fndCustomer.Value + "' ")
                 LoadData()
+            End If
+            If chkpermanentInactive.Checked Then
+                chkpermanentInactive.Enabled = False
             End If
             'If clsCommon.myLen(fndCustomer.Value) <= 0 Then
             '    ChkDcsOnly.Checked = False
@@ -5797,6 +5803,11 @@ Public Class frmCustomer
             End If
             SaveData()
             saveCancelLog(Reason, "Updated", Nothing)
+            If chkpermanentInactive.Checked Then
+                btnSave.Enabled = False
+                chkpermanentInactive.Enabled = False
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -6158,6 +6169,8 @@ Public Class frmCustomer
         If chkpermanentInactive.Checked Then
             chkInActive.Enabled = False
             chkInActive.Checked = True
+            chkInActive.Enabled = False
+            chkpermanentInactive.Enabled = False
         Else
             chkInActive.Checked = False
             chkInActive.Enabled = True

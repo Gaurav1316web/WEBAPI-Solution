@@ -258,7 +258,7 @@ Public Class clsPSShipmentHead
     Public IsCreditCustomer As Boolean = False
     Public ParentDocNo As String = ""
     Public Vehicle_Type As String = ""
-
+    Public Exclude_KKF_And_Mandi As Integer = 0
 
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
     Public ArrBoothScheme As List(Of clsPSShipmentBoothWiseScheme) = Nothing
@@ -855,6 +855,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Vehicle_Manual_No", obj.Vehicle_Manual_No, True)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Type", obj.Vehicle_Type, True)
             clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code, True)
+            clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", obj.Exclude_KKF_And_Mandi, True)
             If obj.GEDate.HasValue Then
                 clsCommon.AddColumnsForChange(coll, "GEDate", clsCommon.GetPrintDate(obj.GEDate, "dd/MMM/yyyy"))
             Else
@@ -1311,7 +1312,7 @@ Public Class clsPSShipmentHead
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
-        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID "
+        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi "
 
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
@@ -1392,6 +1393,7 @@ Public Class clsPSShipmentHead
             obj.FixedCharge = clsCommon.myCdbl(dt.Rows(0)("FixedCharge"))
             obj.ChangedTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ChangedTCSBaseAmount"))
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ActualTCSBaseAmount"))
+            obj.Exclude_KKF_And_Mandi = clsCommon.myCdbl(dt.Rows(0)("Exclude_KKF_And_Mandi"))
 
             obj.EmptyCharge = clsCommon.myCdbl(dt.Rows(0)("EmptyCharge"))
             obj.Freight_Type = clsCommon.myCstr(dt.Rows(0)("Freight_Type"))

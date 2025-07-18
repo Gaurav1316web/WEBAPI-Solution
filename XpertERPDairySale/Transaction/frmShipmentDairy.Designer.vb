@@ -136,6 +136,7 @@ Partial Class frmShipmentDairy
         Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.TxtInvoiceNoForReplacement = New common.UserControls.txtFinder()
         Me.RadLabel24 = New common.Controls.MyLabel()
+        Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtManualVehicle = New common.Controls.MyTextBox()
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.lblManualVehicle = New common.Controls.MyLabel()
@@ -533,6 +534,7 @@ Partial Class frmShipmentDairy
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit
@@ -946,6 +948,7 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtDemandNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblDemandNO)
         Me.RadPageViewPage1.Controls.Add(Me.chkIndividualCustomer)
@@ -967,7 +970,6 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Controls.Add(Me.chkCreateAutoInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkCreateAutoReceipt)
-        Me.RadPageViewPage1.Controls.Add(Me.btnDrillDown)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Controls.Add(Me.cmbVehicleType)
         Me.RadPageViewPage1.Controls.Add(Me.lblVehicleType)
@@ -976,7 +978,6 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel60)
         Me.RadPageViewPage1.Controls.Add(Me.txtSubLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.TxtInvoiceNoForReplacement)
         Me.RadPageViewPage1.Controls.Add(Me.txtManualVehicle)
         Me.RadPageViewPage1.Controls.Add(Me.lblManualVehicle)
         Me.RadPageViewPage1.Controls.Add(Me.txtInvoiceNo)
@@ -1024,8 +1025,6 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel12)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
-        Me.RadPageViewPage1.Controls.Add(Me.txtReqNo)
-        Me.RadPageViewPage1.Controls.Add(Me.RadLabel24)
         Me.RadPageViewPage1.Controls.Add(Me.lblShipToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel18)
@@ -1038,6 +1037,10 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Controls.Add(Me.txtDocNo)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel29)
         Me.RadPageViewPage1.Controls.Add(Me.cboItemType)
+        Me.RadPageViewPage1.Controls.Add(Me.btnDrillDown)
+        Me.RadPageViewPage1.Controls.Add(Me.txtReqNo)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel24)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtInvoiceNoForReplacement)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
@@ -2635,6 +2638,15 @@ Partial Class frmShipmentDairy
         Me.RadLabel24.Size = New System.Drawing.Size(53, 16)
         Me.RadLabel24.TabIndex = 24
         Me.RadLabel24.Text = "Order No"
+        '
+        'chkExcludeKKFMND
+        '
+        Me.chkExcludeKKFMND.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExcludeKKFMND.Location = New System.Drawing.Point(538, 3)
+        Me.chkExcludeKKFMND.Name = "chkExcludeKKFMND"
+        Me.chkExcludeKKFMND.Size = New System.Drawing.Size(142, 16)
+        Me.chkExcludeKKFMND.TabIndex = 1587
+        Me.chkExcludeKKFMND.Text = "Exclude KKF Mandi Tax"
         '
         'txtManualVehicle
         '
@@ -7196,6 +7208,7 @@ Partial Class frmShipmentDairy
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).EndInit
@@ -7898,5 +7911,6 @@ Partial Class frmShipmentDairy
     Friend WithEvents txtDemandNo As common.UserControls.txtFinder
     Friend WithEvents rpvpBoothScheme As RadPageViewPage
     Friend WithEvents gvBoothScheme As common.UserControls.MyRadGridView
+    Friend WithEvents chkExcludeKKFMND As RadCheckBox
 End Class
 
