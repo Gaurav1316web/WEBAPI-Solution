@@ -25,6 +25,7 @@ Public Class clsMccScrapGatePass
     Public AgainstDocumentCode As String = Nothing
     Public Arr As List(Of clsMccScrapGatepassDetail) = Nothing
     Public InvoiceArr As List(Of clsMccScrapGatepassDetail) = Nothing
+    Public RouteArr As List(Of clsMccScrapGatepassDetail) = Nothing
 
 #End Region
 
@@ -36,6 +37,12 @@ Public Class clsMccScrapGatePass
 
         Try
             Dim qry As String = "delete from TSPL_MCC_SCRAP_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim strDocNo As String = ""
@@ -74,7 +81,7 @@ Public Class clsMccScrapGatePass
 
             isSaved = isSaved AndAlso clsMccScrapGatepassDetail.SaveData(obj.GPCode, obj.Arr, trans)
             isSaved = isSaved AndAlso clsMccScrapGatepassDetail.InvoiceSave(obj.GPCode, obj.InvoiceArr, trans, obj.Item_Type)
-
+            isSaved = isSaved AndAlso clsMccScrapGatepassDetail.RouteSave(obj.GPCode, obj.RouteArr, trans)
             'If clsCommon.CompairString(obj.Item_Type, "Mcc") = CompairStringResult.Equal Then
             '    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
             '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -188,8 +195,18 @@ Public Class clsMccScrapGatepassDetail
                     qry = "Update TSPL_SCRAPSALE_HEAD set GPCode='" & strDocNo & "' where 2=2 and TSPL_SCRAPSALE_HEAD.Shipment_no  in ('" + obj.InvoiceNo + "')"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
+            Next
+        End If
+        Return True
+    End Function
 
-
+    Public Shared Function RouteSave(ByVal strDocNo As String, ByVal RouteArr As List(Of clsMccScrapGatepassDetail), ByVal trans As SqlTransaction) As Boolean
+        If (RouteArr IsNot Nothing AndAlso RouteArr.Count > 0) Then
+            For Each obj As clsMccScrapGatepassDetail In RouteArr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "GPCode", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True

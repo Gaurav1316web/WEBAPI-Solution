@@ -5544,6 +5544,7 @@ Public Class clsFixedParameterProgramMapping
         ' By Prabhakar==================================================================================================================
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.DoNotIncludeIncentiveInMilkPurchaseInvoice, clsFixedParameterCode.DoNotIncludeIncentiveInMilkPurchaseInvoice, EnumControlType.CheckBox)
@@ -6084,6 +6085,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.CreateAutoReceiptEntryDCSSale, clsFixedParameterCode.CreateAutoReceiptEntryDCSSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.GeneratePDFForMobile, clsFixedParameterCode.GeneratePDFForMobile, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSaleEntry, clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCSADeliveryOrder, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCSATransfer, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSalesOrderMT, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)

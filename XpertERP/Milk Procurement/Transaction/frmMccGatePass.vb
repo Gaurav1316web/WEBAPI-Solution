@@ -120,12 +120,13 @@ Public Class frmMccGatePass
 
         If cmbtype.SelectedIndex = 1 Then
 
-            StrChkAvQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " & _
-                "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code  " & _
-                "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " & _
-                "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
-                "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " '"
+            StrChkAvQuery = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document No],Document_Date as [Document Date],Customer_Code,Customer_Name, " &
+                "TSPL_SD_SHIPMENT_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_SD_SHIPMENT_DETAIL.Unit_code as Unit,Qty,TSPL_ITEM_MASTER.HSN_Code,TSPL_BULK_ROUTE_MASTER.Route_No AS [Route No],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route Name]  " &
+                "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
+                "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+                 LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code" &
+                " where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " '"
             If clsCommon.myLen(strItemCode) <= 0 Then
                 StrChkAvQuery += " And   isnull(GPCode,'') = '' "
             Else
@@ -136,6 +137,10 @@ Public Class frmMccGatePass
                     "  and TSPL_SD_SHIPMENT_head.Trans_Type = 'MCC'"
             If txtmultiBooking.arrValueMember IsNot Nothing AndAlso txtmultiBooking.arrValueMember.Count > 0 Then
                 StrChkAvQuery += " and TSPL_SD_SHIPMENT_HEAD.Document_Code in (" + clsCommon.GetMulcallString(txtmultiBooking.arrValueMember) + ") " + Environment.NewLine
+            End If
+
+            If txtRouteNo.arrValueMember IsNot Nothing AndAlso txtRouteNo.arrValueMember.Count > 0 Then
+                StrChkAvQuery += " and TSPL_BULK_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRouteNo.arrValueMember) + ") " + Environment.NewLine
             End If
             'If clsCommon.myLen(txtVehicle.Value) > 0 Then
             '    StrChkAvQuery += "  and TSPL_SD_SHIPMENT_HEAD.AlternateVehicle='" + txtVehicle.Value + "'"
@@ -174,12 +179,13 @@ Public Class frmMccGatePass
             strItem = " and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" & strItemCode & "'"
         End If
 
-        strQuery = "select TSPL_MCC_SCRAP_GATEPASS_Master.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name, " & _
-            "TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_MCC_SCRAP_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_MCC_SCRAP_GATEPASS_DETAIL.HSN_Code,TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.InvoiceNo  " & _
-            "from TSPL_MCC_SCRAP_GATEPASS_Master left outer join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_Master.GPCode=TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode  " & _
-            "left outer join TSPL_ITEM_MASTER on TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   " & _
-            "left outer join TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL on TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_GATEPASS_Master.GPCode " & _
-            "where TSPL_MCC_SCRAP_GATEPASS_Master.GPCode='" & strGPCode & "' "
+        strQuery = "select TSPL_MCC_SCRAP_GATEPASS_Master.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name,TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.Route_No,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, " &
+            "TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_MCC_SCRAP_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_MCC_SCRAP_GATEPASS_DETAIL.HSN_Code,TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.InvoiceNo  " &
+            "from TSPL_MCC_SCRAP_GATEPASS_Master left outer join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_Master.GPCode=TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode  " &
+            "left outer join TSPL_ITEM_MASTER on TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   " &
+            "left outer join TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL on TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_GATEPASS_Master.GPCode 
+             left outer join TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL on TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_GATEPASS_Master.GPCode  LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.Route_No " &
+            " where TSPL_MCC_SCRAP_GATEPASS_Master.GPCode='" & strGPCode & "' "
         Return strQuery
     End Function
     Private Sub funFillGrid()
@@ -258,6 +264,18 @@ Public Class frmMccGatePass
                     Next
                 End If
                 txtmultiBooking.arrValueMember = list
+                Dim strAllRoute As String = " select distinct PPPP.Route_No,pppp.Route_Name from  ( " & qry & "    ) As PPPP   "
+                dt1 = clsDBFuncationality.GetDataTable(strAllRoute)
+                Dim arrRoute As New ArrayList
+                Dim arrRouteName As New ArrayList
+                If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
+                    For Each dr As DataRow In dt1.Rows
+                        arrRoute.Add(dr("Route_No"))
+                        arrRouteName.Add(dr("Route_Name"))
+                    Next
+                End If
+                txtRouteNo.arrValueMember = arrRoute
+                txtRouteNo.arrDispalyMember = arrRouteName
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, "GatePass Entry", MessageBoxButtons.OK)
@@ -285,7 +303,11 @@ Public Class frmMccGatePass
                 txtCode.Value = obj.GPCode
                 txtVehicle.Value = obj.Vehicle_Id
                 lblVehicleDesc.Text = obj.Vehicle_Number
-                cmbtype.Text = obj.Item_Type
+                If clsCommon.CompairString(obj.Item_Type, "MCC") = CompairStringResult.Equal Then
+                    cmbtype.SelectedIndex = 1
+                Else
+                    cmbtype.SelectedIndex = 2
+                End If
 
                 txtComments.Text = obj.Comments
                 txtRemarks.Text = obj.Remarks
@@ -390,11 +412,17 @@ Public Class frmMccGatePass
                 '=======================================================
                 obj.Arr = New List(Of clsMccScrapGatepassDetail)
                 obj.InvoiceArr = New List(Of clsMccScrapGatepassDetail)
+                obj.RouteArr = New List(Of clsMccScrapGatepassDetail)
                 '' Invoice added
                 For Each Multi As String In txtmultiBooking.arrValueMember
                     Dim objTr As New clsMccScrapGatepassDetail()
                     objTr.InvoiceNo = Multi
                     obj.InvoiceArr.Add(objTr)
+                Next
+                For Each Route As String In txtRouteNo.arrValueMember
+                    Dim objTr As New clsMccScrapGatepassDetail()
+                    objTr.Route_No = Route
+                    obj.RouteArr.Add(objTr)
                 Next
                 '' End
                 For Each grow As GridViewRowInfo In Gv1.Rows
@@ -440,6 +468,7 @@ Public Class frmMccGatePass
 
 
         txtmultiBooking.arrValueMember = Nothing
+        txtRouteNo.arrValueMember = Nothing
     End Sub
 
     'Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
@@ -558,6 +587,13 @@ Public Class frmMccGatePass
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         txtmultiBooking.Enabled = True
+        lblRoute.Visible = False
+        txtRouteNo.Visible = False
+        lblRemarks.Location = New System.Drawing.Point(5, 106)
+        txtRemarks.Location = New System.Drawing.Point(93, 104)
+        lblComments.Location = New System.Drawing.Point(5, 129)
+        txtComments.Location = New System.Drawing.Point(93, 127)
+        btnGo.Location = New System.Drawing.Point(728, 127)
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClose.Click
@@ -694,8 +730,8 @@ Public Class frmMccGatePass
     Private Sub txtmultiBooking__My_Click(sender As Object, e As EventArgs) Handles txtmultiBooking._My_Click
         Try
             Dim qry As String = LoadQuery("")
-        Dim strAllDoc As String = " select distinct PPPP.[Document No] as [Document Code], convert (varchar, PPPP .[Document Date], 103) as [Document Date],pppp.[Customer_Code] as [Code],PPPP.[Customer_Name] as [Name] from  ( " & qry & "    ) As PPPP   "
-        txtmultiBooking.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel", strAllDoc, "Document Code", "Document code", txtmultiBooking.arrValueMember, txtmultiBooking.arrDispalyMember)
+            Dim strAllDoc As String = " select distinct PPPP.[Document No] as [Document Code], convert (varchar, PPPP .[Document Date], 103) as [Document Date],pppp.[Customer_Code] as [Code],PPPP.[Customer_Name] as [Name],pppp.[Route No],pppp.[Route Name] from  ( " & qry & "    ) As PPPP   "
+            txtmultiBooking.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel", strAllDoc, "Document Code", "Document code", txtmultiBooking.arrValueMember, txtmultiBooking.arrDispalyMember)
             funFillGrid2()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -747,7 +783,21 @@ Public Class frmMccGatePass
     Private Sub cmbtype_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cmbtype.SelectedIndexChanged
         If cmbtype.SelectedIndex = 1 Then
             txtVehicle.Enabled = False
+            lblRoute.Visible = True
+            txtRouteNo.Visible = True
+            lblRemarks.Location = New System.Drawing.Point(5, 129)
+            txtRemarks.Location = New System.Drawing.Point(93, 127)
+            lblComments.Location = New System.Drawing.Point(5, 151)
+            txtComments.Location = New System.Drawing.Point(93, 149)
+            btnGo.Location = New System.Drawing.Point(728, 147)
         Else
+            lblRoute.Visible = False
+            txtRouteNo.Visible = False
+            lblRemarks.Location = New System.Drawing.Point(5, 106)
+            txtRemarks.Location = New System.Drawing.Point(93, 104)
+            lblComments.Location = New System.Drawing.Point(5, 129)
+            txtComments.Location = New System.Drawing.Point(93, 127)
+            btnGo.Location = New System.Drawing.Point(728, 127)
             txtVehicle.Enabled = True
         End If
     End Sub
@@ -761,6 +811,27 @@ Public Class frmMccGatePass
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "GPCode", "TSPL_MCC_SCRAP_GATEPASS_MASTER", "TSPL_MCC_SCRAP_GATEPASS_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtRouteNo__My_Click(sender As Object, e As EventArgs) Handles txtRouteNo._My_Click
+        Try
+            Dim qry As String = " select distinct pppp.[Route No],pppp.[Route Name] from  ( " & LoadQuery("") & "    ) As PPPP   "
+            txtRouteNo.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel", qry, "Route No", "Route No", txtRouteNo.arrValueMember, txtRouteNo.arrDispalyMember)
+            If txtRouteNo.arrValueMember IsNot Nothing Then
+                Dim strAllDoc As String = " select distinct PPPP.[Document No] as [Document Code], convert (varchar, PPPP .[Document Date], 103) as [Document Date],pppp.[Customer_Code] as [Code],PPPP.[Customer_Name] as [Name] from  ( " & LoadQuery("") & "    ) As PPPP   "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strAllDoc)
+                Dim arrInv As New ArrayList()
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        arrInv.Add(dr("Document Code"))
+                    Next
+                    txtmultiBooking.arrValueMember = arrInv
+                End If
+            End If
+            funFillGrid2()
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class
