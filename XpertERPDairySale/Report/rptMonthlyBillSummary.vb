@@ -89,16 +89,16 @@ Public Class rptMonthlyBillSummary
             If rbtnrouteWise.IsChecked Then
                 maxroute = " Route_No, MAX(Zone_Code) Zone_Code,  "
                 Group += " GROUP BY 
-                        Item_Code,Route_No,cust_Code,ReportRate "
+                        Item_Code,Route_No,cust_Code,ReportRate ,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader"
                 order += " ORDER BY Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, MAX(Zone_Code) Zone_Code,  "
-                Group += "GROUP BY  Item_Code,cust_Code,ReportRate "
+                Group += "GROUP BY  Item_Code,cust_Code,ReportRate,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader "
                 order += " ORDER BY Supply_Date,Shift_Type"
             ElseIf rbtnZone.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, Zone_Code as Zone_Code,  "
                 Group += " GROUP BY 
-                        Item_Code,Zone_Code,cust_Code,ReportRate "
+                        Item_Code,Zone_Code,cust_Code,ReportRate ,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader"
                 order += " ORDER BY Supply_Date,Shift_Type "
             End If
             If rbtnCustomerWise.IsChecked Then
@@ -278,7 +278,10 @@ sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   MAX(Particulars) Particulars, 
   MAX(CopyType) CopyType, 
   MAX(SellerGST) SellerGST, 
-  MAX(Pan_No) Pan_No 
+  MAX(Pan_No) Pan_No ,
+ VLC_Code as DCS_CODE,
+  VLC_Name AS DCS_Name,
+  VLC_Code_VLC_Uploader as DCS_Uploader_Code
 from 
   (
     select 
@@ -286,7 +289,8 @@ from
       TSPL_COMPANY_MASTER.Logo_Img, 
       1 As CopyType, 
       TSPL_COMPANY_MASTER.GSTReg_No As SellerGST, 
-      TSPL_COMPANY_MASTER.Pan_No 
+      TSPL_COMPANY_MASTER.Pan_No
+  
     from 
       (
         select 
@@ -295,7 +299,9 @@ from
           
         from 
           (
-            Select 
+            Select TSPL_VLC_MASTER_HEAD.VLC_Code,
+			TSPL_VLC_MASTER_HEAD.VLC_Name,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
               case when TSPL_BOOKING_MATSER.Is_CashSale = 'Y' then 'CASH' else 'CREDIT' END AS PaymentTerms, 
               TSPL_BOOKING_MATSER.Is_Distributor, 
               TSPL_BOOKING_MATSER.Is_BPL, 
@@ -576,6 +582,12 @@ left outer join TSPL_Route_Master on TSPL_Route_Master.Route_No = TSPL_SD_SALE_I
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
 LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
 left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
+
+ left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
+ left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
+  Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+
 left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
 LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
 left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location  and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
@@ -592,7 +604,7 @@ where 2=2 "
 
   "
             If Not isprint Then
-                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_No", "FinalXX.Route_No") + ",FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
+                qry = " select FinalXX.FromDate,FinalXX.todate,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code," + IIf(rbtnZone.IsChecked, "(SELECT STRING_AGG(Route_No, ',') AS Route_No FROM TSPL_ROUTE_MASTER WHERE Zone_Code = FinalXX.Zone_Code) as Route_No", "FinalXX.Route_No") + ",FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.DCS_CODE,FinalXX.DCS_Name,FinalXX.DCS_Uploader_Code,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
 from(
 select FinalQ.*,
 case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
@@ -734,6 +746,19 @@ from( " + qry + " )FinalQ )FinalXX " + order
             gvData.Columns("Item_Desc").HeaderText = "Item Desc"
             gvData.Columns("Item_Desc").Width = 100
             gvData.Columns("Item_Desc").IsVisible = True
+
+
+            gvData.Columns("DCS_CODE").HeaderText = "DCS CODE"
+            gvData.Columns("DCS_CODE").Width = 100
+            gvData.Columns("DCS_CODE").IsVisible = True
+
+            gvData.Columns("DCS_Name").HeaderText = "DCS Name"
+            gvData.Columns("DCS_Name").Width = 100
+            gvData.Columns("DCS_Name").IsVisible = True
+
+            gvData.Columns("DCS_Uploader_Code").HeaderText = "DCS Uploader Code"
+            gvData.Columns("DCS_Uploader_Code").Width = 100
+            gvData.Columns("DCS_Uploader_Code").IsVisible = True
 
             gvData.Columns("UOM_Code").HeaderText = "UOM Code"
             gvData.Columns("UOM_Code").Width = 150
@@ -918,11 +943,11 @@ from( " + qry + " )FinalQ )FinalXX " + order
             If rbtnrouteWise.IsChecked Then
                 maxroute = " Route_No, "
                 Group += " GROUP BY 
-                        Document_Date,Item_Code,Route_No,cust_Code,ReportRate "
+                        Document_Date,Item_Code,Route_No,cust_Code,ReportRate,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader "
                 order += " ORDER BY Supply_Date,Shift_Type "
             ElseIf rbtnCustomerWise.IsChecked Then
                 maxroute = " Max(Route_No)Route_No, "
-                Group += "GROUP BY  Document_Date,Item_Code,cust_Code,ReportRate "
+                Group += "GROUP BY  Document_Date,Item_Code,cust_Code,ReportRate,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader "
                 order += " ORDER BY Supply_Date,Shift_Type "
             End If
             If rbtnCustomerWise.IsChecked Then
@@ -1107,7 +1132,10 @@ sum(Base_Amt)Base_Amt,sum(TotalAmt)TotalAmt,ReportRate,
   MAX(Particulars) Particulars, 
   MAX(CopyType) CopyType, 
   MAX(SellerGST) SellerGST, 
-  MAX(Pan_No) Pan_No 
+  MAX(Pan_No) Pan_No ,
+ VLC_Code as DCS_CODE,
+  VLC_Name AS DCS_Name,
+  VLC_Code_VLC_Uploader as DCS_Uploader_Code
 from 
   (
     select 
@@ -1124,7 +1152,9 @@ from
           
         from 
           (
-            Select 
+            Select TSPL_VLC_MASTER_HEAD.VLC_Code,
+			TSPL_VLC_MASTER_HEAD.VLC_Name,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
               case when TSPL_BOOKING_MATSER.Is_CashSale = 'Y' then 'CASH' else 'CREDIT' END AS PaymentTerms, 
               TSPL_BOOKING_MATSER.Is_Distributor, 
               TSPL_BOOKING_MATSER.Is_BPL, 
@@ -1403,6 +1433,10 @@ left outer join TSPL_Route_Master on TSPL_Route_Master.Route_No = TSPL_CUSTOMER_
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
 LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code = TSPL_LOCATION_MASTER.State 
 left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = CUSTOMER_STATE_MASTER.STATE_CODE 
+ left join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
+ left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
+  Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code = customer_city_master.City_Code 
 LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id = TSPL_SD_SHIPMENT_HEAD.AlternateVehicle 
 left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_SD_sale_invoice_DETAIL.Price_code  and TSPL_ITEM_PRICE_MASTER.Location_Code = TSPL_SD_sale_invoice_DETAIL.Location  and TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_SD_sale_invoice_DETAIL.Item_Code 
@@ -1417,7 +1451,9 @@ Where 2=2 "
       left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code = Main_Final.comp_code  
   ) Final  " + forCustomerWise + "where " + whr + " " + Group + ""
             If Not isPrint Then
-                qry = " select FinalXX.Supply_Date,FinalXX.Shift_Type,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code,FinalXX.Route_No,FinalXX.Item_Code,FinalXX.Item_Desc,FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
+                qry = " select FinalXX.Supply_Date,FinalXX.Shift_Type,FinalXX.cust_Code,FinalXX.Customer_Name,FinalXX.Zone_Code,FinalXX.Route_No,FinalXX.Item_Code,FinalXX.Item_Desc,
+FinalXX.DCS_CODE,FinalXX.DCS_Name,FinalXX.DCS_Uploader_Code,
+FinalXX.UOM_Code,FinalXX.ReportRate,FinalXX.QtyAccToReportUOM,FinalXX.Base_Amt,FinalXX.KKF,FinalXX.KKF_Rate,FinalXX.KKF_Amt,FinalXX.Mandi_Tax,FinalXX.Mandi_Rate,FinalXX.Mandi_Amt,(FinalXX.Base_Amt+FinalXX.KKF_Amt+FinalXX.Mandi_Amt) as Taxable_Amt,FinalXX.CGST,FinalXX.CGST_Rate,FinalXX.CGST_Amt,FinalXX.SGST,FinalXX.SGST_Rate,FinalXX.SGST_Amt,FinalXX.TCS,FinalXX.TCS_Rate,FinalXX.TCS_Amt,FinalXX.TotalAmt
 from(
 select FinalQ.*,
 case when FinalQ.Taxtype1='K' then 'KKF' else (case when FinalQ.Taxtype2='K' then 'KKF' else(case when FinalQ.Taxtype3='K' then 'KKF' else(case when FinalQ.Taxtype4='K' then 'KKF' else(case when FinalQ.Taxtype5='K' then 'KKF' else'' end)end)end)end)end as KKF,
