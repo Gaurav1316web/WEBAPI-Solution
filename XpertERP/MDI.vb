@@ -8801,16 +8801,13 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.YearlyBillReport
                         frm = New YearlyBillReport
-
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.FrmLastDCSCollectionItem
                         frm = New FrmLastDCSCollectionItem
-
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-
                     Case clsUserMgtCode.rptGheeAndCattleFeedDeductionStatementReport
                         frm = New rptGheeAndCattleFeedDeductionStatementReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
-
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

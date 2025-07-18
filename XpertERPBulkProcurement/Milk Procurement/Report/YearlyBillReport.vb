@@ -142,12 +142,12 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
             If dtDoc.Rows.Count > 0 Then
 
 
-                Dim Qry1 As String = "  Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,
+                Dim Qry1 As String = "    Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,
 				                    TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,
 									 COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode) AS DCS_Addition_Deduction,
 									 COALESCE(TSPL_DEDUCTION_MASTER.Description, TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc)  as DCSDescription,
-                                    TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date
+                                    TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName
 									from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
 									left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
 									left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
@@ -155,22 +155,25 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 									left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 									left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+									left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
 									left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 									left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
+
 
                                     Union all	
 									 
 									SELECT TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No,COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code) AS DCS_Addition_Deduction,
 									 COALESCE(TSPL_DEDUCTION_MASTER.Description, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)  as DCSDescription,
-                                    TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date
+                                    TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_VENDOR_INVOICE_DETAIL.Amount as VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName
 								   FROM TSPL_PAYMENT_PROCESS_DEDUCTION
 									left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
 									left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 				                    left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code = TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
 									left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+									left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
                                     left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 								    left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
@@ -179,7 +182,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 
 									SELECT TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Code as DCS_Addition_Deduction,TSPL_DEDUCTION_MASTER.Description as DCSDescription,
-                                    TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date ,TSPL_PAYMENT_PROCESS_HEAD.To_Date
+                                    TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date ,TSPL_PAYMENT_PROCESS_HEAD.To_Date,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName
 									FROM TSPL_PAYMENT_PROCESS_SAVING
 									left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_SAVING.Doc_No
 									left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
@@ -187,6 +190,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 								    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 								    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+									left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 									left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
 
@@ -194,7 +198,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 
 									SELECT TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Code as DCS_Addition_Deduction,TSPL_DEDUCTION_MASTER.Description as DCSDescription,
-                                    TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date 
+                                    TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date ,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName
 									FROM TSPL_PAYMENT_PROCESS_COMPULSORY
 									left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No
 									left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
@@ -202,6 +206,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 								    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction 
 								    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+									left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 								    left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
 
@@ -210,7 +215,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									SELECT TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No,
                                     TSPL_DEDUCTION_MASTER.Code as DCS_Addition_Deduction,TSPL_DEDUCTION_MASTER.Description as DCSDescription,
-                                    TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date 
+                                    TSPL_VENDOR_INVOICE_DETAIL.Amount as Amount,0 AS VendorAmt,TSPL_VENDOR_INVOICE_HEAD.Document_No as InvoiceNo,TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName 
 									FROM TSPL_PAYMENT_PROCESS_MCC_SALE
 									left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No
 									left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
@@ -218,6 +223,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 									left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 								    left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction 
 								    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+									left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 	                                left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
                                     union all
@@ -225,7 +231,7 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                     Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,TSPL_VENDOR_MASTER.Gender,VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
                                    Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_HEAD.Doc_No,
                                    '' as DCS_Addition_Deduction,'' as DCSDescription,
-                                    0 as Amount,0 AS VendorAmt,'' as InvoiceNo,'' as Main_VSP_Milk_AP_Invoice_No ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date
+                                    0 as Amount,0 AS VendorAmt,'' as InvoiceNo,'' as Main_VSP_Milk_AP_Invoice_No ,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName
 								   from TSPL_PAYMENT_PROCESS_DETAIL
                                    left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                                    left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
@@ -236,38 +242,96 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 
 
                 Dim sQuery As String = ""
-                If rdbSummary.IsChecked = True AndAlso rdbDCS.IsChecked = True Then
-                    sQuery = "  Select VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                If rdbSummary.IsChecked AndAlso (rdbDCS.IsChecked OrElse rbtnAliasNameWise.IsChecked) Then
+                    sQuery = "  Select "
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName,"
+                    Else
+                        sQuery += " VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,"
+                    End If
+                    sQuery += "max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
                                     from 
-                                   (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from (Select max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
-                                   sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,
-                                   sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " 
-                                    from(Select Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
-                                   Credit_Note_Amount, " & DescName2 & " 
-                                     from (Select max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
+                                   (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from (Select max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,"
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += "AliasName,"
+                    Else
+                        sQuery += "VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,"
+                    End If
+                    sQuery += "sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " from(Select Registered_PDCS_CLUSTER,Gender,"
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName,"
+                    Else
+                        sQuery += " VSP_CODE,DCSCode,VSP_NAME,"
+                    End If
+
+                    sQuery += "Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,Credit_Note_Amount, " & DescName2 & " from (Select max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,"
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " yy.AliasName,"
+                    Else
+                        sQuery += "MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,"
+                    End If
+
+                    sQuery += " SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
                                    sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
                                    sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount 
-                                   from (   Select max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
+                                   from (   Select max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender "
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName "
+                    Else
+                        sQuery += " ,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME"
+                    End If
+                    sQuery += " ,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date 
                                    from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
-                    sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
-                        PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by VSP_CODE )YY 
+                    sQuery += " group by xx.Doc_No,"
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " xx.AliasName,"
+                    Else
+                        sQuery += " xx.Vendor_CODE,"
+                    End If
+                    sQuery += " xx.DCS_Addition_Deduction )YY group by "
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName,"
+                    Else
+                        sQuery += " VSP_CODE,"
+                    End If
+
+                    sQuery += "DCS_Addition_Deduction)Tab1 
+                        PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by "
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName "
+                    Else
+                        sQuery += " VSP_CODE "
+                    End If
+                    sQuery += ")YY 
 
                         Union all
-									Select '' as Registered_PDCS_CLUSTER,'' as Gender,VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
+									Select '' as Registered_PDCS_CLUSTER,'' as Gender,"
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName,"
+                    Else
+                        sQuery += " VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,"
+                    End If
+                    sQuery += "0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
                                     0 as Deduction_Amount,0 as Credit_Note_Amount," & DescName & "  ,																
 									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty
-                                    from (SELECT XX.DOC_CODE,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,SUM(XX.Qty)Qty,
-                                    XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
+                                    from (SELECT XX.DOC_CODE,"
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " Max(xx.AliasName)AliasName,"
+                    Else
+                        sQuery += " max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,"
+                    End If
+                    sQuery += "SUM(XX.Qty)Qty,XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
                                     CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty 
                                     FROM (Select TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
-                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD from TSPL_MILK_PURCHASE_INVOICE_DETAIL
+                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName from TSPL_MILK_PURCHASE_INVOICE_DETAIL
                                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
+                                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
                                     left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
                                     left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
@@ -276,7 +340,25 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
-                    sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by VSP_CODE order by cast(max(DCSCode)  as int) "
+                    sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by "
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName "
+                    Else
+                        sQuery += " VSP_CODE "
+                    End If
+
+                    sQuery += " )Tab2 group by "
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName "
+                    Else
+                        sQuery += " VSP_CODE "
+                    End If
+                    If rbtnAliasNameWise.IsChecked Then
+                        sQuery += " order by AliasName "
+                    Else
+                        sQuery += " order by cast(max(DCSCode)  as int) "
+                    End If
+                    'sQuery += " order by cast(max(DCSCode)  as int) "
 
                 ElseIf rdbSummary.IsChecked AndAlso rdbBMC.IsChecked = True Then
                     sQuery = "  Select MCC,max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
@@ -414,21 +496,21 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     sQuery += " )XX GROUP BY DOC_CODE,QBD,Area_Location_Code)yy group by Area_Location_Code )Tab2 group by Area_Location_Code order by Area_Location_Code  "
 
                 ElseIf rdbMonth.IsChecked = True Then
-                    sQuery = "  Select max(Month_Name)Month_Name,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                    sQuery = "  Select max(Month_Name)Month_Name,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,Max(AliasName)AliasName,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
                             from (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty 
-                                   from (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
+                                   from (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,Max(AliasName)AliasName,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
                                    sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,
                                    sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " ,max(Month_Name)Month_Name,Month_Number
-                            from (Select Area_Location_Code,Location_Desc,Registered_PDCS_CLUSTER,Gender,MCC,MCC_NAME,VSP_CODE,DCSCode,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
+                            from (Select Area_Location_Code,Location_Desc,Registered_PDCS_CLUSTER,Gender,MCC,MCC_NAME,VSP_CODE,DCSCode,VSP_NAME,AliasName,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
                                    Credit_Note_Amount, " & DescName2 & " ,Month_Name,Month_Number
                                    
-								   from (Select max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,Max(yy.Area_Location_Code)Area_Location_Code,MAX(yy.Location_Desc)Location_Desc,Max(yy.MCC)MCC,MAX(yy.MCC_NAME)MCC_NAME,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
+								   from (Select max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,Max(yy.Area_Location_Code)Area_Location_Code,MAX(yy.Location_Desc)Location_Desc,Max(yy.MCC)MCC,MAX(yy.MCC_NAME)MCC_NAME,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,Max(AliasName)AliasName,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
                                    sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
                                    sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(Month_Name)Month_Name,Month_Number
                                    
-								   from (   Select max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,Max(xx.Area_Location_Code)Area_Location_Code,MAX(xx.Location_Desc)Location_Desc,Max(xx.MCC)MCC,MAX(xx.MCC_NAME)MCC_NAME,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Max(Vendor_CODE) as VSP_CODE,max(Vendor_Name)VSP_NAME,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
+								   from (   Select max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,Max(xx.Area_Location_Code)Area_Location_Code,MAX(xx.Location_Desc)Location_Desc,Max(xx.MCC)MCC,MAX(xx.MCC_NAME)MCC_NAME,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Max(Vendor_CODE) as VSP_CODE,max(Vendor_Name)VSP_NAME,Max(AliasName)AliasName,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date,
                                    DATENAME(MONTH, MAX(From_Date)) AS Month_Name,MONTH(MAX(From_Date)) AS Month_Number
                                    from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
@@ -442,6 +524,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " xx.MCC,xx.Vendor_CODE,"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " xx.MCC,"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " xx.AliasName,"
                     Else
                         sQuery += " xx.Area_Location_Code,"
                     End If
@@ -453,6 +537,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,VLC_CODE_Uploader"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
@@ -463,22 +549,25 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
                     sQuery += " )YY
 
                     Union all
-                             Select '' as Registered_PDCS_CLUSTER,'' as Gender,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
+                             Select '' as Registered_PDCS_CLUSTER,'' as Gender,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,Max(AliasName)AliasName,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
                              0 as Deduction_Amount,0 as Credit_Note_Amount," & DescName & ",max(Month_Name)Month_Name,Month_Number,Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty
-                              from (SELECT XX.DOC_CODE,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,SUM(XX.Qty)Qty,
+                              from (SELECT XX.DOC_CODE,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,Max(xx.AliasName)AliasName,SUM(xx.Qty)Qty,
                                     XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
                                     CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty,max(Month_Name)Month_Name,Month_Number 
                                     FROM (Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MILK_SRN_HEAD.MCC_CODE As MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
                                     TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD ,
-									DATENAME(MONTH, (DOC_DATE)) AS Month_Name,MONTH((DOC_DATE)) AS Month_Number									
+									DATENAME(MONTH, (DOC_DATE)) AS Month_Name,MONTH((DOC_DATE)) AS Month_Number,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName									
 									from TSPL_MILK_PURCHASE_INVOICE_DETAIL
                                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
+                                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
                                     left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
                                     left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No 
@@ -496,6 +585,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,VLC_Code_VLC_Uploader"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
@@ -506,6 +597,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
@@ -520,6 +613,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
@@ -530,20 +625,20 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     End If
 
                     sQuery += "Select FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
-                           ,To_Date,max(From_Date)From_Date,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                           ,To_Date,max(From_Date)From_Date,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,Max(AliasName)AliasName,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
                                     from 
                                    (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from 
-                                   (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
+                                   (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,Max(AliasName)AliasName,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
                                    sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,
                                    sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " ,To_Date ,max(From_Date)From_Date 
-                                   from(Select Area_Location_Code,Location_Desc,MCC,MCC_NAME,Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
+                                   from(Select Area_Location_Code,Location_Desc,MCC,MCC_NAME,Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,AliasName,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
                                    Credit_Note_Amount, " & DescName2 & " ,From_Date,To_Date 
-                                   from (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
+                                   from (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,Max(yy.AliasName)AliasName,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
                                    sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
                                    sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,max(From_Date)From_Date ,(To_Date)To_Date
-                                   from (   Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Max(Vendor_CODE) as VSP_CODE,max(Vendor_Name)VSP_NAME,
+                                   from (   Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Max(Vendor_CODE) as VSP_CODE,max(Vendor_Name)VSP_NAME,Max(AliasName)AliasName,
                                    Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date ,
                                    max(To_Date)To_Date from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
@@ -557,6 +652,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " xx.MCC,xx.Vendor_CODE,"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " xx.MCC,"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " xx.AliasName,"
                     Else
                         sQuery += " xx.Area_Location_Code,"
                     End If
@@ -567,6 +664,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " MCC,VSP_CODE,"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " MCC,"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName,"
                     Else
                         sQuery += " Area_Location_Code,"
                     End If
@@ -577,23 +676,25 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
                     sQuery += " )YY 
                         
                             Union all
-						    Select '' as Registered_PDCS_CLUSTER,'' as Gender,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
+						    Select '' as Registered_PDCS_CLUSTER,'' as Gender,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,max(AliasName)AliasName,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
                                     0 as Deduction_Amount,0 as Credit_Note_Amount," & DescName & ",DOC_DATE,'' as From_Date,																
-									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty FROM (SELECT XX.DOC_CODE,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,SUM(XX.Qty)Qty,
+									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty FROM (SELECT XX.DOC_CODE,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,Max(xx.AliasName)AliasName,SUM(XX.Qty)Qty,
                                     XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
                                     CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty,MAX(DOC_DATE)DOC_DATE 
-                                    FROM (Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
+                                    FROM (Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName,
                                     TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE
-									
 									from TSPL_MILK_PURCHASE_INVOICE_DETAIL
 									LEFT OUTER JOIN TSPL_MILK_PURCHASE_INVOICE_HEAD ON TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
                                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
+                                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
                                     left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
                                     left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
@@ -615,6 +716,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
@@ -628,21 +731,21 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " Select 'Total of '+ Max(Location_Desc) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Max(Area_Location_Code) As Area_Location_Code, Max(Location_Desc) As Location_Desc,Null As MCC,Null As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By Area_Location_Code Order By Area_Location_Code ,To_Date "
                     End If
                 ElseIf rdbMonthCycle.IsChecked = True Then
-                        sQuery = "  With BaseData As ( Select DATENAME(MONTH, max(From_Date)) As Month_Name,MONTH(max(From_Date)) As Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
-                           ,To_Date,max(From_Date)From_Date,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
+                    sQuery = "  With BaseData As ( Select DATENAME(MONTH, max(From_Date)) As Month_Name,MONTH(max(From_Date)) As Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
+                           ,To_Date,max(From_Date)From_Date,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,Max(AliasName)AliasName,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,sum(Milk_Qty)Milk_Qty,
                                     sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Deduction_Amount)Deduction_Amount,
                                     sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName3 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount
                                     from 
                                    (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from 
-                                   (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
+                                   (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,max(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,Max(AliasName)AliasName,sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,
                                    sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,
                                    sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " ,To_Date ,max(From_Date)From_Date 
-                                   from(Select Area_Location_Code,Location_Desc,MCC,MCC_NAME,Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
+                                   from(Select Area_Location_Code,Location_Desc,MCC,MCC_NAME,Registered_PDCS_CLUSTER,Gender,VSP_CODE,DCSCode,VSP_NAME,AliasName,Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,
                                    Credit_Note_Amount, " & DescName2 & " ,From_Date,To_Date 
-                                   from (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
+                                   from (Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,Max(yy.AliasName)AliasName,SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
                                    sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
                                    sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,max(From_Date)From_Date ,(To_Date)To_Date
-                                   from (   Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME,
+                                   from (   Select Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME,Max(AliasName)AliasName,
                                    Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date ,
                                    max(To_Date)To_Date from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
@@ -656,6 +759,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " MCC,VSP_CODE,"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " MCC,"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " AliasName,"
                     Else
                         sQuery += " Area_Location_Code,"
                     End If
@@ -666,22 +771,25 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
                     sQuery += " )YY 
                             Union all
-						    Select '' as Registered_PDCS_CLUSTER,'' as Gender,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
+						    Select '' as Registered_PDCS_CLUSTER,'' as Gender,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,MAX(VSP_CODE)VSP_CODE,max(DCSCode)DCSCode,max(VLC_Name)VLC_Name,Max(AliasName)AliasName,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,
                                     0 as Deduction_Amount,0 as Credit_Note_Amount," & DescName & ",DOC_DATE,'' as From_Date,																
-									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty FROM (SELECT XX.DOC_CODE,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,SUM(XX.Qty)Qty,
+									Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty FROM (SELECT XX.DOC_CODE,Max(Area_Location_Code)Area_Location_Code,MAX(Location_Desc)Location_Desc,Max(MCC)MCC,Max(MCC_NAME)MCC_NAME,max(xx.VSP_CODE)VSP_CODE,max(xx.VLC_Code_VLC_Uploader)DCSCode,max(xx.VLC_Name)VLC_Name,Max(xx.AliasName)AliasName,SUM(XX.Qty)Qty,
                                     XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
                                     CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty,MAX(DOC_DATE)DOC_DATE 
                                     FROM (Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
                                     TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE
-									
+									,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName
 									from TSPL_MILK_PURCHASE_INVOICE_DETAIL
 									LEFT OUTER JOIN TSPL_MILK_PURCHASE_INVOICE_HEAD ON TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
                                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
+                                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
                                     left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
                                     left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
@@ -703,6 +811,8 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         sQuery += " ,MCC,DCSCode"
                     ElseIf rdbBMC.IsChecked Then
                         sQuery += " ,MCC"
+                    ElseIf rbtnAliasNameWise.IsChecked Then
+                        sQuery += " ,AliasName"
                     Else
                         sQuery += ",Area_Location_Code"
                     End If
@@ -710,7 +820,7 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
 Union all
 SELECT 
     NULL AS Month_Name,Month_Number,'Total of ' + DATENAME(MONTH, DATEFROMPARTS(YEAR(max(To_Date)), Month_Number, 1)) AS Date_Range,
-    NULL AS To_Date,NULL AS From_Date,Null As Area_Location_Code,Null As Location_Desc,Null As MCC,Null As MCC_NAME,Null  AS VSP_CODE,Null  AS DCSCode,Null As VSP_NAME,Null As Registered_PDCS_CLUSTER,
+    NULL AS To_Date,NULL AS From_Date,Null As Area_Location_Code,Null As Location_Desc,Null As MCC,Null As MCC_NAME,Null  AS VSP_CODE,Null  AS DCSCode,Null As VSP_NAME,Null As AliasName,Null As Registered_PDCS_CLUSTER,
     Null As Gender,SUM(Milk_Qty) AS Milk_Qty,SUM(Milk_Amount) AS Milk_Amount,SUM(Head_Load_Amount) AS Head_Load_Amount,SUM(Deduction_Amount) AS Deduction_Amount,
     SUM(Credit_Note_Amount) AS Credit_Note_Amount," & DescName4 & ", SUM(SweetQty) AS SweetQty,SUM(SourQty) AS SourQty,SUM(CurdQty) AS CurdQty,SUM(Payable_Amount) AS Payable_Amount
 FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
@@ -793,13 +903,16 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
         Next
         Dim index As Integer
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        If rdbSummary.IsChecked = True AndAlso rdbDCS.IsChecked = True Then
-            gv1.Columns("VSP_CODE").HeaderText = "VSP Code"
-            gv1.Columns("VSP_CODE").IsVisible = False
-            gv1.Columns("VSP_CODE").VisibleInColumnChooser = True
-
-            gv1.Columns("DCSCode").HeaderText = "DCS Code"
-            gv1.Columns("VSP_NAME").HeaderText = "DCS NAME"
+        If rdbSummary.IsChecked AndAlso (rdbDCS.IsChecked OrElse rbtnAliasNameWise.IsChecked) Then
+            If rbtnAliasNameWise.IsChecked Then
+                gv1.Columns("AliasName").HeaderText = "Alias Name"
+            Else
+                gv1.Columns("VSP_CODE").HeaderText = "VSP Code"
+                gv1.Columns("VSP_CODE").IsVisible = False
+                gv1.Columns("VSP_CODE").VisibleInColumnChooser = True
+                gv1.Columns("DCSCode").HeaderText = "DCS Code"
+                gv1.Columns("VSP_NAME").HeaderText = "DCS NAME"
+            End If
             gv1.Columns("Registered_PDCS_CLUSTER").HeaderText = "DCS Type"
             gv1.Columns("Gender").HeaderText = "Gender"
             gv1.Columns("Milk_Qty").HeaderText = "Milk Qty"
@@ -958,7 +1071,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("MCC_Name").IsVisible = False
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
-
+                gv1.Columns("AliasName").IsVisible = False
             ElseIf rdbBMCDCS.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
                 gv1.Columns("MCC").IsVisible = True
@@ -977,7 +1090,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("VSP_NAME").VisibleInColumnChooser = True
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
-
+                gv1.Columns("AliasName").IsVisible = False
             ElseIf rdbBMC.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
                 gv1.Columns("MCC").IsVisible = True
@@ -990,7 +1103,17 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("DCSCode").IsVisible = False
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
-
+                gv1.Columns("AliasName").IsVisible = False
+            ElseIf rbtnAliasNameWise.IsChecked Then
+                gv1.Columns("AliasName").HeaderText = "Alias Name"
+                gv1.Columns("AliasName").IsVisible = True
+                gv1.Columns("DCSCode").IsVisible = False
+                gv1.Columns("VSP_CODE").IsVisible = False
+                gv1.Columns("VSP_NAME").IsVisible = False
+                gv1.Columns("MCC").IsVisible = False
+                gv1.Columns("MCC_Name").IsVisible = False
+                gv1.Columns("Area_Location_Code").IsVisible = False
+                gv1.Columns("Location_Desc").IsVisible = False
             Else
                 gv1.Columns("Area_Location_Code").HeaderText = "Area Code"
                 gv1.Columns("Area_Location_Code").IsVisible = False
@@ -998,13 +1121,12 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("Location_Desc").HeaderText = "Area Name"
                 gv1.Columns("Location_Desc").IsVisible = True
                 gv1.Columns("Location_Desc").VisibleInColumnChooser = True
-
                 gv1.Columns("DCSCode").IsVisible = False
                 gv1.Columns("VSP_CODE").IsVisible = False
                 gv1.Columns("VSP_NAME").IsVisible = False
                 gv1.Columns("MCC").IsVisible = False
                 gv1.Columns("MCC_Name").IsVisible = False
-
+                gv1.Columns("AliasName").IsVisible = False
             End If
             gv1.Columns("Registered_PDCS_CLUSTER").IsVisible = False
             gv1.Columns("Gender").IsVisible = False
@@ -1041,7 +1163,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("MCC_Name").IsVisible = False
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
-
+                gv1.Columns("AliasName").IsVisible = False
             ElseIf rdbBMCDCS.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
                 gv1.Columns("MCC").IsVisible = True
@@ -1060,7 +1182,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("VSP_NAME").VisibleInColumnChooser = True
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
-
+                gv1.Columns("AliasName").IsVisible = False
             ElseIf rdbBMC.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
                 gv1.Columns("MCC").IsVisible = False
@@ -1073,7 +1195,18 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("DCSCode").IsVisible = False
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
+                gv1.Columns("AliasName").IsVisible = False
+            ElseIf rbtnAliasNameWise.IsChecked Then
+                gv1.Columns("Area_Location_Code").IsVisible = False
+                gv1.Columns("Location_Desc").IsVisible = False
+                gv1.Columns("DCSCode").IsVisible = False
+                gv1.Columns("VSP_CODE").IsVisible = False
+                gv1.Columns("VSP_NAME").IsVisible = False
+                gv1.Columns("MCC").IsVisible = False
+                gv1.Columns("MCC_Name").IsVisible = False
 
+                gv1.Columns("AliasName").HeaderText = "Alias Name"
+                gv1.Columns("AliasName").IsVisible = True
             Else
                 gv1.Columns("Area_Location_Code").HeaderText = "Area Code"
                 gv1.Columns("Area_Location_Code").IsVisible = False
@@ -1081,7 +1214,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("Location_Desc").HeaderText = "Area Name"
                 gv1.Columns("Location_Desc").IsVisible = False
                 gv1.Columns("Location_Desc").VisibleInColumnChooser = True
-
+                gv1.Columns("AliasName").IsVisible = False
                 gv1.Columns("DCSCode").IsVisible = False
                 gv1.Columns("VSP_CODE").IsVisible = False
                 gv1.Columns("VSP_NAME").IsVisible = False
@@ -1110,7 +1243,11 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns("From_Date").IsVisible = False
             gv1.Columns("From_Date").VisibleInColumnChooser = True
             gv1.Columns("Date_Range").HeaderText = "Cycle Wise"
-            index = 10
+            If rbtnAliasNameWise.IsChecked Then
+                index = 11
+            Else
+                index = 10
+            End If
             For ii As Integer = index To gv1.Columns.Count - 1
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
             Next
@@ -1129,6 +1266,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("MCC_Name").IsVisible = False
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
+                gv1.Columns("AliasName").IsVisible = False
             ElseIf rdbBMCDCS.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
                 gv1.Columns("MCC").IsVisible = True
@@ -1147,6 +1285,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("VSP_NAME").VisibleInColumnChooser = True
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
+                gv1.Columns("AliasName").IsVisible = False
             ElseIf rdbBMC.IsChecked Then
                 gv1.Columns("MCC").HeaderText = "MCC"
                 gv1.Columns("MCC").IsVisible = True
@@ -1159,6 +1298,18 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("DCSCode").IsVisible = False
                 gv1.Columns("Area_Location_Code").IsVisible = False
                 gv1.Columns("Location_Desc").IsVisible = False
+                gv1.Columns("AliasName").IsVisible = False
+            ElseIf rbtnAliasNameWise.IsChecked Then
+                gv1.Columns("AliasName").HeaderText = "Alias Name"
+                gv1.Columns("AliasName").IsVisible = True
+
+                gv1.Columns("MCC").IsVisible = False
+                gv1.Columns("MCC_Name").IsVisible = False
+                gv1.Columns("VSP_CODE").IsVisible = False
+                gv1.Columns("VSP_NAME").IsVisible = False
+                gv1.Columns("DCSCode").IsVisible = False
+                gv1.Columns("Area_Location_Code").IsVisible = False
+                gv1.Columns("Location_Desc").IsVisible = False
             Else
                 gv1.Columns("Area_Location_Code").HeaderText = "Area Code"
                 gv1.Columns("Area_Location_Code").IsVisible = False
@@ -1166,7 +1317,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
                 gv1.Columns("Location_Desc").HeaderText = "Area Name"
                 gv1.Columns("Location_Desc").IsVisible = True
                 gv1.Columns("Location_Desc").VisibleInColumnChooser = True
-
+                gv1.Columns("AliasName").IsVisible = False
                 gv1.Columns("DCSCode").IsVisible = False
                 gv1.Columns("VSP_CODE").IsVisible = False
                 gv1.Columns("VSP_NAME").IsVisible = False
