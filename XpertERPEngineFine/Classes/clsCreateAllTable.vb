@@ -14600,6 +14600,9 @@ Public Class clsCreateAllTable
             coll.Add("Sub_Location", "varchar(12) null references TSPL_Location_MASTER(Location_Code)")
             coll.Add("Saras_Pro_Session_Expired", "integer NULL")
             coll.Add("Saras_Order_Session_Expired", "integer NULL")
+            coll.Add("ANDROID_SECURE_ID", "varchar(30) null")
+            coll.Add("ANDROID_DEVICE_MODEL_MANUFACTURER", "varchar(30) null")
+            coll.Add("ANDROID_DEVICE_OS_VERSION", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")
