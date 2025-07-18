@@ -718,11 +718,15 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             btnPost.Enabled = True
             btn_TruckSheet.Enabled = False
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                If rdbnFreshAmbientBoth.IsChecked Then
-                    SplitButtonTruckSheet.Enabled = True
-                Else
-                    SplitButtonTruckSheet.Enabled = False
+                SplitButtonTruckSheet.Enabled = True
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    If rdbnFreshAmbientBoth.IsChecked Then
+                        SplitButtonTruckSheet.Enabled = True
+                    Else
+                        SplitButtonTruckSheet.Enabled = False
+                    End If
                 End If
+
             Else
                 SplitButtonTruckSheet.Enabled = False
             End If
@@ -3578,11 +3582,15 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             If clsCommon.CompairString(clsCommon.myCstr(UsLock1.Status), "Approved") = CompairStringResult.Equal Then
                 btnPrint.Enabled = True
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                    If rdbnFreshAmbientBoth.IsChecked Then
-                        SplitButtonTruckSheet.Enabled = True
-                    Else
-                        SplitButtonTruckSheet.Enabled = False
+                    SplitButtonTruckSheet.Enabled = True
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                        If rdbnFreshAmbientBoth.IsChecked Then
+                            SplitButtonTruckSheet.Enabled = True
+                        Else
+                            SplitButtonTruckSheet.Enabled = False
+                        End If
                     End If
+
                 Else
                     SplitButtonTruckSheet.Enabled = False
                 End If
@@ -3593,10 +3601,13 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         Else
             btnPrint.Enabled = True
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                If rdbnFreshAmbientBoth.IsChecked Then
-                    SplitButtonTruckSheet.Enabled = True
-                Else
-                    SplitButtonTruckSheet.Enabled = False
+                SplitButtonTruckSheet.Enabled = True
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    If rdbnFreshAmbientBoth.IsChecked Then
+                        SplitButtonTruckSheet.Enabled = True
+                    Else
+                        SplitButtonTruckSheet.Enabled = False
+                    End If
                 End If
             Else
                 SplitButtonTruckSheet.Enabled = False
@@ -3611,12 +3622,16 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                     HideUnhideRowsAndColumnsOFGrid()
                 End If
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                    If rdbnFreshAmbientBoth.IsChecked Then
-                        'SplitButtonTruckSheet.Enabled = True
-                        checkPrintSetting()
-                    Else
-                        SplitButtonTruckSheet.Enabled = False
+                    checkPrintSetting()
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                        If rdbnFreshAmbientBoth.IsChecked Then
+                            'SplitButtonTruckSheet.Enabled = True
+                            checkPrintSetting()
+                        Else
+                            SplitButtonTruckSheet.Enabled = False
+                        End If
                     End If
+
                 End If
                 'HideUnhideRowsAndColumnsOFGrid()
             End If
@@ -4389,6 +4404,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 doc.LeftUpperFont = New Font("Arial", 16, FontStyle.Bold)
                 doc.HeaderFont = New Font("Arial", 16, FontStyle.Bold)
                 doc.AssociatedObject = GVTruckSheet
+
                 doc.Print()
                 doc = Nothing
                 'arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")))
@@ -5295,10 +5311,13 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 'TruckSheetPDF()
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                If rdbnFreshAmbientBoth.IsChecked Then
-                    SplitButtonTruckSheet.Enabled = True
-                Else
-                    SplitButtonTruckSheet.Enabled = False
+                SplitButtonTruckSheet.Enabled = True
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                    If rdbnFreshAmbientBoth.IsChecked Then
+                        SplitButtonTruckSheet.Enabled = True
+                    Else
+                        SplitButtonTruckSheet.Enabled = False
+                    End If
                 End If
             Else
                 SplitButtonTruckSheet.Enabled = False

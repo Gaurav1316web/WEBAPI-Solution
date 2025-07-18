@@ -1060,6 +1060,8 @@ Public Class frmShipmentDairy
         txtGross_Wt.Text = Nothing
         lblRemovalDate.Visible = False
         txtRemovalDate.Visible = False
+        chkExcludeKKFMND.Checked = False
+        chkExcludeKKFMND.Enabled = True
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             txtDemandNo.Value = ""
             lblDemandNO.Visible = True
@@ -8068,6 +8070,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             If txtRemovalDate.Checked Then
                 obj.Removal_Date = txtRemovalDate.Value
             End If
+            obj.Exclude_KKF_And_Mandi = IIf(chkExcludeKKFMND.Checked, 1, 0)
             obj.Is_Taxable = IIf(ddlInvoiceType.SelectedValue = "T", 1, 0)   'IIf(cmbDisItemType.SelectedValue = "T", 1, 0)
             obj.Trans_Type = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
             obj.OPKm = txtOPKM.Value
@@ -8915,7 +8918,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                 txtRouteNo.Enabled = False
                 txtVehicleCode.Enabled = True
                 'cmbShift.Enabled = False
-
+                chkExcludeKKFMND.Checked = IIf(obj.Exclude_KKF_And_Mandi = 1, True, False)
+                chkExcludeKKFMND.Enabled = False
                 cmbDisItemType.Enabled = False
                 txtOPKM.Value = obj.OPKm
                 txtCLKM.Value = obj.CLKm
@@ -10585,7 +10589,12 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                         End If
                         txtTCSTaxRate.Value = clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)
                     Else
-                        gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = dr("TaxRate")
+                        If chkExcludeKKFMND.Checked AndAlso (clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "K") = CompairStringResult.Equal) Then
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                        Else
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = dr("TaxRate")
+                        End If
+
                     End If
                 End If
             Next
@@ -10646,7 +10655,12 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                                         If IsTaxable = 1 Then
                                             objTM = clsItemWiseTaxAuthority.GetAutoItemwiseTaxRate(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value), clsCommon.myCstr(txtTaxGroup.Value), clsCommon.myCstr(gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value), txtDate.Value, "S", trans)
                                             If objTM IsNot Nothing Then
-                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = objTM.TAX_Rate
+                                                If chkExcludeKKFMND.Checked AndAlso (clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "K") = CompairStringResult.Equal) Then
+                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = 0
+                                                Else
+                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = objTM.TAX_Rate
+                                                End If
+
                                                 gv1.Rows(intRowNo).Cells(colItemwiseTaxCode).Value = objTM.HCODE
                                             End If
                                         Else
@@ -10656,7 +10670,12 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
                                     ElseIf clsCommon.CompairString(cmbDisItemType.SelectedValue, "T") = CompairStringResult.Equal Then
                                         objTM = clsItemWiseTaxAuthority.GetAutoItemwiseTaxRate(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value), clsCommon.myCstr(txtTaxGroup.Value), clsCommon.myCstr(gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value), txtDate.Value, "S", trans)
                                         If objTM IsNot Nothing Then
-                                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = objTM.TAX_Rate
+                                            If chkExcludeKKFMND.Checked AndAlso (clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsTaxCalculation.GetTaxType(clsCommon.myCstr(dr("Tax_Code")), Nothing), "K") = CompairStringResult.Equal) Then
+                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = 0
+                                            Else
+                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = objTM.TAX_Rate
+                                            End If
+
                                             gv1.Rows(intRowNo).Cells(colItemwiseTaxCode).Value = objTM.HCODE
                                         End If
                                     End If
