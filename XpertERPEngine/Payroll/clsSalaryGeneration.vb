@@ -314,11 +314,11 @@ Public Class clsSalaryGeneration
             satQry = ""
             satQry += " insert into TSPL_GENERATE_SALARY_PAYHEADS(SALARY_GENERATION_CODE ,EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT ," &
                 " ACTUAL_AMOUNT,PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01,CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," &
-                " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,PF_Applicable,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Applicable,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,OT_Applicable,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,Bonus_Applicable,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI)"
+                " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,PF_Applicable,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Applicable,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,OT_Applicable,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,Bonus_Applicable,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI,PAY_PERIOD_CODE)"
             satQry += "(select '" & obj.Code & "', EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT , " &
                 " ACTUAL_AMOUNT, (case when PAY_HEAD_CODE in ('EPF','GPF') then ACTUAL_AMOUNT When PAY_HEAD_CODE in ('ESI') then PAYABLE_AMOUNT else STD_AMOUNT end) as PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,isnull(PF_MAX_LIM,0),ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01, " &
                 " CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," &
-                " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,IS_PF_APPL,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,IS_ESI_APPL,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_BONUS_APPL,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI  from TSPL_SALARY_CALCULATION) "
+                " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,IS_PF_APPL,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,IS_ESI_APPL,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_BONUS_APPL,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI,PAY_PERIOD_CODE  from TSPL_SALARY_CALCULATION) "
             clsDBFuncationality.ExecuteNonQuery(satQry, trans)
 
             satQry = " update TSPL_GENERATE_SALARY_ATTENDANCE set ARREAR_AMT=coalesce(Arrear.Arrear_Amt,0) from " &
@@ -5349,24 +5349,6 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
             Throw New Exception("Error in Updating Bonus !")
         End If
 
-        clsCommon.ProgressBarUpdate("update actual amount in two decimals ...")
-        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT=round(ACTUAL_AMOUNT,2,2) ,ACTUL_AMT=round(ACTUL_AMT,2,2) "
-        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
-            Throw New Exception("Error in Updating actual amount in two decimals !")
-        End If
-
-        clsCommon.ProgressBarUpdate("Rounding Off all pay heads...")
-        strq = "UPDATE " & strTableName & " SET ARREAR_AMT=(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ARREAR_AMT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ARREAR_AMT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ARREAR_AMT) END),ARREAR_ROUND_OFF=((CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ARREAR_AMT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ARREAR_AMT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ARREAR_AMT) END)-ARREAR_AMT),ACTUAL_AMOUNT=(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ACTUAL_AMOUNT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ACTUAL_AMOUNT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ACTUAL_AMOUNT) END)," _
-        & " PRINCIPAL_ROUND_OFF=(COALESCE(PRINCIPAL_ROUND_OFF,0)+(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ACTUAL_AMOUNT,0) " _
-        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ACTUAL_AMOUNT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ACTUAL_AMOUNT) END)-ACTUAL_AMOUNT) where  " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
-        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
-            Throw New Exception("Error in Updating Rounding off !")
-        End If
-
-
         Dim strqs As String = "   SELECT DISTINCT PAY_HEAD_CODE,ACTUAL_AMOUNT FROM " & strTableName & " WHERE LINE_NO IS NOT NULL and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         Dim dtSeq As DataTable = clsDBFuncationality.GetDataTable(strqS, trans)
         Dim strEmps As String = "(" & clsCommon.GetMulcallString(EmpList) & ")"
@@ -5399,6 +5381,121 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
                 End If
             End If
         Next
+
+        Dim DAAreear As String = ""
+        DAAreear = "Select top 1 PAY_PERIOD_CODE,PeriodFrom_Date,PeriodTo_Date,DA_Per,EMP_CODE from TSPL_DA_ARREAR
+                    LEFT OUTER JOIN TSPL_DA_ARREAR_EMPLOYEE ON TSPL_DA_ARREAR_EMPLOYEE.Document_Code=TSPL_DA_ARREAR.Document_Code where PAY_PERIOD_CODE='" & Pay_Period_Code & "' AND EMP_CODE In " & strEmps & ""
+        Dim DATable As DataTable = clsDBFuncationality.GetDataTable(DAAreear, trans)
+        Dim periodfromdate As DateTime = Nothing
+        Dim periodTodate As DateTime = Nothing
+        Dim DAAreearpercent As Decimal = 0
+        Dim DAAreearEmp As Decimal = 0
+        If DATable IsNot Nothing AndAlso DATable.Rows.Count > 0 Then
+            periodfromdate = clsCommon.myCDate(DATable.Rows(0)("PeriodFrom_Date"))
+            periodTodate = clsCommon.myCDate(DATable.Rows(0)("PeriodTo_Date"))
+            DAAreearpercent = clsCommon.myCdbl(DATable.Rows(0)("DA_Per"))
+            DAAreearEmp = clsCommon.myCdbl(DATable.Rows(0)("EMP_CODE"))
+        End If
+
+        Dim payPm As String = " Select PAY_PERIOD_CODE,PAY_PERIOD_NAME from TSPL_PAYPERIOD_MASTER where convert(date,TSPL_PAYPERIOD_MASTER.DATE_FROM,103) >=convert(date,'" + periodfromdate + "' ,103) 
+                                and convert(date,TSPL_PAYPERIOD_MASTER.DATE_TO,103) <=convert(date,'" + periodTodate + "' ,103) "
+        Dim Dt1 As DataTable = clsDBFuncationality.GetDataTable(payPm, trans)
+        Dim payPeriodCodeList As New List(Of String)
+        If Dt1 IsNot Nothing AndAlso Dt1.Rows.Count > 0 Then
+            For Each row As DataRow In Dt1.Rows
+                Dim code As String = clsCommon.myCstr(row("PAY_PERIOD_CODE"))
+                If Not String.IsNullOrEmpty(code) Then
+                    payPeriodCodeList.Add("'" & code & "'")
+                End If
+            Next
+        End If
+
+        'Now join the list into a single string with commas
+        Dim payPeriodCodeString As String = String.Join(",", payPeriodCodeList.ToArray())
+
+        ' Step 1: Fetch all relevant data
+        Dim PayEmp As String = ""
+        PayEmp = " Select TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,* from TSPL_GENERATE_SALARY_PAYHEADS
+                   LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
+                   WHERE TSPL_GENERATE_SALARY.PAY_PERIOD_CODE in (" & payPeriodCodeString & ")  and PAY_HEAD_CODE='BASIC' "
+        Dim Dt7 As DataTable = clsDBFuncationality.GetDataTable(PayEmp, trans)
+
+        ' Step 2: Get unique Pay Period Codes
+        Dim distinctPayPeriods = Dt7.AsEnumerable().Select(Function(r) r.Field(Of String)("PAY_PERIOD_CODE")).Distinct()
+
+        ' Group by employee (across all pay periods), and then update once per employee
+        Dim empGroups = Dt7.AsEnumerable() _
+                  .GroupBy(Function(r) r.Field(Of String)("EMP_CODE")) _
+                  .ToList()
+
+        For Each empGroup In empGroups
+            Dim empCode As String = empGroup.Key
+
+            ' Sum BASIC across all pay periods for this employee
+            Dim totalBasicAmt As Decimal = empGroup.Sum(Function(r) Convert.ToDecimal(r("ACTUAL_AMOUNT")))
+            Dim fivePercentValue As Decimal = Math.Round(totalBasicAmt * DAAreearpercent / 100, 2)
+
+            ' Optional: You can print for debug
+            ' Console.WriteLine("Emp: " & empCode & " | BASIC Sum: " & totalBasicAmt & " | 5%: " & fivePercentValue)
+
+            ' Get current value of ARREAR DA
+            Dim EmpAct_Amt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT ISNULL(ACTUAL_AMOUNT, 0) FROM " & strTableName & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE '%ARREAR%' " & "AND EMP_CODE = '" & empCode & "'"))
+
+            ' Final update: increment total
+            'Dim updateQry As String = "UPDATE " & strTableName & " " & "SET ACTUAL_AMOUNT = " & EmpAct_Amt & " + " & fivePercentValue & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE '%ARREAR%' " & "AND EMP_CODE = '" & empCode & "'"
+            Dim updateQry As String = "UPDATE " & strTableName & " " & "SET ACTUAL_AMOUNT = " & fivePercentValue & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE '%ARREAR%' " & "AND EMP_CODE = '" & empCode & "'"
+            If Not clsDBFuncationality.ExecuteNonQuery(updateQry, trans) Then
+                Throw New Exception("Error in Updating Actual Amount !")
+            End If
+            'clsDBFuncationality.ExecuteNonQuery(updateQry, trans)
+        Next
+
+        ' Step 3: Loop through each Pay Period
+        'For Each payPeriod In distinctPayPeriods
+        '    ' Get data for this pay period
+        '    Dim periodRows = Dt7.Select("PAY_PERIOD_CODE = '" & payPeriod & "'")
+
+        '    For Each row As DataRow In periodRows
+        '        Dim empCode As String = row("EMP_CODE").ToString()
+        '        Dim basicAmount As Decimal = Convert.ToDecimal(row("ACTUAL_AMOUNT"))
+        '        Dim salaryGenCode As String = row("SALARY_GENERATION_CODE").ToString()
+
+        '        ' Calculate 5% of BASIC
+        '        Dim fivePercentValue As Decimal = Math.Round(basicAmount * 0.05, 2)
+
+        '        ' Step 4: Update in salary calculation (pseudo SQL or method her
+        '        ' -- Assuming you update in another table or structure
+        '        ' -- Replace this with your actual update logic
+
+        '        'gettingactualamount of that cycle formeach employee
+        '        Dim EmpAct_Amt As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select ACTUAL_AMOUNT from TSPL_SALARY_CALCULATION where PAY_PERIOD_CODE='" & Pay_Period_Code & "' and " & strTableName & ".PAY_HEAD_CODE  LIKE '% ARREAR DA %' and " & strTableName & ".EMP_CODE='" & empCode & "'"))
+
+
+        '        'Dim updateQry As String = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT = (" & EmpAct_Amt & " + " & fivePercentValue & ") WHERE " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "' and " & strTableName & ".PAY_HEAD_CODE  LIKE '% ARREAR DA %' and " & strTableName & ".EMP_CODE='" & empCode & "' "
+        '        Dim updateQry As String = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT = ( ISNULL(" & EmpAct_Amt & ", 0) + " & fivePercentValue & ") WHERE " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "' and " & strTableName & ".PAY_HEAD_CODE  LIKE '%ARREAR%' and " & strTableName & ".EMP_CODE='" & empCode & "' "
+
+        '        clsDBFuncationality.ExecuteNonQuery(updateQry, trans)
+
+        '    Next
+        'Next
+
+        clsCommon.ProgressBarUpdate("update actual amount in two decimals ...")
+        strq = "UPDATE " & strTableName & " SET ACTUAL_AMOUNT=round(ACTUAL_AMOUNT,2,2) ,ACTUL_AMT=round(ACTUL_AMT,2,2) "
+        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
+            Throw New Exception("Error in Updating actual amount in two decimals !")
+        End If
+
+        clsCommon.ProgressBarUpdate("Rounding Off all pay heads...")
+        strq = "UPDATE " & strTableName & " SET ARREAR_AMT=(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ARREAR_AMT,0) " _
+        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ARREAR_AMT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ARREAR_AMT) END),ARREAR_ROUND_OFF=((CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ARREAR_AMT,0) " _
+        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ARREAR_AMT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ARREAR_AMT) END)-ARREAR_AMT),ACTUAL_AMOUNT=(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ACTUAL_AMOUNT,0) " _
+        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ACTUAL_AMOUNT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ACTUAL_AMOUNT) END)," _
+        & " PRINCIPAL_ROUND_OFF=(COALESCE(PRINCIPAL_ROUND_OFF,0)+(CASE WHEN ROUND_OFF_TYPE='R' THEN ROUND(ACTUAL_AMOUNT,0) " _
+        & " WHEN ROUND_OFF_TYPE='L' THEN  FLOOR(ACTUAL_AMOUNT) WHEN ROUND_OFF_TYPE='U' THEN CEILING(ACTUAL_AMOUNT) END)-ACTUAL_AMOUNT) where  " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
+        If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
+            Throw New Exception("Error in Updating Rounding off !")
+        End If
+
 
         Return True
     End Function
