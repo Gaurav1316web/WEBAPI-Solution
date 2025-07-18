@@ -134,9 +134,9 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
         End If
 
         sQuery += WhrCls
-        If Not rbtnPartyWise.Checked Then
-            sQuery += " order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date "
-        End If
+        'If Not rbtnPartyWise.Checked Then
+        '    sQuery += " order by TSPL_SD_SALE_INVOICE_HEAD.Document_Date "
+        'End If
 
         Return sQuery
     End Function
@@ -167,7 +167,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                 FinalQry = "WITH FilteredData AS (" + sQuery + ") "
                 FinalQry += " SELECT CAST(0 AS BIT) AS [Check],Supply_Date,Shift_type,Customer_Code,MAX(Customer_Name) AS Customer_Name,(SELECT STRING_AGG(Route_Code, ', ')FROM (SELECT DISTINCT Route_Code FROM FilteredData r WHERE r.Customer_Code = f.Customer_Code AND r.Supply_Date = f.Supply_Date AND r.Shift_type = f.Shift_type) AS UniqueRoutes) AS Route_Code,MAX(Location_Desc) AS Location_Desc,SUM(Total_Amt) AS Total_Amt,MAX(Email) AS Email,MAX(Mobile_no) AS Mobile_no FROM FilteredData f GROUP BY Customer_Code, Supply_Date, Shift_type"
             Else
-                FinalQry = sQuery
+                FinalQry = "Select Cast(0 as BIT) as 'Check',Document_Code,Max([Item Type])[Item Type],Max(Document_Date)Document_Date,Max(Zone_Code)Zone_Code,Max(Route_Code)Route_Code,Max(Customer_Code)Customer_Code,Max(Customer_Name)Customer_Name,Max(Location_Desc)Location_Desc,Max(Total_Amt)Total_Amt,Max(Shift_type)Shift_type,Max(Supply_Date)Supply_Date,Max(Email)Email,Max(Mobile_no)Mobile_no,Max(Is_Taxable)Is_Taxable from (" + sQuery + ")BaseQry Group By Document_Code  order by Document_Date "
             End If
 
 

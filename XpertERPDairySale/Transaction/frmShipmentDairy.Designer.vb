@@ -26,12 +26,12 @@ Partial Class frmShipmentDairy
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -250,6 +250,8 @@ Partial Class frmShipmentDairy
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.rpvpBoothScheme = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvBoothScheme = New common.UserControls.MyRadGridView()
         Me.rpvpManualScheme = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvManualscheme = New Telerik.WinControls.UI.RadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -426,8 +428,6 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rpvpBoothScheme = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvBoothScheme = New common.UserControls.MyRadGridView()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -643,6 +643,9 @@ Partial Class frmShipmentDairy
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.rpvpBoothScheme.SuspendLayout
+        CType(Me.gvBoothScheme, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.gvBoothScheme.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
         Me.rpvpManualScheme.SuspendLayout
         CType(Me.gvManualscheme, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.gvManualscheme.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
@@ -814,9 +817,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.rpvpBoothScheme.SuspendLayout
-        CType(Me.gvBoothScheme, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gvBoothScheme.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -937,7 +937,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.rpvpBoothScheme
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4606,6 +4606,42 @@ Partial Class frmShipmentDairy
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
         '
+        'rpvpBoothScheme
+        '
+        Me.rpvpBoothScheme.Controls.Add(Me.gvBoothScheme)
+        Me.rpvpBoothScheme.ItemSize = New System.Drawing.SizeF(119.0!, 26.0!)
+        Me.rpvpBoothScheme.Location = New System.Drawing.Point(10, 35)
+        Me.rpvpBoothScheme.Name = "rpvpBoothScheme"
+        Me.rpvpBoothScheme.Size = New System.Drawing.Size(1089, 416)
+        Me.rpvpBoothScheme.Text = "Booth Wise Scheme"
+        '
+        'gvBoothScheme
+        '
+        Me.gvBoothScheme.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvBoothScheme.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvBoothScheme.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvBoothScheme.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvBoothScheme.ForeColor = System.Drawing.Color.Black
+        Me.gvBoothScheme.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvBoothScheme.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvBoothScheme.MasterTemplate.AllowDeleteRow = False
+        Me.gvBoothScheme.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvBoothScheme.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvBoothScheme.MyExportFilePath = ""
+        Me.gvBoothScheme.MyStopExport = False
+        Me.gvBoothScheme.Name = "gvBoothScheme"
+        Me.gvBoothScheme.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvBoothScheme.ShowGroupPanel = False
+        Me.gvBoothScheme.ShowHeaderCellButtons = True
+        Me.gvBoothScheme.Size = New System.Drawing.Size(1089, 416)
+        Me.gvBoothScheme.TabIndex = 4
+        Me.gvBoothScheme.TabStop = False
+        Me.gvBoothScheme.VarID = ""
+        '
         'rpvpManualScheme
         '
         Me.rpvpManualScheme.Controls.Add(Me.gvManualscheme)
@@ -7034,42 +7070,6 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'rpvpBoothScheme
-        '
-        Me.rpvpBoothScheme.Controls.Add(Me.gvBoothScheme)
-        Me.rpvpBoothScheme.ItemSize = New System.Drawing.SizeF(119.0!, 26.0!)
-        Me.rpvpBoothScheme.Location = New System.Drawing.Point(10, 35)
-        Me.rpvpBoothScheme.Name = "rpvpBoothScheme"
-        Me.rpvpBoothScheme.Size = New System.Drawing.Size(1089, 416)
-        Me.rpvpBoothScheme.Text = "Booth Wise Scheme"
-        '
-        'gvBoothScheme
-        '
-        Me.gvBoothScheme.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvBoothScheme.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvBoothScheme.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvBoothScheme.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvBoothScheme.ForeColor = System.Drawing.Color.Black
-        Me.gvBoothScheme.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvBoothScheme.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvBoothScheme.MasterTemplate.AllowDeleteRow = False
-        Me.gvBoothScheme.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvBoothScheme.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBoothScheme.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.gvBoothScheme.MyExportFilePath = ""
-        Me.gvBoothScheme.MyStopExport = False
-        Me.gvBoothScheme.Name = "gvBoothScheme"
-        Me.gvBoothScheme.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvBoothScheme.ShowGroupPanel = False
-        Me.gvBoothScheme.ShowHeaderCellButtons = True
-        Me.gvBoothScheme.Size = New System.Drawing.Size(1089, 416)
-        Me.gvBoothScheme.TabIndex = 4
-        Me.gvBoothScheme.TabStop = False
-        Me.gvBoothScheme.VarID = ""
-        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7312,6 +7312,9 @@ Partial Class frmShipmentDairy
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit
+        Me.rpvpBoothScheme.ResumeLayout(False)
+        CType(Me.gvBoothScheme.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.gvBoothScheme, System.ComponentModel.ISupportInitialize).EndInit
         Me.rpvpManualScheme.ResumeLayout(False)
         CType(Me.gvManualscheme.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.gvManualscheme, System.ComponentModel.ISupportInitialize).EndInit
@@ -7494,9 +7497,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        Me.rpvpBoothScheme.ResumeLayout(False)
-        CType(Me.gvBoothScheme.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gvBoothScheme, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
