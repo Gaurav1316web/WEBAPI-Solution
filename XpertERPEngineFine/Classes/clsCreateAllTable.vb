@@ -6846,6 +6846,10 @@ Public Class clsCreateAllTable
             coll.Add("InvoiceNo", "Varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Mcc_Scrap_Invoice_GATEPASS_DETAIL", coll, Nothing, False, False, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("GPCode", "Varchar(30) NOT NULL REFERENCES TSPL_MCC_Scrap_GATEPASS_MASTER(GPCode)")
+            coll.Add("ROUTE_NO", "Varchar(30) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL", coll, Nothing, False, False, "TSPL_MCC_SCRAP_GATEPASS_MASTER", "GPCode", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Cust_Code", "Varchar(30) NOT NULL")
@@ -14596,6 +14600,9 @@ Public Class clsCreateAllTable
             coll.Add("Sub_Location", "varchar(12) null references TSPL_Location_MASTER(Location_Code)")
             coll.Add("Saras_Pro_Session_Expired", "integer NULL")
             coll.Add("Saras_Order_Session_Expired", "integer NULL")
+            coll.Add("ANDROID_SECURE_ID", "varchar(30) null")
+            coll.Add("ANDROID_DEVICE_MODEL_MANUFACTURER", "varchar(30) null")
+            coll.Add("ANDROID_DEVICE_OS_VERSION", "varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_USER_MASTER alter column SSO varchar(30) null")

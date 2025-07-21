@@ -22,10 +22,10 @@ Partial Class frmMccGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -40,9 +40,9 @@ Partial Class frmMccGatePass
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtLocCode = New common.UserControls.txtFinder()
         Me.txtComments = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.lblComments = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
-        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.lblRemarks = New common.Controls.MyLabel()
         Me.lblVehicleDesc = New common.Controls.MyTextBox()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblpaymentpostdate = New common.Controls.MyLabel()
@@ -59,6 +59,8 @@ Partial Class frmMccGatePass
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.txtRouteNo = New common.UserControls.txtMultiSelectFinder()
+        Me.lblRoute = New common.Controls.MyLabel()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,9 +74,9 @@ Partial Class frmMccGatePass
         CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComments, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblComments, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentpostdate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,23 +91,25 @@ Partial Class frmMccGatePass
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Gv1
         '
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv1.Location = New System.Drawing.Point(0, 156)
+        Me.Gv1.Location = New System.Drawing.Point(0, 176)
         '
         '
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1076, 319)
+        Me.Gv1.Size = New System.Drawing.Size(1076, 299)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
         '
@@ -113,7 +117,7 @@ Partial Class frmMccGatePass
         '
         Me.lblSalesman.FieldName = Nothing
         Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSalesman.Location = New System.Drawing.Point(4, 58)
+        Me.lblSalesman.Location = New System.Drawing.Point(5, 58)
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(61, 16)
         Me.lblSalesman.TabIndex = 35
@@ -123,7 +127,7 @@ Partial Class frmMccGatePass
         '
         Me.lblpaymentno.FieldName = Nothing
         Me.lblpaymentno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpaymentno.Location = New System.Drawing.Point(4, 6)
+        Me.lblpaymentno.Location = New System.Drawing.Point(5, 6)
         Me.lblpaymentno.Name = "lblpaymentno"
         Me.lblpaymentno.Size = New System.Drawing.Size(77, 16)
         Me.lblpaymentno.TabIndex = 30
@@ -162,6 +166,8 @@ Partial Class frmMccGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtRouteNo)
+        Me.Panel1.Controls.Add(Me.lblRoute)
         Me.Panel1.Controls.Add(Me.txtmultiBooking)
         Me.Panel1.Controls.Add(Me.MyLabel5)
         Me.Panel1.Controls.Add(Me.btnGo)
@@ -171,8 +177,8 @@ Partial Class frmMccGatePass
         Me.Panel1.Controls.Add(Me.txtComments)
         Me.Panel1.Controls.Add(Me.txtRemarks)
         Me.Panel1.Controls.Add(Me.lblVehicleDesc)
-        Me.Panel1.Controls.Add(Me.MyLabel2)
-        Me.Panel1.Controls.Add(Me.MyLabel3)
+        Me.Panel1.Controls.Add(Me.lblComments)
+        Me.Panel1.Controls.Add(Me.lblRemarks)
         Me.Panel1.Controls.Add(Me.txtDate)
         Me.Panel1.Controls.Add(Me.cmbtype)
         Me.Panel1.Controls.Add(Me.lblSalesman)
@@ -185,14 +191,14 @@ Partial Class frmMccGatePass
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1076, 156)
+        Me.Panel1.Size = New System.Drawing.Size(1076, 176)
         Me.Panel1.TabIndex = 0
         '
         'txtmultiBooking
         '
         Me.txtmultiBooking.arrDispalyMember = Nothing
         Me.txtmultiBooking.arrValueMember = Nothing
-        Me.txtmultiBooking.Location = New System.Drawing.Point(93, 80)
+        Me.txtmultiBooking.Location = New System.Drawing.Point(93, 81)
         Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtmultiBooking.MyLinkLable1 = Nothing
         Me.txtmultiBooking.MyLinkLable2 = Nothing
@@ -205,7 +211,7 @@ Partial Class frmMccGatePass
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(5, 82)
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 83)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel5.TabIndex = 1458
@@ -214,7 +220,7 @@ Partial Class frmMccGatePass
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.btnGo.Location = New System.Drawing.Point(746, 130)
+        Me.btnGo.Location = New System.Drawing.Point(728, 147)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(38, 22)
         Me.btnGo.TabIndex = 59
@@ -292,27 +298,27 @@ Partial Class frmMccGatePass
         Me.txtComments.IsSourceFromTable = False
         Me.txtComments.IsSourceFromValueList = False
         Me.txtComments.IsUnique = False
-        Me.txtComments.Location = New System.Drawing.Point(92, 131)
+        Me.txtComments.Location = New System.Drawing.Point(93, 149)
         Me.txtComments.MaxLength = 200
         Me.txtComments.MendatroryField = False
-        Me.txtComments.MyLinkLable1 = Me.MyLabel2
+        Me.txtComments.MyLinkLable1 = Me.lblComments
         Me.txtComments.MyLinkLable2 = Nothing
         Me.txtComments.Name = "txtComments"
         Me.txtComments.ReferenceFieldDesc = Nothing
         Me.txtComments.ReferenceFieldName = Nothing
         Me.txtComments.ReferenceTableName = Nothing
-        Me.txtComments.Size = New System.Drawing.Size(633, 18)
+        Me.txtComments.Size = New System.Drawing.Size(634, 18)
         Me.txtComments.TabIndex = 6
         '
-        'MyLabel2
+        'lblComments
         '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(4, 136)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
-        Me.MyLabel2.TabIndex = 36
-        Me.MyLabel2.Text = "Comments"
+        Me.lblComments.FieldName = Nothing
+        Me.lblComments.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblComments.Location = New System.Drawing.Point(5, 151)
+        Me.lblComments.Name = "lblComments"
+        Me.lblComments.Size = New System.Drawing.Size(61, 16)
+        Me.lblComments.TabIndex = 36
+        Me.lblComments.Text = "Comments"
         '
         'txtRemarks
         '
@@ -326,27 +332,27 @@ Partial Class frmMccGatePass
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(92, 106)
+        Me.txtRemarks.Location = New System.Drawing.Point(93, 127)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
-        Me.txtRemarks.MyLinkLable1 = Me.MyLabel3
+        Me.txtRemarks.MyLinkLable1 = Me.lblRemarks
         Me.txtRemarks.MyLinkLable2 = Nothing
         Me.txtRemarks.Name = "txtRemarks"
         Me.txtRemarks.ReferenceFieldDesc = Nothing
         Me.txtRemarks.ReferenceFieldName = Nothing
         Me.txtRemarks.ReferenceTableName = Nothing
-        Me.txtRemarks.Size = New System.Drawing.Size(633, 18)
+        Me.txtRemarks.Size = New System.Drawing.Size(634, 18)
         Me.txtRemarks.TabIndex = 5
         '
-        'MyLabel3
+        'lblRemarks
         '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(4, 110)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(51, 16)
-        Me.MyLabel3.TabIndex = 36
-        Me.MyLabel3.Text = "Remarks"
+        Me.lblRemarks.FieldName = Nothing
+        Me.lblRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRemarks.Location = New System.Drawing.Point(5, 129)
+        Me.lblRemarks.Name = "lblRemarks"
+        Me.lblRemarks.Size = New System.Drawing.Size(51, 16)
+        Me.lblRemarks.TabIndex = 36
+        Me.lblRemarks.Text = "Remarks"
         '
         'lblVehicleDesc
         '
@@ -426,12 +432,12 @@ Partial Class frmMccGatePass
         Me.cmbtype.IsSourceFromTable = False
         Me.cmbtype.IsSourceFromValueList = False
         Me.cmbtype.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Mcc"
-        RadListDataItem3.Text = "Scrap"
-        Me.cmbtype.Items.Add(RadListDataItem1)
-        Me.cmbtype.Items.Add(RadListDataItem2)
-        Me.cmbtype.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Mcc"
+        RadListDataItem6.Text = "Scrap"
+        Me.cmbtype.Items.Add(RadListDataItem4)
+        Me.cmbtype.Items.Add(RadListDataItem5)
+        Me.cmbtype.Items.Add(RadListDataItem6)
         Me.cmbtype.Location = New System.Drawing.Point(645, 6)
         Me.cmbtype.MendatroryField = False
         Me.cmbtype.MyLinkLable1 = Me.lblfullempty
@@ -498,6 +504,7 @@ Partial Class frmMccGatePass
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -590,6 +597,31 @@ Partial Class frmMccGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1076, 20)
         Me.RadMenu1.TabIndex = 0
         '
+        'txtRouteNo
+        '
+        Me.txtRouteNo.arrDispalyMember = Nothing
+        Me.txtRouteNo.arrValueMember = Nothing
+        Me.txtRouteNo.Location = New System.Drawing.Point(93, 104)
+        Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteNo.MyLinkLable1 = Nothing
+        Me.txtRouteNo.MyLinkLable2 = Nothing
+        Me.txtRouteNo.MyNullText = "All"
+        Me.txtRouteNo.Name = "txtRouteNo"
+        Me.txtRouteNo.Size = New System.Drawing.Size(633, 19)
+        Me.txtRouteNo.TabIndex = 1461
+        Me.txtRouteNo.Visible = False
+        '
+        'lblRoute
+        '
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoute.Location = New System.Drawing.Point(5, 106)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(54, 16)
+        Me.lblRoute.TabIndex = 1460
+        Me.lblRoute.Text = "Route No"
+        Me.lblRoute.Visible = False
+        '
         'frmMccGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -617,9 +649,9 @@ Partial Class frmMccGatePass
         CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComments, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblComments, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblpaymentpostdate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -634,6 +666,7 @@ Partial Class frmMccGatePass
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -658,8 +691,8 @@ Partial Class frmMccGatePass
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents lblComments As common.Controls.MyLabel
+    Friend WithEvents lblRemarks As common.Controls.MyLabel
     Friend WithEvents txtComments As common.Controls.MyTextBox
     Friend WithEvents txtRemarks As common.Controls.MyTextBox
     Friend WithEvents lblVehicleDesc As common.Controls.MyTextBox
@@ -672,5 +705,7 @@ Partial Class frmMccGatePass
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtmultiBooking As common.UserControls.txtMultiSelectFinder
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents txtRouteNo As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblRoute As common.Controls.MyLabel
 End Class
 
