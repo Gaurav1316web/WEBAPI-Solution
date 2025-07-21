@@ -33,17 +33,18 @@ Public Class clsMilkProcurementUploaderHead
         Try
             ' clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkReceipt, obj.MCC_Code, obj.Document_Date, trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkSample, obj.MCC_Code, obj.Document_Date, trans)
-            If isNewEntry = False Then
-                Dim Reason As String = ""
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Update"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Return False
-                Else
-                    Reason = frm.strRmks
-                End If
-            End If
+
+
+            '    Dim Reason As String = ""
+            '    Dim frm As New FrmFreeTxtBox1
+            '    frm.Text = "Remarks for Update"
+            '    frm.ShowDialog()
+            '    If clsCommon.myLen(frm.strRmks) <= 0 Then
+            '        Return False
+            '    Else
+            '        Reason = frm.strRmks
+            '    End If
+            'End If
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkProcurementUploader, obj.MCC_Code, obj.Document_Date, trans)
 

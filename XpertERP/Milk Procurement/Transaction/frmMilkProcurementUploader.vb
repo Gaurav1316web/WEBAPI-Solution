@@ -21,7 +21,7 @@ Public Class frmMilkProcurementUploader
     Const colSNFPer As String = "colSNFPer"
     Const colRejectRejectType As String = "colRejectRejectType"
     Const colRejectDefaulter As String = "colRejectDefaulter"
-
+    Dim OneTimeCheck As Boolean = False
     Const colManualWeight As String = "colManualWeight"
     Const colManualSample As String = "colManualSample"
     Const colEmptySample As String = "colEmptySample"
@@ -588,7 +588,25 @@ Public Class frmMilkProcurementUploader
     End Sub
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData()
+        'SaveData()
+        Try
+            If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.Transactionupdate
+                frm.strCode = clsFixedParameterCode.UserMaster
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    ShowRemarks()
+                    OneTimeCheck = True
+                End If
+            ElseIf btnSave.Text = "Update" AndAlso OneTimeCheck Then
+                ShowRemarks()
+            Else
+                SaveData()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -809,88 +827,122 @@ Public Class frmMilkProcurementUploader
        ") x group by Document_No) xxx on xx.Document_No = xxx.Document_No )final 
 "
             LoadData(clsCommon.ShowSelectForm("MPUFINDOC", qry, "Document_No", whrcls, txtDocNo.Value, "Document_No", isButtonClicked, "FINAL.DocFilterDate"), NavigatorType.Current)
+            btnSave.Text = "Update"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
-
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            SaveData()
+            saveCancelLog(Reason, "Updated", Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtDocNo.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
     Public Function SaveData() As Boolean
         Try
             If (AllowToSave()) Then
+
+
                 Dim obj As New clsMilkProcurementUploaderHead()
-                obj.Document_No = txtDocNo.Value
-                obj.Document_Date = txtDate.Value
-                obj.Description = txtDesc.Text
-                obj.MCC_Code = fndMCCCode.Value
-                obj.Dock_Code = txtDockCode.Value ''ERO/25/02/19-000492 by balwinder on 28/02/2019
-                obj.Reject = chkMilkReject.Checked
-                obj.Arr = New List(Of clsMilkProcurementUploaderDetail)
-                For ii As Integer = 0 To gv1.RowCount - 1
-                    If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
-                        Dim objTr As New clsMilkProcurementUploaderDetail()
-                        objTr.SNo = ii + 1
-                        If Hidedetaildate = True Then
-                            gv1.Rows(ii).Cells(colShiftDate).ReadOnly = True
-                            'objTr.Shift_Date = txtDate.Value
-                            objTr.Shift_Date = txtDate.Value
-                        Else
-                            objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
-                            gv1.Rows(ii).Cells(colShiftDate).ReadOnly = False
-                        End If
-                        'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
-
-                        'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
-                        ' objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
-                        objTr.Shift = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
-                        objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
-                        objTr.Dock_Collection_Milk_Type_Auto = Not objCommonVar.SepratePriceChartForCamel
-                        objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
-                        objTr.Bulk_Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colBulkRouteCode).Value)
-                        objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
-                        objTr.Milk_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMilkWeight).Value)
-                        objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), 1, MidpointRounding.ToEven)
-                        objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
-                        'If obj.Document_Date > objTr.Shift_Date Then
-                        '    obj.Document_Date = objTr.Shift_Date
-                        'End If
-                        objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
-                        objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
-                        If chkMilkReject.Checked Then
-                            objTr.Manual_Weight = 1
-                            objTr.Manual_Sample = 1
-                        Else
-                            objTr.Manual_Weight = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualWeight).Value)
-                            objTr.Manual_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualSample).Value)
-                        End If
-                        objTr.Empty_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEmptySample).Value)
-                        objTr.Page_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPageNo).Value)
-                        If clsCommon.myLen(gv1.Rows(ii).Cells(colArrivalTime).Value) > 0 Then
-                            objTr.Arrival_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colArrivalTime).Value)
-                        End If
-                        If clsCommon.myLen(gv1.Rows(ii).Cells(colWeighmentTime).Value) > 0 Then
-                            objTr.Weighment_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colWeighmentTime).Value)
-                        End If
-                        objTr.Is_Drip_Saver = clsCommon.myCdbl(gv1.Rows(ii).Cells(colIsDripSaver).Value)
-
-                        For jj As Integer = 0 To gv1.Columns.Count - 1
-                            If gv1.Rows(ii).Cells(jj).Tag <> gv1.Rows(ii).Cells(jj).Value Then
-                                objTr.IsUpdate = True
-                                Exit For
+                    obj.Document_No = txtDocNo.Value
+                    obj.Document_Date = txtDate.Value
+                    obj.Description = txtDesc.Text
+                    obj.MCC_Code = fndMCCCode.Value
+                    obj.Dock_Code = txtDockCode.Value ''ERO/25/02/19-000492 by balwinder on 28/02/2019
+                    obj.Reject = chkMilkReject.Checked
+                    obj.Arr = New List(Of clsMilkProcurementUploaderDetail)
+                    For ii As Integer = 0 To gv1.RowCount - 1
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
+                            Dim objTr As New clsMilkProcurementUploaderDetail()
+                            objTr.SNo = ii + 1
+                            If Hidedetaildate = True Then
+                                gv1.Rows(ii).Cells(colShiftDate).ReadOnly = True
+                                'objTr.Shift_Date = txtDate.Value
+                                objTr.Shift_Date = txtDate.Value
+                            Else
+                                objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                                gv1.Rows(ii).Cells(colShiftDate).ReadOnly = False
                             End If
-                        Next
+                            'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
 
-                        objTr.arrQCParameter = GetParamCollection(ii)
-                        obj.Arr.Add(objTr)
+                            'objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                            ' objTr.Shift_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colShiftDate).Value)
+                            objTr.Shift = clsCommon.myCstr(gv1.Rows(ii).Cells(colShift).Value)
+                            objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
+                            objTr.Dock_Collection_Milk_Type_Auto = Not objCommonVar.SepratePriceChartForCamel
+                            objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
+                            objTr.Bulk_Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colBulkRouteCode).Value)
+                            objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
+                            objTr.Milk_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMilkWeight).Value)
+                            objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), 1, MidpointRounding.ToEven)
+                            objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
+                            'If obj.Document_Date > objTr.Shift_Date Then
+                            '    obj.Document_Date = objTr.Shift_Date
+                            'End If
+                            objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
+                            objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
+                            If chkMilkReject.Checked Then
+                                objTr.Manual_Weight = 1
+                                objTr.Manual_Sample = 1
+                            Else
+                                objTr.Manual_Weight = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualWeight).Value)
+                                objTr.Manual_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualSample).Value)
+                            End If
+                            objTr.Empty_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEmptySample).Value)
+                            objTr.Page_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPageNo).Value)
+                            If clsCommon.myLen(gv1.Rows(ii).Cells(colArrivalTime).Value) > 0 Then
+                                objTr.Arrival_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colArrivalTime).Value)
+                            End If
+                            If clsCommon.myLen(gv1.Rows(ii).Cells(colWeighmentTime).Value) > 0 Then
+                                objTr.Weighment_Time = clsCommon.myCDate(gv1.Rows(ii).Cells(colWeighmentTime).Value)
+                            End If
+                            objTr.Is_Drip_Saver = clsCommon.myCdbl(gv1.Rows(ii).Cells(colIsDripSaver).Value)
+
+                            For jj As Integer = 0 To gv1.Columns.Count - 1
+                                If gv1.Rows(ii).Cells(jj).Tag <> gv1.Rows(ii).Cells(jj).Value Then
+                                    objTr.IsUpdate = True
+                                    Exit For
+                                End If
+                            Next
+
+                            objTr.arrQCParameter = GetParamCollection(ii)
+                            obj.Arr.Add(objTr)
+                        End If
+                    Next
+                    If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
+                        Throw New Exception("Please Fill at list one Item")
                     End If
-                Next
-                If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    Throw New Exception("Please Fill at list one Item")
+                    obj.SaveData(obj, isNewEntry)
+                If isNewEntry = False Then
+                    btnSave.Text = "Update"
+                Else
+                    btnSave.Text = "Save"
                 End If
-                obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+
                 LoadData(obj.Document_No, NavigatorType.Current)
-            End If
+                End If
+
         Catch ex As Exception
             frmSRN.IsPoSavedAuto = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
