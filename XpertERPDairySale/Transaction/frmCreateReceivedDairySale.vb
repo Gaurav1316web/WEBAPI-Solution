@@ -1740,6 +1740,7 @@ Public Class frmCreateReceivedDairySale
 
                 btnSave.Enabled = True
                 btnPost.Enabled = True
+                btnGo.Enabled = True
                 btnDelete.Enabled = True
                 isInsideLoadData = True
                 isInsideLoadMCCAndScrapCustomer = True
@@ -1800,6 +1801,7 @@ Public Class frmCreateReceivedDairySale
                     btnSave.Enabled = False
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
+                    btnGo.Enabled = False
                 End If
 
                 If clsCommon.CompairString(obj.ShiftType, "E") = CompairStringResult.Equal Then
@@ -1882,6 +1884,7 @@ Public Class frmCreateReceivedDairySale
 
         btnSave.Enabled = True
         btnPost.Enabled = True
+        btnGo.Enabled = True
         btnDelete.Enabled = True
         '' Anubhooti 14-Jan-2014 (Disable/Enable Loc after saving)
         fndLocation.Enabled = True

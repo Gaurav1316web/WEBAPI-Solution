@@ -284,6 +284,22 @@ Public Class frmDairyGatePass
         ItemDesc.Width = 100
         ItemDesc.ReadOnly = True
         Gv1.MasterTemplate.Columns.Add(ItemDesc)
+        Dim CustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        CustCode.FormatString = ""
+        CustCode.HeaderText = "Cust Code"
+        CustCode.Name = ColCustCode
+        CustCode.Width = 100
+        CustCode.ReadOnly = True
+        CustCode.IsVisible = False
+        Gv1.MasterTemplate.Columns.Add(CustCode)
+        Dim CustName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        CustName.FormatString = ""
+        CustName.HeaderText = "Cust Name"
+        CustName.Name = ColCustName
+        CustName.Width = 100
+        CustName.ReadOnly = True
+        CustName.IsVisible = False
+        Gv1.MasterTemplate.Columns.Add(CustName)
         Dim Unit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         Unit.FormatString = ""
         Unit.HeaderText = "Unit"
@@ -645,8 +661,19 @@ left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DI
 where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end) order by Start_Date desc)
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))"
                                 txtDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))
+                                strQry = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
+                where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
+select top 1 TSPL_DISTRIBUTOR_ROUTE.Code from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end) order by Start_Date desc)
+ and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
+                                Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))
+                                Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustName).Value = clsCommon.myCstr(txtDistributorName.Text)
                             Else
                                 txtDistributorName.Text = clsCommon.myCstr(dr("Customer_Name"))
+                                Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Customer_Name='" + clsCommon.myCstr(txtDistributorName.Text) + "'"))
+                                Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustName).Value = clsCommon.myCstr(txtDistributorName.Text)
                             End If
                         End If
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
@@ -664,6 +691,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("Quantity"))
                             DRobj.Qty = clsCommon.myCDecimal(dr("Quantity"))
                         End If
+
+
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSchemeItem).Value = clsCommon.myCstr(dr("Scheme_Item"))
                         If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Crate") = CompairStringResult.Equal Then
@@ -795,6 +824,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCstr(dr("Quantity"))
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = clsCommon.myCstr(dr("HSN_Code"))
+                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Customer_Name='" + clsCommon.myCstr(txtDistributorName.Text) + "'"))
+                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustName).Value = clsCommon.myCstr(txtDistributorName.Text)
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSchemeItem).Value = clsCommon.myCstr(dr("Scheme_Item"))
                     If clsCommon.CompairString(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value, "Crate") = CompairStringResult.Equal Then
                         totalCrate += clsCommon.myRoundOFF(clsCommon.myCdbl(Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value), 0, 6)
@@ -1136,6 +1167,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         objTr.HSN_Code = clsCommon.myCstr(grow.Cells(colHSNCode).Value)
                         objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
                         objTr.Trip_No = clsCommon.myCdbl(txtTripNo.Text)
+                        objTr.Cust_Code = clsCommon.myCstr(grow.Cells(ColCustCode).Value)
+                        objTr.Customer_Name = clsCommon.myCstr(grow.Cells(ColCustName).Value)
                         obj.Arr.Add(objTr)
                     End If
                 Next
