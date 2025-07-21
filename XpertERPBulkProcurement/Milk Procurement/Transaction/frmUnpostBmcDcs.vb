@@ -285,7 +285,22 @@ and convert(date,TSPL_MILK_COLLECTION_BMCDCS.IDate,103)>=convert(date,'" + clsCo
                 End If
                 Qry = "Update TSPL_MILK_COLLECTION_BMCDCS set Status = 0 where PK_ID  in(" + PKIDNO + ")"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, PKIDNO, "TSPL_MILK_COLLECTION_BMCDCS", "PK_ID", trans)
+
+                Dim pkidn As String = PKIDNO
+                Dim pkidarray As String() = pkidn.Split(","c)
+
+                For Each singlePKID As String In pkidarray
+                    Dim cleanid As String = singlePKID.Replace("'", "").Trim()
+                    Dim pkids As Integer
+                    If Integer.TryParse(cleanid, pkids) Then
+                        '    singlePKID = singlePKID.Trim()
+                        '    If Not String.IsNullOrEmpty(singlePKID) AndAlso IsNumeric(singlePKID) Then
+                        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, pkids.ToString(), "TSPL_MILK_COLLECTION_BMCDCS", "PK_ID", trans)
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Error ", Me.Text)
+                    End If
+                Next
+                'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, PKIDNO, "TSPL_MILK_COLLECTION_BMCDCS", "PK_ID", trans)
 
                 trans.Commit()
                 clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly ", Me.Text)
