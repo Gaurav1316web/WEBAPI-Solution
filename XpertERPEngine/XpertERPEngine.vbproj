@@ -287,7 +287,6 @@
     <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
     <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
     <Compile Include="EngAndPlantManagement\clsEngSection.vb" />
-    <Compile Include="EngAndPlantManagement\clsWorkEstimationHead.vb" />
     <Compile Include="Finance\clsCashFlowPerforma.vb" />
     <Compile Include="Finance\ClsGLControlAccountMapping.vb" />
     <Compile Include="Fixed Asset\clsAssetBookMaster.vb" />

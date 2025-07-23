@@ -911,10 +911,17 @@ Public Class RptSaleRegisterReport
                     Dim item1 As New GridViewSummaryItem(col.Name, "{0:F3}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
 
+
                 ElseIf col.Name.Contains("Amount") = True Or col.Name.Contains("Amt") = True Or col.Name.Contains("Total") = True Or strPivotForFinalOuterQuery.Contains(col.Name) = True Or col.Name.Contains("COGS") = True Then
                     Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item)
                 ElseIf col.Name.Contains("Rate") = True Or col.Name.Contains("%") = True Then
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
+                    summaryRowItem.Add(item)
+                ElseIf col.Name.Contains("Gross") = True Then
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
+                    summaryRowItem.Add(item)
+                ElseIf col.Name.Contains("Subsidy") = True Then
                     Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
                     summaryRowItem.Add(item)
                 End If

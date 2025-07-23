@@ -3679,7 +3679,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strMCCMaterial += "cast(Additional_Charge as numeric(18,2))+ Amount as  Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],cast(Additional_Charge as numeric(18,2))+ [Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ", "
             strMCCMaterial += "  case  when [trans type] in  ('Fresh Sale','Fresh Sale Return')  then  [Amount Less Discount] + coalesce( [Scheme Amount],0)+cast(Additional_Charge as numeric(18,2))   else ([Total Amount]-[Total Tax Amount]) end as [Sale Amount], " &
             " case  when [trans type] in ('Fresh Sale','Fresh Sale Return') then  [Amount Less Discount]+cast(Additional_Charge as numeric(18,2))  else ([Total Amount]-[Total Tax Amount]+MANDI_TAX_AMT) end  as [Sale Amount GST] ,  "
-            strMCCMaterial += "[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount], " &
+            strMCCMaterial += "[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount],TotalSubsidyAmt as [Subsidy],[Gross Amount] as Gross, " &
             " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], "
             ''richa TEC/18/09/18-000326
             strMCCMaterial += " case when [trans type] in ('CSA Transfer','CSA Transfer Return') " &
@@ -3714,7 +3714,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             End If
             strMCCMaterial += " [LUT No],TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,PaymentType "
+                strMCCMaterial += " ,PaymentType,CustomerType "
             End If
             strMCCMaterial += "" & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, " ,Fat_Amt as [Fat Amount],SNF_Amt as [SNF Amount],Standard_Rate as [Standard Rate] ", "") & " "
 
@@ -4035,7 +4035,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(ISNULL(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
             End If
 
             strMCCMaterial += " from ("
@@ -4046,7 +4046,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strScarpCommonQry += " select "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strScarpCommonQry += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                strScarpCommonQry += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strScarpCommonQry += "Ack_No As [Ack No], Ack_Date As [Ack Date],'' as Narration,'' as Formtype,   'Can Sale'  as Trans_Type ,coalesce(TSPL_LOCATION_MASTER.Main_Location_Code,TSPL_LOCATION_MASTER.Location_Code) as Loc_Code,TSPL_CANSALE_INVOICE_HEAD.Posted as Status,coalesce(Main_Loc.Location_Desc,TSPL_LOCATION_MASTER.location_desc) as [Location Name] ,'Invoice' as Invoice_Type ,TSPL_CANSALE_INVOICE_HEAD.Document_No as shipment_No ,convert(varchar,TSPL_CANSALE_INVOICE_HEAD.Document_Date,103) as [Document_date],'' as Vehicle_Code,''  as Vehicle_No,(case when ROW_NUMBER() over (partition by TSPL_CANSALE_INVOICE_HEAD.Document_No order by TSPL_CANSALE_INVOICE_DETAIL.ItemCode )=1 then coalesce(TSPL_CANSALE_INVOICE_HEAD.RoundOffAmount,0) else 0 end) as Additional_Charge," &
@@ -4157,7 +4162,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
             End If
             strMCCMaterial += " from ("
 
@@ -4166,7 +4171,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strScarpCommonQry = " select "
             
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strScarpCommonQry += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms,  "
+                strScarpCommonQry += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms,  "
             End If
 
             strScarpCommonQry += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],TSPL_SCRAPINVOICE_HEAD.Description as Narration,'' as Formtype,'SS' as Trans_Type,TSPL_SCRAPINVOICE_HEAD.ispost as Status ,TSPL_SCRAPINVOICE_HEAD.Loc_Code,TSPL_SCRAPINVOICE_HEAD.cust_Code " &
@@ -4328,7 +4338,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDRCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDRCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                strSDRCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strSDRCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No],TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],(case when len(TSPL_SD_SALE_RETURN_HEAD.Description)<=0 then TSPL_SD_SALE_RETURN_HEAD.Comments else TSPL_SD_SALE_RETURN_HEAD.Description end) as Narration,'' as Formtype,(CASE WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='ALL' THEN 'SDR' WHEN TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_RETURN_HEAD.IS_CANCELLED=1 THEN  TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'RC' ELSE TSPL_SD_SALE_RETURN_HEAD.Trans_Type+'R' END) as Trans_Type,TSPL_SD_SALE_RETURN_HEAD.Status ,TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location, " &
@@ -4353,8 +4368,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                                 " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " &
                                 " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " &
                                 " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
+                                "LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+                                LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code 
+                                left outer join tspl_Customer_vendor_mapping on tspl_Customer_vendor_mapping.Cust_code=TSPL_CUSTOMER_MASTER.cust_code 
+                                left outer join tspl_vlc_master_Head on tspl_vlc_master_Head.VSP_Code=tspl_Customer_vendor_mapping.vendor_code" &
                                 "  " &
-                                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code " &
+                                "  " &
                                 " LEFT JOIN TSPL_TAX_MASTER TAXM1 ON TSPL_SD_SALE_RETURN_DETAIL.TAX1=TAXM1.TAX_CODE " &
                                 " LEFT JOIN TSPL_TAX_MASTER TAXM2 ON TSPL_SD_SALE_RETURN_DETAIL.TAX2=TAXM2.TAX_CODE " &
                                 " LEFT JOIN TSPL_TAX_MASTER TAXM3 ON TSPL_SD_SALE_RETURN_DETAIL.TAX3=TAXM3.TAX_CODE "
@@ -4395,7 +4414,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
             End If
 
             strMCCMaterial += " from ( "
@@ -4507,7 +4526,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strMCCMaterial += "  select "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                strMCCMaterial += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strMCCMaterial += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as _Type,'' as [Form Type],'Bulk Sale Return' as [Trans Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_SALE_RETURN_MASTER_BULKSALE.Posted as Status,TSPL_LOCATION_MASTER.Location_Desc as [Location Name] ,'Invoice' as [Invoice Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as [Document No] ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) as [Document_date],'' as [Narration],'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " &
@@ -4566,7 +4590,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDRCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDRCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                strSDRCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strSDRCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as Narration,'' as Formtype,'MS-SR' as Trans_Type,TSPL_SCRAPSALE_HEAD_RETURN.ispost as Status ,TSPL_SCRAPSALE_HEAD_RETURN.Loc_Code, " &
@@ -4634,7 +4663,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
             End If
 
             strMCCMaterial += " from ( "
@@ -5116,7 +5145,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 strSDCommonQuery = " select "
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                    strSDCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                    strSDCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
                 End If
 
                 strSDCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date], TSPL_MCC_SALE_FARMER_HEAD.Remarks As Narration,'' as Formtype,'MCC Sale Farmer' as Trans_Type ," &
@@ -5423,7 +5457,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strDebitCreditCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strDebitCreditCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                strDebitCreditCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strDebitCreditCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date], TSPL_Customer_Invoice_Head.Description As Narration,'' as Formtype, 'Debit/Credit' as Trans_Type  ,TSPL_Customer_Invoice_Head.Status ,TSPL_Customer_Invoice_Head.Loc_Code as Bill_To_Location, " &
@@ -5570,7 +5609,13 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDCommonQuery += "  CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                strSDCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,
+                                    CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strSDCommonQuery += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],TSPL_SD_SALE_INVOICE_HEAD.Description as Narration,case when TSPL_SD_SALE_INVOICE_HEAD.Against_C_Form = 1 then 'C' else '' End as Formtype,case when ISNUll(TSPL_SD_SALE_INVOICE_HEAD.Document_Type,'')<>'' then TSPL_SD_SALE_INVOICE_HEAD.Document_Type else  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='ALL' THEN 'SD' ELSE TSPL_SD_SALE_INVOICE_HEAD.Trans_Type END end as Trans_Type  ,TSPL_SD_SALE_INVOICE_HEAD.Status ,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location," &
@@ -5584,7 +5629,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                            " ((Amount-Total_Disc_Amt -isnull(TSPL_SD_SALE_INVOICE_DETAIL.ItemLeakageAmount ,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='AS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as Amt_Less_Discount , " &
                            " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as Total_Tax_AMt , " &
                            " (Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt -isnull(TSPL_SD_SALE_INVOICE_DETAIL.ItemLeakageAmount ,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as Total_Amt, " &
-                           " case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then ''  when ManualVehicle <> '' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo  when ManualVehicle <> '' then ManualVehicle else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No, " &
+                           " case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then ''  when TSPL_SD_SHIPMENT_HEAD.ManualVehicle <> '' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo  when TSPL_SD_SHIPMENT_HEAD.ManualVehicle <> '' then TSPL_SD_SHIPMENT_HEAD.ManualVehicle else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No, " &
                            " (case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as  Additional_Charge, " &
                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as [AR Document Amt]," &
                            " TSPL_Customer_Invoice_Head.Discount_Amount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)*(case when len(TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary)>0 and TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type='C' then -1 else 1 end) as [AR Document Discount Amt], " &
@@ -5608,7 +5653,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                                " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code " &
                                "  " &
                                " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
-                               " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code " &
+                               "LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+                                LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code 
+                                left outer join tspl_Customer_vendor_mapping on tspl_Customer_vendor_mapping.Cust_code=TSPL_CUSTOMER_MASTER.cust_code 
+                                left outer join tspl_vlc_master_Head on tspl_vlc_master_Head.VSP_Code=tspl_Customer_vendor_mapping.vendor_code" &
                                " LEFT JOIN TSPL_EX_COMMERCIAL_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Against_Com_Inv_No=TSPL_EX_COMMERCIAL_INVOICE_HEAD.Document_Code " &
                                " LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD SupplInvoice ON TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary=SupplInvoice.Document_Code " &
                                " LEFT JOIN TSPL_TAX_MASTER TAXM1 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX1=TAXM1.TAX_CODE " &
@@ -5652,7 +5700,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],max([LUT No]) as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
             End If
 
             strMCCMaterial += " from ("
@@ -8491,7 +8539,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                            " TSPL_SD_SALE_INVOICE_DETAIL.Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code , TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Item_Cost , " &
                            " TSPL_SD_SALE_INVOICE_DETAIL.Amount *(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as AMount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per ,TSPL_SD_SALE_INVOICE_detail.Total_Disc_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) - case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='FS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Disc_Amt,case when coalesce(TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.sampling,0)=1 or coalesce(TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,'')='Y' then Item_Net_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) end as [Scheme Amount] , " &
                            " (Amount-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end)- case when TSPL_SD_SALE_INVOICE_HEAD.trans_type='AS' then coalesce(TSPL_SD_SALE_INVOICE_Detail.Cash_Scheme_Amount,0)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end as Amt_Less_Discount , " &
-                           " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Tax_AMt ,(Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Amt,case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then ''  when ManualVehicle <> '' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo  when ManualVehicle <> '' then ManualVehicle else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No,(case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end) as  Additional_Charge, " &
+                           " TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Tax_AMt ,(Amount+TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt-Total_Disc_Amt)*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as Total_Amt,case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then ''  when TSPL_SD_SHIPMENT_HEAD.ManualVehicle <> '' then '' else TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code end as Vehicle_Code , case when TSPL_SD_SALE_INVOICE_HEAD.Trans_Type ='PS' then TSPL_SD_SALE_INVOICE_HEAD.VehicleNo  when TSPL_SD_SHIPMENT_HEAD.ManualVehicle <> '' then TSPL_SD_SHIPMENT_HEAD.ManualVehicle else COALESCE(TSPL_VEHICLE_MASTER.Number,TSPL_SD_SALE_INVOICE_HEAD.VEHICLENO) end as Vehicle_No,(case when TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 then (TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge+coalesce(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0))*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) else 0 end) as  Additional_Charge, " &
                            " TSPL_Customer_Invoice_Head.Document_No as [AR Document No],TSPL_Customer_Invoice_Head.Document_Total*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Amt]," &
                            " TSPL_Customer_Invoice_Head.Discount_Amount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Document Discount Amt], " &
                            " TSPL_Customer_Invoice_Head.amount_less_Discount*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Amount Before Tax],TSPL_Customer_Invoice_Head.total_tax*(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) as [AR Total Tax], " &
@@ -8903,8 +8951,12 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                             " left join TSPL_Customer_Invoice_Head on TSPL_SD_SALE_RETURN_HEAD.Document_Code=  case when len(isnull(TSPL_Customer_Invoice_Head.Against_Sale_Return_No,''))>0  then TSPL_Customer_Invoice_Head.Against_Sale_Return_No else TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return end " &
                             " left join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_RETURN_DETAIL.Invoice_Code " &
                             " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
+                            "LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No
+                             LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code 
+                             left outer join tspl_Customer_vendor_mapping on tspl_Customer_vendor_mapping.Cust_code=TSPL_CUSTOMER_MASTER.cust_code 
+                             left outer join tspl_vlc_master_Head on tspl_vlc_master_Head.VSP_Code=tspl_Customer_vendor_mapping.vendor_code" &
                             "  " &
-                            " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_RETURN_HEAD.Customer_Code "
+                            "  "
 
         strSDJoinQry = " WHERE 2=2 AND (case when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='FS' then 'Fresh Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='CSA' then 'CSA Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='PS' then 'Product Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='MCC' then 'MCC Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='EXP' then 'Export Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type='Bulk Sale' then 'Bulk Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type ='SS' then 'Misc Sale Return' when TSPL_SD_SALE_RETURN_HEAD.Trans_Type in ('SD','All') then 'General Sale Return' else TSPL_SD_SALE_RETURN_HEAD.trans_Type  end) in (" & clsCommon.GetMulcallString(obj.Trans_Type_List) & ") " &
                         " and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= convert(date,('" & From_Date & "'),103) and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= convert(date,('" & To_Date & "'),103) "
