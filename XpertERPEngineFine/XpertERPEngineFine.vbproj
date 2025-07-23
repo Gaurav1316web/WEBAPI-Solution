@@ -160,6 +160,7 @@
     <Compile Include="ClsCardSale.vb" />
     <Compile Include="ClsCatalogMaster.vb" />
     <Compile Include="clsLanguage.vb" />
+    <Compile Include="clsWorkEstimationHead.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
