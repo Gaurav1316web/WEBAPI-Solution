@@ -873,6 +873,12 @@
     <Compile Include="HR and Payroll\Setup\frmLanguageMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Setup\FrmLICPolicyMaster.Designer.vb">
+      <DependentUpon>FrmLICPolicyMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Setup\FrmLICPolicyMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Setup\frmOccupationMaster.Designer.vb">
       <DependentUpon>frmOccupationMaster.vb</DependentUpon>
     </Compile>
@@ -2119,6 +2125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmLanguageMaster.resx">
       <DependentUpon>frmLanguageMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Setup\FrmLICPolicyMaster.resx">
+      <DependentUpon>FrmLICPolicyMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Setup\frmOccupationMaster.resx">
       <DependentUpon>frmOccupationMaster.vb</DependentUpon>

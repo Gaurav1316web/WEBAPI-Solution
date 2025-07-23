@@ -217,14 +217,11 @@
     <Compile Include="Common\ClsCancelAfterPosting.vb" />
     <Compile Include="Common\clsCancelLog.vb" />
     <Compile Include="Common\clsCHAChargeMaster.vb" />
-    <Compile Include="Common\clsCityMaster.vb" />
     <Compile Include="Common\clsClaimDetails.vb" />
     <Compile Include="Common\clsClientFormLableDetails.vb" />
     <Compile Include="Common\clsCompanyMaster.vb" />
-    <Compile Include="Common\clsCountryMaster.vb" />
     <Compile Include="Common\clsCrptFooterSetting.vb" />
     <Compile Include="Common\clsCurrencyConversion.vb" />
-    <Compile Include="Common\clsCurrencyMaster.vb" />
     <Compile Include="Common\ClsDeductionMaster.vb" />
     <Compile Include="Common\clsDepartmentMaster.vb" />
     <Compile Include="Common\ClsDeprAccountSet.vb" />
@@ -290,7 +287,6 @@
     <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
     <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
     <Compile Include="EngAndPlantManagement\clsEngSection.vb" />
-    <Compile Include="EngAndPlantManagement\clsWorkEstimationHead.vb" />
     <Compile Include="Finance\clsCashFlowPerforma.vb" />
     <Compile Include="Finance\ClsGLControlAccountMapping.vb" />
     <Compile Include="Fixed Asset\clsAssetBookMaster.vb" />
@@ -1189,7 +1185,6 @@
     <Compile Include="Production\ClsStageMaster.vb" />
     <Compile Include="Sale\clsStandardRateItem.vb" />
     <Compile Include="Sale\clsStandardScheme.vb" />
-    <Compile Include="Common\clsStateMaster.vb" />
     <Compile Include="Common\clsSubDepartmentMaster.vb" />
     <Compile Include="Common\clsSubLocation.vb" />
     <Compile Include="Purchase\ClsSupplierRegistration.vb" />

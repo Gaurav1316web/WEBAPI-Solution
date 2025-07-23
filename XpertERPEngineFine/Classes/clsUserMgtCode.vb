@@ -1492,6 +1492,7 @@ Public Class clsUserMgtCode
     Public Const frmESIRulesMaster As String = "ESI-RULES-MA"
     Public Const frmOTMaster As String = "OT-MASTER"
     Public Const frmAttendanceMaster As String = "ATTE-MASTER"
+    Public Const frmLICPolicyMaster As String = "LIC-MASTER"
     Public Const frmBranchMaster As String = "BRANCH-MAST"
     Public Const frmBonusMaster As String = "BONUS-MASTE"
     Public Const frmLeaveMaster As String = "LEAVE-MAST"

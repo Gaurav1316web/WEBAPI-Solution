@@ -8987,6 +8987,7 @@ from
     End Sub
     Private Sub btnGatepass_Click(sender As Object, e As EventArgs) Handles btnGatepass.Click
         Try
+
             Dim frm As New frmDairyGatePass
             frm.routeno = txtRouteNo.Value
             frm.txtlocation = txtLocation.Value
