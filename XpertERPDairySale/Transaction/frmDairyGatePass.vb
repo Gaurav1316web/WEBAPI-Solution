@@ -1641,7 +1641,7 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
         ''richa remove ceiling from crate qty 15 Nov,2019
         Dim Qry As String = ""
         If isDepartmentRoute Then
-            Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
+            Qry = " Select  '" + objCommonVar.CurrentUserCode + "' as UserName,  Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Box_Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )/ CFinPouch ) Else 0 End) End AS 'NoOfPouch',
 Case When CFinLTR > 0 and Final.StokingUOM='LTR' or Final.StokingUOM = 'Pouch' Then ( final.LTR_Qty ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Box_Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty ) )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity',
 Case When CFinLTR > 0 Then ( final.LTR_Qty ) Else 0 End AS 'MilkQuantityltr',
 CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 2) ) AS 'MilkQuantityKG',
@@ -1658,19 +1658,22 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
             Qry += "   TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2,
              case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
         Else
-            Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,Demand_UniqueID,   Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinPouch Else 0 End) End AS 'NoOfPouch',
+            Qry = " Select '" + objCommonVar.CurrentUserCode + "' as UserName,   Case When CFinPouch > 0 and Final.StokingUOM='LTR' Then ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty )/ CFinLTR ) Else (Case When CFinPouch > 0  Then ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinPouch Else 0 End) End AS 'NoOfPouch',
                             Case When CFinLTR > 0 and Final.StokingUOM='LTR' Then ( ( ( ((Final.Crate_Qty * Final.Conversion_Factor)/CFinPouch) + Final.Pouch_Qty ) )* CFinPouch ) Else (Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor + Final.Pouch_Qty )" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinLTR ) ELSE 0 end) End AS 'MilkQuantity', "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                Qry += " Case When CFinLTR > 0 or Final.StokingUOM='LTR' then Final.LTR_Qty  else (case when CFinLtr>0 then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) +(Final.LTR_Qty*Final.CFinLTR/CFinPouch) )/ CFinLTR ) else 0 end)  End AS 'MilkQuantityltr',"
-            Else
-                Qry += " Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr',"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                Qry += "NoCrateIssue ,Demand_UniqueID, "
             End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    Qry += " Case When CFinLTR > 0 or Final.StokingUOM='LTR' then Final.LTR_Qty  else (case when CFinLtr>0 then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) +(Final.LTR_Qty*Final.CFinLTR/CFinPouch) )/ CFinLTR ) else 0 end)  End AS 'MilkQuantityltr',"
+                Else
+                    Qry += " Case When CFinLTR > 0 Then ( ( ( Final.Crate_Qty * Final.Conversion_Factor )+( Final.Pouch_Qty * Final.CFinPouch ) " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal, "+(Final.LTR_Qty*Final.CFinLTR/CFinPouch)", "") + " )/ CFinLTR ) Else 0 End AS 'MilkQuantityltr',"
+                End If
 
-            Qry += "  CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 3) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then ( crate_qty-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate'," + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, "Pouch_Qty as LoosePouch, ", "(Pouch_Qty -  ( CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2))) * Conversion_FactorCrt/CFinPouch) As LoosePouch,") + " 
+                Qry += "  CAST( ( Final.Box_Crate_Qty * Final.Conversion_Factor ) / CFinKG AS DECIMAL(10, 3) ) AS 'MilkQuantityKG', Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End AS 'CrateLine', Case When Column_Crate > 0 Then ( crate_qty-( Column_Crate * (Case When Final.Column_Crate > 0 Then Cast( ( Final.Crate_Qty / Final.Column_Crate ) AS int ) Else 0 End)) ) Else 0 End AS 'LooseCrate'," + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, "Pouch_Qty as LoosePouch, ", "(Pouch_Qty -  ( CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2))) * Conversion_FactorCrt/CFinPouch) As LoosePouch,") + " 
                            CAST( CASE WHEN qty > 0 AND Conversion_FactorCrt IS NOT NULL THEN FLOOR((CAST(Pouch_Qty AS decimal(18,2)) * CFinPouch) / Conversion_FactorCrt) ELSE 0 END AS decimal(18,2)) AS CrateQtydd,
                            CASE WHEN Unit_Code='POUCH' then qty*CFinPouch / Conversion_FactorCrt WHEN Unit_Code='LTR' then qty*CFinLTR / Conversion_FactorCrt WHEN Unit_Code='KG' then qty*CFinKG / Conversion_FactorCrt WHEN Unit_Code='CRATE' then qty*Conversion_FactorCrt / Conversion_FactorCrt WHEN Unit_Code='BOX' then qty*CFinBOX / Conversion_FactorCrt ELSE 0 END AS QtyCrate , Final.*, tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Logo_Img2, case when isnull(Final.CFinLTR,0)=0 then Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinKG) else Final.Amount/((Final.qty*Final.Conversion_Factor)/Final.CFinLTR) end as item_Cost"
-        End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += " ,ROW_NUMBER() OVER (ORDER BY [item_desc]) AS SerialNumber "
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
@@ -1688,7 +1691,11 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
             Qry += " ,Max(unit_code) unit_code "
         End If
         Qry += ",CASE WHEN max(unit_code) = 'crate' OR max(unit_code) = 'pouch' THEN 'Crate/Pouch' ELSE max(unit_code) END AS unit_code_result,
-                 Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Max(Column_Crate) as  Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Max(Amount) Amount, Max(AmountWithoutTax) as AmountWithoutTax, Max(Margin) Margin, Max(SecurityAmt) as SecurityAmt,max(Total_TCS_Amt)Total_TCS_Amt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax,max(zonecode)zonecode ,max(RoundOffAmt) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(ItemCost) as UnitRate", "") + ", Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo,max(UOM_Code) as StokingUOM ,MAX(Demand_UniqueID)Demand_UniqueID "
+                 Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Max(Column_Crate) as  Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Max(Amount) Amount, Max(AmountWithoutTax) as AmountWithoutTax, Max(Margin) Margin, Max(SecurityAmt) as SecurityAmt,max(Total_TCS_Amt)Total_TCS_Amt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax,max(zonecode)zonecode ,max(RoundOffAmt) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(ItemCost) as UnitRate", "") + ", Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo,max(UOM_Code) as StokingUOM "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += " ,MAX(Demand_UniqueID)Demand_UniqueID, max(NoCrateIssue)NoCrateIssue "
+        End If
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += "  ,'' as Demand_No,MAX(TAX1)TAX1
@@ -1704,7 +1711,10 @@ MAX(TAX7)TAX7,MAX(TAX7_Amt)TAX7_Amt,
 MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         End If
         Qry += "FROM
-                   ( select  Demand_UniqueID, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,"
+                   ( select   FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,"
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += "NoCrateIssue, Demand_UniqueID, "
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             Qry += " ItemConversionCrate.Conversion_Factor as Conversion_FactorCrt , gpUnit.Conversion_Factor AS gpUnit, "
         Else
@@ -1780,11 +1790,19 @@ xyz.Sale_Invoice_No, "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += "  MAX(TSPL_SD_SHIPMENT_DETAIL.TAX1)TAX1,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt)TAX1_Amt,
-		 MAX(TSPL_SD_SHIPMENT_DETAIL.TAX2_AMT)TAX2_AMT, MAX(TSPL_SD_SHIPMENT_DETAIL.TAX3_AMT)TAX3_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX4_AMT)TAX4_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX5_AMT)TAX5_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX6_AMT)TAX6_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX7_AMT)TAX7_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX8_AMT)TAX8_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX2)TAX2,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX3)TAX3,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX4)TAX4,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX5)TAX5,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX6)TAX6,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX7)TAX7,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX8)TAX8, max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No)Sale_Invoice_No,"
+		 MAX(TSPL_SD_SHIPMENT_DETAIL.TAX2_AMT)TAX2_AMT, MAX(TSPL_SD_SHIPMENT_DETAIL.TAX3_AMT)TAX3_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX4_AMT)TAX4_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX5_AMT)TAX5_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX6_AMT)TAX6_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX7_AMT)TAX7_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX8_AMT)TAX8_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX2)TAX2,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX3)TAX3,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX4)TAX4,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX5)TAX5,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX6)TAX6,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX7)TAX7,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX8)TAX8, max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No)Sale_Invoice_No, "
+        End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += "max(NoCrateIssue)NoCrateIssue,"
         End If
         Qry += " max(Zone_Code)Zone_Code " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(TSPL_SD_SHIPMENT_DETAIL.Item_Cost) as ItemCost", "") + " from TSPL_SD_SHIPMENT_DETAIL   
-                     Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE 
-                     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+ 
+                     Left Outer Join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            Qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
+
+        End If
+        Qry += " Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
                      WHERE  --TSPL_SD_SHIPMENT_HEAD.GPCode = '" + StrCode + "'
                       TSPL_SD_SHIPMENT_DETAIL.PK_ID in(select PK_ID from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode = '" + StrCode + "')
                      Group By  TSPL_SD_SHIPMENT_DETAIL.Item_Code)
