@@ -211,6 +211,7 @@
     <Compile Include="Paravet\clsServiceMaster.vb" />
     <Compile Include="Paravet\clsServiceName.vb" />
     <Compile Include="Payroll\clsEmployeeDeductionMaster.vb" />
+    <Compile Include="Payroll\ClsLICPolicyMaster.vb" />
     <Compile Include="PJC\clsCostType.vb" />
     <Compile Include="PJC\clsPJCAccountSet.vb" />
     <Compile Include="PJC\clsPJCExpense.vb" />
