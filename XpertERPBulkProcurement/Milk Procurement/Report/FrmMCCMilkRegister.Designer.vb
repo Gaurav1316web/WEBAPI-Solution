@@ -22,7 +22,7 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -54,6 +54,7 @@ Partial Class FrmMCCMilkRegister
         Me.chkShiftWise = New System.Windows.Forms.CheckBox()
         Me.chkRejection = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.OwnBMCchk = New Telerik.WinControls.UI.RadCheckBox()
         Me.rbtnDCSWithZone = New System.Windows.Forms.RadioButton()
         Me.rbtnShiftWiseTotal = New System.Windows.Forms.RadioButton()
         Me.chkDateShift = New Telerik.WinControls.UI.RadCheckBox()
@@ -99,7 +100,7 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.OwnBMCchk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkAliasNameWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -124,6 +125,7 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
+        CType(Me.OwnBMCchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDateShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -149,7 +151,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.OwnBMCchk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAliasNameWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -553,6 +555,7 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox7
         '
         Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.chkAliasNameWise)
         Me.RadGroupBox7.Controls.Add(Me.OwnBMCchk)
         Me.RadGroupBox7.Controls.Add(Me.rbtnDCSWithZone)
         Me.RadGroupBox7.Controls.Add(Me.rbtnShiftWiseTotal)
@@ -567,6 +570,14 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox7.Size = New System.Drawing.Size(567, 50)
         Me.RadGroupBox7.TabIndex = 332
+        '
+        'OwnBMCchk
+        '
+        Me.OwnBMCchk.Location = New System.Drawing.Point(150, 3)
+        Me.OwnBMCchk.Name = "OwnBMCchk"
+        Me.OwnBMCchk.Size = New System.Drawing.Size(68, 18)
+        Me.OwnBMCchk.TabIndex = 19
+        Me.OwnBMCchk.Text = "Own Bmc"
         '
         'rbtnDCSWithZone
         '
@@ -910,7 +921,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
@@ -1071,13 +1082,13 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
-        'OwnBMCchk
+        'chkAliasNameWise
         '
-        Me.OwnBMCchk.Location = New System.Drawing.Point(150, 4)
-        Me.OwnBMCchk.Name = "OwnBMCchk"
-        Me.OwnBMCchk.Size = New System.Drawing.Size(68, 18)
-        Me.OwnBMCchk.TabIndex = 19
-        Me.OwnBMCchk.Text = "Own Bmc"
+        Me.chkAliasNameWise.Location = New System.Drawing.Point(221, 3)
+        Me.chkAliasNameWise.Name = "chkAliasNameWise"
+        Me.chkAliasNameWise.Size = New System.Drawing.Size(104, 18)
+        Me.chkAliasNameWise.TabIndex = 20
+        Me.chkAliasNameWise.Text = "Alias Name Wise"
         '
         'FrmMCCMilkRegister
         '
@@ -1121,6 +1132,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         Me.RadGroupBox7.PerformLayout()
+        CType(Me.OwnBMCchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDateShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -1148,7 +1160,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.OwnBMCchk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAliasNameWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1230,5 +1242,6 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents chkCanSummary As CheckBox
     Friend WithEvents rbtnDCSWithZone As RadioButton
     Friend WithEvents OwnBMCchk As RadCheckBox
+    Friend WithEvents chkAliasNameWise As RadCheckBox
 End Class
 

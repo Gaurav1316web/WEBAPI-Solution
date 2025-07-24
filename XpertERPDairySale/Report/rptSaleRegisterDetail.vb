@@ -666,6 +666,9 @@ Public Class rptSaleRegisterDetail
                 ElseIf col.Name.Contains("Rate") = True Or col.Name.Contains("%") = True Then
                     Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
                     summaryRowItem.Add(item)
+                ElseIf col.Name.Contains("Gross") = True Then
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
+                    summaryRowItem.Add(item)
                 End If
             Next
             Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
