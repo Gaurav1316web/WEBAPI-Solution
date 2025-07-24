@@ -39,6 +39,7 @@ Partial Class frmMCCMaterialSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkExcludeKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblBankCode = New common.Controls.MyLabel()
         Me.txtBankCode = New common.UserControls.txtFinder()
         Me.lblTPTVendor = New common.Controls.MyLabel()
@@ -258,13 +259,13 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.chkExcludeKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -466,7 +467,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -503,7 +503,7 @@ Partial Class frmMCCMaterialSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtGEDate)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1329, 475)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1292, 475)
         Me.SplitContainer1.SplitterDistance = 443
         Me.SplitContainer1.TabIndex = 1
         '
@@ -520,7 +520,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1329, 443)
+        Me.RadPageView1.Size = New System.Drawing.Size(1292, 443)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -621,8 +621,17 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(111.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1308, 397)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1271, 397)
         Me.RadPageViewPage1.Text = "MCC Material Sale"
+        '
+        'chkExcludeKKFMandi
+        '
+        Me.chkExcludeKKFMandi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExcludeKKFMandi.Location = New System.Drawing.Point(1058, 70)
+        Me.chkExcludeKKFMandi.Name = "chkExcludeKKFMandi"
+        Me.chkExcludeKKFMandi.Size = New System.Drawing.Size(130, 16)
+        Me.chkExcludeKKFMandi.TabIndex = 318
+        Me.chkExcludeKKFMandi.Text = "Exclude KKF && Mandi"
         '
         'lblBankCode
         '
@@ -1178,7 +1187,7 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(985, 317)
+        Me.RadLabel12.Location = New System.Drawing.Point(948, 317)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -1744,7 +1753,7 @@ Partial Class frmMCCMaterialSale
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1071, 381)
+        Me.MyLabel5.Location = New System.Drawing.Point(1034, 381)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(235, 16)
         Me.MyLabel5.TabIndex = 56
@@ -2037,7 +2046,7 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 207)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1393, 126)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1356, 126)
         Me.RadGroupBox2.TabIndex = 40
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -2063,7 +2072,7 @@ Partial Class frmMCCMaterialSale
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1373, 96)
+        Me.gv1.Size = New System.Drawing.Size(1336, 96)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -3439,7 +3448,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.rbtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rbtnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnCancel.Location = New System.Drawing.Point(1181, 4)
+        Me.rbtnCancel.Location = New System.Drawing.Point(1144, 4)
         Me.rbtnCancel.Name = "rbtnCancel"
         Me.rbtnCancel.Size = New System.Drawing.Size(69, 20)
         Me.rbtnCancel.TabIndex = 1423
@@ -3449,7 +3458,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.btnPrintEwayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnPrintEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintEwayBill.Location = New System.Drawing.Point(954, 4)
+        Me.btnPrintEwayBill.Location = New System.Drawing.Point(917, 4)
         Me.btnPrintEwayBill.Name = "btnPrintEwayBill"
         Me.btnPrintEwayBill.Size = New System.Drawing.Size(99, 20)
         Me.btnPrintEwayBill.TabIndex = 174
@@ -3627,7 +3636,7 @@ Partial Class frmMCCMaterialSale
         Me.btnClose.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1254, 4)
+        Me.btnClose.Location = New System.Drawing.Point(1217, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 20)
         Me.btnClose.TabIndex = 11
@@ -3759,7 +3768,7 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1329, 475)
+        Me.Panel1.Size = New System.Drawing.Size(1292, 475)
         Me.Panel1.TabIndex = 4
         '
         'RadMenuItem2
@@ -3798,23 +3807,14 @@ Partial Class frmMCCMaterialSale
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1329, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1292, 20)
         Me.RadMenu1.TabIndex = 3
-        '
-        'chkExcludeKKFMandi
-        '
-        Me.chkExcludeKKFMandi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExcludeKKFMandi.Location = New System.Drawing.Point(1058, 70)
-        Me.chkExcludeKKFMandi.Name = "chkExcludeKKFMandi"
-        Me.chkExcludeKKFMandi.Size = New System.Drawing.Size(130, 16)
-        Me.chkExcludeKKFMandi.TabIndex = 318
-        Me.chkExcludeKKFMandi.Text = "Exclude KKF && Mandi"
         '
         'frmMCCMaterialSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1329, 495)
+        Me.ClientSize = New System.Drawing.Size(1292, 495)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -3832,6 +3832,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4047,7 +4048,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

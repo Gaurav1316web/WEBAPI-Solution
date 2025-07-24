@@ -22,7 +22,6 @@ Partial Class frmVendorMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
@@ -302,7 +301,7 @@ Partial Class frmVendorMaster
         Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ToolTipvendor = New System.Windows.Forms.ToolTip()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).BeginInit()

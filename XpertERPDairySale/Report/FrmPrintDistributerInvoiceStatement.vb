@@ -54,6 +54,8 @@ Public Class FrmPrintDistributerInvoiceStatement
         Dim ItemType As String = ""
         If EnableProductSaleForJPR Then
             ItemType = " case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end as [Item Type] ,"
+        Else
+            ItemType = "'' as [Item Type] ,"
         End If
 
         'sQuery += "  select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code," & ItemType & " convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,

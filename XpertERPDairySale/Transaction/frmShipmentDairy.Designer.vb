@@ -39,6 +39,7 @@ Partial Class frmShipmentDairy
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDemandNo = New common.UserControls.txtFinder()
         Me.lblDemandNO = New common.Controls.MyLabel()
         Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
@@ -125,7 +126,6 @@ Partial Class frmShipmentDairy
         Me.MyLabel59 = New common.Controls.MyLabel()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.chkCreateAutoReceipt = New Telerik.WinControls.UI.RadCheckBox()
-        Me.btnDrillDown = New Telerik.WinControls.UI.RadButton()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.cmbVehicleType = New common.Controls.MyComboBox()
         Me.lblVehicleType = New common.Controls.MyLabel()
@@ -134,9 +134,6 @@ Partial Class frmShipmentDairy
         Me.lblSubLocation = New common.Controls.MyLabel()
         Me.MyLabel60 = New common.Controls.MyLabel()
         Me.txtSubLocation = New common.UserControls.txtFinder()
-        Me.TxtInvoiceNoForReplacement = New common.UserControls.txtFinder()
-        Me.RadLabel24 = New common.Controls.MyLabel()
-        Me.chkExcludeKKFMND = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtManualVehicle = New common.Controls.MyTextBox()
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.lblManualVehicle = New common.Controls.MyLabel()
@@ -214,7 +211,6 @@ Partial Class frmShipmentDairy
         Me.RadLabel12 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.txtReqNo = New common.UserControls.txtFinder()
         Me.lblBillToLocation = New common.Controls.MyLabel()
         Me.RadLabel18 = New common.Controls.MyLabel()
         Me.RadLabel15 = New common.Controls.MyLabel()
@@ -225,6 +221,10 @@ Partial Class frmShipmentDairy
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.RadLabel29 = New common.Controls.MyLabel()
         Me.cboItemType = New common.Controls.MyComboBox()
+        Me.btnDrillDown = New Telerik.WinControls.UI.RadButton()
+        Me.txtReqNo = New common.UserControls.txtFinder()
+        Me.RadLabel24 = New common.Controls.MyLabel()
+        Me.TxtInvoiceNoForReplacement = New common.UserControls.txtFinder()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
@@ -440,6 +440,7 @@ Partial Class frmShipmentDairy
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblDemandNO, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).BeginInit
@@ -525,7 +526,6 @@ Partial Class frmShipmentDairy
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkCreateAutoReceipt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).BeginInit
@@ -533,8 +533,6 @@ Partial Class frmShipmentDairy
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit
@@ -617,6 +615,8 @@ Partial Class frmShipmentDairy
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageViewPage8.SuspendLayout
         Me.SplitContainer3.Panel1.SuspendLayout
         Me.SplitContainer3.Panel2.SuspendLayout
@@ -1047,6 +1047,15 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'chkExcludeKKFMND
+        '
+        Me.chkExcludeKKFMND.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExcludeKKFMND.Location = New System.Drawing.Point(538, 3)
+        Me.chkExcludeKKFMND.Name = "chkExcludeKKFMND"
+        Me.chkExcludeKKFMND.Size = New System.Drawing.Size(142, 16)
+        Me.chkExcludeKKFMND.TabIndex = 1587
+        Me.chkExcludeKKFMND.Text = "Exclude KKF Mandi Tax"
         '
         'txtDemandNo
         '
@@ -2465,14 +2474,6 @@ Partial Class frmShipmentDairy
         Me.chkCreateAutoReceipt.Text = "Create Auto Receipt"
         Me.chkCreateAutoReceipt.Visible = False
         '
-        'btnDrillDown
-        '
-        Me.btnDrillDown.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnDrillDown.Location = New System.Drawing.Point(752, 1)
-        Me.btnDrillDown.Name = "btnDrillDown"
-        Me.btnDrillDown.Size = New System.Drawing.Size(20, 20)
-        Me.btnDrillDown.TabIndex = 5
-        '
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2602,51 +2603,6 @@ Partial Class frmShipmentDairy
         Me.txtSubLocation.Size = New System.Drawing.Size(143, 18)
         Me.txtSubLocation.TabIndex = 1467
         Me.txtSubLocation.Value = ""
-        '
-        'TxtInvoiceNoForReplacement
-        '
-        Me.TxtInvoiceNoForReplacement.CalculationExpression = Nothing
-        Me.TxtInvoiceNoForReplacement.FieldCode = Nothing
-        Me.TxtInvoiceNoForReplacement.FieldDesc = Nothing
-        Me.TxtInvoiceNoForReplacement.FieldMaxLength = 0
-        Me.TxtInvoiceNoForReplacement.FieldName = Nothing
-        Me.TxtInvoiceNoForReplacement.isCalculatedField = False
-        Me.TxtInvoiceNoForReplacement.IsSourceFromTable = False
-        Me.TxtInvoiceNoForReplacement.IsSourceFromValueList = False
-        Me.TxtInvoiceNoForReplacement.IsUnique = False
-        Me.TxtInvoiceNoForReplacement.Location = New System.Drawing.Point(643, 0)
-        Me.TxtInvoiceNoForReplacement.MendatroryField = False
-        Me.TxtInvoiceNoForReplacement.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtInvoiceNoForReplacement.MyLinkLable1 = Me.RadLabel24
-        Me.TxtInvoiceNoForReplacement.MyLinkLable2 = Nothing
-        Me.TxtInvoiceNoForReplacement.MyReadOnly = True
-        Me.TxtInvoiceNoForReplacement.MyShowMasterFormButton = False
-        Me.TxtInvoiceNoForReplacement.Name = "TxtInvoiceNoForReplacement"
-        Me.TxtInvoiceNoForReplacement.ReferenceFieldDesc = Nothing
-        Me.TxtInvoiceNoForReplacement.ReferenceFieldName = Nothing
-        Me.TxtInvoiceNoForReplacement.ReferenceTableName = Nothing
-        Me.TxtInvoiceNoForReplacement.Size = New System.Drawing.Size(135, 22)
-        Me.TxtInvoiceNoForReplacement.TabIndex = 1466
-        Me.TxtInvoiceNoForReplacement.Value = ""
-        '
-        'RadLabel24
-        '
-        Me.RadLabel24.FieldName = Nothing
-        Me.RadLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel24.Location = New System.Drawing.Point(535, 2)
-        Me.RadLabel24.Name = "RadLabel24"
-        Me.RadLabel24.Size = New System.Drawing.Size(53, 16)
-        Me.RadLabel24.TabIndex = 24
-        Me.RadLabel24.Text = "Order No"
-        '
-        'chkExcludeKKFMND
-        '
-        Me.chkExcludeKKFMND.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExcludeKKFMND.Location = New System.Drawing.Point(538, 3)
-        Me.chkExcludeKKFMND.Name = "chkExcludeKKFMND"
-        Me.chkExcludeKKFMND.Size = New System.Drawing.Size(142, 16)
-        Me.chkExcludeKKFMND.TabIndex = 1587
-        Me.chkExcludeKKFMND.Text = "Exclude KKF Mandi Tax"
         '
         'txtManualVehicle
         '
@@ -3983,32 +3939,6 @@ Partial Class frmShipmentDairy
         Me.txtDate.Text = "13/06/2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'txtReqNo
-        '
-        Me.txtReqNo.CalculationExpression = Nothing
-        Me.txtReqNo.FieldCode = Nothing
-        Me.txtReqNo.FieldDesc = Nothing
-        Me.txtReqNo.FieldMaxLength = 0
-        Me.txtReqNo.FieldName = Nothing
-        Me.txtReqNo.isCalculatedField = False
-        Me.txtReqNo.IsSourceFromTable = False
-        Me.txtReqNo.IsSourceFromValueList = False
-        Me.txtReqNo.IsUnique = False
-        Me.txtReqNo.Location = New System.Drawing.Point(641, 0)
-        Me.txtReqNo.MendatroryField = False
-        Me.txtReqNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtReqNo.MyLinkLable1 = Me.RadLabel24
-        Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyReadOnly = True
-        Me.txtReqNo.MyShowMasterFormButton = False
-        Me.txtReqNo.Name = "txtReqNo"
-        Me.txtReqNo.ReferenceFieldDesc = Nothing
-        Me.txtReqNo.ReferenceFieldName = Nothing
-        Me.txtReqNo.ReferenceTableName = Nothing
-        Me.txtReqNo.Size = New System.Drawing.Size(135, 20)
-        Me.txtReqNo.TabIndex = 4
-        Me.txtReqNo.Value = ""
-        '
         'lblBillToLocation
         '
         Me.lblBillToLocation.AutoSize = False
@@ -4167,6 +4097,76 @@ Partial Class frmShipmentDairy
         Me.cboItemType.Size = New System.Drawing.Size(128, 20)
         Me.cboItemType.TabIndex = 21
         Me.cboItemType.Visible = False
+        '
+        'btnDrillDown
+        '
+        Me.btnDrillDown.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnDrillDown.Location = New System.Drawing.Point(752, 1)
+        Me.btnDrillDown.Name = "btnDrillDown"
+        Me.btnDrillDown.Size = New System.Drawing.Size(20, 20)
+        Me.btnDrillDown.TabIndex = 5
+        '
+        'txtReqNo
+        '
+        Me.txtReqNo.CalculationExpression = Nothing
+        Me.txtReqNo.FieldCode = Nothing
+        Me.txtReqNo.FieldDesc = Nothing
+        Me.txtReqNo.FieldMaxLength = 0
+        Me.txtReqNo.FieldName = Nothing
+        Me.txtReqNo.isCalculatedField = False
+        Me.txtReqNo.IsSourceFromTable = False
+        Me.txtReqNo.IsSourceFromValueList = False
+        Me.txtReqNo.IsUnique = False
+        Me.txtReqNo.Location = New System.Drawing.Point(641, 0)
+        Me.txtReqNo.MendatroryField = False
+        Me.txtReqNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtReqNo.MyLinkLable1 = Me.RadLabel24
+        Me.txtReqNo.MyLinkLable2 = Nothing
+        Me.txtReqNo.MyReadOnly = True
+        Me.txtReqNo.MyShowMasterFormButton = False
+        Me.txtReqNo.Name = "txtReqNo"
+        Me.txtReqNo.ReferenceFieldDesc = Nothing
+        Me.txtReqNo.ReferenceFieldName = Nothing
+        Me.txtReqNo.ReferenceTableName = Nothing
+        Me.txtReqNo.Size = New System.Drawing.Size(135, 20)
+        Me.txtReqNo.TabIndex = 4
+        Me.txtReqNo.Value = ""
+        '
+        'RadLabel24
+        '
+        Me.RadLabel24.FieldName = Nothing
+        Me.RadLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel24.Location = New System.Drawing.Point(535, 2)
+        Me.RadLabel24.Name = "RadLabel24"
+        Me.RadLabel24.Size = New System.Drawing.Size(53, 16)
+        Me.RadLabel24.TabIndex = 24
+        Me.RadLabel24.Text = "Order No"
+        '
+        'TxtInvoiceNoForReplacement
+        '
+        Me.TxtInvoiceNoForReplacement.CalculationExpression = Nothing
+        Me.TxtInvoiceNoForReplacement.FieldCode = Nothing
+        Me.TxtInvoiceNoForReplacement.FieldDesc = Nothing
+        Me.TxtInvoiceNoForReplacement.FieldMaxLength = 0
+        Me.TxtInvoiceNoForReplacement.FieldName = Nothing
+        Me.TxtInvoiceNoForReplacement.isCalculatedField = False
+        Me.TxtInvoiceNoForReplacement.IsSourceFromTable = False
+        Me.TxtInvoiceNoForReplacement.IsSourceFromValueList = False
+        Me.TxtInvoiceNoForReplacement.IsUnique = False
+        Me.TxtInvoiceNoForReplacement.Location = New System.Drawing.Point(643, 0)
+        Me.TxtInvoiceNoForReplacement.MendatroryField = False
+        Me.TxtInvoiceNoForReplacement.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtInvoiceNoForReplacement.MyLinkLable1 = Me.RadLabel24
+        Me.TxtInvoiceNoForReplacement.MyLinkLable2 = Nothing
+        Me.TxtInvoiceNoForReplacement.MyReadOnly = True
+        Me.TxtInvoiceNoForReplacement.MyShowMasterFormButton = False
+        Me.TxtInvoiceNoForReplacement.Name = "TxtInvoiceNoForReplacement"
+        Me.TxtInvoiceNoForReplacement.ReferenceFieldDesc = Nothing
+        Me.TxtInvoiceNoForReplacement.ReferenceFieldName = Nothing
+        Me.TxtInvoiceNoForReplacement.ReferenceTableName = Nothing
+        Me.TxtInvoiceNoForReplacement.Size = New System.Drawing.Size(135, 22)
+        Me.TxtInvoiceNoForReplacement.TabIndex = 1466
+        Me.TxtInvoiceNoForReplacement.Value = ""
         '
         'RadPageViewPage8
         '
@@ -7108,6 +7108,7 @@ Partial Class frmShipmentDairy
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblDemandNO, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkIsEWayBill, System.ComponentModel.ISupportInitialize).EndInit
@@ -7199,7 +7200,6 @@ Partial Class frmShipmentDairy
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkCreateAutoReceipt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.cmbVehicleType, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblVehicleType, System.ComponentModel.ISupportInitialize).EndInit
@@ -7207,8 +7207,6 @@ Partial Class frmShipmentDairy
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkExcludeKKFMND, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).EndInit
@@ -7293,6 +7291,8 @@ Partial Class frmShipmentDairy
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadPageViewPage8.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel1.PerformLayout
