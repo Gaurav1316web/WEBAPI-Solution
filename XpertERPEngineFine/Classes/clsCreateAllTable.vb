@@ -6831,6 +6831,7 @@ Public Class clsCreateAllTable
             coll.Add("Route_No", "varchar(12)  NULL")
             coll.Add("TotalCAN", "float  null")
             coll.Add("TotalCrate", "float  null")
+            coll.Add("Driver_Name", "varchar(50)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MCC_Scrap_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate", True)
 
             coll = New Dictionary(Of String, String)()

@@ -1409,7 +1409,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
                 dblSNFKG = clsERPFuncationality.myFloor(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).SNF / 100, objCommonVar.MilkSRNFATSNFDecimalPlaces)
             End If
 
-            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType, MarkAsSuspence, IsOwnBMCAdjustment, SuspenceRemarks, strRouteCode)
+            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, objHead.DOC_CODE, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNFOrCLR, dblSNFKG, Trans, strRejectType, MarkAsSuspence, IsOwnBMCAdjustment, SuspenceRemarks, strRouteCode, objHead.Dock_Collection_Milk_Type)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
@@ -1425,7 +1425,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         End Try
     End Sub
 
-    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String, MarkAsSuspence As Boolean, ByVal IsOwnBMCAdjustment As Boolean, ByVal SuspenceRemarks As String, ByVal strRouteCode As String) As Boolean
+    Private Shared Function CorrectBackDocs(corrTypeSRNQty As Boolean, corrTypeSRNFATSNF As Boolean, corrTypeSRNVLC As Boolean, strMilkSRN As String, strVLCCode As String, dblQty As Decimal, strType As String, dblFAT As Decimal, dblSNFOrCLR As Decimal, dblSNFKG As Decimal, trans As SqlTransaction, strRejectType As String, MarkAsSuspence As Boolean, ByVal IsOwnBMCAdjustment As Boolean, ByVal SuspenceRemarks As String, ByVal strRouteCode As String, Dock_Collection_Milk_Type As String) As Boolean
         Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No as Against_Shift_Uploader_DocNo,TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No,
 TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No as Against_Uploader_DocNo ,TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
 from TSPL_MILK_SRN_HEAD 
@@ -1453,6 +1453,9 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     If clsCommon.myLen(strRouteCode) > 0 Then
                         Arr(0).BULK_ROUTE_NO = strRouteCode
                     End If
+                    Arr(0).Dock_Collection_Milk_Type = Dock_Collection_Milk_Type
+                    Arr(0).Dock_Collection_Milk_Type_Auto = False
+
                     clsMilkShiftUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No, IsOwnBMCAdjustment)
                 End If
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_Uploader_TR_No")) > 0 Then
@@ -1476,6 +1479,8 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strMilkSRN + "'  "
                     If clsCommon.myLen(strRouteCode) > 0 Then
                         Arr(0).Bulk_Route_Code = strRouteCode
                     End If
+                    Arr(0).Dock_Collection_Milk_Type = Dock_Collection_Milk_Type
+                    Arr(0).Dock_Collection_Milk_Type_Auto = False
                     clsMilkProcurementUploaderDetail.SaveData(Arr(0).Document_No, "", Arr, trans, Arr(0).TR_No)
                 End If
             End If

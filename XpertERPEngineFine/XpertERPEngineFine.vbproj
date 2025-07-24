@@ -159,9 +159,13 @@
     <Compile Include="Classes\clsWeeklyHolidays.vb" />
     <Compile Include="ClsCardSale.vb" />
     <Compile Include="ClsCatalogMaster.vb" />
+    <Compile Include="Common\clsCityMaster.vb" />
     <Compile Include="clsLanguage.vb" />
     <Compile Include="clsWorkEstimationHead.vb" />
+    <Compile Include="Common\clsCountryMaster.vb" />
+    <Compile Include="Common\clsCurrencyMaster.vb" />
     <Compile Include="Common\clsCustomFieldValues.vb" />
+    <Compile Include="Common\clsStateMaster.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
@@ -211,6 +215,7 @@
     <Compile Include="Paravet\clsServiceMaster.vb" />
     <Compile Include="Paravet\clsServiceName.vb" />
     <Compile Include="Payroll\clsEmployeeDeductionMaster.vb" />
+    <Compile Include="Payroll\ClsLICPolicyMaster.vb" />
     <Compile Include="PJC\clsCostType.vb" />
     <Compile Include="PJC\clsPJCAccountSet.vb" />
     <Compile Include="PJC\clsPJCExpense.vb" />

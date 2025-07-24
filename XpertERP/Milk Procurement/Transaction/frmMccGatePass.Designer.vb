@@ -22,10 +22,10 @@ Partial Class frmMccGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -33,8 +33,10 @@ Partial Class frmMccGatePass
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtRouteNo = New common.UserControls.txtMultiSelectFinder()
+        Me.lblRoute = New common.Controls.MyLabel()
         Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblInvoiceNo = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtLocDesc = New common.Controls.MyTextBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -59,8 +61,8 @@ Partial Class frmMccGatePass
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.txtRouteNo = New common.UserControls.txtMultiSelectFinder()
-        Me.lblRoute = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtDriverName = New common.Controls.MyTextBox()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,7 +71,8 @@ Partial Class frmMccGatePass
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,7 +94,8 @@ Partial Class frmMccGatePass
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -104,7 +108,7 @@ Partial Class frmMccGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -166,10 +170,12 @@ Partial Class frmMccGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtDriverName)
         Me.Panel1.Controls.Add(Me.txtRouteNo)
+        Me.Panel1.Controls.Add(Me.MyLabel1)
         Me.Panel1.Controls.Add(Me.lblRoute)
         Me.Panel1.Controls.Add(Me.txtmultiBooking)
-        Me.Panel1.Controls.Add(Me.MyLabel5)
+        Me.Panel1.Controls.Add(Me.lblInvoiceNo)
         Me.Panel1.Controls.Add(Me.btnGo)
         Me.Panel1.Controls.Add(Me.txtLocDesc)
         Me.Panel1.Controls.Add(Me.MyLabel4)
@@ -194,11 +200,36 @@ Partial Class frmMccGatePass
         Me.Panel1.Size = New System.Drawing.Size(1076, 176)
         Me.Panel1.TabIndex = 0
         '
+        'txtRouteNo
+        '
+        Me.txtRouteNo.arrDispalyMember = Nothing
+        Me.txtRouteNo.arrValueMember = Nothing
+        Me.txtRouteNo.Location = New System.Drawing.Point(93, 81)
+        Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteNo.MyLinkLable1 = Nothing
+        Me.txtRouteNo.MyLinkLable2 = Nothing
+        Me.txtRouteNo.MyNullText = "All"
+        Me.txtRouteNo.Name = "txtRouteNo"
+        Me.txtRouteNo.Size = New System.Drawing.Size(633, 19)
+        Me.txtRouteNo.TabIndex = 1461
+        Me.txtRouteNo.Visible = False
+        '
+        'lblRoute
+        '
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoute.Location = New System.Drawing.Point(5, 83)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(54, 16)
+        Me.lblRoute.TabIndex = 1460
+        Me.lblRoute.Text = "Route No"
+        Me.lblRoute.Visible = False
+        '
         'txtmultiBooking
         '
         Me.txtmultiBooking.arrDispalyMember = Nothing
         Me.txtmultiBooking.arrValueMember = Nothing
-        Me.txtmultiBooking.Location = New System.Drawing.Point(93, 81)
+        Me.txtmultiBooking.Location = New System.Drawing.Point(93, 104)
         Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtmultiBooking.MyLinkLable1 = Nothing
         Me.txtmultiBooking.MyLinkLable2 = Nothing
@@ -207,15 +238,15 @@ Partial Class frmMccGatePass
         Me.txtmultiBooking.Size = New System.Drawing.Size(633, 19)
         Me.txtmultiBooking.TabIndex = 1459
         '
-        'MyLabel5
+        'lblInvoiceNo
         '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(5, 83)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
-        Me.MyLabel5.TabIndex = 1458
-        Me.MyLabel5.Text = "Invoice No"
+        Me.lblInvoiceNo.FieldName = Nothing
+        Me.lblInvoiceNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInvoiceNo.Location = New System.Drawing.Point(5, 106)
+        Me.lblInvoiceNo.Name = "lblInvoiceNo"
+        Me.lblInvoiceNo.Size = New System.Drawing.Size(60, 16)
+        Me.lblInvoiceNo.TabIndex = 1458
+        Me.lblInvoiceNo.Text = "Invoice No"
         '
         'btnGo
         '
@@ -375,7 +406,7 @@ Partial Class frmMccGatePass
         Me.lblVehicleDesc.ReferenceFieldDesc = Nothing
         Me.lblVehicleDesc.ReferenceFieldName = Nothing
         Me.lblVehicleDesc.ReferenceTableName = Nothing
-        Me.lblVehicleDesc.Size = New System.Drawing.Size(474, 18)
+        Me.lblVehicleDesc.Size = New System.Drawing.Size(189, 18)
         Me.lblVehicleDesc.TabIndex = 3
         '
         'txtDate
@@ -432,12 +463,12 @@ Partial Class frmMccGatePass
         Me.cmbtype.IsSourceFromTable = False
         Me.cmbtype.IsSourceFromValueList = False
         Me.cmbtype.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Mcc"
-        RadListDataItem6.Text = "Scrap"
-        Me.cmbtype.Items.Add(RadListDataItem4)
-        Me.cmbtype.Items.Add(RadListDataItem5)
-        Me.cmbtype.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Mcc"
+        RadListDataItem3.Text = "Scrap"
+        Me.cmbtype.Items.Add(RadListDataItem1)
+        Me.cmbtype.Items.Add(RadListDataItem2)
+        Me.cmbtype.Items.Add(RadListDataItem3)
         Me.cmbtype.Location = New System.Drawing.Point(645, 6)
         Me.cmbtype.MendatroryField = False
         Me.cmbtype.MyLinkLable1 = Me.lblfullempty
@@ -597,30 +628,39 @@ Partial Class frmMccGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1076, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'txtRouteNo
+        'MyLabel1
         '
-        Me.txtRouteNo.arrDispalyMember = Nothing
-        Me.txtRouteNo.arrValueMember = Nothing
-        Me.txtRouteNo.Location = New System.Drawing.Point(93, 104)
-        Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRouteNo.MyLinkLable1 = Nothing
-        Me.txtRouteNo.MyLinkLable2 = Nothing
-        Me.txtRouteNo.MyNullText = "All"
-        Me.txtRouteNo.Name = "txtRouteNo"
-        Me.txtRouteNo.Size = New System.Drawing.Size(633, 19)
-        Me.txtRouteNo.TabIndex = 1461
-        Me.txtRouteNo.Visible = False
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(447, 57)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(70, 16)
+        Me.MyLabel1.TabIndex = 1462
+        Me.MyLabel1.Text = "Driver Name"
         '
-        'lblRoute
+        'txtDriverName
         '
-        Me.lblRoute.FieldName = Nothing
-        Me.lblRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(5, 106)
-        Me.lblRoute.Name = "lblRoute"
-        Me.lblRoute.Size = New System.Drawing.Size(54, 16)
-        Me.lblRoute.TabIndex = 1460
-        Me.lblRoute.Text = "Route No"
-        Me.lblRoute.Visible = False
+        Me.txtDriverName.CalculationExpression = Nothing
+        Me.txtDriverName.FieldCode = Nothing
+        Me.txtDriverName.FieldDesc = Nothing
+        Me.txtDriverName.FieldMaxLength = 0
+        Me.txtDriverName.FieldName = Nothing
+        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDriverName.isCalculatedField = False
+        Me.txtDriverName.IsSourceFromTable = False
+        Me.txtDriverName.IsSourceFromValueList = False
+        Me.txtDriverName.IsUnique = False
+        Me.txtDriverName.Location = New System.Drawing.Point(527, 57)
+        Me.txtDriverName.MaxLength = 200
+        Me.txtDriverName.MendatroryField = False
+        Me.txtDriverName.MyLinkLable1 = Me.lblSalesman
+        Me.txtDriverName.MyLinkLable2 = Nothing
+        Me.txtDriverName.Name = "txtDriverName"
+        Me.txtDriverName.ReferenceFieldDesc = Nothing
+        Me.txtDriverName.ReferenceFieldName = Nothing
+        Me.txtDriverName.ReferenceTableName = Nothing
+        Me.txtDriverName.Size = New System.Drawing.Size(198, 18)
+        Me.txtDriverName.TabIndex = 1463
         '
         'frmMccGatePass
         '
@@ -644,7 +684,8 @@ Partial Class frmMccGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -666,7 +707,8 @@ Partial Class frmMccGatePass
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -702,10 +744,12 @@ Partial Class frmMccGatePass
     Friend WithEvents txtLocCode As common.UserControls.txtFinder
     Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
-    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents lblInvoiceNo As common.Controls.MyLabel
     Friend WithEvents txtmultiBooking As common.UserControls.txtMultiSelectFinder
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents txtRouteNo As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblRoute As common.Controls.MyLabel
+    Friend WithEvents txtDriverName As common.Controls.MyTextBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class
 

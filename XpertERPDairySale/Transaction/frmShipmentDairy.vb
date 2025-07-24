@@ -7914,7 +7914,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                                 strQry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
                             End If
 
-                            strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
+                            strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_CUSTOMER_MASTER.Cust_Code='" + lst.Booth_Code + "' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   
 order by   TSPL_Demand_Booking_Detail.TR_Code "
 
 

@@ -2808,6 +2808,7 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                     gv1.CurrentRow.Cells(colOrgUnit).Value = clsCommon.myCstr(dr(0).Item("Unit"))
                     gv1.CurrentRow.Cells(colMRP).Value = clsCommon.myCdbl(dr(0).Item("MRP"))
                     gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value = clsCommon.myCBool(dr(0).Item("DCS_Sale_Zero_Cost") = 1)
+                    gv1.CurrentRow.Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(gv1.CurrentRow.Cells(colICode).Value)
                     If gv1.CurrentRow.Cells(colDCSSaleZeroCost).Value Then
                         gv1.CurrentRow.Cells(colRate).Value = 0
                     Else
