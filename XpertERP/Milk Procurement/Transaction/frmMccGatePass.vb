@@ -179,12 +179,10 @@ Public Class frmMccGatePass
             strItem = " and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" & strItemCode & "'"
         End If
 
-        strQuery = "select TSPL_MCC_SCRAP_GATEPASS_Master.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name,TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.Route_No,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, " &
-            "TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_MCC_SCRAP_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_MCC_SCRAP_GATEPASS_DETAIL.HSN_Code,TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.InvoiceNo  " &
+        strQuery = "select TSPL_MCC_SCRAP_GATEPASS_Master.GPCode as [Document No],GPDate as [Document Date],'' as Customer_Code,'' as Customer_Name," &
+            "TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code as [Item Code],Item_Desc as [Item Desc],TSPL_MCC_SCRAP_GATEPASS_DETAIL.Unit_code as Unit,Qty,TSPL_MCC_SCRAP_GATEPASS_DETAIL.HSN_Code " &
             "from TSPL_MCC_SCRAP_GATEPASS_Master left outer join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_Master.GPCode=TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode  " &
             "left outer join TSPL_ITEM_MASTER on TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   " &
-            "left outer join TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL on TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_GATEPASS_Master.GPCode 
-             left outer join TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL on TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_GATEPASS_Master.GPCode  LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.Route_No " &
             " where TSPL_MCC_SCRAP_GATEPASS_Master.GPCode='" & strGPCode & "' "
         Return strQuery
     End Function
@@ -255,7 +253,8 @@ Public Class frmMccGatePass
                     txtDate.Enabled = False
 
                 Next
-                Dim strAllDoc As String = " select distinct PPPP.InvoiceNo from  ( " & qry & "    ) As PPPP   "
+                Dim strAllDoc As String = " select distinct PPPP.InvoiceNo from(  select TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.InvoiceNo from TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL   
+left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_INVOICE_GATEPASS_DETAIL.GPCode where TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode='" + strGPCOde + "' )pppp  "
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strAllDoc)
                 Dim list As New ArrayList
                 If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
@@ -264,7 +263,8 @@ Public Class frmMccGatePass
                     Next
                 End If
                 txtmultiBooking.arrValueMember = list
-                Dim strAllRoute As String = " select distinct PPPP.Route_No,pppp.Route_Name from  ( " & qry & "    ) As PPPP   "
+                Dim strAllRoute As String = " select distinct PPPP.ROUTE_NO,pppp.ROUTE_NAME from(  select TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.ROUTE_NO,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME  from TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL   
+left join TSPL_MCC_SCRAP_GATEPASS_DETAIL on TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode=TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.GPCode LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.ROUTE_NO  where TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode='" + strGPCOde + "' )pppp "
                 dt1 = clsDBFuncationality.GetDataTable(strAllRoute)
                 Dim arrRoute As New ArrayList
                 Dim arrRouteName As New ArrayList
@@ -303,23 +303,25 @@ Public Class frmMccGatePass
                 txtCode.Value = obj.GPCode
                 txtVehicle.Value = obj.Vehicle_Id
                 lblVehicleDesc.Text = obj.Vehicle_Number
-                If clsCommon.CompairString(obj.Item_Type, "MCC") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(obj.Item_Type, "Mcc") = CompairStringResult.Equal Then
                     cmbtype.SelectedIndex = 1
-                Else
+                ElseIf clsCommon.CompairString(obj.Item_Type, "Scrap") = CompairStringResult.Equal Then
                     cmbtype.SelectedIndex = 2
+                Else
+                    cmbtype.SelectedIndex = 0
                 End If
-
+                txtDriverName.Text = obj.Driver_Name
                 txtComments.Text = obj.Comments
-                txtRemarks.Text = obj.Remarks
-                isInsideLoadData = True
-                txtDate.Value = obj.GPDate
-                txtLocCode.Value = obj.Location_Code
-                txtLocDesc.Text = obj.Location_Desc
+                    txtRemarks.Text = obj.Remarks
+                    isInsideLoadData = True
+                    txtDate.Value = obj.GPDate
+                    txtLocCode.Value = obj.Location_Code
+                    txtLocDesc.Text = obj.Location_Desc
 
-                cmbtype.Enabled = False
+                    cmbtype.Enabled = False
 
-                funLoadGrid(txtCode.Value)
-            End If
+                    funLoadGrid(txtCode.Value)
+                End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -329,11 +331,11 @@ Public Class frmMccGatePass
 
     Function AllowToSave() As Boolean
         If clsCommon.CompairString(cmbtype.SelectedIndex, 2) = CompairStringResult.Equal Then
-            If clsCommon.myLen(txtVehicle.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle No", Me.Text)
-                txtVehicle.Focus()
-                Return False
-            End If
+            'If clsCommon.myLen(txtVehicle.Value) <= 0 Then
+            '    common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle No", Me.Text)
+            '    txtVehicle.Focus()
+            '    Return False
+            'End If
         End If
         If clsCommon.myLen(txtLocCode.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
@@ -400,6 +402,7 @@ Public Class frmMccGatePass
                 obj.GPCode = txtCode.Value
                 obj.GPDate = clsCommon.myCDate(txtDate.Value)
                 obj.Vehicle_Id = txtVehicle.Value
+                obj.Driver_Name = txtDriverName.Text
                 obj.Vehicle_Number = lblVehicleDesc.Text
                 obj.Item_Type = cmbtype.Text
 
@@ -455,7 +458,7 @@ Public Class frmMccGatePass
         lblVehicleDesc.Text = ""
         txtLocCode.Value = ""
         txtLocDesc.Text = ""
-
+        txtDriverName.Text = ""
         txtRemarks.Text = ""
         txtComments.Text = ""
         btnSave.Enabled = True
@@ -589,6 +592,8 @@ Public Class frmMccGatePass
         txtmultiBooking.Enabled = True
         lblRoute.Visible = False
         txtRouteNo.Visible = False
+        lblInvoiceNo.Location = New System.Drawing.Point(5, 83)
+        txtmultiBooking.Location = New System.Drawing.Point(93, 81)
         lblRemarks.Location = New System.Drawing.Point(5, 106)
         txtRemarks.Location = New System.Drawing.Point(93, 104)
         lblComments.Location = New System.Drawing.Point(5, 129)
@@ -691,18 +696,27 @@ Public Class frmMccGatePass
     End Sub
 
     Private Function GetAttachQry(ByVal StrCode As String) As String
-        Dim Qry As String = "  Select Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC FROM ( select TSPL_COMPANY_MASTER.comp_name,TSPL_MCC_SCRAP_GATEPASS_DETAIL.unit_code,TSPL_MCC_SCRAP_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end as Comp_Address, tspl_location_master.add1 +case when len(tspl_location_master.add2)>0 then ', '+tspl_location_master.add2 else '' end +case when LEN(isnull(tspl_location_master.Add3,''))>0 then ', '+isnull(tspl_location_master.Add3,'') else ' ' end as Loc_add, TSPL_MCC_SCRAP_GATEPASS_MASTER.Totalcrate,TSPL_MCC_SCRAP_GATEPASS_MASTER.TotalCan,TSPL_MCC_SCRAP_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_MCC_SCRAP_GATEPASS_MASTER.GPDate,103) as GPDate,FORMAT(TSPL_MCC_SCRAP_GATEPASS_MASTER.GPDate,'hh:mm tt') as GPTime"
-        Qry += " ,TSPL_MCC_SCRAP_GATEPASS_MASTER.Vehicle_Id as vehicle_id,TSPL_MCC_SCRAP_GATEPASS_MASTER.Vehicle_Number as VehicleDesc,TSPL_MCC_SCRAP_GATEPASS_MASTER.location_code,tspl_location_master.Location_desc,TSPL_MCC_SCRAP_GATEPASS_MASTER.remarks,TSPL_MCC_SCRAP_GATEPASS_MASTER.comments,TSPL_MCC_SCRAP_GATEPASS_MASTER.post,TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_code,tspl_item_master.item_desc,tspl_item_master.short_description,tspl_item_master.sku_seq,TSPL_MCC_SCRAP_GATEPASS_DETAIL.HSN_Code "
+        Dim Qry As String = " Select "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            Qry += " xxx.ROUTE_NAME,ROW_NUMBER() over (order by Item_desc) AS SNo, '" + objCommonVar.CurrentUserCode + "' AS User_Code,"
+        End If
+        Qry += "  Final.* ,tbl_Brand.Brand,tbl_Brand.BRANDDESC FROM ( select TSPL_COMPANY_MASTER.comp_name,TSPL_MCC_SCRAP_GATEPASS_DETAIL.unit_code,TSPL_MCC_SCRAP_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end as Comp_Address, tspl_location_master.add1 +case when len(tspl_location_master.add2)>0 then ', '+tspl_location_master.add2 else '' end +case when LEN(isnull(tspl_location_master.Add3,''))>0 then ', '+isnull(tspl_location_master.Add3,'') else ' ' end as Loc_add, TSPL_MCC_SCRAP_GATEPASS_MASTER.Totalcrate,TSPL_MCC_SCRAP_GATEPASS_MASTER.TotalCan,TSPL_MCC_SCRAP_GATEPASS_MASTER.GPCode,convert(varchar,TSPL_MCC_SCRAP_GATEPASS_MASTER.GPDate,103) as GPDate,FORMAT(TSPL_MCC_SCRAP_GATEPASS_MASTER.GPDate,'hh:mm tt') as GPTime"
+        Qry += " ,TSPL_MCC_SCRAP_GATEPASS_MASTER.Vehicle_Id as vehicle_id,TSPL_MCC_SCRAP_GATEPASS_MASTER.Vehicle_Number as VehicleDesc,TSPL_MCC_SCRAP_GATEPASS_MASTER.Driver_Name,TSPL_MCC_SCRAP_GATEPASS_MASTER.location_code,tspl_location_master.Location_desc,TSPL_MCC_SCRAP_GATEPASS_MASTER.remarks,TSPL_MCC_SCRAP_GATEPASS_MASTER.comments,TSPL_MCC_SCRAP_GATEPASS_MASTER.post,TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_code,tspl_item_master.item_desc,tspl_item_master.short_description,tspl_item_master.sku_seq,TSPL_MCC_SCRAP_GATEPASS_DETAIL.HSN_Code "
         Qry += " from TSPL_MCC_SCRAP_GATEPASS_DETAIL  left outer join TSPL_MCC_SCRAP_GATEPASS_MASTER on TSPL_MCC_SCRAP_GATEPASS_MASTER.GPCode=TSPL_MCC_SCRAP_GATEPASS_DETAIL.GPCode  "
         Qry += " left outer join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_MCC_SCRAP_GATEPASS_MASTER.vehicle_id  "
         Qry += " left outer join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_SCRAP_GATEPASS_MASTER.location_code  "
         Qry += " left outer join tspl_company_master on tspl_company_master.comp_code=TSPL_MCC_SCRAP_GATEPASS_MASTER.comp_code  "
         Qry += " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MCC_SCRAP_GATEPASS_DETAIL.Item_code  "
         Qry += " where 2=2   and  TSPL_MCC_SCRAP_GATEPASS_MASTER.GPCode = '" + StrCode + "'  ) AS Final "
-        Qry += "  left outer join  ( select Item_Code,max([CATEGORY RM]) as [CATEGORY RM],max([BRAND]) as [BRAND],max([SUB BRAND]) as [SUB BRAND],  max([DESCRP]) as [DESCRP],max([PACK]) as [PACK], max([PACK SIZE]) as [PACK SIZE],max([CATEGORY OT]) as [CATEGORY OT],max([CATEGORY FA]) as [CATEGORY FA],  max([P TYPE]) as [P TYPE],max([L TYPE]) as [L TYPE],max([JW]) as [JW], max([SCRAP]) as [SCRAP],max([CATEGORY RMDESC]) as [CATEGORY RMDESC],max([BRANDDESC])  as [BRANDDESC],max([SUB BRANDDESC]) as [SUB BRANDDESC],max([DESCRPDESC]) as [DESCRPDESC],max([PACKDESC]) as [PACKDESC], max([PACK SIZEDESC]) as [PACK SIZEDESC],max([CATEGORY OTDESC]) as [CATEGORY OTDESC], max([CATEGORY FADESC]) as [CATEGORY FADESC],max([P TYPEDESC]) as [P TYPEDESC],max([L TYPEDESC]) as [L TYPEDESC],max([JWDESC]) as [JWDESC], max([SCRAPDESC]) as [SCRAPDESC]  from ( select * from (   select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code   ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+'DESC' as Item_Category_CodeDesc   , TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  from  TSPL_ITEM_MASTER    left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code  left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and  TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values   where 2=2 )xx  Pivot   ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [CATEGORY RM],[BRAND],[SUB BRAND],[DESCRP],[PACK],[PACK SIZE],  [CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE],[JW],[SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) for Item_Category_CodeDesc in ([CATEGORY RMDESC], [BRANDDESC],[SUB BRANDDESC],[DESCRPDESC],[PACKDESC],[PACK SIZEDESC], [CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=Final.Item_Code  order by Final.sku_seq"
+        Qry += "  left outer join  ( select Item_Code,max([CATEGORY RM]) as [CATEGORY RM],max([BRAND]) as [BRAND],max([SUB BRAND]) as [SUB BRAND],  max([DESCRP]) as [DESCRP],max([PACK]) as [PACK], max([PACK SIZE]) as [PACK SIZE],max([CATEGORY OT]) as [CATEGORY OT],max([CATEGORY FA]) as [CATEGORY FA],  max([P TYPE]) as [P TYPE],max([L TYPE]) as [L TYPE],max([JW]) as [JW], max([SCRAP]) as [SCRAP],max([CATEGORY RMDESC]) as [CATEGORY RMDESC],max([BRANDDESC])  as [BRANDDESC],max([SUB BRANDDESC]) as [SUB BRANDDESC],max([DESCRPDESC]) as [DESCRPDESC],max([PACKDESC]) as [PACKDESC], max([PACK SIZEDESC]) as [PACK SIZEDESC],max([CATEGORY OTDESC]) as [CATEGORY OTDESC], max([CATEGORY FADESC]) as [CATEGORY FADESC],max([P TYPEDESC]) as [P TYPEDESC],max([L TYPEDESC]) as [L TYPEDESC],max([JWDESC]) as [JWDESC], max([SCRAPDESC]) as [SCRAPDESC]  from ( select * from (   select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code   ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+'DESC' as Item_Category_CodeDesc   , TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  from  TSPL_ITEM_MASTER    left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code  left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and  TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values   where 2=2 )xx  Pivot   ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [CATEGORY RM],[BRAND],[SUB BRAND],[DESCRP],[PACK],[PACK SIZE],  [CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE],[JW],[SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) for Item_Category_CodeDesc in ([CATEGORY RMDESC], [BRANDDESC],[SUB BRANDDESC],[DESCRPDESC],[PACKDESC],[PACK SIZEDESC], [CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=Final.Item_Code "
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            Qry += "   left join (( SELECT DISTINCT  STRING_AGG( ROUTE_NAME, ',') AS ROUTE_NAME,GPCode from ( select TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.GPCode
+                        from  TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL left outer join TSPL_BULK_ROUTE_MASTER on  TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MCC_SCRAP_ROUTE_GATEPASS_DETAIL.ROUTE_NO ) xx  group by GPCode) ) xxx on xxx.GPCode=Final.GPCode "
+        End If
+        Qry += " order by Final.sku_seq"
 
         Return Qry
-
     End Function
     Public Sub funPrint(ByVal Code As String)
         Try
@@ -710,7 +724,11 @@ Public Class frmMccGatePass
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryGNG", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                Else
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                End If
                 frmCRV = Nothing
             End If
         Catch ex As Exception
@@ -719,7 +737,7 @@ Public Class frmMccGatePass
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("No data found to Print")
+            clsCommon.MyMessageBoxShow("No data found To Print")
         Else
             funPrint(txtCode.Value)
         End If
@@ -730,8 +748,19 @@ Public Class frmMccGatePass
     Private Sub txtmultiBooking__My_Click(sender As Object, e As EventArgs) Handles txtmultiBooking._My_Click
         Try
             Dim qry As String = LoadQuery("")
-            Dim strAllDoc As String = " select distinct PPPP.[Document No] as [Document Code], convert (varchar, PPPP .[Document Date], 103) as [Document Date],pppp.[Customer_Code] as [Code],PPPP.[Customer_Name] as [Name],pppp.[Route No],pppp.[Route Name] from  ( " & qry & "    ) As PPPP   "
+            Dim strAllDoc As String = " Select distinct PPPP.[Document No] As [Document Code], Convert(varchar, PPPP.[Document Date], 103) As [Document Date], pppp.[Customer_Code] As [Code], PPPP.[Customer_Name] As [Name], pppp.[Route No], pppp.[Route Name] from  ( " & qry & "    ) As PPPP   "
             txtmultiBooking.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSel", strAllDoc, "Document Code", "Document code", txtmultiBooking.arrValueMember, txtmultiBooking.arrDispalyMember)
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(strAllDoc)
+            'Dim arrRoute As New ArrayList()
+            'Dim arrRouteName As New ArrayList()
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    For Each dr As DataRow In dt.Rows
+            '        arrRoute.Add(dr("Route No"))
+            '        arrRouteName.Add(dr("Route Name"))
+            '    Next
+            '    txtRouteNo.arrValueMember = arrRoute
+            '    txtRouteNo.arrDispalyMember = arrRouteName
+            'End If
             funFillGrid2()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -782,9 +811,11 @@ Public Class frmMccGatePass
 
     Private Sub cmbtype_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cmbtype.SelectedIndexChanged
         If cmbtype.SelectedIndex = 1 Then
-            txtVehicle.Enabled = False
+            txtVehicle.Enabled = True
             lblRoute.Visible = True
             txtRouteNo.Visible = True
+            lblInvoiceNo.Location = New System.Drawing.Point(5, 106)
+            txtmultiBooking.Location = New System.Drawing.Point(93, 104)
             lblRemarks.Location = New System.Drawing.Point(5, 129)
             txtRemarks.Location = New System.Drawing.Point(93, 127)
             lblComments.Location = New System.Drawing.Point(5, 151)
@@ -793,6 +824,8 @@ Public Class frmMccGatePass
         Else
             lblRoute.Visible = False
             txtRouteNo.Visible = False
+            lblInvoiceNo.Location = New System.Drawing.Point(5, 83)
+            txtmultiBooking.Location = New System.Drawing.Point(93, 81)
             lblRemarks.Location = New System.Drawing.Point(5, 106)
             txtRemarks.Location = New System.Drawing.Point(93, 104)
             lblComments.Location = New System.Drawing.Point(5, 129)

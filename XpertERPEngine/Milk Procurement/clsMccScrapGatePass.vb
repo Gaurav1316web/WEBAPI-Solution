@@ -6,6 +6,7 @@ Public Class clsMccScrapGatePass
     Public GPDate As DateTime
     Public Vehicle_Id As String = Nothing
     Public Vehicle_Number As String = Nothing
+    Public Driver_Name As String = Nothing
     Public DocNo As String = Nothing
     Public Docdate As Date = Nothing
     Public ToSalesmanCode As String = Nothing
@@ -56,6 +57,7 @@ Public Class clsMccScrapGatePass
             clsCommon.AddColumnsForChange(coll, "GPDate", clsCommon.GetPrintDate(obj.GPDate, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Vehicle_Id", obj.Vehicle_Id)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Number", obj.Vehicle_Number)
+            clsCommon.AddColumnsForChange(coll, "Driver_Name", obj.Driver_Name)
             clsCommon.AddColumnsForChange(coll, "Doc_Type", obj.Item_Type)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
@@ -102,7 +104,7 @@ Public Class clsMccScrapGatePass
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsMccScrapGatePass
         Dim obj As clsMccScrapGatePass = Nothing
-        Dim qry As String = "select GPCode,GPDate,Vehicle_Id,Vehicle_Number,doc_Type,Remarks,Comments,Post,Location_Code,Location_Desc,TSPL_MCC_SCRAP_GATEPASS_MASTER.TotalCAN,TSPL_MCC_SCRAP_GATEPASS_MASTER.TotalCrate from TSPL_MCC_SCRAP_GATEPASS_MASTER  where 2=2 "
+        Dim qry As String = "select GPCode,GPDate,Vehicle_Id,Vehicle_Number,Driver_Name,doc_Type,Remarks,Comments,Post,Location_Code,Location_Desc,TSPL_MCC_SCRAP_GATEPASS_MASTER.TotalCAN,TSPL_MCC_SCRAP_GATEPASS_MASTER.TotalCrate from TSPL_MCC_SCRAP_GATEPASS_MASTER  where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_MCC_SCRAP_GATEPASS_MASTER.GPCode = (select MIN(GPCode) from TSPL_MCC_SCRAP_GATEPASS_MASTER)"
@@ -123,7 +125,7 @@ Public Class clsMccScrapGatePass
             obj.Vehicle_Id = clsCommon.myCstr(dt.Rows(0)("Vehicle_Id"))
             obj.Vehicle_Number = clsCommon.myCstr(dt.Rows(0)("Vehicle_Number"))
             obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Doc_Type"))
-
+            obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
             obj.Post = clsCommon.myCstr(dt.Rows(0)("Post"))
