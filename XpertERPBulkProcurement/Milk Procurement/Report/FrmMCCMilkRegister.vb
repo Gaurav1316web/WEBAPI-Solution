@@ -432,15 +432,18 @@ Public Class FrmMCCMilkRegister
                             gv.Columns("VLC Name").Width = 100
                             gv.Columns("VLC Name").HeaderText = "DCS Name"
 
-                            gv.Columns("Alias Name").Width = 100
-                            gv.Columns("Alias Name").HeaderText = "Alias Name"
-                            If chkAliasNameWise.Checked Then
-                                gv.Columns("Alias Name").IsVisible = True
-                                gv.Columns("Alias Name").VisibleInColumnChooser = False
-                            Else
-                                gv.Columns("Alias Name").IsVisible = False
-                                gv.Columns("Alias Name").VisibleInColumnChooser = True
+                            If gv.Columns.Contains("Alias Name") Then
+                                gv.Columns("Alias Name").Width = 100
+                                gv.Columns("Alias Name").HeaderText = "Alias Name"
+                                If chkAliasNameWise.Checked Then
+                                    gv.Columns("Alias Name").IsVisible = True
+                                    gv.Columns("Alias Name").VisibleInColumnChooser = False
+                                Else
+                                    gv.Columns("Alias Name").IsVisible = False
+                                    gv.Columns("Alias Name").VisibleInColumnChooser = True
+                                End If
                             End If
+
 
                             gv.Columns("Item_Code").IsVisible = True
                             gv.Columns("Item_Code").Width = 100
