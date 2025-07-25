@@ -1043,7 +1043,8 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                 qry += ",0.0 as SNF "
                 ListImpExpColumnsMandatory.Add("SNF")
             End If
-            transportSql.ExporttoExcel(qry, "", "", frm, ListImpExpColumnsMandatory)
+            'transportSql.ExporttoExcel(qry, "", "", frm, ListImpExpColumnsMandatory)
+            transportSql.ExporttoExcelWithoutFilter(qry, "", "", frm)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(frm, ex.Message, frm.Text)
         End Try

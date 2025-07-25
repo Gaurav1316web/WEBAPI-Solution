@@ -7028,10 +7028,10 @@ Public Class frmVSP_VLCMaster
         For j As Integer = 1 To 1
             qry += " ,Vendor_Name As [DCS Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Uploader Code],TSPL_VLC_MASTER_HEAD.Route_Code as [Route Code]"
         Next
-        qry += " from TSPL_VENDOR_MASTER   Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VENDOR_MASTER.form_type='VSP' "
+        qry += " from TSPL_VENDOR_MASTER   Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code  "
         ListImpExpColumnsMandatory = New List(Of String)({"DCS Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"DCS Code"})
-        transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "MultiRoute")
+        transportSql.ExporttoExcel(qry, " and TSPL_VENDOR_MASTER.form_type='VSP' ", " ", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "MultiRoute")
     End Sub
 
     Private Sub ImportRoute_Click(sender As Object, e As EventArgs) Handles ImportRoute.Click

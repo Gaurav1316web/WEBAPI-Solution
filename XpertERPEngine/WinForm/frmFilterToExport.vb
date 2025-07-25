@@ -12,7 +12,7 @@ Public Class frmFilterToExport
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Public isCancel As Boolean = True
-
+    Public IsBlankSheet As Boolean = False
 #Region "Variable"
     Public qry As String = ""
     Public whrCls As String = ""
@@ -135,6 +135,7 @@ Public Class frmFilterToExport
             End If
             '========================================================================
             qry += orderByClause
+            Me.IsBlankSheet = chkBlankSheet.Checked
             Me.isCancel = False
             Me.Close()
         Catch ex As Exception
