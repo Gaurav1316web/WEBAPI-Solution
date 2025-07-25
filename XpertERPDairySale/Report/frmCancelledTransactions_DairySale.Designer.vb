@@ -46,10 +46,10 @@ Partial Class frmCancelledTransactions_DairySale
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.cboModule = New common.Controls.MyComboBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.lblPrintMsg = New common.Controls.MyLabel()
         Me.btnPrintCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblNoOfRecords = New common.Controls.MyLabel()
-        Me.lblPrintMsg = New common.Controls.MyLabel()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -77,10 +77,10 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPrintMsg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPrintMsg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -336,6 +336,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -413,6 +414,17 @@ Partial Class frmCancelledTransactions_DairySale
         Me.RadLabel10.TabIndex = 11
         Me.RadLabel10.Text = "Module"
         '
+        'lblPrintMsg
+        '
+        Me.lblPrintMsg.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblPrintMsg.FieldName = Nothing
+        Me.lblPrintMsg.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPrintMsg.Location = New System.Drawing.Point(170, 7)
+        Me.lblPrintMsg.Name = "lblPrintMsg"
+        Me.lblPrintMsg.Size = New System.Drawing.Size(220, 16)
+        Me.lblPrintMsg.TabIndex = 3
+        Me.lblPrintMsg.Text = "Double click on row  to print cancel invoice"
+        '
         'btnPrintCancel
         '
         Me.btnPrintCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.None
@@ -445,17 +457,6 @@ Partial Class frmCancelledTransactions_DairySale
         Me.lblNoOfRecords.Size = New System.Drawing.Size(87, 16)
         Me.lblNoOfRecords.TabIndex = 2
         Me.lblNoOfRecords.Text = "0 Record Found"
-        '
-        'lblPrintMsg
-        '
-        Me.lblPrintMsg.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblPrintMsg.FieldName = Nothing
-        Me.lblPrintMsg.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPrintMsg.Location = New System.Drawing.Point(170, 7)
-        Me.lblPrintMsg.Name = "lblPrintMsg"
-        Me.lblPrintMsg.Size = New System.Drawing.Size(220, 16)
-        Me.lblPrintMsg.TabIndex = 3
-        Me.lblPrintMsg.Text = "Double click on row  to print cancel invoice"
         '
         'frmCancelledTransactions_DairySale
         '
@@ -501,10 +502,10 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPrintMsg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPrintMsg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

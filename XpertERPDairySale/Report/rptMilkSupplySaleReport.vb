@@ -385,8 +385,10 @@ FROM (SELECT Convert(varchar,Supply_Date,103)Supply_Date,[Party Code],[Party Nam
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
                 End If
             End If
-            whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
+
         End If
+
+        whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
 
         If txtRoute.arrValueMember IsNot Nothing Then
             whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"

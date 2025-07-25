@@ -197,4 +197,40 @@ Public Class FrmLICPolicyMaster
         str = "select LIC_CODE as Code, ATTENDANCE_NAME as Name, LIC_NAME as Description  from TSPL_LIC_POLICY_MASTER"
         transportSql.ExporttoExcel(str, Me)
     End Sub
+
+    Private Sub MenuItemImport_Click(sender As Object, e As EventArgs) Handles MenuItemImport.Click
+        Dim gv As New UserControls.MyRadGridView
+        Me.Controls.Add(gv)
+        Dim currentdate As Date = Date.Today
+
+        If transportSql.importExcel(gv, "Code", "Name") Then
+            Try
+                clsCommon.ProgressBarShow()
+                For Each grow As GridViewRowInfo In gv.Rows
+                    Dim obj As New ClsLICPolicyMaster()
+
+                    Dim strCode As String = clsCommon.myCstr(grow.Cells(0).Value)
+                    If strCode.Length > 30 Or (String.IsNullOrEmpty(strCode)) Then
+                        Throw New Exception("Code can not be blank or incorrect.")
+                    End If
+                    obj.Code = strCode
+
+                    Dim strName As String = clsCommon.myCstr(grow.Cells(1).Value)
+                    If strName.Length > 100 Or (String.IsNullOrEmpty(strName)) Then
+                        Throw New Exception("Name can not be blank or incorrect.")
+                    End If
+                    obj.Description = strName
+
+                    obj.SaveData(obj, ClsLICPolicyMaster.CheckNewEntry(obj.Code))
+                Next
+
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+                clsCommon.ProgressBarHide()
+                myMessages.myExceptions(ex)
+            End Try
+        End If
+        Me.Controls.Remove(gv)
+    End Sub
 End Class

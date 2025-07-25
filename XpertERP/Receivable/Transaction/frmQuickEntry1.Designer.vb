@@ -37,6 +37,7 @@ Partial Class FrmQuickEntry1
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkSecurity = New System.Windows.Forms.CheckBox()
         Me.chkPrintCheque = New System.Windows.Forms.CheckBox()
         Me.txtLocation = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -56,7 +57,6 @@ Partial Class FrmQuickEntry1
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkSecurity = New System.Windows.Forms.CheckBox()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -230,6 +230,16 @@ Partial Class FrmQuickEntry1
         Me.SplitContainer1.Size = New System.Drawing.Size(787, 359)
         Me.SplitContainer1.SplitterDistance = 86
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkSecurity
+        '
+        Me.chkSecurity.AutoSize = True
+        Me.chkSecurity.Location = New System.Drawing.Point(677, 11)
+        Me.chkSecurity.Name = "chkSecurity"
+        Me.chkSecurity.Size = New System.Drawing.Size(66, 17)
+        Me.chkSecurity.TabIndex = 104
+        Me.chkSecurity.Text = "Security"
+        Me.chkSecurity.UseVisualStyleBackColor = True
         '
         'chkPrintCheque
         '
@@ -448,12 +458,15 @@ Partial Class FrmQuickEntry1
         Me.MasterTemplate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MasterTemplate.MasterTemplate.ShowHeaderCellButtons = True
         Me.MasterTemplate.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MasterTemplate.MyExportFilePath = ""
+        Me.MasterTemplate.MyStopExport = False
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
         Me.MasterTemplate.Size = New System.Drawing.Size(787, 269)
         Me.MasterTemplate.TabIndex = 0
         Me.MasterTemplate.TabStop = False
+        Me.MasterTemplate.VarID = ""
         '
         'RadMenu1
         '
@@ -494,16 +507,6 @@ Partial Class FrmQuickEntry1
         '
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export Blank Sheet"
-        '
-        'chkSecurity
-        '
-        Me.chkSecurity.AutoSize = True
-        Me.chkSecurity.Location = New System.Drawing.Point(677, 11)
-        Me.chkSecurity.Name = "chkSecurity"
-        Me.chkSecurity.Size = New System.Drawing.Size(66, 17)
-        Me.chkSecurity.TabIndex = 104
-        Me.chkSecurity.Text = "Security"
-        Me.chkSecurity.UseVisualStyleBackColor = True
         '
         'FrmQuickEntry1
         '
