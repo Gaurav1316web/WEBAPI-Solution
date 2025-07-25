@@ -1203,6 +1203,12 @@
     <Compile Include="HR and Payroll\Tranasction\frmLeaveStartingDateSetting.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmLICEmployeeTagging.Designer.vb">
+      <DependentUpon>frmLICEmployeeTagging.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmLICEmployeeTagging.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmLoanAdjustment.Designer.vb">
       <DependentUpon>frmLoanAdjustment.vb</DependentUpon>
     </Compile>

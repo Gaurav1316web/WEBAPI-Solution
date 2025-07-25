@@ -1533,6 +1533,7 @@ Public Class clsUserMgtCode
     Public Const frmArrear As String = "Arrear"
     Public Const frmDA_Arrear As String = "DA_Arrear"
     Public Const frmLeaveEncashment As String = "L_Encashment"
+    Public Const frmLICEmployeeTagging As String = "LIC-EMP-TAG"
     Public Const frmAllowanceDetails As String = "ALLOWANCE"
     Public Const frmDeductionDetails As String = "DEDUCTION"
     Public Const frmEmployeeStatus As String = "EMP_Status"

@@ -667,7 +667,7 @@ Public Class rptSaleRegisterDetail
                     Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
                     summaryRowItem.Add(item)
                 ElseIf col.Name.Contains("Gross") = True Then
-                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item)
                 End If
             Next
