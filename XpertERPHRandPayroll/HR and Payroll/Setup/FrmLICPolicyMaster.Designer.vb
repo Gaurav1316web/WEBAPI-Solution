@@ -454,6 +454,7 @@ Partial Class FrmLICPolicyMaster
         Me.btnPost.Size = New System.Drawing.Size(68, 18)
         Me.btnPost.TabIndex = 8
         Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
         '
         'btnHistory
         '

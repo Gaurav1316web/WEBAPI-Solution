@@ -23,6 +23,18 @@ Public Class ClsLICPolicyMaster
         Return str
     End Function
 
+    Public Shared Function CheckNewEntry(ByVal Code As String, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Dim qry As String = "select LIC_CODE from TSPL_LIC_POLICY_MASTER where LIC_CODE ='" + Code + "'   "
+        Dim dt As DataTable
+        dt = clsDBFuncationality.GetDataTable(qry)
+        If dt.Rows.Count > 0 Then
+            Return False
+        Else
+            Return True
+        End If
+
+    End Function
+
     Public Function SaveData(ByVal obj As ClsLICPolicyMaster, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
