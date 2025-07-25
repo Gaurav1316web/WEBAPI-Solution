@@ -170,7 +170,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                     frm.Controls.Add(gv)
                     FillGridView(sql, gv)
                     gv.Visible = False
-                    If gv.Rows.Count = 0 And frmFilter.chkBlankSheet.Checked = False Then
+                    If gv.Rows.Count = 0 And frmFilter.IsBlankSheet = False Then
                         common.clsCommon.MyMessageBoxShow("There is no data to transfer.")
                         Return False
                     End If
@@ -190,13 +190,13 @@ a:          Dim frmFilter As New frmFilterToExport()
 
                     Dim ext As String = Path.GetExtension(filePath)
                     If clsCommon.CompairString(ext, ".csv") = CompairStringResult.Equal Then
-                        exportdataInCSV(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), IIf(frmFilter.chkBlankSheet.Checked, True, False)) 'frm.Text)
+                        exportdataInCSV(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), IIf(frmFilter.IsBlankSheet, True, False)) 'frm.Text)
                     Else
                         'sanjay
                         If SupermanadatoryField IsNot Nothing AndAlso SupermanadatoryField.Count > 0 AndAlso clsCommon.myLen(formid) > 0 Then
                             transportSql.applyExpImpTemplate(gv, formid)
                         End If
-                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), IIf(frmFilter.chkBlankSheet.Checked, True, False), Nothing, False, False, False, False, manadatoryField) 'frm.Text)
+                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), IIf(frmFilter.IsBlankSheet, True, False), Nothing, False, False, False, False, manadatoryField) 'frm.Text)
                         'sanjay
                     End If
 
@@ -2771,7 +2771,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                     'gv.MasterGridViewTemplate.AutoGenerateColumns = True
                     'gv.DataSource = Nothing
                     'gv.DataSource = clsDBFuncationality.GetDataTable(sql)
-                    If gv.Rows.Count = 0 And frmFilter.chkBlankSheet.Checked = False Then
+                    If gv.Rows.Count = 0 And frmFilter.IsBlankSheet = False Then
                         common.clsCommon.MyMessageBoxShow("There is no data to transfer.")
                         Return False
                     End If
@@ -2895,7 +2895,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                     'gv.MasterGridViewTemplate.AutoGenerateColumns = True
                     'gv.DataSource = Nothing
                     'gv.DataSource = clsDBFuncationality.GetDataTable(sql)
-                    If gv.Rows.Count = 0 And frmFilter.chkBlankSheet.Checked = False Then
+                    If gv.Rows.Count = 0 And frmFilter.IsBlankSheet = False Then
                         common.clsCommon.MyMessageBoxShow("There is no data to transfer.")
                         Return False
                     End If
@@ -3016,7 +3016,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                         exportdataInCSV(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False) 'frm.Text)
                     Else
                         'sanjay
-                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, , Display_Firstrow, False, False, True) 'frm.Text)
+                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, , Display_Firstrow, False, False, False) 'frm.Text)
                         'sanjay
                     End If
 
