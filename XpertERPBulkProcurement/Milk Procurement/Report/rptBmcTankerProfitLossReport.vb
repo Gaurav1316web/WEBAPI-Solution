@@ -363,7 +363,8 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             'gv1.Columns("DocumentDate").HeaderText = "DocumentDate"
             gv1.Columns("MonthNumber").IsVisible = False
             gv1.Columns("MonthNumber").HeaderText = "Month Number"
-
+            gv1.Columns("Description").IsVisible = False
+            gv1.Columns("Description").HeaderText = "Transporter"
             If rbtTotal.IsChecked Then
                 gv1.Columns("Trip_No").IsVisible = False
                 gv1.Columns("Trip_No").HeaderText = "Trip No"
@@ -371,10 +372,10 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
                 gv1.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
                 gv1.Columns("Tanker_No").IsVisible = False
                 gv1.Columns("Tanker_No").HeaderText = "Tanker No"
-                gv1.Columns("Temp").IsVisible = False
-                gv1.Columns("Temp").HeaderText = "Temp"
-                gv1.Columns("Description").IsVisible = False
-                gv1.Columns("Description").HeaderText = "Transporter"
+                'gv1.Columns("Temp").IsVisible = False
+                'gv1.Columns("Temp").HeaderText = "Temp"
+                'gv1.Columns("Description").IsVisible = False
+                'gv1.Columns("Description").HeaderText = "Transporter"
             Else
                 gv1.Columns("Trip_No").IsVisible = False
                 gv1.Columns("Trip_No").HeaderText = "Trip No"
@@ -382,12 +383,30 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
                 gv1.Columns("ROUTE_CODE").HeaderText = "ROUTE CODE"
                 gv1.Columns("Tanker_No").IsVisible = True
                 gv1.Columns("Tanker_No").HeaderText = "Tanker No"
-                gv1.Columns("Temp").IsVisible = True
-                gv1.Columns("Temp").HeaderText = "Temp"
-                gv1.Columns("Description").IsVisible = True
-                gv1.Columns("Description").HeaderText = "Transporter"
+                ' gv1.Columns("Temp").IsVisible = True
+                'gv1.Columns("Temp").HeaderText = "Temp"
+                'gv1.Columns("Description").IsVisible = True
+                'gv1.Columns("Description").HeaderText = "Transporter"
             End If
 
+
+
+            '
+            gv1.Columns("Original_Qty").IsVisible = True
+            gv1.Columns("Original_Qty").HeaderText = "Qty"
+
+            gv1.Columns("Original_FATKg").IsVisible = True
+            gv1.Columns("Original_FATKg").HeaderText = "FATKG"
+
+            gv1.Columns("Original_SNFKg").IsVisible = True
+            gv1.Columns("Original_SNFKg").HeaderText = "SNFKG"
+
+            gv1.Columns("SNF(%)").IsVisible = True
+
+            gv1.Columns("SNF(%)").HeaderText = "SNF(%)"
+            gv1.Columns("FAT(%)").IsVisible = True
+
+            gv1.Columns("FAT(%)").HeaderText = "FAT(%)"
 
             gv1.Columns("Entered_Qty").IsVisible = True
             gv1.Columns("Entered_Qty").HeaderText = "Quantity"
@@ -405,22 +424,6 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
 
             gv1.Columns("Entered_qty_fat").IsVisible = True
             gv1.Columns("Entered_qty_fat").HeaderText = "FAT%"
-            '
-            gv1.Columns("Original_Qty").IsVisible = True
-            gv1.Columns("Original_Qty").HeaderText = "Qty"
-
-            gv1.Columns("Original_FATKg").IsVisible = True
-            gv1.Columns("Original_FATKg").HeaderText = "FATKG"
-
-            gv1.Columns("Original_SNFKg").IsVisible = True
-            gv1.Columns("Original_SNFKg").HeaderText = "SNFKG"
-
-            gv1.Columns("SNF(%)").IsVisible = True
-
-            gv1.Columns("SNF(%)").HeaderText = "SNF(%)"
-            gv1.Columns("FAT(%)").IsVisible = True
-
-            gv1.Columns("FAT(%)").HeaderText = "FAT(%)"
 
             gv1.Columns("FLUSING").IsVisible = True
             gv1.Columns("FLUSING").HeaderText = "Flushing"
@@ -456,9 +459,14 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
                 gv1.Columns("ADJSNFKG1").IsVisible = False
                 gv1.Columns("ADJSNFKG1").HeaderText = "SNF(KG)"
             End If
+            If rbtDetail.IsChecked Then
 
-
-
+                gv1.Columns("SortOrder").IsVisible = False
+            End If
+            gv1.Columns("ADJFATKG1").IsVisible = False
+            gv1.Columns("ADJSNFKG").IsVisible = False
+            gv1.Columns("Temp").IsVisible = False
+            gv1.Columns("Temp").HeaderText = "Temp"
         Next
         If rbtSummary.IsChecked Then
             Dim summaryRowItemB As New GridViewSummaryRowItem()
@@ -473,10 +481,11 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             summaryRowItemB.Add(Entered_Qty_snf)
             Dim Entered_Qty_fat As New GridViewSummaryItem("Entered_Qty_fat", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(Entered_Qty_fat)
-            Dim Original_Qty As New GridViewSummaryItem("Original_Qty", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItemB.Add(Original_Qty)
             Dim QTY As New GridViewSummaryItem("Entered_Qty", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(QTY)
+            Dim Original_Qty As New GridViewSummaryItem("Original_Qty", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Original_Qty)
+
 
             Dim Original_FATKg As New GridViewSummaryItem("Original_FATKg", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItemB.Add(Original_FATKg)
@@ -649,6 +658,34 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        Export(EnumExportTo.Excel)
+        'Try
+        '    If gv1.Rows.Count > 0 Then
+        '        Dim arrHeader As List(Of String) = New List(Of String)()
+        '        arrHeader.Add("Print Date (" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy hh:mm:ss tt") + ")")
+        '        arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+        '        arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptBmcTankerProfitLossReport & "'"))
+        '        arrHeader.Add("Date Range : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "  To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
+
+        '        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
+        '            arrHeader.Add("Route : " & txtRoute.arrDispalyMember(0))
+        '        End If
+
+        '        If txtTanker.arrValueMember IsNot Nothing AndAlso txtTanker.arrValueMember.Count > 0 Then
+        '            arrHeader.Add("Tanker : " & txtTanker.arrDispalyMember(0))
+
+        '        End If
+
+        '        transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
+        '    Else
+        '        Throw New Exception("No data found to export.")
+
+        '    End If
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
+    End Sub
+    Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
@@ -665,8 +702,11 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
                     arrHeader.Add("Tanker : " & txtTanker.arrDispalyMember(0))
 
                 End If
-
-                transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
+                If exporter = EnumExportTo.Excel Then
+                    'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                    transportSql.exportdata(gv1, "", Me.Text, , arrHeader, False, False, True)
+                End If
+                'transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
             Else
                 Throw New Exception("No data found to export.")
 

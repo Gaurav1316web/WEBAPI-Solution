@@ -1,4 +1,5 @@
 ﻿Imports common
+Imports System.IO
 Public Class rptDayWiseBoothDemand
     Inherits FrmMainTranScreen
     Private Sub TxtCustomer__My_Click(sender As Object, e As EventArgs) Handles TxtCustomer._My_Click
@@ -583,8 +584,11 @@ select xx.Item_Code,  xx.Quantity,xx.[Booth Code],dateadd(day,1,convert(date,Doc
                 End If
                 If exporter = EnumExportTo.Excel Then
                         transportSql.applyExportTemplate(GV1, PageSetupReport_ID)
-                        transportSql.QuickExportToExcel(GV1, "", Me.Text, , arrHeader)
-                    Else
+                    'transportSql.QuickExportToExcel(GV1, "", Me.Text, , arrHeader)
+                    'transportSql.exportdata(GV1, "", Me.Text, , arrHeader, False, False, True)
+                    transportSql.exportdata(gv1, "", Me.Text, , arrHeader, False, False, False)
+
+                Else
                         transportSql.applyExportTemplate(GV1, PageSetupReport_ID)
                         clsCommon.MyExportToPDF("Day Wise Booth Demand", GV1, arrHeader, "Day Wise Booth Demand", PageSetupReport_ID, objCommonVar.CurrentUserCode)
                     End If

@@ -46,7 +46,6 @@ Partial Class rptDayWiseBoothDemand
         Me.rdbBooth = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbRoute = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.GV1 = New Telerik.WinControls.UI.RadGridView()
         Me.PrintBoothBill = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
@@ -54,6 +53,7 @@ Partial Class rptDayWiseBoothDemand
         Me.btnGO = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -82,13 +82,13 @@ Partial Class rptDayWiseBoothDemand
         CType(Me.rdbBooth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.GV1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PrintBoothBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -121,7 +121,7 @@ Partial Class rptDayWiseBoothDemand
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 413)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -359,25 +359,12 @@ Partial Class rptDayWiseBoothDemand
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.Controls.Add(Me.GV1)
+        Me.RadPageViewPage2.Controls.Add(Me.gv1)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(819, 384)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 365)
         Me.RadPageViewPage2.Text = "Report"
-        '
-        'GV1
-        '
-        Me.GV1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.GV1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.GV1.MasterTemplate.AllowColumnHeaderContextMenu = False
-        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.GV1.Name = "GV1"
-        Me.GV1.Size = New System.Drawing.Size(819, 384)
-        Me.GV1.TabIndex = 0
         '
         'PrintBoothBill
         '
@@ -438,6 +425,34 @@ Partial Class rptDayWiseBoothDemand
         Me.btnReset.TabIndex = 408
         Me.btnReset.Text = "Reset"
         '
+        'gv1
+        '
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(779, 365)
+        Me.gv1.TabIndex = 4
+        Me.gv1.VarID = ""
+        '
         'rptDayWiseBoothDemand
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -483,13 +498,13 @@ Partial Class rptDayWiseBoothDemand
         CType(Me.rdbBooth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbRoute, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GV1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PrintBoothBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -515,7 +530,6 @@ Partial Class rptDayWiseBoothDemand
     Friend WithEvents rdbBooth As RadRadioButton
     Friend WithEvents rdbRoute As RadRadioButton
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents GV1 As RadGridView
     Friend WithEvents PrintBoothBill As RadButton
     Friend WithEvents btnSplitExport As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
@@ -526,4 +540,5 @@ Partial Class rptDayWiseBoothDemand
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rdbSummary As RadRadioButton
     Friend WithEvents rdbDetail As RadRadioButton
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
