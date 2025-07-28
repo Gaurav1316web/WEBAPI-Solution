@@ -4050,7 +4050,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                      CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                      ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                      ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,                                    
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
@@ -4175,7 +4178,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms,  "
             End If
 
@@ -4342,7 +4348,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
@@ -4530,7 +4539,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
@@ -4594,7 +4606,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
@@ -5149,7 +5164,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
                 End If
 
@@ -5461,7 +5479,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
@@ -5613,7 +5634,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount,TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt AS TotalSubsidyAmt,
+                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
                                     tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,
                                     CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If

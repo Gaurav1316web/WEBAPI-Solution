@@ -22,9 +22,9 @@ Partial Class rptPaymentProcessRouteReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -34,6 +34,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gbLedger = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox16 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkMCCWiseSummary = New common.Controls.MyCheckBox()
+        Me.btnMCCWise = New Telerik.WinControls.UI.RadButton()
         Me.fndArea = New common.UserControls.txtFinder()
         Me.lblMCC = New common.Controls.MyLabel()
         Me.RadGroupBox17 = New Telerik.WinControls.UI.RadGroupBox()
@@ -165,8 +167,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnMCCWise = New Telerik.WinControls.UI.RadButton()
-        Me.chkMCCWiseSummary = New common.Controls.MyCheckBox()
+        Me.chkAliasNameDCS = New common.Controls.MyCheckBox()
+        Me.chkAliasNameYDS = New common.Controls.MyCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -178,6 +180,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.gbLedger.SuspendLayout()
         CType(Me.RadGroupBox16, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox16.SuspendLayout()
+        CType(Me.chkMCCWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMCCWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox17, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox17.SuspendLayout()
@@ -303,8 +307,8 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnMCCWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMCCWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAliasNameDCS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAliasNameYDS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -406,6 +410,7 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox16
         '
         Me.RadGroupBox16.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox16.Controls.Add(Me.chkAliasNameYDS)
         Me.RadGroupBox16.Controls.Add(Me.chkMCCWiseSummary)
         Me.RadGroupBox16.Controls.Add(Me.btnMCCWise)
         Me.RadGroupBox16.Controls.Add(Me.fndArea)
@@ -423,11 +428,31 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox16.Controls.Add(Me.MyLabel20)
         Me.RadGroupBox16.Controls.Add(Me.btnYearlySummary)
         Me.RadGroupBox16.HeaderText = "Yearly DCS/MCC Summary"
-        Me.RadGroupBox16.Location = New System.Drawing.Point(283, 144)
+        Me.RadGroupBox16.Location = New System.Drawing.Point(279, 144)
         Me.RadGroupBox16.Name = "RadGroupBox16"
-        Me.RadGroupBox16.Size = New System.Drawing.Size(286, 182)
+        Me.RadGroupBox16.Size = New System.Drawing.Size(299, 209)
         Me.RadGroupBox16.TabIndex = 10
         Me.RadGroupBox16.Text = "Yearly DCS/MCC Summary"
+        '
+        'chkMCCWiseSummary
+        '
+        Me.chkMCCWiseSummary.Location = New System.Drawing.Point(6, 129)
+        Me.chkMCCWiseSummary.MyLinkLable1 = Nothing
+        Me.chkMCCWiseSummary.MyLinkLable2 = Nothing
+        Me.chkMCCWiseSummary.Name = "chkMCCWiseSummary"
+        Me.chkMCCWiseSummary.Size = New System.Drawing.Size(72, 18)
+        Me.chkMCCWiseSummary.TabIndex = 1530
+        Me.chkMCCWiseSummary.Tag1 = Nothing
+        Me.chkMCCWiseSummary.Text = "MCC Wise"
+        '
+        'btnMCCWise
+        '
+        Me.btnMCCWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMCCWise.Location = New System.Drawing.Point(82, 181)
+        Me.btnMCCWise.Name = "btnMCCWise"
+        Me.btnMCCWise.Size = New System.Drawing.Size(95, 22)
+        Me.btnMCCWise.TabIndex = 1529
+        Me.btnMCCWise.Text = "MCC Wise Print"
         '
         'fndArea
         '
@@ -664,7 +689,7 @@ Partial Class rptPaymentProcessRouteReport
         'btnYearlySummary
         '
         Me.btnYearlySummary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnYearlySummary.Location = New System.Drawing.Point(5, 154)
+        Me.btnYearlySummary.Location = New System.Drawing.Point(5, 181)
         Me.btnYearlySummary.Name = "btnYearlySummary"
         Me.btnYearlySummary.Size = New System.Drawing.Size(71, 22)
         Me.btnYearlySummary.TabIndex = 153
@@ -676,7 +701,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox14.Controls.Add(Me.btnDCSWiseAvgFatSnfPrint)
         Me.RadGroupBox14.Controls.Add(Me.RadGroupBox15)
         Me.RadGroupBox14.HeaderText = "DCS Wise Avg FAT SNF"
-        Me.RadGroupBox14.Location = New System.Drawing.Point(578, 137)
+        Me.RadGroupBox14.Location = New System.Drawing.Point(582, 137)
         Me.RadGroupBox14.Name = "RadGroupBox14"
         Me.RadGroupBox14.Size = New System.Drawing.Size(269, 104)
         Me.RadGroupBox14.TabIndex = 9
@@ -758,7 +783,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox12.Controls.Add(Me.RadSplitButton1)
         Me.RadGroupBox12.Controls.Add(Me.RadGroupBox13)
         Me.RadGroupBox12.HeaderText = "Daily Gain Loss Report"
-        Me.RadGroupBox12.Location = New System.Drawing.Point(578, 247)
+        Me.RadGroupBox12.Location = New System.Drawing.Point(582, 247)
         Me.RadGroupBox12.Name = "RadGroupBox12"
         Me.RadGroupBox12.Size = New System.Drawing.Size(269, 106)
         Me.RadGroupBox12.TabIndex = 8
@@ -867,7 +892,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox10.Controls.Add(Me.btn_DCS_Ledger_Report)
         Me.RadGroupBox10.Controls.Add(Me.RadGroupBox11)
         Me.RadGroupBox10.HeaderText = "DCS Ledger Report"
-        Me.RadGroupBox10.Location = New System.Drawing.Point(8, 117)
+        Me.RadGroupBox10.Location = New System.Drawing.Point(6, 117)
         Me.RadGroupBox10.Name = "RadGroupBox10"
         Me.RadGroupBox10.Size = New System.Drawing.Size(269, 209)
         Me.RadGroupBox10.TabIndex = 7
@@ -1072,7 +1097,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox8.Controls.Add(Me.btnPrintDailySummary)
         Me.RadGroupBox8.Controls.Add(Me.RadGroupBox9)
         Me.RadGroupBox8.HeaderText = "Daily Summary"
-        Me.RadGroupBox8.Location = New System.Drawing.Point(578, 9)
+        Me.RadGroupBox8.Location = New System.Drawing.Point(582, 9)
         Me.RadGroupBox8.Name = "RadGroupBox8"
         Me.RadGroupBox8.Size = New System.Drawing.Size(269, 122)
         Me.RadGroupBox8.TabIndex = 6
@@ -1194,15 +1219,16 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox6
         '
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.chkAliasNameDCS)
         Me.RadGroupBox6.Controls.Add(Me.btnGoDCSSummary)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox20)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox19)
         Me.RadGroupBox6.Controls.Add(Me.RadGroupBox7)
         Me.RadGroupBox6.Controls.Add(Me.btnDCSSummaryPrint)
         Me.RadGroupBox6.HeaderText = "DCS Summary"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(283, 9)
+        Me.RadGroupBox6.Location = New System.Drawing.Point(279, 9)
         Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Size = New System.Drawing.Size(286, 131)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(299, 131)
         Me.RadGroupBox6.TabIndex = 5
         Me.RadGroupBox6.Text = "DCS Summary"
         '
@@ -1288,13 +1314,13 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox19.Location = New System.Drawing.Point(5, 19)
         Me.RadGroupBox19.Name = "RadGroupBox19"
         Me.RadGroupBox19.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox19.Size = New System.Drawing.Size(185, 21)
+        Me.RadGroupBox19.Size = New System.Drawing.Size(182, 21)
         Me.RadGroupBox19.TabIndex = 1526
         '
         'rbtnDateRange
         '
         Me.rbtnDateRange.AutoSize = True
-        Me.rbtnDateRange.Location = New System.Drawing.Point(98, 2)
+        Me.rbtnDateRange.Location = New System.Drawing.Point(92, 2)
         Me.rbtnDateRange.Name = "rbtnDateRange"
         Me.rbtnDateRange.Size = New System.Drawing.Size(85, 17)
         Me.rbtnDateRange.TabIndex = 1
@@ -1389,7 +1415,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox5.Controls.Add(Me.btnLedgerPrint)
         Me.RadGroupBox5.Controls.Add(Me.RadGroupBox4)
         Me.RadGroupBox5.HeaderText = "Ledger Print"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(8, 7)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(6, 7)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Size = New System.Drawing.Size(269, 104)
         Me.RadGroupBox5.TabIndex = 4
@@ -1890,7 +1916,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1923,7 +1950,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv2.MasterTemplate.AllowAddNewRow = False
         Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv2.MyExportFilePath = ""
         Me.Gv2.MyStopExport = False
         Me.Gv2.Name = "Gv2"
         Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1956,7 +1984,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv3.MasterTemplate.AllowAddNewRow = False
         Me.Gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv3.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv3.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.Gv3.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.Gv3.MyExportFilePath = ""
         Me.Gv3.MyStopExport = False
         Me.Gv3.Name = "Gv3"
         Me.Gv3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2025,25 +2054,27 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'btnMCCWise
+        'chkAliasNameDCS
         '
-        Me.btnMCCWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMCCWise.Location = New System.Drawing.Point(82, 154)
-        Me.btnMCCWise.Name = "btnMCCWise"
-        Me.btnMCCWise.Size = New System.Drawing.Size(95, 22)
-        Me.btnMCCWise.TabIndex = 1529
-        Me.btnMCCWise.Text = "MCC Wise Print"
+        Me.chkAliasNameDCS.Location = New System.Drawing.Point(188, 20)
+        Me.chkAliasNameDCS.MyLinkLable1 = Nothing
+        Me.chkAliasNameDCS.MyLinkLable2 = Nothing
+        Me.chkAliasNameDCS.Name = "chkAliasNameDCS"
+        Me.chkAliasNameDCS.Size = New System.Drawing.Size(104, 18)
+        Me.chkAliasNameDCS.TabIndex = 1531
+        Me.chkAliasNameDCS.Tag1 = Nothing
+        Me.chkAliasNameDCS.Text = "Alias Name Wise"
         '
-        'chkMCCWiseSummary
+        'chkAliasNameYDS
         '
-        Me.chkMCCWiseSummary.Location = New System.Drawing.Point(6, 129)
-        Me.chkMCCWiseSummary.MyLinkLable1 = Nothing
-        Me.chkMCCWiseSummary.MyLinkLable2 = Nothing
-        Me.chkMCCWiseSummary.Name = "chkMCCWiseSummary"
-        Me.chkMCCWiseSummary.Size = New System.Drawing.Size(72, 18)
-        Me.chkMCCWiseSummary.TabIndex = 1530
-        Me.chkMCCWiseSummary.Tag1 = Nothing
-        Me.chkMCCWiseSummary.Text = "MCC Wise"
+        Me.chkAliasNameYDS.Location = New System.Drawing.Point(6, 153)
+        Me.chkAliasNameYDS.MyLinkLable1 = Nothing
+        Me.chkAliasNameYDS.MyLinkLable2 = Nothing
+        Me.chkAliasNameYDS.Name = "chkAliasNameYDS"
+        Me.chkAliasNameYDS.Size = New System.Drawing.Size(104, 18)
+        Me.chkAliasNameYDS.TabIndex = 1532
+        Me.chkAliasNameYDS.Tag1 = Nothing
+        Me.chkAliasNameYDS.Text = "Alias Name Wise"
         '
         'rptPaymentProcessRouteReport
         '
@@ -2071,6 +2102,8 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.RadGroupBox16, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox16.ResumeLayout(False)
         Me.RadGroupBox16.PerformLayout()
+        CType(Me.chkMCCWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMCCWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox17, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox17.ResumeLayout(False)
@@ -2138,6 +2171,7 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.dtpDailySummaryFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
         CType(Me.btnGoDCSSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox20, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox20.ResumeLayout(False)
@@ -2215,8 +2249,8 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnMCCWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMCCWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAliasNameDCS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAliasNameYDS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2364,5 +2398,7 @@ Partial Class rptPaymentProcessRouteReport
     Friend WithEvents Gv3 As common.UserControls.MyRadGridView
     Friend WithEvents btnMCCWise As RadButton
     Friend WithEvents chkMCCWiseSummary As common.Controls.MyCheckBox
+    Friend WithEvents chkAliasNameDCS As common.Controls.MyCheckBox
+    Friend WithEvents chkAliasNameYDS As common.Controls.MyCheckBox
 End Class
 
