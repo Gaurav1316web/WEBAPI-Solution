@@ -148,7 +148,7 @@ Public Class frmProductionEntryWithoutBatch
         lblLocation.Text = ""
         txtComment.Text = ""
         dtpDate.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
-        dtpBatchDate.Value = Nothing
+        dtpBatchDate.Value = dtpDate.Value
         fndItemCategory.Value = Nothing
         TxtCategory.Text = ""
         gvBatch.Rows.Clear()
@@ -922,8 +922,8 @@ Public Class frmProductionEntryWithoutBatch
         txtLocation.Enabled = True
         gvBatch.Rows.Clear()
         txtBatchNo.Text = ""
-        dtpBatchDate.Text = Nothing
-        dtpBatchDate.Value = Nothing
+        'dtpBatchDate.Text = Nothing
+        'dtpBatchDate.Value = Nothing
         txtDesc.Text = ""
         txtComment.Text = ""
         txtCode.MyReadOnly = False
