@@ -361,7 +361,15 @@ Public Class rptSalesLedgerReport
                 End If
             End If
             BaseQry += " " & itemName1 & " SUM(" & itemNamesQty & ") As [Total Qty], " & itemName2 & "SUM(" & itemNamesAmt & ") As [Total Amt],max( Receipt_Amount) As [Deposit Amt] FROM ( "
-
+            If rbtnDetail.IsChecked Then
+                BaseQry += " select max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,convert(date, Document_Date, 103) Document_Date, Shift_Type,sum(CRATE)CRATE,sum(Amount)Amount ,max( Receipt_Amount) As [Deposit Amt],max(Short_Description)Short_Description,max(Item_Description)Item_Description,sum(Receipt_Amount)Receipt_Amount,sum(Report_UOM_Qty)Report_UOM_Qty  "
+                If rbtnDispatch.IsChecked Then
+                    If rbtnMilkType.IsChecked OrElse rbtnProductType.IsChecked Then
+                        BaseQry += " ,max(Sale_Invoice_No)Sale_Invoice_No "
+                    End If
+                End If
+                BaseQry += " from ( "
+            End If
             If rbtnSummary.IsChecked Then
                 If rbtnCustomer.IsChecked Then
                     BaseQry += "SELECT max(Zone_Code)Zone_Code,max([Zone Name])[Zone Name], (Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
@@ -370,7 +378,7 @@ Public Class rptSalesLedgerReport
                 ElseIf rbtnZone.IsChecked Then
                     BaseQry += "SELECT (Zone_Code)Zone_Code,  max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
                 End If
-                BaseQry += " sum(Crate)Crate,max(Short_Description)Short_Description,max(Item_Description)Item_Description,max(Receipt_Amount)Receipt_Amount,sum(Amount)Amount from ( "
+                BaseQry += " sum(Crate)Crate,sum(Report_UOM_Qty)Report_UOM_Qty,max(Short_Description)Short_Description,max(Item_Description)Item_Description,max(Receipt_Amount)Receipt_Amount,sum(Amount)Amount from ( "
             End If
 
             BaseQry += " SELECT Item_Code, Receipt.Cust_Code as Cust_Code1  ,Zone_Code,[Zone Name],XX.Cust_Code,Customer_Name,Route_No,Route_Desc,"
@@ -380,16 +388,18 @@ Public Class rptSalesLedgerReport
                     BaseQry += "Sale_Invoice_No,"
                 End If
             End If
-            BaseQry += " CRATE,Receipt.Receipt_Amount,Short_Description,Item_Description,Amount FROM ( Select TSPL_ITEM_MASTER.Item_Code, TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name,"
+            BaseQry += " Report_UOM_Qty,CRATE,Receipt.Receipt_Amount,Short_Description,Item_Description,Amount FROM ( Select TSPL_ITEM_MASTER.Item_Code, TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name,"
 
             If rbtnDispatch.IsChecked Then
                 BaseQry += " TSPL_SD_SALE_INVOICE_HEAD.Route_No, TSPL_ROUTE_MASTER.Route_Desc,"
                 If rbtnDetail.IsChecked Then
                     BaseQry += " Case When isnull(TSPL_SD_SHIPMENT_HEAD.Shift_Type,'') = 'AM' THEN 'AM' else 'PM' END AS Shift_Type,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,"
                 End If
-                BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty as CRATE
+                BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt As Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty as CRATE,isnull((TSPL_SD_SALE_INVOICE_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Report_UOM_Qty
          From TSPL_SD_SALE_INVOICE_DETAIL Left OUTER Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code Left OUTER Join TSPL_SD_SALE_INVOICE_HEAD On TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left OUTER Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No where 2 = 2  And TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " " & whrclsShift & " "
+         Left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No
+left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and tspl_item_uom_detail.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  Report_UOM ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = Report_UOM.item_code 
+where 2 = 2  And TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " " & whrclsShift & " "
             ElseIf rbtnDemand.IsChecked Then
                 BaseQry += "  TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,"
                 If rbtnDetail.IsChecked Then
@@ -397,8 +407,9 @@ Public Class rptSalesLedgerReport
                 End If
                 BaseQry += "  TSPL_ITEM_MASTER.Item_Desc, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount + (case when TSPL_DEMAND_BOOKING_DETAIL.TAX1 = 'TCS' then TAX1_Amt  when TSPL_DEMAND_BOOKING_DETAIL.TAX2 = 'TCS' then TAX2_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX3 = 'TCS' then TAX3_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX4 = 'TCS' then TAX4_Amt
          when TSPL_DEMAND_BOOKING_DETAIL.TAX5 = 'TCS' then TAX5_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX6 = 'TCS' then TAX6_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' then TAX7_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX8 = 'TCS' then TAX8_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX9 = 'TCS' then TAX9_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX10 = 'TCS' then TAX10_Amt else 0 END ) Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
-         TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Qty As CRATE FROM TSPL_DEMAND_BOOKING_DETAIL LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+         TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Qty As CRATE,isnull((TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Report_UOM_Qty FROM TSPL_DEMAND_BOOKING_DETAIL LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
          Left OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code and tspl_item_uom_detail.UOM_Code= TSPL_DEMAND_BOOKING_DETAIL.Unit_code  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  Report_UOM ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = Report_UOM.item_code 
          where 2 = 2   and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "  "
             End If
 
@@ -417,10 +428,13 @@ Public Class rptSalesLedgerReport
 
             BaseQry += " )xx left join ( select TSPL_RECEIPT_HEADER.Cust_Code ,SUM(Receipt_Amount)Receipt_Amount  from TSPL_RECEIPT_HEADER   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code  
 	        WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' and TSPL_CUSTOMER_MASTER.IsDistributor = 'Y'  GROUP BY TSPL_RECEIPT_HEADER.Cust_Code ) Receipt on Receipt.Cust_Code = XX.Cust_Code )XXX "
+
             If rbtnSummary.IsChecked Then
                 BaseQry += " group by " & groupBy & ",Item_Code ) xxxx"
+            Else
+                BaseQry += "  group by Document_Date,Shift_Type,Item_Code )final  "
             End If
-            BaseQry += " PIVOT (SUM(CRATE)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_crate PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
+            BaseQry += " PIVOT (SUM(Report_UOM_Qty)  FOR Short_Description IN (" & itemNames1 & ") ) AS pivot_Report_UOM PIVOT (SUM(Amount)  FOR Item_Description IN (" & itemNames2 & ") ) AS pivot_net_amt  "
 
             If rbtnDetail.IsChecked Then
                 FinalQuery = "With CTE as (SELECT XXFINAL.Document_Date, XXFINAL.Shift_Type, case when max(Shift_Type) = 'AM' THEN 'M' ELSE 'E' END AS Shift,max(Zone_Code)Zone_Code, max([Zone Name])[Zone Name], max(Cust_Code)Cust_Code,max(Customer_Name)Customer_Name,max(Route_No)Route_No,max(Route_Desc)Route_Desc ,"
@@ -501,6 +515,7 @@ Public Class rptSalesLedgerReport
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).FormatString = "{0:n2}"
         Next
         gv1.ShowGroupPanel = False
 
@@ -573,7 +588,7 @@ Public Class rptSalesLedgerReport
                 If rbtnMilkType.IsChecked OrElse rbtnProductType.IsChecked Then
                     index = 10
                 ElseIf rbtnBothType.IsChecked Then
-                    index = 9
+                    index = 10
                 End If
             End If
         End If
