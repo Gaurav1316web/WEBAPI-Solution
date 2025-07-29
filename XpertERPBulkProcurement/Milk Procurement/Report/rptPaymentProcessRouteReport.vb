@@ -3489,8 +3489,14 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             BaseQry += " ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate" + Environment.NewLine +
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate" + Environment.NewLine +
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate" + Environment.NewLine +
-            ",TSPL_MILK_SRN_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_SRN_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_SRN_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,"
-            BaseQry += " TSPL_MILK_SRN_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
+            ",TSPL_MILK_SRN_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_SRN_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,"
+            BaseQry += " TSPL_MILK_SRN_HEAD.VSP_CODE as VSP_CODE1 , case when isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT,TSPL_MILK_SRN_HEAD.ROUTE_CODE ,"
+            If chkAliasNameDCS.Checked Then
+                BaseQry += " (Case When IsNull(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End) As Vendor_Name,"
+            Else
+                BaseQry += " TSPL_VENDOR_MASTER.Vendor_Name,"
+            End If
+            BaseQry += " TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
             BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Name ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_SRN_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type " + Environment.NewLine +
                 ",(TSPL_MILK_SRN_DETAIL.Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount "
             'If ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = True Then
@@ -3642,15 +3648,33 @@ from (
             'End If
 
             DCSSummaryQuery += " ,CountDays As DAYS_Total from (
-select * from CTE left outer join  
- (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,VSP_CODE1,max(Vendor_Name) as Vendor_Name,  SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
+select * from CTE left outer join  (  select DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,Max(VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,"
+            If chkAliasNameDCS.Checked Then
+                DCSSummaryQuery += " Max(VSP_CODE1)VSP_CODE1,"
+            Else
+                DCSSummaryQuery += " VSP_CODE1,"
+            End If
+            DCSSummaryQuery += " max(Vendor_Name) as Vendor_Name, "
+            DCSSummaryQuery += " SHIFT,QBD,XXXFinal.ROUTE_CODE, sum( Qty) as Qty ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(FATQTY) * 100 / sum( Qty) end as FAT_PER ,
  CASE WHEN SUM(Qty) = 0 THEN 0 ELSE sum(SNFQTY) * 100 / sum( Qty) end as SNF_PER,
  sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,Max(CountDays) As CountDays
-from ( " + sQuery + " ) XXXFinal group by DOC_DATE, VSP_CODE1,QBD,SHIFT,XXXFinal.ROUTE_CODE )XXXFinal on XXXFinal.DocDay = CTE.Number ) XXXPivot) XXXXMain PIVOT
+from ( " + sQuery + " ) XXXFinal group by DOC_DATE,"
+            If chkAliasNameDCS.Checked Then
+                DCSSummaryQuery += " Vendor_Name,"
+            Else
+                DCSSummaryQuery += " VSP_CODE1,"
+            End If
+            DCSSummaryQuery += " QBD,SHIFT,XXXFinal.ROUTE_CODE )XXXFinal on XXXFinal.DocDay = CTE.Number ) XXXPivot) XXXXMain PIVOT
 ( SUM(Qty) FOR Number IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31])
 ) AS PivotTable ) Final left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name,TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD )as XXXDCS ON XXXDCS.VSP_Code=Final.VSP_Code1 
-where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
+where FINAL.VSP_CODE1 is not null"
+            If chkAliasNameDCS.Checked Then
+                DCSSummaryQuery += " group by FINAL.Vendor_Name "
+            Else
+                DCSSummaryQuery += " group by FINAL.VSP_CODE1 "
+            End If
+
 
             dt = clsDBFuncationality.GetDataTable(DCSSummaryQuery)
             Dim AvgDCS As String = "convert(decimal(18,2),(round(sum(Total)/" + Days + " , 0)))"
@@ -3971,7 +3995,7 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReportCycleWise", "")
                     End If
                     frmCRV = Nothing
-                    Else
+                Else
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
                     frmCRV = Nothing
                 End If
@@ -4376,8 +4400,8 @@ and Cast(TSPL_MILK_SRN_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(cls
                 End If
 
                 frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4789,15 +4813,21 @@ TSPL_MILK_COLLECTION_MCC
                     MCCName = clsDBFuncationality.getSingleValue("Select ', '+MCC_NAME from TSPL_MCC_MASTER Where MCC_Code IN ('" + clsCommon.myCstr(fndMultMCC.arrValueMember(0)) + "')")
                 End If
 
-                Dim Qry As String = "; with CTE as (select 1 Number  union all  select Number +1 from CTE where Number<31 ) 
-                                     select"
+                Dim Qry As String = "; with CTE as (select 1 Number  union all  select Number +1 from CTE where Number<31 ) " + Environment.NewLine
+                Qry += "select "
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '' ELSE ([DCS Code]) END END AS DCSCode,
-									
-									 CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN 'R' else CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN 'P' end end as DCStype ,
-									 max(Route_code) as Route_code,"
+                    If chkAliasNameYDS.Checked Then
+                        Qry += " 1 As Alias, CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN Max([DCS Code]) + '' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN Max([DCS Code]) + '' ELSE Max([DCS Code]) END END AS DCSCode,"
+                    Else
+                        Qry += " 0 As Alias, CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '' ELSE ([DCS Code]) END END AS DCSCode,"
+                    End If
+                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN 'R' else CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN 'P' end end as DCStype , max(Route_code) as Route_code,"
                 Else
-                    Qry += " CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,"
+                    If chkAliasNameYDS.Checked Then
+                        Qry += " 1 As Alias,CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN (Max([DCS Code])) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN (Max([DCS Code])) + '(CC)' ELSE Max([DCS Code]) END END AS DCSCode,"
+                    Else
+                        Qry += " 0 As Alias,CASE WHEN max(Registered_PDCS_CLUSTER) = 'Registered' THEN ([DCS Code]) + '(R)' ELSE CASE WHEN max(Registered_PDCS_CLUSTER) = 'PDCS' THEN ([DCS Code]) + '(CC)' ELSE ([DCS Code]) END END AS DCSCode,"
+                    End If
                 End If
                 Qry += "
                                      Max([DCS Code])[DCS Code],'" + objCommonVar.CurrentCompanyName + MCCName + "'  as CompName,'" + objCommonVar.CurrentUser + "' as User_Name,'" + txtDateFrom.Value + "' as fromDate ,'" + txtDateTo.Value + "' as Todate,max(VSP_CODE) as VSP_CODE ,max(Vendor_Name) as Vendor_Name,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,
@@ -4823,12 +4853,24 @@ TSPL_MILK_COLLECTION_MCC
                                      Case when  QBD = 'CURD'  then Qty else 0  end  as TotalCurdQty  
                                      ,count(VSP_CODE1) over (PARTITION BY VSP_CODE1) as DAYS_Total  
                                      from (select * from CTE left outer join  
-                                     (select Max([DCS Code])[DCS Code],SUM(IsNull(FATKG,0)+ISNULL(RFAT,0))FATKG,SUM(IsNull(SNFKG,0)+IsNull(RSNF,0))SNFKG,DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,VSP_CODE1, max(Vendor_Name) as Vendor_Name,max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,SHIFT,QBD,XXXFinal.ROUTE_CODE,
-                                     sum( Qty) as Qty ,Case When sum( Qty)>0 Then sum(FATQTY) * 100 / sum( Qty) Else 0 End  as FAT_PER ,Case When sum( Qty)>0 Then  sum(SNFQTY) * 100 / sum( Qty) Else 0 End as SNF_PER,  sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, 
-                                     sum (SRN_Net_Amount) as SRN_Net_Amount  from ( select isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load ,isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address,     '01/05/2023'  as fromDate ,'31/05/2023'  as Todate ,'Opp. H. M.T. Beawar Road , ALWAR'  as companyADD, '" + objCommonVar.CurrentCompanyName + "'  as CompName, /* TSPL_COMPANY_MASTER .Logo_Img   as compLogo1 ,TSPL_COMPANY_MASTER .Logo_Img2 as compLogo2, */  TSPL_MCC_MASTER.add1 + TSPL_MCC_MASTER.add2 as addd,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty  ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
+                                     (select Max([DCS Code])[DCS Code],SUM(IsNull(FATKG,0)+ISNULL(RFAT,0))FATKG,SUM(IsNull(SNFKG,0)+IsNull(RSNF,0))SNFKG,DAY( convert (date,DOC_DATE,103)) as DocDay ,  DOC_DATE,"
+                If chkAliasNameYDS.Checked Then
+                    Qry += " Max(VSP_CODE1)VSP_CODE1, Vendor_Name,"
+                Else
+                    Qry += " VSP_CODE1, max(Vendor_Name) as Vendor_Name,"
+                End If
+
+                Qry += " max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,SHIFT,QBD,XXXFinal.ROUTE_CODE,sum( Qty) as Qty ,Case When sum( Qty)>0 Then sum(FATQTY) * 100 / sum( Qty) Else 0 End  as FAT_PER ,Case When sum( Qty)>0 Then  sum(SNFQTY) * 100 / sum( Qty) Else 0 End as SNF_PER,  sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount "
+                Qry += " from ( select isnull(TSPL_VENDOR_MASTER.Actual_charges,0) as Actual_charges,isnull (TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load ,isnull(TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,0) as Handling_Charges_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as MPD ,convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as MPI_Date,   TSPL_MCC_MASTER.add1 +case when len(TSPL_MCC_MASTER.add2)>0 then ', '+TSPL_MCC_MASTER.add2 else '' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+MCC_City.City_Name  else ' ' end + case when len(TSPL_MCC_MASTER.State_Code )>0 then MCC_State.STATE_NAME else '' end  as MCC_address,     '01/05/2023'  as fromDate ,'31/05/2023'  as Todate ,'Opp. H. M.T. Beawar Road , ALWAR'  as companyADD, '" + objCommonVar.CurrentCompanyName + "'  as CompName, /* TSPL_COMPANY_MASTER .Logo_Img   as compLogo1 ,TSPL_COMPANY_MASTER .Logo_Img2 as compLogo2, */  TSPL_MCC_MASTER.add1 + TSPL_MCC_MASTER.add2 as addd,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty  ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  (Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0)) end as Standard_Rate
                                     ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate
                                     ,case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate
-                                    ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT, TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Bank_Code,(Case When TSPL_VENDOR_MASTER.Account_No Is Null Then TSPL_VENDOR_MASTER.AccNo2 Else TSPL_VENDOR_MASTER.Account_No End) As Account_No ,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type 
+                                    ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE as VSP_CODE1 ,case when isnull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'')='' then TSPL_MILK_SRN_HEAD.shift else TSPL_MILK_SRN_HEAD.shift end as SHIFT, TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,"
+                If chkAliasNameYDS.Checked Then
+                    Qry += " (Case When IsNull(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End) As Vendor_Name,"
+                Else
+                    Qry += " TSPL_VENDOR_MASTER.Vendor_Name,"
+                End If
+                Qry += " TSPL_VENDOR_MASTER.Bank_Code,(Case When TSPL_VENDOR_MASTER.Account_No Is Null Then TSPL_VENDOR_MASTER.AccNo2 Else TSPL_VENDOR_MASTER.Account_No End) As Account_No ,TSPL_MCC_ROUTE_MASTER .Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type,'')='' then 'Mix' else TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type end as Type ,TSPL_MILK_SRN_DETAIL.CLR,TSPL_MILK_SRN_HEAD.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type 
                                     ,(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
                                     ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT  ,TSPL_MILK_SRN_HEAD.VEHICLE_CODE ,cast( case when  TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty=0 then 0 else (TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0))/TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty end as decimal(18,2)) as RATE
                                     ,TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER 
@@ -4888,7 +4930,14 @@ TSPL_MILK_COLLECTION_MCC
                 ElseIf rbtnRegistered.Checked Then
                     Qry += " and TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER='Registered'"
                 End If
-                Qry += ") XXXFinal group by DOC_DATE, VSP_CODE1,QBD,SHIFT,XXXFinal.ROUTE_CODE )XXXFinal on XXXFinal.DocDay = CTE.Number ) XXXPivot) XXXXMain ) Final 
+                Qry += ") XXXFinal group by DOC_DATE,"
+                If chkAliasNameYDS.Checked Then
+                    Qry += " Vendor_Name,"
+                Else
+                    Qry += " VSP_CODE1,"
+                End If
+
+                Qry += " QBD,SHIFT,XXXFinal.ROUTE_CODE )XXXFinal on XXXFinal.DocDay = CTE.Number ) XXXPivot) XXXXMain ) Final 
                                     left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name,TSPL_VLC_MASTER_HEAD.VSP_Code from TSPL_VLC_MASTER_HEAD)as XXXDCS ON XXXDCS.VSP_Code=Final.VSP_Code1 
                                     where FINAL.VSP_CODE1 is not null "
                 If clsCommon.myLen(fndMultDCS.arrValueMember) > 0 Then
@@ -4902,7 +4951,12 @@ TSPL_MILK_COLLECTION_MCC
                     Next
                     Qry += "and final.VSP_CODE1 IN (" + clsCommon.myCstr(strDCS) + ")"
                 End If
-                Qry += "Group by FINAL.VSP_CODE1,FINAL.[DCS Code] Order By Convert(int,FINAL.[DCS Code]) Asc"
+                If chkAliasNameYDS.Checked Then
+                    Qry += "Group by FINAL.Vendor_Name Order By Convert(Int, max(Final.[DCS Code])) Asc "
+                Else
+                    Qry += "Group by FINAL.VSP_CODE1,FINAL.[DCS Code] Order By Convert(int,FINAL.[DCS Code]) Asc"
+                End If
+
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
 

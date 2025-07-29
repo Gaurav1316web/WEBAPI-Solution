@@ -88,6 +88,7 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnAliasName = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -255,7 +256,7 @@ Partial Class rptDailyQtyReport
         Me.txtTolerenceSNF.TabIndex = 444
         Me.txtTolerenceSNF.Text = "0"
         Me.txtTolerenceSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerenceSNF.Value = 0R
+        Me.txtTolerenceSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblArea
         '
@@ -422,6 +423,7 @@ Partial Class rptDailyQtyReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnAliasName)
         Me.RadGroupBox1.Controls.Add(Me.rbtnTranspoterGainlossSummary)
         Me.RadGroupBox1.Controls.Add(Me.rbtnDockShiftWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnDockDateWise)
@@ -627,7 +629,7 @@ Partial Class rptDailyQtyReport
         Me.txtToleranceSNF.TabIndex = 443
         Me.txtToleranceSNF.Text = "0"
         Me.txtToleranceSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtToleranceSNF.Value = 0R
+        Me.txtToleranceSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtToleranceFat
         '
@@ -653,7 +655,7 @@ Partial Class rptDailyQtyReport
         Me.txtToleranceFat.TabIndex = 442
         Me.txtToleranceFat.Text = "0"
         Me.txtToleranceFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtToleranceFat.Value = 0R
+        Me.txtToleranceFat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblToleranceSNF
         '
@@ -920,12 +922,14 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(935, 284)
         Me.Gv1.TabIndex = 0
+        Me.Gv1.VarID = ""
         '
         'btnGainLoss
         '
@@ -1007,6 +1011,16 @@ Partial Class rptDailyQtyReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'rbtnAliasName
+        '
+        Me.rbtnAliasName.AutoSize = True
+        Me.rbtnAliasName.Location = New System.Drawing.Point(463, 60)
+        Me.rbtnAliasName.Name = "rbtnAliasName"
+        Me.rbtnAliasName.Size = New System.Drawing.Size(81, 17)
+        Me.rbtnAliasName.TabIndex = 458
+        Me.rbtnAliasName.Text = "Alias Name"
+        Me.rbtnAliasName.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '
@@ -1140,5 +1154,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents txtTolerenceSNF As common.MyNumBox
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents btnGainLoss As RadButton
+    Friend WithEvents rbtnAliasName As RadioButton
 End Class
 

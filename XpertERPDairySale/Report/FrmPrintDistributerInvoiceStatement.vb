@@ -75,9 +75,9 @@ Public Class FrmPrintDistributerInvoiceStatement
         '                        and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' ,103) " + Whr + " "
 
         sQuery += " select Cast(0 as BIT) as 'Check', TSPL_SD_SALE_INVOICE_HEAD.Document_Code," & ItemType & "convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Document_Date,TSPL_ROUTE_MASTER.Zone_Code,TSPL_SD_SALE_INVOICE_HEAD.Route_No as Route_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,Customer_Name ,Location_Desc ,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt ,CASE WHEN Shift_type = 'AM' THEN 'Morning' ELSE 'Evening' END AS Shift_type,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) as Supply_Date,TSPL_CUSTOMER_MASTER.Email as Email,TSPL_CUSTOMER_MASTER.Phone1 as Mobile_no "
-        If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "AL") = CompairStringResult.Equal Then
-            sQuery += ",Isnull(TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable,0)Is_Taxable"
-        End If
+        'If clsCommon.CompairString(clsCommon.myCstr(cboReportType.SelectedValue), "AL") = CompairStringResult.Equal Then
+        sQuery += ",Isnull(TSPL_SD_SALE_INVOICE_HEAD.Is_Taxable,0)Is_Taxable"
+        'End If
 
         sQuery += " from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE and TSPL_SD_SALE_INVOICE_DETAIL.Line_No=1 
@@ -240,10 +240,12 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
             gv.Columns("Document_Date").Width = 100
             gv.Columns("Document_Date").HeaderText = " Date"
             'gv.Columns("Document_Date").FormatString = "{0:d}"
+
+            gv.Columns("Zone_Code").IsVisible = True
+            gv.Columns("Zone_Code").Width = 100
+            gv.Columns("Zone_Code").HeaderText = "Zone Code"
         End If
-        gv.Columns("Zone_Code").IsVisible = True
-        gv.Columns("Zone_Code").Width = 100
-        gv.Columns("Zone_Code").HeaderText = "Zone Code"
+
 
         gv.Columns("Route_Code").IsVisible = True
         gv.Columns("Route_Code").Width = 100

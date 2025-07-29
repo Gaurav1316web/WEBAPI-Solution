@@ -963,6 +963,8 @@ xxx:
             sname = sname & clsCommon.GetPrintDate(currTime, "yyyyMMddhhmmss")
             flname = forlderName & "\" & sname & ".xls"
             sname = sname & ".xls"
+        Else
+            flname = flname & ".xls"
         End If
         'sanjay
 
@@ -2976,6 +2978,7 @@ a:          Dim frmFilter As New frmFilterToExport()
             sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 *.xlsx|(*.xlsx);|CSV Files (*.csv) |*.csv"
             'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             filePath = forlderName + "\" + sfd.FileName
+
             'Else
             '    Return False
             'End If
@@ -3016,7 +3019,7 @@ a:          Dim frmFilter As New frmFilterToExport()
                         exportdataInCSV(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False) 'frm.Text)
                     Else
                         'sanjay
-                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, , Display_Firstrow, False, False, False) 'frm.Text)
+                        exportdata(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), False, , Display_Firstrow, False, False, True) 'frm.Text)
                         'sanjay
                     End If
 
