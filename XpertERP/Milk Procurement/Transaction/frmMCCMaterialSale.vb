@@ -3442,10 +3442,15 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                             Return False
                         End If
                     End If
-                    If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Rate Can't be 0 of Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)))
-                        Return False
+                    If gv1.Rows(ii).Cells(colDCSSaleZeroCost).Value Then
+                        gv1.Rows(ii).Cells(colRate).Value = 0
+                    Else
+                        If clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value) <= 0 Then
+                            common.clsCommon.MyMessageBoxShow("Rate Can't be 0 of Item " + strICode.Trim() + "( " + strIName.Trim() + " ) At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)))
+                            Return False
+                        End If
                     End If
+
                     If clsCommon.myLen(strReqNo) > 0 Then
                         If Not (arrReqNo.Contains(strReqNo)) Then
                             arrReqNo.Add(strReqNo)
