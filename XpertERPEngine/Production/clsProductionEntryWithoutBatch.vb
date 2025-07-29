@@ -195,6 +195,9 @@ Public Class clsProductionEntryWithoutBatch
             qry = "delete from TSPL_PP_COST_WITHOUT_BATCH where PROD_ENTRY_CODE='" & obj.PROD_ENTRY_CODE & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            qry = "delete from TSPL_BATCH_ITEM where Document_Code ='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "PROD_ENTRY_CODE", obj.PROD_ENTRY_CODE)
@@ -839,6 +842,7 @@ Public Class clsProductionEntryWithoutBatchDetail
     Public Fat_Amt As Decimal = 0
     Public SNF_Amt As Decimal = 0
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
 #End Region
 
     Public Shared Function SaveDetailData(ByVal strDocNo As String, ByVal objRec As clsProductionEntryWithoutBatch, ByVal Arr As List(Of clsProductionEntryWithoutBatchDetail), ByVal trans As SqlTransaction) As Boolean
@@ -881,6 +885,29 @@ Public Class clsProductionEntryWithoutBatchDetail
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PP_PRODUCTION_ENTRY_DETAIL", OMInsertOrUpdate.Insert, "TSPL_PP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE='" + strDocNo + "' ", trans)
                     clsSerializeInvenotry.SaveData("Production", strDocNo, objRec.PROD_DATE, "I", obj.ITEM_CODE, objRec.LOCATION_CODE, (Arr.IndexOf(obj) + 1), obj.arrSrItem, trans)
+
+                    If clsItemMaster.IsBatchItem(obj.ITEM_CODE, trans) Then
+                        If clsCommon.myLen(objRec.Batch_Code_Manual) <= 0 Then
+                            Throw New Exception("Please define Batch no")
+                        End If
+                        If clsCommon.myLen(objRec.BATCH_DATE) <= 0 Then
+                            Throw New Exception("Please define Batch date")
+                        End If
+                        obj.arrBatchItem = New List(Of clsBatchInventory)
+                        Dim objBatchInv As clsBatchInventory = New clsBatchInventory()
+                        objBatchInv.arr = New List(Of clsBatchInventory)
+                        objBatchInv.Batch_No = objRec.Batch_Code_Manual
+                        objBatchInv.Manufacture_Date = objRec.BATCH_DATE
+                        objBatchInv.Expiry_Date = objRec.BATCH_DATE.AddDays(clsItemMaster.GetSelfLife(obj.ITEM_CODE, trans))
+                        objBatchInv.Qty = obj.FINAL_PRODUCTION_QTY
+                        objBatchInv.Manual_BatchNo = objRec.Batch_Code_Manual
+                        If clsCommon.myLen(objBatchInv.Batch_No) > 0 AndAlso objBatchInv.Qty <> 0 Then
+                            objBatchInv.arr.Add(objBatchInv)
+                        End If
+                        obj.arrBatchItem.Add(objBatchInv)
+                        clsBatchInventory.SaveData(clsUserMgtCode.frmProductionEntry, strDocNo, objRec.PROD_DATE, "I", obj.ITEM_CODE, objRec.LOCATION_CODE, Arr.IndexOf(obj) + 1, 0, obj.UNIT_CODE, obj.arrBatchItem, trans)
+                    End If
+
                 Next
 
                 clsProductionEntryWithoutBatchRM.ValidateProductionItems(strDocNo, trans)
@@ -1032,9 +1059,9 @@ Public Class clsProductionEntryWithoutBatchRM
                 BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(dr.Item("Consm_Item_Code")), clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")), ReceiptCode, objRec.PROD_DATE, trans, clsCommon.myCstr(dr.Item("Consm_Unit_Code")), 0)
             End If
             ' commented by priti on 18/09/2018 discussed with ranjana
-            'If clsCommon.myCdbl(dr.Item("Consm_Qty")) > BalanceQty Then
-            '    Throw New Exception("Item: " & clsCommon.myCstr(dr.Item("Consm_Item_Code")) & ", Location:" & clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")) & " Available Qty: " & BalanceQty & "  Consumed Qty: " & clsCommon.myCdbl(dr.Item("Consm_Qty")) & " ")
-            'End If
+            If clsCommon.myCdbl(dr.Item("Consm_Qty")) > BalanceQty Then
+                Throw New Exception("Item: " & clsCommon.myCstr(dr.Item("Consm_Item_Code")) & ", Location:" & clsCommon.myCstr(dr.Item("CONSM_LOCATION_CODE")) & " Available Qty: " & BalanceQty & "  Consumed Qty: " & clsCommon.myCdbl(dr.Item("Consm_Qty")) & " ")
+            End If
 
 
             '' production costing cols
