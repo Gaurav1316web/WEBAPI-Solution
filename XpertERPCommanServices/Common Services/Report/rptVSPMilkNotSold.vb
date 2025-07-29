@@ -166,18 +166,21 @@ Public Class rptVSPMilkNotSold
                     End If
                     strPreCycleDate += " and TSPL_PAYMENT_CYCLE_GENERATED.From_Date < convert (date, '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "',103) Order By From_Date desc"
                     dtCycleDate = clsDBFuncationality.GetDataTable(strPreCycleDate)
-                    qry = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As 'DCS Code', Vendor_Name AS 'DCS Name'" + DedName + ",Sum(" + tDedAmt + ") As Total
+                    qry = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As 'DCS Code', Vendor_Name AS 'DCS Name'" + DedName + ",Sum(" + tDedAmt + ") As Total,max(Zone_Code)[Zone Code]
                         from 
-                        (SELECT  Vendor_CODE,Vendor_Name, " + DedName1 + " FROM
-                        (SELECT Vendor_CODE,Vendor_Name,DeductionCode, Deduction_Desc,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount 
+                        (SELECT Zone_Code, Vendor_CODE,Vendor_Name, " + DedName1 + " FROM
+                        (SELECT TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_CODE,TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Name,DeductionCode, Deduction_Desc,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount ,TSPL_ZONE_MASTER.Zone_Code
                         FROM TSPL_MULTIPLE_DEDUCTION_DETAIL
 					    left outer join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                        			Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_CODE
+                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
+					   left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.Zone_Code
 					    where TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' "
                     'If txtMultiDeduction.arrValueMember IsNot Nothing AndAlso txtMultiDeduction.arrValueMember.Count > 0 Then
                     If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
                         qry += " and TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode in (" + clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember) + ")"
                     End If
-                    qry += " union all select Customer_Code as Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount from TSPL_SD_SHIPMENT_DETAIL
+                    qry += " union all select Customer_Code as Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount,'' as Zone_Code from TSPL_SD_SHIPMENT_DETAIL
 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code

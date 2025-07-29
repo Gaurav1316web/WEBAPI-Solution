@@ -534,7 +534,7 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             Gv1.Columns("District Name").IsVisible = True
 
             Gv1.Columns("Zone Code").HeaderText = "Zone Code"
-            Gv1.Columns("Zone Code").IsVisible = False
+            Gv1.Columns("Zone Code").IsVisible = True
 
             Gv1.Columns("Zone Name").HeaderText = "Zone Name"
             Gv1.Columns("Zone Name").IsVisible = True
@@ -689,7 +689,7 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             Gv1.Columns("District Name").IsVisible = True
 
             Gv1.Columns("Zone Code").HeaderText = "Zone Code"
-            Gv1.Columns("Zone Code").IsVisible = False
+            Gv1.Columns("Zone Code").IsVisible = True
 
             Gv1.Columns("Zone Name").HeaderText = "Zone Name"
             Gv1.Columns("Zone Name").IsVisible = True
@@ -998,7 +998,7 @@ and  TSPL_DBT_NEFT.Status=1  and CONVERT(date,TSPL_DBT_NEFT.From_Date,103)='" + 
             Gv1.Columns("District Name").IsVisible = True
 
             Gv1.Columns("Zone Code").HeaderText = "Zone Code"
-            Gv1.Columns("Zone Code").IsVisible = False
+            Gv1.Columns("Zone Code").IsVisible = True
 
             Gv1.Columns("Zone Name").HeaderText = "Zone Name"
             Gv1.Columns("Zone Name").IsVisible = True

@@ -115,11 +115,11 @@ Public Class rptDBTMilkPayment
                          select xx.*  from ( 
                         select max(pp.[MCC Name] )  as [MCC Name],max([VLC Name]) as [VLC Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],
                          sum([SRN Qty]) as [SRN Qty],sum([SRN Amount]) as [SRN Amount], max(Incetive_Rate) as Incetive_Rate,
-                         max(Conversion_Factor) as Conversion_Factor,MAX(Comp_Name) AS Comp_Name,max(Area_Location_Code)AreaCode,max(AreaName)AreaName   from (
+                         max(Conversion_Factor) as Conversion_Factor,MAX(Comp_Name) AS Comp_Name,max(Area_Location_Code)AreaCode,max(AreaName)AreaName,max(zone_code) zone_code   from (
  
                         Select final.[Milk Receipt Code]  ,final.[MCC Name] ,final.[Vlc Uploader Code]  ,final.[VLC Name] ,final.Item_Code,final.Item_Desc,
                         final.UOM_Code as [UOM],final.[Milk Weight(KG)], final.[Milk Weight(LTR)]  as [Milk Weight(LTR)],final.[SRN Amount],
-                        final.[SRN Qty],final.Incetive_Rate,final.Conversion_Factor,FINAL.Comp_Name,final.Area_Location_Code,"
+                        final.[SRN Qty],final.Incetive_Rate,final.Conversion_Factor,FINAL.Comp_Name,final.Area_Location_Code,final.Zone_code  ,"
         If AreaWiseBilling = True Then
             Qry += " final.[MCC Name] AS AreaName "
         Else
@@ -137,7 +137,7 @@ Public Class rptDBTMilkPayment
         Qry += "TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_SRN_HEAD.SAMPLE_NO As [Sample No], TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_SRN_DETAIL.QTY As [Milk Weight], TSPL_MILK_SRN_DETAIL.UOM_Code, TSPL_MILK_SRN_DETAIL.ACC_QTY As [Milk Weight(KG)], TSPL_MILK_SRN_DETAIL.ACC_QTY_LTR As [Milk Weight(LTR)], TSPL_MILK_SRN_DETAIL.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL.CLR,   TSPL_MILK_SRN_DETAIL.FAT_kg As [FAT(KG)], TSPL_MILK_SRN_DETAIL.SNF_kg As [SNF(KG)], Case When IsNull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.MANUAL_SAMPLE,0) = 0 Then 'Auto' Else 'Manual' End As [Sample Status], TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_SRN_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date , TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.MANUAL_SAMPLE , '' As MACHINE_NO,(CASE WHEN IsNull(TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.MANUAL_SAMPLE,0)=0 THEN 'N' ELSE 'Y' END) AS IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount ,'' as RejectType,'' as RejectReason,'' as Defaulter   ,TSPL_MILK_PRICE_SNF_DEDUCTION.Amount as SNF_Ded_Value,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE) as decimal(18,2)) as SNF_Ded_Rate,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE)*TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) as SNF_Ded_Amount 
                          ,TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code,[Transporter Code], [Transporter Name],isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount,
                         (isnull(TSPL_MILK_SRN_DETAIL.VSP_Commission_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Commission_Amount)  as VSP_Commission_Amount,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Deduction_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Deduction_Amount)  as VSP_Deduction_Amount,TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive ,case when isnull( TSPL_MILK_SRN_DETAIL.Sub_Standard,0)=1 then 'Sub Standard' else '' end as SubStandard,TSPL_Primary_Vehicle_Master.Vehicle,
-                        TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] , TSPL_COMPANY_MASTER.Comp_Name, TSPL_MCC_MASTER.Area_Location_Code, TSPL_MCC_MASTER.MCC_NAME 
+                        TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] , TSPL_COMPANY_MASTER.Comp_Name, TSPL_MCC_MASTER.Area_Location_Code, TSPL_MCC_MASTER.MCC_NAME ,TSPL_VENDOR_MASTER.zone_code
                          From TSPL_MILK_SRN_DETAIL                           
                          Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE   
                          Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SRN_HEAD.DOC_CODE 
@@ -178,7 +178,7 @@ Public Class rptDBTMilkPayment
             atchqry = "select aa.[MCC Name],aa.AreaCode,aa.AreaName,aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
                         (Round((aa.[SRN Qty]/aa.Conversion_Factor),2)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
-                         aa.Incetive_Rate, aa.Conversion_Factor from ( " + GetAttachQry() + " "
+                         aa.Incetive_Rate, aa.Conversion_Factor,aa.zone_code  from ( " + GetAttachQry() + " "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
 
             If clsCommon.myLen(atchqry) > 0 Then
