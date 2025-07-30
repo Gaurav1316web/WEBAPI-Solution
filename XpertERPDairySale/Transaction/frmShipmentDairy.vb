@@ -11991,14 +11991,12 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     If dblTotalDCAmt > 0 Then
                         If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                             GetBoothWiseDCDetails(IntRowNo, trans)
-
                         End If
                         If ApplyCommission Then
                             dblDisAmt = dblDisAmt + dblTotalDCAmt
                         End If
                     End If
                     If dblTotalTCAmt > 0 Then
-
                         If ApplyTPT AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") <> CompairStringResult.Equal Then
                             dblDisAmt = dblDisAmt + dblTotalTCAmt
                         End If
