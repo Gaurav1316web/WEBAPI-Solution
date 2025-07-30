@@ -57,7 +57,7 @@ Public Class ClsEmployeeLICTagging
         Dim objtr As New ClsEmployeeLICTaggingDetails()
         ObjList = New List(Of ClsEmployeeLICTaggingDetails)
 
-        Dim qry As String = "SELECT * from TSPL_EMPLOYEE_LIC_TAGGING "
+        Dim qry As String = "SELECT * from TSPL_EMPLOYEE_LIC_TAGGING where 2=2 "
 
         Select Case NavType
             Case NavigatorType.First
@@ -164,7 +164,7 @@ Public Class ClsEmployeeLICTagging
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LIC_TAGGING", OMInsertOrUpdate.Update, "TSPL_EMPLOYEE_LIC_TAGGING.Document_code='" + obj.Document_code + "'", trans)
         End If
         isSaved = isSaved AndAlso ClsEmployeeLICTaggingDetails.SaveData(obj.Document_code, objList, trans)
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_code, "TSPL_EMPLOYEE_SALARY", "EMP_SAL_CODE", "TSPL_EMPLOYEE_SALARY_PAYHEADS", "EMP_SAL_CODE", trans)
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_code, "TSPL_EMPLOYEE_LIC_TAGGING", "Document_code", "TSPL_EMPLOYEE_LIC_TAGGING_DETAIL", "Document_code", trans)
 
 
         Return True
@@ -225,11 +225,7 @@ Public Class ClsEmployeeLICTaggingDetails
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Policy_Account_No", obj.PolicyAccountNo)
-                clsCommon.AddColumnsForChange(coll, "AMOUNT", obj.Amount)
-                'clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-                'clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-                'clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                'clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "LIC_PREMIUM_AMT", obj.Amount)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LIC_TAGGING_DETAIL", OMInsertOrUpdate.Insert, "TSPL_EMPLOYEE_LIC_TAGGING_DETAIL.Document_Code='" + strDocNo + "'", trans)
 
             Next

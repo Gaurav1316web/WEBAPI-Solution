@@ -612,6 +612,7 @@ Public Class frmMapPayHeadsToSalaStructure
                 FFS.OldFormula = gv1.CurrentRow.Cells(colFormula).Value
                 FFS.txtFormula.Text = gv1.CurrentRow.Cells(colFormula).Value
                 FFS.ShowDialog()
+                'gv1.CurrentRow.Cells(colFormula).Value = FFS.txtFormula.Text
                 gv1.CurrentRow.Cells(colFormula).Value = FFS.NewFormula
                 'gv1.CurrentRow.Cells(colFormula).Value = FFS.txtFormula.Text
             Catch ex As Exception
