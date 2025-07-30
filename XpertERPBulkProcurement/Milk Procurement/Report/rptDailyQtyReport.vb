@@ -450,7 +450,7 @@ left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collec
                 Gv1.GroupDescriptors.Clear()
                 Gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 Gv1.MasterView.Refresh()
-                If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Gv1.DataSource = dt
                     If rbtnDock.Checked OrElse rbtnDockDateWise.Checked OrElse rbtnDockShiftWise.Checked Then
                         SetGridFormationOFGV1Dock()
@@ -682,7 +682,7 @@ left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collec
                     checkRate = "(SELECT top 1  TSPL_OWN_BMC_GAIN_LOSS_RATE.Code FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 and TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 and 
  CONVERT(date, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date, 103) <= CONVERT(date, '" & clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") & "', 103))"
                     dt1 = clsDBFuncationality.GetDataTable(checkRate) 'GetDataTable(qry)
-                    If dt1.Rows.Count <= 0 Then
+                    If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
                         Throw New InvalidOperationException("FAT/SNF RATE NOT FOUND!")
                     End If
                 End If
@@ -826,7 +826,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 Gv1.GroupDescriptors.Clear()
                 Gv1.MasterTemplate.SummaryRowsBottom.Clear()
                 Gv1.MasterView.Refresh()
-                If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Gv1.DataSource = dt
                     If rbtnDock.Checked OrElse rbtnDockDateWise.Checked OrElse rbtnDockShiftWise.Checked Then
                         SetGridFormationOFGV1Dock()
@@ -2299,7 +2299,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                 End If
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt.Rows.Count > 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 If rbtnDockSummary.Checked Then
                     frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDockSummaryReport", "DCS Summary Report", clsCommon.myCDate(fromDate.Value))
@@ -2712,15 +2712,15 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                         where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" & clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") & "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" & clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") & "',103) ) xyz group by UploaderNo, Document_No    ) XXXFinal group by XXXFinal.Document_No )GetRateCode )GetAllGainLossRate left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=GetAllGainLossRate.GainLossCode  ) XXGetAllRecords group by Route_Code,ROUTE_NAME )PPP group  by  Route_Code,ROUTE_NAME order by Route_Code "
 
                 dt = clsDBFuncationality.GetDataTable(Qry)
-                If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "TransportGainLossSummary", "Gain/Loss Report", Nothing)
                     frmCRV = Nothing
                 Else
-                    clsCommon.MyMessageBoxShow("No Data Found")
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 End If
             Else
-                clsCommon.MyMessageBoxShow("Please click on Transpoter Gain/Loss Summary")
+                clsCommon.MyMessageBoxShow(Me, "Please click on Transpoter Gain/Loss Summary", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
