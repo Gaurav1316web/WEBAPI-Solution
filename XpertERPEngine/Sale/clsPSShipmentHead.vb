@@ -54,7 +54,7 @@ Public Class clsPSShipmentHead
     Public Is_OwnVehicle As Integer = 0
     Public IsEwaybill As Integer = 0
     Public IsIndividualCustomer As Integer = 0
-    Public Demand_UniqueID As Integer = Nothing
+    Public Demand_UniqueID As String = Nothing
     Public Is_CustomerChanged As Integer = 0
     Public Gross_Item_Wt As Decimal = Nothing
     Public RoundOffAmount As Double = 0
@@ -4603,7 +4603,7 @@ and TSPL_Demand_Booking_Master.Route_No='" + Route_No + "' and TSPL_Demand_Booki
                 strQry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
             End If
 
-            strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   
+            strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & DocCode & "'))  
 group by TSPL_Demand_Booking_Detail.Cust_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then

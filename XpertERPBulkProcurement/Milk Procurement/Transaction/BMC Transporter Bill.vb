@@ -462,9 +462,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     FROM RankedLocations GROUP BY Document_No,Document_Date,Route_Code,Trip_No,Storage_Capacity,Distance  "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            qry1 = " Select max(Distance)Distance from TSPL_BULK_ROUTE_MASTER where Tanker_No='RJ02GA0843' "
+            qry1 = " Select max(Distance)Distance from TSPL_BULK_ROUTE_MASTER where Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' "
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
-            qry2 = " Select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='RJ02GA0843' "
+            qry2 = " Select Storage_Capacity from TSPL_TANKER_MASTER where Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry2)
             For ii As Integer = 0 To dt.Rows.Count - 1
                 gv1.Rows.AddNew()

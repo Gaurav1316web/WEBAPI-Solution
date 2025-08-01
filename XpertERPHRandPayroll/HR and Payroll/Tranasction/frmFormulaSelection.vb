@@ -13,12 +13,14 @@ Public Class frmFormulaSelection
     Private isInsideLoadData As Boolean = False
     Dim Qry As String
     Public OldFormula As String
+    Public NewFormula As String
     Public ListOperand As New List(Of String)
     Public ListOperandSe As New List(Of String)
 #End Region
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If validate_Formula() Then
+        If validate_Formula() Then '
+            NewFormula = txtFormula.Text
             Me.Close()
         End If
     End Sub

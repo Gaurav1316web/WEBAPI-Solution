@@ -2297,6 +2297,9 @@
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmLeaveStartingDateSetting.resx">
       <DependentUpon>frmLeaveStartingDateSetting.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Tranasction\frmLICEmployeeTagging.resx">
+      <DependentUpon>frmLICEmployeeTagging.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmLoanAdjustment.resx">
       <DependentUpon>frmLoanAdjustment.vb</DependentUpon>
     </EmbeddedResource>

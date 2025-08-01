@@ -59,12 +59,12 @@ Public Class RptBoothNilDemandl
                 End If
             End If
             If rdbDay.Checked Then
-                Whr += "  and convert(date,document_date,103)='" + clsCommon.myCstr(clsCommon.GetPrintDate(fromDate.Value)) + "' "
+                Whr += "  and convert(date,document_date,103)='" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' "
             ElseIf rdbRangeWise.Checked Then
-                Whr += "and convert(date,document_date,103)>='" + fromDate.Value + "' and convert(date,document_date,103)<='" + clsCommon.myCstr(clsCommon.GetPrintDate(ToDate.Value)) + "' "
+                Whr += "and convert(date,document_date,103)>='" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and convert(date,document_date,103)<='" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' "
             End If
             If rdbMonth.Checked Then
-                Whr += "and convert(date,document_date,103)>='" + Slot1 + "' and convert(date,document_date,103)<='" + clsCommon.myCstr(clsCommon.GetPrintDate(Slot2)) + "' "
+                Whr += "and convert(date,document_date,103)>='" + clsCommon.GetPrintDate(Slot1, "dd/MMM/yyyy") + "' and convert(date,document_date,103)<='" + clsCommon.GetPrintDate(Slot2, "dd/MMM/yyyy") + "' "
             End If
 
             If EnableProductSaleForJPR Then

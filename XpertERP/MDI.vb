@@ -3534,6 +3534,11 @@ Public Class MDI
                     Case clsUserMgtCode.frmIBPReport
                         frm = New frmIBPReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptCrateRegister
+                        frm = New rptCrateRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptCrateJalliReportForTransfer
                         frm = New RptCrateJalliBoxTransferDS()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

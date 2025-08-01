@@ -2471,6 +2471,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmQuickDemandReport, "Quick Demand Report", "1.06.03.65", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmIBPReport, "I B P Report", "1.06.03.66", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNewTenderPartyListReport, "New Tender Party List Report", "1.06.03.67", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+
         '-------------------------SERVICE MODULE END----------------------------------------
 
 

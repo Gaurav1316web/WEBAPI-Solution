@@ -99,7 +99,7 @@ Public Class frmDemandBooking
     Dim ImportProcess As Boolean = False
     Dim SettSeprateDemandForMorningEveningShift As Boolean = False
     Dim UpdateDemandBeforePost As Boolean = False
-    Dim lstCustItem As List(Of clsDemandCustItem)
+    'Dim lstCustItem As List(Of clsDemandCustItem)
     Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -708,7 +708,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             Else
                 btnSplitPrint.Visible = False
             End If
-            lstCustItem = New List(Of clsDemandCustItem)
+            'lstCustItem = New List(Of clsDemandCustItem)
             blnSaveTotalQTy = False
             isNewEntry = True
             btnSave.Text = "Save"
@@ -866,7 +866,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 End If
             End If
             isInsideLoadData = True
-            UpdateAllTotals(False)
+            'UpdateAllTotals(False)
             isInsideLoadData = False
             Dim dblQuantityCount As Double = 0
             Dim dblQuantityMORNINGCount As Double = 0
@@ -1010,8 +1010,9 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=1 where Document_No='" + txtDocNo.Value + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
-
-            UpdateAllTotals(False)
+            Dim lstCustItem As New List(Of clsDemandCustItem)
+            lstCustItem = UpdateAllTotals(False)
+            'UpdateAllTotals(False)
 
 
             blnSaveTotalQTy = True
@@ -1093,7 +1094,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                                                 objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                                 objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
                                                 objTr.Rate = clsCommon.myCdbl(obj2.ItemRate)
-                                                objTr.ItemNetAmount = clsCommon.myCdbl(obj2.ItemTotAmt)
+                                                objTr.ItemNetAmount = clsCommon.myCDecimal(obj2.ItemTotAmt)
                                                 objTr.TAX_Group = clsCommon.myCstr(obj2.TAX_Group)
                                                 objTr.TAX1 = clsCommon.myCstr(obj2.TAX1)
                                                 objTr.TAX1_Rate = obj2.TAX1_Rate
@@ -2500,8 +2501,10 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Sub UpdateAllTotals(ByVal isLoad As Boolean)
+    Private Function UpdateAllTotals(ByVal isLoad As Boolean) As List(Of clsDemandCustItem)
+        Dim lstCustItem As New List(Of clsDemandCustItem)
         Try
+
             isInsideLoadData = True
             Dim TotalCrate As Double = 0
             Dim TotalLitre As Double = 0
@@ -2521,10 +2524,10 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
             Dim dblDocTotalAmt As Double = 0
             Dim dblTotalPCount As Double = 0
             Dim dblTotalPCrate As Double = 0
-            Dim dblToalPouchCount As Double = 0
+            'Dim dblToalPouchCount As Double = 0
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
-            Dim colTotalQty As Double = 0
+            'Dim colTotalQty As Double = 0
             For dblrows As Integer = 0 To gv1.Rows.Count - 2
                 Dim k As Integer = 1
                 TotalCrate = 0
@@ -2542,280 +2545,281 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
                     Dim obj1 As ItemValueClass = Nothing
                     Try
-                        obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
-                    Catch ex As Exception
+                        obj1 = TryCast(gv1.Columns(colItemCode & clsCommon.myCstr(k)).Tag, ItemValueClass)
+                    Catch ex As InvalidOperationException
+                        Throw New InvalidOperationException(ex.Message)
                     End Try
                     k = k + 1
-                    If obj1 IsNot Nothing Then
-                        If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
-                            If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+                    If obj1 IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
+                        'If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+                                TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                obj1.FreshItem_QtyInCrates = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                'gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                            Else
+                                Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+                                If ItemCrateType = 1 Then
+                                    'Dim IsStockingUnit As String = obj1.Stocking_Unit 'clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                    Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+                                    Dim ItemConvFactor As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal AndAlso CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                        'If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                        Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                        If ConvertPouchtoCrate Then
+                                            If DispatchQty > (CrateConvFactor / 2) Then
+                                                dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            Else
+                                                dblTotalCrateRowWise = 1
+                                            End If
+                                        Else
+                                            If DispatchQty > (CrateConvFactor / 2) Then
+                                                dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            Else
+                                                dblTotalCrateRowWise = 0
+                                            End If
+                                        End If
+                                        'End If
+                                    End If
+                                    TotalCrate = TotalCrate + dblTotalCrateRowWise
+                                    obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
+                                End If
+                            End If
+                            ''to convert into litre
+                            Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
+                            Dim ItemConvFactor_Ltr As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                            If CrateConvFactor_Ltr > 0 AndAlso ItemConvFactor_Ltr > 0 Then
+                                Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
+                                dblTotalLitreRowWise = (DispatchQty / CrateConvFactor_Ltr)
+                            End If
+                            TotalLitre = TotalLitre + dblTotalLitreRowWise
+                            obj1.FreshItem_QtyInLitres = dblTotalLitreRowWise
+                            ''---------end of litre conversion
+                        Else
+                            If AllowMultipleUOMForProduct Then
                                 If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
                                     TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
-                                    obj1.FreshItem_QtyInCrates = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
-                                    'gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                 Else
                                     Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
                                     If ItemCrateType = 1 Then
-                                        Dim IsStockingUnit As String = obj1.Stocking_Unit 'clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+                                        'Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
                                         Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                                        Dim ItemConvFactor As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
-                                        If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                                            If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+                                        Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+                                        Dim ItempouchCF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
+
+                                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal AndAlso CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                            'If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                            Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+                                            'If ConvertPouchtoCrate Then
+                                            If DispatchQty > (CrateConvFactor / 2) Then
+                                                dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+                                            Else
+                                                dblTotalPCrateRowWise = 0
+                                            End If
+                                            'ElseIf DontCreateForPouch Then
+                                            '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+                                            'Else
+                                            '    If DispatchQty > (CrateConvFactor / 2) Then
+                                            '        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            '    Else
+                                            '        dblTotalCrateRowWise = 0
+                                            '    End If
+                                            'End If
+                                            'End If
+                                        End If
+
+                                        If isDepartmentRoute AndAlso ApplyDepartmentRoute Then
+                                            'If ApplyDepartmentRoute Then
+                                            Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+
+                                            If ItemConvFactor = ItempouchCF Then
+                                                If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Decimal values are not allowed for [" & clsCommon.myCstr(obj1.itemCode) & "]")
+                                                End If
+                                            ElseIf ItempouchCF = 6 Then
+                                                If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 6 <> 0 Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Should be in multiple of 6")
+                                                End If
+                                            Else
+                                                If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Should be in multiple of 0.5")
+                                                End If
+                                            End If
+                                            If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
                                                 Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                                If ConvertPouchtoCrate Then
-                                                    If DispatchQty > (CrateConvFactor / 2) Then
-                                                        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
-                                                    Else
-                                                        dblTotalCrateRowWise = 1
-                                                    End If
+
+                                                If DispatchQty >= (CrateConvFactor) Then
+                                                    dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
                                                 Else
-                                                    If DispatchQty > (CrateConvFactor / 2) Then
-                                                        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
-                                                    Else
-                                                        dblTotalCrateRowWise = 0
-                                                    End If
+                                                    dblTotalCrateRowWise = 0
                                                 End If
+
                                             End If
+                                            'End If
                                         End If
-                                        TotalCrate = TotalCrate + dblTotalCrateRowWise
-                                        obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
+                                        dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
+                                        'obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
                                     End If
                                 End If
-                                ''to convert into litre
-                                Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
-                                Dim ItemConvFactor_Ltr As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
-                                If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
-                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
-                                    dblTotalLitreRowWise = (DispatchQty / CrateConvFactor_Ltr)
-                                End If
-                                TotalLitre = TotalLitre + dblTotalLitreRowWise
-                                obj1.FreshItem_QtyInLitres = dblTotalLitreRowWise
-                                ''---------end of litre conversion
-                            Else
-                                If AllowMultipleUOMForProduct Then
-                                    If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
-                                        TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
-                                    Else
-                                        Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
-                                        If ItemCrateType = 1 Then
-                                            Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
-                                            Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                                            Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
-                                            Dim ItempouchCF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
-
-                                            If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                                                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                                    'If ConvertPouchtoCrate Then
-                                                    If DispatchQty > (CrateConvFactor / 2) Then
-                                                        dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
-                                                    Else
-                                                        dblTotalPCrateRowWise = 0
-                                                    End If
-                                                    'ElseIf DontCreateForPouch Then
-                                                    '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
-                                                    'Else
-                                                    '    If DispatchQty > (CrateConvFactor / 2) Then
-                                                    '        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
-                                                    '    Else
-                                                    '        dblTotalCrateRowWise = 0
-                                                    '    End If
-                                                    'End If
-                                                End If
-                                            End If
-
-                                            If isDepartmentRoute Then
-                                                If ApplyDepartmentRoute Then
-                                                    Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
-
-                                                    If ItemConvFactor = ItempouchCF Then
-                                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
-                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                            Throw New Exception("Decimal values are not allowed for [" + clsCommon.myCstr(obj1.itemCode) + "]")
-                                                        End If
-                                                    ElseIf ItempouchCF = 6 Then
-                                                        If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 6 <> 0 Then
-                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                            Throw New Exception("Should be in multiple of 6")
-                                                        End If
-                                                    Else
-                                                        If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
-                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                            Throw New Exception("Should be in multiple of 0.5")
-                                                        End If
-                                                    End If
-                                                    If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                                        Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-
-                                                        If DispatchQty >= (CrateConvFactor) Then
-                                                            dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
-                                                        Else
-                                                            dblTotalCrateRowWise = 0
-                                                        End If
-
-                                                    End If
-                                                End If
-                                            End If
-                                            dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
-                                            'obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
-                                        End If
-                                    End If
-                                End If
-                                dblTotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                             End If
-                            strItemValueExist = "Yes"
-                            Dim dt As New DataTable()
-                            Dim dblRate As Double = 0
-                            Dim qry As String = "select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
-                            strPriceCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-                            If clsCommon.myLen(strPriceCode) <= 0 Then
-                                Throw New Exception("price_CodeNon not found for Customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & "")
-                            End If
-                            If Not isLoad Then
-                                qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
-                        " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
-                        "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
-                        " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
-                        " XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7, " &
-                        " XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.TAX1_Amt, " &
-                        " XXXE.TAX2_Amt,XXXE.TAX3_Amt,XXXE.TAX4_Amt, XXXE.TAX5_Amt,XXXE.TAX6_Amt,XXXE.TAX7_Amt,XXXE.TAX8_Amt,XXXE.TAX9_Amt,XXXE.TAX10_Amt,XXXE.Against_Plan_TR_Code  from ( " &
-                        "Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
-                        "Start_Date Desc) as RowNo,Is_With_Tax, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
-                        "Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, TSPL_ITEM_PRICE_MASTER.Tax_group,TSPL_ITEM_PRICE_MASTER.TAX1_Rate,  " &
-                        "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate,  " &
-                        " TSPL_ITEM_PRICE_MASTER.TAX6_Rate, TSPL_ITEM_PRICE_MASTER.TAX7_Rate, TSPL_ITEM_PRICE_MASTER.TAX8_Rate, TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
-                        " TSPL_ITEM_PRICE_MASTER.TAX10_Rate, TSPL_ITEM_PRICE_MASTER.TAX1, TSPL_ITEM_PRICE_MASTER.TAX2, TSPL_ITEM_PRICE_MASTER.TAX3, " &
-                        " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
-                        " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.TAX5_Amt,TSPL_ITEM_PRICE_MASTER.TAX6_Amt,TSPL_ITEM_PRICE_MASTER.TAX7_Amt,   TSPL_ITEM_PRICE_MASTER.TAX8_Amt,TSPL_ITEM_PRICE_MASTER.TAX9_Amt,TSPL_ITEM_PRICE_MASTER.TAX10_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
-                        "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-                        "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
-                        "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
-                        ") XXXE WHERE RowNo=1  "
-                            Else
-                                qry = "select item_Rate as Item_Basic_Price,tax_group,TAX1,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7,TAX8,TAX9,TAX10,TAX1_Rate,TAX2_Rate,TAX3_Rate,TAX4_Rate, TAX5_Rate,TAX6_Rate,TAX7_Rate,TAX8_Rate,TAX9_Rate,TAX10_Rate,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + txtDocNo.Value + "' and Item_Code='" + obj1.itemCode + "' and Unit_code='" + obj1.Unit_code + "' and Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
-                            End If
-                            dt = clsDBFuncationality.GetDataTable(qry)
-                            If dt.Rows.Count > 0 Then
-                                Dim objCustItem As clsDemandCustItem = New clsDemandCustItem()
-
-                                dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
-                                If dblRate = 0 Then
-                                    Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
-                                End If
-                                If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
-                                    'obj1.ItemRate = dblRate
-                                    dblTotalMAmt = dblTotalMAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
-
-                                Else
-                                    'obj1.ItemRate = dblRate
-                                    dblTotalPAmt = dblTotalPAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
-                                End If
-                                objCustItem.ItemRate = dblRate
-                                'obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
-                                objCustItem.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
-                                objCustItem.FreshItem_QtyInLitres = obj1.FreshItem_QtyInLitres
-                                objCustItem.FreshItem_QtyInCrate = obj1.FreshItem_QtyInCrates
-                                objCustItem.ItemCode = obj1.itemCode
-                                objCustItem.UnitCode = obj1.Unit_code
-                                objCustItem.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
-                                objCustItem.TAX_Group = clsCommon.myCstr(dt.Rows(0).Item("TAX_Group"))
-                                dblTotalDocAmtRowWise = dblTotalDocAmtRowWise + objCustItem.ItemTotAmt
-
-                                objCustItem.TAX1 = clsCommon.myCstr(dt.Rows(0).Item("TAX1"))
-                                If clsCommon.CompairString(objCustItem.TAX1, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX1_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Rate"))
-                                End If
-                                objCustItem.TAX1_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX1_Rate / 100), 2)
-                                objCustItem.TAX1_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX2 = clsCommon.myCstr(dt.Rows(0).Item("TAX2"))
-                                If clsCommon.CompairString(objCustItem.TAX2, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX2_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX2_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Rate"))
-                                End If
-                                objCustItem.TAX2_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX2_Rate / 100), 2)
-                                objCustItem.TAX2_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX3 = clsCommon.myCstr(dt.Rows(0).Item("TAX3"))
-                                If clsCommon.CompairString(objCustItem.TAX3, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX3_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX3_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Rate"))
-                                End If
-                                objCustItem.TAX3_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX3_Rate / 100), 2)
-                                objCustItem.TAX3_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX4 = clsCommon.myCstr(dt.Rows(0).Item("TAX4"))
-                                If clsCommon.CompairString(objCustItem.TAX4, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX4_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX4_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Rate"))
-                                End If
-                                objCustItem.TAX4_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX4_Rate / 100), 2)
-                                objCustItem.TAX4_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX5 = clsCommon.myCstr(dt.Rows(0).Item("TAX5"))
-                                If clsCommon.CompairString(objCustItem.TAX5, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX5_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX5_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX5_Rate"))
-                                End If
-                                objCustItem.TAX5_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX5_Rate / 100), 2)
-                                objCustItem.TAX5_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX6 = clsCommon.myCstr(dt.Rows(0).Item("TAX6"))
-                                If clsCommon.CompairString(objCustItem.TAX6, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX6_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX6_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX6_Rate"))
-                                End If
-                                objCustItem.TAX6_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX6_Rate / 100), 2)
-                                objCustItem.TAX6_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX7 = clsCommon.myCstr(dt.Rows(0).Item("TAX7"))
-                                If clsCommon.CompairString(objCustItem.TAX7, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX7_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX7_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX7_Rate"))
-                                End If
-                                objCustItem.TAX7_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX7_Rate / 100), 2)
-                                objCustItem.TAX7_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX8 = clsCommon.myCstr(dt.Rows(0).Item("TAX8"))
-                                If clsCommon.CompairString(objCustItem.TAX8, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX8_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX8_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX8_Rate"))
-                                End If
-                                objCustItem.TAX8_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX8_Rate / 100), 2)
-                                objCustItem.TAX8_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX9 = clsCommon.myCstr(dt.Rows(0).Item("TAX9"))
-                                If clsCommon.CompairString(objCustItem.TAX9, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX9_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX9_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX9_Rate"))
-                                End If
-                                objCustItem.TAX9_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX9_Rate / 100), 2)
-                                objCustItem.TAX9_Base_Amt = objCustItem.ItemTotAmt
-                                objCustItem.TAX10 = clsCommon.myCstr(dt.Rows(0).Item("TAX10"))
-                                If clsCommon.CompairString(objCustItem.TAX10, "TCS") = CompairStringResult.Equal Then
-                                    objCustItem.TAX10_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
-                                Else
-                                    objCustItem.TAX10_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX10_Rate"))
-                                End If
-                                objCustItem.TAX10_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX10_Rate / 100), 2)
-                                objCustItem.TAX10_Base_Amt = objCustItem.ItemTotAmt
-                                lstCustItem.Add(objCustItem)
-                            Else
-                                gv1.Rows(dblrows).Cells(dblcolumns).Value = 0
-                                Throw New Exception("Please create Price for Item " & obj1.ShortDesc & " and customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & " ")
-                            End If
+                            dblTotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                         End If
+                        strItemValueExist = "Yes"
+                        Dim dt As New DataTable()
+                        Dim dblRate As Double = 0
+                        Dim qry As String = "select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
+                        strPriceCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                        If clsCommon.myLen(strPriceCode) <= 0 Then
+                            Throw New InvalidOperationException("price_CodeNon not found for Customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & "")
+                        End If
+                        If Not isLoad Then
+                            qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
+                    " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
+                    "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
+                    " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
+                    " XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7, " &
+                    " XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.TAX1_Amt, " &
+                    " XXXE.TAX2_Amt,XXXE.TAX3_Amt,XXXE.TAX4_Amt, XXXE.TAX5_Amt,XXXE.TAX6_Amt,XXXE.TAX7_Amt,XXXE.TAX8_Amt,XXXE.TAX9_Amt,XXXE.TAX10_Amt,XXXE.Against_Plan_TR_Code  from ( " &
+                    "Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
+                    "Start_Date Desc) as RowNo,Is_With_Tax, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
+                    "Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, TSPL_ITEM_PRICE_MASTER.Tax_group,TSPL_ITEM_PRICE_MASTER.TAX1_Rate,  " &
+                    "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate,  " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX6_Rate, TSPL_ITEM_PRICE_MASTER.TAX7_Rate, TSPL_ITEM_PRICE_MASTER.TAX8_Rate, TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX10_Rate, TSPL_ITEM_PRICE_MASTER.TAX1, TSPL_ITEM_PRICE_MASTER.TAX2, TSPL_ITEM_PRICE_MASTER.TAX3, " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.TAX5_Amt,TSPL_ITEM_PRICE_MASTER.TAX6_Amt,TSPL_ITEM_PRICE_MASTER.TAX7_Amt,   TSPL_ITEM_PRICE_MASTER.TAX8_Amt,TSPL_ITEM_PRICE_MASTER.TAX9_Amt,TSPL_ITEM_PRICE_MASTER.TAX10_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
+                    "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
+                    "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
+                    "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
+                    ") XXXE WHERE RowNo=1  "
+                        Else
+                            qry = "select item_Rate as Item_Basic_Price,tax_group,TAX1,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7,TAX8,TAX9,TAX10,TAX1_Rate,TAX2_Rate,TAX3_Rate,TAX4_Rate, TAX5_Rate,TAX6_Rate,TAX7_Rate,TAX8_Rate,TAX9_Rate,TAX10_Rate,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" & txtDocNo.Value & "' and Item_Code='" & obj1.itemCode & "' and Unit_code='" & obj1.Unit_code & "' and Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
+                        End If
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                        If dt.Rows.Count > 0 Then
+                            Dim objCustItem As clsDemandCustItem = New clsDemandCustItem()
+
+                            dblRate = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price")), 2)
+                            If dblRate = 0 Then
+                                Throw New InvalidOperationException("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
+                            End If
+                            If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+                                'obj1.ItemRate = dblRate
+                                dblTotalMAmt = dblTotalMAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+
+                            Else
+                                'obj1.ItemRate = dblRate
+                                dblTotalPAmt = dblTotalPAmt + Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                            End If
+                            objCustItem.ItemRate = dblRate
+                            'obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                            objCustItem.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
+                            objCustItem.FreshItem_QtyInLitres = obj1.FreshItem_QtyInLitres
+                            objCustItem.FreshItem_QtyInCrate = obj1.FreshItem_QtyInCrates
+                            objCustItem.ItemCode = obj1.itemCode
+                            objCustItem.UnitCode = obj1.Unit_code
+                            objCustItem.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+                            objCustItem.TAX_Group = clsCommon.myCstr(dt.Rows(0).Item("TAX_Group"))
+                            dblTotalDocAmtRowWise = dblTotalDocAmtRowWise + objCustItem.ItemTotAmt
+
+                            objCustItem.TAX1 = clsCommon.myCstr(dt.Rows(0).Item("TAX1"))
+                            If clsCommon.CompairString(objCustItem.TAX1, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX1_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Rate"))
+                            End If
+                            objCustItem.TAX1_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX1_Rate / 100), 2)
+                            objCustItem.TAX1_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX2 = clsCommon.myCstr(dt.Rows(0).Item("TAX2"))
+                            If clsCommon.CompairString(objCustItem.TAX2, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX2_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX2_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Rate"))
+                            End If
+                            objCustItem.TAX2_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX2_Rate / 100), 2)
+                            objCustItem.TAX2_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX3 = clsCommon.myCstr(dt.Rows(0).Item("TAX3"))
+                            If clsCommon.CompairString(objCustItem.TAX3, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX3_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX3_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Rate"))
+                            End If
+                            objCustItem.TAX3_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX3_Rate / 100), 2)
+                            objCustItem.TAX3_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX4 = clsCommon.myCstr(dt.Rows(0).Item("TAX4"))
+                            If clsCommon.CompairString(objCustItem.TAX4, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX4_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX4_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Rate"))
+                            End If
+                            objCustItem.TAX4_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX4_Rate / 100), 2)
+                            objCustItem.TAX4_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX5 = clsCommon.myCstr(dt.Rows(0).Item("TAX5"))
+                            If clsCommon.CompairString(objCustItem.TAX5, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX5_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX5_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX5_Rate"))
+                            End If
+                            objCustItem.TAX5_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX5_Rate / 100), 2)
+                            objCustItem.TAX5_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX6 = clsCommon.myCstr(dt.Rows(0).Item("TAX6"))
+                            If clsCommon.CompairString(objCustItem.TAX6, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX6_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX6_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX6_Rate"))
+                            End If
+                            objCustItem.TAX6_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX6_Rate / 100), 2)
+                            objCustItem.TAX6_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX7 = clsCommon.myCstr(dt.Rows(0).Item("TAX7"))
+                            If clsCommon.CompairString(objCustItem.TAX7, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX7_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX7_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX7_Rate"))
+                            End If
+                            objCustItem.TAX7_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX7_Rate / 100), 2)
+                            objCustItem.TAX7_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX8 = clsCommon.myCstr(dt.Rows(0).Item("TAX8"))
+                            If clsCommon.CompairString(objCustItem.TAX8, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX8_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX8_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX8_Rate"))
+                            End If
+                            objCustItem.TAX8_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX8_Rate / 100), 2)
+                            objCustItem.TAX8_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX9 = clsCommon.myCstr(dt.Rows(0).Item("TAX9"))
+                            If clsCommon.CompairString(objCustItem.TAX9, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX9_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX9_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX9_Rate"))
+                            End If
+                            objCustItem.TAX9_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX9_Rate / 100), 2)
+                            objCustItem.TAX9_Base_Amt = objCustItem.ItemTotAmt
+                            objCustItem.TAX10 = clsCommon.myCstr(dt.Rows(0).Item("TAX10"))
+                            If clsCommon.CompairString(objCustItem.TAX10, "TCS") = CompairStringResult.Equal Then
+                                objCustItem.TAX10_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+                            Else
+                                objCustItem.TAX10_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX10_Rate"))
+                            End If
+                            objCustItem.TAX10_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX10_Rate / 100), 2)
+                            objCustItem.TAX10_Base_Amt = objCustItem.ItemTotAmt
+                            lstCustItem.Add(objCustItem)
+                        Else
+                            gv1.Rows(dblrows).Cells(dblcolumns).Value = 0
+                            Throw New InvalidOperationException("Please create Price for Item " & obj1.ShortDesc & " and customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & " ")
+                        End If
+                        'End If
                     End If
                 Next
 
                 gv1.Rows(dblrows).Cells(colCrate).Value = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
                 gv1.Rows(dblrows).Cells(colLitre).Value = Math.Round(clsCommon.myCdbl(TotalLitre), 2)
-                If isDepartmentRoute Then
-                    If ApplyDepartmentRoute Then
-                        gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
-                    End If
+                If isDepartmentRoute AndAlso ApplyDepartmentRoute Then
+                    'If ApplyDepartmentRoute Then
+                    gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
+                    'End If
                 End If
                 gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myCdbl(dblTotalMAmt)
                 gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
@@ -2846,10 +2850,361 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
             gv1.Rows(gv1.Rows.Count - 1).IsPinned = True
             gv1.Rows(gv1.Rows.Count - 1).PinPosition = PinnedRowPosition.Bottom
             isInsideLoadData = False
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
+        Catch ex As InvalidOperationException
+            Throw New InvalidOperationException(ex.Message)
         End Try
-    End Sub
+        Return lstCustItem
+    End Function
+    'Private Sub UpdateAllTotals(ByVal isLoad As Boolean)
+    '    Try
+    '        isInsideLoadData = True
+    '        Dim TotalCrate As Double = 0
+    '        Dim TotalLitre As Double = 0
+    '        Dim TotalPCount As Double = 0
+    '        Dim TotalPCrate As Double = 0
+    '        Dim TotalPAmt As Double = 0
+    '        Dim TotalMAmt As Double = 0
+    '        Dim dblTotalDocAmtRowWise As Decimal = 0
+    '        Dim dblTotalCrateRowWise As Double = 0
+    '        Dim dblTotalPCrateRowWise As Double = 0
+    '        Dim dblTotalLitreRowWise As Double = 0
+    '        Dim strPriceCode As String = String.Empty
+    '        Dim strItemValueExist As String = String.Empty
+    '        Dim strItemUpdateAfterSave As String = String.Empty
+    '        Dim dblDocTotalCrate As Double = 0
+    '        Dim dblDocTotalLitre As Double = 0
+    '        Dim dblDocTotalAmt As Double = 0
+    '        Dim dblTotalPCount As Double = 0
+    '        Dim dblTotalPCrate As Double = 0
+    '        Dim dblToalPouchCount As Double = 0
+    '        Dim dblTotalPAmt As Double = 0
+    '        Dim dblTotalMAmt As Decimal = 0
+    '        Dim colTotalQty As Double = 0
+    '        For dblrows As Integer = 0 To gv1.Rows.Count - 2
+    '            Dim k As Integer = 1
+    '            TotalCrate = 0
+    '            dblTotalPCrate = 0
+    '            dblTotalCrateRowWise = 0
+    '            dblTotalPCrateRowWise = 0
+    '            TotalLitre = 0
+    '            dblTotalLitreRowWise = 0
+    '            dblTotalDocAmtRowWise = 0
+    '            dblTotalPCount = 0
+    '            dblTotalPAmt = 0
+    '            dblTotalMAmt = 0
+    '            strItemValueExist = "No"
+    '            strItemUpdateAfterSave = "No"
+    '            For dblcolumns As Integer = 9 To gv1.Columns.Count - 10
+    '                Dim obj1 As ItemValueClass = Nothing
+    '                Try
+    '                    obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
+    '                Catch ex As Exception
+    '                End Try
+    '                k = k + 1
+    '                If obj1 IsNot Nothing Then
+    '                    If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
+    '                        If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+    '                            If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+    '                                TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+    '                                obj1.FreshItem_QtyInCrates = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+    '                                'gv1.Rows(gv1.Rows.Count - 1).Cells(dblcolumns).Value = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+    '                            Else
+    '                                Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+    '                                If ItemCrateType = 1 Then
+    '                                    Dim IsStockingUnit As String = obj1.Stocking_Unit 'clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+    '                                    Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+    '                                    Dim ItemConvFactor As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+    '                                    If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+    '                                        If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+    '                                            Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+    '                                            If ConvertPouchtoCrate Then
+    '                                                If DispatchQty > (CrateConvFactor / 2) Then
+    '                                                    dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+    '                                                Else
+    '                                                    dblTotalCrateRowWise = 1
+    '                                                End If
+    '                                            Else
+    '                                                If DispatchQty > (CrateConvFactor / 2) Then
+    '                                                    dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+    '                                                Else
+    '                                                    dblTotalCrateRowWise = 0
+    '                                                End If
+    '                                            End If
+    '                                        End If
+    '                                    End If
+    '                                    TotalCrate = TotalCrate + dblTotalCrateRowWise
+    '                                    obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
+    '                                End If
+    '                            End If
+    '                            ''to convert into litre
+    '                            Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
+    '                            Dim ItemConvFactor_Ltr As Double = obj1.Conversion_Factor 'clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+    '                            If CrateConvFactor_Ltr > 0 And ItemConvFactor_Ltr > 0 Then
+    '                                Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor_Ltr
+    '                                dblTotalLitreRowWise = (DispatchQty / CrateConvFactor_Ltr)
+    '                            End If
+    '                            TotalLitre = TotalLitre + dblTotalLitreRowWise
+    '                            obj1.FreshItem_QtyInLitres = dblTotalLitreRowWise
+    '                            ''---------end of litre conversion
+    '                        Else
+    '                            If AllowMultipleUOMForProduct Then
+    '                                If clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code), "Crate") = CompairStringResult.Equal Then
+    '                                    TotalCrate = TotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+    '                                Else
+    '                                    Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(obj1.itemCode) & "'"))
+    '                                    If ItemCrateType = 1 Then
+    '                                        Dim IsStockingUnit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
+    '                                        Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and tspl_unit_master.Crate_Type ='Y' "))
+    '                                        Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
+    '                                        Dim ItempouchCF As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
+
+    '                                        If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+    '                                            If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+    '                                                Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+    '                                                'If ConvertPouchtoCrate Then
+    '                                                If DispatchQty > (CrateConvFactor / 2) Then
+    '                                                    dblTotalPCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+    '                                                Else
+    '                                                    dblTotalPCrateRowWise = 0
+    '                                                End If
+    '                                                'ElseIf DontCreateForPouch Then
+    '                                                '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
+    '                                                'Else
+    '                                                '    If DispatchQty > (CrateConvFactor / 2) Then
+    '                                                '        dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+    '                                                '    Else
+    '                                                '        dblTotalCrateRowWise = 0
+    '                                                '    End If
+    '                                                'End If
+    '                                            End If
+    '                                        End If
+
+    '                                        If isDepartmentRoute Then
+    '                                            If ApplyDepartmentRoute Then
+    '                                                Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+
+    '                                                If ItemConvFactor = ItempouchCF Then
+    '                                                    If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+    '                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+    '                                                        Throw New Exception("Decimal values are not allowed for [" + clsCommon.myCstr(obj1.itemCode) + "]")
+    '                                                    End If
+    '                                                ElseIf ItempouchCF = 6 Then
+    '                                                    If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 6 <> 0 Then
+    '                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+    '                                                        Throw New Exception("Should be in multiple of 6")
+    '                                                    End If
+    '                                                Else
+    '                                                    If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) Mod 0.5 <> 0 Then
+    '                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+    '                                                        Throw New Exception("Should be in multiple of 0.5")
+    '                                                    End If
+    '                                                End If
+    '                                                If CrateConvFactor > 0 And ItemConvFactor > 0 Then
+    '                                                    Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
+
+    '                                                    If DispatchQty >= (CrateConvFactor) Then
+    '                                                        dblTotalCrateRowWise = clsCommon.myRoundOFF(DispatchQty / CrateConvFactor, 0, 9)
+    '                                                    Else
+    '                                                        dblTotalCrateRowWise = 0
+    '                                                    End If
+
+    '                                                End If
+    '                                            End If
+    '                                        End If
+    '                                        dblTotalPCrate = dblTotalPCrate + dblTotalPCrateRowWise
+    '                                        'obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
+    '                                    End If
+    '                                End If
+    '                            End If
+    '                            dblTotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+    '                        End If
+    '                        strItemValueExist = "Yes"
+    '                        Dim dt As New DataTable()
+    '                        Dim dblRate As Decimal = 0
+    '                        Dim qry As String = "select tspl_customer_master.price_CodeNon from TSPL_CUSTOMER_MASTER where Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
+    '                        strPriceCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+    '                        If clsCommon.myLen(strPriceCode) <= 0 Then
+    '                            Throw New Exception("price_CodeNon not found for Customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & "")
+    '                        End If
+    '                        If Not isLoad Then
+    '                            qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
+    '                    " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
+    '                    "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
+    '                    " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
+    '                    " XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7, " &
+    '                    " XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.TAX1_Amt, " &
+    '                    " XXXE.TAX2_Amt,XXXE.TAX3_Amt,XXXE.TAX4_Amt, XXXE.TAX5_Amt,XXXE.TAX6_Amt,XXXE.TAX7_Amt,XXXE.TAX8_Amt,XXXE.TAX9_Amt,XXXE.TAX10_Amt,XXXE.Against_Plan_TR_Code  from ( " &
+    '                    "Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
+    '                    "Start_Date Desc) as RowNo,Is_With_Tax, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
+    '                    "Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, TSPL_ITEM_PRICE_MASTER.Tax_group,TSPL_ITEM_PRICE_MASTER.TAX1_Rate,  " &
+    '                    "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate,  " &
+    '                    " TSPL_ITEM_PRICE_MASTER.TAX6_Rate, TSPL_ITEM_PRICE_MASTER.TAX7_Rate, TSPL_ITEM_PRICE_MASTER.TAX8_Rate, TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+    '                    " TSPL_ITEM_PRICE_MASTER.TAX10_Rate, TSPL_ITEM_PRICE_MASTER.TAX1, TSPL_ITEM_PRICE_MASTER.TAX2, TSPL_ITEM_PRICE_MASTER.TAX3, " &
+    '                    " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
+    '                    " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.TAX5_Amt,TSPL_ITEM_PRICE_MASTER.TAX6_Amt,TSPL_ITEM_PRICE_MASTER.TAX7_Amt,   TSPL_ITEM_PRICE_MASTER.TAX8_Amt,TSPL_ITEM_PRICE_MASTER.TAX9_Amt,TSPL_ITEM_PRICE_MASTER.TAX10_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
+    '                    "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
+    '                    "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
+    '                    "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
+    '                    ") XXXE WHERE RowNo=1  "
+    '                        Else
+    '                            qry = "select item_Rate as Item_Basic_Price,tax_group,TAX1,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7,TAX8,TAX9,TAX10,TAX1_Rate,TAX2_Rate,TAX3_Rate,TAX4_Rate, TAX5_Rate,TAX6_Rate,TAX7_Rate,TAX8_Rate,TAX9_Rate,TAX10_Rate,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt,TAX5_Amt,TAX6_Amt,TAX7_Amt,TAX8_Amt,TAX9_Amt,TAX10_Amt from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + txtDocNo.Value + "' and Item_Code='" + obj1.itemCode + "' and Unit_code='" + obj1.Unit_code + "' and Cust_Code='" & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) & "'"
+    '                        End If
+    '                        dt = clsDBFuncationality.GetDataTable(qry)
+    '                        If dt.Rows.Count > 0 Then
+    '                            Dim objCustItem As clsDemandCustItem = New clsDemandCustItem()
+
+    '                            dblRate = clsCommon.myCDecimal(dt.Rows(0).Item("Item_Basic_Price"))
+    '                            If dblRate = 0 Then
+    '                                Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
+    '                            End If
+    '                            If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
+    '                                'obj1.ItemRate = dblRate
+    '                                dblTotalMAmt = dblTotalMAmt + clsCommon.myRoundOFF(clsCommon.myCDecimal(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2, 5)
+
+    '                            Else
+    '                                'obj1.ItemRate = dblRate
+    '                                dblTotalPAmt = dblTotalPAmt + clsCommon.myRoundOFF(clsCommon.myCDecimal(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2, 5)
+    '                            End If
+    '                            objCustItem.ItemRate = dblRate
+    '                            'obj1.ItemTotAmt = Math.Round(clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2)
+    '                            objCustItem.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
+    '                            objCustItem.FreshItem_QtyInLitres = obj1.FreshItem_QtyInLitres
+    '                            objCustItem.FreshItem_QtyInCrate = obj1.FreshItem_QtyInCrates
+    '                            objCustItem.ItemCode = obj1.itemCode
+    '                            objCustItem.UnitCode = obj1.Unit_code
+    '                            objCustItem.ItemTotAmt = clsCommon.myRoundOFF(clsCommon.myCDecimal(gv1.Rows(dblrows).Cells(dblcolumns).Value) * clsCommon.myCdbl(dblRate), 2, 5)
+    '                            objCustItem.TAX_Group = clsCommon.myCstr(dt.Rows(0).Item("TAX_Group"))
+    '                            dblTotalDocAmtRowWise = dblTotalDocAmtRowWise + objCustItem.ItemTotAmt
+
+    '                            objCustItem.TAX1 = clsCommon.myCstr(dt.Rows(0).Item("TAX1"))
+    '                            If clsCommon.CompairString(objCustItem.TAX1, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX1_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX1_Rate"))
+    '                            End If
+    '                            objCustItem.TAX1_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX1_Rate / 100), 2)
+    '                            objCustItem.TAX1_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX2 = clsCommon.myCstr(dt.Rows(0).Item("TAX2"))
+    '                            If clsCommon.CompairString(objCustItem.TAX2, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX2_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX2_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX2_Rate"))
+    '                            End If
+    '                            objCustItem.TAX2_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX2_Rate / 100), 2)
+    '                            objCustItem.TAX2_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX3 = clsCommon.myCstr(dt.Rows(0).Item("TAX3"))
+    '                            If clsCommon.CompairString(objCustItem.TAX3, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX3_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX3_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX3_Rate"))
+    '                            End If
+    '                            objCustItem.TAX3_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX3_Rate / 100), 2)
+    '                            objCustItem.TAX3_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX4 = clsCommon.myCstr(dt.Rows(0).Item("TAX4"))
+    '                            If clsCommon.CompairString(objCustItem.TAX4, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX4_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX4_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX4_Rate"))
+    '                            End If
+    '                            objCustItem.TAX4_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX4_Rate / 100), 2)
+    '                            objCustItem.TAX4_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX5 = clsCommon.myCstr(dt.Rows(0).Item("TAX5"))
+    '                            If clsCommon.CompairString(objCustItem.TAX5, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX5_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX5_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX5_Rate"))
+    '                            End If
+    '                            objCustItem.TAX5_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX5_Rate / 100), 2)
+    '                            objCustItem.TAX5_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX6 = clsCommon.myCstr(dt.Rows(0).Item("TAX6"))
+    '                            If clsCommon.CompairString(objCustItem.TAX6, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX6_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX6_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX6_Rate"))
+    '                            End If
+    '                            objCustItem.TAX6_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX6_Rate / 100), 2)
+    '                            objCustItem.TAX6_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX7 = clsCommon.myCstr(dt.Rows(0).Item("TAX7"))
+    '                            If clsCommon.CompairString(objCustItem.TAX7, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX7_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX7_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX7_Rate"))
+    '                            End If
+    '                            objCustItem.TAX7_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX7_Rate / 100), 2)
+    '                            objCustItem.TAX7_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX8 = clsCommon.myCstr(dt.Rows(0).Item("TAX8"))
+    '                            If clsCommon.CompairString(objCustItem.TAX8, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX8_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX8_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX8_Rate"))
+    '                            End If
+    '                            objCustItem.TAX8_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX8_Rate / 100), 2)
+    '                            objCustItem.TAX8_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX9 = clsCommon.myCstr(dt.Rows(0).Item("TAX9"))
+    '                            If clsCommon.CompairString(objCustItem.TAX9, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX9_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX9_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX9_Rate"))
+    '                            End If
+    '                            objCustItem.TAX9_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX9_Rate / 100), 2)
+    '                            objCustItem.TAX9_Base_Amt = objCustItem.ItemTotAmt
+    '                            objCustItem.TAX10 = clsCommon.myCstr(dt.Rows(0).Item("TAX10"))
+    '                            If clsCommon.CompairString(objCustItem.TAX10, "TCS") = CompairStringResult.Equal Then
+    '                                objCustItem.TAX10_Rate = CalculateTCS(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value))
+    '                            Else
+    '                                objCustItem.TAX10_Rate = clsCommon.myCdbl(dt.Rows(0).Item("TAX10_Rate"))
+    '                            End If
+    '                            objCustItem.TAX10_Amt = Math.Round(objCustItem.ItemTotAmt * (objCustItem.TAX10_Rate / 100), 2)
+    '                            objCustItem.TAX10_Base_Amt = objCustItem.ItemTotAmt
+    '                            lstCustItem.Add(objCustItem)
+    '                        Else
+    '                            gv1.Rows(dblrows).Cells(dblcolumns).Value = 0
+    '                            Throw New Exception("Please create Price for Item " & obj1.ShortDesc & " and customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & " ")
+    '                        End If
+    '                    End If
+    '                End If
+    '            Next
+
+    '            gv1.Rows(dblrows).Cells(colCrate).Value = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
+    '            gv1.Rows(dblrows).Cells(colLitre).Value = Math.Round(clsCommon.myCdbl(TotalLitre), 2)
+    '            If isDepartmentRoute Then
+    '                If ApplyDepartmentRoute Then
+    '                    gv1.Rows(dblrows).Cells(colCrate).Value = IIf(clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) >= 1, clsCommon.myRoundOFF(clsCommon.myCdbl(TotalLitre / 12), 0, 9) - 1, 0)
+    '                End If
+    '            End If
+    '            gv1.Rows(dblrows).Cells(colMAmt).Value = clsCommon.myCdbl(dblTotalMAmt)
+    '            gv1.Rows(dblrows).Cells(colPCount).Value = clsCommon.myCdbl(dblTotalPCount)
+    '            If AllowMultipleUOMForProduct Then
+    '                gv1.Rows(dblrows).Cells(colPCrate).Value = clsCommon.myCdbl(dblTotalPCrate)
+    '            End If
+    '            gv1.Rows(dblrows).Cells(colPAmt).Value = clsCommon.myCdbl(dblTotalPAmt)
+    '            gv1.Rows(dblrows).Cells(colAmt).Value = clsCommon.myCdbl(dblTotalDocAmtRowWise)
+    '            If clsCommon.myLen(gv1.Rows(dblrows).Cells(colItemExist)) > 0 Then
+    '                gv1.Rows(dblrows).Cells(colItemExist).Value = strItemValueExist
+    '            End If
+    '            dblDocTotalAmt = dblDocTotalAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colAmt).Value)
+    '            dblDocTotalLitre = dblDocTotalLitre + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colLitre).Value)
+    '            dblDocTotalCrate = dblDocTotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
+    '            TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPAmt).Value)
+    '            TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCount).Value)
+    '            TotalPCrate += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCrate).Value)
+    '            TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colMAmt).Value)
+    '        Next
+    '        lblTotalCrate.Text = clsCommon.myCdbl(dblDocTotalCrate)
+    '        lblTotalLitre.Text = clsCommon.myCdbl(dblDocTotalLitre)
+    '        txtDocAmt.Text = clsCommon.myCdbl(dblDocTotalAmt)
+    '        lblDocumentAmt.Text = clsCommon.myCdbl(TotalMAmt)
+    '        txtPCount.Text = clsCommon.myCdbl(TotalPCount)
+    '        txtPAmt.Text = clsCommon.myCdbl(TotalPAmt)
+    '        txtTotalPCrate.Text = clsCommon.myCdbl(TotalPCrate)
+    '        UpdateColumnTotal()
+    '        gv1.Rows(gv1.Rows.Count - 1).IsPinned = True
+    '        gv1.Rows(gv1.Rows.Count - 1).PinPosition = PinnedRowPosition.Bottom
+    '        isInsideLoadData = False
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    'End Sub
     Function CalculateTCS(ByVal CustCode As String) As Double
         Dim TCSBaseAmount As Double = 0
         Dim TCSTaxRate As Double = 0

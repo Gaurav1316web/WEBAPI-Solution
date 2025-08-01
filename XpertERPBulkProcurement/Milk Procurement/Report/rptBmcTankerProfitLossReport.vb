@@ -523,26 +523,29 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
             ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
             'If rdbSummary.Checked = True Then
-            view.ColumnGroups.Add(New GridViewColumnGroup("Milk Recieved at B.M.C. Q.C. LAB(A)"))
-            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
 
-
-
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Original_Qty").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Original_FATKg").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Milk Recieved at MAIN Q.C. LAB(B)"))
-            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_QTY").Name)
+            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Entered_QTY").Name)
 
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(Kg)").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_SNFKg").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_fat").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_snf").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT(Kg)").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Entered_SNFKg").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_fat").Name)
+            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Entered_Qty_snf").Name)
+
+
+            view.ColumnGroups.Add(New GridViewColumnGroup("Milk Recieved at B.M.C. Q.C. LAB(A)"))
+            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+
+
+
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_Qty").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_FATKg").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_Qty").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_FATKg").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
