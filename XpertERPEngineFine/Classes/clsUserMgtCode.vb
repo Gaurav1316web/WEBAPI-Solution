@@ -1,6 +1,7 @@
 ﻿Imports common
 Public Class clsUserMgtCode
     Public Const frmIBPReport As String = "IBP-RPT"
+
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
@@ -2640,6 +2641,7 @@ Public Class clsUserMgtCode
     Public Const frmCustomerZone As String = "Cust-ZNE"
     Public Const FrmQuickDemandReport As String = "Quk-DEM-RPT"
     Public Const frmCrateCanreceiptReport As String = "CraCan-Rpt"
+    Public Const rptCrateRegister As String = "rptCRAREG"
     'Public Const ApproveFailedSample As String = "APP-FAIL-SAM"
 
     ' Electrical
