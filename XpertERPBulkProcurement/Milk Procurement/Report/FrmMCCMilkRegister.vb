@@ -209,13 +209,15 @@ Public Class FrmMCCMilkRegister
         gv.MasterTemplate.ShowRowHeaderColumn = True
         If rbtnDCSWithZone.Checked Then
             Dim DCSwithZoneSummaryItem As New GridViewSummaryRowItem()
-            If chkAliasNameWise.Checked Then
-                gv.Columns("Alias Name").IsVisible = False
-                gv.Columns("Alias Name").HeaderText = "Alias Name"
-                gv.Columns("Alias Name").VisibleInColumnChooser = True
-            Else
-                gv.Columns("Alias Name").IsVisible = False
-                gv.Columns("Alias Name").VisibleInColumnChooser = False
+            If gv.Columns.Contains("Alias Name") Then
+                If chkAliasNameWise.Checked Then
+                    gv.Columns("Alias Name").IsVisible = False
+                    gv.Columns("Alias Name").HeaderText = "Alias Name"
+                    gv.Columns("Alias Name").VisibleInColumnChooser = True
+                Else
+                    gv.Columns("Alias Name").IsVisible = False
+                    gv.Columns("Alias Name").VisibleInColumnChooser = False
+                End If
             End If
             For i As Integer = 2 To gv.Columns.Count - 1
                 DCSwithZoneSummaryItem.Add(New GridViewSummaryItem(gv.Columns(i).Name, "{0:F2}", GridAggregateFunction.Sum))
@@ -244,13 +246,15 @@ Public Class FrmMCCMilkRegister
             If rbtnCollectionSummary.Checked = False Then
                 If Not rbtnShiftWiseTotal.Checked Then
                     If chkDateShift.Checked Then
-                        If chkAliasNameWise.Checked Then
-                            gv.Columns("Alias Name").IsVisible = False
-                            gv.Columns("Alias Name").HeaderText = "Alias Name"
-                            gv.Columns("Alias Name").VisibleInColumnChooser = True
-                        Else
-                            gv.Columns("Alias Name").IsVisible = False
-                            gv.Columns("Alias Name").VisibleInColumnChooser = False
+                        If gv.Columns.Contains("Alias Name") Then
+                            If chkAliasNameWise.Checked Then
+                                gv.Columns("Alias Name").IsVisible = False
+                                gv.Columns("Alias Name").HeaderText = "Alias Name"
+                                gv.Columns("Alias Name").VisibleInColumnChooser = True
+                            Else
+                                gv.Columns("Alias Name").IsVisible = False
+                                gv.Columns("Alias Name").VisibleInColumnChooser = False
+                            End If
                         End If
                         gv.Columns("Milk Type").IsVisible = True
                         gv.Columns("Milk Type").Width = 100
@@ -343,36 +347,42 @@ Public Class FrmMCCMilkRegister
                         End If
 
                         If rbtnVLCWise.Checked OrElse chkAliasNameWise.Checked Then
-                            gv.Columns("QAT_Rate").IsVisible = True
-                            gv.Columns("QAT_Rate").Width = 100
-                            gv.Columns("QAT_Rate").HeaderText = "QAP Rate"
-                            gv.Columns("QAT_Rate").FormatString = "{0:n3}"
-
-                            gv.Columns("QAT_Amt").IsVisible = True
-                            gv.Columns("QAT_Amt").Width = 100
-                            gv.Columns("QAT_Amt").HeaderText = "QAP Amount"
-                            gv.Columns("QAT_Amt").FormatString = "{0:n2}"
-
-                            gv.Columns("Alias Name").Width = 100
-                            gv.Columns("Alias Name").HeaderText = "Alias Name"
-                            If ChkDetailWise.Checked Then
-                                If chkAliasNameWise.Checked Then
-                                    gv.Columns("Alias Name").IsVisible = True
-                                    gv.Columns("Alias Name").VisibleInColumnChooser = False
-                                Else
-                                    gv.Columns("Alias Name").IsVisible = False
-                                    gv.Columns("Alias Name").VisibleInColumnChooser = False
-                                End If
-                            Else
-                                If chkAliasNameWise.Checked Then
-                                    gv.Columns("Alias Name").IsVisible = False
-                                    gv.Columns("Alias Name").VisibleInColumnChooser = True
-                                Else
-                                    gv.Columns("Alias Name").IsVisible = False
-                                    gv.Columns("Alias Name").VisibleInColumnChooser = False
-                                End If
+                            If gv.Columns.Contains("QAT_Rate") Then
+                                gv.Columns("QAT_Rate").IsVisible = True
+                                gv.Columns("QAT_Rate").Width = 100
+                                gv.Columns("QAT_Rate").HeaderText = "QAP Rate"
+                                gv.Columns("QAT_Rate").FormatString = "{0:n3}"
                             End If
 
+                            If gv.Columns.Contains("QAT_Amt") Then
+                                gv.Columns("QAT_Amt").IsVisible = True
+                                gv.Columns("QAT_Amt").Width = 100
+                                gv.Columns("QAT_Amt").HeaderText = "QAP Amount"
+                                gv.Columns("QAT_Amt").FormatString = "{0:n2}"
+                            End If
+
+
+                            If gv.Columns.Contains("Alias Name") Then
+                                gv.Columns("Alias Name").Width = 100
+                                gv.Columns("Alias Name").HeaderText = "Alias Name"
+                                If ChkDetailWise.Checked Then
+                                    If chkAliasNameWise.Checked Then
+                                        gv.Columns("Alias Name").IsVisible = True
+                                        gv.Columns("Alias Name").VisibleInColumnChooser = False
+                                    Else
+                                        gv.Columns("Alias Name").IsVisible = False
+                                        gv.Columns("Alias Name").VisibleInColumnChooser = False
+                                    End If
+                                Else
+                                    If chkAliasNameWise.Checked Then
+                                        gv.Columns("Alias Name").IsVisible = False
+                                        gv.Columns("Alias Name").VisibleInColumnChooser = True
+                                    Else
+                                        gv.Columns("Alias Name").IsVisible = False
+                                        gv.Columns("Alias Name").VisibleInColumnChooser = False
+                                    End If
+                                End If
+                            End If
                         End If
                         If ChkDetailWise.Checked AndAlso Not chkAliasNameWise.Checked Then
                             gv.Columns("Milk Receipt Code").IsVisible = True
@@ -2843,42 +2853,42 @@ Public Class FrmMCCMilkRegister
                         End If
                     End If
                 Else
-                    gv.Columns("Date").HeaderText = "Date"
-                    gv.Columns("Morning Milk Weight Sweet(KG)").HeaderText = "QTY"
-                    gv.Columns("Morning SweetFAT").HeaderText = "FAT"
-                    gv.Columns("Morning SweetFAT").FormatString = "{0:n2}"
-                    gv.Columns("Morning Sweet SNF").HeaderText = "SNF"
-                    gv.Columns("Morning Sweet SNF").FormatString = "{0:n2}"
-                    gv.Columns("Morning Sweet FAT(KG)").HeaderText = "KgFAT"
-                    gv.Columns("Morning Sweet SNF(KG)").HeaderText = "KgSNF"
-                    gv.Columns("Morning Milk Weight Sour(KG)").HeaderText = "QTY"
-                    gv.Columns("Morning Sour FAT").HeaderText = "FAT"
-                    gv.Columns("Morning Sour FAT").FormatString = "{0:n2}"
-                    gv.Columns("Morning Sour SNF").HeaderText = "SNF"
-                    gv.Columns("Morning Sour SNF").FormatString = "{0:n2}"
-                    gv.Columns("Morning Sour FAT(KG)").HeaderText = "KgFAT"
-                    gv.Columns("Morning Sour SNF(KG)").HeaderText = "KgSNF"
-                    gv.Columns("Morning Milk Weight Curd(KG)").HeaderText = "QTY"
-                    gv.Columns("Evening Milk Weight Sweet(KG)").HeaderText = "QTY"
-                    gv.Columns("Evening SweetFAT").HeaderText = "FAT"
-                    gv.Columns("Evening SweetFAT").FormatString = "{0:n2}"
-                    gv.Columns("Evening Sweet SNF").HeaderText = "SNF"
-                    gv.Columns("Evening Sweet SNF").FormatString = "{0:n2}"
-                    gv.Columns("Evening Sweet FAT(KG)").HeaderText = "KgFAT"
-                    gv.Columns("Evening Sweet SNF(KG)").HeaderText = "KgSNF"
-                    gv.Columns("Evening Milk Weight Sour(KG)").HeaderText = "QTY"
-                    gv.Columns("Evening Sour FAT").HeaderText = "FAT"
-                    gv.Columns("Evening Sour FAT").FormatString = "{0:n2}"
-                    gv.Columns("Evening Sour SNF").HeaderText = "SNF"
-                    gv.Columns("Evening Sour SNF").FormatString = "{0:n2}"
-                    gv.Columns("Evening Sour FAT(KG)").HeaderText = "KgFAT"
-                    gv.Columns("Evening Sour SNF(KG)").HeaderText = "KgSNF"
-                    gv.Columns("Evening Milk Weight Curd(KG)").HeaderText = "QTY"
-                    gv.Columns("Morning No Of Cans").HeaderText = "MOR."
-                    gv.Columns("Evening No Of Cans").HeaderText = "EVE."
-
+                    If Not rbtnShiftWiseTotal.Checked Then
+                        gv.Columns("Date").HeaderText = "Date"
+                        gv.Columns("Morning Milk Weight Sweet(KG)").HeaderText = "QTY"
+                        gv.Columns("Morning SweetFAT").HeaderText = "FAT"
+                        gv.Columns("Morning SweetFAT").FormatString = "{0:n2}"
+                        gv.Columns("Morning Sweet SNF").HeaderText = "SNF"
+                        gv.Columns("Morning Sweet SNF").FormatString = "{0:n2}"
+                        gv.Columns("Morning Sweet FAT(KG)").HeaderText = "KgFAT"
+                        gv.Columns("Morning Sweet SNF(KG)").HeaderText = "KgSNF"
+                        gv.Columns("Morning Milk Weight Sour(KG)").HeaderText = "QTY"
+                        gv.Columns("Morning Sour FAT").HeaderText = "FAT"
+                        gv.Columns("Morning Sour FAT").FormatString = "{0:n2}"
+                        gv.Columns("Morning Sour SNF").HeaderText = "SNF"
+                        gv.Columns("Morning Sour SNF").FormatString = "{0:n2}"
+                        gv.Columns("Morning Sour FAT(KG)").HeaderText = "KgFAT"
+                        gv.Columns("Morning Sour SNF(KG)").HeaderText = "KgSNF"
+                        gv.Columns("Morning Milk Weight Curd(KG)").HeaderText = "QTY"
+                        gv.Columns("Evening Milk Weight Sweet(KG)").HeaderText = "QTY"
+                        gv.Columns("Evening SweetFAT").HeaderText = "FAT"
+                        gv.Columns("Evening SweetFAT").FormatString = "{0:n2}"
+                        gv.Columns("Evening Sweet SNF").HeaderText = "SNF"
+                        gv.Columns("Evening Sweet SNF").FormatString = "{0:n2}"
+                        gv.Columns("Evening Sweet FAT(KG)").HeaderText = "KgFAT"
+                        gv.Columns("Evening Sweet SNF(KG)").HeaderText = "KgSNF"
+                        gv.Columns("Evening Milk Weight Sour(KG)").HeaderText = "QTY"
+                        gv.Columns("Evening Sour FAT").HeaderText = "FAT"
+                        gv.Columns("Evening Sour FAT").FormatString = "{0:n2}"
+                        gv.Columns("Evening Sour SNF").HeaderText = "SNF"
+                        gv.Columns("Evening Sour SNF").FormatString = "{0:n2}"
+                        gv.Columns("Evening Sour FAT(KG)").HeaderText = "KgFAT"
+                        gv.Columns("Evening Sour SNF(KG)").HeaderText = "KgSNF"
+                        gv.Columns("Evening Milk Weight Curd(KG)").HeaderText = "QTY"
+                        gv.Columns("Morning No Of Cans").HeaderText = "MOR."
+                        gv.Columns("Evening No Of Cans").HeaderText = "EVE."
+                    End If
                 End If
-
             Else
                 gv.Columns("Collection_Date").IsVisible = True
                 gv.Columns("Collection_Date").Width = 100
@@ -3938,7 +3948,7 @@ Public Class FrmMCCMilkRegister
 
                     If chkOnlyRejection.Checked = True Then
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
-                    " final.[Route Code],final.[Route Name] ,final.[Zone Code],final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," &
+                    " final.[Route Code],final.[Route Name] ,final.[Zone Code],final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[isOwnBMC(Y/N)] ,final.[Vlc Code] ,final.[VLC Name] ," &
                     " final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                     " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &
                     " final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
@@ -3956,7 +3966,7 @@ Public Class FrmMCCMilkRegister
                     " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code],final.QAT_Rate,final.QAT_Amt From ( " & strSRNQuery & ") As final where 2=2 "
                     Else
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
-                    "final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name],final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[Vlc Code] ,final.[VLC Name] ," &
+                    "final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name],final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code],final.[isOwnBMC(Y/N)],final.[Vlc Code] ,final.[VLC Name] ," &
                     " final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc ,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                     " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &
                     " final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)] ,final.[Cow Milk Qty (KG)],final.[Cow FAT(%)], Case When final.[FAT(%)] <= 5 Then CLR Else 0 End [Cow CLR],final.[Cow SNF(%)] , Case When final.[FAT(%)] <= 5 Then final.[FAT(KG)] Else 0 End [Cow FAT (KG)], Case When final.[FAT(%)] <= 5 Then final.[SNF(KG)] Else 0 End [Cow SNF (KG)]," &
@@ -4453,17 +4463,16 @@ Public Class FrmMCCMilkRegister
                     FinalQuery += "" & BaseQry2 & ""
                     FinalQuery += "group by XXXFinal.[MCC Code],XXXFinal.Mcc_Uploader_Code, XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
 										 XXXXFinal
-										 group by XXXXFinal.[MCC Code],[Mcc Uploader Code], XXXXFinal.[Milk Type]															
-										 ) pp 
-										 order by [Mcc Uploader Code],sno ,date,shift desc, [Milk Type]"
+										 group by XXXXFinal.[MCC Code],[Mcc Uploader Code] " ',XXXXFinal.[Milk Type]
+                    FinalQuery += " ) pp order by [Mcc Uploader Code],sno ,date,shift desc, [Milk Type]"
                 ElseIf rbtnDCS.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
                     FinalQuery += "group by XXXFinal.Date, XXXFinal.Shift, XXXFinal.[DCS Code], XXXFinal.[Milk Type] ) XXXXFinal group by XXXXFinal.Date, XXXXFinal.Shift, XXXXFinal.[DCS Code] , XXXXFinal.[Milk Type] 	"
                     FinalQuery += "" & BaseQry2 & ""
                     FinalQuery += "group by XXXFinal.[DCS Code], XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
 										 XXXXFinal
-										 group by XXXXFinal.[DCS Code], XXXXFinal.[Milk Type]															
-										 ) pp 
+										 group by XXXXFinal.[DCS Code] " ', XXXXFinal.[Milk Type]															
+                    FinalQuery += " ) pp 
 										 order by [DCS Code],sno ,date,shift desc, [Milk Type]"
                 ElseIf rbtnRoute.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
@@ -4471,8 +4480,8 @@ Public Class FrmMCCMilkRegister
                     FinalQuery += "" & BaseQry2 & ""
                     FinalQuery += "group by XXXFinal.[Route Code], XXXFinal.Date , XXXFinal.Shift , XXXFinal.[Milk Type] )
 										 XXXXFinal
-										 group by XXXXFinal.[Route Code], XXXXFinal.[Milk Type]															
-										 ) pp 
+										 group by XXXXFinal.[Route Code]" ', XXXXFinal.[Milk Type]															
+                    FinalQuery += " ) pp 
 										 order by [Route Code],sno ,date,shift desc, [Milk Type]"
                 ElseIf rbtnTotal.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
@@ -4480,8 +4489,8 @@ Public Class FrmMCCMilkRegister
                     FinalQuery += "" & BaseQry2 & ""
                     FinalQuery += "group by  XXXFinal.Date , XXXFinal.[Milk Type] )
 										 XXXXFinal
-										 group by  XXXXFinal.Date , XXXXFinal.[Milk Type]															
-										 ) pp 
+										 group by  XXXXFinal.Date " ', XXXXFinal.[Milk Type]															
+                    FinalQuery += " ) pp 
 										 order by date , sno , shift desc,[Milk Type]"
                 ElseIf rbtnShiftWiseTotal.Checked Then
                     FinalQuery = "" & qry & " " & BaseQry1 & ""
@@ -4507,13 +4516,10 @@ Public Class FrmMCCMilkRegister
                                       where TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.Collection_Date<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'ORDER BY TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL.SNO "
             End If
 
-
-
-
-
-
-
-
+            If FinalQuery Is Nothing OrElse clsCommon.myLen(FinalQuery) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
 
             dt = clsDBFuncationality.GetDataTable(FinalQuery)
             gv.DataSource = Nothing
@@ -4529,14 +4535,13 @@ Public Class FrmMCCMilkRegister
             ElseIf dt.Rows.Count > 0 Then
                 If chkDateShift.Checked Then
                     If rbtnBMC.Checked Then
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
                     ElseIf rbtnTotal.Checked Then
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
                     ElseIf rbtnShiftWiseTotal.Checked Then
                         dt.Rows.Add("Grand Total", dtGrandTotal.Rows(0)("Morning Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Morning SweetFAT"), dtGrandTotal.Rows(0)("Morning Sweet SNF"), dtGrandTotal.Rows(0)("Morning Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Morning Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Morning Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Morning Sour FAT"), dtGrandTotal.Rows(0)("Morning Sour SNF"), dtGrandTotal.Rows(0)("Morning Sour FAT(KG)"), dtGrandTotal.Rows(0)("Morning Sour SNF(KG)"), dtGrandTotal.Rows(0)("Morning Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Evening SweetFAT"), dtGrandTotal.Rows(0)("Evening Sweet SNF"), dtGrandTotal.Rows(0)("Evening Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Evening Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Evening Sour FAT"), dtGrandTotal.Rows(0)("Evening Sour SNF"), dtGrandTotal.Rows(0)("Evening Sour FAT(KG)"), dtGrandTotal.Rows(0)("Evening Sour SNF(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("Morning No Of Cans"), dtGrandTotal.Rows(0)("Evening No Of Cans"))
                     Else
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
-
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
                     End If
                 End If
 
