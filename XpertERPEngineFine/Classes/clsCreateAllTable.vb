@@ -6789,12 +6789,25 @@ Public Class clsCreateAllTable
             coll.Add("Trip_No", "int NULL")
             coll.Add("Is_GHEE", "Integer Default 0")
             coll.Add("IsIndividualCustomer", "Integer Default 0")
-            coll.Add("Demand_UniqueID", "Integer null")
+            coll.Add("Demand_UniqueID", "varchar(12) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, True, "", "GPCode", "GPDate", True)
             Try
 
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DAIRYSALE_GATEPASS_MASTER alter COLUMN DistributorName varchar(100)")
+                qry = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_DAIRYSALE_GATEPASS_MASTER' AND COLUMN_NAME = 'Demand_UniqueID'"
+                Dim strDatatype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                If clsCommon.CompairString(strDatatype, "int") = CompairStringResult.Equal Then
+                    qry = "Alter table TSPL_DAIRYSALE_GATEPASS_MASTER alter column Demand_UniqueID varchar(12) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "Alter table TSPL_DAIRYSALE_GATEPASS_MASTER_Hist_Data alter column Demand_UniqueID varchar(12) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "Alter table TSPL_DAIRYSALE_GATEPASS_MASTER_Delete_Data alter column Demand_UniqueID varchar(12) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "Alter table TSPL_DAIRYSALE_GATEPASS_MASTER_Cancel_Data alter column Demand_UniqueID varchar(12) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
 
+
+                End If
             Catch ex As Exception
 
             End Try
@@ -31302,13 +31315,28 @@ Public Class clsCreateAllTable
             coll.Add("Is_Apply_TPT", "integer null")
             coll.Add("Recommended_By", "Varchar(50) null")
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
-            coll.Add("Demand_UniqueID", "Integer null")
+            coll.Add("Demand_UniqueID", "varchar(12) null")
             coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
                 clsDBFuncationality.ExecuteNonQuery(qry)
+                qry = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SD_Shipment_head' AND COLUMN_NAME = 'Demand_UniqueID'"
+                Dim strDatatype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                If clsCommon.CompairString(strDatatype, "int") = CompairStringResult.Equal Then
+                    qry = "Alter table TSPL_SD_Shipment_head alter column Demand_UniqueID varchar(12) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "Alter table TSPL_SD_Shipment_head_Hist_Data alter column Demand_UniqueID varchar(12) null "
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "Alter table TSPL_SD_Shipment_head_Delete_Data alter column Demand_UniqueID varchar(12) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                    qry = "Alter table TSPL_SD_Shipment_head_Cancel_Data alter column Demand_UniqueID varchar(12) null"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+
+
+                End If
+
             Catch ex As Exception
 
             End Try
@@ -31522,6 +31550,7 @@ Public Class clsCreateAllTable
             coll.Add("Scheme_Item", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
+        End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
             coll.Add("Booking_TR_Code", "varchar(30) NOT NULL ")
