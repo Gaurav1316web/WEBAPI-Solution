@@ -2092,6 +2092,7 @@
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailMemoWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailMemoWiseWithoutValue.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailTradePriceWise.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptNewTenderPartyList.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNoSaleDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNoSaleSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\rptPenetrationFlavour.rpt" />
