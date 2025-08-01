@@ -3369,6 +3369,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     gv1.Rows(ii).Cells(ColTPTRate).Value = 0
                     gv1.Rows(ii).Cells(ColTPTRate).Tag = Nothing
                 End If
+                If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 Then
+                    If (gv1.Rows(ii).Cells(colQty).Value) <= 0 Then
+                        clsCommon.MyMessageBoxShow(Me, "Please enter quantity of Item [" & gv1.Rows(ii).Cells(colICode).Value & "] ", Me.Text)
+                        Return False
+                    End If
+                End If
                 UpdateCurrentRow(ii)
             Next
             UpdateAllTotals()

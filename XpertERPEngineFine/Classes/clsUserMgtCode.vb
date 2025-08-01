@@ -276,6 +276,7 @@ Public Class clsUserMgtCode
     Public Const rptAbsentBooth As String = "ABS_BOOTH"
     Public Const rptUnpostedDocumentReport As String = "UNPOST_DOC"
     Public Const rptCustomerWiseSalesReport As String = "CUST_SAL_RPT"
+    Public Const rptNewTenderPartyListReport As String = "NEW_TPT_LST"
     Public Const rptBookingReport As String = "BOOKING_RPT"
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"

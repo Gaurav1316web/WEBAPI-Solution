@@ -14,10 +14,10 @@ Public Class rptMonthWiseDMRReport
     Private Sub rptMonthWiseDMRReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         funreset()
         PickRatefromMaster = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickRatefromMaster, clsFixedParameterCode.PickRatefromMaster, Nothing)) = 1)
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
-            rbtnDemand.Visible = False
-        Else
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+        '    rbtnDemand.Visible = False
+        'Else
+        'End If
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         rbtnDispatch.IsChecked = True
@@ -92,14 +92,8 @@ Public Class rptMonthWiseDMRReport
 
     Sub GetReportID()
         Dim VarID As String = ""
-
-        If rbtnDemand.IsChecked Then
-            VarID += "_DE"
-        ElseIf rbtnDispatch.IsChecked Then
-            VarID += "_DI"
-        End If
+        VarID += "_DI"
         gv1.VarID = VarID
-
     End Sub
 
     Sub funreset()
@@ -129,9 +123,7 @@ Public Class rptMonthWiseDMRReport
                 DateFilter = "Supply_Date"
             End If
             If clsCommon.myLen(txtRoute.Value) > 0 Then
-                If rbtnDemand.IsChecked Then
-                    whrcls += "  And TSPL_BOOKING_DETAIL.Route_No = '" + txtRoute.Value + "'"
-                ElseIf rbtnDispatch.IsChecked Then
+                If rbtnDispatch.IsChecked Then
                     whrcls += " and TSPL_SD_SHIPMENT_HEAD.Route_No ='" + txtRoute.Value + "'"
                 End If
             End If

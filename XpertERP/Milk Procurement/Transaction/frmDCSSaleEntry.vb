@@ -374,7 +374,7 @@ Public Class frmDCSSaleEntry
         txtBillToLocation.MyReadOnly = True
 
         btnDeliveredTo.Enabled = False
-        If objCommonVar. CreateAutoReceiptEntryDCSSale Then
+        If objCommonVar.CreateAutoReceiptEntryDCSSale Then
             txtReceiptNo.Enabled = False
         End If
     End Sub
@@ -2663,7 +2663,7 @@ Public Class frmDCSSaleEntry
             End If
             If Not dr Is Nothing Then
                 If clsCommon.myLen(clsCommon.myCstr(dr("Item"))) > 0 Then
-                    SetitemWiseTaxSetting(True, True)
+                    SetitemWiseTaxSetting(True, True, gv1.CurrentRow.Index)
                     gv1.CurrentRow.Cells(colRowType).Value = RowTypeItem
                     gv1.CurrentRow.Cells(colICode).Value = clsCommon.myCstr(dr("Item"))
                     gv1.CurrentRow.Cells(ColActualBalQty).Value = clsItemLocationDetails.getBalance(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, clsCommon.myCstr(dr("Unit")), clsCommon.myCdbl(dr("MRP")))
@@ -2757,7 +2757,7 @@ Public Class frmDCSSaleEntry
                             Dim dblConvF As Decimal
                             dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
                             gv1.CurrentRow.Cells(colConvF).Value = dblConvF
-                            SetitemWiseTaxSetting(True, True)
+                            SetitemWiseTaxSetting(True, True, gv1.CurrentRow.Index)
                         End If
                     Else
                         SetBlankOfItemColumns()
@@ -2813,42 +2813,41 @@ left outer join  TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VAL
                         gv1.CurrentRow.Cells(colRate).Value = 0
                     Else
                         gv1.CurrentRow.Cells(colRate).Value = clsEkoPro.GetRateMccSale(txtBillToLocation.Value, clsCommon.myCstr(dr(0).Item("Item")), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value), txtDate.Value) 'clsCommon.myCdbl(dr("BasicRate"))
-                        End If
-                        gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
-                        gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
-                        gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
-                        gv1.CurrentRow.Cells(ColFOC).Value = 0
-                        gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr(0).Item("Weight Value"))
-                        gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
-                        gv1.CurrentRow.Cells(colShortDesc).Value = clsCommon.myCstr(dr(0).Item("Short_Description"))
-                        Dim dblConvF As Decimal
-                        dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
-                        gv1.CurrentRow.Cells(colConvF).Value = dblConvF
-                        Dim isTaxable As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select istaxable from tspl_item_master where item_code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'") = 1)
-                        If isTaxable Then
-                            gv1.CurrentRow.Cells(colTaxGroup).Value = clsDBFuncationality.getSingleValue("select Top 1 TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code from TSPL_ITEM_WISE_TAX 
+                    End If
+                    gv1.CurrentRow.Cells(colSchemeApplicable).Value = "No"
+                    gv1.CurrentRow.Cells(colSchemeItem).Value = "No"
+                    gv1.CurrentRow.Cells(colActualCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
+                    gv1.CurrentRow.Cells(ColFOC).Value = 0
+                    gv1.CurrentRow.Cells(colItemWeight).Value = clsCommon.myCdbl(dr(0).Item("Weight Value"))
+                    gv1.CurrentRow.Cells(colOrgCost).Value = clsCommon.myCdbl(dr(0).Item("BasicRate"))
+                    gv1.CurrentRow.Cells(colShortDesc).Value = clsCommon.myCstr(dr(0).Item("Short_Description"))
+                    Dim dblConvF As Decimal
+                    dblConvF = GetConvFactor(gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Cells(colICode).Value)
+                    gv1.CurrentRow.Cells(colConvF).Value = dblConvF
+                    Dim isTaxable As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select istaxable from tspl_item_master where item_code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'") = 1)
+                    If isTaxable Then
+                        gv1.CurrentRow.Cells(colTaxGroup).Value = clsDBFuncationality.getSingleValue("select Top 1 TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code from TSPL_ITEM_WISE_TAX 
 Inner Join TSPL_ITEM_WISE_TAX_AUTHORITY On TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE=TSPL_ITEM_WISE_TAX.HCODE
 Inner Join TSPL_ITEM_WISE_TAX_GROUP On TSPL_ITEM_WISE_TAX_GROUP.HCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE
 where TSPL_ITEM_WISE_TAX.Type='S' And TSPL_ITEM_WISE_TAX.Status=1 And TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' Group By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103),TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code 
 Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
-                        Else
-                            gv1.CurrentRow.Cells(colTaxGroup).Value = clsDBFuncationality.getSingleValue("select Tax_Group_Code from TSPL_TAX_GROUP_MASTER where Default_Type=1 ")
-                        End If
-                        If chkApplyTPT.Checked Then
-                            Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, gv1.CurrentRow.Cells(colICode).Value, txtDate.Value)
-                            If dtTransportationCharges.Rows.Count > 0 AndAlso dtTransportationCharges IsNot Nothing Then
-                                gv1.CurrentRow.Cells(ColTPTRate).Value = clsCommon.myCDecimal(dtTransportationCharges.Rows(0)("Transportation_Rate"))
-                                gv1.CurrentRow.Cells(ColTPTRate).Tag = clsCommon.myCdbl(dtTransportationCharges.Rows(0)("PK_ID"))
-                            End If
-                        End If
-
-                        SetTaxDetails()
-                        If isTaxable Then
-                            SetitemWiseTaxSetting(True, True)
-                        End If
-
+                    Else
+                        gv1.CurrentRow.Cells(colTaxGroup).Value = clsDBFuncationality.getSingleValue("select Tax_Group_Code from TSPL_TAX_GROUP_MASTER where Default_Type=1 ")
                     End If
-                Else
+                    If chkApplyTPT.Checked Then
+                        Dim dtTransportationCharges As DataTable = clsDCSTransportationCharges.PickTransportationRate(LblVlc_Code.Tag, gv1.CurrentRow.Cells(colICode).Value, txtDate.Value)
+                        If dtTransportationCharges.Rows.Count > 0 AndAlso dtTransportationCharges IsNot Nothing Then
+                            gv1.CurrentRow.Cells(ColTPTRate).Value = clsCommon.myCDecimal(dtTransportationCharges.Rows(0)("Transportation_Rate"))
+                            gv1.CurrentRow.Cells(ColTPTRate).Tag = clsCommon.myCdbl(dtTransportationCharges.Rows(0)("PK_ID"))
+                        End If
+                    End If
+
+                    SetTaxDetails(gv1.CurrentRow.Index)
+                    If isTaxable Then
+                        SetitemWiseTaxSetting(True, True, gv1.CurrentRow.Index)
+                    End If
+                End If
+            Else
                 SetBlankOfItemColumns()
             End If
         End If
@@ -3224,6 +3223,16 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     gv1.Rows(ii).Cells(ColTPTRate).Value = 0
                     gv1.Rows(ii).Cells(ColTPTRate).Tag = Nothing
                 End If
+                If CalculateTaxRatefromItemwsieTaxOnSale = 1 Then
+                    SetitemWiseTaxSetting(True, False, ii)
+                End If
+                If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 Then
+                    If (gv1.Rows(ii).Cells(colQty).Value) <= 0 Then
+                        clsCommon.MyMessageBoxShow(Me, "Please enter quantity of Item [" & gv1.Rows(ii).Cells(colICode).Value & "] ", Me.Text)
+                        Return False
+                    End If
+                End If
+
                 UpdateCurrentRow(ii)
             Next
             UpdateAllTotals()
@@ -4297,6 +4306,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRecoverable10).Value = clsTaxMaster.IsTaxRecoverableAC(objTr.TAX10)
                             End If
                         End If
+                        SetitemWiseTaxOnlySetting(gv1.Rows.Count - 1)
                     Next
                     If obj.Status = ERPTransactionStatus.Pending Then
                         gv1.Rows.AddNew()
@@ -4313,7 +4323,6 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     Me.txtConversionRate.Text = obj.ConvRate
                     Me.txtApplicableFrom.Text = obj.ApplicableFrom.ToString
                 End If
-                SetitemWiseTaxOnlySetting()
                 UcAttachment1.LoadData(obj.Document_Code)
             End If
 
@@ -4554,7 +4563,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                 Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
                 gv1.CurrentRow.Cells(colTaxGroup).Value = clsLocationWiseTax.FinderForTaxGroup(txtBillToLocation.Value, txtVendorNo.Value, "S", gv1.CurrentRow.Cells(colTaxGroup).Value, isButtonClicked)
-                SetTaxDetails()
+                SetTaxDetails(IntRowNo)
             Else
                 Throw New Exception("Please select Location First")
             End If
@@ -4563,14 +4572,14 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         End Try
     End Sub
 
-    Sub SetTaxDetails()
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(gv1.CurrentRow.Cells(colTaxGroup).Value, "S", txtVendorNo.Value, txtBillToLocation.Value)
+    Sub SetTaxDetails(ByVal intRow As Integer)
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(gv1.Rows(intRow).Cells(colTaxGroup).Value, "S", txtVendorNo.Value, txtBillToLocation.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
                 MessageBox.Show("Can't Handle More than 10 Tax Types in a Group")
                 Return
             End If
-            gv1.CurrentRow.Cells(colTaxGroupDesc).Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
+            gv1.Rows(intRow).Cells(colTaxGroupDesc).Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
             For Each dr As DataRow In dt.Rows
                 If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
@@ -4616,9 +4625,9 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                 End If
 
             Next
-            SetitemWiseTaxSetting(True, True)
+            SetitemWiseTaxSetting(True, True, intRow)
         Else
-            gv1.CurrentRow.Cells(colTaxGroup).Value = ""
+            gv1.Rows(intRow).Cells(colTaxGroup).Value = ""
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 BlankTaxDetails(ii)
             Next
@@ -4628,8 +4637,8 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         Next
         UpdateAllTotals()
     End Sub
-    Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean)
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(gv1.CurrentRow.Cells(colTaxGroup).Value, "S", txtVendorNo.Value, txtBillToLocation.Value)
+    Sub SetitemWiseTaxSetting(ByVal isChangeRate As Boolean, ByVal isForCurrentRow As Boolean, ByVal intRowNo As Integer)
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(gv1.Rows(intRowNo).Cells(colTaxGroup).Value, "S", txtVendorNo.Value, txtBillToLocation.Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If isForCurrentRow Then
                 BlankTaxDetails(gv1.CurrentRow.Index, isChangeRate)
@@ -4662,45 +4671,45 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                     Next
                 End If
             Else
-                For intRowNo As Integer = 0 To gv1.Rows.Count - 1
-                    BlankTaxDetails(intRowNo, isChangeRate)
-                    If clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 Then
-                        Dim ii As Integer = 1
-                        For Each dr As DataRow In dt.Rows
-                            Dim strII As String = clsCommon.myCstr(ii)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
-                            If (CalculateTaxRatefromItemwsieTaxOnSale = 0 OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
-                                If isChangeRate Then
-                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
-                                End If
-                            Else
-                                If isChangeRate Then
-                                    Dim objTM As clsItemWiseTaxAuthority
-                                    objTM = clsItemWiseTaxAuthority.GetAutoItemwiseTaxRate(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colTaxGroup).Value), clsCommon.myCstr(gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value), txtDate.Value, "S")
-                                    If objTM IsNot Nothing Then
-                                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = objTM.TAX_Rate
-                                        gv1.Rows(intRowNo).Cells(colItemwiseTaxCode).Value = objTM.HCODE
-                                    End If
+                ' For intRowNo As Integer = 0 To gv1.Rows.Count - 1
+                BlankTaxDetails(intRowNo, isChangeRate)
+                If clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 Then
+                    Dim ii As Integer = 1
+                    For Each dr As DataRow In dt.Rows
+                        Dim strII As String = clsCommon.myCstr(ii)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
+                        If (CalculateTaxRatefromItemwsieTaxOnSale = 0 OrElse clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
+                            If isChangeRate Then
+                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                            End If
+                        Else
+                            If isChangeRate Then
+                                Dim objTM As clsItemWiseTaxAuthority
+                                objTM = clsItemWiseTaxAuthority.GetAutoItemwiseTaxRate(clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colTaxGroup).Value), clsCommon.myCstr(gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value), txtDate.Value, "S")
+                                If objTM IsNot Nothing Then
+                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTaxRate" + strII)).Value = objTM.TAX_Rate
+                                    gv1.Rows(intRowNo).Cells(colItemwiseTaxCode).Value = objTM.HCODE
                                 End If
                             End If
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + strII)).Value = clsCommon.myCstr(dr("Surtax_Tax_Code"))
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Excisable")), "Y") = CompairStringResult.Equal)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("RECOVERTABLETAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_Recoverable")), "Y") = CompairStringResult.Equal)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr(colIsTaxOnBaseAmount + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_On_Base_Amount")), "Y") = CompairStringResult.Equal)
-                            ii = ii + 1
-                        Next
-                    End If
-                Next
+                        End If
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + strII)).Value = clsCommon.myCstr(dr("Surtax_Tax_Code"))
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Excisable")), "Y") = CompairStringResult.Equal)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("RECOVERTABLETAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_Recoverable")), "Y") = CompairStringResult.Equal)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr(colIsTaxOnBaseAmount + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_On_Base_Amount")), "Y") = CompairStringResult.Equal)
+                        ii = ii + 1
+                    Next
+                End If
+                'Next
             End If
         End If
     End Sub
-    Sub SetitemWiseTaxOnlySetting()
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsscrap(gv1.CurrentRow.Cells(colTaxGroup).Value)
+    Sub SetitemWiseTaxOnlySetting(ByVal intRowNo As Integer)
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsscrap(gv1.Rows(intRowNo).Cells(colTaxGroup).Value)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-            For intRowNo As Integer = 0 To gv1.Rows.Count - 1
-                If clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode)) > 0 Then
+            ' For intRowNo As Integer = 0 To gv1.Rows.Count - 1
+            If clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode)) > 0 Then
                     Dim ii As Integer = 1
                     For Each dr As DataRow In dt.Rows
                         Dim strII As String = clsCommon.myCstr(ii)
@@ -4712,7 +4721,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                         ii = ii + 1
                     Next
                 End If
-            Next
+            ' Next
         End If
     End Sub
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
@@ -5271,8 +5280,8 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             End If
             'gv1.Rows.AddNew()
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
-            SetitemWiseTaxSetting(False, False)
             For ii As Integer = 0 To gv1.RowCount - 1
+                SetitemWiseTaxSetting(False, False, ii)
                 UpdateCurrentRow(ii)
             Next
         End If
