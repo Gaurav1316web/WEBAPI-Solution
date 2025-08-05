@@ -3595,7 +3595,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
         If clsCommon.myLen(txtReqNo.Value) = 0 Then
             Dim qry As String = String.Empty
             qry = "select distinct TSPL_INVENTORY_MOVEMENT.Item_Code as [Code] ,tspl_item_master.Item_Desc as [Item Description],Sku_Seq as [Seq. No.],ISNULL(Short_Description,'') AS Short_Description,ISNULL(CSA_TYPE,'') AS [Item Group Type] from  TSPL_INVENTORY_MOVEMENT left outer join tspl_item_master on  TSPL_INVENTORY_MOVEMENT.Item_Code=tspl_item_master.item_code"
-            whrCls = " inout='I' and Is_FreshItem=0 and Product_Type not in ('MI') and Item_Type='F' and Is_Serial_Item=0"
+            whrCls = " inout='I' and (tspl_item_master.Is_FreshItem=1 or tspl_item_master.Is_Ambient=1 )  and Item_Type='F' and Is_Serial_Item=0"
             gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("PSSaleReturnItemfnd", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), "Code", isButtonClick)
         End If
         'SetBlankOfItemColumns()

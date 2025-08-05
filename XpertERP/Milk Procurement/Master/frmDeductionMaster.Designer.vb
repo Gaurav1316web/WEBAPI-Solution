@@ -45,6 +45,8 @@ Partial Class FrmDeductionMaster
         Me.chkOTHERS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkShowFATSNF = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkCorrectionAfterProcessCrNote = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkCorrectionAfterProcessDrNote = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkTransferToSaving = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkNegativeSRN = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtOwnBMCMilkRejectType = New common.UserControls.txtFinder()
@@ -75,10 +77,10 @@ Partial Class FrmDeductionMaster
         Me.lblCode = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -99,6 +101,8 @@ Partial Class FrmDeductionMaster
         CType(Me.chkOTHERS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.chkCorrectionAfterProcessCrNote, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkCorrectionAfterProcessDrNote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTransferToSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,10 +129,10 @@ Partial Class FrmDeductionMaster
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -137,7 +141,7 @@ Partial Class FrmDeductionMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(699, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(694, 20)
         Me.RadMenu1.TabIndex = 3
         '
         'RadMenuItem1
@@ -200,7 +204,7 @@ Partial Class FrmDeductionMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(699, 393)
+        Me.SplitContainer1.Size = New System.Drawing.Size(694, 393)
         Me.SplitContainer1.SplitterDistance = 353
         Me.SplitContainer1.TabIndex = 4
         '
@@ -398,6 +402,8 @@ Partial Class FrmDeductionMaster
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkCorrectionAfterProcessCrNote)
+        Me.GroupBox1.Controls.Add(Me.chkCorrectionAfterProcessDrNote)
         Me.GroupBox1.Controls.Add(Me.chkTransferToSaving)
         Me.GroupBox1.Controls.Add(Me.chkNegativeSRN)
         Me.GroupBox1.Controls.Add(Me.txtOwnBMCMilkRejectType)
@@ -419,10 +425,26 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.Controls.Add(Me.chkCompany)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 138)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(594, 113)
+        Me.GroupBox1.Size = New System.Drawing.Size(627, 113)
         Me.GroupBox1.TabIndex = 84
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Default Deduction Type"
+        '
+        'chkCorrectionAfterProcessCrNote
+        '
+        Me.chkCorrectionAfterProcessCrNote.Location = New System.Drawing.Point(439, 90)
+        Me.chkCorrectionAfterProcessCrNote.Name = "chkCorrectionAfterProcessCrNote"
+        Me.chkCorrectionAfterProcessCrNote.Size = New System.Drawing.Size(183, 18)
+        Me.chkCorrectionAfterProcessCrNote.TabIndex = 97
+        Me.chkCorrectionAfterProcessCrNote.Text = "Correction After Process Cr Note"
+        '
+        'chkCorrectionAfterProcessDrNote
+        '
+        Me.chkCorrectionAfterProcessDrNote.Location = New System.Drawing.Point(245, 90)
+        Me.chkCorrectionAfterProcessDrNote.Name = "chkCorrectionAfterProcessDrNote"
+        Me.chkCorrectionAfterProcessDrNote.Size = New System.Drawing.Size(184, 18)
+        Me.chkCorrectionAfterProcessDrNote.TabIndex = 96
+        Me.chkCorrectionAfterProcessDrNote.Text = "Correction After Process Dr Note"
         '
         'chkTransferToSaving
         '
@@ -759,13 +781,23 @@ Partial Class FrmDeductionMaster
         Me.txtName.Size = New System.Drawing.Size(228, 18)
         Me.txtName.TabIndex = 70
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(554, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(68, 28)
+        Me.btnHistory.TabIndex = 74
+        Me.btnHistory.Text = "History"
+        '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(74, 9)
+        Me.btnDelete.Location = New System.Drawing.Point(73, 5)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(68, 18)
+        Me.btnDelete.Size = New System.Drawing.Size(68, 28)
         Me.btnDelete.TabIndex = 72
         Me.btnDelete.Text = "Delete"
         '
@@ -773,9 +805,9 @@ Partial Class FrmDeductionMaster
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(3, 9)
+        Me.btnSave.Location = New System.Drawing.Point(3, 5)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(68, 18)
+        Me.btnSave.Size = New System.Drawing.Size(68, 28)
         Me.btnSave.TabIndex = 71
         Me.btnSave.Text = "Save"
         '
@@ -783,27 +815,17 @@ Partial Class FrmDeductionMaster
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(628, 9)
+        Me.btnClose.Location = New System.Drawing.Point(623, 5)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(68, 18)
+        Me.btnClose.Size = New System.Drawing.Size(68, 28)
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(554, 9)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(68, 18)
-        Me.btnHistory.TabIndex = 74
-        Me.btnHistory.Text = "History"
         '
         'FrmDeductionMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(699, 413)
+        Me.ClientSize = New System.Drawing.Size(694, 413)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmDeductionMaster"
@@ -834,6 +856,8 @@ Partial Class FrmDeductionMaster
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.chkCorrectionAfterProcessCrNote, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkCorrectionAfterProcessDrNote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTransferToSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -860,10 +884,10 @@ Partial Class FrmDeductionMaster
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -925,5 +949,7 @@ Partial Class FrmDeductionMaster
     Friend WithEvents txtDeductionType As common.UserControls.txtFinder
     Friend WithEvents lblDeductionType As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents chkCorrectionAfterProcessCrNote As RadCheckBox
+    Friend WithEvents chkCorrectionAfterProcessDrNote As RadCheckBox
 End Class
 
