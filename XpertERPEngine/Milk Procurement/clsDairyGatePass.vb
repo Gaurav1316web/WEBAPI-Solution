@@ -44,7 +44,7 @@ Public Class clsDairyGatePassEntry
     Public Supply_Date As Date? = Nothing
     Public Is_GHEE As Boolean = False
     Public IsIndividualCustomer As Integer = 0
-    Public Demand_UniqueID As Integer
+    Public Demand_UniqueID As String = Nothing
 
 
 #End Region
@@ -352,7 +352,7 @@ Public Class clsDairyGatePassEntry
                 obj.Supply_Date = clsCommon.myCstr(dt.Rows(0)("Supply_Date"))
             End If
             If dt.Rows(0)("Demand_UniqueID") IsNot DBNull.Value Then
-                obj.Demand_UniqueID = clsCommon.myCdbl(dt.Rows(0)("Demand_UniqueID"))
+                obj.Demand_UniqueID = clsCommon.myCstr(dt.Rows(0)("Demand_UniqueID"))
             End If
             obj.Arr = clsDairyGPDetail.GetData(obj.GPCode, trans)
         End If
@@ -441,35 +441,34 @@ Public Class clsDairyGatePassEntry
                 Throw New Exception("Already Canceled")
             End If
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
-                qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" + obj.GPCode + "'"
+                qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" & obj.GPCode & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Else
-                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode = null where GPCode='" + obj.GPCode + "'"
+                qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode = null where GPCode='" & obj.GPCode & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
-            clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set Status='Y', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  where gpcode='" & obj.GPCode & "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set Status='Y', Modified_By = '" & objCommonVar.CurrentUserCode & "',Modified_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "'  where gpcode='" & obj.GPCode & "'", trans)
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 
 
-            qry = "select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'"
+            qry = "select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" & obj.GPCode & "'"
             Dim CrateReceivedDoc As String = clsDBFuncationality.getSingleValue(qry, trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
-            qry = "delete from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" + CrateReceivedDoc + "'"
+            qry = "delete from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" & CrateReceivedDoc & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Document_No='" + CrateReceivedDoc + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
-
-            qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + obj.GPCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" + obj.GPCode + "'"
+            qry = "delete from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Document_No='" & CrateReceivedDoc & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" + obj.GPCode + "'"
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & obj.GPCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & obj.GPCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & obj.GPCode & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
         Catch ex As Exception
@@ -485,7 +484,7 @@ Public Class clsDairyGatePassEntry
             '==========Added by preeti gupta Against ticket no[ERO/16/05/19-000603]
             Dim isDepoVehicle As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_VEHICLE_MASTER where  Vehicle_Type ='D' and Vehicle_Id = '" + obj.Vehicle_Id + "'", trans))
             If isDepoVehicle = 0 Then
-                If clsCommon.myLen(obj.Transporter) <= 0 Or isTranspoterVendor <= 0 Then
+                If clsCommon.myLen(obj.Transporter) <= 0 OrElse isTranspoterVendor <= 0 Then
                     If (myMessages.DairyGatePassPovisionConfirm) Then
                     Else
                         Throw New Exception("")

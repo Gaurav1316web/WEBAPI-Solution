@@ -30,6 +30,12 @@ Partial Class frmCorrection
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -172,6 +178,39 @@ Partial Class frmCorrection
         Me.txtBMCTankerSNF = New common.MyNumBox()
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtBMCTankerFAT = New common.MyNumBox()
+        Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton9 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.cboCAPShift = New common.Controls.MyComboBox()
+        Me.MyLabel30 = New common.Controls.MyLabel()
+        Me.txtCAPShiftDate = New common.Controls.MyDateTimePicker()
+        Me.txtCAPMCC = New common.UserControls.txtFinder()
+        Me.MyLabel31 = New common.Controls.MyLabel()
+        Me.lblCAPMcc = New common.Controls.MyLabel()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.txtCAPVLC = New common.UserControls.txtFinder()
+        Me.lblCAPVLC = New common.Controls.MyLabel()
+        Me.RadGroupBox10 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cboCAPRejectType = New common.Controls.MyComboBox()
+        Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.MyLabel42 = New common.Controls.MyLabel()
+        Me.lblCAPUOM = New common.Controls.MyLabel()
+        Me.MyLabel47 = New common.Controls.MyLabel()
+        Me.lblCAPSRNNo = New common.Controls.MyLabel()
+        Me.lblCAPDCSName = New common.Controls.MyLabel()
+        Me.cboCAPMilkType = New common.Controls.MyComboBox()
+        Me.MyLabel50 = New common.Controls.MyLabel()
+        Me.RadButton10 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel51 = New common.Controls.MyLabel()
+        Me.btnCAPSave = New Telerik.WinControls.UI.RadButton()
+        Me.TxtCAPDCSCode = New common.UserControls.txtFinder()
+        Me.MyLabel52 = New common.Controls.MyLabel()
+        Me.txtCAPQty = New common.MyNumBox()
+        Me.MyLabel53 = New common.Controls.MyLabel()
+        Me.txtCAPSNF = New common.MyNumBox()
+        Me.MyLabel54 = New common.Controls.MyLabel()
+        Me.txtCAPFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -316,6 +355,38 @@ Partial Class frmCorrection
         CType(Me.txtBMCTankerSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage7.SuspendLayout()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox9.SuspendLayout()
+        CType(Me.RadButton9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboCAPShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCAPShiftDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCAPMcc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCAPVLC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox10.SuspendLayout()
+        CType(Me.cboCAPRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCAPUOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCAPSRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCAPDCSName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboCAPMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel51, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCAPSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCAPQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCAPSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCAPFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -348,10 +419,11 @@ Partial Class frmCorrection
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage7)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2489,6 +2561,554 @@ Partial Class frmCorrection
         Me.txtBMCTankerFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtBMCTankerFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
+        'RadPageViewPage7
+        '
+        Me.RadPageViewPage7.Controls.Add(Me.RadGroupBox9)
+        Me.RadPageViewPage7.Controls.Add(Me.RadGroupBox10)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(137.0!, 28.0!)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage7.Name = "RadPageViewPage7"
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(646, 376)
+        Me.RadPageViewPage7.Text = "Correction After Process"
+        '
+        'RadGroupBox9
+        '
+        Me.RadGroupBox9.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox9.Controls.Add(Me.RadButton9)
+        Me.RadGroupBox9.Controls.Add(Me.MyLabel29)
+        Me.RadGroupBox9.Controls.Add(Me.cboCAPShift)
+        Me.RadGroupBox9.Controls.Add(Me.MyLabel30)
+        Me.RadGroupBox9.Controls.Add(Me.txtCAPShiftDate)
+        Me.RadGroupBox9.Controls.Add(Me.txtCAPMCC)
+        Me.RadGroupBox9.Controls.Add(Me.MyLabel34)
+        Me.RadGroupBox9.Controls.Add(Me.MyLabel31)
+        Me.RadGroupBox9.Controls.Add(Me.txtCAPVLC)
+        Me.RadGroupBox9.Controls.Add(Me.lblCAPMcc)
+        Me.RadGroupBox9.Controls.Add(Me.lblCAPVLC)
+        Me.RadGroupBox9.HeaderText = "Filter"
+        Me.RadGroupBox9.Location = New System.Drawing.Point(3, 3)
+        Me.RadGroupBox9.Name = "RadGroupBox9"
+        Me.RadGroupBox9.Size = New System.Drawing.Size(566, 86)
+        Me.RadGroupBox9.TabIndex = 2
+        Me.RadGroupBox9.Text = "Filter"
+        '
+        'RadButton9
+        '
+        Me.RadButton9.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadButton9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton9.Location = New System.Drawing.Point(495, 61)
+        Me.RadButton9.Name = "RadButton9"
+        Me.RadButton9.Size = New System.Drawing.Size(66, 21)
+        Me.RadButton9.TabIndex = 4
+        Me.RadButton9.Text = ">>"
+        '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(5, 17)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel29.TabIndex = 8
+        Me.MyLabel29.Text = "Shift Date"
+        '
+        'cboCAPShift
+        '
+        Me.cboCAPShift.AutoCompleteDisplayMember = Nothing
+        Me.cboCAPShift.AutoCompleteValueMember = Nothing
+        Me.cboCAPShift.CalculationExpression = Nothing
+        Me.cboCAPShift.DropDownAnimationEnabled = True
+        Me.cboCAPShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboCAPShift.FieldCode = Nothing
+        Me.cboCAPShift.FieldDesc = Nothing
+        Me.cboCAPShift.FieldMaxLength = 0
+        Me.cboCAPShift.FieldName = Nothing
+        Me.cboCAPShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCAPShift.isCalculatedField = False
+        Me.cboCAPShift.IsSourceFromTable = False
+        Me.cboCAPShift.IsSourceFromValueList = False
+        Me.cboCAPShift.IsUnique = False
+        RadListDataItem9.Text = "M"
+        RadListDataItem10.Text = "E"
+        Me.cboCAPShift.Items.Add(RadListDataItem9)
+        Me.cboCAPShift.Items.Add(RadListDataItem10)
+        Me.cboCAPShift.Location = New System.Drawing.Point(273, 16)
+        Me.cboCAPShift.MendatroryField = True
+        Me.cboCAPShift.MyLinkLable1 = Me.MyLabel30
+        Me.cboCAPShift.MyLinkLable2 = Nothing
+        Me.cboCAPShift.Name = "cboCAPShift"
+        Me.cboCAPShift.ReferenceFieldDesc = Nothing
+        Me.cboCAPShift.ReferenceFieldName = Nothing
+        Me.cboCAPShift.ReferenceTableName = Nothing
+        Me.cboCAPShift.Size = New System.Drawing.Size(102, 18)
+        Me.cboCAPShift.TabIndex = 1
+        '
+        'MyLabel30
+        '
+        Me.MyLabel30.FieldName = Nothing
+        Me.MyLabel30.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel30.Location = New System.Drawing.Point(238, 17)
+        Me.MyLabel30.Name = "MyLabel30"
+        Me.MyLabel30.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel30.TabIndex = 9
+        Me.MyLabel30.Text = "Shift"
+        '
+        'txtCAPShiftDate
+        '
+        Me.txtCAPShiftDate.CalculationExpression = Nothing
+        Me.txtCAPShiftDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtCAPShiftDate.FieldCode = Nothing
+        Me.txtCAPShiftDate.FieldDesc = Nothing
+        Me.txtCAPShiftDate.FieldMaxLength = 0
+        Me.txtCAPShiftDate.FieldName = Nothing
+        Me.txtCAPShiftDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCAPShiftDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCAPShiftDate.isCalculatedField = False
+        Me.txtCAPShiftDate.IsSourceFromTable = False
+        Me.txtCAPShiftDate.IsSourceFromValueList = False
+        Me.txtCAPShiftDate.IsUnique = False
+        Me.txtCAPShiftDate.Location = New System.Drawing.Point(71, 16)
+        Me.txtCAPShiftDate.MendatroryField = True
+        Me.txtCAPShiftDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCAPShiftDate.MyLinkLable1 = Me.MyLabel29
+        Me.txtCAPShiftDate.MyLinkLable2 = Nothing
+        Me.txtCAPShiftDate.Name = "txtCAPShiftDate"
+        Me.txtCAPShiftDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCAPShiftDate.ReferenceFieldDesc = Nothing
+        Me.txtCAPShiftDate.ReferenceFieldName = Nothing
+        Me.txtCAPShiftDate.ReferenceTableName = Nothing
+        Me.txtCAPShiftDate.Size = New System.Drawing.Size(156, 18)
+        Me.txtCAPShiftDate.TabIndex = 0
+        Me.txtCAPShiftDate.TabStop = False
+        Me.txtCAPShiftDate.Text = "03/05/2011"
+        Me.txtCAPShiftDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'txtCAPMCC
+        '
+        Me.txtCAPMCC.CalculationExpression = Nothing
+        Me.txtCAPMCC.FieldCode = Nothing
+        Me.txtCAPMCC.FieldDesc = Nothing
+        Me.txtCAPMCC.FieldMaxLength = 0
+        Me.txtCAPMCC.FieldName = Nothing
+        Me.txtCAPMCC.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCAPMCC.isCalculatedField = False
+        Me.txtCAPMCC.IsSourceFromTable = False
+        Me.txtCAPMCC.IsSourceFromValueList = False
+        Me.txtCAPMCC.IsUnique = False
+        Me.txtCAPMCC.Location = New System.Drawing.Point(71, 37)
+        Me.txtCAPMCC.MendatroryField = True
+        Me.txtCAPMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCAPMCC.MyLinkLable1 = Me.MyLabel31
+        Me.txtCAPMCC.MyLinkLable2 = Me.lblCAPMcc
+        Me.txtCAPMCC.MyReadOnly = False
+        Me.txtCAPMCC.MyShowMasterFormButton = False
+        Me.txtCAPMCC.Name = "txtCAPMCC"
+        Me.txtCAPMCC.ReferenceFieldDesc = Nothing
+        Me.txtCAPMCC.ReferenceFieldName = Nothing
+        Me.txtCAPMCC.ReferenceTableName = Nothing
+        Me.txtCAPMCC.Size = New System.Drawing.Size(157, 21)
+        Me.txtCAPMCC.TabIndex = 2
+        Me.txtCAPMCC.Value = ""
+        '
+        'MyLabel31
+        '
+        Me.MyLabel31.FieldName = Nothing
+        Me.MyLabel31.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel31.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel31.Name = "MyLabel31"
+        Me.MyLabel31.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel31.TabIndex = 7
+        Me.MyLabel31.Text = "MCC Code"
+        '
+        'lblCAPMcc
+        '
+        Me.lblCAPMcc.AutoSize = False
+        Me.lblCAPMcc.BorderVisible = True
+        Me.lblCAPMcc.FieldName = Nothing
+        Me.lblCAPMcc.Location = New System.Drawing.Point(234, 37)
+        Me.lblCAPMcc.Name = "lblCAPMcc"
+        Me.lblCAPMcc.Size = New System.Drawing.Size(260, 21)
+        Me.lblCAPMcc.TabIndex = 10
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel34.Location = New System.Drawing.Point(5, 62)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel34.TabIndex = 6
+        Me.MyLabel34.Text = "DCS Code"
+        '
+        'txtCAPVLC
+        '
+        Me.txtCAPVLC.CalculationExpression = Nothing
+        Me.txtCAPVLC.FieldCode = Nothing
+        Me.txtCAPVLC.FieldDesc = Nothing
+        Me.txtCAPVLC.FieldMaxLength = 0
+        Me.txtCAPVLC.FieldName = Nothing
+        Me.txtCAPVLC.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCAPVLC.isCalculatedField = False
+        Me.txtCAPVLC.IsSourceFromTable = False
+        Me.txtCAPVLC.IsSourceFromValueList = False
+        Me.txtCAPVLC.IsUnique = False
+        Me.txtCAPVLC.Location = New System.Drawing.Point(71, 61)
+        Me.txtCAPVLC.MendatroryField = True
+        Me.txtCAPVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCAPVLC.MyLinkLable1 = Me.MyLabel34
+        Me.txtCAPVLC.MyLinkLable2 = Nothing
+        Me.txtCAPVLC.MyReadOnly = False
+        Me.txtCAPVLC.MyShowMasterFormButton = False
+        Me.txtCAPVLC.Name = "txtCAPVLC"
+        Me.txtCAPVLC.ReferenceFieldDesc = Nothing
+        Me.txtCAPVLC.ReferenceFieldName = Nothing
+        Me.txtCAPVLC.ReferenceTableName = Nothing
+        Me.txtCAPVLC.Size = New System.Drawing.Size(157, 21)
+        Me.txtCAPVLC.TabIndex = 3
+        Me.txtCAPVLC.Value = ""
+        '
+        'lblCAPVLC
+        '
+        Me.lblCAPVLC.AutoSize = False
+        Me.lblCAPVLC.BorderVisible = True
+        Me.lblCAPVLC.FieldName = Nothing
+        Me.lblCAPVLC.Location = New System.Drawing.Point(234, 61)
+        Me.lblCAPVLC.Name = "lblCAPVLC"
+        Me.lblCAPVLC.Size = New System.Drawing.Size(260, 21)
+        Me.lblCAPVLC.TabIndex = 11
+        '
+        'RadGroupBox10
+        '
+        Me.RadGroupBox10.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox10.Controls.Add(Me.cboCAPRejectType)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel38)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel42)
+        Me.RadGroupBox10.Controls.Add(Me.lblCAPUOM)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel47)
+        Me.RadGroupBox10.Controls.Add(Me.lblCAPSRNNo)
+        Me.RadGroupBox10.Controls.Add(Me.lblCAPDCSName)
+        Me.RadGroupBox10.Controls.Add(Me.cboCAPMilkType)
+        Me.RadGroupBox10.Controls.Add(Me.RadButton10)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel50)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel51)
+        Me.RadGroupBox10.Controls.Add(Me.btnCAPSave)
+        Me.RadGroupBox10.Controls.Add(Me.TxtCAPDCSCode)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel52)
+        Me.RadGroupBox10.Controls.Add(Me.txtCAPQty)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel53)
+        Me.RadGroupBox10.Controls.Add(Me.txtCAPSNF)
+        Me.RadGroupBox10.Controls.Add(Me.txtCAPFAT)
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel54)
+        Me.RadGroupBox10.HeaderText = "Correction"
+        Me.RadGroupBox10.Location = New System.Drawing.Point(3, 91)
+        Me.RadGroupBox10.Name = "RadGroupBox10"
+        Me.RadGroupBox10.Size = New System.Drawing.Size(566, 196)
+        Me.RadGroupBox10.TabIndex = 3
+        Me.RadGroupBox10.Text = "Correction"
+        '
+        'cboCAPRejectType
+        '
+        Me.cboCAPRejectType.AutoCompleteDisplayMember = Nothing
+        Me.cboCAPRejectType.AutoCompleteValueMember = Nothing
+        Me.cboCAPRejectType.CalculationExpression = Nothing
+        Me.cboCAPRejectType.DropDownAnimationEnabled = True
+        Me.cboCAPRejectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboCAPRejectType.FieldCode = Nothing
+        Me.cboCAPRejectType.FieldDesc = Nothing
+        Me.cboCAPRejectType.FieldMaxLength = 0
+        Me.cboCAPRejectType.FieldName = Nothing
+        Me.cboCAPRejectType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCAPRejectType.isCalculatedField = False
+        Me.cboCAPRejectType.IsSourceFromTable = False
+        Me.cboCAPRejectType.IsSourceFromValueList = False
+        Me.cboCAPRejectType.IsUnique = False
+        RadListDataItem11.Text = "M"
+        RadListDataItem12.Text = "E"
+        Me.cboCAPRejectType.Items.Add(RadListDataItem11)
+        Me.cboCAPRejectType.Items.Add(RadListDataItem12)
+        Me.cboCAPRejectType.Location = New System.Drawing.Point(209, 92)
+        Me.cboCAPRejectType.MendatroryField = True
+        Me.cboCAPRejectType.MyLinkLable1 = Nothing
+        Me.cboCAPRejectType.MyLinkLable2 = Nothing
+        Me.cboCAPRejectType.Name = "cboCAPRejectType"
+        Me.cboCAPRejectType.ReferenceFieldDesc = Nothing
+        Me.cboCAPRejectType.ReferenceFieldName = Nothing
+        Me.cboCAPRejectType.ReferenceTableName = Nothing
+        Me.cboCAPRejectType.Size = New System.Drawing.Size(135, 18)
+        Me.cboCAPRejectType.TabIndex = 372
+        '
+        'MyLabel38
+        '
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel38.Location = New System.Drawing.Point(5, 140)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel38.TabIndex = 18
+        Me.MyLabel38.Text = "DCS Name"
+        '
+        'MyLabel42
+        '
+        Me.MyLabel42.FieldName = Nothing
+        Me.MyLabel42.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel42.Location = New System.Drawing.Point(192, 46)
+        Me.MyLabel42.Name = "MyLabel42"
+        Me.MyLabel42.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel42.TabIndex = 17
+        Me.MyLabel42.Text = "UOM"
+        '
+        'lblCAPUOM
+        '
+        Me.lblCAPUOM.AutoSize = False
+        Me.lblCAPUOM.BorderVisible = True
+        Me.lblCAPUOM.FieldName = Nothing
+        Me.lblCAPUOM.Location = New System.Drawing.Point(242, 44)
+        Me.lblCAPUOM.Name = "lblCAPUOM"
+        Me.lblCAPUOM.Size = New System.Drawing.Size(102, 21)
+        Me.lblCAPUOM.TabIndex = 16
+        '
+        'MyLabel47
+        '
+        Me.MyLabel47.FieldName = Nothing
+        Me.MyLabel47.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel47.Location = New System.Drawing.Point(5, 23)
+        Me.MyLabel47.Name = "MyLabel47"
+        Me.MyLabel47.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel47.TabIndex = 14
+        Me.MyLabel47.Text = "Milk SRN"
+        '
+        'lblCAPSRNNo
+        '
+        Me.lblCAPSRNNo.AutoSize = False
+        Me.lblCAPSRNNo.BorderVisible = True
+        Me.lblCAPSRNNo.FieldName = Nothing
+        Me.lblCAPSRNNo.Location = New System.Drawing.Point(72, 21)
+        Me.lblCAPSRNNo.Name = "lblCAPSRNNo"
+        Me.lblCAPSRNNo.Size = New System.Drawing.Size(272, 21)
+        Me.lblCAPSRNNo.TabIndex = 13
+        '
+        'lblCAPDCSName
+        '
+        Me.lblCAPDCSName.AutoSize = False
+        Me.lblCAPDCSName.BorderVisible = True
+        Me.lblCAPDCSName.FieldName = Nothing
+        Me.lblCAPDCSName.Location = New System.Drawing.Point(72, 139)
+        Me.lblCAPDCSName.Name = "lblCAPDCSName"
+        Me.lblCAPDCSName.Size = New System.Drawing.Size(272, 21)
+        Me.lblCAPDCSName.TabIndex = 12
+        '
+        'cboCAPMilkType
+        '
+        Me.cboCAPMilkType.AutoCompleteDisplayMember = Nothing
+        Me.cboCAPMilkType.AutoCompleteValueMember = Nothing
+        Me.cboCAPMilkType.CalculationExpression = Nothing
+        Me.cboCAPMilkType.DropDownAnimationEnabled = True
+        Me.cboCAPMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboCAPMilkType.FieldCode = Nothing
+        Me.cboCAPMilkType.FieldDesc = Nothing
+        Me.cboCAPMilkType.FieldMaxLength = 0
+        Me.cboCAPMilkType.FieldName = Nothing
+        Me.cboCAPMilkType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCAPMilkType.isCalculatedField = False
+        Me.cboCAPMilkType.IsSourceFromTable = False
+        Me.cboCAPMilkType.IsSourceFromValueList = False
+        Me.cboCAPMilkType.IsUnique = False
+        RadListDataItem13.Text = "M"
+        RadListDataItem14.Text = "E"
+        Me.cboCAPMilkType.Items.Add(RadListDataItem13)
+        Me.cboCAPMilkType.Items.Add(RadListDataItem14)
+        Me.cboCAPMilkType.Location = New System.Drawing.Point(72, 92)
+        Me.cboCAPMilkType.MendatroryField = True
+        Me.cboCAPMilkType.MyLinkLable1 = Me.MyLabel50
+        Me.cboCAPMilkType.MyLinkLable2 = Nothing
+        Me.cboCAPMilkType.Name = "cboCAPMilkType"
+        Me.cboCAPMilkType.ReferenceFieldDesc = Nothing
+        Me.cboCAPMilkType.ReferenceFieldName = Nothing
+        Me.cboCAPMilkType.ReferenceTableName = Nothing
+        Me.cboCAPMilkType.Size = New System.Drawing.Size(135, 18)
+        Me.cboCAPMilkType.TabIndex = 3
+        '
+        'MyLabel50
+        '
+        Me.MyLabel50.FieldName = Nothing
+        Me.MyLabel50.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel50.Location = New System.Drawing.Point(5, 93)
+        Me.MyLabel50.Name = "MyLabel50"
+        Me.MyLabel50.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel50.TabIndex = 7
+        Me.MyLabel50.Text = "Milk Type"
+        '
+        'RadButton10
+        '
+        Me.RadButton10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadButton10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton10.Location = New System.Drawing.Point(286, 168)
+        Me.RadButton10.Name = "RadButton10"
+        Me.RadButton10.Size = New System.Drawing.Size(88, 21)
+        Me.RadButton10.TabIndex = 6
+        Me.RadButton10.Text = "Reset"
+        '
+        'MyLabel51
+        '
+        Me.MyLabel51.FieldName = Nothing
+        Me.MyLabel51.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel51.Location = New System.Drawing.Point(5, 115)
+        Me.MyLabel51.Name = "MyLabel51"
+        Me.MyLabel51.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel51.TabIndex = 6
+        Me.MyLabel51.Text = "DCS Code"
+        '
+        'btnCAPSave
+        '
+        Me.btnCAPSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCAPSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCAPSave.Location = New System.Drawing.Point(192, 168)
+        Me.btnCAPSave.Name = "btnCAPSave"
+        Me.btnCAPSave.Size = New System.Drawing.Size(88, 21)
+        Me.btnCAPSave.TabIndex = 5
+        Me.btnCAPSave.Text = "Apply"
+        '
+        'TxtCAPDCSCode
+        '
+        Me.TxtCAPDCSCode.CalculationExpression = Nothing
+        Me.TxtCAPDCSCode.FieldCode = Nothing
+        Me.TxtCAPDCSCode.FieldDesc = Nothing
+        Me.TxtCAPDCSCode.FieldMaxLength = 0
+        Me.TxtCAPDCSCode.FieldName = Nothing
+        Me.TxtCAPDCSCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.TxtCAPDCSCode.isCalculatedField = False
+        Me.TxtCAPDCSCode.IsSourceFromTable = False
+        Me.TxtCAPDCSCode.IsSourceFromValueList = False
+        Me.TxtCAPDCSCode.IsUnique = False
+        Me.TxtCAPDCSCode.Location = New System.Drawing.Point(72, 114)
+        Me.TxtCAPDCSCode.MendatroryField = True
+        Me.TxtCAPDCSCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtCAPDCSCode.MyLinkLable1 = Me.MyLabel51
+        Me.TxtCAPDCSCode.MyLinkLable2 = Nothing
+        Me.TxtCAPDCSCode.MyReadOnly = False
+        Me.TxtCAPDCSCode.MyShowMasterFormButton = False
+        Me.TxtCAPDCSCode.Name = "TxtCAPDCSCode"
+        Me.TxtCAPDCSCode.ReferenceFieldDesc = Nothing
+        Me.TxtCAPDCSCode.ReferenceFieldName = Nothing
+        Me.TxtCAPDCSCode.ReferenceTableName = Nothing
+        Me.TxtCAPDCSCode.Size = New System.Drawing.Size(272, 21)
+        Me.TxtCAPDCSCode.TabIndex = 4
+        Me.TxtCAPDCSCode.Value = ""
+        '
+        'MyLabel52
+        '
+        Me.MyLabel52.FieldName = Nothing
+        Me.MyLabel52.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel52.Location = New System.Drawing.Point(5, 47)
+        Me.MyLabel52.Name = "MyLabel52"
+        Me.MyLabel52.Size = New System.Drawing.Size(24, 16)
+        Me.MyLabel52.TabIndex = 10
+        Me.MyLabel52.Text = "Qty"
+        '
+        'txtCAPQty
+        '
+        Me.txtCAPQty.BackColor = System.Drawing.Color.White
+        Me.txtCAPQty.CalculationExpression = Nothing
+        Me.txtCAPQty.DecimalPlaces = 3
+        Me.txtCAPQty.FieldCode = Nothing
+        Me.txtCAPQty.FieldDesc = Nothing
+        Me.txtCAPQty.FieldMaxLength = 0
+        Me.txtCAPQty.FieldName = Nothing
+        Me.txtCAPQty.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCAPQty.isCalculatedField = False
+        Me.txtCAPQty.IsSourceFromTable = False
+        Me.txtCAPQty.IsSourceFromValueList = False
+        Me.txtCAPQty.IsUnique = False
+        Me.txtCAPQty.Location = New System.Drawing.Point(72, 45)
+        Me.txtCAPQty.MendatroryField = False
+        Me.txtCAPQty.MyLinkLable1 = Me.MyLabel52
+        Me.txtCAPQty.MyLinkLable2 = Nothing
+        Me.txtCAPQty.Name = "txtCAPQty"
+        Me.txtCAPQty.ReferenceFieldDesc = Nothing
+        Me.txtCAPQty.ReferenceFieldName = Nothing
+        Me.txtCAPQty.ReferenceTableName = Nothing
+        Me.txtCAPQty.Size = New System.Drawing.Size(102, 20)
+        Me.txtCAPQty.TabIndex = 0
+        Me.txtCAPQty.Text = "0"
+        Me.txtCAPQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCAPQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel53
+        '
+        Me.MyLabel53.FieldName = Nothing
+        Me.MyLabel53.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel53.Location = New System.Drawing.Point(5, 70)
+        Me.MyLabel53.Name = "MyLabel53"
+        Me.MyLabel53.Size = New System.Drawing.Size(28, 16)
+        Me.MyLabel53.TabIndex = 9
+        Me.MyLabel53.Text = "FAT"
+        '
+        'txtCAPSNF
+        '
+        Me.txtCAPSNF.BackColor = System.Drawing.Color.White
+        Me.txtCAPSNF.CalculationExpression = Nothing
+        Me.txtCAPSNF.DecimalPlaces = 2
+        Me.txtCAPSNF.FieldCode = Nothing
+        Me.txtCAPSNF.FieldDesc = Nothing
+        Me.txtCAPSNF.FieldMaxLength = 0
+        Me.txtCAPSNF.FieldName = Nothing
+        Me.txtCAPSNF.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCAPSNF.isCalculatedField = False
+        Me.txtCAPSNF.IsSourceFromTable = False
+        Me.txtCAPSNF.IsSourceFromValueList = False
+        Me.txtCAPSNF.IsUnique = False
+        Me.txtCAPSNF.Location = New System.Drawing.Point(242, 68)
+        Me.txtCAPSNF.MendatroryField = False
+        Me.txtCAPSNF.MyLinkLable1 = Me.MyLabel54
+        Me.txtCAPSNF.MyLinkLable2 = Nothing
+        Me.txtCAPSNF.Name = "txtCAPSNF"
+        Me.txtCAPSNF.ReferenceFieldDesc = Nothing
+        Me.txtCAPSNF.ReferenceFieldName = Nothing
+        Me.txtCAPSNF.ReferenceTableName = Nothing
+        Me.txtCAPSNF.Size = New System.Drawing.Size(102, 20)
+        Me.txtCAPSNF.TabIndex = 2
+        Me.txtCAPSNF.Text = "0"
+        Me.txtCAPSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCAPSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel54
+        '
+        Me.MyLabel54.FieldName = Nothing
+        Me.MyLabel54.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel54.Location = New System.Drawing.Point(192, 70)
+        Me.MyLabel54.Name = "MyLabel54"
+        Me.MyLabel54.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel54.TabIndex = 8
+        Me.MyLabel54.Text = "SNF"
+        '
+        'txtCAPFAT
+        '
+        Me.txtCAPFAT.BackColor = System.Drawing.Color.White
+        Me.txtCAPFAT.CalculationExpression = Nothing
+        Me.txtCAPFAT.DecimalPlaces = 1
+        Me.txtCAPFAT.FieldCode = Nothing
+        Me.txtCAPFAT.FieldDesc = Nothing
+        Me.txtCAPFAT.FieldMaxLength = 0
+        Me.txtCAPFAT.FieldName = Nothing
+        Me.txtCAPFAT.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCAPFAT.isCalculatedField = False
+        Me.txtCAPFAT.IsSourceFromTable = False
+        Me.txtCAPFAT.IsSourceFromValueList = False
+        Me.txtCAPFAT.IsUnique = False
+        Me.txtCAPFAT.Location = New System.Drawing.Point(72, 68)
+        Me.txtCAPFAT.MendatroryField = False
+        Me.txtCAPFAT.MyLinkLable1 = Me.MyLabel53
+        Me.txtCAPFAT.MyLinkLable2 = Nothing
+        Me.txtCAPFAT.Name = "txtCAPFAT"
+        Me.txtCAPFAT.ReferenceFieldDesc = Nothing
+        Me.txtCAPFAT.ReferenceFieldName = Nothing
+        Me.txtCAPFAT.ReferenceTableName = Nothing
+        Me.txtCAPFAT.Size = New System.Drawing.Size(102, 20)
+        Me.txtCAPFAT.TabIndex = 1
+        Me.txtCAPFAT.Text = "0"
+        Me.txtCAPFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCAPFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2663,6 +3283,40 @@ Partial Class frmCorrection
         CType(Me.txtBMCTankerSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage7.ResumeLayout(False)
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox9.ResumeLayout(False)
+        Me.RadGroupBox9.PerformLayout()
+        CType(Me.RadButton9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboCAPShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCAPShiftDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCAPMcc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCAPVLC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox10.ResumeLayout(False)
+        Me.RadGroupBox10.PerformLayout()
+        CType(Me.cboCAPRejectType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCAPUOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCAPSRNNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCAPDCSName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboCAPMilkType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel51, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCAPSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCAPQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCAPSNF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCAPFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -2811,4 +3465,37 @@ Partial Class frmCorrection
     Friend WithEvents chkMarkAsAdulteration As common.Controls.MyCheckBox
     Friend WithEvents RadLabel14 As common.Controls.MyLabel
     Friend WithEvents txtSuspenceRemarks As common.Controls.MyTextBox
+    Friend WithEvents RadPageViewPage7 As RadPageViewPage
+    Friend WithEvents RadGroupBox9 As RadGroupBox
+    Friend WithEvents RadButton9 As RadButton
+    Friend WithEvents MyLabel29 As common.Controls.MyLabel
+    Friend WithEvents cboCAPShift As common.Controls.MyComboBox
+    Friend WithEvents MyLabel30 As common.Controls.MyLabel
+    Friend WithEvents txtCAPShiftDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtCAPMCC As common.UserControls.txtFinder
+    Friend WithEvents MyLabel31 As common.Controls.MyLabel
+    Friend WithEvents lblCAPMcc As common.Controls.MyLabel
+    Friend WithEvents MyLabel34 As common.Controls.MyLabel
+    Friend WithEvents txtCAPVLC As common.UserControls.txtFinder
+    Friend WithEvents lblCAPVLC As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox10 As RadGroupBox
+    Friend WithEvents cboCAPRejectType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel38 As common.Controls.MyLabel
+    Friend WithEvents MyLabel42 As common.Controls.MyLabel
+    Friend WithEvents lblCAPUOM As common.Controls.MyLabel
+    Friend WithEvents MyLabel47 As common.Controls.MyLabel
+    Friend WithEvents lblCAPSRNNo As common.Controls.MyLabel
+    Friend WithEvents lblCAPDCSName As common.Controls.MyLabel
+    Friend WithEvents cboCAPMilkType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel50 As common.Controls.MyLabel
+    Friend WithEvents RadButton10 As RadButton
+    Friend WithEvents MyLabel51 As common.Controls.MyLabel
+    Friend WithEvents btnCAPSave As RadButton
+    Friend WithEvents TxtCAPDCSCode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel52 As common.Controls.MyLabel
+    Friend WithEvents txtCAPQty As common.MyNumBox
+    Friend WithEvents MyLabel53 As common.Controls.MyLabel
+    Friend WithEvents txtCAPSNF As common.MyNumBox
+    Friend WithEvents MyLabel54 As common.Controls.MyLabel
+    Friend WithEvents txtCAPFAT As common.MyNumBox
 End Class

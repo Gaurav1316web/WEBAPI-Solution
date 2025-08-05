@@ -1177,7 +1177,7 @@ Public Class MDI
                     Exit Sub
                 End If
             End If
-
+                
             If clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("InActive"))) = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
@@ -3534,6 +3534,11 @@ Public Class MDI
                     Case clsUserMgtCode.frmIBPReport
                         frm = New frmIBPReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptCrateRegister
+                        frm = New rptCrateRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptCrateJalliReportForTransfer
                         frm = New RptCrateJalliBoxTransferDS()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9489,6 +9494,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptCustItemWiseSaleReport
                         frm = New rptCustItemWiseSaleReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptNewTenderPartyListReport
+                        frm = New rptNewTenderPartyListReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptItemAndShiftWiseSaleSummaryReport
                         frm = New rptItemAndShiftWiseSaleSummaryReport()

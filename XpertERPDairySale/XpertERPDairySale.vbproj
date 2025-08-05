@@ -485,6 +485,12 @@
     <Compile Include="Report\RptCommissionTPTReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptCrateRegister.Designer.vb">
+      <DependentUpon>rptCrateRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptCrateRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptCreditCustomerReport.Designer.vb">
       <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>
     </Compile>
@@ -645,6 +651,12 @@
       <DependentUpon>rptNewSalesReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptNewSalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptNewTenderPartyListReport.Designer.vb">
+      <DependentUpon>rptNewTenderPartyListReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptNewTenderPartyListReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptProvisionChart.Designer.vb">
@@ -1326,6 +1338,9 @@
     <EmbeddedResource Include="Report\RptCommissionTPTReport.resx">
       <DependentUpon>RptCommissionTPTReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptCrateRegister.resx">
+      <DependentUpon>rptCrateRegister.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptCreditCustomerReport.resx">
       <DependentUpon>rptCreditCustomerReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1406,6 +1421,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptNewSalesReport.resx">
       <DependentUpon>rptNewSalesReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptNewTenderPartyListReport.resx">
+      <DependentUpon>rptNewTenderPartyListReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptProvisionChart.resx">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>

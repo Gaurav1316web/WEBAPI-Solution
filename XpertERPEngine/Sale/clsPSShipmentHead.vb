@@ -54,7 +54,7 @@ Public Class clsPSShipmentHead
     Public Is_OwnVehicle As Integer = 0
     Public IsEwaybill As Integer = 0
     Public IsIndividualCustomer As Integer = 0
-    Public Demand_UniqueID As Integer = Nothing
+    Public Demand_UniqueID As String = Nothing
     Public Is_CustomerChanged As Integer = 0
     Public Gross_Item_Wt As Decimal = Nothing
     Public RoundOffAmount As Double = 0

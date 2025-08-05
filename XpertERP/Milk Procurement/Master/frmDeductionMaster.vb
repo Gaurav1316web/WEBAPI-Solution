@@ -27,6 +27,29 @@ Public Class FrmDeductionMaster
     End Sub
 
     Private Sub FrmDeductionMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Is_Correction_After_Process_DR_Note", "integer not null default 0")
+        coll.Add("Is_Correction_After_Process_CR_Note", "integer not null default 0")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_MASTER", coll, "", True, False, "", "", "", True)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("DOC_CODE", "Varchar(30) not null unique references TSPL_MILK_SRN_HEAD(DOC_CODE)")
+        coll.Add("Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+        coll.Add("UOM_Code", "VARCHAR(30) not NULL")
+        coll.Add("FAT_PER", "DECIMAL(5,3) NOT NULL DEFAULT 0")
+        coll.Add("FAT_KG", "DECIMAL(10,3) NOT NULL DEFAULT 0")
+        coll.Add("SNF_PER", "DECIMAL(5,3) NOT NULL DEFAULT 0")
+        coll.Add("SNF_KG", "DECIMAL(10,3) NOT NULL DEFAULT 0")
+        coll.Add("CLR", "DECIMAL(5,1) NOT NULL DEFAULT 0")
+        coll.Add("Price_Code", "VARCHAR(30)  NULL")
+        coll.Add("RATE", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+        coll.Add("AMOUNT", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+        coll.Add("ACC_Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+        coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS", coll, "", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "", True)
+
         SetUserMgmtNew()
         isnewentry = True
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
@@ -76,6 +99,8 @@ Public Class FrmDeductionMaster
         chkAddition.Checked = False
         chkOwnBMCMilkRejectType.Checked = False
         txtOwnBMCMilkRejectType.Value = ""
+        chkCorrectionAfterProcessCrNote.Checked = False
+        chkCorrectionAfterProcessDrNote.Checked = False
         'loadTransType()
     End Sub
     Private Function AllowToSave() As Boolean
@@ -143,7 +168,6 @@ Public Class FrmDeductionMaster
     End Function
     Sub SaveData()
         If AllowToSave() = True Then
-
             If MyBase.isModifyonPasswordFlag Then
                 If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.FrmExpiryDate, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                 Else
@@ -181,6 +205,10 @@ Public Class FrmDeductionMaster
             obj.Is_Default_PRO_Data = chkPROData.Checked
             obj.Is_Default_TIP = chkTIP.Checked
             obj.Is_Transfer_To_Saving = chkTransferToSaving.Checked
+
+            obj.Is_Correction_After_Process_CR_Note = chkCorrectionAfterProcessCrNote.Checked
+            obj.Is_Correction_After_Process_DR_Note = chkCorrectionAfterProcessDrNote.Checked
+
             obj.Show_FAT_SNF = chkShowFATSNF.Checked
             obj.HO_TYPE = chkHO.Checked
             obj.VLC_TYPE = chkVLC.Checked
@@ -255,6 +283,10 @@ Public Class FrmDeductionMaster
                 chkFEED.Checked = obj.Is_FEED
                 chkAddition.Checked = obj.Is_Addition
                 txtSeqNo.Text = obj.Sequence_No
+
+                chkCorrectionAfterProcessCrNote.Checked = obj.Is_Correction_After_Process_CR_Note
+                chkCorrectionAfterProcessDrNote.Checked = obj.Is_Correction_After_Process_DR_Note
+
                 lblDedGrpName.Text = clsDBFuncationality.getSingleValue("select Ded_Description from TSPL_DEDUCTION_GROUP where Ded_Code='" & fndDedGrp.Value & "'")
                 lblGLAcctName.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" & FndGLAcct.Value & "'")
                 lblDeductionType.Text = obj.Deduction_Type_Hindi
@@ -521,3 +553,4 @@ Public Class FrmDeductionMaster
         End Try
     End Sub
 End Class
+

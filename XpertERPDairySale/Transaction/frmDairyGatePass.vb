@@ -456,7 +456,7 @@ Public Class frmDairyGatePass
                     strQuery += "where convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                       "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
                     If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-                        strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
+                        strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" & fndRouteNo.Value & "'"
                     End If
                     If rbtnMorning.IsChecked Then
                         strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM'"
@@ -465,7 +465,7 @@ Public Class frmDairyGatePass
                     End If
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         If chkIndividualCustomer.Checked Then
-                            strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=1 and TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID='" + txtDemandNo.Value + "' "
+                            strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=1 and TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID in('" & txtDemandNo.Value & "-T','" & txtDemandNo.Value & "-NT' )"
                         Else
                             strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=0 "
                         End If

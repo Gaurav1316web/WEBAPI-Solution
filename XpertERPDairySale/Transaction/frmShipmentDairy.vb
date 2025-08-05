@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim ApplyMonthEndDispatch As Boolean = True
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
     Dim ApplyManualScheme As Boolean = False
@@ -753,6 +754,7 @@ Public Class frmShipmentDairy
         SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
         AutoSchemeOnTotalDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoSchemeOnTotalDispatchQty, clsFixedParameterCode.AutoSchemeOnTotalDispatchQty, Nothing)) = 1, True, False)
         ApplyBoothWiseScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, Nothing)) = 1, True, False)
+        ApplyMonthEndDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, Nothing)) = 1, True, False)
         AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
@@ -8053,10 +8055,15 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
             obj.OrgCustCOde = strOrginalCust
             obj.IsEwaybill = IIf(chkIsEWayBill.Checked, 1, 0)
             obj.IsIndividualCustomer = IIf(chkIndividualCustomer.Checked, 1, 0)
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                If chkIndividualCustomer.Checked Then
-                    obj.Demand_UniqueID = txtDemandNo.Value
-                End If
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso chkIndividualCustomer.Checked Then
+                'If chkIndividualCustomer.Checked Then
+                If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                        obj.Demand_UniqueID = txtDemandNo.Value & "-T"
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+                        obj.Demand_UniqueID = txtDemandNo.Value & "-NT"
+                    End If
+                'obj.Demand_UniqueID = txtDemandNo.Value
+                'End If
             End If
             If txtCustPODate.Checked Then
                 obj.Podate = txtCustPODate.Value
@@ -8932,7 +8939,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                 chkIsEWayBill.Checked = IIf(obj.IsEwaybill = 1, True, False)
                 chkIndividualCustomer.Checked = IIf(obj.IsIndividualCustomer = 1, True, False)
                 If clsCommon.myLen(obj.Demand_UniqueID) > 0 Then
-                    txtDemandNo.Value = obj.Demand_UniqueID
+                    Dim DemandNo As String() = clsCommon.myCstr(obj.Demand_UniqueID).Split("-"c)
+                    txtDemandNo.Value = DemandNo(0)
                 End If
                 TxtRoundoff.Text = obj.RoundOffAmount
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
@@ -10145,7 +10153,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
             Dim documentDate As DateTime = clsCommon.GETSERVERDATE
 
             ' Check if supplyDate is the first day of its month and documentDate is the last day of its month
-            If supplyDate.Day = 1 And documentDate.Day = DateTime.DaysInMonth(documentDate.Year, documentDate.Month) Then
+            If supplyDate.Day = 1 AndAlso documentDate.Day = DateTime.DaysInMonth(documentDate.Year, documentDate.Month) AndAlso ApplyMonthEndDispatch Then
                 Throw New Exception(" Supply date is the first day of the month and Current Date is the last day of the month.")
             Else
                 If trans Is Nothing Then
@@ -10184,7 +10192,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
                 Else
                     ' For Recreate entry 
                     If (clsPSShipmentHead.PostData(MyBase.Form_ID, txtDocNo.Value, trans, strVoucherNoForRecreateOnly, True, strARInvoiceNoRecreateOnly, strDispatchVoucherNo)) Then
-                        strMessages += txtDocNo.Value + "    "
+                        strMessages += txtDocNo.Value & "    "
                     End If
                 End If
             End If
@@ -10192,7 +10200,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
 
             Return True
         Catch ex As Exception
-            If blnReverse = False Then
+            If Not blnReverse Then
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 Return False
             Else
@@ -10243,9 +10251,9 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
             Dim qst As String = ""
             strwherecls = Xtra.CustomerPermission()
             If clsCommon.myLen(strwherecls) = 0 Then
-                qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + txtDocNo.Value + "' and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Item_Type in('S','')  "
+                qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Value & "' and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Item_Type in('S','')  "
             Else
-                qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + txtDocNo.Value + "' and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Item_Type in('S','')  and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
+                qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" & txtDocNo.Value & "' and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.Item_Type in('S','')  and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" & strwherecls & ")"
             End If
             'If intDispatchfromDelivery = 0 Then
             '    qst += " and GatePass_No  <> '' "
@@ -10268,7 +10276,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
         Try
             Dim strwherecls As String = ""
             strwherecls = Xtra.CustomerPermission()
-            Dim strDONo As String = Nothing
+            'Dim strDONo As String = Nothing
             Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as InvoiceNo, 
 TSPL_SD_SHIPMENT_HEAD.GatePass_No as GatePassCode,TSPL_SD_SHIPMENT_HEAD.Route_No,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as ShiftType, CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.supply_date, 103) AS SupplyDate, TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code as DeliveryCode, 
 CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, 
@@ -15811,9 +15819,9 @@ from TSPL_Demand_Booking_Master
 left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Demand_Booking_Detail.Cust_Code 
-where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "'  and TSPL_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
+where TSPL_Demand_Booking_Master.ShiftType='" & IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") & "'  and TSPL_Demand_Booking_Master.Document_Date>='" & clsCommon.GetPrintDate(txtSupplyDate.Value) & "' and TSPL_Demand_Booking_Master.Document_Date<'" & clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) & "' 
    and TSPL_Demand_Booking_Master.Posted=1
-and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
+and TSPL_Demand_Booking_Master.Route_No='" & txtRouteNo.Value & "' and TSPL_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' 
  "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
                         qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
@@ -15823,7 +15831,8 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         If chkIndividualCustomer.Checked Then
                             If clsCommon.myLen(txtDemandNo.Value) > 0 Then
-                                qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=1 and TSPL_Demand_Booking_Master.Demand_UniqueID='" + txtDemandNo.Value + "'  "
+                                'Dim DemandNo As String() = txtDemandNo.Value.Split("-"c)
+                                qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=1 and TSPL_Demand_Booking_Master.Demand_UniqueID='" & txtDemandNo.Value & "'  "
 
                             Else
                                 Throw New Exception("Please Select Demand no")
@@ -15862,7 +15871,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
 from TSPL_SCHEME_MASTER_NEW 
 left join TSPL_SCHEME_DETAIL_NEW on TSPL_SCHEME_DETAIL_NEW.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
 left join TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_BENEFICIARY.Scheme_Code=TSPL_SCHEME_MASTER_NEW.Scheme_Code
-where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + clsCommon.myCstr(gvDistributor.Rows(i).Cells(1).Value) + "' and Convert(date,TSPL_SCHEME_MASTER_NEW.Start_Date,103)<='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and 2=(Case when TSPL_SCHEME_MASTER_NEW.End_Date is null then 2 else (Case when TSPL_SCHEME_MASTER_NEW.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' then 2 else 3 end) end) and TSPL_SCHEME_DETAIL_NEW.MainItem_Code='" + clsCommon.myCstr(gvDistributor.Rows(i).Cells(3).Value) + "'  and TSPL_SCHEME_DETAIL_NEW.MainUnit_Code='" + clsCommon.myCstr(gvDistributor.Rows(i).Cells(7).Value) + "'
+where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Rows(i).Cells(1).Value) & "' and Convert(date,TSPL_SCHEME_MASTER_NEW.Start_Date,103)<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' and 2=(Case when TSPL_SCHEME_MASTER_NEW.End_Date is null then 2 else (Case when TSPL_SCHEME_MASTER_NEW.End_Date>='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' then 2 else 3 end) end) and TSPL_SCHEME_DETAIL_NEW.MainItem_Code='" & clsCommon.myCstr(gvDistributor.Rows(i).Cells(3).Value) & "'  and TSPL_SCHEME_DETAIL_NEW.MainUnit_Code='" & clsCommon.myCstr(gvDistributor.Rows(i).Cells(7).Value) & "'
  order by TSPL_SCHEME_MASTER_NEW.Start_Date desc"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strscheme, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -16686,7 +16695,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
     Private Sub txtDemandNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDemandNo._MYValidating
         Try
             Dim strQry As String = "select distinct TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID as Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code as [Booth Code],TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code "
-            Dim whrcls As String = "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 and TSPL_DEMAND_BOOKING_MASTER.Posted=1 and TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID not in(select Demand_UniqueID from TSPL_SD_SHIPMENT_HEAD where Demand_UniqueID is not null) "
+            'Dim whrcls As String = "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") + "' and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 and TSPL_DEMAND_BOOKING_MASTER.Posted=1 and TSPL_DEMAND_BOOKING_MASTER.Demand_UniqueID not in(select Demand_UniqueID from TSPL_SD_SHIPMENT_HEAD where Demand_UniqueID is not null) "
+            Dim whrcls As String = "  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & "' and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=1 and TSPL_DEMAND_BOOKING_MASTER.Posted=1 "
             txtDemandNo.Value = clsCommon.ShowSelectForm("DemandSearch", strQry, "Code", whrcls, txtDemandNo.Value, "Code", isButtonClicked)
             txtRouteNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
             'txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_DEMAND_BOOKING_MASTER where Demand_UniqueID='" + txtDemandNo.Value + "'"))
@@ -16696,6 +16706,14 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
             ElseIf clsCommon.CompairString(shiftType, "Evening") = CompairStringResult.Equal Then
                 cmbShift.SelectedValue = "PM"
             End If
+            'If clsCommon.myLen(txtDemandNo.Value) > 0 Then
+            '    If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+            '        txtDemandNo.Value = txtDemandNo.Value & "-T"
+            '    ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+            '        txtDemandNo.Value = txtDemandNo.Value & "-NT"
+            '    End If
+            'End If
+
             If clsCommon.myLen(txtDemandNo.Value) > 0 Then
                 GetRouteNO(False, False)
 

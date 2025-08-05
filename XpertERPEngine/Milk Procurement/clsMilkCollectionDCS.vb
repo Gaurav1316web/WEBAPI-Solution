@@ -712,9 +712,12 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
+                                Dim isThereOnlyOneRowOfOwnDCS As Boolean = False
                                 Dim ROIncreaseAfter As Integer = 6
                                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                     ROIncreaseAfter = 5
+                                    qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'"
+                                    isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
                                 End If
                                 If (SettAdjQty AndAlso Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffQty"))) > 0) OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(dt.Rows(0)("DiffSNFKG"))) > 0 Then
                                     qry = "select PK_Id,Qty,FATKG,SNFKG from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'  and VLC_Code='" + clsCommon.myCstr(dt.Rows(0)("VLC_Code")) + "' order by Shift desc,FATKG,SNFKG"
@@ -739,8 +742,14 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                                             Else
                                                 SNFKG = 0
                                             End If
-                                            FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
-                                            SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
+                                            If isThereOnlyOneRowOfOwnDCS Then
+                                                FAT = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.ToEven)
+                                                SNF = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.ToEven)
+                                            Else
+                                                FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
+                                                SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
+                                            End If
+
                                             FATKG = ((Qty * FAT) / 100)
                                             SNFKG = ((Qty * SNF) / 100)
                                         Else
@@ -789,6 +798,7 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         End If
         Return True
     End Function
+
 
     Private Shared Sub SaveDataTRData(strDocNo As String, obj As clsMilkCollectionDCSDetail, ByVal intPKID As Integer, trans As SqlTransaction)
         Dim coll As New Hashtable()

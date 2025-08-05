@@ -1,0 +1,274 @@
+﻿Imports common
+Imports System.IO
+Public Class rptNewTenderPartyListReport
+    Inherits FrmMainTranScreen
+    Private Sub rptNewTenderPartyListReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        funreset()
+        txtDate.Value = clsCommon.GETSERVERDATE()
+    End Sub
+    Sub LoadShiftType()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = ""
+        dr("Name") = "Select"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "AM"
+        dr("Name") = "Morning"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "PM"
+        dr("Name") = "Evening"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "Both"
+        dr("Name") = "Both"
+        dt.Rows.Add(dr)
+        cmbShift.ValueMember = "Code"
+        cmbShift.DisplayMember = "Name"
+        cmbShift.DataSource = dt
+    End Sub
+    Sub View()
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Quantity"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Qy.Tot."))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Rate Amount"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
+
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                For col As Integer = 6 To gv1.Columns("Total Qty").Index - 1
+                    view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
+                Next
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Total Qty").Name)
+
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+
+                For col As Integer = gv1.Columns("Total Qty").Index + 1 To gv1.Columns("Total Amt").Index - 1
+                    view.ColumnGroups(3).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
+                Next
+
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Total Amt").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gv1.Columns("Deposit Amt").Name)
+                gv1.ViewDefinition = view
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        funreset()
+    End Sub
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        LoadData(False)
+    End Sub
+    Sub funreset()
+        EnableDisableControls(True)
+        gv1.DataSource = Nothing
+        RadPageView1.SelectedPage = RadPageViewPage1
+        LoadShiftType()
+        cmbShift.SelectedIndex = 0
+    End Sub
+
+    Private Sub EnableDisableControls(ByVal val As Boolean)
+        RadGroupBox1.Enabled = val
+    End Sub
+
+    Private Sub LoadData(isPrint As Boolean)
+        Try
+            Dim strPrintqry As String = ""
+            If clsCommon.CompairString(cmbShift.SelectedValue, "") = CompairStringResult.Equal Then
+                clsCommon.MyMessageBoxShow(Me, "Please select shift type", Me.Text)
+                Exit Sub
+            End If
+            If isPrint Then
+                strPrintqry = " TSPL_COMPANY_MASTER.Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' as Date, '" & txtDate.Value.AddDays(-1).Day & "' as Previous_Day,'" & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2), "dd/MM/yyyy") & "' as Previous_Date,'" & objCommonVar.CurrentUser & "' as User_Code, "
+            End If
+            Dim qry As String = "  select " & strPrintqry & " ROW_NUMBER() over (order by Customer_Code) as SNO,Customer_Code,Customer_Name,xxfinal.Phone1,Guarantee_Amount,Security_Amt,Zone_Code,Closing_Bal,Sale_Amt,RTGS_Amt,(Closing_Bal+ Sale_Amt -RTGS_Amt) as Outstanding_Amt,Estimated_Avg_Sale,(Closing_Bal+ Sale_Amt -RTGS_Amt) - (Estimated_Avg_Sale) as Estimated_OS_Amt  from ( " & Environment.NewLine & "select Customer_Code,Customer_Name,Phone1,isnull(Guarantee_Amount,0)Guarantee_Amount,isnull(Security_Amt,0)Security_Amt,Zone_Code,isnull((Closing_Sale_Amt-Closing_Rec_Amt),0) as Closing_Bal,isnull(Sale_Amt,0) Sale_Amt,isnull(RTGS_Amt,0) as RTGS_Amt,isnull(Estimated_Avg_Sale,0)Estimated_Avg_Sale from ( " & Environment.NewLine & "
+            select Customer_Code,max(Customer_Name)Customer_Name,max(Phone1)Phone1,  MAX(Zone_Code)Zone_Code,sum(Sale_Amt)Sale_Amt,sum(Closing_Sale_Amt)Closing_Sale_Amt,sum(Estimated_Avg_Sale)Estimated_Avg_Sale from ( " & Environment.NewLine & " select TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,replace(TSPL_CUSTOMER_MASTER.Phone1,'(+91)','') as Phone1,ROUTE.Zone_Code, ( case when (Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-1)), "dd/MMM/yyyy hh:mm tt") & "',103) AND  TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM')
+            OR (Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM') then TSPL_SD_SALE_INVOICE_HEAD.Total_Amt else 0 end  ) as Sale_Amt, ( case when (Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy hh:mm tt") & "',103) AND  TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM') OR (Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-1)), "dd/MMM/yyyy hh:mm tt") & "',103) and TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM') then TSPL_SD_SALE_INVOICE_HEAD.Total_Amt else 0 end  ) as Closing_Sale_Amt,
+            case when Convert(Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) = Convert(Date, '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy hh:mm tt") & "',103) " & IIf(cmbShift.SelectedValue <> "Both", " AND   TSPL_SD_SHIPMENT_HEAD.Shift_Type='" & cmbShift.SelectedValue & "'", "") & "  then TSPL_SD_SALE_INVOICE_HEAD.Total_Amt else 0  end as Estimated_Avg_Sale, TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Shift_Type,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt  from TSPL_SD_SALE_INVOICE_HEAD " & Environment.NewLine & "  LEFT JOIN ( SELECT string_agg (Zone_Code,',') Zone_Code,Route_No FROM ( select ISNULL( Zone_Code,'')Zone_Code,Route_No from  TSPL_ROUTE_MASTER) XX GROUP BY Route_No, Zone_Code ) Route ON Route.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No 
+            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-2)), "dd/MMM/yyyy hh:mm tt") & "' and  CONVERT(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "'  ) xx group by xx.Customer_Code ) xxx " & Environment.NewLine & " left join ( select vendor_code,sum(Type * amount)Guarantee_Amount from ( " & Environment.NewLine & " Select 1 AS Type,vendor_code,Amount from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RC' AND CONVERT(date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "', 103) BETWEEN  CONVERT(date, start_date, 103) AND CONVERT(date, extended_date, 103) and status='Y'
+	        " & Environment.NewLine & "  union all " & Environment.NewLine & " Select -1 as Type, vendor_code,Amount from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RT' AND Receiving_code IN ( Select DocNo from TSPL_BANK_GUARANTEE_MASTER where Bank_Guarantee_Type = 'RC' AND CONVERT(date, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "', 103) BETWEEN  CONVERT(date, start_date, 103) AND CONVERT(date, extended_date, 103)  and status='Y' ) AND  CONVERT(date, Date, 103)  < '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "' and status='Y' ) xx group by vendor_code )Bank on Bank.vendor_code=xxx.Customer_Code
+            " & Environment.NewLine & "LEFT JOIN (select Cust_Code, sum(case when SecurityDeposit='Y' and convert(date,Receipt_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "'  then Receipt_Amount else 0 end )as Security_Amt,  sum(case when SecurityDeposit='N' and convert(date,Receipt_Date,103) = '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "' then Receipt_Amount else 0 end )as RTGS_Amt, sum(case when SecurityDeposit='N' and convert(date,Receipt_Date,103) = '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-1)), "dd/MMM/yyyy hh:mm tt") & "' then Receipt_Amount else 0 end )as Closing_Rec_Amt from TSPL_RECEIPT_HEADER WHERE  convert(date,Receipt_Date,103) >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value.AddDays(-1)), "dd/MMM/yyyy hh:mm tt") & "' and  convert(date,Receipt_Date,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy hh:mm tt") & "' and Posted='Y' group by Cust_Code ) Receipt ON Receipt.Cust_Code=xxx.Customer_Code " & Environment.NewLine & " )xxfinal  left join TSPL_COMPANY_MASTER on 1=1"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+            gv1.Columns.Clear()
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterView.Refresh()
+            gv1.GroupDescriptors.Clear()
+            gv1.EnableFiltering = True
+            gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            If dt.Rows.Count > 0 Then
+                gv1.DataSource = dt
+                gv1.BestFitColumns()
+                SetGridFormation(isPrint)
+                ReStoreGridLayout()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                RadPageView1.SelectedPage = RadPageViewPage2
+                gv1.BestFitColumns()
+                If isPrint Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "rptNewTenderPartyList", "New Tender Party List ")
+                    frmCRV = Nothing
+                End If
+            Else
+                If isPrint Then
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to print", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
+                End If
+                Exit Sub
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub SetGridFormation(ByVal isPrint As Boolean)
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+            If clsCommon.CompairString(gv1.Columns(ii).Name, "SNO") <> CompairStringResult.Equal Then
+                gv1.Columns(ii).FormatString = "{0:n2}"
+            End If
+        Next
+        gv1.ShowGroupPanel = False
+
+        gv1.Columns("SNO").HeaderText = "S.No"
+        gv1.Columns("Customer_Code").HeaderText = "Customer Code"
+        gv1.Columns("Customer_Name").HeaderText = "Name of Distributor"
+        gv1.Columns("Phone1").HeaderText = "Distributors " & Environment.NewLine & " Mobile Number"
+        gv1.Columns("Guarantee_Amount").HeaderText = "Bank " & Environment.NewLine & " Guarantee"
+        gv1.Columns("Security_Amt").HeaderText = "Security"
+        gv1.Columns("Closing_Bal").HeaderText = "Closing " & Environment.NewLine & " Balance " & Environment.NewLine & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2), "dd/MM/yyyy") & ""
+        gv1.Columns("Sale_Amt").HeaderText = "Sale " & txtDate.Value.AddDays(-1).Day & "," & " " & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & " " & Environment.NewLine & "(Evening + Morning Supply)"
+        gv1.Columns("RTGS_Amt").HeaderText = "RTGS_Amt " & Environment.NewLine & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & ""
+        gv1.Columns("Outstanding_Amt").HeaderText = "Outstanding " & Environment.NewLine & " Amount (in Rs.)"
+        gv1.Columns("Estimated_Avg_Sale").HeaderText = "Estimated One Day Average Sale " & Environment.NewLine & clsCommon.GetPrintDate(txtDate.Value.AddDays(-2), "dd/MM/yyyy") & ""
+        gv1.Columns("Estimated_OS_Amt").HeaderText = "Estimated " & Environment.NewLine & " Outstanding " & Environment.NewLine & "Balance"
+        gv1.Columns("Zone_Code").HeaderText = "Zone.No/Area.No"
+
+        Dim index As Integer = 0
+        If isPrint Then
+            index = 9
+            gv1.Columns("Comp_Name").IsVisible = False
+            gv1.Columns("Previous_Day").IsVisible = False
+            gv1.Columns("Previous_Date").IsVisible = False
+            gv1.Columns("Date").IsVisible = False
+            gv1.Columns("User_Code").IsVisible = False
+        Else
+            index = 4
+        End If
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        For ii As Integer = index To gv1.Columns.Count - 1
+            If clsCommon.CompairString(gv1.Columns(ii).Name, "Zone_Code") <> CompairStringResult.Equal Then
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            End If
+        Next
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
+
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(MyBase.Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
+                    Dim ii As Integer = 0
+                    For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
+                        gv1.Columns(ii).IsVisible = False
+                        gv1.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    gv1.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+                obj = Nothing
+            End If
+        Catch err As Exception
+            MessageBox.Show(err.Message)
+        End Try
+    End Sub
+
+    Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
+        If clsCommon.myLen(MyBase.Form_ID) > 0 Then
+            gv1.MasterTemplate.FilterDescriptors.Clear()
+            Dim obj As New clsGridLayout()
+            obj.ReportID = MyBase.Form_ID
+            obj.UserID = objCommonVar.CurrentUserCode
+            obj.GridLayout = New MemoryStream()
+            gv1.SaveLayout(obj.GridLayout)
+            obj.GridColumns = gv1.ColumnCount
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+            If obj.SaveData() Then
+                clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
+            End If
+            obj.GridLayout.Close()
+            obj.GridLayout.Dispose()
+        End If
+    End Sub
+
+    Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
+        clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
+    End Sub
+
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptNewTenderPartyListReport & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCDate(txtDate.Value) + "  To " + clsCommon.myCDate(txtDate.Value))
+                transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Date : " & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                Dim ReportHeading As String = ""
+                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        CancelPressed()
+    End Sub
+    Sub CancelPressed()
+        Me.Close()
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        LoadData(True)
+    End Sub
+End Class
+

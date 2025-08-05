@@ -53,7 +53,7 @@ Public Class FrmBankGuaranteeMaster1
         LblVenCode.Text = "Vendor Code"
         txtfdCode.MendatroryField = True
         fndReceiving.MendatroryField = True
-        UsLock1.Status = ERPTransactionStatus.Open
+        UsLock1.Status = ERPTransactionStatus.Pending
 
         txtvendorcode.Enabled = True
         txtvendrname.Enabled = True
@@ -158,7 +158,7 @@ Public Class FrmBankGuaranteeMaster1
             If obj.post = "Y" Then
                 UsLock1.Status = ERPTransactionStatus.Approved
                 btnsave.Enabled = False
-                btndelete.Enabled = False
+                btnDelete.Enabled = False
                 btnpost.Enabled = False
             ElseIf obj.post = "N" Then
                 UsLock1.Status = ERPTransactionStatus.Pending

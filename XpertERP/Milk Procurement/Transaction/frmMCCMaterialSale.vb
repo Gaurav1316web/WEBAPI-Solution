@@ -307,6 +307,7 @@ Public Class frmMCCMaterialSale
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+A Create Additional Cost")
         RadPageView1.SelectedPage = RadPageViewPage1
+        RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
         LoadBlankGrid()
         LoadBlankGridTax()
         LoadItemType()
@@ -524,6 +525,15 @@ Public Class frmMCCMaterialSale
         txtRoundOff.Text = ""
         chkTaxable.Checked = False
         cboDeductionType.SelectedValue = ""
+
+        TxtEInvoiceUpdateIRNNo.Text = ""
+        TxtEInvoiceUpdateAckNo.Text = ""
+        TxtEInvoiceUpdateAckDate.Value = DateTime.Now
+        TxtEInvoiceUpdateQCCode.Text = ""
+        TxtEWayBillUpdateBillNo.Text = ""
+        TxtEWayBillUpdateBillDate.Value = DateTime.Now
+        TxtEWayBillUpdateValidDate.Value = DateTime.Now
+        TxtEWayBillUpdateBillRemarks.Text = ""
     End Sub
     Public Shared Function GetItemType() As DataTable
         Dim dt As New DataTable()
@@ -3369,6 +3379,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     gv1.Rows(ii).Cells(ColTPTRate).Value = 0
                     gv1.Rows(ii).Cells(ColTPTRate).Tag = Nothing
                 End If
+                If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 Then
+                    If (gv1.Rows(ii).Cells(colQty).Value) <= 0 Then
+                        clsCommon.MyMessageBoxShow(Me, "Please enter quantity of Item [" & gv1.Rows(ii).Cells(colICode).Value & "] ", Me.Text)
+                        Return False
+                    End If
+                End If
                 UpdateCurrentRow(ii)
             Next
             UpdateAllTotals()
@@ -4801,6 +4817,25 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
             End If
             txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(txtBillToLocation.Value, txtDate.Value)
             txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(txtBillToLocation.Value, txtDate.Value)
+
+            Dim qry As String = "select IRN_no,Ack_No,Ack_Date,QR_Code,EWayBillNo,EwayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_INVOICE_HEAD where Document_Code = '" + obj.Invoice_No + "'"
+            Dim dtInv As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dtInv IsNot Nothing AndAlso dtInv.Rows.Count > 0 Then
+                TxtEInvoiceUpdateIRNNo.Text = clsCommon.myCstr(dtInv.Rows(0)("IRN_no"))
+                TxtEInvoiceUpdateAckNo.Text = clsCommon.myCstr(dtInv.Rows(0)("Ack_No"))
+                If dtInv.Rows(0)("Ack_Date") IsNot DBNull.Value Then
+                    TxtEInvoiceUpdateAckDate.Value = clsCommon.myCDate(dtInv.Rows(0)("Ack_Date"))
+                End If
+                TxtEInvoiceUpdateQCCode.Text = clsCommon.myCstr(dtInv.Rows(0)("QR_Code"))
+                TxtEWayBillUpdateBillNo.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillNo"))
+                If dtInv.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
+                    TxtEWayBillUpdateBillDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillDate"))
+                End If
+                If dtInv.Rows(0)("EwayBillValidDate") IsNot DBNull.Value Then
+                    TxtEWayBillUpdateValidDate.Value = clsCommon.myCDate(dtInv.Rows(0)("EwayBillValidDate"))
+                End If
+                TxtEWayBillUpdateBillRemarks.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillRemarks"))
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -5365,6 +5400,18 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
                 '-----------------------------------------------------------
                 btnReverseAndUnpost.Visible = True
                 rbtnCancel.Visible = True
+            End If
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+            If RadPageViewPage5.Item.Visibility = ElementVisibility.Visible Then
+                RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
+            Else
+                Dim pwd As New FrmPWD(Nothing)
+                pwd.strCode = clsFixedParameterCode.MilkSetting
+                pwd.strType = clsFixedParameterType.MCCMilkSRNRepost
+                pwd.ShowDialog()
+                If pwd.isPasswordCorrect Then
+                    RadPageViewPage5.Item.Visibility = ElementVisibility.Visible
+                End If
             End If
         End If
     End Sub
@@ -9217,4 +9264,65 @@ a:          End If
         Return qry
     End Function
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        Dim Tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+                Throw New Exception("Please provice Invoice No")
+            End If
+            If clsCommon.myLen(TxtEInvoiceUpdateIRNNo.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEInvoiceUpdateIRNNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(TxtEInvoiceUpdateAckNo.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEInvoiceUpdateAckNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(TxtEInvoiceUpdateQCCode.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEInvoiceUpdateQCCode.MyLinkLable1.Text)
+            End If
+            If Not UsLock1.Status = ERPTransactionStatus.Pending Then
+                Throw New Exception("Transaction should be Pending ")
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtInvoiceNo.Text, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", Tran)
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "IRN_no", TxtEInvoiceUpdateIRNNo.Text)
+            clsCommon.AddColumnsForChange(coll, "Ack_No", TxtEInvoiceUpdateAckNo.Text)
+            clsCommon.AddColumnsForChange(coll, "Ack_Date", clsCommon.GetPrintDate(TxtEInvoiceUpdateAckDate.Value, "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(coll, "QR_Code", TxtEInvoiceUpdateQCCode.Text)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + txtInvoiceNo.Text + "'", Tran)
+            Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(TxtEInvoiceUpdateQCCode.Text)
+            clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & txtInvoiceNo.Text & "'", Tran)
+            Tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "E-Invoice Details Updated successfully", Me.Text)
+        Catch ex As Exception
+            Tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
+        Dim Tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+                Throw New Exception("Please provice Invoice No")
+            End If
+            If clsCommon.myLen(TxtEWayBillUpdateBillNo.Text) <= 0 Then
+                Throw New Exception("Please provice " + TxtEWayBillUpdateBillNo.MyLinkLable1.Text)
+            End If
+            If Not UsLock1.Status = ERPTransactionStatus.Pending Then
+                Throw New Exception("Transaction should be Pending")
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, txtInvoiceNo.Text, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", Tran)
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "EWayBillNo", TxtEWayBillUpdateBillNo.Text)
+            clsCommon.AddColumnsForChange(coll, "EwayBillDate", clsCommon.GetPrintDate(TxtEWayBillUpdateBillDate.Value, "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommon.AddColumnsForChange(coll, "EwayBillValidDate", clsCommon.GetPrintDate(TxtEWayBillUpdateValidDate.Value, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", TxtEWayBillUpdateBillRemarks.Text)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + txtInvoiceNo.Text + "'", Tran)
+            Tran.Commit()
+            clsCommon.MyMessageBoxShow(Me, "E-Waybill Details Updated successfully", Me.Text)
+        Catch ex As Exception
+            Tran.Rollback()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
