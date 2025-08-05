@@ -22,9 +22,14 @@ Partial Class RptRouteWiseSaleRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.chkdemand = New System.Windows.Forms.CheckBox()
@@ -58,6 +63,10 @@ Partial Class RptRouteWiseSaleRegister
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -107,7 +116,7 @@ Partial Class RptRouteWiseSaleRegister
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer3)
         '
         'SplitContainer1.Panel2
         '
@@ -119,6 +128,52 @@ Partial Class RptRouteWiseSaleRegister
         Me.SplitContainer1.SplitterDistance = 454
         Me.SplitContainer1.TabIndex = 1
         '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.RadMenu1)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1044, 454)
+        Me.SplitContainer3.SplitterDistance = 25
+        Me.SplitContainer3.TabIndex = 74
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1044, 20)
+        Me.RadMenu1.TabIndex = 74
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiSaveLayout, Me.rmiDeleteLayout})
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Setting"
+        Me.RadMenuItem1.UseCompatibleTextRendering = False
+        '
+        'rmiSaveLayout
+        '
+        Me.rmiSaveLayout.Name = "rmiSaveLayout"
+        Me.rmiSaveLayout.Text = "Save Layout"
+        Me.rmiSaveLayout.UseCompatibleTextRendering = False
+        '
+        'rmiDeleteLayout
+        '
+        Me.rmiDeleteLayout.Name = "rmiDeleteLayout"
+        Me.rmiDeleteLayout.Text = "Delete Layout"
+        Me.rmiDeleteLayout.UseCompatibleTextRendering = False
+        '
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
@@ -126,8 +181,8 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
-        Me.RadPageView1.Size = New System.Drawing.Size(1044, 454)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(1044, 425)
         Me.RadPageView1.TabIndex = 72
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -150,7 +205,7 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1023, 406)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1023, 377)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'chkdemand
@@ -368,7 +423,7 @@ Partial Class RptRouteWiseSaleRegister
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1023, 406)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1023, 377)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gvData
@@ -380,11 +435,12 @@ Partial Class RptRouteWiseSaleRegister
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
-        Me.gvData.Size = New System.Drawing.Size(1023, 406)
+        Me.gvData.Size = New System.Drawing.Size(1023, 377)
         Me.gvData.TabIndex = 0
         Me.gvData.VarID = ""
         '
@@ -452,6 +508,11 @@ Partial Class RptRouteWiseSaleRegister
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.PerformLayout()
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
@@ -510,5 +571,10 @@ Partial Class RptRouteWiseSaleRegister
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents TxtMultiCustomerCategory As common.UserControls.txtMultiSelectFinder
     Friend WithEvents chkdemand As CheckBox
+    Friend WithEvents SplitContainer3 As SplitContainer
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents RadMenuItem1 As RadMenuItem
+    Friend WithEvents rmiSaveLayout As RadMenuItem
+    Friend WithEvents rmiDeleteLayout As RadMenuItem
 End Class
 

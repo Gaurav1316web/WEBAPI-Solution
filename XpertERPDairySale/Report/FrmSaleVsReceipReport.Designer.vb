@@ -22,9 +22,10 @@ Partial Class FrmSaleVsReceipReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
@@ -117,32 +118,26 @@ Partial Class FrmSaleVsReceipReport
         '
         'RadMenu1
         '
+        Me.RadMenu1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 5)
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1044, 20)
         Me.RadMenu1.TabIndex = 18
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -177,7 +172,6 @@ Partial Class FrmSaleVsReceipReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1044, 428)
         Me.RadPageView1.TabIndex = 72
-        Me.RadPageView1.Text = "RadPageView2"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -246,6 +240,7 @@ Partial Class FrmSaleVsReceipReport
         '
         'ddlCurrencyType
         '
+        Me.ddlCurrencyType.DropDownAnimationEnabled = True
         Me.ddlCurrencyType.Location = New System.Drawing.Point(57, 3)
         Me.ddlCurrencyType.Name = "ddlCurrencyType"
         Me.ddlCurrencyType.Size = New System.Drawing.Size(136, 20)
@@ -347,12 +342,13 @@ Partial Class FrmSaleVsReceipReport
         '
         Me.ddlActiveInactive.AutoCompleteDisplayMember = Nothing
         Me.ddlActiveInactive.AutoCompleteValueMember = Nothing
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Sale Invoice"
-        RadListDataItem3.Text = "Sale Return"
-        Me.ddlActiveInactive.Items.Add(RadListDataItem1)
-        Me.ddlActiveInactive.Items.Add(RadListDataItem2)
-        Me.ddlActiveInactive.Items.Add(RadListDataItem3)
+        Me.ddlActiveInactive.DropDownAnimationEnabled = True
+        RadListDataItem4.Text = "Both"
+        RadListDataItem5.Text = "Sale Invoice"
+        RadListDataItem6.Text = "Sale Return"
+        Me.ddlActiveInactive.Items.Add(RadListDataItem4)
+        Me.ddlActiveInactive.Items.Add(RadListDataItem5)
+        Me.ddlActiveInactive.Items.Add(RadListDataItem6)
         Me.ddlActiveInactive.Location = New System.Drawing.Point(112, 74)
         Me.ddlActiveInactive.Name = "ddlActiveInactive"
         Me.ddlActiveInactive.Size = New System.Drawing.Size(191, 20)
@@ -444,12 +440,16 @@ Partial Class FrmSaleVsReceipReport
         '
         '
         '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MyExportFilePath = ""
+        Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
         Me.gvData.Size = New System.Drawing.Size(1023, 380)
         Me.gvData.TabIndex = 0
-        Me.gvData.Text = "RadGridView1"
+        Me.gvData.VarID = ""
         '
         'btnClose
         '
@@ -472,15 +472,11 @@ Partial Class FrmSaleVsReceipReport
         '
         'Excel
         '
-        Me.Excel.AccessibleDescription = "Excel"
-        Me.Excel.AccessibleName = "Excel"
         Me.Excel.Name = "Excel"
         Me.Excel.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
@@ -554,7 +550,7 @@ Partial Class FrmSaleVsReceipReport
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
-End Sub
+    End Sub
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
