@@ -9,6 +9,15 @@ Public Class frmNotification
 
 #End Region
     Private Sub frmNotification_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Dim coll As Dictionary(Of String, String)
+
+        'coll = New Dictionary(Of String, String)
+        'coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        'coll.Add("SNO", "integer NUll")
+        'coll.Add("Document_No", "VARCHAR(30)  NULL REFERENCES TSPL_NOTIFICATIONS(Document_No) ")
+        'coll.Add("Login_Type", "varchar(12) null")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS_USER_TYPE", coll, "", True, True, "TSPL_Notifications", "Document_No", "", True)
+
         RadPageView1.SelectedPage = RadPageViewPage1
         txtStartDate.Value = clsCommon.GETSERVERDATE()
         UsLock1.Status = ERPTransactionStatus.Pending
@@ -188,23 +197,23 @@ Public Class frmNotification
                 For i As Integer = 0 To arrUserType.Count - 1
                     Dim objtr As New clsNotificationDetails
 
-                    If arrUserType(i).Contains("Admin") Then
+                    If arrUserType(i).Contains("Admin") OrElse arrUserType(i).Contains("A") Then
                         objtr.Login_Type = "A"
-                    ElseIf arrUserType(i).Contains("BMC Transporter") Then
+                    ElseIf arrUserType(i).Contains("BMC Transporter") OrElse arrUserType(i).Contains("B") Then
                         objtr.Login_Type = "B"
-                    ElseIf arrUserType(i).Contains("MCC") Then
+                    ElseIf arrUserType(i).Contains("MCC") OrElse arrUserType(i).Contains("M") Then
                         objtr.Login_Type = "M"
-                    ElseIf arrUserType(i).Contains("Milk Producer") Then
+                    ElseIf arrUserType(i).Contains("Milk Producer") OrElse arrUserType(i).Contains("F") Then
                         objtr.Login_Type = "F"
-                    ElseIf arrUserType(i).Contains("RP") Then
+                    ElseIf arrUserType(i).Contains("RP") OrElse arrUserType(i).Contains("R") Then
                         objtr.Login_Type = "R"
-                    ElseIf arrUserType(i).Contains("VSP") Then
-                        objtr.Login_Type = "V"
-                    ElseIf arrUserType(i).Contains("Zone") Then
+                    ElseIf arrUserType(i).Contains("VSP") OrElse arrUserType(i).Contains("VSP") Then
+                        objtr.Login_Type = "VSP"
+                    ElseIf arrUserType(i).Contains("Zone") OrElse arrUserType(i).Contains("Z") Then
                         objtr.Login_Type = "Z"
-                    ElseIf arrUserType(i).Contains("SuperUser") Then
+                    ElseIf arrUserType(i).Contains("SuperUser") OrElse arrUserType(i).Contains("SuperUser") Then
                         objtr.Login_Type = "SuperUser"
-                    ElseIf arrUserType(i).Contains("CNF") Then
+                    ElseIf arrUserType(i).Contains("CNF") OrElse arrUserType(i).Contains("SuperUser") Then
                         objtr.Login_Type = "CNF"
                     End If
                     obj.Arr.Add(objtr)

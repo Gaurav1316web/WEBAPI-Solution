@@ -191,8 +191,9 @@ END AS  ADJSNFKG1 from
         MAX(TM.Description) AS Description,
         MAX(MCC.Temp) AS Temp,
         MAX(MCC.Trip_No) AS Trip_No,
+     MCC.Route_Code,
         MCC.Tanker_No,
-        MCC.Route_Code,
+
         MAX(MCC.Entered_Qty) AS Entered_Qty,
         MAX(MCC.Entered_FATKg) AS [FAT(Kg)],
         MAX(MCC.Entered_SNFKg) AS Entered_SNFKg,
@@ -237,18 +238,22 @@ SELECT
     Description,
     Temp,
     Trip_No,
+Route_Code,
     Tanker_No,
-    Route_Code,
+    
+
     Entered_Qty,
     [FAT(Kg)],
     Entered_SNFKg,
-    Entered_Qty_snf,
     Entered_Qty_fat,
+    Entered_Qty_snf,
+
     Original_Qty,
     Original_FATKg,
     Original_SNFKg,
+ [FAT(%)],
     [SNF(%)],
-    [FAT(%)],
+   
     FLUSING,
     FATKG,
     SNFKG,
@@ -263,8 +268,9 @@ SELECT
     NULL AS Description,
     NULL AS Temp,
     NULL AS Trip_No,
+Route_Code,
     Tanker_No,
-    Route_Code,
+
      SUM(Entered_Qty),
     SUM([FAT(Kg)]),
     SUM(Entered_SNFKg),
@@ -512,11 +518,12 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             'If rdbDetails.Checked = True Then
 
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("DocumentDate").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Description").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
+
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Trip_No").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("ROUTE_CODE").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Description").Name)
-
             'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
             'End If
 
@@ -545,7 +552,7 @@ ORDER BY Route_Code, Tanker_No, SortOrder, DocumentDate;"
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("FAT(%)").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("SNF(%)").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
+            'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_Qty").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_FATKg").Name)
             'view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Original_SNFKg").Name)
