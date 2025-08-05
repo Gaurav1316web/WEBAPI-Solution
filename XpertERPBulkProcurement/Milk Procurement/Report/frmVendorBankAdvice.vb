@@ -569,7 +569,11 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.F
                                   max(Doc_No)Doc_No,max(Fiscal_Name)Fiscal_Name,max(CycleNo)CycleNo,max(Date_Range)Date_Range,VLC_CODE_Uploader,
                                   max(Payee_Joint_Name)Payee_Joint_Name,max(Bank_Code)Bank_Code,max(Branch_Name)Branch_Name,max(Bank_Code_Desc)Bank_Code_Desc,
                                   max(Payee_Joint_IFSC_Code)Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No)Payee_Joint_Account_No,sum(Payable_Amount)Payable_Amount,
-                                  max(FD)FD,max(TD)TD,max(Bank_Advise_No)Bank_Advise_No,max(Bank_Advise_Date)Bank_Advise_Date "
+                                  max(FD)FD,max(TD)TD"
+
+                    If rbtnSaving.IsChecked Then
+                        FinalQuery += " ,max(Bank_Advise_No)Bank_Advise_No,max(Bank_Advise_Date)Bank_Advise_Date  "
+                    End If
                     If rbtnBankAdvice.IsChecked Then
                         FinalQuery += " ,max([Bank Advise No])[Bank Advise No],max([Bank Advise Date])[Bank Advise Date],max([Bank Advice Status])[Bank Advice Status] "
                     End If
