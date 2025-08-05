@@ -1283,9 +1283,6 @@ Public Class clsMCCMaterialSale
         Try
             PostData(FormId, strDocNo, trans)
             trans.Commit()
-            If objCommonVar.CreateAutoReceiptEntryDCSSale Then
-                clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No =( select Receipt_No from TSPL_RECEIPT_DETAIL  where  Document_No='" + strDocNo + "' ) where Document_Code='" + strDocNo + "'", trans)
-            End If
             If GeneratePDFForMobile = 1 Then
                 UpdateFileInfo(FormId, strDocNo)
             End If
@@ -1398,6 +1395,15 @@ Public Class clsMCCMaterialSale
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            If (obj.TotalSubsidyAmt > 0) Then
+                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
+            End If
+            If objCommonVar.CreateAutoReceiptEntryDCSSale Then
+                If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
+                    RecieptEntryOfDCSSale(obj, trans)
+                End If
+            End If
+
             If obj.Is_Create_Auto_Invoice Then
                 clsPSInvoiceHead.PostData("", obj.Invoice_No, trans)   ''obj.Sale_Invoice_No remove because it has not value.by bulk posting.
             End If
@@ -1414,14 +1420,7 @@ Public Class clsMCCMaterialSale
                     End If
                 End If
             End If
-            If (obj.TotalSubsidyAmt > 0) Then
-                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
-            End If
-            If objCommonVar.CreateAutoReceiptEntryDCSSale Then
-                If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
-                    RecieptEntryOfDCSSale(obj, trans)
-                End If
-            End If
+
             If clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.Sale_SMSATPOST, clsFixedParameterCode.Sale_SMSATPOST, trans) = "1", True, False)) Then
                 SMSSENDONLY(obj, trans, True)
             End If
@@ -1794,7 +1793,8 @@ Public Class clsMCCMaterialSale
 
                 If obj.SaveData(obj, True, trans) Then
                     clsRcptEntryHeader.funRcptPost(obj.Receipt_No, trans, "MReceivable", objDCSSale.Bill_To_Location, True)
-                    clsCommon.MyMessageBoxShow("Receipt No: '" + obj.Receipt_No + "' create aganist DCS Sale no: '" + objDCSSale.Document_Code + "'")
+                    'clsCommon.MyMessageBoxShow("Receipt No: '" + obj.Receipt_No + "' create aganist DCS Sale no: '" + objDCSSale.Document_Code + "'")
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No =" & obj.Receipt_No & " where Document_Code='" + objDCSSale.Document_Code + "'", trans)
                 End If
                 '---------------------------------------------------------------------------
                 Return obj.Receipt_No
