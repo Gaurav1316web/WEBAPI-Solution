@@ -35,15 +35,25 @@ Public Class RptTentativeSalary
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim whr As String = ""
+            Dim whrEmp As String = ""
             If txtmultiEmpcode.arrValueMember IsNot Nothing AndAlso txtmultiEmpcode.arrValueMember.Count > 0 Then
                 whr = " in (" + clsCommon.GetMulcallString(txtmultiEmpcode.arrValueMember) + ")"
+                whrEmp = " EMP.EMP_CODE in (" + clsCommon.GetMulcallString(txtmultiEmpcode.arrValueMember) + ")"
             End If
             Dim dt As DataTable = Nothing
+            Dim GetLastGenerateMonth As Double = 0
+            Dim GetLastMonthName As String = ""
             Dim FinalQry As String = ""
             Dim finYear As String = txtFinYear.Value
             Dim firstPart As String = finYear.Substring(0, 2)
-            Dim GetLastGenerateMonth As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select top 1 MONTH(DATE_FROM)AS GENERATE_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE" + whr + " Order By DATE_FROM desc"))
-            Dim GetLastMonthName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE AS PAY_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE" + whr + " Order By DATE_FROM desc "))
+            If txtmultiEmpcode.arrValueMember IsNot Nothing AndAlso txtmultiEmpcode.arrValueMember.Count > 0 Then
+                GetLastGenerateMonth = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select top 1 MONTH(DATE_FROM)AS GENERATE_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE" + whr + " Order By DATE_FROM desc"))
+                GetLastMonthName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE AS PAY_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE where TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE" + whr + " Order By DATE_FROM desc "))
+            Else
+                GetLastGenerateMonth = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select top 1 MONTH(DATE_FROM)AS GENERATE_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE "))
+                GetLastMonthName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE AS PAY_MONTH from TSPL_PAYPERIOD_MASTER Inner Join TSPL_GENERATE_SALARY On TSPL_GENERATE_SALARY.PAY_PERIOD_CODE=TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE  "))
+
+            End If
             Dim Qry As String = "select emp.Emp_Name,'" + txtFinYear.Value + "' as FinYear,TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.City_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_PAYHEAD_MASTER.ISEARNING,case when ISEARNING=1 then 'A'+ ' ' +TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE else 'D'+' '+TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE end  as PayHead,right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) AS PAY_YEAR,MONTH(DATE_FROM)AS GENERATE_MONTH,DATENAME(MONTH,TSPL_PAYPERIOD_MASTER.DATE_FROM )AS PAY_MONTH,MONTH(DATE_FROM)  as Mon,TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.* from TSPL_GENERATE_SALARY_PAYHEADS 
             left join tspl_employee_master EMP ON EMP.EMP_CODE=TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE 
             INNER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE  
@@ -51,7 +61,7 @@ Public Class RptTentativeSalary
             LEFT OUTER JOIN TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
             left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE
             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=EMP.LOCATION_CODE
-            where  EMP.EMP_CODE" + whr + " and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "' and MONTH(DATE_FROM) not in (1,2,3) "
+            where " + whrEmp + " and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "' and MONTH(DATE_FROM) not in (1,2,3) "
 
             If GetLastGenerateMonth > 0 Then
                 Dim m As Integer = (GetLastGenerateMonth + 1)
@@ -66,7 +76,7 @@ Public Class RptTentativeSalary
             LEFT OUTER JOIN TSPL_PAYPERIOD_MASTER ON TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE
             left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE=TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE
             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=EMP.LOCATION_CODE
-            where  EMP.EMP_CODE" + whr + " And TSPL_GENERATE_SALARY.PAY_PERIOD_CODE IN ('" + GetLastMonthName + "') and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "'"
+            where  " + whrEmp + " And TSPL_GENERATE_SALARY.PAY_PERIOD_CODE IN ('" + GetLastMonthName + "') and right(YEAR(TSPL_PAYPERIOD_MASTER.DATE_FROM),2) ='" + firstPart + "'"
                     m += 1
 
                     If i = 12 Then
