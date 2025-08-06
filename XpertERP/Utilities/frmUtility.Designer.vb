@@ -23,10 +23,10 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -809,6 +809,9 @@ Partial Class FrmUtility
         Me.RadButton285 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.lblFromGPDate = New common.Controls.MyLabel()
+        Me.txtFromGPDate = New common.Controls.MyDateTimePicker()
+        Me.btnCreateCrateEntry = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1320,6 +1323,7 @@ Partial Class FrmUtility
         CType(Me.RadButton248, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox99.SuspendLayout
         Me.GroupBox79.SuspendLayout
         CType(Me.RadButton251, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton252, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1574,6 +1578,9 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtFromGPDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1684,7 +1691,7 @@ Partial Class FrmUtility
         '
         Me.gvShipment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvShipment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvShipment.MyExportFilePath = ""
         Me.gvShipment.MyStopExport = False
         Me.gvShipment.Name = "gvShipment"
@@ -1971,7 +1978,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -6442,12 +6449,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "LMS"
-        RadListDataItem3.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "LMS"
+        RadListDataItem6.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem4)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem5)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem6)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -6994,12 +7001,15 @@ Partial Class FrmUtility
         '
         'GroupBox99
         '
+        Me.GroupBox99.Controls.Add(Me.btnCreateCrateEntry)
+        Me.GroupBox99.Controls.Add(Me.lblFromGPDate)
+        Me.GroupBox99.Controls.Add(Me.txtFromGPDate)
         Me.GroupBox99.Location = New System.Drawing.Point(355, 317)
         Me.GroupBox99.Name = "GroupBox99"
         Me.GroupBox99.Size = New System.Drawing.Size(343, 77)
         Me.GroupBox99.TabIndex = 373
         Me.GroupBox99.TabStop = False
-        Me.GroupBox99.Text = "Dairy Booking (Card Sale Along with Receipt)"
+        Me.GroupBox99.Text = "Crate Entry"
         '
         'GroupBox79
         '
@@ -10167,6 +10177,53 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'lblFromGPDate
+        '
+        Me.lblFromGPDate.FieldName = Nothing
+        Me.lblFromGPDate.Location = New System.Drawing.Point(7, 21)
+        Me.lblFromGPDate.Name = "lblFromGPDate"
+        Me.lblFromGPDate.Size = New System.Drawing.Size(30, 18)
+        Me.lblFromGPDate.TabIndex = 62
+        Me.lblFromGPDate.Text = "Date"
+        '
+        'txtFromGPDate
+        '
+        Me.txtFromGPDate.CalculationExpression = Nothing
+        Me.txtFromGPDate.CustomFormat = "dd/MMM/yyyy"
+        Me.txtFromGPDate.FieldCode = Nothing
+        Me.txtFromGPDate.FieldDesc = Nothing
+        Me.txtFromGPDate.FieldMaxLength = 0
+        Me.txtFromGPDate.FieldName = Nothing
+        Me.txtFromGPDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtFromGPDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromGPDate.isCalculatedField = False
+        Me.txtFromGPDate.IsSourceFromTable = False
+        Me.txtFromGPDate.IsSourceFromValueList = False
+        Me.txtFromGPDate.IsUnique = False
+        Me.txtFromGPDate.Location = New System.Drawing.Point(43, 20)
+        Me.txtFromGPDate.MendatroryField = False
+        Me.txtFromGPDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromGPDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtFromGPDate.MyLinkLable2 = Nothing
+        Me.txtFromGPDate.Name = "txtFromGPDate"
+        Me.txtFromGPDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromGPDate.ReferenceFieldDesc = Nothing
+        Me.txtFromGPDate.ReferenceFieldName = Nothing
+        Me.txtFromGPDate.ReferenceTableName = Nothing
+        Me.txtFromGPDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtFromGPDate.TabIndex = 61
+        Me.txtFromGPDate.TabStop = False
+        Me.txtFromGPDate.Text = "13/Jun/2011"
+        Me.txtFromGPDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        '
+        'btnCreateCrateEntry
+        '
+        Me.btnCreateCrateEntry.Location = New System.Drawing.Point(136, 18)
+        Me.btnCreateCrateEntry.Name = "btnCreateCrateEntry"
+        Me.btnCreateCrateEntry.Size = New System.Drawing.Size(154, 24)
+        Me.btnCreateCrateEntry.TabIndex = 63
+        Me.btnCreateCrateEntry.Text = "Create Crate Entry"
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10712,6 +10769,8 @@ Partial Class FrmUtility
         CType(Me.RadButton248, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton249, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton250, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox99.ResumeLayout(False)
+        Me.GroupBox99.PerformLayout
         Me.GroupBox79.ResumeLayout(False)
         CType(Me.RadButton251, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton252, System.ComponentModel.ISupportInitialize).EndInit
@@ -10977,6 +11036,9 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtFromGPDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnCreateCrateEntry, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -11763,5 +11825,8 @@ Partial Class FrmUtility
     Friend WithEvents txtDCSSaleDocument As common.UserControls.txtMultiSelectFinder
     Friend WithEvents txtGenerateDCSSalePDFForMobile As RadButton
     Friend WithEvents RadButton312 As RadButton
+    Friend WithEvents btnCreateCrateEntry As RadButton
+    Friend WithEvents lblFromGPDate As common.Controls.MyLabel
+    Friend WithEvents txtFromGPDate As common.Controls.MyDateTimePicker
 End Class
 
