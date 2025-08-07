@@ -22,7 +22,7 @@ Partial Class RptRouteWiseSaleRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
@@ -58,6 +58,10 @@ Partial Class RptRouteWiseSaleRegister
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnFresh = New System.Windows.Forms.RadioButton()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnBoth = New System.Windows.Forms.RadioButton()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -89,6 +93,8 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -188,6 +194,7 @@ Partial Class RptRouteWiseSaleRegister
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkdemand)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiCustomerCategory)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
@@ -435,7 +442,7 @@ Partial Class RptRouteWiseSaleRegister
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
@@ -491,6 +498,49 @@ Partial Class RptRouteWiseSaleRegister
         Me.btnReset.TabIndex = 159
         Me.btnReset.Text = "Reset"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBoth)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnFresh)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(418, 11)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(237, 27)
+        Me.RadGroupBox1.TabIndex = 420
+        '
+        'rbtnFresh
+        '
+        Me.rbtnFresh.AutoSize = True
+        Me.rbtnFresh.Location = New System.Drawing.Point(9, 5)
+        Me.rbtnFresh.Name = "rbtnFresh"
+        Me.rbtnFresh.Size = New System.Drawing.Size(53, 17)
+        Me.rbtnFresh.TabIndex = 0
+        Me.rbtnFresh.Text = "Fresh"
+        Me.rbtnFresh.UseVisualStyleBackColor = True
+        '
+        'rbtnProduct
+        '
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(85, 5)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 1
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
+        '
+        'rbtnBoth
+        '
+        Me.rbtnBoth.AutoSize = True
+        Me.rbtnBoth.Location = New System.Drawing.Point(173, 5)
+        Me.rbtnBoth.Name = "rbtnBoth"
+        Me.rbtnBoth.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBoth.TabIndex = 2
+        Me.rbtnBoth.Text = "Both"
+        Me.rbtnBoth.UseVisualStyleBackColor = True
+        '
         'RptRouteWiseSaleRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -537,6 +587,9 @@ Partial Class RptRouteWiseSaleRegister
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -576,5 +629,9 @@ Partial Class RptRouteWiseSaleRegister
     Friend WithEvents RadMenuItem1 As RadMenuItem
     Friend WithEvents rmiSaveLayout As RadMenuItem
     Friend WithEvents rmiDeleteLayout As RadMenuItem
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnBoth As RadioButton
+    Friend WithEvents rbtnProduct As RadioButton
+    Friend WithEvents rbtnFresh As RadioButton
 End Class
 

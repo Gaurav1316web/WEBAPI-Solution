@@ -272,21 +272,20 @@ Public Class FrmVendorBankMaster
                 ErrorControl.ResetError(fndBankCode)
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are you sure want to delete Bank code " + fndBankCode.Value + "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Are you sure want to delete Bank code " & fndBankCode.Value & "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) <> System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
-
             trans = clsDBFuncationality.GetTransactin()
             If clsVendorBankMaster.DeleteData(fndBankCode.Value, trans) Then
-                trans.Commit()
+                'trans.Commit()
                 clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
-            Try
-                trans.Rollback()
-            Catch xxx As Exception
-            End Try
+            'Try
+            '    trans.Rollback()
+            'Catch xxx As Exception
+            'End Try
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -305,7 +304,7 @@ Public Class FrmVendorBankMaster
             fndCountry.Value = clsCommon.myCstr(clsCountryMaster.getFinder("", fndCountry.Value, isButtonClicked))
 
             If clsCommon.myLen(fndCountry.Value) > 0 Then
-                txtcountryName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select country_name from tspl_country_master where country_code='" + fndCountry.Value + "'"))
+                txtcountryName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select country_name from tspl_country_master where country_code='" & fndCountry.Value & "'"))
             Else
                 fndCountry.Value = ""
                 txtcountryName.Text = ""
@@ -330,10 +329,10 @@ Public Class FrmVendorBankMaster
                 ErrorControl.ResetError(txtcountryName)
             End If
 
-            fndstate.Value = clsCommon.myCstr(clsStateMaster.getFinder(" tspl_state_master.country_code='" + fndCountry.Value + "'", fndstate.Value, isButtonClicked))
+            fndstate.Value = clsCommon.myCstr(clsStateMaster.getFinder(" tspl_state_master.country_code='" & fndCountry.Value & "'", fndstate.Value, isButtonClicked))
 
             If clsCommon.myLen(fndstate.Value) > 0 Then
-                txtstateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select state_name from tspl_state_master where state_code='" + fndstate.Value + "' and country_code='" + fndCountry.Value + "'"))
+                txtstateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select state_name from tspl_state_master where state_code='" & fndstate.Value & "' and country_code='" & fndCountry.Value & "'"))
             Else
                 fndstate.Value = ""
                 txtstateName.Text = ""
@@ -366,10 +365,10 @@ Public Class FrmVendorBankMaster
                 ErrorControl.ResetError(txtstateName)
             End If
 
-            fndCity.Value = clsCommon.myCstr(clsCityMaster.getFinder(" tspl_city_master.state_code='" + fndstate.Value + "'", fndCity.Value, isButtonClicked))
+            fndCity.Value = clsCommon.myCstr(clsCityMaster.getFinder(" tspl_city_master.state_code='" & fndstate.Value & "'", fndCity.Value, isButtonClicked))
 
             If clsCommon.myLen(fndCity.Value) > 0 Then
-                txtcityName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select city_name from tspl_city_master where city_code='" + fndCity.Value + "'"))
+                txtcityName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select city_name from tspl_city_master where city_code='" & fndCity.Value & "'"))
             Else
                 fndCity.Value = ""
                 txtcityName.Text = ""
@@ -436,7 +435,7 @@ Public Class FrmVendorBankMaster
     End Sub
 
     Private Sub fndBankCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndBankCode._MYValidating
-        Dim qry As String = "select count(*) from tspl_vendor_Bank_Master where Bank_code='" + clsCommon.myCstr(fndBankCode.Value) + "'"
+        Dim qry As String = "select count(*) from tspl_vendor_Bank_Master where Bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "'"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
@@ -475,13 +474,13 @@ Public Class FrmVendorBankMaster
                     linno += 1
                     Dim strBankcode As String = clsCommon.myCstr(grow.Cells("Bank Code").Value)
                     If clsCommon.myLen(strBankcode) > 30 Then
-                        Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " + clsCommon.myCstr(linno) + ".")
+                        Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " & clsCommon.myCstr(linno) & ".")
                     End If
                     obj.Bank_code = strBankcode
 
                     Dim strBankName As String = clsCommon.myCstr(grow.Cells("Bank Name").Value)
                     If (String.IsNullOrEmpty(strBankName)) Or clsCommon.myLen(strBankName) > 200 Then
-                        Throw New Exception("Length of Bank Name should be max. 200 character At Line No. " + clsCommon.myCstr(linno) + ".")
+                        Throw New Exception("Length of Bank Name should be max. 200 character At Line No. " & clsCommon.myCstr(linno) & ".")
                     End If
                     obj.Bank_Name = strBankName
 
@@ -547,7 +546,7 @@ Public Class FrmVendorBankMaster
                     If clsCommon.myLen(strcity) > 0 Then
                         ChkCityCode(strcity, trans)
                     End If
-                    If clsCommon.myLen(strBankcode) > 0 AndAlso clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" + strBankcode + "' ", trans) > 0 Then
+                    If clsCommon.myLen(strBankcode) > 0 AndAlso clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" & strBankcode & "' ", trans) > 0 Then
                         isNewEntry = False
                     Else
                         isNewEntry = True
@@ -581,7 +580,7 @@ Public Class FrmVendorBankMaster
     Private Function ChkCountry(ByVal CountryCode As String, ByVal trans As SqlTransaction) As Boolean
 
         Try
-            If clsDBFuncationality.getSingleValue("Select count(*) from tspl_country_master where country_code='" + CountryCode + "' ", trans) > 0 Then
+            If clsDBFuncationality.getSingleValue("Select count(*) from tspl_country_master where country_code='" & CountryCode & "' ", trans) > 0 Then
                 Return True
             Else
                 Throw New Exception("Country code is invalid,It could not found in Country Master")
@@ -594,7 +593,7 @@ Public Class FrmVendorBankMaster
     Private Function ChkStateCode(ByVal StateCode As String, ByVal trans As SqlTransaction) As Boolean
 
         Try
-            If clsDBFuncationality.getSingleValue("select count(*) from tspl_state_master where state_code='" + StateCode + "' ", trans) > 0 Then
+            If clsDBFuncationality.getSingleValue("select count(*) from tspl_state_master where state_code='" & StateCode & "' ", trans) > 0 Then
                 Return True
             Else
                 Throw New Exception("State code is invalid,It could not found in State Master")
@@ -608,7 +607,7 @@ Public Class FrmVendorBankMaster
     Private Function ChkCityCode(ByVal CityCode As String, ByVal trans As SqlTransaction) As Boolean
 
         Try
-            If clsCommon.myLen(CityCode) > 0 AndAlso clsDBFuncationality.getSingleValue("select count(*) from tspl_city_master where city_code='" + CityCode + "' ", trans) > 0 Then
+            If clsCommon.myLen(CityCode) > 0 AndAlso clsDBFuncationality.getSingleValue("select count(*) from tspl_city_master where city_code='" & CityCode & "' ", trans) > 0 Then
                 Return True
             Else
                 Throw New Exception("City code is invalid,It could not found in City Master")
@@ -701,7 +700,7 @@ Public Class FrmVendorBankMaster
         str = "Select Bank_Code as [Bank Code],Branch_Name as [Branch],Bank_IFSC_Code as [IFSC Code],Bank_Swift_Code as [Swift Code] from TSPL_Vendor_Bank_Branch_Details "
         ListImpExpColumnsMandatory = New List(Of String)({"Bank Code", "Branch", "IFSC Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Bank Code", "IFSC Code"})
-        transportSql.ExporttoExcel(str, "Branch", "IFSC Code", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "BranchDetails")
+        transportSql.ExporttoExcel(str, "Branch", "IFSC Code", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID & "BranchDetails")
     End Sub
 
     Private Sub RDImportBranchDetail_Click(sender As Object, e As EventArgs) Handles RDImportBranchDetail.Click
@@ -722,7 +721,7 @@ Public Class FrmVendorBankMaster
                     linno += 1
                     strBankcode = clsCommon.myCstr(grow.Cells("Bank Code").Value)
                     If clsCommon.myLen(strBankcode) > 30 Then
-                        Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " + clsCommon.myCstr(linno) + ".")
+                        Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " & clsCommon.myCstr(linno) & ".")
                     End If
                     obj.Bank_Code = strBankcode
 
@@ -749,8 +748,8 @@ Public Class FrmVendorBankMaster
 
                     Dim coll As Hashtable
 
-                    If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" + strBankcode + "'  ", trans) <= 0 Then
-                        Throw New Exception("Bank Code Does Not Exist : " + strBankcode + ".Please make entry in vendor bank master.")
+                    If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" & strBankcode & "'  ", trans) <= 0 Then
+                        Throw New Exception("Bank Code Does Not Exist : " & strBankcode & ".Please make entry in vendor bank master.")
                     End If
 
                     coll = New Hashtable()
@@ -758,7 +757,7 @@ Public Class FrmVendorBankMaster
                     clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name)
                     clsCommon.AddColumnsForChange(coll, "Bank_IFSC_Code", obj.Bank_IFSC_Code)
                     clsCommon.AddColumnsForChange(coll, "Bank_Swift_Code", obj.Bank_Swift_Code)
-                    If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_IFSC_Code ='" + strIFSC + "'  and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans) <= 0 Then
+                    If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_IFSC_Code ='" & strIFSC & "'  and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans) <= 0 Then
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Insert, "", trans)
                     Else
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Update, " TSPL_Vendor_Bank_Branch_Details.Bank_IFSC_Code='" & obj.Bank_IFSC_Code & "' and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans)
@@ -791,7 +790,7 @@ Public Class FrmVendorBankMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndBankCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Document No")
+                clsCommon.MyMessageBoxShow("Select Bank Code")
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowTransHistoryData(fndBankCode.Value, "Bank_Code", "TSPL_Vendor_Bank_Master", "TSPL_Vendor_Bank_Branch_Details")

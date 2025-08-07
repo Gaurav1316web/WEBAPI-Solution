@@ -1045,7 +1045,8 @@ Public Class frmEmployee_Salary
                 FFS.OldFormula = gvSalary.CurrentRow.Cells(colPayHeadFormula).Value
                 FFS.txtFormula.Text = gvSalary.CurrentRow.Cells(colPayHeadFormula).Value
                 FFS.ShowDialog()
-                gvSalary.CurrentRow.Cells(colPayHeadFormula).Value = FFS.txtFormula.Text
+                'gvSalary.CurrentRow.Cells(colPayHeadFormula).Value = FFS.txtFormula.Text
+                gvSalary.CurrentRow.Cells(colPayHeadFormula).Value = FFS.NewFormula
             Catch ex As Exception
             End Try
         End If

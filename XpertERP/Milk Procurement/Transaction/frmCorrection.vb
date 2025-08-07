@@ -170,6 +170,11 @@ Public Class frmCorrection
             End If
             LoadReject()
             'RadPageView1.SelectedPage = RadPageViewPage1
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                chkAdjustOwnBMCFATSNF.Visible = True
+            Else
+                chkAdjustOwnBMCFATSNF.Visible = False
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

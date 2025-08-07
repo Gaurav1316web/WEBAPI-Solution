@@ -401,7 +401,7 @@ Public Class frmSaleReturnDairy
         Else
             gv1.Columns(colActualQty).IsVisible = True
             gv1.Columns(colActualUOM).IsVisible = True
-            gv1.Columns(colActualRetQty).IsVisible = False
+            'gv1.Columns(colActualRetQty).IsVisible = False
             gv1.Columns(colConvAmt).IsVisible = False
         End If
         If AllowCrateCanPhysicalStock = 1 And AutoCalculateCrate = 0 Then
@@ -627,7 +627,7 @@ Public Class frmSaleReturnDairy
         Else
             gv1.Columns(colActualQty).IsVisible = False
             gv1.Columns(colActualUOM).IsVisible = False
-            gv1.Columns(colActualRetQty).IsVisible = False
+            'gv1.Columns(colActualRetQty).IsVisible = False
             gv1.Columns(colConvAmt).IsVisible = False
         End If
     End Sub
@@ -769,6 +769,7 @@ Public Class frmSaleReturnDairy
         repoUnit.HeaderText = "UOM"
         repoUnit.Name = colUnit
         repoUnit.Width = 80
+        repoUnit.IsVisible = False
         repoUnit.HeaderImage = My.Resources.search4
         repoUnit.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoUnit)
@@ -812,6 +813,7 @@ Public Class frmSaleReturnDairy
         repoQty.Name = colQty
         repoQty.Width = 80
         repoQty.Minimum = 0
+        repoQty.IsVisible = False
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)
 
@@ -839,20 +841,20 @@ Public Class frmSaleReturnDairy
         repoCan.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoCan)
 
-        Dim repoActualRetQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoActualRetQty.FormatString = "{0:n3}"
-        repoActualRetQty.HeaderText = "Actual Return Qty"
-        repoActualRetQty.Name = colActualRetQty
-        repoActualRetQty.Width = 80
-        repoActualRetQty.Minimum = 0
-        repoActualRetQty.IsVisible = False
-        repoActualRetQty.TextImageRelation = TextImageRelation.TextBeforeImage
-        gv1.MasterTemplate.Columns.Add(repoActualRetQty)
+        'Dim repoActualRetQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        'repoActualRetQty.FormatString = "{0:n3}"
+        'repoActualRetQty.HeaderText = "Actual Return Qty"
+        'repoActualRetQty.Name = colActualRetQty
+        'repoActualRetQty.Width = 80
+        'repoActualRetQty.Minimum = 0
+        'repoActualRetQty.IsVisible = False
+        'repoActualRetQty.TextImageRelation = TextImageRelation.TextBeforeImage
+        'gv1.MasterTemplate.Columns.Add(repoActualRetQty)
 
 
         Dim repoActualUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoActualUnit.FormatString = ""
-        repoActualUnit.HeaderText = "Actual UOM"
+        repoActualUnit.HeaderText = "Return UOM"
         repoActualUnit.Name = colActualUOM
         repoActualUnit.Width = 80
         repoActualUnit.IsVisible = True
@@ -863,7 +865,7 @@ Public Class frmSaleReturnDairy
         Dim repoActualQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoActualQty.FormatString = "{0:n3}"
         repoActualQty.WrapText = True
-        repoActualQty.HeaderText = "Actual Quantity"
+        repoActualQty.HeaderText = "Return Qty"
         repoActualQty.Name = colActualQty
         repoActualQty.Width = 80
         repoActualQty.Minimum = 0
@@ -3538,7 +3540,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
 
                             'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualUOM).ReadOnly = True
                             'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualQty).ReadOnly = True
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colActualRetQty).ReadOnly = True
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualRetQty).ReadOnly = True
                             'gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).ReadOnly = True
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSchmCodeType).ReadOnly = True
@@ -5581,16 +5583,16 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colActualQty).Value = objTr.ActuaQty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colConvAmt).Value = objTr.ActualReturnQty
 
-                        If clsCommon.CompairString(gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeItem).Value, "No") = CompairStringResult.Equal Then
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualUOM).ReadOnly = False
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualQty).ReadOnly = False
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colActualRetQty).ReadOnly = False
-                        Else
+                        'If clsCommon.CompairString(gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeItem).Value, "No") = CompairStringResult.Equal Then
+                        '    'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualUOM).ReadOnly = False
+                        '    'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualQty).ReadOnly = False
+                        '    gv1.Rows(gv1.Rows.Count - 1).Cells(colActualRetQty).ReadOnly = False
+                        'Else
 
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualUOM).ReadOnly = True
-                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualQty).ReadOnly = True
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colActualRetQty).ReadOnly = True
-                        End If
+                        '    'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualUOM).ReadOnly = True
+                        '    'gv1.Rows(gv1.Rows.Count - 1).Cells(colActualQty).ReadOnly = True
+                        '    gv1.Rows(gv1.Rows.Count - 1).Cells(colActualRetQty).ReadOnly = True
+                        'End If
 
                         If obj.Status = ERPTransactionStatus.Pending Then
                             If clsCommon.myLen(obj.TAX1) > 0 Then

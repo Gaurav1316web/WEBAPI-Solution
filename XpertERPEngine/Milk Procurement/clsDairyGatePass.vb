@@ -210,7 +210,7 @@ Public Class clsDairyGatePassEntry
             objTr.Sale_Invoice_Date = objGp.Supply_Date
 
             objTr.Vehicle_Code = objGp.Vehicle_Id
-            objTr.VehicleNo = clsDBFuncationality.getSingleValue("Select Number from tspl_vehicle_master where vehicle_id='" & objGp.Vehicle_Id & "'", trans)
+            objTr.VehicleNo = objGp.Vehicle_Number
             objTr.CrateQty = 0
             objTr.CrateQtyRecd = 0
             objTr.Balance = 0
@@ -449,7 +449,7 @@ Public Class clsDairyGatePassEntry
             End If
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set Status='Y', Modified_By = '" & objCommonVar.CurrentUserCode & "',Modified_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "'  where gpcode='" & obj.GPCode & "'", trans)
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
+            'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 
