@@ -50,29 +50,28 @@ Public Class FrmVendorBankMaster
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
-    
-    Private Sub SetUserMgmtNew()
-        'MyBase.SetUserMgmt(clsUserMgtCode.VendorBankMaster)
-        If Not (MyBase.isReadFlag) Then
-            Throw New Exception("Permission Denied")
-            Me.Close()
-            Exit Sub
-        End If
-        btnSave.Visible = MyBase.isModifyFlag
-        If btnsave.Visible = True Then
-            '    RadMenuItem3.Enabled = True
-            '    RadMenuItem4.Enabled = True
-            'Else
-            '    RadMenuItem3.Enabled = False
-            '    RadMenuItem4.Enabled = False
-        End If
-        '--------------------------------------------------
 
-        btnDelete.Visible = MyBase.isDeleteFlag
+    Private Sub SetUserMgmtNew()
+        Try
+            'MyBase.SetUserMgmt(clsUserMgtCode.VendorBankMaster)
+            If Not (MyBase.isReadFlag) Then
+                Throw New Exception("Permission Denied")
+                Me.Close()
+                Exit Sub
+            End If
+            btnsave.Visible = MyBase.isModifyFlag
+            btndelete.Visible = MyBase.isDeleteFlag
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
-        If AllowToSave() Then SaveData()
+        Try
+            If AllowToSave() Then SaveData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -213,9 +212,7 @@ Public Class FrmVendorBankMaster
             Next
 
             ''---------------------------
-            trans = clsDBFuncationality.GetTransactin()
             If clsVendorBankMaster.SaveData(isNewEntry, obj, trans) Then
-                trans.Commit()
                 If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
@@ -228,10 +225,6 @@ Public Class FrmVendorBankMaster
                 LoadData(fndBankCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            Try
-                trans.Rollback()
-            Catch xxx As Exception
-            End Try
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -249,15 +242,20 @@ Public Class FrmVendorBankMaster
     End Sub
 
     Private Sub FrmVendorBankMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
+        Try
+            SetUserMgmtNew()
 
-        FunReset()
-        If clsCommon.myLen(BankCode) > 0 Then
-            LoadData(BankCode, NavigatorType.Current)
-        End If
-        ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for save record.")
-        ButtonToolTip.SetToolTip(btnsave, "Press Alt+D for delete record.")
-        ButtonToolTip.SetToolTip(btnsave, "Press Alt+C for close window.")
+            FunReset()
+            If clsCommon.myLen(BankCode) > 0 Then
+                LoadData(BankCode, NavigatorType.Current)
+            End If
+            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for save record.")
+            ButtonToolTip.SetToolTip(btnsave, "Press Alt+D for delete record.")
+            ButtonToolTip.SetToolTip(btnsave, "Press Alt+C for close window.")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
@@ -275,17 +273,11 @@ Public Class FrmVendorBankMaster
             If clsCommon.MyMessageBoxShow("Are you sure want to delete Bank code " & fndBankCode.Value & "?", "Attention", MessageBoxButtons.YesNo, RadMessageIcon.Question) <> System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
-            trans = clsDBFuncationality.GetTransactin()
             If clsVendorBankMaster.DeleteData(fndBankCode.Value, trans) Then
-                'trans.Commit()
                 clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
         Catch ex As Exception
-            'Try
-            '    trans.Rollback()
-            'Catch xxx As Exception
-            'End Try
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -381,7 +373,6 @@ Public Class FrmVendorBankMaster
     Private Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
         Try
             Dim obj As clsVendorBankMaster = clsVendorBankMaster.GetData(strCode, NavType)
-
             isNewEntry = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Bank_code) > 0 Then
                 isNewEntry = False
@@ -414,211 +405,214 @@ Public Class FrmVendorBankMaster
                     Next
                     gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                 End If
-
-                ''----------------------------------
                 fndBankCode.MyReadOnly = True
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
-
                 UcAttachment1.LoadData(fndBankCode.Value)
             Else
                 FunReset()
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.myCstr(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndBankCode._MYNavigator
-        LoadData(fndBankCode.Value, NavType)
+        Try
+            LoadData(fndBankCode.Value, NavType)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub fndBankCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndBankCode._MYValidating
-        Dim qry As String = "select count(*) from tspl_vendor_Bank_Master where Bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "'"
-        Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+        Try
+            Dim qry As String = "select count(*) from tspl_vendor_Bank_Master where Bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "'"
+            Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
-        If check > 0 Then
-            fndBankCode.MyReadOnly = True
-        Else
-            fndBankCode.MyReadOnly = False
-        End If
-
-        If fndBankCode.MyReadOnly OrElse isButtonClicked Then
-            fndBankCode.Value = clsVendorBankMaster.GetFinder("", fndBankCode.Value, isButtonClicked)
-
-            If clsCommon.myLen(fndBankCode.Value) > 0 Then
-                LoadData(fndBankCode.Value, NavigatorType.Current)
+            If check > 0 Then
+                fndBankCode.MyReadOnly = True
             Else
-                FunReset()
+                fndBankCode.MyReadOnly = False
             End If
-        End If
+
+            If fndBankCode.MyReadOnly OrElse isButtonClicked Then
+                fndBankCode.Value = clsVendorBankMaster.GetFinder("", fndBankCode.Value, isButtonClicked)
+
+                If clsCommon.myLen(fndBankCode.Value) > 0 Then
+                    LoadData(fndBankCode.Value, NavigatorType.Current)
+                Else
+                    FunReset()
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
 
     Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDImportBankDetail.Click
-        Dim gv As New UserControls.MyRadGridView
-        Me.Controls.Add(gv)
-        Dim trans As SqlTransaction = Nothing
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            Dim trans As SqlTransaction = Nothing
 
-        ' If transportSql.importExcel(gv, "Bank Code", "Bank Name", "Branch Code", "Branch_Name", "IFSC Code", "Add1", "Add2", "Add3", "Country Code", "State Code", "City Code") Then
-        If transportSql.importExcel(gv, "Bank Code", "Bank Name", "Add1", "Add2", "Add3", "Country Code", "State Code", "City Code") Then
-            Dim linno As Integer = 0
-            trans = clsDBFuncationality.GetTransactin()
-            Try
-                'connectSql.OpenConnection()
-                clsCommon.ProgressBarShow()
-                linno = 0
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim obj As New clsVendorBankMaster()
-                    linno += 1
-                    Dim strBankcode As String = clsCommon.myCstr(grow.Cells("Bank Code").Value)
-                    If clsCommon.myLen(strBankcode) > 30 Then
-                        Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " & clsCommon.myCstr(linno) & ".")
-                    End If
-                    obj.Bank_code = strBankcode
+            ' If transportSql.importExcel(gv, "Bank Code", "Bank Name", "Branch Code", "Branch_Name", "IFSC Code", "Add1", "Add2", "Add3", "Country Code", "State Code", "City Code") Then
+            If transportSql.importExcel(gv, "Bank Code", "Bank Name", "Add1", "Add2", "Add3", "Country Code", "State Code", "City Code") Then
+                Dim linno As Integer = 0
+                trans = clsDBFuncationality.GetTransactin()
+                Try
+                    'connectSql.OpenConnection()
+                    clsCommon.ProgressBarShow()
+                    linno = 0
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim obj As New clsVendorBankMaster()
+                        linno += 1
+                        Dim strBankcode As String = clsCommon.myCstr(grow.Cells("Bank Code").Value)
+                        If clsCommon.myLen(strBankcode) > 30 Then
+                            Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " & clsCommon.myCstr(linno) & ".")
+                        End If
+                        obj.Bank_code = strBankcode
 
-                    Dim strBankName As String = clsCommon.myCstr(grow.Cells("Bank Name").Value)
-                    If (String.IsNullOrEmpty(strBankName)) Or clsCommon.myLen(strBankName) > 200 Then
-                        Throw New Exception("Length of Bank Name should be max. 200 character At Line No. " & clsCommon.myCstr(linno) & ".")
-                    End If
-                    obj.Bank_Name = strBankName
+                        Dim strBankName As String = clsCommon.myCstr(grow.Cells("Bank Name").Value)
+                        If (String.IsNullOrEmpty(strBankName)) Or clsCommon.myLen(strBankName) > 200 Then
+                            Throw New Exception("Length of Bank Name should be max. 200 character At Line No. " & clsCommon.myCstr(linno) & ".")
+                        End If
+                        obj.Bank_Name = strBankName
 
-                    'Dim strBranchCode As String = clsCommon.myCstr(grow.Cells("Branch Code").Value)
-                    'If (String.IsNullOrEmpty(strBranchCode)) Or clsCommon.myLen(strBranchCode) > 200 Then
-                    '    Throw New Exception("Length of Branch Code should be max. 200 character At Line No. " + clsCommon.myCstr(linno) + ".")
-                    'End If
-                    'obj.Branch_Code = strBranchCode
+                        'Dim strBranchCode As String = clsCommon.myCstr(grow.Cells("Branch Code").Value)
+                        'If (String.IsNullOrEmpty(strBranchCode)) Or clsCommon.myLen(strBranchCode) > 200 Then
+                        '    Throw New Exception("Length of Branch Code should be max. 200 character At Line No. " + clsCommon.myCstr(linno) + ".")
+                        'End If
+                        'obj.Branch_Code = strBranchCode
 
-                    'Dim strBranchName As String = clsCommon.myCstr(grow.Cells("Branch_Name").Value)
-                    'If (String.IsNullOrEmpty(strBranchName)) Or clsCommon.myLen(strBranchName) > 200 Then
-                    '    Throw New Exception("Length of Branch Name should be max. 200 character ")
-                    'End If
+                        'Dim strBranchName As String = clsCommon.myCstr(grow.Cells("Branch_Name").Value)
+                        'If (String.IsNullOrEmpty(strBranchName)) Or clsCommon.myLen(strBranchName) > 200 Then
+                        '    Throw New Exception("Length of Branch Name should be max. 200 character ")
+                        'End If
 
-                    'obj.Branch_Name = strBranchName
+                        'obj.Branch_Name = strBranchName
 
-                    'Dim strIFSC As String = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
-                    'If (String.IsNullOrEmpty(strIFSC)) Or clsCommon.myLen(strIFSC) > 200 Then
-                    '    Throw New Exception("Length of IFSC Code should be max. 200 character ")
-                    'End If
-                    'obj.IFSC_Code = strIFSC
+                        'Dim strIFSC As String = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
+                        'If (String.IsNullOrEmpty(strIFSC)) Or clsCommon.myLen(strIFSC) > 200 Then
+                        '    Throw New Exception("Length of IFSC Code should be max. 200 character ")
+                        'End If
+                        'obj.IFSC_Code = strIFSC
 
-                    Dim strAdd1 As String = clsCommon.myCstr(grow.Cells("Add1").Value)
-                    If clsCommon.myLen(strAdd1) > 150 Then
-                        Throw New Exception("Length of Add1 should be max. 150 character ")
-                    End If
-                    obj.add1 = strAdd1
+                        Dim strAdd1 As String = clsCommon.myCstr(grow.Cells("Add1").Value)
+                        If clsCommon.myLen(strAdd1) > 150 Then
+                            Throw New Exception("Length of Add1 should be max. 150 character ")
+                        End If
+                        obj.add1 = strAdd1
 
-                    Dim strAdd2 As String = clsCommon.myCstr(grow.Cells("Add2").Value)
-                    If clsCommon.myLen(strAdd2) > 75 Then
-                        Throw New Exception("Length of Add2 should be max. 75 character ")
-                    End If
-                    obj.add2 = strAdd2
+                        Dim strAdd2 As String = clsCommon.myCstr(grow.Cells("Add2").Value)
+                        If clsCommon.myLen(strAdd2) > 75 Then
+                            Throw New Exception("Length of Add2 should be max. 75 character ")
+                        End If
+                        obj.add2 = strAdd2
 
-                    Dim strAdd3 As String = clsCommon.myCstr(grow.Cells("Add3").Value)
-                    If clsCommon.myLen(strAdd3) > 75 Then
-                        Throw New Exception("Length of Add3 should be max. 75 character ")
-                    End If
-                    obj.add3 = strAdd3
+                        Dim strAdd3 As String = clsCommon.myCstr(grow.Cells("Add3").Value)
+                        If clsCommon.myLen(strAdd3) > 75 Then
+                            Throw New Exception("Length of Add3 should be max. 75 character ")
+                        End If
+                        obj.add3 = strAdd3
 
-                    Dim strCountry As String = clsCommon.myCstr(grow.Cells("Country Code").Value)
-                    If clsCommon.myLen(strCountry) > 30 Then
-                        Throw New Exception("Length of Country code should be max. 30 character ")
-                    End If
-                    obj.country_code = strCountry
+                        Dim strCountry As String = clsCommon.myCstr(grow.Cells("Country Code").Value)
+                        If clsCommon.myLen(strCountry) > 30 Then
+                            Throw New Exception("Length of Country code should be max. 30 character ")
+                        End If
+                        obj.country_code = strCountry
 
-                    If clsCommon.myLen(strCountry) > 0 Then
-                        ChkCountry(strCountry, trans)
-                    End If
-                    Dim strstate As String = clsCommon.myCstr(grow.Cells("State Code").Value)
-                    If clsCommon.myLen(strstate) > 30 Then
-                        Throw New Exception("Length of State Code should be max. 30 character ")
-                    End If
-                    obj.state_code = strstate
-                    If clsCommon.myLen(strstate) > 0 Then
-                        ChkStateCode(strstate, trans)
-                    End If
-                    Dim strcity As String = clsCommon.myCstr(grow.Cells("City Code").Value)
-                    If clsCommon.myLen(strcity) > 30 Then
-                        Throw New Exception("Length of City Code should be max. 30 character ")
-                    End If
-                    obj.city_code = strcity
-                    If clsCommon.myLen(strcity) > 0 Then
-                        ChkCityCode(strcity, trans)
-                    End If
-                    If clsCommon.myLen(strBankcode) > 0 AndAlso clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" & strBankcode & "' ", trans) > 0 Then
-                        isNewEntry = False
-                    Else
-                        isNewEntry = True
-
-                    End If
-
-                    clsVendorBankMaster.SaveDataImport(isNewEntry, obj, trans)
-
-                Next
-
-                trans.Commit()
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                trans.Rollback()
-                clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line No. " & clsCommon.myCstr(linno) & "")
-            End Try
-        End If
-        Me.Controls.Remove(gv)
+                        If clsCommon.myLen(strCountry) > 0 Then
+                            ChkCountry(strCountry, trans)
+                        End If
+                        Dim strstate As String = clsCommon.myCstr(grow.Cells("State Code").Value)
+                        If clsCommon.myLen(strstate) > 30 Then
+                            Throw New Exception("Length of State Code should be max. 30 character ")
+                        End If
+                        obj.state_code = strstate
+                        If clsCommon.myLen(strstate) > 0 Then
+                            ChkStateCode(strstate, trans)
+                        End If
+                        Dim strcity As String = clsCommon.myCstr(grow.Cells("City Code").Value)
+                        If clsCommon.myLen(strcity) > 30 Then
+                            Throw New Exception("Length of City Code should be max. 30 character ")
+                        End If
+                        obj.city_code = strcity
+                        If clsCommon.myLen(strcity) > 0 Then
+                            ChkCityCode(strcity, trans)
+                        End If
+                        If clsCommon.myLen(strBankcode) > 0 AndAlso clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" & strBankcode & "' ", trans) > 0 Then
+                            isNewEntry = False
+                        Else
+                            isNewEntry = True
+                        End If
+                        clsVendorBankMaster.SaveDataImport(isNewEntry, obj, trans)
+                    Next
+                    trans.Commit()
+                    clsCommon.ProgressBarHide()
+                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(ex.Message & " At Line No. " & clsCommon.myCstr(linno) & "")
+                End Try
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub rmExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmExport.Click, RDExportBankDetails.Click
-        Dim str As String
-        str = "select Bank_Code as 'Bank Code' ,Bank_Name as 'Bank Name',Add1 as 'Add1',Add2 as 'Add2' ,Add3 as 'Add3' ,Country_Code as 'Country Code' ,State_Code as 'State Code' ,City_Code as 'City Code' from TSPL_Vendor_Bank_Master"
-        ListImpExpColumnsMandatory = New List(Of String)({"Bank Code", "Bank Name"})
-        ListImpExpColumnsSuperMandatory = New List(Of String)({"Bank Code"})
-        transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+        Try
+            Dim str As String
+            str = "select Bank_Code as 'Bank Code' ,Bank_Name as 'Bank Name',Add1 as 'Add1',Add2 as 'Add2' ,Add3 as 'Add3' ,Country_Code as 'Country Code' ,State_Code as 'State Code' ,City_Code as 'City Code' from TSPL_Vendor_Bank_Master"
+            ListImpExpColumnsMandatory = New List(Of String)({"Bank Code", "Bank Name"})
+            ListImpExpColumnsSuperMandatory = New List(Of String)({"Bank Code"})
+            transportSql.ExporttoExcel(str, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Function ChkCountry(ByVal CountryCode As String, ByVal trans As SqlTransaction) As Boolean
-
         Try
             If clsDBFuncationality.getSingleValue("Select count(*) from tspl_country_master where country_code='" & CountryCode & "' ", trans) > 0 Then
                 Return True
             Else
                 Throw New Exception("Country code is invalid,It could not found in Country Master")
             End If
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Function
     Private Function ChkStateCode(ByVal StateCode As String, ByVal trans As SqlTransaction) As Boolean
-
         Try
             If clsDBFuncationality.getSingleValue("select count(*) from tspl_state_master where state_code='" & StateCode & "' ", trans) > 0 Then
                 Return True
             Else
                 Throw New Exception("State code is invalid,It could not found in State Master")
             End If
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Function
 
     Private Function ChkCityCode(ByVal CityCode As String, ByVal trans As SqlTransaction) As Boolean
-
         Try
             If clsCommon.myLen(CityCode) > 0 AndAlso clsDBFuncationality.getSingleValue("select count(*) from tspl_city_master where city_code='" & CityCode & "' ", trans) > 0 Then
                 Return True
             Else
                 Throw New Exception("City code is invalid,It could not found in City Master")
             End If
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Function
 
-  
+
     Private Sub RadMenu1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
@@ -696,95 +690,100 @@ Public Class FrmVendorBankMaster
     End Sub
 
     Private Sub RDExportBranchDetails_Click(sender As Object, e As EventArgs) Handles RDExportBranchDetails.Click
-        Dim str As String
-        str = "Select Bank_Code as [Bank Code],Branch_Name as [Branch],Bank_IFSC_Code as [IFSC Code],Bank_Swift_Code as [Swift Code] from TSPL_Vendor_Bank_Branch_Details "
-        ListImpExpColumnsMandatory = New List(Of String)({"Bank Code", "Branch", "IFSC Code"})
-        ListImpExpColumnsSuperMandatory = New List(Of String)({"Bank Code", "IFSC Code"})
-        transportSql.ExporttoExcel(str, "Branch", "IFSC Code", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID & "BranchDetails")
+        Try
+            Dim str As String
+            str = "Select Bank_Code as [Bank Code],Branch_Name as [Branch],Bank_IFSC_Code as [IFSC Code],Bank_Swift_Code as [Swift Code] from TSPL_Vendor_Bank_Branch_Details "
+            ListImpExpColumnsMandatory = New List(Of String)({"Bank Code", "Branch", "IFSC Code"})
+            ListImpExpColumnsSuperMandatory = New List(Of String)({"Bank Code", "IFSC Code"})
+            transportSql.ExporttoExcel(str, "Branch", "IFSC Code", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID & "BranchDetails")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub RDImportBranchDetail_Click(sender As Object, e As EventArgs) Handles RDImportBranchDetail.Click
-        Dim gv As New UserControls.MyRadGridView
-        Me.Controls.Add(gv)
-        Dim trans As SqlTransaction = Nothing
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            Dim trans As SqlTransaction = Nothing
 
-        If transportSql.importExcel(gv, "Bank Code", "Branch", "IFSC Code", "Swift Code") Then
-            Dim linno As Integer = 0
-            trans = clsDBFuncationality.GetTransactin()
-            Try
-                'connectSql.OpenConnection()
-                clsCommon.ProgressBarShow()
-                linno = 0
-                Dim strBankcode As String = Nothing
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim obj As New clsVendorBankBranchDetail()
-                    linno += 1
-                    strBankcode = clsCommon.myCstr(grow.Cells("Bank Code").Value)
-                    If clsCommon.myLen(strBankcode) > 30 Then
-                        Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " & clsCommon.myCstr(linno) & ".")
-                    End If
-                    obj.Bank_Code = strBankcode
+            If transportSql.importExcel(gv, "Bank Code", "Branch", "IFSC Code", "Swift Code") Then
+                Dim linno As Integer = 0
+                trans = clsDBFuncationality.GetTransactin()
+                Try
+                    'connectSql.OpenConnection()
+                    clsCommon.ProgressBarShow()
+                    linno = 0
+                    Dim strBankcode As String = Nothing
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim obj As New clsVendorBankBranchDetail()
+                        linno += 1
+                        strBankcode = clsCommon.myCstr(grow.Cells("Bank Code").Value)
+                        If clsCommon.myLen(strBankcode) > 30 Then
+                            Throw New Exception("Length of Bank Code should be max. 30 character At Line No. " & clsCommon.myCstr(linno) & ".")
+                        End If
+                        obj.Bank_Code = strBankcode
+                        Dim strBranchName As String = clsCommon.myCstr(grow.Cells("Branch").Value)
+                        If (String.IsNullOrEmpty(strBranchName)) Or clsCommon.myLen(strBranchName) > 100 Then
+                            Throw New Exception("Length of Branch should be max. 100 character ")
+                        End If
+
+                        obj.Branch_Name = strBranchName
+
+                        Dim strIFSC As String = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
+                        If (String.IsNullOrEmpty(strIFSC)) Or clsCommon.myLen(strIFSC) > 100 Then
+                            Throw New Exception("Length of IFSC Code should be max. 100 character ")
+                        End If
+                        obj.Bank_IFSC_Code = strIFSC
+
+                        Dim strSwift As String = clsCommon.myCstr(grow.Cells("Swift Code").Value)
+                        If clsCommon.myLen(strSwift) > 20 Then
+                            Throw New Exception("Length of Swift Code should be max. 20 character ")
+                        End If
+                        obj.Bank_Swift_Code = strSwift
 
 
-                    Dim strBranchName As String = clsCommon.myCstr(grow.Cells("Branch").Value)
-                    If (String.IsNullOrEmpty(strBranchName)) Or clsCommon.myLen(strBranchName) > 100 Then
-                        Throw New Exception("Length of Branch should be max. 100 character ")
-                    End If
+                        Dim coll As Hashtable
 
-                    obj.Branch_Name = strBranchName
+                        If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" & strBankcode & "'  ", trans) <= 0 Then
+                            Throw New Exception("Bank Code Does Not Exist : " & strBankcode & ".Please make entry in vendor bank master.")
+                        End If
 
-                    Dim strIFSC As String = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
-                    If (String.IsNullOrEmpty(strIFSC)) Or clsCommon.myLen(strIFSC) > 100 Then
-                        Throw New Exception("Length of IFSC Code should be max. 100 character ")
-                    End If
-                    obj.Bank_IFSC_Code = strIFSC
+                        coll = New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Bank_Code", strBankcode)
+                        clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name)
+                        clsCommon.AddColumnsForChange(coll, "Bank_IFSC_Code", obj.Bank_IFSC_Code)
+                        clsCommon.AddColumnsForChange(coll, "Bank_Swift_Code", obj.Bank_Swift_Code)
+                        If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_IFSC_Code ='" & strIFSC & "'  and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans) <= 0 Then
+                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Insert, "", trans)
+                        Else
+                            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Update, " TSPL_Vendor_Bank_Branch_Details.Bank_IFSC_Code='" & obj.Bank_IFSC_Code & "' and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans)
+                        End If
+                    Next
 
-                    Dim strSwift As String = clsCommon.myCstr(grow.Cells("Swift Code").Value)
-                    If clsCommon.myLen(strSwift) > 20 Then
-                        Throw New Exception("Length of Swift Code should be max. 20 character ")
-                    End If
-                    obj.Bank_Swift_Code = strSwift
+                    'Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & strBankcode & "'", trans)
 
+                    'If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & strBankcode & "' group by Bank_IFSC_Code having count(Bank_IFSC_Code)>1  ", trans) > 1 Then
+                    '    Throw New Exception("Same IFSC Code Does Not Exist more than one time.")
+                    'End If
 
-                    Dim coll As Hashtable
+                    'If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & strBankcode & "' group by Bank_Swift_Code having count(Bank_Swift_Code)>1  ", trans) > 1 Then
+                    '    Throw New Exception("Same Swift Code Does Not Exist more than one time")
+                    'End If
 
-                    If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Master where Bank_Code ='" & strBankcode & "'  ", trans) <= 0 Then
-                        Throw New Exception("Bank Code Does Not Exist : " & strBankcode & ".Please make entry in vendor bank master.")
-                    End If
-
-                    coll = New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Bank_Code", strBankcode)
-                    clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name)
-                    clsCommon.AddColumnsForChange(coll, "Bank_IFSC_Code", obj.Bank_IFSC_Code)
-                    clsCommon.AddColumnsForChange(coll, "Bank_Swift_Code", obj.Bank_Swift_Code)
-                    If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_IFSC_Code ='" & strIFSC & "'  and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans) <= 0 Then
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Insert, "", trans)
-                    Else
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Update, " TSPL_Vendor_Bank_Branch_Details.Bank_IFSC_Code='" & obj.Bank_IFSC_Code & "' and TSPL_Vendor_Bank_Branch_Details.Bank_Code='" & obj.Bank_Code & "'", trans)
-                    End If
-                Next
-
-                'Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & strBankcode & "'", trans)
-
-                'If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & strBankcode & "' group by Bank_IFSC_Code having count(Bank_IFSC_Code)>1  ", trans) > 1 Then
-                '    Throw New Exception("Same IFSC Code Does Not Exist more than one time.")
-                'End If
-
-                'If clsDBFuncationality.getSingleValue("Select count(*) from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & strBankcode & "' group by Bank_Swift_Code having count(Bank_Swift_Code)>1  ", trans) > 1 Then
-                '    Throw New Exception("Same Swift Code Does Not Exist more than one time")
-                'End If
-
-                trans.Commit()
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                trans.Rollback()
-                clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line No. " & clsCommon.myCstr(linno) & "")
-            End Try
-        End If
-        Me.Controls.Remove(gv)
-
+                    trans.Commit()
+                    clsCommon.ProgressBarHide()
+                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(ex.Message & " At Line No. " & clsCommon.myCstr(linno) & "")
+                End Try
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
@@ -795,7 +794,7 @@ Public Class FrmVendorBankMaster
             End If
             clsERPFuncationalityOLD.ShowTransHistoryData(fndBankCode.Value, "Bank_Code", "TSPL_Vendor_Bank_Master", "TSPL_Vendor_Bank_Branch_Details")
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

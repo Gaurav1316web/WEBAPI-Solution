@@ -41,6 +41,7 @@ Public Class clsVendorBankMaster
 
     '===changes by shivani against ticket[BM00000008650] 
     Public Shared Function SaveData(ByVal isNewEntry As Boolean, ByVal obj As clsVendorBankMaster, ByVal trans As SqlTransaction) As Boolean
+        trans = clsDBFuncationality.GetTransactin()
         Try
             Dim isSaved As Boolean = True
             Dim coll As New Hashtable()
@@ -64,7 +65,7 @@ Public Class clsVendorBankMaster
             clsCommon.AddColumnsForChange(coll, "Country_Code", obj.country_code)
             clsCommon.AddColumnsForChange(coll, "State_Code", obj.state_code)
             clsCommon.AddColumnsForChange(coll, "City_Code", obj.city_code)
-            
+
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
 
@@ -81,12 +82,12 @@ Public Class clsVendorBankMaster
             End If
             clsVendorBankBranchDetail.saveData(obj.arrVendorBranchDetail, obj.Bank_code, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Bank_code, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Bank_Code", trans)
-
-            Return True
+            trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
     Public Shared Function SaveDataImport(ByVal isNewEntry As Boolean, ByVal obj As clsVendorBankMaster, ByVal trans As SqlTransaction) As Boolean
         Try
@@ -188,6 +189,7 @@ Public Class clsVendorBankMaster
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Document Not Found.")
             End If
+            trans = clsDBFuncationality.GetTransactin()
             clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Bank_Code", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Bank_Code", trans)
@@ -198,11 +200,11 @@ Public Class clsVendorBankMaster
             qry = "delete from TSPL_Vendor_Bank_Master where Bank_Code='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
-            Return True
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
 
 End Class
