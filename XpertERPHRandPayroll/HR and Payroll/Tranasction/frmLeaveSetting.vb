@@ -510,6 +510,7 @@ Public Class frmLeaveSetting
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
         Dim LocCode As String = Nothing
+        Dim whr As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
@@ -528,7 +529,12 @@ Public Class frmLeaveSetting
         If txtCode.MyReadOnly OrElse isButtonClicked Then
 
             Dim qry As String = " select TSPL_LEAVE_MASTER.LEAVE_CODE AS Code, TSPL_LEAVE_MASTER.LEAVE_NAME as Name,TSPL_LEAVE_MASTER.PRINT_NAME as 'Print Name', TSPL_LEAVE_MASTER.AFFECTS_SALARY as 'Is Affects Salary',TSPL_LEAVE_SETTING.Location_code As 'Location Code'  from TSPL_LEAVE_MASTER Left outer Join TSPL_LEAVE_SETTING ON TSPL_LEAVE_SETTING.LEAVE_CODE=TSPL_LEAVE_MASTER.LEAVE_CODE"
-            txtCode.Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", whrcls, txtCode.Value, "TSPL_LEAVE_MASTER.LEAVE_CODE", isButtonClicked)
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                txtCode.Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", whr, txtCode.Value, "TSPL_LEAVE_MASTER.LEAVE_CODE", isButtonClicked)
+            Else
+                txtCode.Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", whrcls, txtCode.Value, "TSPL_LEAVE_MASTER.LEAVE_CODE", isButtonClicked)
+            End If
+            'txtCode.Value = clsCommon.ShowSelectForm("LEAVE_MASTER", qry, "Code", whrcls, txtCode.Value, "TSPL_LEAVE_MASTER.LEAVE_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
