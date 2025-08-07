@@ -356,7 +356,7 @@
       <HintPath>..\XpertERPElectrical\bin\Debug\XpertERPElectrical.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
-      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\XpertERPEngine\obj\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineeringAndPlantManagement">
       <HintPath>..\XpertERPEngineeringAndPlantManagement\bin\Debug\XpertERPEngineeringAndPlantManagement.dll</HintPath>
