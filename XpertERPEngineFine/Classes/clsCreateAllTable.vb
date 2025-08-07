@@ -1619,6 +1619,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Calculation_Method", "Varchar(5) null")
             coll.Add("Is_Consider_Pay_Days", "integer not null default 0")
+            coll.Add("Ex_Gratia", "FLOAT NULL")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_BONUS_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BONUS_MASTER", coll, "", True, False, "", "", "", True)
 
