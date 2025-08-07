@@ -661,7 +661,11 @@ Public Class frmCreateReceivedDairySale
             Dim strVehicleCrateSaleReturn As String = ""
             Dim strLocation As String = ""
             Dim strRoute As String = Nothing
+
+            Dim strCustCode As String = Nothing
+
             Dim variable1 As String = Nothing
+
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 fndLocation.Focus()
@@ -670,6 +674,7 @@ Public Class frmCreateReceivedDairySale
             End If
 
             If clsCommon.myLen(fndRouteNo.Value) > 0 Then
+
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select distinct Customer_Code from (select  Customer_Code  from  TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' AND TSPL_SD_SHIPMENT_HEAD.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + txtDate.Value + "',103) and Route_No ='" & fndRouteNo.Value & "' union all select  Customer_Code  from  tspl_sd_sale_return_head  where tspl_sd_sale_return_head.screen_type='DS' AND tspl_sd_sale_return_head.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + txtDate.Value + "',103) and Route_No ='" & fndRouteNo.Value & "') as xx")
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                     For ii As Integer = 0 To dt1.Rows.Count - 1
@@ -679,12 +684,17 @@ Public Class frmCreateReceivedDairySale
                         variable1 += "'" + clsCommon.myCstr(dt1.Rows(ii)("Customer_Code")).Trim() + "'"
                     Next
                 End If
+
+
                 If clsCommon.myLen(variable1) > 0 Then
                     strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & variable1 & ")"
                 Else
                     strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in ('')"
                 End If
+
+
             End If
+
             '===========================================================================
             Dim QryForCustomerOpening As String = Nothing
             Dim QryForCustomerclosing As String = Nothing
@@ -2977,7 +2987,7 @@ Public Class frmCreateReceivedDairySale
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         Dim str As String
-        str = " select '' as [Location Code], '' as [Route No],'' as Date,'' as [Shift],'' as [Crate Qty] "
+        str = " select '' as [Location Code], '' as [Route No],'' as [Type I/O],'' as [Cust Code],'' as Date,'' as [Shift],'' as [Crate Qty] "
         transportSql.ExporttoExcel(str, Me)
     End Sub
 
@@ -3026,7 +3036,7 @@ Public Class frmCreateReceivedDairySale
         dtError.Columns.Add("LineNo", GetType(Integer))
         dtError.Columns.Add("Error", GetType(String))
 
-        If transportSql.importExcel(gv, "Location Code", "Route No", "Date", "Shift", "Crate Qty") Then
+        If transportSql.importExcel(gv, "Location Code", "Route No", "Type I/O", "Cust Code", "Date", "Shift", "Crate Qty") Then
 
             Try
                 clsCommon.ProgressBarShow()
@@ -3034,6 +3044,10 @@ Public Class frmCreateReceivedDairySale
                 For Each grow As GridViewRowInfo In gv.Rows
                     Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
                     Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
+                    Dim strTypeIO As String = clsCommon.myCstr(grow.Cells("Type I/O").Value)
+
+                    Dim strCustCode As String = clsCommon.myCstr(grow.Cells("Cust Code").Value)
+
                     Dim strdate As Date = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
                     Dim strshift As String = clsCommon.myCstr(grow.Cells("Shift").Value)
                     Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
@@ -3110,6 +3124,9 @@ Public Class frmCreateReceivedDairySale
                     For Each grow As GridViewRowInfo In gv.Rows
                         Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
                         Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
+                        Dim strTypeIO As String = clsCommon.myCstr(grow.Cells("Type I/O").Value)
+                        Dim strCustCode As String = clsCommon.myCstr(grow.Cells("Cust Code").Value)
+
                         Dim strdate As Date = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
                         Dim strshift As String = clsCommon.myCstr(grow.Cells("Shift").Value)
                         Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
@@ -3178,6 +3195,11 @@ Public Class frmCreateReceivedDairySale
                         obj.ShiftType = strshift
                         obj.Type = "I"
                         obj.Route_code = strRoute
+                        obj.Type = strTypeIO
+                        obj.customer_code = strCustCode
+
+
+
 
                         Dim intLine As Integer = 0
                         Dim strVehicleSaleInvoice As String = ""
@@ -3186,6 +3208,8 @@ Public Class frmCreateReceivedDairySale
                         'Dim strLocation As String = ""
                         'Dim strRoute As String = Nothing
                         Dim variable1 As String = Nothing
+                        Dim variable2 As String = Nothing
+
                         'If clsCommon.myLen(fndLocation.Value) <= 0 Then
                         '    common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                         '    fndLocation.Focus()
@@ -3194,6 +3218,8 @@ Public Class frmCreateReceivedDairySale
                         'End If
 
                         If clsCommon.myLen(strRoute) > 0 Then
+                            'Dim dt2 As DataTable = clsDBFuncationality.GetDataTable("select  Customer_Code  from  TSPL_SD_SHIPMENT_HEAD ", trans)
+
                             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("select distinct Customer_Code from (select  Customer_Code  from  TSPL_SD_SHIPMENT_HEAD  where TSPL_SD_SHIPMENT_HEAD.screen_type='DS' AND TSPL_SD_SHIPMENT_HEAD.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + strdate + "',103) and Route_No ='" & strRoute & "' union all select  Customer_Code  from  tspl_sd_sale_return_head  where tspl_sd_sale_return_head.screen_type='DS' AND tspl_sd_sale_return_head.Status =1 and convert(date,Document_Date ,103)<=convert(date,'" + strdate + "',103) and Route_No ='" & strRoute & "') as xx", trans)
                             If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
                                 For ii As Integer = 0 To dt1.Rows.Count - 1
@@ -3208,6 +3234,20 @@ Public Class frmCreateReceivedDairySale
                             Else
                                 strRoute = " and TSPL_CUSTOMER_MASTER.Cust_Code in ('')"
                             End If
+
+                            'If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                            '    For ii As Integer = 0 To dt2.Rows.Count - 1
+                            '        If ii <> 0 Then
+                            '            variable2 += ","
+                            '        End If
+                            '        variable2 += "'" + clsCommon.myCstr(dt2.Rows(ii)("Customer_Code")).Trim() + "'"
+                            '    Next
+                            'End If
+                            'If clsCommon.myLen(variable2) > 0 Then
+                            '    strCustCode = " and TSPL_CUSTOMER_MASTER.Cust_Code in (" & variable2 & ")"
+                            'Else
+                            '    strCustCode = " and TSPL_CUSTOMER_MASTER.Cust_Code in ('')"
+                            'End If
                         End If
                         '===========================================================================
                         Dim QryForCustomerOpening As String = Nothing
