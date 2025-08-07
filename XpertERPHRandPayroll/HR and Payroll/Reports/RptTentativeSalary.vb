@@ -10,6 +10,15 @@ Public Class RptTentativeSalary
     Inherits FrmMainTranScreen
     Dim fromdate As DateTime = Nothing
     Dim ToDate As DateTime = Nothing
+
+    Private Sub RptTentativeSalary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Try
+            PageSetupReport_ID = Form_ID
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
@@ -37,13 +46,32 @@ Public Class RptTentativeSalary
     '    End Try
     'End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-        txtmultiEmpcode.arrValueMember = Nothing
-        txtFinYear.Value = ""
-        lblFinYear.Text = ""
+        Try
+            txtmultiEmpcode.arrValueMember = Nothing
+            txtFinYear.Value = ""
+            lblFinYear.Text = ""
+
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+            gv1.Columns.Clear()
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterView.Refresh()
+            gv1.GroupDescriptors.Clear()
+            gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            RadPageView1.SelectedPage = RadPageViewPage1
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
+            If clsCommon.myLen(txtFinYear.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Finacial Year !", Me.Text)
+#Disable Warning
+                Exit Sub
+#Enable Warning
+            End If
             Dim whr As String = ""
             Dim whrEmp As String = ""
             If txtmultiEmpcode.arrValueMember IsNot Nothing AndAlso txtmultiEmpcode.arrValueMember.Count > 0 Then
@@ -188,6 +216,12 @@ Public Class RptTentativeSalary
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
+            If clsCommon.myLen(txtFinYear.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Finacial Year !", Me.Text)
+#Disable Warning
+                Exit Sub
+#Enable Warning
+            End If
             PrintData()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -283,20 +317,61 @@ Public Class RptTentativeSalary
     End Sub
 
     Sub SetGridFormation()
-        gv1.TableElement.TableHeaderHeight = 40
-        gv1.MasterTemplate.ShowRowHeaderColumn = True
-        For ii As Integer = 0 To gv1.Columns.Count - 1
-            gv1.Columns(ii).ReadOnly = True
-            gv1.Columns(ii).IsVisible = True
-            gv1.Columns(ii).VisibleInColumnChooser = False
-        Next
-        Dim index As Integer
-        Dim summaryRowItem As New GridViewSummaryRowItem()
-        index = 2
-        For ii As Integer = index To gv1.Columns.Count - 1
-            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
-        Next
-        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Try
+            gv1.TableElement.TableHeaderHeight = 40
+            gv1.MasterTemplate.ShowRowHeaderColumn = True
+            For ii As Integer = 0 To gv1.Columns.Count - 1
+                gv1.Columns(ii).ReadOnly = True
+                gv1.Columns(ii).IsVisible = True
+                gv1.Columns(ii).VisibleInColumnChooser = False
+            Next
+            Dim index As Integer
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            index = 2
+            For ii As Integer = index To gv1.Columns.Count - 1
+                summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+            Next
+            gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
+
+    Private Sub btnExportExcel_Click(sender As Object, e As EventArgs) Handles btnExportExcel.Click
+        Try
+            If gv1 Is Nothing OrElse gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found !", Me.Text)
+#Disable Warning
+                Exit Sub
+#Enable Warning
+            End If
+            ExportGrid(EnumExportTo.Excel)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ExportGrid(ByVal exporter As EnumExportTo)
+        Try
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            Dim rptName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTentativeReport & "'"))
+            arrHeader.Add("Name : " & rptName)
+            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+
+            If txtFinYear.Value IsNot Nothing AndAlso clsCommon.myLen(txtFinYear.Value) > 0 Then
+                arrHeader.Add("Finacial Year : " & lblFinYear.Text)
+            End If
+
+            If exporter = EnumExportTo.Excel Then
+                clsCommon.MyExportToExcel(rptName, gv1, arrHeader, rptName)
+            Else
+                clsCommon.MyExportToPDF(rptName, gv1, arrHeader, rptName, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 End Class
