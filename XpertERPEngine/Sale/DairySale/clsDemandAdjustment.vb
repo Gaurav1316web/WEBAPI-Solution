@@ -216,8 +216,13 @@ Public Class clsDemandAdjustment
             obj = GetData(strDocNo, NavigatorType.Current, trans)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    clsCommon.ProgressBarPercentShow()
+                    Dim Rowcount As Integer = 0
                     For Each objTr As clsDemandAdjustmentDetail In obj.Arr
+                        Rowcount += 1
                         If isChange Then
+
+                            clsCommon.ProgressBarPercentUpdate((((Rowcount) * 100) / obj.Arr.Count), "Updating Booth code-" & clsCommon.myCstr(objTr.Booth_Code))
                             Qry = "select COUNT(*)  from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "' and Cust_Code='" + clsCommon.myCstr(objTr.Booth_Code) + "' and Item_Code='" + clsCommon.myCstr(objTr.Item_Code) + "' and Unit_code='" + clsCommon.myCstr(objTr.Unit_Code) + "'"
                             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans))
                             If count > 0 Then
@@ -237,7 +242,7 @@ where Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "' and Cust_Code='" + c
                                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                             Else
                                 Dim coll As New Hashtable()
-                                Dim TR_Code As String = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DetailSale, clsDocTransactionType.Detail, obj.Route_Code, False, True, False, False, False, True)
+                                Dim TR_Code As String = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DetailSale, clsDocTransactionType.Detail, objTr.Route_Code, False, True, False, False, False, True)
                                 clsCommon.AddColumnsForChange(coll, "TR_CODE", TR_Code)
                                 clsCommon.AddColumnsForChange(coll, "Document_No", objTr.TR_Code)
                                 clsCommon.AddColumnsForChange(coll, "Line_No", clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select MAX(Line_No) from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "'", trans)) + 1)
@@ -306,6 +311,7 @@ where Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "' and Cust_Code='" + c
                             Qry = "delete TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "' and Cust_Code='" + clsCommon.myCstr(objTr.Booth_Code) + "' and Item_Code='" + clsCommon.myCstr(obj.Change_Item_Code) + "' and Unit_code='" + clsCommon.myCstr(objTr.Unit_Code) + "'"
                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                         Else
+                            clsCommon.ProgressBarPercentUpdate((((Rowcount) * 100) / lstDocNO.Count), "Updating TR Code -" & clsCommon.myCstr(objTr.TR_Code))
                             Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" + clsCommon.myCstr(objTr.Final_Qty) + "',TotalCrates_ItemWise='" + clsCommon.myCstr(objTr.TotalCrates_ItemWise) + "',TotalLtr_ItemWise='" + clsCommon.myCstr(objTr.TotalLtr_ItemWise) + "'
 ,Item_Rate='" + clsCommon.myCstr(objTr.Item_Rate) + "',ItemNetAmount='" + clsCommon.myCstr(objTr.ItemNetAmount) + "',TAX_Group='" + clsCommon.myCstr(objTr.TAX_Group) + "',
 TAX1='" + clsCommon.myCstr(objTr.TAX1) + "',TAX1_Rate='" + clsCommon.myCstr(objTr.TAX1_Rate) + "',TAX1_Amt='" + clsCommon.myCstr(objTr.TAX1_Amt) + "',TAX1_Base_Amt='" + clsCommon.myCstr(objTr.TAX1_Base_Amt) + "',
@@ -328,22 +334,33 @@ where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
 
 
                     Next
+                    clsCommon.ProgressBarPercentHide()
+
 
                     If lstDocNO IsNot Nothing AndAlso lstDocNO.Count > 0 Then
+                        clsCommon.ProgressBarPercentShow()
+                        Dim Rowcount1 As Integer = 0
                         For Each item As String In lstDocNO
+                            clsCommon.ProgressBarPercentUpdate((((Rowcount1) * 100) / lstDocNO.Count), "Updating Document No-" & clsCommon.myCstr(item))
                             Dim DBObj As clsDemandBookingSale = clsDemandBookingSale.GetData(item, NavigatorType.Current, trans)
                             If DBObj IsNot Nothing AndAlso clsCommon.myLen(DBObj.Document_No) > 0 Then
                                 clsDemandBookingSale.SaveData(DBObj, False, False, True, trans)
                             End If
                             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, item, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
                         Next
+                        clsCommon.ProgressBarPercentHide()
+
                     End If
 
                     clsDBFuncationality.ExecuteNonQuery("Update TSPL_Demand_Adjustment_Head set Status=1 where Document_Code='" + obj.Document_Code + "'", trans)
+
+
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_Demand_Adjustment_Head", "Document_Code", "TSPL_DEMAND_ADJUSTMENT_DETAIL", "Document_Code", trans)
             End If
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+
             Throw New Exception(ex.Message)
         End Try
         Return True

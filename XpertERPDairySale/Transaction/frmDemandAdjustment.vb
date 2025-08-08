@@ -358,7 +358,7 @@ Public Class frmDemandAdjustment
                 Dim qry As String = ""
 
                 If isChange Then
-                    If clsCommon.myLen(txtChangeItemCode.Value) <= 0 OrElse txtRouteCode.arrValueMember Is Nothing OrElse txtRouteCode.arrValueMember.Count > 1 Then
+                    If clsCommon.myLen(txtChangeItemCode.Value) <= 0 OrElse txtRouteCode.arrValueMember Is Nothing Then
                         Throw New Exception("Change Item Code/Route no Not Found")
                     End If
                     qry = "select TSPL_ROUTE_MASTER.Zone_Code,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_MASTER.Location_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,'" + txtItemCode.Value + "' as Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Document_No,'" + lblItemDesc.Text + "' as Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,0 as Qty,TSPL_DEMAND_BOOKING_DETAIL.Qty as AdjustQty
@@ -367,7 +367,7 @@ left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=T
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
 left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-where TSPL_DEMAND_BOOKING_MASTER.Posted=1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtChangeItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "'"
+where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtChangeItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "'"
                     If txtZoneCode.arrValueMember IsNot Nothing Then
                         If txtRouteCode.arrValueMember IsNot Nothing Then
                             qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
@@ -386,7 +386,7 @@ left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=T
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
 left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-where TSPL_DEMAND_BOOKING_MASTER.Posted=1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "'"
+where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" + clsCommon.GetPrintDate(txtDemandDate.Value) + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" + txtItemCode.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" + txtUOM.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" + txtMinCrate.Text + "'"
                     If txtZoneCode.arrValueMember IsNot Nothing Then
                         If txtRouteCode.arrValueMember IsNot Nothing Then
                             qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" + clsCommon.GetMulcallString(txtRouteCode.arrValueMember) + ")"
