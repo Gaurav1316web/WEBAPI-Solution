@@ -386,8 +386,8 @@ Public Class frmLeaveSetting
     End Sub
 
     Private Sub frmLeaveSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        formLoading = True
         SetUserMgmtNew()
+        formLoading = True
         isNewEntry = True
         LoadSalarySlabColumns()
         funReset()
@@ -413,7 +413,6 @@ Public Class frmLeaveSetting
         'MyBase.SetUserMgmt(clsUserMgtCode.frmLeaveSetting)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
-
         End If
         btnsave.Visible = MyBase.isModifyFlag
         'btnPost.Visible = MyBase.isPostFlag
