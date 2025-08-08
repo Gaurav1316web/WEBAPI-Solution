@@ -278,9 +278,7 @@ Public Class FrmMainTranScreen
             objCM.Dispose()
             objCM = Nothing
         End If
-        Me.Dispose()
-        GC.Collect()
-        GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub FrmMainTranScreen_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown

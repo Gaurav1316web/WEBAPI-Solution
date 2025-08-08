@@ -1177,7 +1177,7 @@ Public Class MDI
                     Exit Sub
                 End If
             End If
-                
+
             If clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("InActive"))) = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
@@ -6808,8 +6808,12 @@ Public Class MDI
                         frm = New frmLeaveMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmLeaveSetting
-                        frm = New frmLeaveSetting()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        If clsCommon.CompairString(objCommonVar.CurrentUserCode, "Admin") = CompairStringResult.Equal Then
+                            frm = New frmLeaveSetting()
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            clsCommon.MyMessageBoxShow("This feature is not for you")
+                        End If
                     Case clsUserMgtCode.frmGeneralHolidays
                         frm = New frmGeneralHolidays()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
