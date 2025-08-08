@@ -1044,6 +1044,8 @@ Public Class frmShipmentDairy
         FlagDocumentIsTaxable = 0
         chkSampling.Checked = False
         chkSampling.Enabled = True
+        CreditCustDoc = ""
+        ParentDocNo = ""
         TxtTotalCAN.Value = 0
         txtShippedCan.Text = ""
         txtCrateQty.Value = 0

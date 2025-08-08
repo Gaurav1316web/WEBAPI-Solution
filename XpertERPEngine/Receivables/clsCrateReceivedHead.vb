@@ -31,6 +31,8 @@ Public Class clsCrateReceivedHead
     Public Driver As String = Nothing
     Public SalesMan As String = Nothing
     Public Source_Document_Code As String = Nothing
+    Public customer_code As String = Nothing
+
 
 #End Region
     Public Function SaveData(ByVal obj As clsCrateReceivedHead, ByVal isNewEntry As Boolean) As Boolean

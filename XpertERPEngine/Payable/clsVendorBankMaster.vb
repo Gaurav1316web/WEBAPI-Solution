@@ -41,6 +41,7 @@ Public Class clsVendorBankMaster
 
     '===changes by shivani against ticket[BM00000008650] 
     Public Shared Function SaveData(ByVal isNewEntry As Boolean, ByVal obj As clsVendorBankMaster, ByVal trans As SqlTransaction) As Boolean
+        trans = clsDBFuncationality.GetTransactin()
         Try
             Dim isSaved As Boolean = True
             Dim coll As New Hashtable()
@@ -64,26 +65,29 @@ Public Class clsVendorBankMaster
             clsCommon.AddColumnsForChange(coll, "Country_Code", obj.country_code)
             clsCommon.AddColumnsForChange(coll, "State_Code", obj.state_code)
             clsCommon.AddColumnsForChange(coll, "City_Code", obj.city_code)
-            
+
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
 
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-
+#Disable Warning
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Insert, "", trans)
+#Enable Warning
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Update, " Bank_Code='" + obj.Bank_code + "'", trans)
+#Disable Warning
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Update, " Bank_Code='" & obj.Bank_code & "'", trans)
+#Enable Warning
             End If
             clsVendorBankBranchDetail.saveData(obj.arrVendorBranchDetail, obj.Bank_code, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Bank_code, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Document_No", trans)
-
-            Return True
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Bank_code, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Bank_Code", trans)
+            trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
     Public Shared Function SaveDataImport(ByVal isNewEntry As Boolean, ByVal obj As clsVendorBankMaster, ByVal trans As SqlTransaction) As Boolean
         Try
@@ -114,10 +118,13 @@ Public Class clsVendorBankMaster
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-
+#Disable Warning
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Insert, "", trans)
+#Enable Warning
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Update, " Bank_Code='" + obj.Bank_code + "'", trans)
+#Disable Warning
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Master", OMInsertOrUpdate.Update, " Bank_Code='" & obj.Bank_code & "'", trans)
+#Enable Warning
             End If
             clsVendorBankBranchDetail.saveData(obj.arrVendorBranchDetail, obj.Bank_code, trans)
 
@@ -141,15 +148,15 @@ Public Class clsVendorBankMaster
 
             Select Case NavType
                 Case NavigatorType.Current
-                    qry += " and TSPL_Vendor_Bank_Master.Bank_code='" + strCode + "'"
+                    qry += " and TSPL_Vendor_Bank_Master.Bank_code='" & strCode & "'"
                 Case NavigatorType.First
-                    qry += " and Bank_code in (select min(Bank_code) from tspl_Vendor_Bank_Master)"
+                    qry += " and TSPL_Vendor_Bank_Master.Bank_code in (select min(Bank_code) from tspl_Vendor_Bank_Master)"
                 Case NavigatorType.Last
-                    qry += " and Bank_code in (select max(Bank_code) from tspl_Vendor_Bank_Master)"
+                    qry += " and TSPL_Vendor_Bank_Master.Bank_code in (select max(Bank_code) from tspl_Vendor_Bank_Master)"
                 Case NavigatorType.Next
-                    qry += " and Bank_code in (select min(Bank_code) from tspl_Vendor_Bank_Master where Bank_code>'" + strCode + "')"
+                    qry += " and TSPL_Vendor_Bank_Master.Bank_code in (select min(Bank_code) from tspl_Vendor_Bank_Master where Bank_code>'" & strCode & "')"
                 Case NavigatorType.Previous
-                    qry += " and Bank_code in (select max(Bank_code) from tspl_Vendor_Bank_Master where Bank_code<'" + strCode + "')"
+                    qry += " and TSPL_Vendor_Bank_Master.Bank_code in (select max(Bank_code) from tspl_Vendor_Bank_Master where Bank_code<'" & strCode & "')"
             End Select
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -164,11 +171,11 @@ Public Class clsVendorBankMaster
                 obj.add2 = clsCommon.myCstr(dt.Rows(0)("Add2"))
                 obj.add3 = clsCommon.myCstr(dt.Rows(0)("Add3"))
                 obj.country_code = clsCommon.myCstr(dt.Rows(0)("Country_Code"))
-                obj.country_name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select country_name from tspl_country_master where country_code='" + obj.country_code + "'", trans))
+                obj.country_name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select country_name from tspl_country_master where country_code='" & obj.country_code & "'", trans))
                 obj.state_code = clsCommon.myCstr(dt.Rows(0)("State_Code"))
-                obj.state_name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select state_name from tspl_state_master where state_code='" + obj.state_code + "' and country_code='" + obj.country_code + "'", trans))
+                obj.state_name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select state_name from tspl_state_master where state_code='" & obj.state_code & "' and country_code='" & obj.country_code & "'", trans))
                 obj.city_code = clsCommon.myCstr(dt.Rows(0)("City_Code"))
-                obj.city_name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select city_name from tspl_city_master where state_code='" + obj.state_code + "' and city_code='" + obj.city_code + "'", trans))
+                obj.city_name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select city_name from tspl_city_master where state_code='" & obj.state_code & "' and city_code='" & obj.city_code & "'", trans))
             End If
             obj.arrVendorBranchDetail = clsVendorBankBranchDetail.getData(obj.Bank_code, trans)
             Return obj
@@ -182,21 +189,22 @@ Public Class clsVendorBankMaster
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Document Not Found.")
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Document_No", trans)
+            trans = clsDBFuncationality.GetTransactin()
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Bank_Code", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Vendor_Bank_Master", "Bank_Code", "TSPL_Vendor_Bank_Branch_Details", "Bank_Code", trans)
 
             Dim qry As String = String.Empty
-            qry = "delete from TSPL_Vendor_Bank_Branch_Details where Bank_Code='" + strCode + "'"
+            qry = "delete from TSPL_Vendor_Bank_Branch_Details where Bank_Code='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_Vendor_Bank_Master where Bank_Code='" + strCode + "'"
+            qry = "delete from TSPL_Vendor_Bank_Master where Bank_Code='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
-            Return True
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
 
 End Class
@@ -219,7 +227,9 @@ Public Class clsVendorBankBranchDetail
                     clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name)
                     clsCommon.AddColumnsForChange(coll, "Bank_IFSC_Code", obj.Bank_IFSC_Code)
                     clsCommon.AddColumnsForChange(coll, "Bank_Swift_Code", obj.Bank_Swift_Code)
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Insert, "", trans)
+#Disable Warning
+                    issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Vendor_Bank_Branch_Details", OMInsertOrUpdate.Insert, "", trans)
+#Enable Warning
                 Next
             End If
             Return issaved
@@ -229,7 +239,7 @@ Public Class clsVendorBankBranchDetail
             arrObj = Nothing
         End Try
     End Function
-   
+
     Public Shared Function getData(ByVal strBankNo As String, ByVal trans As SqlTransaction) As List(Of clsVendorBankBranchDetail)
         Try
             Dim arrObj As List(Of clsVendorBankBranchDetail) = Nothing

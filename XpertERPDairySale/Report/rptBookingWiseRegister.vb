@@ -135,6 +135,7 @@ Public Class rptBookingWiseRegister
             Gv1.Tag = ddlReportType.SelectedValue
             Dim strqry As String = ReturnQuery()
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strqry)
+
             Gv1.DataSource = dt1
 
 
@@ -162,8 +163,12 @@ case when len( isnull (PAN,'')) > 0 OR LEN (ISNULL(Collectorate,'')) >0  then  (
 from TSPL_BOOKING_DETAIL
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_code=TSPL_BOOKING_DETAIL.Cust_code
 left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.document_no=TSPL_BOOKING_DETAIL.document_no
-where TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY = 'Others' and  isnull (TSPL_CUSTOMER_MASTER.IsTCSnotApplicable,0) = 0 
-and  convert(date,TSPL_BOOKING_MATSER.Document_date,103)  >='" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date,TSPL_BOOKING_MATSER.Document_date,103)  <='" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' " + Environment.NewLine
+where 1=1 "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal Then
+            str += " And TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY = 'Others' "
+        End If
+        str += " and  isnull (TSPL_CUSTOMER_MASTER.IsTCSnotApplicable,0) = 0 
+And  convert(date,TSPL_BOOKING_MATSER.Document_date,103)  >='" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date,TSPL_BOOKING_MATSER.Document_date,103)  <='" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' " + Environment.NewLine
 
 
         If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then

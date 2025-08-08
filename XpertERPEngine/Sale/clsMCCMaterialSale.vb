@@ -1395,9 +1395,6 @@ Public Class clsMCCMaterialSale
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            If (obj.TotalSubsidyAmt > 0) Then
-                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
-            End If
             If objCommonVar.CreateAutoReceiptEntryDCSSale Then
                 If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
                     RecieptEntryOfDCSSale(obj, trans)
@@ -1408,6 +1405,9 @@ Public Class clsMCCMaterialSale
                 clsPSInvoiceHead.PostData("", obj.Invoice_No, trans)   ''obj.Sale_Invoice_No remove because it has not value.by bulk posting.
             End If
 
+            If (obj.TotalSubsidyAmt > 0) Then
+                CreateARAdjustmentEntryAgainstSubsidy(obj, trans)
+            End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", trans)
             ''richa BHO/08/07/21-000019
             Dim CreateARAdjAPDebitnoteforEmployeesinMCCMS As Boolean = IIf(clsFixedParameter.GetData(clsFixedParameterType.CreateARAdjAPDebitnoteforEmployeesinMCCMS, clsFixedParameterCode.CreateARAdjAPDebitnoteforEmployeesinMCCMS, trans) = 1, True, False)

@@ -14,7 +14,7 @@ Public Class rptCrateRegister
             'If txtRoute.arrValueMember IsNot Nothing Then
             '    qry += "where Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ") "
             'End If
-            Dim qry As String = " select CUST_CODE,Customer_Name from TSPL_CUSTOMER_MASTER  where IsDistributor='Y'"
+            Dim qry As String = " select CUST_CODE,Customer_Name from TSPL_CUSTOMER_MASTER"
             MultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "CUST_CODE", "CUST_CODE", MultLocation.arrValueMember, MultLocation.arrDispalyMember)
             ' MultLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LedgerCustomer", qry, "Code", "Name", MultLocation.arrValueMember, MultLocation.arrDispalyMember)
         Catch ex As Exception
@@ -23,8 +23,8 @@ Public Class rptCrateRegister
     End Sub
 
     Private Sub MultArea__My_Click(sender As Object, e As EventArgs) Handles MultArea._My_Click
-        Dim qry As String = " select Code ,Name from TSPL_AREA_MASTER "
-        MultArea.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Code", "Code", MultArea.arrValueMember, MultArea.arrDispalyMember)
+        Dim qry As String = " select Route_No,Route_Desc from tspl_route_master "
+        MultArea.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Route_No", "Route_No", MultArea.arrValueMember, MultArea.arrDispalyMember)
     End Sub
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -48,8 +48,9 @@ Public Class rptCrateRegister
             Dim whrclsClosing As String = ""
             Dim whrclss As String = ""
 
-            whrclss = "    Document_Date >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy hh:mm:ss tt") & "' AND " & "Document_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") & "' "
-
+            'whrclss = "    Document_Date >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy hh:mm:ss tt") & "' AND " & "Document_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") & "' "
+            whrclss = " convert(date, Document_Date, 108) >= convert(date, '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy hh:mm:ss tt") & "', 108) " &
+          "AND convert(date, Document_Date, 108) <= convert(date, '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") & "', 108)"
 
             'whrcls = "where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
             'whrclsClosing = "where 2 = 2 and convert(date,Document_Date,103)<convert(date,'" + txtFromDate.Value + "',103) "
@@ -58,12 +59,12 @@ Public Class rptCrateRegister
 
 
             If MultLocation.arrValueMember IsNot Nothing AndAlso MultLocation.arrValueMember.Count > 0 Then
-                whrcls += "  and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Customer_Code in (" + clsCommon.GetMulcallString(MultLocation.arrValueMember) + ")  "
+                whrcls += "  and TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code in (" + clsCommon.GetMulcallString(MultLocation.arrValueMember) + ")  "
 
             End If
 
             If MultArea.arrValueMember IsNot Nothing AndAlso MultArea.arrValueMember.Count > 0 Then
-                whrcls += " and TSPL_AREA_MASTER.code in (" + clsCommon.GetMulcallString(MultArea.arrValueMember) + ")"
+                whrcls += " and tspl_route_master.Route_No in (" + clsCommon.GetMulcallString(MultArea.arrValueMember) + ")"
             End If
 
             '            qry = " Select max(YY.Document_No)Document_No,max(YY.Document_Date)Document_Date,(DistributorCode)DistributorCode,max(DistributorName)DistributorName,sum(Supply)Supply,sum(ReturnQty)ReturnQty,sum(CloseingBal) CloseingBal
@@ -105,10 +106,10 @@ Public Class rptCrateRegister
             ')YY group by DistributorCode
 
             '"
-            qry = "SELECT (DistributorCode)DistributorCode,MAX(DistributorName)DistributorName,MAX(Code)Code,MAX(NAME)NAME,MAX(Comp_Code)Comp_Code,MAX(Comp_Name)Comp_Name, sum(closingBalnce) ClosingBalance,SUM(Supply)Supply,SUM(ReturnQty)ReturnQty
+            qry = "SELECT (DistributorCode)DistributorCode,MAX(DistributorName)DistributorName,(Route_No)Route_No,max(Route_Desc)Route_Desc,MAX(Comp_Code)Comp_Code,MAX(Comp_Name)Comp_Name, sum(closingBalnce) ClosingBalance,SUM(Supply)Supply,SUM(ReturnQty)ReturnQty
 ,    max(ToDate)ToDate,max(FromDate)FromDate
 FROM (
-select '" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate ,Document_No,Document_Date,DistributorCode,DistributorName,Code,NAME,Comp_Code,Comp_Name,TYPE,
+select '" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate ,Document_No,Document_Date,DistributorCode,DistributorName,Route_No,Route_Desc,Comp_Code,Comp_Name,TYPE,
 	 CASE  WHEN " & whrclss & "
         THEN Supply ELSE 0 END AS Supply,
 	CASE  WHEN " & whrclss & "
@@ -118,17 +119,16 @@ select '" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate ,Document_No,
 	then (Supply-ReturnQty) else 0 end as closingBalnce
 from (
 SELECT TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, Document_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, Customer_Code as DistributorCode,tspl_customer_master.Customer_Name as DistributorName,
-CrateQtyRecd as Supply ,OutQty as ReturnQty,TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.NAME,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name
+CrateQtyRecd as Supply ,OutQty as ReturnQty,tspl_route_master.Route_No,tspl_route_master.Route_Desc,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name
 FROM TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
 LEFT OUTER JOIN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
 left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
 left outer join tspl_route_master on tspl_route_master.route_no=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
-left outer join TSPL_AREA_MASTER on TSPL_AREA_MASTER.Code=tspl_route_master.Area_Code
 Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "' 
 where 2 = 2   " & whrcls & "
 )as new
-) AS XXX
-GROUP BY XXX.DistributorCode
+) AS XXX where closingBalnce <> 0
+GROUP BY XXX.DistributorCode,xxx.Route_No
 
 
 
@@ -202,10 +202,10 @@ GROUP BY XXX.DistributorCode
             gv2.Columns("DistributorCode").HeaderText = "Distributor Code"
             gv2.Columns("DistributorName").IsVisible = True
             gv2.Columns("DistributorName").HeaderText = "Distributor Name"
-            gv2.Columns("Code").IsVisible = True
-            gv2.Columns("Code").HeaderText = "Area Code"
-            gv2.Columns("NAME").IsVisible = True
-            gv2.Columns("NAME").HeaderText = "Area Name"
+            gv2.Columns("Route_No").IsVisible = True
+            gv2.Columns("Route_No").HeaderText = "Area Code"
+            gv2.Columns("Route_Desc").IsVisible = True
+            gv2.Columns("Route_Desc").HeaderText = "Area Name"
             gv2.Columns("Supply").IsVisible = True
             gv2.Columns("Supply").HeaderText = "Supply"
             gv2.Columns("ReturnQty").IsVisible = True
@@ -250,11 +250,11 @@ GROUP BY XXX.DistributorCode
                 arrHeader.Add("Date Range : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "  To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
 
                 If MultLocation.arrValueMember IsNot Nothing AndAlso MultLocation.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Route : " & MultLocation.arrDispalyMember(0))
+                    arrHeader.Add("Distrutor Code : " & MultLocation.arrDispalyMember(0))
                 End If
 
                 If MultArea.arrValueMember IsNot Nothing AndAlso MultArea.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Tanker : " & MultArea.arrDispalyMember(0))
+                    arrHeader.Add("Area : " & MultArea.arrDispalyMember(0))
 
                 End If
                 If exporter = EnumExportTo.Excel Then

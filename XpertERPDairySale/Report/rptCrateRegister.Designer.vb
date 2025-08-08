@@ -41,7 +41,6 @@ Partial Class rptCrateRegister
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExportToExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.PDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -318,7 +317,7 @@ Partial Class rptCrateRegister
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExportToExcel, Me.PDF})
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExportToExcel})
         Me.RadSplitButton1.Location = New System.Drawing.Point(171, 14)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(95, 21)
@@ -330,12 +329,6 @@ Partial Class rptCrateRegister
         Me.btnExportToExcel.Name = "btnExportToExcel"
         Me.btnExportToExcel.Text = "Excel"
         Me.btnExportToExcel.UseCompatibleTextRendering = False
-        '
-        'PDF
-        '
-        Me.PDF.Name = "PDF"
-        Me.PDF.Text = "PDF"
-        Me.PDF.UseCompatibleTextRendering = False
         '
         'BtnReset
         '
@@ -414,7 +407,6 @@ Partial Class rptCrateRegister
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents btnExportToExcel As RadMenuItem
-    Friend WithEvents PDF As RadMenuItem
     Friend WithEvents BtnReset As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnclose As RadButton

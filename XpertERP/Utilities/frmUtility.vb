@@ -127,7 +127,7 @@ Public Class FrmUtility
         txtRetestingDate.Value = clsCommon.GETSERVERDATE()
         txtAddBatchExpiryDate.Value = txtRetestingDate.Value
         txtAddBatchMfgDate.Value = txtRetestingDate.Value
-
+        txtFromGPDate.Value = txtRetestingDate.Value
         Timer3.Enabled = True
         MyCheckBox1.Checked = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, Nothing)) > 0)
         MyCheckBox7.Checked = True
@@ -26915,6 +26915,105 @@ where TSPL_INVENTORY_MOVEMENT.item_Code='" + txtAddBatchItem.Value + "' and Tab_
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnCreateCrateEntry_Click(sender As Object, e As EventArgs) Handles btnCreateCrateEntry.Click
+        Try
+            Dim strQry As String = "SELECT GPCode FROM TSPL_DAIRYSALE_GATEPASS_MASTER LEFT JOIN TSPL_CRATE_RECEIVED_Head_FRESHSALE ON TSPL_CRATE_RECEIVED_Head_FRESHSALE.Source_Document_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode
+WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommon.GetPrintDate(txtFromGPDate.Value, "dd-MMM-yyyy") & "'  AND TSPL_CRATE_RECEIVED_Head_FRESHSALE.Source_Document_Code IS NULL"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+
+                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Try
+                    Dim RowCount As Integer = 1
+                    For Each dr As DataRow In dt.Rows
+                        clsCommon.ProgressBarPercentUpdate((((RowCount) * 100) / dt.Rows.Count), "Create Crate Entry For Gate Pass-" & clsCommon.myCstr(dr("GPCode")))
+                        Dim obj As New clsDairyGatePassEntry()
+                        obj = clsDairyGatePassEntry.GetData(clsCommon.myCstr(dr("GPCode")), NavigatorType.Current, "FS", trans)
+                        CrateReceiveDairy(obj, True, trans)
+                        RowCount += 1
+                    Next
+                    trans.Commit()
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Saved Successfully", Me.Text)
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.ProgressBarPercentHide()
+                    Throw New Exception(ex.Message)
+                End Try
+
+            Else
+                Throw New Exception("Data Not Found!")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Shared Function CrateReceiveDairy(ByVal objGp As clsDairyGatePassEntry, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As New clsCrateReceivedHead()
+
+            If Not isNewEntry Then
+                obj.Document_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + objGp.GPCode + "'", trans))
+            End If
+            obj.TotalCrateQty = objGp.TotalCrate
+            'obj.Document_No = txtDocNo.Value
+            obj.Document_Date = objGp.GPDate
+            obj.Invoice_Date = objGp.Supply_Date
+            obj.Location_Code = objGp.Location_Code
+            obj.Comments = ""
+            obj.Vehicle_Code = objGp.Vehicle_Id
+            obj.Route_code = objGp.Route_No
+            obj.Driver = objGp.Driver_Name
+            obj.SalesMan = ""
+            obj.ShiftType = objGp.ShiftType.Substring(0, 1)
+            obj.Type = "O"
+            obj.Source_Document_Code = objGp.GPCode
+            obj.Arr = New List(Of clsCrateReceivedDetail)
+
+            Dim objTr As New clsCrateReceivedDetail()
+            objTr.Line_No = 1
+
+            objTr.Customer_Code = objGp.Arr(0).Cust_Code
+
+            objTr.Sale_Invoice_Date = objGp.Supply_Date
+
+            objTr.Vehicle_Code = objGp.Vehicle_Id
+            objTr.VehicleNo = objGp.Vehicle_Number
+            objTr.CrateQty = 0
+            objTr.CrateQtyRecd = 0
+            objTr.Balance = 0
+            objTr.Remarks = ""
+            objTr.OutQty = objGp.TotalCrate
+            objTr.Adjustment = 0
+            objTr.Jaali = 0
+            objTr.Box = 0
+
+            objTr.CrateQtyManual = 0
+            objTr.JaaliQtyRecd = 0
+            objTr.BoxQtyRecd = 0
+            objTr.jaaliAdjustment = 0
+            objTr.boxAdjustment = 0
+            objTr.jaaliOutQty = 0
+            objTr.boxOutQty = 0
+
+            objTr.CANQty = 0
+            objTr.CANRecQty = 0
+            objTr.CANOutQty = 0
+            objTr.CANAdjustment = 0
+
+            If (clsCommon.myLen(objTr.OutQty) > 0) Then
+                obj.Arr.Add(objTr)
+            End If
+            obj.SaveData(obj, isNewEntry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+
+    End Function
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
