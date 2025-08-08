@@ -1565,7 +1565,7 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
             Dim DedCode As String = Nothing
             Dim itemamt As String = Nothing
             Dim dtitemName As DataTable = Nothing
-            itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_FreshItem=1"
+            itemqry = "Select Item_Code,Item_Desc,Alies_Name from tspl_item_master where 2=2 and Is_FreshItem=1 ORDER BY SKU_SEQ"
             dtitemName = clsDBFuncationality.GetDataTable(itemqry)
             If dtitemName.Rows.Count > 0 Then
                 For i As Integer = 0 To dtitemName.Rows.Count - 1
@@ -1624,6 +1624,10 @@ left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Gr
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
+            For ii As Integer = 0 To Gv1.Columns.Count - 1
+                Gv1.Columns(ii).FormatString = "{0:n2}"
+            Next
+
             RadPageView1.SelectedPage = RadPageViewPage2
             Dim summaryRowItem As New GridViewSummaryRowItem()
             Dim item1 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
@@ -3882,11 +3886,15 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
         dt.Rows.Add("Dairy Product Gate Pass Detail", "DPGPD")
         dt.Rows.Add("Milk Sale Report", "MSR")
         dt.Rows.Add("Product Sale Report", "PSR")
-        dt.Rows.Add("Credit Sale Report", "CSR")
+        If (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal) Then
+            dt.Rows.Add("Credit Sale Report", "CSR")
+        End If
         dt.Rows.Add("Milk Product Demand Report", "MPDR")
-        dt.Rows.Add("Booth TCS", "Booth TCS")
-        dt.Rows.Add("Route Booth Wise", "RBW")
-        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "JPR") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal Then
+            dt.Rows.Add("Booth TCS", "Booth TCS")
+            dt.Rows.Add("Route Booth Wise", "RBW")
+        End If
+        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "JPR") = CompairStringResult.Equal Then
             dt.Rows.Add("Demand Sheet", "Demand Sheet")
         End If
         dt.Rows.Add("Monthly Bill Report", "MBR")

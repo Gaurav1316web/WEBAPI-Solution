@@ -483,11 +483,20 @@ Public Class FrmPrintMultipleGatepass
                 End If
             Next
             Dim GPCode As String = clsCommon.GetMulcallString(lstinvNo)
-            atchqry = getattachqry(GPCode, txtFromDate.Value, "")
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                Dim frm As frmDairyGatePass = New frmDairyGatePass()
+                atchqry = frm.getUDPattachqry(GPCode, txtMultLocation.arrValueMember, TxtMultiRoute.arrValueMember, TxtMultiVehicle.arrValueMember, cboShiftType.SelectedValue)
+            Else
+                atchqry = getattachqry(GPCode, txtFromDate.Value, "")
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleMultipleGatePassEntriesJPR", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntriesUDP", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
+                Else
+                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleMultipleGatePassEntriesJPR", "Multiple GatePass Entry", clsCommon.myCDate(txtFromDate.Value))
+                End If
                 frmCRV = Nothing
             End If
         Catch ex As Exception

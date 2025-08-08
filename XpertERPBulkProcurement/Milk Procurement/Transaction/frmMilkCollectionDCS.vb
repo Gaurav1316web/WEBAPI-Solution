@@ -2407,5 +2407,16 @@ where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_P
         End Try
     End Sub
 
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+        'Dim frmFC As New SrnCorrection
+        'frmFC.ShowDialog()
+        If (clsCommon.myLen(txtDocNo.Value) > 0) Then
+            Dim frm1 As New SrnCorrection()
+            frm1.strDocNo = txtDocNo.Value
+            frm1.ShowDialog()
+        Else
 
+        End If
+
+    End Sub
 End Class

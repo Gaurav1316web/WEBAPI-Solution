@@ -2321,25 +2321,37 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
         Gv1.Columns("Location_Code").Width = 100
         Gv1.Columns("Location_Code").HeaderText = "Location"
 
-        Gv1.Columns("GPCode").IsVisible = True
-        Gv1.Columns("GPCode").Width = 100
-        Gv1.Columns("GPCode").HeaderText = "GatePassCode"
+        Gv1.Columns("Source_Document_Code").IsVisible = True
+        Gv1.Columns("Source_Document_Code").Width = 100
+        Gv1.Columns("Source_Document_Code").HeaderText = "Document Code"
 
-        Gv1.Columns("GPDate").IsVisible = False
-        Gv1.Columns("GPDate").Width = 100
-        Gv1.Columns("GPDate").HeaderText = "GatePassDate"
+        Gv1.Columns("Document_Date").IsVisible = False
+        Gv1.Columns("Document_Date").Width = 100
+        Gv1.Columns("Document_Date").HeaderText = "Document Date"
 
-        Gv1.Columns("Vehicle_Id").IsVisible = True
-        Gv1.Columns("Vehicle_Id").Width = 100
-        Gv1.Columns("Vehicle_Id").HeaderText = "Vehicle Id"
+        'Gv1.Columns("GPCode").IsVisible = True
+        'Gv1.Columns("GPCode").Width = 100
+        'Gv1.Columns("GPCode").HeaderText = "GatePassCode"
 
-        Gv1.Columns("Vehicle_Number").IsVisible = True
-        Gv1.Columns("Vehicle_Number").Width = 100
-        Gv1.Columns("Vehicle_Number").HeaderText = "Vehicle Number"
+        'Gv1.Columns("GPDate").IsVisible = False
+        'Gv1.Columns("GPDate").Width = 100
+        'Gv1.Columns("GPDate").HeaderText = "GatePassDate"
 
-        Gv1.Columns("Route_No").IsVisible = True
-        Gv1.Columns("Route_No").Width = 100
-        Gv1.Columns("Route_No").HeaderText = "Route No"
+        Gv1.Columns("Location_Desc").IsVisible = True
+        Gv1.Columns("Location_Desc").Width = 100
+        Gv1.Columns("Location_Desc").HeaderText = "Location Desc"
+
+        Gv1.Columns("Vehicle_Code").IsVisible = True
+        Gv1.Columns("Vehicle_Code").Width = 100
+        Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle Id"
+
+        Gv1.Columns("VehicleNo").IsVisible = True
+        Gv1.Columns("VehicleNo").Width = 100
+        Gv1.Columns("VehicleNo").HeaderText = "Vehicle Number"
+
+        Gv1.Columns("Route_code").IsVisible = True
+        Gv1.Columns("Route_code").Width = 100
+        Gv1.Columns("Route_code").HeaderText = "Route No"
 
         Gv1.Columns("Route_Desc").IsVisible = True
         Gv1.Columns("Route_Desc").Width = 100
@@ -2349,13 +2361,13 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
         Gv1.Columns("ShiftType").Width = 100
         Gv1.Columns("ShiftType").HeaderText = "Shift Type"
 
-        Gv1.Columns("TotalCrate").IsVisible = True
-        Gv1.Columns("TotalCrate").Width = 100
-        Gv1.Columns("TotalCrate").HeaderText = "Total Crate"
+        Gv1.Columns("TotalCrateQty").IsVisible = True
+        Gv1.Columns("TotalCrateQty").Width = 100
+        Gv1.Columns("TotalCrateQty").HeaderText = "Total Crate"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
-        Dim item1 As New GridViewSummaryItem("TotalCrate", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("TotalCrateQty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
 
     End Sub
