@@ -37297,6 +37297,18 @@ LL")
             coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_BulkSale", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
+            Try
+                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_Dispatch_BulkSale'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_Dispatch_BulkSale' and b.COLUMN_NAME='QC_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Dispatch_BulkSale drop constraint " & QryForeign & "")
+                    End If
+                End If
+            Catch ex As Exception
+
+            End Try
+
             '-------------------------TSPL_Dispatch_Detail_BulkSale----------------------
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "varchar(30)  NULL references TSPL_Dispatch_BulkSale(Document_No) ")

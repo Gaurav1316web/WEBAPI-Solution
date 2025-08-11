@@ -12,6 +12,11 @@ Imports System.IO
 Public Class FrmDispatchBulkSale
     Inherits FrmMainTranScreen
 #Region "Variables"
+    Dim dblQtySilo As Double = 0
+    Dim dblFatperSilo As Double = 0
+    Dim dblSnfperSilo As Double = 0
+    Dim dblFatkgSilo As Double = 0
+    Dim dblSnfkgSilo As Double = 0
     Public AllowModifcationByApprovalUser As Boolean = False
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
@@ -28,7 +33,10 @@ Public Class FrmDispatchBulkSale
     Public AllowtoChangeTCSBaseAmount As Boolean = False
     Dim isFlag As Boolean = False
     Public Const colSlNo As String = "SLNO"
+    Public Const colSlNoSilo As String = "SLNOSilo"
     Public Const colItemCode As String = "ItemCode"
+    Public Const colItemCodeSilo As String = "colItemCodeSilo"
+    Public Const colSilo As String = "colSilo"
     Public Const colItemDesc As String = "ItemDesc"
     Public Const colHSNCode As String = "HSNCode"
     Public Const colChamberDesc As String = "ChamberDesc"
@@ -37,15 +45,20 @@ Public Class FrmDispatchBulkSale
     Public Const colUnitCode As String = "colUnitCode"
     Public Const colSOUnitCode As String = "colSOUnitCode"
     Public Const colQty As String = "Qty"
+    Public Const colQtySilo As String = "colQtySilo"
     Public Const colSOQty As String = "SOQty"
     Public Const colQtyLtr As String = "colQtyLtr"
     Public Const colAmount As String = "colAmount"
     Public Const colFatPer As String = "colFatPer"
+    Public Const colFatPerSilo As String = "colFatPerSilo"
     Public Const colSNFPer As String = "colSNFPer"
+    Public Const colSNFPerSilo As String = "colSNFPerSilo"
     Public Const colCLR As String = "colCLR"
     Public Const colNetMilkRate As String = "colNetMilkRate"
     Public Const colFatKG As String = "colFatKG"
+    Public Const colFatKGSilo As String = "colFatKGSilo"
     Public Const colSNFKG As String = "colSNFKG"
+    Public Const colSNFKGSilo As String = "colSNFKGSilo"
     Public Const ColFatAmount As String = "ColFatAmount"
     Public Const ColSNFAmount As String = "ColSNFAmount"
     Public Const colFatRate As String = "colFatRate"
@@ -189,6 +202,20 @@ Public Class FrmDispatchBulkSale
         End If
         btnUpdateCustomer.Visible = False
         EmailSmsSetting.Visibility = ElementVisibility.Collapsed
+
+        Dim coll As Dictionary(Of String, String)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_No", "varchar(30)  NULL references TSPL_Dispatch_BulkSale(Document_No) ")
+        coll.Add("SILO", "Varchar(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+        coll.Add("Silo_Qty", "float not null default 0")
+        coll.Add("Silo_FatPer", "float not NULL default 0")
+        coll.Add("Silo_SNFPer", "float not NULL default 0")
+        coll.Add("Silo_Fat_KG", "float not NULL default 0")
+        coll.Add("Silo_SNF_KG", "float not NULL default 0")
+        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Dispatch_BulkSale_Silo", coll, "", True, False, "", "", "", True)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_Silo_Detail", coll, Nothing, True, False, "TSPL_DISPATCH_BULKSALE", "Document_No", "", True)
+
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmDispatchBulkSale)
@@ -229,6 +256,136 @@ Public Class FrmDispatchBulkSale
         Finally
             obj = Nothing
         End Try
+    End Sub
+
+    Sub LoadBlankGridSiloDetails()
+        gvSiloDetails.Rows.Clear()
+        gvSiloDetails.Columns.Clear()
+        gvSiloDetails.DataSource = Nothing
+
+        Dim lineNo As New GridViewTextBoxColumn()
+        lineNo.FormatString = ""
+        lineNo.HeaderText = "SL. No."
+        lineNo.Name = colSlNoSilo
+        lineNo.Width = 60
+        lineNo.ReadOnly = False
+        lineNo.WrapText = True
+        lineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSiloDetails.Columns.Add(lineNo)
+
+        Dim itemCode As New GridViewTextBoxColumn()
+        itemCode.FormatString = ""
+        itemCode.HeaderText = "Item Code"
+        itemCode.Name = colItemCodeSilo
+        itemCode.Width = 100
+        itemCode.ReadOnly = True
+        itemCode.WrapText = True
+        itemCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvSiloDetails.Columns.Add(itemCode)
+
+        Dim Silo As New GridViewTextBoxColumn()
+        Silo.FormatString = ""
+        Silo.HeaderText = "Silo"
+        Silo.Name = colSilo
+        Silo.Width = 100
+        Silo.ReadOnly = False
+        Silo.WrapText = True
+        Silo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvSiloDetails.Columns.Add(Silo)
+
+        Dim Qty As New GridViewDecimalColumn
+        'Qty.FormatString = "{0:n3}"
+        Qty.HeaderText = "Quantity"
+        Qty.DecimalPlaces = 3
+        Qty.Name = colQtySilo
+        Qty.Width = 120
+        Qty.WrapText = True
+        Qty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSiloDetails.Columns.Add(Qty)
+
+        Dim fatper As New GridViewDecimalColumn
+        fatper.FormatString = "{0:n2}"
+        fatper.HeaderText = "FAT %"
+        fatper.Name = colFatPerSilo
+        fatper.Width = 75
+        fatper.ReadOnly = False
+        fatper.WrapText = True
+        fatper.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSiloDetails.Columns.Add(fatper)
+
+        Dim snfper As New GridViewDecimalColumn
+        snfper.FormatString = "{0:n2}"
+        snfper.HeaderText = "SNF %"
+        snfper.Name = colSNFPerSilo
+        snfper.Width = 75
+        snfper.ReadOnly = False
+        snfper.WrapText = True
+        snfper.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSiloDetails.Columns.Add(snfper)
+
+        Dim FatKg As New GridViewDecimalColumn
+        FatKg.FormatString = "{0:n2}"
+        FatKg.DecimalPlaces = 2
+        FatKg.HeaderText = "FAT KG"
+        FatKg.Name = colFatKGSilo
+        FatKg.Width = 75
+        FatKg.ReadOnly = False
+        FatKg.WrapText = True
+        FatKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSiloDetails.Columns.Add(FatKg)
+
+
+        Dim SnfKg As New GridViewDecimalColumn
+        SnfKg.FormatString = "{0:n2}"
+        SnfKg.DecimalPlaces = 2
+        SnfKg.HeaderText = "SNF KG"
+        SnfKg.Name = colSNFKGSilo
+        SnfKg.Width = 75
+        SnfKg.ReadOnly = False
+        SnfKg.WrapText = True
+        SnfKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSiloDetails.Columns.Add(SnfKg)
+
+        gvSiloDetails.Rows.AddNew()
+        'gvSiloDetails.Rows.AddNew()
+        'gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSlNoSilo).Value = "TOTAL"
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem(colQtySilo, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+        Dim item3 As New GridViewSummaryItem(colFatPerSilo, "{0:F2}", GridAggregateFunction.Avg)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem(colSNFPerSilo, "{0:F2}", GridAggregateFunction.Avg)
+        summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem(colFatKGSilo, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+        Dim item6 As New GridViewSummaryItem(colSNFKGSilo, "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        gvSiloDetails.MasterTemplate.SummaryRowsBottom.Clear()
+        gvSiloDetails.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gvSiloDetails.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        'setGridTotalSilo()
+
+
+        'gvSiloDetails.Rows(0).Cells(colSlNo).Value = "1"
+
+        gvSiloDetails.AllowAddNewRow = False
+        gvSiloDetails.AllowDeleteRow = False
+        gvSiloDetails.AllowRowReorder = False
+        gvSiloDetails.ShowGroupPanel = False
+        gvSiloDetails.EnableFiltering = False
+        gvSiloDetails.EnableSorting = False
+        gvSiloDetails.EnableGrouping = False
+        gvSiloDetails.AllowColumnReorder = True
+        gvSiloDetails.ShowGroupPanel = False
+        gvSiloDetails.MasterTemplate.ShowRowHeaderColumn = False
+        gvSiloDetails.TableElement.TableHeaderHeight = 40
+
     End Sub
     Sub loadBlankItemGrid()
         arrList = New List(Of String)
@@ -743,6 +900,7 @@ Public Class FrmDispatchBulkSale
         txtsealno.Text = ""
         rbtnTaxCalAutomatic.IsChecked = True
         LoadBlankGridTax()
+        LoadBlankGridSiloDetails()
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
         txtinsuranceno.Text = ""
@@ -758,9 +916,11 @@ Public Class FrmDispatchBulkSale
         txtewaybilldate.Checked = False
         TxtEWayBillNo.Text = ""
         fndQcNo.Value = ""
-        LblQCCode.Text = ""
+        LblQCCode1.Text = ""
         TxtDipMarking.Text = ""
         lblLocationCode.Text = ""
+        TxtLocCode.Value = ""
+        fndCustomerNo.Value = ""
         LblLocationName.Text = ""
         TxtTareWeight.Value = 0
         txtGrossWeight.Value = 0
@@ -820,55 +980,55 @@ Public Class FrmDispatchBulkSale
         lblActualTCSTaxBaseAmt.Text = "0"
     End Sub
     Private Sub FndTankerCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles FndTankerCode._MYValidating
-        Dim strwhrclause As String = String.Empty
-        strwhrclause = " TSPL_Quality_Check_BulkSale.Location_Code in (" + arrLoc + ") and TSPL_Quality_Check_BulkSale.QC_No not in (Select QC_Code from TSPL_Dispatch_BulkSale where Document_No<>'" + txtDocNo.Value + "' and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") ) and  TSPL_WEIGHMENT_DETAIL_BULKSALE.Posted=1"
-        LblQCCode.Text = ClsQualityCheckBulkSale.getTankerFinder(strwhrclause, FndTankerCode.Value, isButtonClicked)
-        Qry = "Select Tanker_No from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode.Text + "' "
-        FndTankerCode.Value = clsDBFuncationality.getSingleValue(Qry)
-        lblLocationCode.Text = clsDBFuncationality.getSingleValue("Select Location_Code from TSPL_Quality_Check_BulkSale where QC_No ='" + LblQCCode.Text + "' ")
-        LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" + lblLocationCode.Text + "' ")
-        ''richa agarwal
-        lblCustomerCode.Text = clsDBFuncationality.getSingleValue("Select Customer_Code  from TSPL_GATEENTRY_SALE where Document_No = (Select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No = '" + LblQCCode.Text + "')")
-        If clsCommon.myLen(lblCustomerCode.Text) > 0 Then
-            lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code  ='" + lblCustomerCode.Text + "' ")
-        Else
-            lblCustomerName.Text = ""
-        End If
 
-        isInsideLoadData = True
+        Dim qry As String = "Select Tanker_No as Code,Tanker_Name,Tanker_Transporter_Code,Description from TSPL_TANKER_MASTER  "
+        FndTankerCode.Value = clsCommon.ShowSelectForm("PAY_HEAD", qry, "Code", "", FndTankerCode.Value, "Code", isButtonClicked)
 
-        If ApplyMultiChamber = True Then
-            gv1.Rows.Clear()
-            GetTableValue1()
-        Else
-            GetTableValue()
-        End If
-        If TCSTaxApplicableOnbulkSale = True Then
-            ''richa UDL/13/07/21-001044
-            txtTaxGroup.Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, lblLocationCode.Text, lblCustomerCode.Text, "S", txtDate.Value, "Y")
-            lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, Nothing)
-            SetTaxDetails()
-        Else
-            txtTaxGroup.Value = ""
-        End If
-
-
-        isInsideLoadData = False
-        strwhrclause = Nothing
+        'Dim strwhrclause As String = String.Empty
+        'strwhrclause = " TSPL_Quality_Check_BulkSale.Location_Code in (" + arrLoc + ") and TSPL_Quality_Check_BulkSale.QC_No not in (Select QC_Code from TSPL_Dispatch_BulkSale where Document_No<>'" + txtDocNo.Value + "' and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") ) and  TSPL_WEIGHMENT_DETAIL_BULKSALE.Posted=1"
+        'LblQCCode.Text = ClsQualityCheckBulkSale.getTankerFinder(strwhrclause, FndTankerCode.Value, isButtonClicked)
+        'Qry = "Select Tanker_No from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode.Text + "' "
+        'FndTankerCode.Value = clsDBFuncationality.getSingleValue(Qry)
+        'lblLocationCode.Text = clsDBFuncationality.getSingleValue("Select Location_Code from TSPL_Quality_Check_BulkSale where QC_No ='" + LblQCCode.Text + "' ")
+        'LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" + lblLocationCode.Text + "' ")
+        '''richa agarwal
+        'lblCustomerCode.Text = clsDBFuncationality.getSingleValue("Select Customer_Code  from TSPL_GATEENTRY_SALE where Document_No = (Select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No = '" + LblQCCode.Text + "')")
+        'If clsCommon.myLen(lblCustomerCode.Text) > 0 Then
+        '    lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code  ='" + lblCustomerCode.Text + "' ")
+        'Else
+        '    lblCustomerName.Text = ""
+        'End If
+        'isInsideLoadData = True
+        'If ApplyMultiChamber = True Then
+        '    gv1.Rows.Clear()
+        '    GetTableValue1()
+        'Else
+        '    GetTableValue()
+        'End If
+        'If TCSTaxApplicableOnbulkSale = True Then
+        '    ''richa UDL/13/07/21-001044
+        '    txtTaxGroup.Value = clsLocationWiseTax.GetExempedDefaultTaxGroup(True, lblLocationCode.Text, lblCustomerCode.Text, "S", txtDate.Value, "Y")
+        '    lblTaxGrpName.Text = clsTaxGroupMaster.GetNameOfSaleType(txtTaxGroup.Value, Nothing)
+        '    SetTaxDetails()
+        'Else
+        '    txtTaxGroup.Value = ""
+        'End If
+        'isInsideLoadData = False
+        'strwhrclause = Nothing
     End Sub
 
     Private Sub GetTableValue()
         Dim dt As DataTable = Nothing
         Dim strQry As String = ""
         Dim rate As Double = 0
-        Qry = "Select Tare_Weight,Gross_Weight,Net_Weight  from TSPL_WEIGHMENT_DETAIL_BULKSALE where GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')"
+        Qry = "Select Tare_Weight,Gross_Weight,Net_Weight  from TSPL_WEIGHMENT_DETAIL_BULKSALE where GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "')"
         dt = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             txtNetWeight.Value = clsCommon.myCdbl(dt.Rows(0)("Net_Weight"))
             TxtTareWeight.Value = clsCommon.myCdbl(dt.Rows(0)("Tare_Weight"))
             txtGrossWeight.Value = clsCommon.myCdbl(dt.Rows(0)("Gross_Weight"))
         End If
-        Qry = "Select Item_Code,Qty,Fat ,SNF,CLR,Unit_Code  from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode.Text + "'"
+        Qry = "Select Item_Code,Qty,Fat ,SNF,CLR,Unit_Code  from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode1.Text + "'"
         dt = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
             gv1.Rows(0).Cells(colSlNo).Value = "1"
@@ -900,11 +1060,11 @@ Public Class FrmDispatchBulkSale
                 strQry += " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
                 strQry += " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
                 strQry += " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No"
-                strQry += " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dt.Rows(0)("Item_Code")) + "'"
+                strQry += " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dt.Rows(0)("Item_Code")) + "'"
                 rate = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry))
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colStandardRate).Value = rate
             End If
-            Dim strSOUOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'') from TSPL_SALES_ORDER_DETAIL_BULKSALE left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dt.Rows(0)("Item_Code")) + "'"))
+            Dim strSOUOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'') from TSPL_SALES_ORDER_DETAIL_BULKSALE left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dt.Rows(0)("Item_Code")) + "'"))
             If clsCommon.myLen(strSOUOM) > 0 Then
                 gv1.Rows(0).Cells(colSOUnitCode).Value = clsCommon.myCstr(strSOUOM)
             Else
@@ -936,7 +1096,7 @@ Public Class FrmDispatchBulkSale
         Dim strQry As String = ""
         Dim rate As Double = 0
         Qry = "select min(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,max(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,sum(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight from TSPL_WEIGHMENT_DETAIL_BULKSALE" &
-                " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')" &
+                " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "')" &
                 " group by TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.weighment_No"
         dt = clsDBFuncationality.GetDataTable(Qry)
         If dt.Rows.Count > 0 Then
@@ -949,14 +1109,14 @@ Public Class FrmDispatchBulkSale
         strpivotcol = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
         If clsCommon.myLen(strpivotcol) > 0 Then
             Qry = "select Item_Code,Type,Fat,SNF,CLR,Unit_Code,Chamber_Desc,NetWeight," + strpivotcol + " from (select (TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,(TSPL_ITEM_MASTER.Product_Type) AS Type,(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,(xx.Net_Weight) as NetWeight ,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Value" &
-                    " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' ) as st " &
+                    " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' ) as st " &
                     " PIVOT ( MAX(PARAM_FIELD_VALUE) FOR PARAM_FIELD_DESC IN (" + strpivotcol + ")) AS PT ORDER BY Chamber_Desc"
         Else
             Qry = "select max(TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,MAX(TSPL_ITEM_MASTER.Product_Type) AS Type,max(TSPL_Quality_Check_BulkSale.Qty) as Qty,max(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,max(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,max(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,max(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,max(xx.Net_Weight) as NetWeight from TSPL_Quality_Check_BulkSale " &
                     " left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE " &
-                    " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc " &
+                    " left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc " &
                     " left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code" &
-                    " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' group by TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc"
+                    " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' group by TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc"
         End If
 
         dt = clsDBFuncationality.GetDataTable(Qry)
@@ -992,11 +1152,11 @@ Public Class FrmDispatchBulkSale
                     strQry += " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
                     strQry += " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No"
                     strQry += " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No"
-                    strQry += " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"
+                    strQry += " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"
                     rate = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strQry))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colStandardRate).Value = rate
                 End If
-                Dim strSOUOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'') from TSPL_SALES_ORDER_DETAIL_BULKSALE left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"))
+                Dim strSOUOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_SALES_ORDER_DETAIL_BULKSALE.Unit_code,'') from TSPL_SALES_ORDER_DETAIL_BULKSALE left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "' and isnull(TSPL_SALES_ORDER_MASTER_BULKSALE.Price_Code,'')='' and TSPL_SALES_ORDER_DETAIL_BULKSALE.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'"))
                 If clsCommon.myLen(strSOUOM) > 0 Then
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value = clsCommon.myCstr(strSOUOM)
                 Else
@@ -1057,7 +1217,7 @@ Public Class FrmDispatchBulkSale
         'FndPriceCode.Value = ClsBulkSalePriceChart.getFinder(whrcls, FndPriceCode.Value, isButtonClicked)
 
         If clsCommon.myLen(FndPriceCode.Value) > 0 Then
-            dt = clsDBFuncationality.GetDataTable("Select Price_Code ,Fat_Weightage,Snf_Weightage,Fat_Ratio,Snf_Ratio,Standard_Rate,TolerancePerPlus,TolerancePerMinus,Posted,TSRate from TSPL_BulkSalePrice_MASTER where Price_Code='" + FndPriceCode.Value + "'")
+            dt = clsDBFuncationality.GetDataTable("Select Price_Code ,Fat_Weightage,Snf_Weightage,Fat_Ratio,Snf_Ratio,Standard_Rate,TolerancePerPlus,TolerancePerMinus,Posted,TSRate,UOM from TSPL_BulkSalePrice_MASTER where Price_Code='" + FndPriceCode.Value + "'")
             If dt.Rows.Count > 0 Then
                 ''richa agarwal 18/12/2014
                 TxtFatWeightage.Value = clsCommon.myCdbl(dt.Rows(0)("Fat_Weightage"))
@@ -1071,6 +1231,7 @@ Public Class FrmDispatchBulkSale
                 If ApplyTSPriceAtBulkSale = True Then
                     txtStanadardrate.Value = clsCommon.myCdbl(dt.Rows(0)("TSRate"))
                 End If
+                gv1.Rows(0).Cells(colUnitCode).Value = clsCommon.myCstr(dt.Rows(0)("UOM"))
                 UpdateCurrentRow(0)
             End If
         Else
@@ -1433,18 +1594,18 @@ Public Class FrmDispatchBulkSale
     End Sub
     Private Function AllowToSave() As Boolean
         ' KUNAL > TICKET : BM00000009609 > Modified Date : 22-09-2016
-        If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
-            txtDate.Focus()
-            txtDate.Select()
-            Return False
-        End If
+        'If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+        '    txtDate.Focus()
+        '    txtDate.Select()
+        '    Return False
+        'End If
 
 
-        If clsCommon.myLen(lblCustomerCode.Text) <= 0 Then
-            lblCustomerCode.Focus()
-            Throw New Exception("Customer No cannot be left blank")
-        End If
-        If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, QC_Date,103) from TSPL_Quality_Check_BulkSale where QC_No ='" + LblQCCode.Text + "'")) > clsCommon.myCDate(txtDate.Value) Then
+        'If clsCommon.myLen(lblCustomerCode.Text) <= 0 Then
+        '    lblCustomerCode.Focus()
+        '    Throw New Exception("Customer No cannot be left blank")
+        'End If
+        If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, QC_Date,103) from TSPL_Quality_Check_BulkSale where QC_No ='" + LblQCCode1.Text + "'")) > clsCommon.myCDate(txtDate.Value) Then
             txtDate.Focus()
             Throw New Exception("Date cannot be less than from QC No Date")
         End If
@@ -1452,10 +1613,10 @@ Public Class FrmDispatchBulkSale
             FndTankerCode.Focus()
             Throw New Exception("Tanker No cannot be left blank")
         End If
-        If clsCommon.myLen(LblQCCode.Text) <= 0 Then
-            LblQCCode.Focus()
-            Throw New Exception("Qc No cannot be left blank")
-        End If
+        'If clsCommon.myLen(LblQCCode1.Text) <= 0 Then
+        '    LblQCCode1.Focus()
+        '    Throw New Exception("Qc No cannot be left blank")
+        'End If
         If ApplyTSPriceAtBulkSale = False Then
             If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
                 FndPriceCode.Focus()
@@ -1514,7 +1675,7 @@ Public Class FrmDispatchBulkSale
             ''richa agarwal 28/02/2016 apply tolerance limit and check stock qty 
             Dim balqty As Double = 0
             Dim dispatchqty As Double = clsCommon.myCdbl(gv1.Rows(i).Cells(colQty).Value)
-            Dim SubLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsNull(Silo_No,'')  from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No=(Select LoadingTanker_No  from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode.Text + "')"))
+            Dim SubLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsNull(Silo_No,'')  from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No=(Select LoadingTanker_No  from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode1.Text + "')"))
 
             If clsCommon.myLen(SubLocation) > 0 Then
                 balqty = ClsLoadingTanker.getBalance(clsCommon.myCstr(gv1.Rows(i).Cells(colItemCode).Value), lblLocationCode.Text, SubLocation, txtDocNo.Value, txtDate.Value, Nothing, "KG")
@@ -1539,7 +1700,7 @@ Public Class FrmDispatchBulkSale
              " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No " &
             " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No " &
              " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No " &
-             " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "'   "
+             " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "'   "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
                 If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
@@ -1604,6 +1765,7 @@ Public Class FrmDispatchBulkSale
         Dim objApproval As New clsApply_Approval()
         Dim obj As New ClsDispatchBulkSale()
         Dim objTr As New clsDispatchDetailBulkSale
+        Dim objSilo As New clsSiloDetailBulkSale
         Try
             If AllowNLevel Then
                 If Not AllowModifcationByApprovalUser Then
@@ -1614,10 +1776,11 @@ Public Class FrmDispatchBulkSale
 
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
-                obj.Customer_Code = lblCustomerCode.Text
-                obj.QC_Code = LblQCCode.Text
+                'obj.Customer_Code = lblCustomerCode.Text
+                obj.Customer_Code = fndCustomerNo.Value
+                obj.QC_Code = LblQCCode1.Text
                 obj.Tanker_Code = FndTankerCode.Value
-                obj.Location_Code = lblLocationCode.Text
+                obj.Location_Code = TxtLocCode.Value
                 obj.Dip_marking = TxtDipMarking.Text
                 obj.Challan_No = TxtChallanNo.Text
                 obj.Insurance_No = txtinsuranceno.Text
@@ -1771,6 +1934,25 @@ Public Class FrmDispatchBulkSale
                     obj.arrDispatchDetailBulkSale.Add(objTr)
                 Next
 
+                obj.arrSiloDetailBulkSale = New List(Of clsSiloDetailBulkSale)
+                For Each grow As GridViewRowInfo In gvSiloDetails.Rows
+
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colSlNoSilo).Value)) > 0 Then
+                        objSilo = New clsSiloDetailBulkSale()
+                        objSilo.Document_No = clsCommon.myCstr(obj.Document_No)
+                        objSilo.SILO = clsCommon.myCstr(grow.Cells(colSilo).Value)
+                        objSilo.Silo_Qty = clsCommon.myCstr(grow.Cells(colQtySilo).Value)
+                        objSilo.Silo_FatPer = clsCommon.myCstr(grow.Cells(colFatPerSilo).Value)
+                        objSilo.Silo_Fat_KG = clsCommon.myCdbl(grow.Cells(colFatKGSilo).Value)
+                        objSilo.Silo_SNFPer = clsCommon.myCdbl(grow.Cells(colSNFPerSilo).Value)
+                        objSilo.Silo_SNF_KG = clsCommon.myCdbl(grow.Cells(colSNFKGSilo).Value)
+
+                        If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colSilo).Value)) > 0 Then
+                            obj.arrSiloDetailBulkSale.Add(objSilo)
+                        End If
+                    End If
+
+                Next
 
                 If (ClsDispatchBulkSale.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_No)
@@ -1813,18 +1995,18 @@ Public Class FrmDispatchBulkSale
                 isNewEntry = False
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
-                lblCustomerCode.Text = obj.Customer_Code
-                lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code='" + lblCustomerCode.Text + "'")
+                fndCustomerNo.Value = obj.Customer_Code
+                lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustomerNo.Value + "'")
                 FndTankerCode.Value = obj.Tanker_Code
                 txtTransporter.Value = obj.Transporter
                 lblTransporterName.Text = clsDBFuncationality.getSingleValue("Select Vendor_Name  from tspl_vendor_master where Vendor_Code='" + txtTransporter.Value + "'")
 
-                LblQCCode.Text = obj.QC_Code
+                LblQCCode1.Text = obj.QC_Code
                 TxtChallanNo.Text = obj.Challan_No
                 txtinsuranceno.Text = obj.Insurance_No
                 txtsealno.Text = obj.Seal_No
-                lblLocationCode.Text = obj.Location_Code
-                LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" + lblLocationCode.Text + "' ")
+                TxtLocCode.Value = obj.Location_Code
+                LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" + TxtLocCode.Value + "' ")
                 txtGrossWeight.Value = obj.Gross_Weight
                 TxtTareWeight.Value = obj.Tare_Weight
                 txtNetWeight.Value = obj.Net_Weight
@@ -1952,8 +2134,22 @@ Public Class FrmDispatchBulkSale
                 ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
                     rbtnTaxCalManual.IsChecked = True
                 End If
-
-
+                LoadBlankGridSiloDetails()
+                If obj.arrSiloDetailBulkSale IsNot Nothing AndAlso obj.arrSiloDetailBulkSale.Count > 0 Then
+                    For Each objTr As clsSiloDetailBulkSale In obj.arrSiloDetailBulkSale
+                        ' gvSiloDetails.Rows.AddNew()
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSlNoSilo).Value = gvSiloDetails.Rows.Count
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colItemCodeSilo).Value = "Raw Milk"
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colQtySilo).Value = objTr.Silo_Qty
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSilo).Value = objTr.SILO
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSilo).Value = objTr.SILO
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSNFKGSilo).Value = objTr.Silo_SNF_KG
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSNFPerSilo).Value = objTr.Silo_SNFPer
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colFatPerSilo).Value = objTr.Silo_FatPer
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colFatKGSilo).Value = objTr.Silo_Fat_KG
+                        gvSiloDetails.Rows.AddNew()
+                    Next
+                End If
                 If obj.arrDispatchDetailBulkSale IsNot Nothing AndAlso obj.arrDispatchDetailBulkSale.Count > 0 Then
                     For Each objTr As clsDispatchDetailBulkSale In obj.arrDispatchDetailBulkSale
                         If ApplyMultiChamber Then
@@ -2034,7 +2230,7 @@ Public Class FrmDispatchBulkSale
                             strpivotcol = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
                             If clsCommon.myLen(strpivotcol) > 0 Then
                                 Qry = "select Item_Code,Type,Fat,SNF,CLR,Unit_Code,Chamber_Desc,NetWeight," + strpivotcol + " from (select (TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,(TSPL_ITEM_MASTER.Product_Type) AS Type,(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,(xx.Net_Weight) as NetWeight ,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Value" &
-                                        " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode.Text + "' and xx.Chamber_Desc='" + clsCommon.myCstr(objTr.Chamber_Desc) + "' ) as st " &
+                                        " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and xx.Chamber_Desc='" + clsCommon.myCstr(objTr.Chamber_Desc) + "' ) as st " &
                                         " PIVOT ( MAX(PARAM_FIELD_VALUE) FOR PARAM_FIELD_DESC IN (" + strpivotcol + ")) AS PT ORDER BY Chamber_Desc"
                             End If
                             dt = clsDBFuncationality.GetDataTable(Qry)
@@ -3159,6 +3355,334 @@ Public Class FrmDispatchBulkSale
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub gvSiloDetails_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvSiloDetails.CurrentColumnChanged
+        If gvSiloDetails.RowCount > 0 Then
+            Dim intCurrRow As Integer = gvSiloDetails.CurrentRow.Index
+            gvSiloDetails.CurrentRow.Cells(colSlNoSilo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If intCurrRow = gvSiloDetails.Rows.Count - 1 Then
+                gvSiloDetails.Rows.AddNew()
+                'gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSlNoSilo).Value = "TOTAL"
+
+                gvSiloDetails.CurrentRow = gvSiloDetails.Rows(intCurrRow)
+            End If
+        End If
+    End Sub
+
+    Private Sub gvSiloDetails_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gvSiloDetails.UserDeletingRow
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub gvSiloDetails_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gvSiloDetails.UserDeletedRow
+        'UpdateAllTotals()
+        For ii As Integer = 1 To gvSiloDetails.Rows.Count
+            gvSiloDetails.Rows(ii - 1).Cells(colSlNoSilo).Value = ii
+        Next
+    End Sub
+
+    Private Sub gvSiloDetails_CellBeginEdit(sender As Object, e As GridViewCellCancelEventArgs) Handles gvSiloDetails.CellBeginEdit
+        If TypeOf Me.gvSiloDetails.CurrentColumn Is GridViewTextBoxColumn Then
+            Dim editor As RadTextBoxEditor = DirectCast(Me.gvSiloDetails.ActiveEditor, RadTextBoxEditor)
+            Dim editorElement As RadTextBoxElement = DirectCast(editor.EditorElement, RadTextBoxElement)
+
+        End If
+    End Sub
+
+    Private Sub gvSiloDetails_UserAddedRow(sender As Object, e As GridViewRowEventArgs) Handles gvSiloDetails.UserAddedRow
+        For i As Integer = 0 To gvSiloDetails.Rows.Count - 1
+            gvSiloDetails.Rows(0).Cells(0).Value = 1
+            If i <> 0 Then
+                gvSiloDetails.Rows(i).Cells(colSlNoSilo).Value = i + 1
+            End If
+        Next
+    End Sub
+
+    Private Sub gvSiloDetails_KeyUp(sender As Object, e As KeyEventArgs) Handles gvSiloDetails.KeyUp
+        If e.KeyCode = Keys.Home Then
+            If gvSiloDetails.Rows.Count = gvSiloDetails.CurrentRow.Index + 1 Then
+                gvSiloDetails.Rows.AddNew()
+            End If
+            gvSiloDetails.CurrentRow = gvSiloDetails.Rows(gvSiloDetails.CurrentRow.Index + 1)
+
+        End If
+    End Sub
+
+    Private Sub gvSiloDetails_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSiloDetails.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            gvSiloDetails.BeginEdit()
+        End If
+    End Sub
+
+    Private Sub OpenSilo(ByVal isButtonClick As Boolean)
+        If clsCommon.myLen(TxtLocCode.Value) <= 0 Then
+            TxtLocCode.Focus()
+            Throw New Exception("Location Code cannot be left blank")
+        End If
+        Dim Qry As String = "  Select Location_Code as Code,Location_Desc from TSPL_LOCATION_MASTER  "
+        Dim whrcls As String = " Main_Location_Code ='" + TxtLocCode.Value + "'"
+
+        gvSiloDetails.CurrentRow.Cells(colSilo).Value = clsCommon.ShowSelectForm("TtS@vlc", Qry, "Code", whrcls, clsCommon.myCstr(gvSiloDetails.CurrentRow.Cells(colSilo).Value), "Code", isButtonClick)
+        gvSiloDetails.CurrentRow.Cells(colItemCodeSilo).Value = "Raw Milk"
+        isInsideLoadData = True
+        isInsideLoadData = False
+    End Sub
+
+
+    Private Sub gvSiloDetails_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSiloDetails.CellValueChanged
+        Try
+            'gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSlNoSilo).Value = "TOTAL"
+            'setGridTotalSilo()
+            'isInsideLoadData = False
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column.FieldName.StartsWith("_CFLD_") Then
+                        clsCustomFieldGrid.getFinderForCustomFieldGrid(gvSiloDetails, e.Column.Name.ToString, MyBase.Form_ID)
+                    End If
+                    If (clsCommon.CompairString(e.Column.Name, colSilo) = CompairStringResult.Equal) Then
+                        OpenSilo(False)
+                    End If
+                    If (clsCommon.CompairString(e.Column.Name, colFatPerSilo) = CompairStringResult.Equal) Then
+                        Dim SiloQty As Decimal = 0
+                        Dim SiloFatper As Decimal = 0
+                        Dim SiloFatkg As Decimal = 0
+                        SiloQty = gvSiloDetails.CurrentRow.Cells(colQtySilo).Value
+                        SiloFatper = gvSiloDetails.CurrentRow.Cells(colFatPerSilo).Value
+                        'SiloFatkg = clsCommon.myCdbl(SiloQty * SiloFatper)
+                        SiloFatkg = Math.Round(((SiloQty * SiloFatper) / 100), 2)
+                        gvSiloDetails.CurrentRow.Cells(colFatKGSilo).Value = clsCommon.myCdbl(SiloFatkg)
+                        gvSiloDetails.CurrentRow.Cells(colFatKGSilo).ReadOnly = True
+                        'UpdategridTotals()
+                        'setGridTotalSilo()
+                        'OpenSilo(False)
+                    End If
+                    If (clsCommon.CompairString(e.Column.Name, colFatKGSilo) = CompairStringResult.Equal) Then
+                        Dim SiloQty As Decimal = 0
+                        Dim SiloFatper As Decimal = 0
+                        Dim SiloFatkg As Decimal = 0
+                        SiloQty = gvSiloDetails.CurrentRow.Cells(colQtySilo).Value
+                        SiloFatkg = gvSiloDetails.CurrentRow.Cells(colFatKGSilo).Value
+                        SiloFatper = clsCommon.myCdbl(SiloQty / SiloFatkg)
+                        gvSiloDetails.CurrentRow.Cells(colFatPerSilo).Value = clsCommon.myCdbl(SiloFatper)
+                        gvSiloDetails.CurrentRow.Cells(colFatPerSilo).ReadOnly = True
+                        'UpdategridTotals()
+                        'setGridTotalSilo()
+                        'OpenSilo(False)
+                    End If
+                    If (clsCommon.CompairString(e.Column.Name, colSNFKGSilo) = CompairStringResult.Equal) Then
+                        Dim SiloQty As Decimal = 0
+                        Dim SiloSnfper As Decimal = 0
+                        Dim SiloSnfkg As Decimal = 0
+                        SiloQty = gvSiloDetails.CurrentRow.Cells(colQtySilo).Value
+                        SiloSnfkg = gvSiloDetails.CurrentRow.Cells(colSNFKGSilo).Value
+                        SiloSnfper = clsCommon.myCdbl(SiloQty / SiloSnfkg)
+                        gvSiloDetails.CurrentRow.Cells(colSNFPerSilo).Value = clsCommon.myCdbl(SiloSnfper)
+                        gvSiloDetails.CurrentRow.Cells(colSNFPerSilo).ReadOnly = True
+                        'UpdategridTotals()
+                        'setGridTotalSilo()
+                        'OpenSilo(False)
+                    End If
+                    If (clsCommon.CompairString(e.Column.Name, colSNFPerSilo) = CompairStringResult.Equal) Then
+                        Dim SiloQty As Decimal = 0
+                        Dim SiloSnfper As Decimal = 0
+                        Dim SiloSnfkg As Decimal = 0
+                        SiloQty = gvSiloDetails.CurrentRow.Cells(colQtySilo).Value
+                        SiloSnfper = gvSiloDetails.CurrentRow.Cells(colSNFPerSilo).Value
+                        'SiloSnfkg = clsCommon.myCdbl(SiloQty * SiloSnfper)
+                        SiloSnfkg = Math.Round(((SiloQty * SiloSnfper) / 100), 2)
+                        gvSiloDetails.CurrentRow.Cells(colSNFKGSilo).Value = clsCommon.myCdbl(SiloSnfkg)
+                        gvSiloDetails.CurrentRow.Cells(colSNFKGSilo).ReadOnly = True
+                        'UpdategridTotals()
+                        'setGridTotalSilo()
+                        'OpenSilo(False)
+                    End If
+                    If e.Column Is gvSiloDetails.Columns(colQtySilo) Or e.Column Is gvSiloDetails.Columns(colFatKGSilo) Or e.Column Is gvSiloDetails.Columns(colFatPerSilo) Or e.Column Is gvSiloDetails.Columns(colSNFKGSilo) Or e.Column Is gvSiloDetails.Columns(colSNFPerSilo) Then
+                        UpdategridTotals()
+                    End If
+                    For ii As Integer = 0 To gv1.Rows.Count - 1
+                        UpdateCurrentRow(ii)
+                    Next
+
+                    'UpdateAllTotals()
+                    isCellValueChangedOpen = False
+                End If
+            End If
+        Catch ex As Exception
+            isInsideLoadData = False
+            isCellValueChangedOpen = False
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+        End Try
+
+    End Sub
+
+    Sub UpdategridTotals()
+        Try
+            Dim qtyValue As Decimal = 0
+            Dim FatPerValue As Decimal = 0
+            Dim SnfPerValue As Decimal = 0
+            Dim FatkgValue As Decimal = 0
+            Dim SNFKgValue As Decimal = 0
+            For Each grow As GridViewRowInfo In gvSiloDetails.Rows
+                qtyValue += clsCommon.myCdbl(grow.Cells(colQtySilo).Value)
+                FatPerValue += clsCommon.myCdbl(grow.Cells(colFatPerSilo).Value)
+                SnfPerValue += clsCommon.myCdbl(grow.Cells(colSNFPerSilo).Value)
+                FatkgValue += clsCommon.myCdbl(grow.Cells(colFatKGSilo).Value)
+                SNFKgValue += clsCommon.myCdbl(grow.Cells(colSNFKGSilo).Value)
+            Next
+            FatPerValue = FatkgValue * 100 / qtyValue
+            SnfPerValue = SNFKgValue * 100 / qtyValue
+            If gvSiloDetails.CurrentColumn Is gvSiloDetails.Columns(colQtySilo) Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = qtyValue
+            ElseIf gvSiloDetails.CurrentColumn Is gvSiloDetails.Columns(colFatKGSilo) Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colFatKG).Value = FatkgValue
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colFatPer).Value = FatPerValue
+            ElseIf gvSiloDetails.CurrentColumn Is gvSiloDetails.Columns(colSNFKGSilo) Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFKG).Value = SNFKgValue
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = SnfPerValue
+            ElseIf gvSiloDetails.CurrentColumn Is gvSiloDetails.Columns(colFatPerSilo) Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colFatPer).Value = FatPerValue
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colFatKG).Value = FatkgValue
+            ElseIf gvSiloDetails.CurrentColumn Is gvSiloDetails.Columns(colSNFPerSilo) Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = SnfPerValue
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFKG).Value = SNFKgValue
+            End If
+            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Item_Code  from TSPL_ITEM_MASTER where Item_Desc ='Raw Milk' "))
+            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemDesc).Value = "Raw Milk"
+            gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNCode).Value = ""
+            gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value = ""
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub setGridTotalSilo()
+        Try
+
+            'Dim intCurrRow As Integer? = Nothing
+            'Dim DedAmount As Double = 0
+            'Dim dblPayHeadAmount As Double = 0
+            'For ii As Integer = 0 To gvSiloDetails.Rows.Count - 1
+            '    If (clsCommon.myLen(gvSiloDetails.Rows(ii).Cells(colSlNoSilo).Value) > 0) AndAlso clsCommon.CompairString(clsCommon.myCstr(gvSiloDetails.Rows(ii).Cells(colSlNoSilo).Value), "TOTAL") <> CompairStringResult.Equal Then
+            '        dblQtySilo += dblQtySilo + clsCommon.myCdbl(gvSiloDetails.Rows(ii).Cells(colQtySilo).Value)
+            '        dblFatperSilo += dblFatperSilo + clsCommon.myCdbl(gvSiloDetails.Rows(ii).Cells(colFatPerSilo).Value)
+            '        dblSnfperSilo += dblSnfperSilo + clsCommon.myCdbl(gvSiloDetails.Rows(ii).Cells(colSNFPerSilo).Value)
+            '        dblFatkgSilo += dblFatkgSilo + clsCommon.myCdbl(gvSiloDetails.Rows(ii).Cells(colFatKGSilo).Value)
+            '        dblSnfkgSilo += dblSnfkgSilo + clsCommon.myCdbl(gvSiloDetails.Rows(ii).Cells(colSNFKGSilo).Value)
+            '    ElseIf clsCommon.CompairString(clsCommon.myCstr(gvSiloDetails.Rows(ii).Cells(colSlNoSilo).Value), "TOTAL") = CompairStringResult.Equal Then
+            '        intCurrRow = ii
+            '    End If
+            'Next
+            ' gvSalary.Rows(intCurrRow).Cells(colRateAmount).Value = dblAmount
+            'Dim finalamt As Double = dblPayHeadAmount - DedAmount
+            'gvSiloDetails.Rows(intCurrRow).Cells(colQtySilo).Value = dblQtySilo
+            'gvSiloDetails.Rows(intCurrRow).Cells(colFatPerSilo).Value = dblFatperSilo
+            'gvSiloDetails.Rows(intCurrRow).Cells(colSNFPerSilo).Value = dblSnfperSilo
+            'gvSiloDetails.Rows(intCurrRow).Cells(colFatKGSilo).Value = dblFatkgSilo
+            'gvSiloDetails.Rows(intCurrRow).Cells(colSNFKGSilo).Value = dblSnfkgSilo
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub UpdateSummary()
+        Try
+            Dim totalQty As Decimal = 0
+            Dim totalFatKG As Decimal = 0
+            Dim totalSNFKG As Decimal = 0
+
+            For Each row As Telerik.WinControls.UI.GridViewRowInfo In gvSiloDetails.Rows
+
+                'For Each row As DataGridViewRow In gvSiloDetails.Rows
+                'If Not TypeOf row Is GridViewDataRowInfo Then Continue For
+
+                'If row.IsNewRow Then Continue For
+
+                totalQty += Val(row.Cells("Quantity").Value)
+                totalFatKG += Val(row.Cells("FAT KG").Value)
+                totalSNFKG += Val(row.Cells("SNF KG").Value)
+            Next
+
+            ' Clear previous summary
+            gv1.Rows.Clear()
+
+            ' Add summary row
+            gv1.Rows.Add()
+            gv1.Rows(0).Cells("Quantity").Value = totalQty
+            gv1.Rows(0).Cells("FAT KG").Value = totalFatKG
+            gv1.Rows(0).Cells("SNF KG").Value = totalSNFKG
+
+        Catch ex As Exception
+            MessageBox.Show("Summary error: " & ex.Message)
+        End Try
+    End Sub
+
+
+
+    Private Sub gvSiloDetails_CellEndEdit(sender As Object, e As GridViewCellEventArgs) Handles gvSiloDetails.CellEndEdit
+        Try
+            'Dim colName As String = e.Column.Name
+            'If colName <> "Quantity" OrElse colName <> "FatKG" OrElse colName <> "SNFKG" OrElse colName <> "FatPer" OrElse colName <> "SNFPer" Then
+            '    Exit Sub
+            'End If
+            'UpdateSummary()
+            'Dim rowIndex As Integer = e.RowIndex
+            'Dim columnName As String = gvSiloDetails.Columns(e.ColumnIndex).Name
+
+            'Dim qty As Decimal = Val(gvSiloDetails.Rows(rowIndex).Cells("Qty").Value)
+            'Dim fatper As Decimal = Val(gvSiloDetails.Rows(rowIndex).Cells("FatPer").Value)
+            'Dim fatkg As Decimal = Val(gvSiloDetails.Rows(rowIndex).Cells("FatKG").Value)
+            'Dim snfper As Decimal = Val(gvSiloDetails.Rows(rowIndex).Cells("SNFPer").Value)
+            'Dim snfkg As Decimal = Val(gvSiloDetails.Rows(rowIndex).Cells("SNFKG").Value)
+
+            '' === FAT Logic ===
+            'If columnName = "Qty" Or columnName = "FatPer" Then
+            '    ' FatKG = (Qty * FatPer) / 100
+            '    fatkg = (qty * fatper) / 100
+            '    gvSiloDetails.Rows(rowIndex).Cells("FatKG").Value = Math.Round(fatkg, 2)
+            'ElseIf columnName = "FatKG" Then
+            '    ' FatPer = (FatKG / Qty) * 100
+            '    If qty > 0 Then
+            '        fatper = (fatkg / qty) * 100
+            '        gvSiloDetails.Rows(rowIndex).Cells("FatPer").Value = Math.Round(fatper, 2)
+            '    End If
+            'End If
+
+            '' === SNF Logic ===
+            'If columnName = "Qty" Or columnName = "SNFPer" Then
+            '    snfkg = (qty * snfper) / 100
+            '    gvSiloDetails.Rows(rowIndex).Cells("SNFKG").Value = Math.Round(snfkg, 2)
+            'ElseIf columnName = "SNFKG" Then
+            '    If qty > 0 Then
+            '        snfper = (snfkg / qty) * 100
+            '        gvSiloDetails.Rows(rowIndex).Cells("SNFPer").Value = Math.Round(snfper, 2)
+            '    End If
+            'End If
+
+            '' === Reflect All to Grid2 ===
+            'If gv1.Rows.Count <= rowIndex Then
+            '    gv1.Rows.Add()
+            'End If
+
+            'gv1.Rows(rowIndex).Cells("Qty").Value = qty
+            'gv1.Rows(rowIndex).Cells("FatPer").Value = fatper
+            'gv1.Rows(rowIndex).Cells("FatKG").Value = fatkg
+            'gv1.Rows(rowIndex).Cells("SNFPer").Value = snfper
+            'gv1.Rows(rowIndex).Cells("SNFKG").Value = snfkg
+
+        Catch ex As Exception
+            MessageBox.Show("Error during calculation: " & ex.Message)
+        End Try
+
+
+    End Sub
+
+    Private Sub TxtLocCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtLocCode._MYValidating
+        TxtLocCode.Value = clsLocation.getFinder("", fndCustomerNo.Value, isButtonClicked)
+        LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER WHERE Location_Code  ='" + TxtLocCode.Value + "' ")
+    End Sub
+
 
     Private Sub BlankTaxDetails(ByVal intRowNo As Integer, ByVal isBlankRate As Boolean)
         For ii As Integer = 1 To 5
