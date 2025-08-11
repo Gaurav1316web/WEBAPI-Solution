@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim AllowAddOrEditItems As Boolean = True
     Dim ApplyMonthEndDispatch As Boolean = True
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
@@ -2889,6 +2890,7 @@ Public Class frmShipmentDairy
         repoRowType.Name = colRowType
         repoRowType.Width = 50
         repoRowType.ReadOnly = False
+        repoRowType.IsVisible = False
         repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         repoRowType.DataSource = GetItemType()
         repoRowType.ValueMember = "Code"
@@ -2950,6 +2952,7 @@ Public Class frmShipmentDairy
         repoIStruct.Name = colIStruct
         repoIStruct.Width = 150
         repoIStruct.ReadOnly = True
+        repoIStruct.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoIStruct)
         Dim repoPriceDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoPriceDate.Format = DateTimePickerFormat.Custom
@@ -10333,6 +10336,9 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             AddNew()
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.E Then
             btnprinte_wayBill.Visible = True
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F8 Then
+            AllowAddOrEditItems = True
+            clsCommon.MyMessageBoxShow(Me, "Allow Add or Edit Items Enabled")
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
             ' done by priti GKD/05/06/18-000144
             If (AllowToSave(False)) Then
@@ -15943,8 +15949,10 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
             gvDistributor.Columns("Trip_No").HeaderText = "Trip No"
             gvDistributor.Columns("Commission_Amt").HeaderText = "Commission Amt"
             gvDistributor.Columns("Security_Amt").HeaderText = "Security Amt"
+            If Not AllowAddOrEditItems Then
+                gv1.ReadOnly = True
+            End If
 
-            gv1.ReadOnly = True
             ' txtRouteNo.Enabled = False
         End If
     End Sub
@@ -16504,7 +16512,9 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
             gvCC.Columns("Document_Code").HeaderText = "Document Code"
             gvCC.Columns("Sale_Invoice_No").HeaderText = "Invoice No"
             gvCC.Columns("Customer_Code").HeaderText = "Customer Code"
-            gv1.ReadOnly = True
+            If Not AllowAddOrEditItems Then
+                gv1.ReadOnly = True
+            End If
             ' txtRouteNo.Enabled = False
         End If
     End Sub
