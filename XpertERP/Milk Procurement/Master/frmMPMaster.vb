@@ -2820,6 +2820,12 @@ Public Class FrmMPMaster
                                 Else
                                     Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
                                 End If
+
+                                Dim qry As String = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
+                                dt = clsDBFuncationality.GetDataTable(qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") Duplicate account no [" + obj.AccountNO + "]")
+                                End If
                                 Arr.Add(obj)
                             Catch ex As Exception
                                 Dim dr As DataRow = dtError.NewRow()

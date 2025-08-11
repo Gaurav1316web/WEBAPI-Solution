@@ -712,7 +712,6 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
-                                clsFixedParameterCode
                                 Dim isThereOnlyOneRowOfOwnDCS As Boolean = False
                                 Dim ROIncreaseAfter As Integer = 6
                                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then

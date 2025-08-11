@@ -759,9 +759,9 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
         Dim strMain As String = ""
         If isCheckOnly Then
             strMain = "With CTE as ( " + BaseQry + ")
-select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,STRING_AGG(VLC_CODE_Uploader,',') as MPUploaderCode from  CTE  group by  Payee_Joint_Account_No having sum(1)>1
+select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,STRING_AGG(VLC_CODE_Uploader,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(Payee_Joint_Name,',') as MPPayeeName,STRING_AGG(VLC_Code_VLC_Uploader,',') as DCSUploaderCode  from  CTE  group by  Payee_Joint_Account_No having sum(1)>1
 union all
-select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name;"
+select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name;"
 
         Else
             Qry = "select   ROW_NUMBER() OVER (ORDER BY Bank_Code,MCC_Code,VLC_Code_VLC_Uploader) AS [" + clsDBTNEFTPerforma.colSlNo + "],MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],PK_Id as [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Bank_Code as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xxx "
