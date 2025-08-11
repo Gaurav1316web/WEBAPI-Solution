@@ -804,8 +804,7 @@ select MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],VLC_Code_VLC_Upload
         Try
             Dim msg As String = ""
             Dim qry As String = "With CTE as (
-select MP_Account_No,MP_Uploader_Code,MP_Name from TSPL_DBT_NEFT_DETAIL where Document_Code='" & txtDocumentNo.Value & "'  
-)
+select MP_Account_No,MP_Uploader_Code,MP_Name from TSPL_DBT_NEFT_DETAIL where Document_Code='" & txtDocumentNo.Value & "' )
 select 'Repeated Account No' as ErrorCode,MP_Account_No as ErrorValue,STRING_AGG(MP_Uploader_Code,',') as MPUploaderCode from  CTE  group by  MP_Account_No having sum(1)>1
 union all
 select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name;"

@@ -14375,6 +14375,10 @@ Public Class clsCreateAllTable
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
             coll.Add("CFP_Unit", "char(1)  NULL")
+            coll.Add("IsAMCU", "integer Null")
+            coll.Add("BrandName", "varchar(30) NULL")
+            coll.Add("SerailNo", "varchar(30) NULL")
+            coll.Add("AMCU_FILE_INFO", "integer Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
