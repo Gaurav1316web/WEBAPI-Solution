@@ -713,10 +713,11 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             If clsCommon.myCdbl(dt.Rows(0)("isOwnBMC")) = 1 Then
                                 clsFixedParameterCode
-                                Dim isThereOnlyOneRowOfOwnDCS As Boolean = clsFixedParameter.GetData(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, trans)
+                                Dim isThereOnlyOneRowOfOwnDCS As Boolean = False
                                 Dim ROIncreaseAfter As Integer = 6
                                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                                     ROIncreaseAfter = 5
+                                    isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, trans)) = 1)
                                     If isThereOnlyOneRowOfOwnDCS Then
                                         qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'"
                                         isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)

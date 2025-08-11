@@ -2926,7 +2926,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
-        InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adust qty of own row of when ther is only one row of DCS")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, "E:\XpertServices\XpertFileUpload\Upload", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, "100000", "Define Document Amount Range For Other State B2C Large/Small")
