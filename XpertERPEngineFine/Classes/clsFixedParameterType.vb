@@ -2,7 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
-
+    Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
     Public Const DefaultFilesPath As String = "Default File Path"
     Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
@@ -1351,6 +1351,7 @@ Public Class clsFixedParameterType
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
 End Class
 Public Class clsFixedParameterCode
+    Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
     Public Const DefaultFilesPath As String = "Default File Path"
@@ -2925,6 +2926,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adust qty of own row of when ther is only one row of DCS")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, "E:\XpertServices\XpertFileUpload\Upload", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, "100000", "Define Document Amount Range For Other State B2C Large/Small")
@@ -4545,6 +4547,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, EnumControlType.TextBox)
