@@ -400,7 +400,7 @@ left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=T
 left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
 left join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
 left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtDemandDate.Value) & "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" & txtItemCode.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" & txtUOM.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.Qty>='" & txtMinCrate.Text & "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='" & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "'"
+where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtDemandDate.Value) & "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" & txtItemCode.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.Unit_code='" & txtUOM.Value & "' and TSPL_DEMAND_BOOKING_MASTER.ShiftType='" & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "'"
                     If txtZoneCode.arrValueMember IsNot Nothing Then
                         If txtRouteCode.arrValueMember IsNot Nothing Then
                             qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No in(" & clsCommon.GetMulcallString(txtRouteCode.arrValueMember) & ")"
