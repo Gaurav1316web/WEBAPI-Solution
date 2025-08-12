@@ -9,7 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
-    Dim AllowAddOrEditItems As Boolean = True
+    'Dim AllowAddOrEditItems As Boolean = True
     Dim ApplyMonthEndDispatch As Boolean = True
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
@@ -6987,9 +6987,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
             If SettDistributorWiseBilling Then
-                If Not AllowAddOrEditItems Then
-                    MergeDistributorItems(True, False, trans)
-                End If
+                MergeDistributorItems(True, False, trans)
+
             End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
@@ -7872,7 +7871,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                 End If
                 Dim BoothCode As String = ""
-                If Not IsOnlyCreditCust OrElse (AllowAddOrEditItems AndAlso clsCommon.myLen(txtDocNo.Value) >= 0) Then
+                If Not IsOnlyCreditCust Then
                     txtTransNo.Text = txtVendorNo.Value
                     SaveData(False, trans)
                 Else
@@ -10338,9 +10337,6 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             AddNew()
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.E Then
             btnprinte_wayBill.Visible = True
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F8 Then
-            AllowAddOrEditItems = True
-            clsCommon.MyMessageBoxShow(Me, "Allow Add or Edit Items Enabled")
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
             ' done by priti GKD/05/06/18-000144
             If (AllowToSave(False)) Then
@@ -15953,9 +15949,9 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
             gvDistributor.Columns("Trip_No").HeaderText = "Trip No"
             gvDistributor.Columns("Commission_Amt").HeaderText = "Commission Amt"
             gvDistributor.Columns("Security_Amt").HeaderText = "Security Amt"
-            If Not AllowAddOrEditItems Then
-                gv1.ReadOnly = True
-            End If
+
+            gv1.ReadOnly = True
+
 
             ' txtRouteNo.Enabled = False
         End If
@@ -16516,9 +16512,9 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
             gvCC.Columns("Document_Code").HeaderText = "Document Code"
             gvCC.Columns("Sale_Invoice_No").HeaderText = "Invoice No"
             gvCC.Columns("Customer_Code").HeaderText = "Customer Code"
-            If Not AllowAddOrEditItems Then
-                gv1.ReadOnly = True
-            End If
+            'If Not AllowAddOrEditItems Then
+            gv1.ReadOnly = True
+            'End If
             ' txtRouteNo.Enabled = False
         End If
     End Sub

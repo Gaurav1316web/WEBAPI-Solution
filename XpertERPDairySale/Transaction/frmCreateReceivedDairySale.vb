@@ -3558,7 +3558,13 @@ Public Class frmCreateReceivedDairySale
                             'objTr.Customer_Code = strcustomer
 
                             objTr.Sale_Invoice_Date = strdate
-
+                            If clsCommon.myLen(strCustCode) > 0 Then
+                                objTr.Customer_Code = strCustCode
+                            End If
+                            If clsCommon.myLen(obj.Route_code) > 0 Then
+                                objTr.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vehicle_code from tspl_route_Master where Route_No='" & obj.Route_code & "'", trans))
+                                objTr.VehicleNo = clsDBFuncationality.getSingleValue("select Number  from TSPL_VEHICLE_MASTER where Vehicle_Id ='" & clsCommon.myCstr(objTr.Vehicle_Code) & "'", trans)
+                            End If
                             '=====update by preeti gupta Against ticket no[ERO/01/07/19-000663]
                             'objTr.Vehicle_Code = strVehicle
                             'objTr.VehicleNo = clsDBFuncationality.getSingleValue("Select Number from tspl_vehicle_master where vehicle_id='" & strVehicle & "'", trans)

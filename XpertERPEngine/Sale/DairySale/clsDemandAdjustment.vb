@@ -320,7 +320,7 @@ where Document_No='" & clsCommon.myCstr(objTr.TR_Code) & "' and Cust_Code='" & c
                             End If
 
                         Else
-                            clsCommon.ProgressBarPercentUpdate((((Rowcount) * 100) / lstDocNO.Count), "Updating TR Code -" & clsCommon.myCstr(objTr.TR_Code))
+                            clsCommon.ProgressBarPercentUpdate((((Rowcount) * 100) / obj.Arr.Count), "Updating TR Code -" & clsCommon.myCstr(objTr.TR_Code))
                             Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" & clsCommon.myCstr(objTr.Final_Qty) & "',TotalCrates_ItemWise='" & clsCommon.myCstr(objTr.TotalCrates_ItemWise) & "',TotalLtr_ItemWise='" & clsCommon.myCstr(objTr.TotalLtr_ItemWise) & "'
 ,Item_Rate='" & clsCommon.myCstr(objTr.Item_Rate) & "',ItemNetAmount='" & clsCommon.myCstr(objTr.ItemNetAmount) & "',TAX_Group='" & clsCommon.myCstr(objTr.TAX_Group) & "',
 TAX1='" & clsCommon.myCstr(objTr.TAX1) & "',TAX1_Rate='" & clsCommon.myCstr(objTr.TAX1_Rate) & "',TAX1_Amt='" & clsCommon.myCstr(objTr.TAX1_Amt) & "',TAX1_Base_Amt='" & clsCommon.myCstr(objTr.TAX1_Base_Amt) & "',
@@ -335,7 +335,7 @@ TAX9='" & clsCommon.myCstr(objTr.TAX9) & "',TAX9_Rate='" & clsCommon.myCstr(objT
 TAX10='" & clsCommon.myCstr(objTr.TAX10) & "',TAX10_Rate='" & clsCommon.myCstr(objTr.TAX10_Rate) & "',TAX10_Amt='" & clsCommon.myCstr(objTr.TAX10_Amt) & "',TAX10_Base_Amt='" & clsCommon.myCstr(objTr.TAX10_Base_Amt) & "'
 where TR_Code='" & clsCommon.myCstr(objTr.TR_Code) & "'"
                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                            Dim DcoNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_no from TSPL_DEMAND_BOOKING_DETAIL where TR_Code='" + objTr.TR_Code + "'", trans))
+                            Dim DcoNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_no from TSPL_DEMAND_BOOKING_DETAIL where TR_Code='" & objTr.TR_Code & "'", trans))
                             If Not lstDocNO.Contains(DcoNo) Then
                                 lstDocNO.Add(DcoNo)
                             End If

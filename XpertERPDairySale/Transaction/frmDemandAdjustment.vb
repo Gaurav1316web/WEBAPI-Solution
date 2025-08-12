@@ -236,6 +236,9 @@ Public Class frmDemandAdjustment
     End Sub
     Private Sub chkChangeItem_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkChangeItem.ToggleStateChanged
         If chkChangeItem.Checked Then
+            isChange = True
+            AddNew()
+
             rgbChangeProduct.Visible = True
             rbtnAll.IsChecked = True
             rgbMode.Visible = False
@@ -243,6 +246,9 @@ Public Class frmDemandAdjustment
             rgbIncreaseOrder.Visible = False
             rgbDecreaseOrder.Visible = False
         Else
+            isChange = False
+            AddNew()
+
             rgbChangeProduct.Visible = False
             rgbMode.Visible = True
             rgbIDOrder.Visible = True
@@ -497,6 +503,7 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
                     gv1.Rows(introw).Cells(colFinalQty).Value = totalFQty
                     If isChange Then
                         EnableGroup(False)
+                        rgbChangeProduct.Enabled = False
                     Else
                         EnableGroup(True)
                     End If
@@ -1504,18 +1511,18 @@ where TSPL_DEMAND_BOOKING_MASTER.Posted=0 and convert(date,TSPL_DEMAND_BOOKING_M
         End Try
     End Sub
 
-    Private Sub frmDemandAdjustment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If e.Alt AndAlso e.KeyCode = Keys.C Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIR
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                isChange = True
-                AddNew()
-            End If
-        End If
-    End Sub
+    'Private Sub frmDemandAdjustment_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+    '    If e.Alt AndAlso e.KeyCode = Keys.C Then
+    '        Dim frm As New FrmPWD(Nothing)
+    '        frm.strType = clsFixedParameterType.SIR
+    '        frm.strCode = clsFixedParameterCode.SIReversAndCreate
+    '        frm.ShowDialog()
+    '        If frm.isPasswordCorrect Then
+    '            isChange = True
+    '            AddNew()
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub rbtnAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnAll.ToggleStateChanged
         If rbtnAll.IsChecked Then
