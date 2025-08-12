@@ -8378,7 +8378,7 @@ Public Class clsCreateAllTable
             coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
             coll.Add("IsUpdating", "integer null")
             coll.Add("IsPosting", "integer null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date", True)
             Try
                 qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Demand_UniqueID'"
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -8456,7 +8456,7 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Created_By", "varchar(30) NULL")
             coll.Add("REF_PK_ID", "integer null references TSPL_DEMAND_SHEET(PK_ID)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
             'If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
             '    qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
