@@ -804,10 +804,13 @@ select MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],VLC_Code_VLC_Upload
         Try
             Dim msg As String = ""
             Dim qry As String = "With CTE as (
-select MP_Account_No,MP_Uploader_Code,MP_Name from TSPL_DBT_NEFT_DETAIL where Document_Code='" & txtDocumentNo.Value & "' )
-select 'Repeated Account No' as ErrorCode,MP_Account_No as ErrorValue,STRING_AGG(MP_Uploader_Code,',') as MPUploaderCode from  CTE  group by  MP_Account_No having sum(1)>1
+select TSPL_DBT_NEFT_DETAIL.MP_Account_No,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code,TSPL_DBT_NEFT_DETAIL.MP_Name ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code
+from TSPL_DBT_NEFT_DETAIL 
+left outer join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+where TSPL_DBT_NEFT_DETAIL.Document_Code='" & txtDocumentNo.Value & "' )
+select 'Repeated Account No' as ErrorCode,MP_Account_No as ErrorValue,STRING_AGG(MP_Uploader_Code,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(MP_Name,',') as MPName,STRING_AGG(VLC_Uploader_Code,',') as DCSUploaderCode from  CTE  group by  MP_Account_No having sum(1)>1
 union all
-select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name;"
+select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode,MP_Code as MPCode,MP_Name as MPName, VLC_Uploader_Code as DCSUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name;"
             Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
                 If common.clsCommon.MyMessageBoxShow(Me, "Error in " & dtCheck.Rows.Count & " Records.Do you want to open it", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then

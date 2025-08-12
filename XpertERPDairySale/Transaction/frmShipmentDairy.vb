@@ -6987,7 +6987,9 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
             If SettDistributorWiseBilling Then
-                MergeDistributorItems(True, False, trans)
+                If Not AllowAddOrEditItems Then
+                    MergeDistributorItems(True, False, trans)
+                End If
             End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
@@ -7870,7 +7872,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
 
                 End If
                 Dim BoothCode As String = ""
-                If Not IsOnlyCreditCust Then
+                If Not IsOnlyCreditCust OrElse (AllowAddOrEditItems AndAlso clsCommon.myLen(txtDocNo.Value) >= 0) Then
                     txtTransNo.Text = txtVendorNo.Value
                     SaveData(False, trans)
                 Else
