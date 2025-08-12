@@ -3061,7 +3061,7 @@ Public Class clsPaymentHeader
         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
-            StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.Purchase, dt2, EnumTecxpertPaperSize.NA, "crptPaymentAdvice", "Payment Advice", clsCommon.myCDate(dt2.Rows(0)("Payment_Date")))
+            StrPDFPath = frmCRV.funreport(clsUserMgtCode.PaymentEntryNew, IsPDF, CrystalReportFolder.Purchase, dt2, EnumTecxpertPaperSize.NA, "crptPaymentAdvice", "Payment Advice", clsCommon.myCDate(dt2.Rows(0)("Payment_Date")))
             frmCRV = Nothing
         Else
             clsCommon.MyMessageBoxShow("Payment Advice Not Available this mode.")

@@ -276,6 +276,13 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
                         Dim SafeFileName As String = "BankLetter.pdf"
                         UcAttachment1.AddAttachment(Filename, SafeFileName)
+
+                        gvItem.FilterDescriptors.Clear()
+                        For Each col As Telerik.WinControls.UI.GridViewDataColumn In gvItem.Columns
+                            col.FilterDescriptor = Nothing
+                            col.ExcelExportType = Telerik.WinControls.UI.Export.DisplayFormatType.None
+                        Next
+
                         Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
                         SafeFileName = "NEFTDetail.xls"
                         UcAttachment1.AddAttachment(Filename, SafeFileName)

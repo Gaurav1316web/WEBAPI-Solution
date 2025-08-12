@@ -627,7 +627,7 @@ Public Class clsSalaryGeneration
                         objEmailH.Email_Text = "Salary Certificate For The Period- " & dtt.Rows(i)("PAY_PERIOD_CODE")
                         Dim strRptPath As String = ""
                         Dim frmCRV As New frmCrystalReportViewer()
-                        strRptPath = frmCRV.funreport(True, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Salary Certificate")
+                        strRptPath = frmCRV.funreport(clsUserMgtCode.frmSalaryGeneration, True, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Salary Certificate")
                         frmCRV = Nothing
                         objEmailH.Attachment_1_Path = strRptPath
 

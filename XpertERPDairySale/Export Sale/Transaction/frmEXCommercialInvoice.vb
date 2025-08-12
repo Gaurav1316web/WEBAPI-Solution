@@ -7831,9 +7831,9 @@ Public Class frmEXCommercialInvoice
                 SetItemWiseTax(dt, txtDocNo.Value)
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(cmbDocType.SelectedValue, "EX") = CompairStringResult.Equal Then
-                    strPdfPath = frmCRV.funreport(IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptExportCommercialInvoice", "Commercial Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                    strPdfPath = frmCRV.funreport(MyBase.Form_ID, IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptExportCommercialInvoice", "Commercial Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 ElseIf clsCommon.CompairString(cmbDocType.SelectedValue, "MT") = CompairStringResult.Equal Then
-                    strPdfPath = frmCRV.funreport(IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptExportCommercialInvoiceMT", "Commercial Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                    strPdfPath = frmCRV.funreport(MyBase.Form_ID, IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptExportCommercialInvoiceMT", "Commercial Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 End If
                 frmCRV = Nothing
             Else
