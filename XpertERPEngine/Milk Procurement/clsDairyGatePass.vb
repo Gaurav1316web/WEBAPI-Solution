@@ -449,14 +449,14 @@ Public Class clsDairyGatePassEntry
             End If
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set Status='Y', Modified_By = '" & objCommonVar.CurrentUserCode & "',Modified_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "'  where gpcode='" & obj.GPCode & "'", trans)
-            'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 
 
             qry = "select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" & obj.GPCode & "'"
             Dim CrateReceivedDoc As String = clsDBFuncationality.getSingleValue(qry, trans)
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
+            'clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, CrateReceivedDoc, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", "Document_No", trans)
             qry = "delete from TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" & CrateReceivedDoc & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

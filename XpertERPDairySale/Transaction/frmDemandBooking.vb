@@ -1743,7 +1743,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             Else
                 shiftType = "Evening"
             End If
-            qry = "Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "' and IsIndividualCustomer=0"
+            qry = "Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and   CONVERT(date,Document_Date, 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' and ShiftType = '" & shiftType & "' and IsIndividualCustomer=0"
             If SeparateDemandMilkandProduct Then
                 If rbtn_Fresh.IsChecked Then
                     qry += " and ItemType='Fresh' "

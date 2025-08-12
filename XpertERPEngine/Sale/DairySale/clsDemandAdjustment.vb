@@ -20,6 +20,8 @@ Public Class clsDemandAdjustment
     Public Change_Item_Code As String = ""
     'Public Location_Code As String = ""
     Public Add_Qty As Double = 0
+    Public Change_product_Type As Integer = Nothing
+    Public Change_Qty As Integer = Nothing
     Public Status As Integer = 0
     Public Modified_By As String = ""
     Public Modified_Date As DateTime = Nothing
@@ -60,6 +62,8 @@ Public Class clsDemandAdjustment
             clsCommon.AddColumnsForChange(coll, "Deduct_Qty", obj.Deduct_Qty)
             clsCommon.AddColumnsForChange(coll, "Change_Item_Code", obj.Change_Item_Code, True)
             clsCommon.AddColumnsForChange(coll, "Add_Qty", obj.Add_Qty)
+            clsCommon.AddColumnsForChange(coll, "Change_product_Type", obj.Change_product_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Change_Qty", obj.Change_Qty, True)
             clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -123,6 +127,8 @@ Public Class clsDemandAdjustment
             obj.Deduct_Qty = clsCommon.myCdbl(dt.Rows(0)("Deduct_Qty"))
             obj.Change_Item_Code = clsCommon.myCstr(dt.Rows(0)("Change_Item_Code"))
             obj.Add_Qty = clsCommon.myCdbl(dt.Rows(0)("Add_Qty"))
+            obj.Change_product_Type = clsCommon.myCdbl(dt.Rows(0)("Change_product_Type"))
+            obj.Change_Qty = clsCommon.myCdbl(dt.Rows(0)("Change_Qty"))
             obj.Status = clsCommon.myCdbl(dt.Rows(0)("Status"))
             qry = "SELECT TSPL_DEMAND_ADJUSTMENT_DETAIL.* from TSPL_DEMAND_ADJUSTMENT_DETAIL where Document_Code='" + obj.Document_Code + "' "
             dt = New DataTable()
@@ -308,23 +314,26 @@ where Document_No='" & clsCommon.myCstr(objTr.TR_Code) & "' and Cust_Code='" & c
                             If Not lstDocNO.Contains(objTr.TR_Code) Then
                                 lstDocNO.Add(objTr.TR_Code)
                             End If
-                            Qry = "delete TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "' and Cust_Code='" + clsCommon.myCstr(objTr.Booth_Code) + "' and Item_Code='" + clsCommon.myCstr(obj.Change_Item_Code) + "' and Unit_code='" + clsCommon.myCstr(objTr.Unit_Code) + "'"
-                            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                            If obj.Change_product_Type = 0 Then
+                                Qry = "delete TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + clsCommon.myCstr(objTr.TR_Code) + "' and Cust_Code='" + clsCommon.myCstr(objTr.Booth_Code) + "' and Item_Code='" + clsCommon.myCstr(obj.Change_Item_Code) + "' and Unit_code='" + clsCommon.myCstr(objTr.Unit_Code) + "'"
+                                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                            End If
+
                         Else
                             clsCommon.ProgressBarPercentUpdate((((Rowcount) * 100) / lstDocNO.Count), "Updating TR Code -" & clsCommon.myCstr(objTr.TR_Code))
-                            Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" + clsCommon.myCstr(objTr.Final_Qty) + "',TotalCrates_ItemWise='" + clsCommon.myCstr(objTr.TotalCrates_ItemWise) + "',TotalLtr_ItemWise='" + clsCommon.myCstr(objTr.TotalLtr_ItemWise) + "'
-,Item_Rate='" + clsCommon.myCstr(objTr.Item_Rate) + "',ItemNetAmount='" + clsCommon.myCstr(objTr.ItemNetAmount) + "',TAX_Group='" + clsCommon.myCstr(objTr.TAX_Group) + "',
-TAX1='" + clsCommon.myCstr(objTr.TAX1) + "',TAX1_Rate='" + clsCommon.myCstr(objTr.TAX1_Rate) + "',TAX1_Amt='" + clsCommon.myCstr(objTr.TAX1_Amt) + "',TAX1_Base_Amt='" + clsCommon.myCstr(objTr.TAX1_Base_Amt) + "',
-TAX2='" + clsCommon.myCstr(objTr.TAX2) + "',TAX2_Rate='" + clsCommon.myCstr(objTr.TAX2_Rate) + "',TAX2_Amt='" + clsCommon.myCstr(objTr.TAX2_Amt) + "',TAX2_Base_Amt='" + clsCommon.myCstr(objTr.TAX2_Base_Amt) + "',
-TAX3='" + clsCommon.myCstr(objTr.TAX3) + "',TAX3_Rate='" + clsCommon.myCstr(objTr.TAX3_Rate) + "',TAX3_Amt='" + clsCommon.myCstr(objTr.TAX3_Amt) + "',TAX3_Base_Amt='" + clsCommon.myCstr(objTr.TAX3_Base_Amt) + "',
-TAX4='" + clsCommon.myCstr(objTr.TAX4) + "',TAX4_Rate='" + clsCommon.myCstr(objTr.TAX4_Rate) + "',TAX4_Amt='" + clsCommon.myCstr(objTr.TAX4_Amt) + "',TAX4_Base_Amt='" + clsCommon.myCstr(objTr.TAX4_Base_Amt) + "',
-TAX5='" + clsCommon.myCstr(objTr.TAX5) + "',TAX5_Rate='" + clsCommon.myCstr(objTr.TAX5_Rate) + "',TAX5_Amt='" + clsCommon.myCstr(objTr.TAX5_Amt) + "',TAX5_Base_Amt='" + clsCommon.myCstr(objTr.TAX5_Base_Amt) + "',
-TAX6='" + clsCommon.myCstr(objTr.TAX6) + "',TAX6_Rate='" + clsCommon.myCstr(objTr.TAX6_Rate) + "',TAX6_Amt='" + clsCommon.myCstr(objTr.TAX6_Amt) + "',TAX6_Base_Amt='" + clsCommon.myCstr(objTr.TAX6_Base_Amt) + "',
-TAX7='" + clsCommon.myCstr(objTr.TAX7) + "',TAX7_Rate='" + clsCommon.myCstr(objTr.TAX7_Rate) + "',TAX7_Amt='" + clsCommon.myCstr(objTr.TAX7_Amt) + "',TAX7_Base_Amt='" + clsCommon.myCstr(objTr.TAX7_Base_Amt) + "',
-TAX8='" + clsCommon.myCstr(objTr.TAX8) + "',TAX8_Rate='" + clsCommon.myCstr(objTr.TAX8_Rate) + "',TAX8_Amt='" + clsCommon.myCstr(objTr.TAX8_Amt) + "',TAX8_Base_Amt='" + clsCommon.myCstr(objTr.TAX8_Base_Amt) + "',
-TAX9='" + clsCommon.myCstr(objTr.TAX9) + "',TAX9_Rate='" + clsCommon.myCstr(objTr.TAX9_Rate) + "',TAX9_Amt='" + clsCommon.myCstr(objTr.TAX9_Amt) + "',TAX9_Base_Amt='" + clsCommon.myCstr(objTr.TAX9_Base_Amt) + "',
-TAX10='" + clsCommon.myCstr(objTr.TAX10) + "',TAX10_Rate='" + clsCommon.myCstr(objTr.TAX10_Rate) + "',TAX10_Amt='" + clsCommon.myCstr(objTr.TAX10_Amt) + "',TAX10_Base_Amt='" + clsCommon.myCstr(objTr.TAX10_Base_Amt) + "'
-where TR_Code='" + clsCommon.myCstr(objTr.TR_Code) + "'"
+                            Qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty='" & clsCommon.myCstr(objTr.Final_Qty) & "',TotalCrates_ItemWise='" & clsCommon.myCstr(objTr.TotalCrates_ItemWise) & "',TotalLtr_ItemWise='" & clsCommon.myCstr(objTr.TotalLtr_ItemWise) & "'
+,Item_Rate='" & clsCommon.myCstr(objTr.Item_Rate) & "',ItemNetAmount='" & clsCommon.myCstr(objTr.ItemNetAmount) & "',TAX_Group='" & clsCommon.myCstr(objTr.TAX_Group) & "',
+TAX1='" & clsCommon.myCstr(objTr.TAX1) & "',TAX1_Rate='" & clsCommon.myCstr(objTr.TAX1_Rate) & "',TAX1_Amt='" & clsCommon.myCstr(objTr.TAX1_Amt) & "',TAX1_Base_Amt='" & clsCommon.myCstr(objTr.TAX1_Base_Amt) & "',
+TAX2='" & clsCommon.myCstr(objTr.TAX2) & "',TAX2_Rate='" & clsCommon.myCstr(objTr.TAX2_Rate) & "',TAX2_Amt='" & clsCommon.myCstr(objTr.TAX2_Amt) & "',TAX2_Base_Amt='" & clsCommon.myCstr(objTr.TAX2_Base_Amt) & "',
+TAX3='" & clsCommon.myCstr(objTr.TAX3) & "',TAX3_Rate='" & clsCommon.myCstr(objTr.TAX3_Rate) & "',TAX3_Amt='" & clsCommon.myCstr(objTr.TAX3_Amt) & "',TAX3_Base_Amt='" & clsCommon.myCstr(objTr.TAX3_Base_Amt) & "',
+TAX4='" & clsCommon.myCstr(objTr.TAX4) & "',TAX4_Rate='" & clsCommon.myCstr(objTr.TAX4_Rate) & "',TAX4_Amt='" & clsCommon.myCstr(objTr.TAX4_Amt) & "',TAX4_Base_Amt='" & clsCommon.myCstr(objTr.TAX4_Base_Amt) & "',
+TAX5='" & clsCommon.myCstr(objTr.TAX5) & "',TAX5_Rate='" & clsCommon.myCstr(objTr.TAX5_Rate) & "',TAX5_Amt='" & clsCommon.myCstr(objTr.TAX5_Amt) & "',TAX5_Base_Amt='" & clsCommon.myCstr(objTr.TAX5_Base_Amt) & "',
+TAX6='" & clsCommon.myCstr(objTr.TAX6) & "',TAX6_Rate='" & clsCommon.myCstr(objTr.TAX6_Rate) & "',TAX6_Amt='" & clsCommon.myCstr(objTr.TAX6_Amt) & "',TAX6_Base_Amt='" & clsCommon.myCstr(objTr.TAX6_Base_Amt) & "',
+TAX7='" & clsCommon.myCstr(objTr.TAX7) & "',TAX7_Rate='" & clsCommon.myCstr(objTr.TAX7_Rate) & "',TAX7_Amt='" & clsCommon.myCstr(objTr.TAX7_Amt) & "',TAX7_Base_Amt='" & clsCommon.myCstr(objTr.TAX7_Base_Amt) & "',
+TAX8='" & clsCommon.myCstr(objTr.TAX8) & "',TAX8_Rate='" & clsCommon.myCstr(objTr.TAX8_Rate) & "',TAX8_Amt='" & clsCommon.myCstr(objTr.TAX8_Amt) & "',TAX8_Base_Amt='" & clsCommon.myCstr(objTr.TAX8_Base_Amt) & "',
+TAX9='" & clsCommon.myCstr(objTr.TAX9) & "',TAX9_Rate='" & clsCommon.myCstr(objTr.TAX9_Rate) & "',TAX9_Amt='" & clsCommon.myCstr(objTr.TAX9_Amt) & "',TAX9_Base_Amt='" & clsCommon.myCstr(objTr.TAX9_Base_Amt) & "',
+TAX10='" & clsCommon.myCstr(objTr.TAX10) & "',TAX10_Rate='" & clsCommon.myCstr(objTr.TAX10_Rate) & "',TAX10_Amt='" & clsCommon.myCstr(objTr.TAX10_Amt) & "',TAX10_Base_Amt='" & clsCommon.myCstr(objTr.TAX10_Base_Amt) & "'
+where TR_Code='" & clsCommon.myCstr(objTr.TR_Code) & "'"
                             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                             Dim DcoNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select document_no from TSPL_DEMAND_BOOKING_DETAIL where TR_Code='" + objTr.TR_Code + "'", trans))
                             If Not lstDocNO.Contains(DcoNo) Then
@@ -458,8 +467,8 @@ Public Class clsDemandAdjustmentDetail
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandAdjustmentDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsDemandAdjustmentDetail In Arr
-                If obj.Final_Qty > 0 Then
-                    Dim coll As New Hashtable()
+                'If obj.Final_Qty >= 0 Then
+                Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_Code)
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
                     clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code)
@@ -518,7 +527,7 @@ Public Class clsDemandAdjustmentDetail
                     clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_ADJUSTMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-                End If
+                'End If
             Next
         End If
         Return True
