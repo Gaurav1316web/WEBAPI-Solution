@@ -820,29 +820,46 @@ Public Class clsDBTNEFTRCDF
                     If clsCommon.myCDecimal(dt.Rows(0)("status")) = 1 Then
                         Throw New Exception("Already posted Doument [" + clsCommon.myCDecimal(dt.Rows(0)("Document_Code")) + "]")
                     End If
+                    qry = "With CTE as (
+select MP_Account_No,MP_Uploader_Code,MP_Name from " + clsCommon.myCstr(dt.Rows(0)("DB_Name")) + ".dbo.TSPL_DBT_NEFT_DETAIL where Document_Code='" & clsCommon.myCstr(dt.Rows(0)("Document_Code")) & "' )
+select ErrorCode,sum(1) as Rep from (
+select 'Repeated Account No' as ErrorCode,MP_Account_No as ErrorValue,STRING_AGG(MP_Uploader_Code,',') as MPUploaderCode from  CTE  group by  MP_Account_No having sum(1)>1
+union all
+select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name )x group by ErrorCode"
+                    Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
+                        qry = "There are "
+                        For Each dr As DataRow In dtCheck.Rows
+                            qry += clsCommon.myCstr(dr("Rep")) + " " + clsCommon.myCstr(dr("ErrorCode")) + " "
+                        Next
+                        qry += " for Docuemnt No [" & clsCommon.myCstr(dt.Rows(0)("Document_Code")) & "] "
+                        Throw New Exception(qry)
+                    Else
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Status", 1)
+                        clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
+                        clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                        clsCommon.AddColumnsForChange(coll, "Sanction_Number", obj.Sanction_Number)
+                        If obj.Sanction_Date IsNot Nothing Then
+                            clsCommon.AddColumnsForChange(coll, "Sanction_Date", clsCommon.GetPrintDate(obj.Sanction_Date, "dd/MMM/yyyy"))
+                        End If
+                        clsCommon.AddColumnsForChange(coll, "Sanction_Amount", obj.Sanction_Amount)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(obj.PK_Id) + "", trans)
 
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Status", 1)
-                    clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
-                    clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
-                    clsCommon.AddColumnsForChange(coll, "Sanction_Number", obj.Sanction_Number)
-                    If obj.Sanction_Date IsNot Nothing Then
-                        clsCommon.AddColumnsForChange(coll, "Sanction_Date", clsCommon.GetPrintDate(obj.Sanction_Date, "dd/MMM/yyyy"))
+                        coll = New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "RCDF_Status", 1)
+                        clsCommon.AddColumnsForChange(coll, "Sanction_Number", obj.Sanction_Number)
+                        If obj.Sanction_Date IsNot Nothing Then
+                            clsCommon.AddColumnsForChange(coll, "Sanction_Date", clsCommon.GetPrintDate(obj.Sanction_Date, "dd/MMM/yyyy"))
+                        End If
+                        clsCommon.AddColumnsForChange(coll, "Sanction_Amount", obj.Sanction_Amount)
+                        clsCommon.AddColumnsForChange(coll, "RCDF_Post_By", objCommonVar.CurrentUserCode)
+                        clsCommon.AddColumnsForChange(coll, "RCDF_Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+
+                        clsCommonFunctionality.UpdateDataTable(coll, clsCommon.myCstr(dt.Rows(0)("DB_Name")) + ".dbo." + "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "Document_Code='" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "'", trans)
+
                     End If
-                    clsCommon.AddColumnsForChange(coll, "Sanction_Amount", obj.Sanction_Amount)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(obj.PK_Id) + "", trans)
 
-                    coll = New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "RCDF_Status", 1)
-                    clsCommon.AddColumnsForChange(coll, "Sanction_Number", obj.Sanction_Number)
-                    If obj.Sanction_Date IsNot Nothing Then
-                        clsCommon.AddColumnsForChange(coll, "Sanction_Date", clsCommon.GetPrintDate(obj.Sanction_Date, "dd/MMM/yyyy"))
-                    End If
-                    clsCommon.AddColumnsForChange(coll, "Sanction_Amount", obj.Sanction_Amount)
-                    clsCommon.AddColumnsForChange(coll, "RCDF_Post_By", objCommonVar.CurrentUserCode)
-                    clsCommon.AddColumnsForChange(coll, "RCDF_Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
-
-                    clsCommonFunctionality.UpdateDataTable(coll, clsCommon.myCstr(dt.Rows(0)("DB_Name")) + ".dbo." + "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "Document_Code='" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "'", trans)
                 End If
             Next
             trans.Commit()

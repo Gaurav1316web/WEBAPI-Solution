@@ -3242,33 +3242,33 @@ Public Class clsCreateAllTable
             coll.Add("Form_Code", "varchar(4)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CForm_HEADER", coll, "", False, False, "", "Document_No", "Document_Date")
 
-            Try
-                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_DELIVERY_NOTE_MASTER_FRESHSALE'"))
-                If chkValuesDetail = 1 Then
-                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_DELIVERY_NOTE_MASTER_FRESHSALE' and b.COLUMN_NAME='Ship_To_Location' ORDER BY A.TABLE_NAME")
-                    If clsCommon.myLen(QryForeign) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DELIVERY_NOTE_MASTER_FRESHSALE drop constraint " & QryForeign & "")
-                    End If
-                End If
-                chkValuesDetail = 0
-                chkValuesDetail = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_BOOKING_MATSER'"))
-                If chkValuesDetail = 1 Then
-                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_BOOKING_MATSER' and b.COLUMN_NAME='Ship_To_Location' ORDER BY A.TABLE_NAME")
-                    If clsCommon.myLen(QryForeign) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BOOKING_MATSER drop constraint " & QryForeign & "")
-                    End If
-                End If
+            'Try
+            '    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_DELIVERY_NOTE_MASTER_FRESHSALE'"))
+            '    If chkValuesDetail = 1 Then
+            '        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_DELIVERY_NOTE_MASTER_FRESHSALE' and b.COLUMN_NAME='Ship_To_Location' ORDER BY A.TABLE_NAME")
+            '        If clsCommon.myLen(QryForeign) > 0 Then
+            '            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DELIVERY_NOTE_MASTER_FRESHSALE drop constraint " & QryForeign & "")
+            '        End If
+            '    End If
+            '    chkValuesDetail = 0
+            '    chkValuesDetail = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_BOOKING_MATSER'"))
+            '    If chkValuesDetail = 1 Then
+            '        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_BOOKING_MATSER' and b.COLUMN_NAME='Ship_To_Location' ORDER BY A.TABLE_NAME")
+            '        If clsCommon.myLen(QryForeign) > 0 Then
+            '            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BOOKING_MATSER drop constraint " & QryForeign & "")
+            '        End If
+            '    End If
 
 
-                Dim chkValuesMaster As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SHIP_TO_LOCATION'"))
-                If chkValuesMaster = 1 Then
-                    Dim qryPrimary As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B  WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SHIP_TO_LOCATION' ORDER BY A.TABLE_NAME")
-                    If clsCommon.myLen(qryPrimary) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SHIP_TO_LOCATION drop constraint " & qryPrimary & "")
-                    End If
-                End If
-            Catch ex As Exception
-            End Try
+            '    Dim chkValuesMaster As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SHIP_TO_LOCATION'"))
+            '    If chkValuesMaster = 1 Then
+            '        Dim qryPrimary As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B  WHERE CONSTRAINT_TYPE = 'PRIMARY KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_SHIP_TO_LOCATION' ORDER BY A.TABLE_NAME")
+            '        If clsCommon.myLen(qryPrimary) > 0 Then
+            '            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SHIP_TO_LOCATION drop constraint " & qryPrimary & "")
+            '        End If
+            '    End If
+            'Catch ex As Exception
+            'End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("Tin_No", "varchar(20) null")
             coll.Add("CST_No", "varchar(20) null")
@@ -8346,8 +8346,8 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_UPLOADER", coll, Nothing, True, False, "", "Document_No", "", True)
 
-            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Posted_Morning'"
-            dt = clsDBFuncationality.GetDataTable(qry)
+            'qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Posted_Morning'"
+            'dt = clsDBFuncationality.GetDataTable(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
@@ -8458,13 +8458,13 @@ Public Class clsCreateAllTable
             coll.Add("REF_PK_ID", "integer null references TSPL_DEMAND_SHEET(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", True, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "", True)
 
-            If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
-                qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
-                clsDBFuncationality.ExecuteNonQuery(qry)
+            'If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+            '    qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
+            '    clsDBFuncationality.ExecuteNonQuery(qry)
 
-                qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No ) "
-                clsDBFuncationality.ExecuteNonQuery(qry)
-            End If
+            '    qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No ) "
+            '    clsDBFuncationality.ExecuteNonQuery(qry)
+            'End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -14375,6 +14375,10 @@ Public Class clsCreateAllTable
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
             coll.Add("CFP_Unit", "char(1)  NULL")
+            coll.Add("IsAMCU", "integer Null")
+            coll.Add("BrandName", "varchar(30) NULL")
+            coll.Add("SerailNo", "varchar(30) NULL")
+            coll.Add("AMCU_FILE_INFO", "integer Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
@@ -20463,16 +20467,16 @@ Public Class clsCreateAllTable
             coll.Add("Item_Code", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RFQ_DETAIL_ITEM", coll, Nothing, False, False, "TSPL_RFQ_HEAD", "RFQ_NO", "")
 
-            Try
-                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_RFQ_DETAIL_ITEM'"))
-                If chkValuesDetail = 1 Then
-                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_RFQ_DETAIL_ITEM' and b.COLUMN_NAME='Item_Code' ORDER BY A.TABLE_NAME")
-                    If clsCommon.myLen(QryForeign) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_RFQ_DETAIL_ITEM drop constraint " & QryForeign & "")
-                    End If
-                End If
-            Catch ex As Exception
-            End Try
+            'Try
+            '    Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_RFQ_DETAIL_ITEM'"))
+            '    If chkValuesDetail = 1 Then
+            '        Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_RFQ_DETAIL_ITEM' and b.COLUMN_NAME='Item_Code' ORDER BY A.TABLE_NAME")
+            '        If clsCommon.myLen(QryForeign) > 0 Then
+            '            clsDBFuncationality.ExecuteNonQuery("alter table TSPL_RFQ_DETAIL_ITEM drop constraint " & QryForeign & "")
+            '        End If
+            '    End If
+            'Catch ex As Exception
+            'End Try
 
             coll = New Dictionary(Of String, String)
             coll.Add("Code", "varchar(30) NOT NULL Primary Key")
@@ -37296,6 +37300,18 @@ LL")
             coll.Add("ChangedTCSBaseAmount", "float null")
             coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_BulkSale", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
+
+            Try
+                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_Dispatch_BulkSale'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_Dispatch_BulkSale' and b.COLUMN_NAME='QC_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_Dispatch_BulkSale drop constraint " & QryForeign & "")
+                    End If
+                End If
+            Catch ex As Exception
+
+            End Try
 
             '-------------------------TSPL_Dispatch_Detail_BulkSale----------------------
             coll = New Dictionary(Of String, String)

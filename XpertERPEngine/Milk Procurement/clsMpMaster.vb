@@ -246,8 +246,9 @@ Public Class clsMpMaster
     End Function
     Public Shared Function SaveData(ByVal obj As clsMpMaster, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim qry As String = ""
             If clsCommon.myLen(obj.MP_Code) > 0 Then
-                Dim qry As String = "Delete from TSPL_MP_INCENTIVE where MP_CODE ='" + obj.MP_Code + "' "
+                qry = "Delete from TSPL_MP_INCENTIVE where MP_CODE ='" + obj.MP_Code + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
             Dim issaved As Boolean = True
@@ -283,7 +284,7 @@ Public Class clsMpMaster
             clsCommon.AddColumnsForChange(coll, "Milk_production", obj.Milk_production)
             clsCommon.AddColumnsForChange(coll, "Milk_Home_consumption", obj.Milk_Home_consumption)
             clsCommon.AddColumnsForChange(coll, "Milk_For_sale", obj.Milk_For_sale)
-            clsCommon.AddColumnsForChange(coll, "PayeeName", obj.PayeeName)
+            clsCommon.AddColumnsForChange(coll, "PayeeName", clsCommon.myCleanAlphaOnly(obj.PayeeName))
             clsCommon.AddColumnsForChange(coll, "BankName", obj.BankName)
             clsCommon.AddColumnsForChange(coll, "BankBranch", obj.BankBranch)
             clsCommon.AddColumnsForChange(coll, "BankCityCode", obj.BankCityCode)
@@ -326,15 +327,24 @@ Public Class clsMpMaster
 
                 issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "tspl_mp_master", OMInsertOrUpdate.Update, "tspl_mp_master.mp_code='" + obj.MP_Code + "'", trans)
             End If
+            qry = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Duplicate account no [" + obj.AccountNO + "]")
+            End If
+            qry = ""
+
             'issaved = issaved And clsBuffaloesDetails.SaveData(obj.arrBuffaloesDetail, trans)
             'issaved = issaved And clsCowDetails.SaveData(obj.arrCowDetail, trans)
             If obj.arrAnimalDetail Is Nothing OrElse obj.arrAnimalDetail.Count = 0 Then
-                Dim Qry As String = "delete from tspl_Animal_Details where prog_code ='" + obj.Form_Id + "' and trans_code='" + obj.MP_Code + "'"
-                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                qry = "delete from tspl_Animal_Details where prog_code ='" + obj.Form_Id + "' and trans_code='" + obj.MP_Code + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
             issaved = issaved And clsAnimalDetails.SaveData(obj.arrAnimalDetail, trans)
             issaved = issaved AndAlso clsCustomFieldValues.SaveData(obj.Form_Id, obj.MP_Code, obj.arrCustomFields, trans)
             issaved = issaved AndAlso clsMPIncentiveMapping.SaveData(obj.MP_Code, obj.Modified_Date, obj.ArrMPIncentiveMapping, trans)
+
+
             Return issaved
         Catch ex As Exception
             Throw New Exception(ex.Message)

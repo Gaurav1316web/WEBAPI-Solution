@@ -42,6 +42,7 @@ Public Class frmCorrection
             IsRoundOffPaiseAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1
             corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
             isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
+            RadPageView1.Pages("RadPageViewPage7").Item.Visibility = ElementVisibility.Collapsed
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 chkAddMissingSample.Visible = False
@@ -62,8 +63,8 @@ Public Class frmCorrection
                 'End If
 
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
-                    RadPageView1.Pages("RadPageViewPage7").Item.Visibility = ElementVisibility.Collapsed
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    RadPageView1.Pages("RadPageViewPage7").Item.Visibility = ElementVisibility.Visible
                 End If
 
                 SetUserMgmtNew()
@@ -98,9 +99,9 @@ Public Class frmCorrection
                 lblMcc.Visible = Not MultipleFinderFillAuto
                 lblMCCCode.Visible = Not MultipleFinderFillAuto
 
-                txtCAPMCC.Visible = Not MultipleFinderFillAuto
-                lblCAPMcc.Visible = Not MultipleFinderFillAuto
-                MyLabel31.Visible = Not MultipleFinderFillAuto
+                'txtCAPMCC.Visible = Not MultipleFinderFillAuto
+                'lblCAPMcc.Visible = Not MultipleFinderFillAuto
+                'MyLabel31.Visible = Not MultipleFinderFillAuto
 
                 LoadShiftFrom()
                 chkRetesting.Checked = False
