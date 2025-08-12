@@ -2480,12 +2480,6 @@
     <Compile Include="Purchase\Report\rptAPReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Purchase\Report\rptGSTR.Designer.vb">
-      <DependentUpon>rptGSTR.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Purchase\Report\rptGSTR.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Purchase\Report\rptMultipleDeductionReport.designer.vb">
       <DependentUpon>rptMultipleDeductionReport.vb</DependentUpon>
     </Compile>
@@ -5964,9 +5958,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\rptAPReport.resx">
       <DependentUpon>rptAPReport.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Purchase\Report\rptGSTR.resx">
-      <DependentUpon>rptGSTR.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\rptMultipleDeductionReport.resx">
       <DependentUpon>rptMultipleDeductionReport.vb</DependentUpon>

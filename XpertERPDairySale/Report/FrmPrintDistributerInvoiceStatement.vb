@@ -563,7 +563,7 @@ where  TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVO
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "rptMonthlyInvoicePrint", "Customer Monthly Sales")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dt, "rptMonthlyInvoicePrint", "Customer Monthly Sales")
                     Else
                         common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                     End If

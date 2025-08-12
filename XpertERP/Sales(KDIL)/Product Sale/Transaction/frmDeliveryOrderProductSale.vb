@@ -9843,7 +9843,7 @@ Public Class frmDeliveryOrderProductSale
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                strRptPath = frmCRV.funreport(isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptProductDeliveryOrderReport", "Delivery Order product Sale", clsCommon.myCDate(dt.Rows(0)("Doc_Date")))
+                strRptPath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.KwalitySalesReport, dt, "crptProductDeliveryOrderReport", "Delivery Order product Sale", clsCommon.myCDate(dt.Rows(0)("Doc_Date")))
                 frmCRV = Nothing
             End If
 

@@ -201,7 +201,7 @@ Left Outer Join TSPL_CITY_MASTER  On TSPL_CITY_MASTER.City_Code=TSPL_COMPANY_MAS
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnQry(True))
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(False, CrystalReportFolder.KwalitySalesReport, dt, "rptIBPReport", "IBP Report")
+                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.KwalitySalesReport, dt, "rptIBPReport", "IBP Report")
                 frmCRV = Nothing
             Else
                 Throw New Exception("No Data Found !")

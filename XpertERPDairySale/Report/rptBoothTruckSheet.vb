@@ -540,20 +540,20 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
 ) x group by Cust_Code"
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(BKNQuery)
-                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothGatePassBKN", "Booth Gate Pass")
+                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptBoothGatePassBKN", "Booth Gate Pass")
                 Dim x As Integer = 0
             Else
                 If rdbEnglish.IsChecked = True Then
                     If chkPouch.Checked = True Then
-                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetPouch", "Dairy Sale Booth Truck Sheetr")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetPouch", "Dairy Sale Booth Truck Sheetr")
                     Else
-                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheet", "Dairy Sale Booth Truck Sheetr")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheet", "Dairy Sale Booth Truck Sheetr")
                     End If
                 Else
                     If chkPouch.Checked = True Then
-                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindiPouch", "Dairy Sale Booth Truck Sheetr")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindiPouch", "Dairy Sale Booth Truck Sheetr")
                     Else
-                        frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindi", "Dairy Sale Booth Truck Sheet In Hindi")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptDairySaleBoothTruckSheetInHindi", "Dairy Sale Booth Truck Sheet In Hindi")
                     End If
                 End If
             End If

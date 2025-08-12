@@ -459,10 +459,10 @@ left outer join tspl_company_master on 2 = 2
                 ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                 Dim frmCRV As New frmCrystalReportViewer()
                 If chkIfscno.IsChecked = True Then
-                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "rptBankSavingAdviceIFSC", "Bank Saving")
+                    frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dt, "rptBankSavingAdviceIFSC", "Bank Saving")
 
                 Else
-                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "rptBankSavingAdvice", "Bank Saving")
+                    frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dt, "rptBankSavingAdvice", "Bank Saving")
 
                 End If
                 'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
@@ -591,7 +591,7 @@ left outer join tspl_company_master on 2 = 2
                 ''Note IF You do any changes than change in function clsBankAdvise.CreateEmailContent(ByVal strDateRange As String, trans As SqlTransaction)
                 Dim frmCRV As New frmCrystalReportViewer()
 
-                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dt, "crptBankSavingDraftSummary", "Bank Saving")
+                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dt, "crptBankSavingDraftSummary", "Bank Saving")
                 'End If
                 frmCRV = Nothing
             End If

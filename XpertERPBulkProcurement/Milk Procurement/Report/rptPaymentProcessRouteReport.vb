@@ -5432,7 +5432,7 @@ Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCo
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptYearlyMCCSummary", "MCC Wise Quantity Report")
+                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, "crptYearlyMCCSummary", "MCC Wise Quantity Report")
                 frmCRV = Nothing
             Else
                 Throw New Exception("Data Not Found !")

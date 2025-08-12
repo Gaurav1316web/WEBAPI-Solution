@@ -4934,7 +4934,7 @@ Public Class frmSaleInvoiceProductSale
                     SetItemWiseTax(dt1, txtDocNo.Value)
                     Dim frmCRV As New frmCrystalReportViewer()
                     'strRptPath = frmCRV.EmailAttachment(CrystalReportFolder.NewSalesReports, dt1, "crptShipment", "Shipment Detail")
-                    strRptPath = frmCRV.funreport(True, CrystalReportFolder.NewSalesReports, dt1, "crptShipment", "Shipment Detail")
+                    strRptPath = frmCRV.funreport(MyBase.Form_ID, True, CrystalReportFolder.NewSalesReports, dt1, "crptShipment", "Shipment Detail")
                     frmCRV = Nothing
                     objEmailH.Attachment_1_Path = strRptPath
                 End If
@@ -7353,50 +7353,50 @@ Left outer join TSPL_STATE_MASTER as TBL_FOR_SHIP_TO_LOCTION_GSTSTATE on TBL_FOR
                     If clsERPFuncationality.GetGSTStatus(dtDocdate) Then
                         If IsTaxable = 1 Then
                             If clsCommon.CompairString(strTaxGroup, "EXEMPTED") = CompairStringResult.Equal Then
-                                strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_NonTaxable", "Bill Of Supply", dtDocdate)
+                                strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_NonTaxable", "Bill Of Supply", dtDocdate)
                             Else
 
                                 If clsCommon.CompairString(dt3.Rows(0)("Loc_State"), dt3.Rows(0)("Cust_State")) = CompairStringResult.Equal Then
                                     If IsMandiTax > 0 Then
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_LocalWithMandiTax", "Tax Invoice", dtDocdate)
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_LocalWithMandiTax", "Tax Invoice", dtDocdate)
                                     Else
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_Local", "Tax Invoice", dtDocdate)
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_Local", "Tax Invoice", dtDocdate)
                                     End If
                                 Else
                                     If IsMandiTax > 0 Then
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_InterStateWithMandiTax", "Tax Invoice", dtDocdate)
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_InterStateWithMandiTax", "Tax Invoice", dtDocdate)
                                     Else
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_InterState", "Tax Invoice", dtDocdate)
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_InterState", "Tax Invoice", dtDocdate)
                                     End If
                                 End If
                             End If
                         Else
-                            strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_NonTaxable", "Bill Of Supply", dtDocdate)
+                            strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleInvoice_NonTaxable", "Bill Of Supply", dtDocdate)
                         End If
                     Else
 
                         If clsCommon.CompairString(strinvoicetype, "DepoPrint") = CompairStringResult.Equal Then
-                            strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptDepoCentralTaxInvoice", "Depo Print")
+                            strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptDepoCentralTaxInvoice", "Depo Print")
                         Else
 
                             If clsCommon.CompairString(ExcisableType, "Excise Invoice") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") = CompairStringResult.Equal Then
                                     If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "T") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "I") = CompairStringResult.Equal Then
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
                                         ''frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
                                     Else
 
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
                                     End If
                                 End If
                             ElseIf clsCommon.CompairString(ExcisableType, "Vat Invoice") = CompairStringResult.Equal Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") = CompairStringResult.Equal Then
                                     If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "T") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "I") = CompairStringResult.Equal Then
                                         '' frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
                                     Else
 
-                                        strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
+                                        strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
 
                                     End If
                                 End If
@@ -7406,21 +7406,21 @@ Left outer join TSPL_STATE_MASTER as TBL_FOR_SHIP_TO_LOCTION_GSTSTATE on TBL_FOR
                                 ''========== Change by Parteek=======
                                 Dim qry1 As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Location_Desc from TSPL_USER_MASTER left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_USER_MASTER.Default_Location where TSPL_USER_MASTER.User_Code='" & objCommonVar.CurrentUserCode & "'")
                                 If clsCommon.CompairString(qry1, "Guwahati") = CompairStringResult.Equal Then
-                                    strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoiceLoc", "Tax Invoice")
+                                    strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoiceLoc", "Tax Invoice")
                                 Else
-                                    strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Tax Invoice")
+                                    strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Tax Invoice")
                                 End If
 
 
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "R") = CompairStringResult.Equal Then
-                                strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Retail Invoice")
+                                strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Retail Invoice")
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "I") = CompairStringResult.Equal Then
                                 ''========== Change by Parteek=======
                                 Dim qry1 As String = clsDBFuncationality.getSingleValue("select TSPL_LOCATION_MASTER.Location_Desc from TSPL_USER_MASTER left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_USER_MASTER.Default_Location where TSPL_USER_MASTER.User_Code='" & objCommonVar.CurrentUserCode & "'")
                                 If clsCommon.CompairString(qry1, "Guwahati") = CompairStringResult.Equal Then
-                                    strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoiceInter", "Interstate Invoice")
+                                    strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoiceInter", "Interstate Invoice")
                                 Else
-                                    strrptpath = frmCRV.funreport(isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Interstate Invoice")
+                                    strrptpath = frmCRV.funreport(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Interstate Invoice")
                                 End If
                             End If
                         End If

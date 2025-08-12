@@ -2003,17 +2003,17 @@ xyz.Sale_Invoice_No, "
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                        strPath = frmCRV.funreport(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntryNewTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                         If isDepartmentRoute Then
-                            strPath = frmCRV.funreport(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR-DRP", "Dairy GatePass Entry DRP", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                            strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR-DRP", "Dairy GatePass Entry DRP", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         Else
-                            strPath = frmCRV.funreport(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                            strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         End If
                     Else
-                        strPath = frmCRV.funreport(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                     End If
                     frmCRV = Nothing
                     If clsCommon.myLen(strPath) > 0 AndAlso clsCommon.myLen(objCommonVar.CurrentUserEmailID) > 0 Then

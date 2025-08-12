@@ -6174,24 +6174,24 @@ Public Class frmSaleReturnProductSale
                 SetItemWiseTax(dt, StrCode)
                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt.Rows(0)("Document_Date"))) Then
                     If clsCommon.CompairString(strTaxGroup, "EXEMPTED") = CompairStringResult.Equal Then
-                        strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_BillOfSupply", "Bill Of Supply", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                        strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_BillOfSupply", "Bill Of Supply", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                     Else
                         If clsCommon.CompairString(dt.Rows(0)("from_StateName"), dt.Rows(0)("Cust_StateName")) = CompairStringResult.Equal Then
                             If IsMandiTax > 0 Then
-                                strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                                strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                             Else
-                                strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                                strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_IntraState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                             End If
                         Else
                             If IsMandiTax > 0 Then
-                                strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                                strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterStateWithMandiTax", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                             Else
-                                strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                                strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.NewSalesReports, dt, "crptProductSaleReturn_InterState", "Sale Return", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                             End If
                         End If
                     End If
                 Else
-                    strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.NewSalesReports, dt, "crptSaleReturn", "Sale Return")
+                    strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.NewSalesReports, dt, "crptSaleReturn", "Sale Return")
                 End If
 
             End If

@@ -2639,7 +2639,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
                             Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(MainQuery)
                             If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
                                 Dim frmCRV As New frmCrystalReportViewer()
-                                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptRouteWiseSalesSummary", "Route Summary")
+                                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptRouteWiseSalesSummary", "Route Summary")
                                 frmCRV = Nothing
                                 Return
                             Else
@@ -5349,7 +5349,7 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
                 Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(query)
                 If dtPrint IsNot Nothing And dtPrint.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptFluidMilkDemandReport", "Milk Demand")
+                    frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptFluidMilkDemandReport", "Milk Demand")
                     frmCRV = Nothing
                     Return
                 Else

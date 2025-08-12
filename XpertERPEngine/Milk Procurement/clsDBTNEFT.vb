@@ -433,7 +433,7 @@ WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
                 dt = clsDBFuncationality.GetDataTable(qry)
 
                 Dim frmCRV As New frmCrystalReportViewer()
-                strPAth = frmCRV.funreport(isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
+                strPAth = frmCRV.funreport("ABC", isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
                 frmCRV = Nothing
             Catch ex As Exception
                 Throw New Exception(ex.Message)

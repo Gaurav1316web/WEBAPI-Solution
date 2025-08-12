@@ -7938,7 +7938,7 @@ Public Class frmMCCMaterialSaleFarmer
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                strRptPath = frmCRV.funreport(True, CrystalReportFolder.NewSalesReports, dt, "crptShipment", "Shipment Detail")
+                strRptPath = frmCRV.funreport(MyBase.Form_ID, True, CrystalReportFolder.NewSalesReports, dt, "crptShipment", "Shipment Detail")
                 frmCRV = Nothing
                 objEmailH.Attachment_1_Path = strRptPath
             End If
