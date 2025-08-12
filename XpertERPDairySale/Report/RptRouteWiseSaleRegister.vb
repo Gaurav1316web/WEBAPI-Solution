@@ -458,7 +458,7 @@ Public Class RptRouteWiseSaleRegister
     Sub Printt()
         Dim dt As DataTable = Nothing
         'Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "SELECT TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Unit_code AS UOM,Sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) AS [Item Wise Total Crates],
+        Dim qry As String = "SELECT TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,Max(TSPL_CUSTOMER_MASTER.Customer_Name) As Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Unit_code AS UOM,Sum(Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End) AS [Item Wise Total Crates],
 Sum(Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End) As [Item Wise Total Pouch],
         Sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) AS [Item Wise Total LTR],Max(TSPL_ITEM_MASTER.Short_Description)Short_Description,
         Max(TSPL_ITEM_MASTER.Short_Description+' '+TSPL_DEMAND_BOOKING_DETAIL.Unit_code) As [Short Desc With UOM],
@@ -500,7 +500,7 @@ Sum(Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOK
             qry += " and TSPL_DEMAND_BOOKING_MASTER.Location_Code in(" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ")" & Environment.NewLine
         End If
 
-        qry += " Group By TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
+        qry += " Group By TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_DETAIL.Unit_code"
 
 
         dt = clsDBFuncationality.GetDataTable(qry & " ,TSPL_ITEM_MASTER.Sku_Seq Order By TSPL_ITEM_MASTER.Sku_Seq")
@@ -527,10 +527,17 @@ Sum(Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_DEMAND_BOOK
 
         dtItem = dt.DefaultView.ToTable(True, "Item_Code", "Short_Description")
 
-        Dim strFinalQry As String = "SELECT Route_No As [Route No],Sum([Item Wise Total Crates])[Total Crates],Sum([Item Wise Total Pouch])[Total Pouch],Sum([Item Wise Total LTR])[Total LTR],"
+        Dim strFinalQry As String = "SELECT Route_No As [Route No],"
+        If rbtnDetails.Checked Then
+            strFinalQry += "Cust_Code As [Booth Code],Max(Customer_Name) As [Booth Name],"
+        End If
         strFinalQry += "" & clsCommon.myCstr(strSumItemColumn) & ""
-        strFinalQry += "FROM (" & qry & ")AS SourceTable PIVOT (SUM(Qty) FOR [Short Desc With UOM] IN (" & clsCommon.myCstr(strItemColumn) & ")) AS PivotTable 
-Group By Route_No ORDER BY Route_No"
+        strFinalQry += " ,Sum([Item Wise Total Crates])[Total Crates],Sum([Item Wise Total Pouch])[Total Pouch],Sum([Item Wise Total LTR])[Total LTR]"
+        strFinalQry += "FROM (" & qry & ")AS SourceTable PIVOT (SUM(Qty) FOR [Short Desc With UOM] IN (" & clsCommon.myCstr(strItemColumn) & ")) AS PivotTable Group By Route_No "
+        If rbtnDetails.Checked Then
+            strFinalQry += ",Cust_Code"
+        End If
+        strFinalQry += " ORDER BY Route_No"
 
         dt = Nothing
         dt = clsDBFuncationality.GetDataTable(strFinalQry)
@@ -567,15 +574,16 @@ Group By Route_No ORDER BY Route_No"
             view.ColumnGroups.Add(New GridViewColumnGroup(""))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns(0).Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns(1).Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns(2).Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns(3).Name)
-            For i As Integer = 0 To dtItem.Rows.Count - 1
+            If rbtnDetails.Checked Then
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns(1).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns(2).Name)
+            End If
+            Dim i As Integer = 0
+            For i = 0 To dtItem.Rows.Count - 1
                 Dim shortDesc As String = clsCommon.myCstr(dtItem.Rows(i)("Short_Description"))
                 view.ColumnGroups.Add(New GridViewColumnGroup(shortDesc))
                 view.ColumnGroups(i + 1).Rows.Add(New GridViewColumnGroupRow())
-
-                For j As Integer = 4 To gvData.Columns.Count - 1
+                For j As Integer = 3 To gvData.Columns.Count - 1
                     If gvData.Columns(j).Name.Contains(shortDesc) Then
                         Dim ColumnName As String = gvData.Columns(j).Name
                         Dim UOMName As String = ColumnName.Replace(shortDesc, "").Trim()
@@ -584,6 +592,12 @@ Group By Route_No ORDER BY Route_No"
                     End If
                 Next
             Next
+            view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            view.ColumnGroups(i + 1).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(i + 1).Rows(0).ColumnNames.Add("")
+            view.ColumnGroups(i + 1).Rows(0).ColumnNames.Add("Total Crates")
+            view.ColumnGroups(i + 1).Rows(0).ColumnNames.Add("Total Pouch")
+            view.ColumnGroups(i + 1).Rows(0).ColumnNames.Add("Total LTR")
             gvData.ViewDefinition = view
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -601,7 +615,8 @@ Group By Route_No ORDER BY Route_No"
                 gvData.Columns(ii).ReadOnly = True
             Next
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            For i As Integer = 1 To gvData.Columns.Count - 1
+
+            For i As Integer = IIf(rbtnDetails.Checked, 3, 1) To gvData.Columns.Count - 1
                 Dim aa = gvData.Columns(i).HeaderText()
                 Dim item8 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item8)
@@ -663,13 +678,18 @@ Group By Route_No ORDER BY Route_No"
 
     Sub ItemType()
         If chkdemand.Checked Then
+            RadGroupBox2.Visible = True
             RadGroupBox1.Visible = True
             rbtnFresh.Checked = True
+            rbtnDetails.Checked = True
         Else
+            RadGroupBox2.Visible = False
             RadGroupBox1.Visible = False
             rbtnFresh.Checked = False
             rbtnProduct.Checked = False
             rbtnBoth.Checked = False
+            rbtnDetails.Checked = False
+            rbtnSummary.Checked = False
         End If
     End Sub
 End Class
