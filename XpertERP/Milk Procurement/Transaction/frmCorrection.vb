@@ -1,6 +1,6 @@
 ﻿Imports common
 Imports System.Data.SqlClient
-Public Class    
+Public Class frmCorrection
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
