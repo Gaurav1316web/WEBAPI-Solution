@@ -768,8 +768,9 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
             strMain = "With CTE as ( " + BaseQry + ")
 select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,STRING_AGG(VLC_CODE_Uploader,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(Payee_Joint_Name,',') as MPPayeeName,STRING_AGG(VLC_Code_VLC_Uploader,',') as DCSUploaderCode  from  CTE  group by  Payee_Joint_Account_No having sum(1)>1
 union all
-select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name;"
-
+select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name
+union all
+select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where Payee_Joint_Account_No like '%.%';"
         Else
             Qry = "select   ROW_NUMBER() OVER (ORDER BY Bank_Code,MCC_Code,VLC_Code_VLC_Uploader) AS [" + clsDBTNEFTPerforma.colSlNo + "],MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],PK_Id as [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Bank_Code as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xxx "
 
@@ -817,7 +818,9 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL
 where TSPL_DBT_NEFT_DETAIL.Document_Code='" & txtDocumentNo.Value & "' )
 select 'Repeated Account No' as ErrorCode,MP_Account_No as ErrorValue,STRING_AGG(MP_Uploader_Code,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(MP_Name,',') as MPName,STRING_AGG(VLC_Uploader_Code,',') as DCSUploaderCode from  CTE  group by  MP_Account_No having sum(1)>1
 union all
-select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode,MP_Code as MPCode,MP_Name as MPName, VLC_Uploader_Code as DCSUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name;"
+select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode,MP_Code as MPCode,MP_Name as MPName, VLC_Uploader_Code as DCSUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name
+union all
+select 'Wrong Account No' as ErrorCode,MP_Account_No as ErrorValue,MP_Uploader_Code as MPUploaderCode,MP_Code as MPCode,MP_Name as MPName, VLC_Uploader_Code as DCSUploaderCode from CTE where MP_Account_No like '%.%' ;"
             Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
                 If common.clsCommon.MyMessageBoxShow(Me, "Error in " & dtCheck.Rows.Count & " Records.Do you want to open it", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then

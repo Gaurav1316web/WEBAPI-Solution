@@ -825,7 +825,10 @@ select MP_Account_No,MP_Uploader_Code,MP_Name from " + clsCommon.myCstr(dt.Rows(
 select ErrorCode,sum(1) as Rep from (
 select 'Repeated Account No' as ErrorCode,MP_Account_No as ErrorValue,STRING_AGG(MP_Uploader_Code,',') as MPUploaderCode from  CTE  group by  MP_Account_No having sum(1)>1
 union all
-select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name )x group by ErrorCode"
+select 'Special Character'as ErrorCode,MP_Name as ErrorValue,MP_Uploader_Code as MPUploaderCode from CTE   where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(MP_Name))) <> MP_Name 
+union all
+select 'Wrong Account No'as ErrorCode,MP_Account_No as ErrorValue,MP_Uploader_Code as MPUploaderCode from CTE   where MP_Account_No like '%.%'
+)x group by ErrorCode"
                     Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
                         qry = "There are "
