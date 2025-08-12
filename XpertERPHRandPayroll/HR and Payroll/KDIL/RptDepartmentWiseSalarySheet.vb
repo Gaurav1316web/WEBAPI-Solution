@@ -132,9 +132,20 @@ Public Class RptDepartmentWiseSalarySheet
                 Exit Sub
             End If
 
-            Dim PHQuery As String = " SELECT DISTINCT  PAY_HEAD_CODE FROM TSPL_SALSTRUCT_PAYHEADS WHERE SALARY_STRUCTURE_CODE IN (select distinct SALARY_STRUCTURE_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
-            PHQuery = " select Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type,PRINT_GROUP_SEQ AS  Group_Seq " &
+            Dim PHQuery As String = ""
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                PHQuery = "  SELECT DISTINCT GSP.PAY_HEAD_CODE FROM TSPL_GENERATE_SALARY GS INNER JOIN TSPL_GENERATE_SALARY_PAYHEADS GSP ON GS.SALARY_GENERATION_CODE = GSP.SALARY_GENERATION_CODE
+                                           WHERE GS.PAY_PERIOD_CODE ='" & txtFromPP.Value & "'  AND GSP.ACTUAL_AMOUNT > 0 "
+                PHQuery = " select Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type,PRINT_GROUP_SEQ AS  Group_Seq " &
                       " from TSPL_PAYHEAD_MASTER) TSPL_PAYHEAD_MASTER WHERE PAY_HEAD_CODE IN (" & PHQuery & ")  "
+
+            Else
+                PHQuery = " SELECT DISTINCT  PAY_HEAD_CODE FROM TSPL_SALSTRUCT_PAYHEADS WHERE SALARY_STRUCTURE_CODE IN (select distinct SALARY_STRUCTURE_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
+                PHQuery = " select Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type,PRINT_GROUP_SEQ AS  Group_Seq " &
+                      " from TSPL_PAYHEAD_MASTER) TSPL_PAYHEAD_MASTER WHERE PAY_HEAD_CODE IN (" & PHQuery & ")  "
+
+            End If
+
 
 
             Dim CompName As String = clsCommon.myCstr(objCommonVar.CurrentCompanyName)
@@ -853,9 +864,20 @@ Public Class RptDepartmentWiseSalarySheet
     End Function
 
     Function GetPayHeadDT() As DataTable
-        Dim PHQuery As String = " SELECT DISTINCT  PAY_HEAD_CODE FROM TSPL_SALSTRUCT_PAYHEADS WHERE SALARY_STRUCTURE_CODE IN (select distinct SALARY_STRUCTURE_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
-        PHQuery = " select Pay_Head_Name as Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type, PRINT_GROUP_SEQ AS Group_Seq " & _
+
+        Dim PHQuery As String = ""
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            PHQuery = "  SELECT DISTINCT GSP.PAY_HEAD_CODE FROM TSPL_GENERATE_SALARY GS INNER JOIN TSPL_GENERATE_SALARY_PAYHEADS GSP ON GS.SALARY_GENERATION_CODE = GSP.SALARY_GENERATION_CODE
+                                           WHERE GS.PAY_PERIOD_CODE ='" & txtFromPP.Value & "'  AND GSP.ACTUAL_AMOUNT > 0 "
+            PHQuery = " select Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type,PRINT_GROUP_SEQ AS  Group_Seq " &
+                      " from TSPL_PAYHEAD_MASTER) TSPL_PAYHEAD_MASTER WHERE PAY_HEAD_CODE IN (" & PHQuery & ") ORDER BY IsEarning Desc,Group_Seq  "
+        Else
+            PHQuery = " SELECT DISTINCT  PAY_HEAD_CODE FROM TSPL_SALSTRUCT_PAYHEADS WHERE SALARY_STRUCTURE_CODE IN (select distinct SALARY_STRUCTURE_CODE from TSPL_GENERATE_SALARY_ATTENDANCE GSA INNER JOIN TSPL_GENERATE_SALARY GS ON GSA.SALARY_GENERATION_CODE=GS.SALARY_GENERATION_CODE WHERE GS.PAY_PERIOD_CODE='" & txtFromPP.Value & "') "
+            PHQuery = " select Pay_Head_Name as Pay_Head_Code,IsEarning,Head_Type,(ROW_NUMBER() over (partition by IsEarning order by Group_Seq)) Group_Seq,(Group_Seq % " & NoOfPayHeadsInEachCol & ") as Seq from ( select PAY_HEAD_CODE,PAY_HEAD_NAME,ISEARNING,Head_Type, PRINT_GROUP_SEQ AS Group_Seq " &
                   " from TSPL_PAYHEAD_MASTER) TSPL_PAYHEAD_MASTER WHERE PAY_HEAD_CODE IN (" & PHQuery & ")  ORDER BY IsEarning Desc,Group_Seq"
+
+        End If
+
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(PHQuery)
 
         Dim EarningCount As Decimal = 0
