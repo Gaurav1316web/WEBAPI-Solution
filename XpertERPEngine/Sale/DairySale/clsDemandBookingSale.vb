@@ -954,7 +954,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
             Else
                 PostData(FormId, strDocNo, intShift, True, trans)
             End If
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "TSPL_DEMAND_BOOKING_DETAIL", "Document_No", trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
