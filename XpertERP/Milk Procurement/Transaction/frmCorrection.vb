@@ -1,6 +1,6 @@
 ﻿Imports common
 Imports System.Data.SqlClient
-Public Class frmCorrection
+Public Class    
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -99,9 +99,9 @@ Public Class frmCorrection
                 lblMcc.Visible = Not MultipleFinderFillAuto
                 lblMCCCode.Visible = Not MultipleFinderFillAuto
 
-                'txtCAPMCC.Visible = Not MultipleFinderFillAuto
-                'lblCAPMcc.Visible = Not MultipleFinderFillAuto
-                'MyLabel31.Visible = Not MultipleFinderFillAuto
+                txtCAPMCC.Visible = Not MultipleFinderFillAuto
+                lblCAPMcc.Visible = Not MultipleFinderFillAuto
+                MyLabel31.Visible = Not MultipleFinderFillAuto
 
                 LoadShiftFrom()
                 chkRetesting.Checked = False
