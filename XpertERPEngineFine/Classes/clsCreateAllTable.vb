@@ -11346,6 +11346,8 @@ Public Class clsCreateAllTable
             coll.Add("Deduction_Type", "Varchar(40) null References TSPL_DEDUCTION_TYPE_MASTER(Document_No)")
             coll.Add("Deduction_Type_Hindi", "nvarchar(100) null")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
+            coll.Add("Is_Correction_After_Process_DR_Note", "integer not null default 0")
+            coll.Add("Is_Correction_After_Process_CR_Note", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DEDUCTION_MASTER", coll, "", True, False, "", "", "", True)
 
 
@@ -25393,6 +25395,23 @@ Public Class clsCreateAllTable
             Catch
             End Try
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DOC_CODE", "Varchar(30) not null unique references TSPL_MILK_SRN_HEAD(DOC_CODE)")
+            coll.Add("Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            coll.Add("UOM_Code", "VARCHAR(30) not NULL")
+            coll.Add("FAT_PER", "DECIMAL(5,3) NOT NULL DEFAULT 0")
+            coll.Add("FAT_KG", "DECIMAL(10,3) NOT NULL DEFAULT 0")
+            coll.Add("SNF_PER", "DECIMAL(5,3) NOT NULL DEFAULT 0")
+            coll.Add("SNF_KG", "DECIMAL(10,3) NOT NULL DEFAULT 0")
+            coll.Add("CLR", "DECIMAL(5,1) NOT NULL DEFAULT 0")
+            coll.Add("Price_Code", "VARCHAR(30)  NULL")
+            coll.Add("RATE", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            coll.Add("AMOUNT", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            coll.Add("ACC_Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS", coll, "", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "", True)
 
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_MILK_SRN_HEAD alter column  MILK_SAMPLE_CODE varchar(30) null")
