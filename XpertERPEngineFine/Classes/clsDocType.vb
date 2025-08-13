@@ -2311,6 +2311,7 @@ Public Class clsDocTransactionType
     Public Const Detail As String = "Detail"
     Public Const ProductDetail As String = "ProductDetail"
     Public Const Uploader As String = "Uploader"
+    Public Const ExcludeShipmentTRCode As String = "ExcludeShipmentTRCode"
 
     'Sanjay
     Public Const All As String = "All"
