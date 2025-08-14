@@ -340,7 +340,11 @@ Public Class RptDepartmentWiseSalarySheet
             " LEFT JOIN TSPL_DESIGNATION_MASTER DESG ON EMP.Designation=DESG.DESIGNATION_ID " &
             " LEFT JOIN TSPL_BANK_MASTER BANK ON EMP.BANK_CODE=BANK.BANK_CODE "
 
-        InnerQry = "select * from (" & InnerQry & " Union All " &
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            InnerQry = "Select * from (" & InnerQry & ") as Final"
+        Else
+            InnerQry = "select * from (" & InnerQry & " Union All " &
             " select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " &
             " '' as IFSC,EMP.DEPARTMENT_CODE as DEPARTMENT_CODE,EMP.DEPARTMENT_CODE as DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'True' as ISEARNING,'' as Head_Type," & EarningTotalColNo & " as Group_Seq," & (NoOfPayHeadsInEachCol - 1) & " as Seq,0 as Total," &
             " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " &
@@ -350,6 +354,9 @@ Public Class RptDepartmentWiseSalarySheet
             " '' as IFSC, EMP.DEPARTMENT_CODE,EMP.DEPARTMENT_CODE AS DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'False' as ISEARNING,'' as Head_Type," & DeductionTotalColNo & " as Group_Seq," & (NoOfPayHeadsInEachCol - 1) & " as Seq,0 as Total, " &
             " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " &
             " from TSPL_EMPLOYEE_MASTER EMP WHERE EMP_CODE IN (select distinct EMP_CODE from (" & InnerQry & ") as Dept)) as Final "
+
+        End If
+
         '" select EMP.EMP_CODE,EMP.EMP_NAME,null as Joining_date,'' AS FATHERS_NAME,'' AS Designation_Desc,'' as PF_NO, '' as ESI_NO,'' as BANK_ACC_NO,'' as BANK_NAME, " & _
         '    " '' as IFSC,EMP.DEPARTMENT_CODE as DEPARTMENT_CODE,EMP.DEPARTMENT_CODE as DEPARTMENT_NAME,'Total' as PAY_HEAD_CODE,'True' as ISEARNING,'ATTN' as Head_Type," & EarningRateTotalColNo & " as Group_Seq,2 as Seq,0 as Total," & _
         '    " 0 as PF_Count,0 as ESI_Count,0 as Pension,0 as Comp_PF,0 as Comp_ESI,0 as LWFER,0 as ACTUAL_AMOUNT,0 AS Payable_Amount " & _
@@ -387,8 +394,6 @@ Public Class RptDepartmentWiseSalarySheet
             & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON GSA.EMP_CODE=EMP.EMP_CODE " _
             & " WHERE 2=2  " & CondLeave & ""
 
-
-
         If clsCommon.CompairString(ReportType, "Departmentwise") = CompairStringResult.Equal Then
             Qry = "select DEPARTMENT_CODE,DEPARTMENT_NAME,PAY_HEAD_CODE,ISEARNING,Group_Seq,Seq,sum(Total) as Total,sum(PF_Count) as PF_Count,sum(ESI_Count) as ESI_Count,sum(Pension) as Pension," &
                 " sum(Comp_PF) as Comp_PF,sum(Comp_ESI) as Comp_ESI,sum(LWFER) as LWFER,sum(ACTUAL_AMOUNT) as ACTUAL_AMOUNT,SUM(Payable_Amount) AS Payable_Amount from (" & InnerQry & ") InnerTable " &
@@ -420,7 +425,7 @@ Public Class RptDepartmentWiseSalarySheet
             Qry = "select 0 as Serial_No,'' as Employees,'' as Employee_Name,'' as Present_Days,'' as Bank_Detail,'' as Department_Name,'' as EarningsRate1,'' as EarningsRate2,'' as EarningsRate3,
              '' as EarningsRate4,'' as EarningsRate5,'' as EarningsRate6,'' as Attendance1,'' as Attendance2,'' as Earnings1,'' as Earnings2,'' as Earnings3,
              '' as Earnings4,'' as Earnings5,'' as Earnings6,'' as Deductions1,'' as Deductions2,'' as Deductions3,'' as Deductions4, 
-             '' as Deductions5,'' as Deductions6,'' as EmployerShare1,'' as EmployerShare2, '' as Net_Payment"
+             '' as Deductions5,'' as Deductions6,'' as EmployerShare1,'' as EmployerShare2, '' as Net_Payment,'' as Total_Earning,'' as Total_Deduction"
         Else
             Qry = " select 0 as Serial_No,'' as Employees,'' as Department_Name,'' as EarningsRate1,'' as EarningsRate2,'' as EarningsRate3," &
               " '' as EarningsRate4,'' as EarningsRate5,'' as EarningsRate6,'' as Attendance1,'' as Attendance2,'' as Earnings1,'' as Earnings2,'' as Earnings3," &
@@ -572,7 +577,10 @@ Public Class RptDepartmentWiseSalarySheet
                     updateDeductionHeads(dtFinal, dr, DedTotal)
                 End If
             End If
-
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+                dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Total_Earning") = (EarningsTotal(0) + EarningsTotal(1) + EarningsTotal(2) + EarningsTotal(3) + EarningsTotal(4) + EarningsTotal(5))
+                dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Total_Deduction") = (DedTotal(0) + DedTotal(1) + DedTotal(2) + DedTotal(3) + DedTotal(4) + DedTotal(5))
+            End If
             If clsCommon.CompairString(ReportType, "Departmentwise") = CompairStringResult.Equal Then
                 dtFinal.Rows(dtFinal.Rows.Count - 1).Item("Employees") = Total_Total & Environment.NewLine & PF_Count_Total & Environment.NewLine & ESI_Count_Total
             Else
@@ -894,29 +902,32 @@ Public Class RptDepartmentWiseSalarySheet
         arr = dt.Select("IsEarning=0")
         DedCount = arr.Length
 
-        dt.Rows.Add()
-        dt.Rows(dt.Rows.Count - 1).Item("Pay_Head_Code") = "Total"
-        dt.Rows(dt.Rows.Count - 1).Item("IsEarning") = False
-        dt.Rows(dt.Rows.Count - 1).Item("Head_Type") = ""
-        dt.Rows(dt.Rows.Count - 1).Item("Group_Seq") = DedCount + 1
-        dt.Rows(dt.Rows.Count - 1).Item("Seq") = (NoOfPayHeadsInEachCol - 1)
-        DeductionTotalColNo = DedCount + 1
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
+            dt.Rows.Add()
+            dt.Rows(dt.Rows.Count - 1).Item("Pay_Head_Code") = "Total"
+            dt.Rows(dt.Rows.Count - 1).Item("IsEarning") = False
+            dt.Rows(dt.Rows.Count - 1).Item("Head_Type") = ""
+            dt.Rows(dt.Rows.Count - 1).Item("Group_Seq") = DedCount + 1
+            dt.Rows(dt.Rows.Count - 1).Item("Seq") = (NoOfPayHeadsInEachCol - 1)
+            DeductionTotalColNo = DedCount + 1
 
-        dt.Rows.Add()
-        dt.Rows(dt.Rows.Count - 1).Item("Pay_Head_Code") = "Total"
-        dt.Rows(dt.Rows.Count - 1).Item("IsEarning") = True
-        dt.Rows(dt.Rows.Count - 1).Item("Head_Type") = ""
-        dt.Rows(dt.Rows.Count - 1).Item("Group_Seq") = EarningCount + 1
-        dt.Rows(dt.Rows.Count - 1).Item("Seq") = (NoOfPayHeadsInEachCol - 1)
-        EarningTotalColNo = EarningCount + 1
+            dt.Rows.Add()
+            dt.Rows(dt.Rows.Count - 1).Item("Pay_Head_Code") = "Total"
+            dt.Rows(dt.Rows.Count - 1).Item("IsEarning") = True
+            dt.Rows(dt.Rows.Count - 1).Item("Head_Type") = ""
+            dt.Rows(dt.Rows.Count - 1).Item("Group_Seq") = EarningCount + 1
+            dt.Rows(dt.Rows.Count - 1).Item("Seq") = (NoOfPayHeadsInEachCol - 1)
+            EarningTotalColNo = EarningCount + 1
 
-        'dt.Rows.Add()
-        'dt.Rows(dt.Rows.Count - 1).Item("Pay_Head_Code") = "Total"
-        'dt.Rows(dt.Rows.Count - 1).Item("IsEarning") = True
-        'dt.Rows(dt.Rows.Count - 1).Item("Head_Type") = "ATTN"
-        'dt.Rows(dt.Rows.Count - 1).Item("Group_Seq") = EarningRateCount + 1
-        'dt.Rows(dt.Rows.Count - 1).Item("Seq") = 2
-        EarningRateTotalColNo = EarningRateCount + 1
+            'dt.Rows.Add()
+            'dt.Rows(dt.Rows.Count - 1).Item("Pay_Head_Code") = "Total"
+            'dt.Rows(dt.Rows.Count - 1).Item("IsEarning") = True
+            'dt.Rows(dt.Rows.Count - 1).Item("Head_Type") = "ATTN"
+            'dt.Rows(dt.Rows.Count - 1).Item("Group_Seq") = EarningRateCount + 1
+            'dt.Rows(dt.Rows.Count - 1).Item("Seq") = 2
+            EarningRateTotalColNo = EarningRateCount + 1
+        End If
+
         Return dt
     End Function
     Function ReturnFinalDTWithCols(ByVal dtFinal As DataTable, ByVal PayHeadDt As DataTable) As DataTable
@@ -977,6 +988,8 @@ Public Class RptDepartmentWiseSalarySheet
         Dim EmployeeSahreCol1 As String = "Pension" & Environment.NewLine & "Difference" & Environment.NewLine & "E.S.I.C"
         Dim EmployeeSahreCol2 As String = "LWFER"
         Dim NetPaymentCol As String = "Net Payment"
+        Dim TotalEarning As String = "Total Earning"
+        Dim TotalDeduction As String = "Total Deduction"
 
 
 
@@ -1189,7 +1202,14 @@ Public Class RptDepartmentWiseSalarySheet
             dcEarnings6Col.Caption = EarningsCol6
             dtFinal.Columns.Add(dcEarnings6Col)
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            '' add Total Earning
+            Dim dcTotalEarning As New DataColumn
+            dcTotalEarning.ColumnName = "Total_Earning"
+            dcTotalEarning.Caption = TotalEarning
+            dtFinal.Columns.Add(dcTotalEarning)
 
+        End If
         '' add deduction1 cols
         If clsCommon.myLen(DedCol1) > 0 Then
             Dim dcDed1Col As New DataColumn
@@ -1236,7 +1256,14 @@ Public Class RptDepartmentWiseSalarySheet
             dcDed6Col.Caption = DedCol6
             dtFinal.Columns.Add(dcDed6Col)
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
+            '' add Total Earning
+            Dim dcTotalDeduction As New DataColumn
+            dcTotalDeduction.ColumnName = "Total_Deduction"
+            dcTotalDeduction.Caption = TotalDeduction
+            dtFinal.Columns.Add(dcTotalDeduction)
 
+        End If
         '' add dcEmployeeSahreCol1 cols
         Dim dcEmployeeSahreCol1 As New DataColumn
         dcEmployeeSahreCol1.ColumnName = "EmployerShare1"
