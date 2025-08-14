@@ -192,6 +192,8 @@ Partial Class frmCorrection
         Me.txtCAPVLC = New common.UserControls.txtFinder()
         Me.lblCAPVLC = New common.Controls.MyLabel()
         Me.RadGroupBox10 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel33 = New common.Controls.MyLabel()
+        Me.TxtCAPRemarks = New common.Controls.MyTextBox()
         Me.cboCAPRejectType = New common.Controls.MyComboBox()
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.MyLabel42 = New common.Controls.MyLabel()
@@ -369,6 +371,8 @@ Partial Class frmCorrection
         CType(Me.lblCAPVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox10.SuspendLayout()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtCAPRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboCAPRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -423,7 +427,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2780,6 +2784,8 @@ Partial Class frmCorrection
         'RadGroupBox10
         '
         Me.RadGroupBox10.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox10.Controls.Add(Me.MyLabel33)
+        Me.RadGroupBox10.Controls.Add(Me.TxtCAPRemarks)
         Me.RadGroupBox10.Controls.Add(Me.cboCAPRejectType)
         Me.RadGroupBox10.Controls.Add(Me.MyLabel38)
         Me.RadGroupBox10.Controls.Add(Me.MyLabel42)
@@ -2802,9 +2808,43 @@ Partial Class frmCorrection
         Me.RadGroupBox10.HeaderText = "Correction"
         Me.RadGroupBox10.Location = New System.Drawing.Point(3, 91)
         Me.RadGroupBox10.Name = "RadGroupBox10"
-        Me.RadGroupBox10.Size = New System.Drawing.Size(566, 196)
+        Me.RadGroupBox10.Size = New System.Drawing.Size(566, 234)
         Me.RadGroupBox10.TabIndex = 3
         Me.RadGroupBox10.Text = "Correction"
+        '
+        'MyLabel33
+        '
+        Me.MyLabel33.FieldName = Nothing
+        Me.MyLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel33.Location = New System.Drawing.Point(5, 164)
+        Me.MyLabel33.Name = "MyLabel33"
+        Me.MyLabel33.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel33.TabIndex = 374
+        Me.MyLabel33.Text = "Remarks"
+        '
+        'TxtCAPRemarks
+        '
+        Me.TxtCAPRemarks.CalculationExpression = Nothing
+        Me.TxtCAPRemarks.FieldCode = Nothing
+        Me.TxtCAPRemarks.FieldDesc = Nothing
+        Me.TxtCAPRemarks.FieldMaxLength = 0
+        Me.TxtCAPRemarks.FieldName = Nothing
+        Me.TxtCAPRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtCAPRemarks.isCalculatedField = False
+        Me.TxtCAPRemarks.IsSourceFromTable = False
+        Me.TxtCAPRemarks.IsSourceFromValueList = False
+        Me.TxtCAPRemarks.IsUnique = False
+        Me.TxtCAPRemarks.Location = New System.Drawing.Point(72, 163)
+        Me.TxtCAPRemarks.MaxLength = 200
+        Me.TxtCAPRemarks.MendatroryField = True
+        Me.TxtCAPRemarks.MyLinkLable1 = Me.MyLabel33
+        Me.TxtCAPRemarks.MyLinkLable2 = Nothing
+        Me.TxtCAPRemarks.Name = "TxtCAPRemarks"
+        Me.TxtCAPRemarks.ReferenceFieldDesc = Nothing
+        Me.TxtCAPRemarks.ReferenceFieldName = Nothing
+        Me.TxtCAPRemarks.ReferenceTableName = Nothing
+        Me.TxtCAPRemarks.Size = New System.Drawing.Size(272, 18)
+        Me.TxtCAPRemarks.TabIndex = 373
         '
         'cboCAPRejectType
         '
@@ -2942,7 +2982,7 @@ Partial Class frmCorrection
         '
         Me.RadButton10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadButton10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton10.Location = New System.Drawing.Point(286, 168)
+        Me.RadButton10.Location = New System.Drawing.Point(286, 206)
         Me.RadButton10.Name = "RadButton10"
         Me.RadButton10.Size = New System.Drawing.Size(88, 21)
         Me.RadButton10.TabIndex = 6
@@ -2962,7 +3002,7 @@ Partial Class frmCorrection
         '
         Me.btnCAPSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCAPSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCAPSave.Location = New System.Drawing.Point(192, 168)
+        Me.btnCAPSave.Location = New System.Drawing.Point(192, 206)
         Me.btnCAPSave.Name = "btnCAPSave"
         Me.btnCAPSave.Size = New System.Drawing.Size(88, 21)
         Me.btnCAPSave.TabIndex = 5
@@ -3299,6 +3339,8 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox10.ResumeLayout(False)
         Me.RadGroupBox10.PerformLayout()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtCAPRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboCAPRejectType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3498,4 +3540,6 @@ Partial Class frmCorrection
     Friend WithEvents txtCAPSNF As common.MyNumBox
     Friend WithEvents MyLabel54 As common.Controls.MyLabel
     Friend WithEvents txtCAPFAT As common.MyNumBox
+    Friend WithEvents MyLabel33 As common.Controls.MyLabel
+    Friend WithEvents TxtCAPRemarks As common.Controls.MyTextBox
 End Class
