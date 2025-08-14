@@ -25411,6 +25411,7 @@ Public Class clsCreateAllTable
             coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Remarks", "varchar(200) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS", coll, "", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "", True)
 
             'Try
