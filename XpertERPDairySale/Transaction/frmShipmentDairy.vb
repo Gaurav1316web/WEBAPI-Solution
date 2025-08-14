@@ -9,6 +9,7 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim AllowAddOrEditItems As Boolean = False
     Dim ApplyMonthEndDispatch As Boolean = True
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
@@ -1040,6 +1041,7 @@ Public Class frmShipmentDairy
     End Sub
     Sub BlankAllControls()
         LoadBlankGridBoothWiseScheme(Nothing)
+        AllowAddOrEditItems = False
         EInvoiceType = ""
         FlagDocumentIsTaxable = 0
         chkSampling.Checked = False
@@ -2889,6 +2891,7 @@ Public Class frmShipmentDairy
         repoRowType.Name = colRowType
         repoRowType.Width = 50
         repoRowType.ReadOnly = False
+        repoRowType.IsVisible = False
         repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         repoRowType.DataSource = GetItemType()
         repoRowType.ValueMember = "Code"
@@ -2950,6 +2953,7 @@ Public Class frmShipmentDairy
         repoIStruct.Name = colIStruct
         repoIStruct.Width = 150
         repoIStruct.ReadOnly = True
+        repoIStruct.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoIStruct)
         Dim repoPriceDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoPriceDate.Format = DateTimePickerFormat.Custom
@@ -5053,7 +5057,40 @@ Public Class frmShipmentDairy
                     End If
                     If e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(ColCommParty) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colSchemeApplicable) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse e.Column Is gv1.Columns(colUnit) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal) Then
                         If (e.Column Is gv1.Columns(colQty) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal)) Then
-                            If ((e.Column Is gv1.Columns(colQty))) Then
+                            If e.Column Is gv1.Columns(colQty) Then
+                                Dim DispatchQty As Decimal = 0
+                                If AllowGatePassDemandTripWise Then
+                                    DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Trip_No='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colTripNo).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"))
+                                    gvDistributor.AllowAddNewRow = True
+                                    gvDistributor.Rows.AddNew()
+                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtRouteNo.Value, False, True, False, False, False, True)
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("TR_Code").Value = ExtraTRCode
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Cust_Code").Value = txtVendorNo.Value
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Item_Code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Unit_code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Qty").Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value) - DispatchQty
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Trip_No").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colTripNo).Value)
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Commission_Amt").Value = 0
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Security_Amt").Value = 0
+
+                                    gvDistributor.AllowAddNewRow = False
+                                Else
+                                    DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"))
+                                    gvDistributor.AllowAddNewRow = True
+                                    gvDistributor.Rows.AddNew()
+                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtRouteNo.Value, False, True, False, False, False, True)
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("TR_Code").Value = ExtraTRCode
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Cust_Code").Value = txtVendorNo.Value
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Item_Code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Unit_code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Qty").Value = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value) - DispatchQty
+                                    gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Trip_No").Value = 1
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Commission_Amt").Value = 0
+                                        gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Security_Amt").Value = 0
+                                    gvDistributor.AllowAddNewRow = False
+
+                                End If
+                                'Dim Qty As Decimal = clsCommon.myCDecimal(gv1.CurrentRow.Cells(colQty).Value)
                                 '                                If (gv1.CurrentRow.Cells(colQty).Value > 0) Then
                                 '                                    Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
                                 'left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -6985,6 +7022,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         Try
             If SettDistributorWiseBilling Then
                 MergeDistributorItems(True, False, trans)
+
             End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
@@ -9541,7 +9579,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                             If AllowGatePassDemandTripWise Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = objTr.Trip_No
                             Else
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = ""
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = "1"
                             End If
                             If intDispatchfromDelivery = 0 Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.GatePass_No
@@ -9773,17 +9811,23 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     End If
                     TxtEWayBillUpdateBillRemarks.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillRemarks"))
                 End If
-                qry = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty as DemandQty ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt 
-from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
-left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
-left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
-                'If clsCommon.CompairString(obj.Document_Code, ParentDocNo) <> CompairStringResult.Equal Then
-                '    qry += " and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code='" + txtVendorNo.Value + "' "
-                'End If
-                qry += " order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
+                '                qry = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty as DemandQty ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt 
+                'from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
+                'left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+                'left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                'left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                'left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'"
+                '                'If clsCommon.CompairString(obj.Document_Code, ParentDocNo) <> CompairStringResult.Equal Then
+                '                '    qry += " and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code='" + txtVendorNo.Value + "' "
+                '                'End If
+                '                qry += " order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
+                qry = " Select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code As TR_Code,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code As Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty As DemandQty ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt 
+From TSPL_SD_SHIPMENT_BOOKING_DETAIL
+Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code
+Left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE ='" & obj.Document_Code & "'
+order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                 LoadDistributorGrid(qry, Nothing)
                 If obj.ArrBoothScheme IsNot Nothing AndAlso obj.ArrBoothScheme.Count > 0 Then
                     LoadBlankGridBoothWiseScheme(Nothing)
@@ -10335,44 +10379,52 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             btnprinte_wayBill.Visible = True
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
             ' done by priti GKD/05/06/18-000144
-            If (AllowToSave(False)) Then
-                trans = clsDBFuncationality.GetTransactin()
-                Try
-                    txtTransNo.Text = txtVendorNo.Value
-                    SaveData(False, trans)
-                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
-                        For Each lst As clsPSShipmentDemand In lstobj
-                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
-TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
-TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DemandQty,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code as Unit_code,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No as Trip_No,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,
-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt
-from TSPL_SD_SHIPMENT_BOOKING_DETAIL
-left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
-                            LoadDistributorGrid(strQry, trans)
-                            MergeDistributorItems(True, True, trans)
-                            txtVendorNo.Value = lst.Booth_Code
-                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
-                            SaveData(False, trans)
-                        Next
-                    End If
-                    trans.Commit()
-                    Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
-                    clsDBFuncationality.ExecuteNonQuery(strupdate)
-                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                    LoadData(ParentDocNo, NavigatorType.Current)
-                Catch ex As Exception
-                    trans.Rollback()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                End Try
+            '            If (AllowToSave(False)) Then
+            '                trans = clsDBFuncationality.GetTransactin()
+            '                Try
+            '                    txtTransNo.Text = txtVendorNo.Value
+            '                    SaveData(False, trans)
+            '                    If lstobj IsNot Nothing AndAlso lstobj.Count > 0 Then
+            '                        For Each lst As clsPSShipmentDemand In lstobj
+            '                            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code as Cust_Code,
+            'TSPL_CUSTOMER_MASTER.Customer_Name as Customer_Name,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code as Item_Code,
+            'TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DemandQty,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as Qty,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code as Unit_code,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No as Trip_No,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,
+            'TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt
+            'from TSPL_SD_SHIPMENT_BOOKING_DETAIL
+            'left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+            'left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+            'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
+            '                            LoadDistributorGrid(strQry, trans)
+            '                            MergeDistributorItems(True, True, trans)
+            '                            txtVendorNo.Value = lst.Booth_Code
+            '                            lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + lst.Booth_Code + "'", trans))
+            '                            SaveData(False, trans)
+            '                        Next
+            '                    End If
+            '                    trans.Commit()
+            '                    Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
+            '                    clsDBFuncationality.ExecuteNonQuery(strupdate)
+            '                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+            '                    LoadData(ParentDocNo, NavigatorType.Current)
+            '                Catch ex As Exception
+            '                    trans.Rollback()
+            '                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            '                End Try
+            '            End If
+            If (gvDistributor IsNot Nothing AndAlso gvDistributor.Rows.Count > 0) Then
+                btnSave_Click(btnSave, New EventArgs())
+            Else
+                txtRouteNo.Value = ""
+                txtVendorNo.Value = ""
+                lblVendorName.Text = ""
+                clsCommon.MyMessageBoxShow(Me, "Data not found!")
             End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
             PostData(Nothing, "", "", "")
@@ -10411,7 +10463,7 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
             '    End If
             'End If
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F9 Then
-            If clsCommon.myLen(txtDocNo.Value) > 0 And btnPost.Enabled = False Then
+            If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Not btnPost.Enabled Then
                 txtVendorNo.Enabled = True
                 btnUpdateCustomerWithRoute.Enabled = True
                 btnUpdateCustomerWithRoute.Visible = True
@@ -12951,7 +13003,20 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             Else
                 OpenBatchItemIfFIFIOSettingON()
             End If
+        ElseIf e.KeyCode = Keys.F2 Then
+            EditItemDetail()
         End If
+    End Sub
+    Private Sub EditItemDetail()
+        If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtVendorNo.Value & "'")), "N") = CompairStringResult.Equal Then
+            gv1.ReadOnly = False
+            AllowAddOrEditItems = True
+        Else
+            clsCommon.MyMessageBoxShow(Me, "Please Select Document/Distributor")
+        End If
+
+
+
     End Sub
     Private Sub gv1_RowFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs) Handles gv1.RowFormatting
         'Try
@@ -13730,8 +13795,10 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceALW1", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal AndAlso clscommon.CompairString(clscommon.myCstr(dt.Rows(0)("TaxableNonTaxable")), "T") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceAJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice_AJM", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                     'frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDH", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJDHNEW", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
@@ -15945,6 +16012,8 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
             gvDistributor.Columns("Security_Amt").HeaderText = "Security Amt"
 
             gv1.ReadOnly = True
+
+
             ' txtRouteNo.Enabled = False
         End If
     End Sub
@@ -16371,7 +16440,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
         Return True
     End Function
     Private Sub gvDistributor_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvDistributor.CellValueChanged
-        If Not AllowIncreaseDispatchQty Then
+        If Not AllowIncreaseDispatchQty AndAlso Not AllowAddOrEditItems Then
             If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
                 clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
                 gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
@@ -16504,7 +16573,9 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
             gvCC.Columns("Document_Code").HeaderText = "Document Code"
             gvCC.Columns("Sale_Invoice_No").HeaderText = "Invoice No"
             gvCC.Columns("Customer_Code").HeaderText = "Customer Code"
+            'If Not AllowAddOrEditItems Then
             gv1.ReadOnly = True
+            'End If
             ' txtRouteNo.Enabled = False
         End If
     End Sub

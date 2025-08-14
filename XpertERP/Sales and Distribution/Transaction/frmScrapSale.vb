@@ -4980,29 +4980,29 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                             If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Intrastate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Intrastate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 Else
-                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Interstate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Interstate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 End If
                             Else
-                                filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_NonTaxable", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_NonTaxable", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                             End If
                         Else
-                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo", "Material sale cash Memo")
+                            filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo", "Material sale cash Memo")
                         End If
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Is_Scrap")), "Y") = CompairStringResult.Equal Then
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                             If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Intrastate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Intrastate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 Else
-                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Interstate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Interstate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 End If
                             Else
-                                filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_NonTaxable", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_NonTaxable", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                             End If
                         Else
-                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY", "Material sale Scrap Invoice")
+                            filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY", "Material sale Scrap Invoice")
                         End If
 
                         'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
@@ -5025,9 +5025,9 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") = CompairStringResult.Equal Then
-                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptMaterialSaleExcisable", "Tax Invoice")
+                            filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptMaterialSaleExcisable", "Tax Invoice")
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") <> CompairStringResult.Equal Then
-                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptScrapSalesInvoiceWithoutTinNo", "Tax Invoice")
+                            filePath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptScrapSalesInvoiceWithoutTinNo", "Tax Invoice")
                         End If
                     End If
                 End If

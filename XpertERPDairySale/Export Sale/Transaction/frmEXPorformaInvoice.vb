@@ -6207,11 +6207,11 @@ Public Class frmEXPorformaInvoice
                 'End If
                 Dim frmCRV As New frmCrystalReportViewer()
                 If SecondButton = False And clsCommon.CompairString(cmbDocType.SelectedValue, "EX") = CompairStringResult.Equal Then
-                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptExportProformaInvoice", "Proforma Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                    StrPDFPath = frmCRV.funreport(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptExportProformaInvoice", "Proforma Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 ElseIf SecondButton = True And clsCommon.CompairString(cmbDocType.SelectedValue, "EX") = CompairStringResult.Equal Then
-                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptExportProformaInvoice2", "Proforma Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
+                    StrPDFPath = frmCRV.funreport(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptExportProformaInvoice2", "Proforma Invoice", clsCommon.myCDate(dt.Rows(0)("Document_Date")))
                 ElseIf clsCommon.CompairString(cmbDocType.SelectedValue, "MT") = CompairStringResult.Equal Then
-                    StrPDFPath = frmCRV.funreport(IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptExportProformaInvoiceMT", "Proforma Invoice")
+                    StrPDFPath = frmCRV.funreport(MyBase.Form_ID, IsPDF, CrystalReportFolder.NewSalesReports, dt, "crptExportProformaInvoiceMT", "Proforma Invoice")
                 End If
                 frmCRV = Nothing
             End If

@@ -66,6 +66,7 @@ Public Class ClsDispatchBulkSale
     Public Document_Amount As Double = 0
 
     Public arrDispatchDetailBulkSale As List(Of clsDispatchDetailBulkSale) = Nothing
+    Public arrSiloDetailBulkSale As List(Of clsSiloDetailBulkSale) = Nothing
 #End Region
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
@@ -93,6 +94,8 @@ Public Class ClsDispatchBulkSale
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
             End If
             qry = "delete from TSPL_Dispatch_Detail_BulkSale where Document_No='" & obj.Document_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_Dispatch_Silo_Detail where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DispatchBulkSale, "", obj.Location_Code)
@@ -170,7 +173,7 @@ Public Class ClsDispatchBulkSale
                 ''richa 31/12/2014
                 If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale, trans) Then
                     If clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
-                        qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " & _
+                        qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
                         "values ('Bulk Dispatch Order','" & clsUserMgtCode.FrmDispatchBulkSale & "','" & obj.Document_No & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" & objCommonVar.CurrentCompanyCode & "')"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
@@ -191,7 +194,7 @@ Public Class ClsDispatchBulkSale
                     If clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
                         Dim intExist As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_TRANSACTION_APPROVAL where Program_Code='" & clsUserMgtCode.FrmDispatchBulkSale & "' and Document_No='" & obj.Document_No & "' ", trans))
                         If intExist = 0 Then
-                            qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " & _
+                            qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
                          "values ('Bulk Dispatch Order','" & clsUserMgtCode.FrmDispatchBulkSale & "','" & obj.Document_No & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" & objCommonVar.CurrentCompanyCode & "')"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -201,7 +204,10 @@ Public Class ClsDispatchBulkSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Update, "TSPL_Dispatch_BulkSale.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsDispatchDetailBulkSale.saveData(obj.arrDispatchDetailBulkSale, obj.Document_No, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", "TSPL_Dispatch_Silo_Detail", "Document_No", trans)
+
+            clsSiloDetailBulkSale.saveData(obj.arrSiloDetailBulkSale, obj.Document_No, trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_Silo_Detail", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
 
             If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Approved from TSPL_Dispatch_BulkSale where Document_No='" + obj.Document_No + "'", trans), "Y") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(obj.CreditLimit) > 0 Then
@@ -388,6 +394,7 @@ Public Class ClsDispatchBulkSale
             obj.Total_Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Tax_Amt"))
             obj.Document_Amount = clsCommon.myCdbl(dt.Rows(0)("Document_Amount"))
             obj.arrDispatchDetailBulkSale = clsDispatchDetailBulkSale.getData(obj.Document_No, trans)
+            obj.arrSiloDetailBulkSale = clsSiloDetailBulkSale.getData(obj.Document_No, trans)
         End If
         Return obj
     End Function
@@ -469,8 +476,8 @@ Public Class ClsDispatchBulkSale
                 ProformainVoiceNo = ""
             End If
 
-            Dim qry = "Update TSPL_Dispatch_BulkSale set Posted=1, " & _
-            "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' , ProformaInvoice_No='" + clsCommon.myCstr(ProformainVoiceNo) + "' " & _
+            Dim qry = "Update TSPL_Dispatch_BulkSale set Posted=1, " &
+            "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' , ProformaInvoice_No='" + clsCommon.myCstr(ProformainVoiceNo) + "' " &
             " where Document_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Dispatch_BulkSale", "Document_No", trans)
@@ -866,8 +873,8 @@ Public Class ClsDispatchBulkSale
 
 
 
-            strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-          " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+            strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+          " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
            " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.arrDispatchDetailBulkSale.Item(0).Item_Code + "'", trans)
             strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.Location_Code, trans)
 
@@ -886,8 +893,8 @@ Public Class ClsDispatchBulkSale
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each dr As DataRow In dt.Rows
-                    strInventoryControlAc = clsDBFuncationality.getSingleValue("SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                    strInventoryControlAc = clsDBFuncationality.getSingleValue("SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                     " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
                     strInventoryControlAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInventoryControlAc, obj.Location_Code, trans)
 
@@ -938,21 +945,21 @@ Public Class ClsDispatchBulkSale
             '"TSPL_Customer_Invoice_Head left outer join  TSPL_RECEIPT_DETAIL on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No  left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL.Receipt_No " & _
             '"where  TSPL_RECEIPT_HEADER.Posted='Y'  and Against_Sale_No <> '' and Customer_Code='" & strCustomer & "' ) xxx "))
             ''richa 10/10/2014
-            Dim qry As String = "select sum(case when RI=1 then 1 else -1  end *  OutStandingAmt) from ( " & _
-            "select SUM(isnull(TSPL_Dispatch_BulkSale.Total_Amt,0) ) as OutStandingAmt , 1 as RI from TSPL_Dispatch_BulkSale " & _
-            "where TSPL_Dispatch_BulkSale.Posted=1  and TSPL_Dispatch_BulkSale.Customer_Code='" & strCustomer & "' " & _
-            " union all " & _
-            "select isnull(SUM(isnull(TSPL_RECEIPT_DETAIL.Applied_Amount,0) ),0) as OutStandingAmt ,-1 as RI  from   " & _
-            "TSPL_Customer_Invoice_Head left outer join  TSPL_RECEIPT_DETAIL on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No  left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL.Receipt_No " & _
-            "where  TSPL_RECEIPT_HEADER.Posted='Y'  and Against_Sale_No <> '' and Customer_Code='" & strCustomer & "' " & _
-          " union all " & _
-          "select isnull(SUM(isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) ),0) as OutStandingAmt ,-1 as RI  from  TSPL_RECEIPT_HEADER " & _
-          "where  TSPL_RECEIPT_HEADER.Posted='Y'   and Receipt_Type='O' and Cust_Code='" & strCustomer & "' " & _
-          " union all " & _
-          "select isnull(SUM(isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) ),0) as OutStandingAmt ,1 as RI  from  TSPL_RECEIPT_HEADER " & _
-          "where  TSPL_RECEIPT_HEADER.Posted='Y'   and Receipt_Type='F' and Cust_Code='" & strCustomer & "' " & _
-          " union all " & _
-          "select isnull(SUM(isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) ),0) as OutStandingAmt ,-1 as RI  from  TSPL_RECEIPT_HEADER " & _
+            Dim qry As String = "select sum(case when RI=1 then 1 else -1  end *  OutStandingAmt) from ( " &
+            "select SUM(isnull(TSPL_Dispatch_BulkSale.Total_Amt,0) ) as OutStandingAmt , 1 as RI from TSPL_Dispatch_BulkSale " &
+            "where TSPL_Dispatch_BulkSale.Posted=1  and TSPL_Dispatch_BulkSale.Customer_Code='" & strCustomer & "' " &
+            " union all " &
+            "select isnull(SUM(isnull(TSPL_RECEIPT_DETAIL.Applied_Amount,0) ),0) as OutStandingAmt ,-1 as RI  from   " &
+            "TSPL_Customer_Invoice_Head left outer join  TSPL_RECEIPT_DETAIL on TSPL_Customer_Invoice_Head.Document_No=TSPL_RECEIPT_DETAIL.Document_No  left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL.Receipt_No " &
+            "where  TSPL_RECEIPT_HEADER.Posted='Y'  and Against_Sale_No <> '' and Customer_Code='" & strCustomer & "' " &
+          " union all " &
+          "select isnull(SUM(isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) ),0) as OutStandingAmt ,-1 as RI  from  TSPL_RECEIPT_HEADER " &
+          "where  TSPL_RECEIPT_HEADER.Posted='Y'   and Receipt_Type='O' and Cust_Code='" & strCustomer & "' " &
+          " union all " &
+          "select isnull(SUM(isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) ),0) as OutStandingAmt ,1 as RI  from  TSPL_RECEIPT_HEADER " &
+          "where  TSPL_RECEIPT_HEADER.Posted='Y'   and Receipt_Type='F' and Cust_Code='" & strCustomer & "' " &
+          " union all " &
+          "select isnull(SUM(isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) ),0) as OutStandingAmt ,-1 as RI  from  TSPL_RECEIPT_HEADER " &
           "where  TSPL_RECEIPT_HEADER.Posted='Y'  and Receipt_Type='P'  and SecurityDeposit='N'  and Cust_Code='" & strCustomer & "' ) xxx "
             dblOutstandingAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             ''=================
@@ -1218,6 +1225,105 @@ Public Class clsDispatchDetailBulkSale
                     obj.TAX5_Amt = clsCommon.myCdbl(dt.Rows(i)("TAX5_Amt"))
                     obj.Total_Tax_Amt = clsCommon.myCdbl(dt.Rows(i)("Total_Tax_Amt"))
                     obj.Item_Net_Amt = clsCommon.myCdbl(dt.Rows(i)("Item_Net_Amt"))
+
+                    arrObj.Add(obj)
+                Next
+            End If
+            Return arrObj
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+    'Public Shared Function deleteData(ByVal strQCNo As String) As Boolean
+    '    Try
+    '        Dim isDeleted As Boolean = True
+    '        Dim qry As String = "delete from TSPL_Dispatch_Detail_BulkSale where Document_No='" & strQCNo & "'"
+    '        isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry)
+    '        Return isDeleted
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '    End Try
+    'End Function
+
+End Class
+
+
+Public Class clsSiloDetailBulkSale
+    Public Document_No As String = Nothing
+    Public SILO As String = Nothing
+    Public Silo_Qty As Double = 0
+    Public Silo_FatPer As Double = 0
+    Public Silo_SNFPer As Double = 0
+    Public Silo_Fat_KG As Double = 0
+    Public Silo_SNF_KG As Double = 0
+
+    Public Shared Function saveData(ByVal arrObj As List(Of clsSiloDetailBulkSale), ByVal strQCNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim issaved As Boolean = True
+            Dim coll As Hashtable
+
+            If arrObj IsNot Nothing Then
+                For Each obj As clsSiloDetailBulkSale In arrObj
+                    coll = New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Document_No", strQCNo)
+                    clsCommon.AddColumnsForChange(coll, "SILO", obj.SILO)
+                    clsCommon.AddColumnsForChange(coll, "Silo_Qty", obj.Silo_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Silo_FatPer", obj.Silo_FatPer)
+                    clsCommon.AddColumnsForChange(coll, "Silo_SNFPer", obj.Silo_SNFPer)
+                    clsCommon.AddColumnsForChange(coll, "Silo_Fat_KG", obj.Silo_Fat_KG)
+                    clsCommon.AddColumnsForChange(coll, "Silo_SNF_KG", obj.Silo_SNF_KG)
+                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Silo_Detail", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+            Return issaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            arrObj = Nothing
+        End Try
+    End Function
+    Public Shared Function saveDataHistory(ByVal arrObj As List(Of clsSiloDetailBulkSale), ByVal strQCNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim issaved As Boolean = True
+            Dim coll As Hashtable
+
+            If arrObj IsNot Nothing Then
+                For Each obj As clsSiloDetailBulkSale In arrObj
+                    coll = New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Document_No", strQCNo)
+                    clsCommon.AddColumnsForChange(coll, "SILO", obj.SILO)
+                    clsCommon.AddColumnsForChange(coll, "Silo_Qty", obj.Silo_Qty)
+                    clsCommon.AddColumnsForChange(coll, "Silo_FatPer", obj.Silo_FatPer)
+                    clsCommon.AddColumnsForChange(coll, "Silo_SNFPer", obj.Silo_SNFPer)
+                    clsCommon.AddColumnsForChange(coll, "Silo_Fat_KG", obj.Silo_Fat_KG)
+                    clsCommon.AddColumnsForChange(coll, "Silo_SNF_KG", obj.Silo_SNF_KG)
+                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale_History", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+            Return issaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        Finally
+            arrObj = Nothing
+        End Try
+    End Function
+    Public Shared Function getData(ByVal strQCNo As String, ByVal trans As SqlTransaction) As List(Of clsSiloDetailBulkSale)
+        Try
+            Dim arrObj As List(Of clsSiloDetailBulkSale) = Nothing
+            Dim obj As clsSiloDetailBulkSale = Nothing
+            Dim qry As String = "Select * from TSPL_Dispatch_Silo_Detail where Document_No='" & strQCNo & "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                arrObj = New List(Of clsSiloDetailBulkSale)
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    obj = New clsSiloDetailBulkSale()
+                    obj.Document_No = clsCommon.myCstr(dt.Rows(i)("Document_No"))
+                    obj.SILO = clsCommon.myCstr(dt.Rows(i)("SILO"))
+                    obj.Silo_Qty = clsCommon.myCdbl(dt.Rows(i)("Silo_Qty"))
+                    obj.Silo_FatPer = clsCommon.myCdbl(dt.Rows(i)("Silo_FatPer"))
+                    obj.Silo_Fat_KG = clsCommon.myCdbl(dt.Rows(i)("Silo_Fat_KG"))
+                    obj.Silo_SNFPer = clsCommon.myCdbl(dt.Rows(i)("Silo_SNFPer"))
+                    obj.Silo_SNF_KG = clsCommon.myCdbl(dt.Rows(i)("Silo_SNF_KG"))
 
                     arrObj.Add(obj)
                 Next

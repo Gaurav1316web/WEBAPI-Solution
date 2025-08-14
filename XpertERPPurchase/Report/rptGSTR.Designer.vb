@@ -36,6 +36,22 @@ Partial Class rptGSTR
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.chkItemWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnGSTR1 = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnGSTR2 = New Telerik.WinControls.UI.RadRadioButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnUpldBlnkGSTRExl = New Telerik.WinControls.UI.RadButton()
+        Me.btnExportGSTR1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.lblCustomerGroup = New common.Controls.MyLabel()
@@ -46,27 +62,13 @@ Partial Class rptGSTR
         Me.txtVendor = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
-        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.btnGSTR1 = New Telerik.WinControls.UI.RadRadioButton()
-        Me.btnGSTR2 = New Telerik.WinControls.UI.RadRadioButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.lblToDate = New common.Controls.MyLabel()
         Me.lblfromDate = New common.Controls.MyLabel()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.gv2 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv3 = New common.UserControls.MyRadGridView()
-        Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -81,37 +83,39 @@ Partial Class rptGSTR
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.chkItemWise, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
         CType(Me.btnGSTR1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGSTR2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpldBlnkGSTRExl, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExportGSTR1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,6 +134,8 @@ Partial Class rptGSTR
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpldBlnkGSTRExl)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportGSTR1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplit)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
@@ -223,10 +229,13 @@ Partial Class rptGSTR
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(886, 463)
         Me.RadPageView1.TabIndex = 1
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.chkItemWise)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.txtCustomer)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomerGroup)
@@ -237,9 +246,7 @@ Partial Class rptGSTR
         Me.RadPageViewPage1.Controls.Add(Me.txtVendor)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox6)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(865, 415)
@@ -252,6 +259,165 @@ Partial Class rptGSTR
         Me.chkItemWise.Size = New System.Drawing.Size(70, 18)
         Me.chkItemWise.TabIndex = 379
         Me.chkItemWise.Text = "Item Wise"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.btnGSTR1)
+        Me.RadGroupBox6.Controls.Add(Me.btnGSTR2)
+        Me.RadGroupBox6.HeaderText = "Report Type"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(334, 10)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(152, 37)
+        Me.RadGroupBox6.TabIndex = 322
+        Me.RadGroupBox6.Text = "Report Type"
+        '
+        'btnGSTR1
+        '
+        Me.btnGSTR1.Location = New System.Drawing.Point(13, 11)
+        Me.btnGSTR1.Name = "btnGSTR1"
+        Me.btnGSTR1.Size = New System.Drawing.Size(53, 18)
+        Me.btnGSTR1.TabIndex = 308
+        Me.btnGSTR1.Text = "GSTR1"
+        '
+        'btnGSTR2
+        '
+        Me.btnGSTR2.Location = New System.Drawing.Point(91, 10)
+        Me.btnGSTR2.Name = "btnGSTR2"
+        Me.btnGSTR2.Size = New System.Drawing.Size(53, 18)
+        Me.btnGSTR2.TabIndex = 306
+        Me.btnGSTR2.Text = "GSTR2"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
+        Me.RadGroupBox1.Controls.Add(Me.lblToDate)
+        Me.RadGroupBox1.Controls.Add(Me.lblfromDate)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(325, 44)
+        Me.RadGroupBox1.TabIndex = 2
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(865, 419)
+        Me.RadPageViewPage2.Text = "Report"
+        '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.gv1)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.gv2)
+        Me.SplitContainer2.Size = New System.Drawing.Size(865, 419)
+        Me.SplitContainer2.SplitterDistance = 152
+        Me.SplitContainer2.TabIndex = 6
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gv3)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(66.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(865, 415)
+        Me.RadPageViewPage3.Text = "Detail data "
+        '
+        'btnUpldBlnkGSTRExl
+        '
+        Me.btnUpldBlnkGSTRExl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpldBlnkGSTRExl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpldBlnkGSTRExl.Location = New System.Drawing.Point(446, 14)
+        Me.btnUpldBlnkGSTRExl.Name = "btnUpldBlnkGSTRExl"
+        Me.btnUpldBlnkGSTRExl.Size = New System.Drawing.Size(153, 21)
+        Me.btnUpldBlnkGSTRExl.TabIndex = 318
+        Me.btnUpldBlnkGSTRExl.Text = "Upload Blank GSTR Excel"
+        '
+        'btnExportGSTR1
+        '
+        Me.btnExportGSTR1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExportGSTR1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExportGSTR1.Location = New System.Drawing.Point(327, 14)
+        Me.btnExportGSTR1.Name = "btnExportGSTR1"
+        Me.btnExportGSTR1.Size = New System.Drawing.Size(117, 21)
+        Me.btnExportGSTR1.TabIndex = 317
+        Me.btnExportGSTR1.Text = "Export GSTR Excel"
+        '
+        'btnSplit
+        '
+        Me.btnSplit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSplit.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnSplit.Location = New System.Drawing.Point(157, 13)
+        Me.btnSplit.Name = "btnSplit"
+        Me.btnSplit.Size = New System.Drawing.Size(95, 22)
+        Me.btnSplit.TabIndex = 316
+        Me.btnSplit.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(254, 14)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 21)
+        Me.btnPrint.TabIndex = 157
+        Me.btnPrint.Text = "Print"
+        '
+        'BtnReset
+        '
+        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnReset.Location = New System.Drawing.Point(84, 13)
+        Me.BtnReset.Name = "BtnReset"
+        Me.BtnReset.Size = New System.Drawing.Size(71, 22)
+        Me.BtnReset.TabIndex = 38
+        Me.BtnReset.Text = "Reset"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(781, 13)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(84, 22)
+        Me.btnclose.TabIndex = 39
+        Me.btnclose.Text = "Close"
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(11, 13)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 37
+        Me.btnGo.Text = ">>>"
         '
         'lblCustomer
         '
@@ -368,49 +534,6 @@ Partial Class rptGSTR
         Me.txtLocation.Size = New System.Drawing.Size(309, 19)
         Me.txtLocation.TabIndex = 343
         '
-        'RadGroupBox6
-        '
-        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.btnGSTR1)
-        Me.RadGroupBox6.Controls.Add(Me.btnGSTR2)
-        Me.RadGroupBox6.HeaderText = "Report Type"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(334, 10)
-        Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox6.Size = New System.Drawing.Size(152, 37)
-        Me.RadGroupBox6.TabIndex = 322
-        Me.RadGroupBox6.Text = "Report Type"
-        '
-        'btnGSTR1
-        '
-        Me.btnGSTR1.Location = New System.Drawing.Point(13, 11)
-        Me.btnGSTR1.Name = "btnGSTR1"
-        Me.btnGSTR1.Size = New System.Drawing.Size(53, 18)
-        Me.btnGSTR1.TabIndex = 308
-        Me.btnGSTR1.Text = "GSTR1"
-        '
-        'btnGSTR2
-        '
-        Me.btnGSTR2.Location = New System.Drawing.Point(91, 10)
-        Me.btnGSTR2.Name = "btnGSTR2"
-        Me.btnGSTR2.Size = New System.Drawing.Size(53, 18)
-        Me.btnGSTR2.TabIndex = 306
-        Me.btnGSTR2.Text = "GSTR2"
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.txtToDate)
-        Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
-        Me.RadGroupBox1.Controls.Add(Me.lblToDate)
-        Me.RadGroupBox1.Controls.Add(Me.lblfromDate)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(325, 44)
-        Me.RadGroupBox1.TabIndex = 2
-        '
         'txtToDate
         '
         Me.txtToDate.CalculationExpression = Nothing
@@ -487,33 +610,6 @@ Partial Class rptGSTR
         Me.lblfromDate.TabIndex = 13
         Me.lblfromDate.Text = "From Date"
         '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(865, 415)
-        Me.RadPageViewPage2.Text = "Report"
-        '
-        'SplitContainer2
-        '
-        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer2.Panel1
-        '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.gv1)
-        '
-        'SplitContainer2.Panel2
-        '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(865, 415)
-        Me.SplitContainer2.SplitterDistance = 151
-        Me.SplitContainer2.TabIndex = 6
-        '
         'gv1
         '
         Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -532,12 +628,13 @@ Partial Class rptGSTR
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(865, 151)
+        Me.gv1.Size = New System.Drawing.Size(865, 152)
         Me.gv1.TabIndex = 5
         Me.gv1.VarID = ""
         '
@@ -559,23 +656,15 @@ Partial Class rptGSTR
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(865, 260)
+        Me.gv2.Size = New System.Drawing.Size(865, 263)
         Me.gv2.TabIndex = 6
         Me.gv2.VarID = ""
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gv3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(865, 415)
-        Me.RadPageViewPage3.Text = "Detail data "
         '
         'gv3
         '
@@ -595,6 +684,7 @@ Partial Class rptGSTR
         Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv3.MyExportFilePath = ""
         Me.gv3.MyStopExport = False
         Me.gv3.Name = "gv3"
         Me.gv3.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -603,66 +693,6 @@ Partial Class rptGSTR
         Me.gv3.Size = New System.Drawing.Size(865, 415)
         Me.gv3.TabIndex = 6
         Me.gv3.VarID = ""
-        '
-        'btnSplit
-        '
-        Me.btnSplit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSplit.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplit.Location = New System.Drawing.Point(165, 14)
-        Me.btnSplit.Name = "btnSplit"
-        Me.btnSplit.Size = New System.Drawing.Size(95, 22)
-        Me.btnSplit.TabIndex = 316
-        Me.btnSplit.Text = "Export"
-        '
-        'rmiExcel
-        '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        '
-        'rmiPDF
-        '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(266, 15)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 21)
-        Me.btnPrint.TabIndex = 157
-        Me.btnPrint.Text = "Print"
-        '
-        'BtnReset
-        '
-        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(88, 14)
-        Me.BtnReset.Name = "BtnReset"
-        Me.BtnReset.Size = New System.Drawing.Size(71, 22)
-        Me.BtnReset.TabIndex = 38
-        Me.BtnReset.Text = "Reset"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(781, 14)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(84, 22)
-        Me.btnclose.TabIndex = 39
-        Me.btnclose.Text = "Close"
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(11, 13)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 37
-        Me.btnGo.Text = ">>>"
         '
         'rptGSTR
         '
@@ -692,11 +722,6 @@ Partial Class rptGSTR
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
         CType(Me.chkItemWise, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
@@ -705,26 +730,33 @@ Partial Class rptGSTR
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpldBlnkGSTRExl, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExportGSTR1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -771,5 +803,7 @@ Partial Class rptGSTR
     Friend WithEvents btnSplit As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnExportGSTR1 As RadButton
+    Friend WithEvents btnUpldBlnkGSTRExl As RadButton
 End Class
 

@@ -629,6 +629,8 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.Size = New System.Drawing.Size(860, 321)
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(860, 288)
         Me.RadPageView1.TabIndex = 0

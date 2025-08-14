@@ -448,7 +448,7 @@ from (Select xxxFinal.[Bank Advise No],xxxFinal.[Bank Advise Date],xxxfinal.VLC_
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetOneDayStop())
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviseSubReportOneDayStopALW", "One Day Stop")
+                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, "crptBankAdviseSubReportOneDayStopALW", "One Day Stop")
             Else
                 Throw New Exception("Data not Found!")
             End If

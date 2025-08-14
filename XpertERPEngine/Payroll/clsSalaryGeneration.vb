@@ -627,7 +627,7 @@ Public Class clsSalaryGeneration
                         objEmailH.Email_Text = "Salary Certificate For The Period- " & dtt.Rows(i)("PAY_PERIOD_CODE")
                         Dim strRptPath As String = ""
                         Dim frmCRV As New frmCrystalReportViewer()
-                        strRptPath = frmCRV.funreport(True, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Salary Certificate")
+                        strRptPath = frmCRV.funreport(clsUserMgtCode.frmSalaryGeneration, True, CrystalReportFolder.HRPayroll, dtFinal, "crptKDILSalarySlip ForSingleEmployee", "Salary Certificate")
                         frmCRV = Nothing
                         objEmailH.Attachment_1_Path = strRptPath
 
@@ -5383,18 +5383,29 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
         Next
 
         Dim DAAreear As String = ""
-        DAAreear = "Select top 1 PAY_PERIOD_CODE,PeriodFrom_Date,PeriodTo_Date,DA_Per,EMP_CODE from TSPL_DA_ARREAR
-                    LEFT OUTER JOIN TSPL_DA_ARREAR_EMPLOYEE ON TSPL_DA_ARREAR_EMPLOYEE.Document_Code=TSPL_DA_ARREAR.Document_Code where PAY_PERIOD_CODE='" & Pay_Period_Code & "' AND EMP_CODE In " & strEmps & ""
+        'DAAreear = "Select  PAY_PERIOD_CODE,PeriodFrom_Date,PeriodTo_Date,DA_Per,EMP_CODE from TSPL_DA_ARREAR
+        'LEFT OUTER JOIN TSPL_DA_ARREAR_EMPLOYEE ON TSPL_DA_ARREAR_EMPLOYEE.Document_Code=TSPL_DA_ARREAR.Document_Code where PAY_PERIOD_CODE='" & Pay_Period_Code & "' AND EMP_CODE In " & strEmps & ""
+        DAAreear = "Select  PAY_PERIOD_CODE,PeriodFrom_Date,PeriodTo_Date,DA_Per,EMP_CODE from TSPL_DA_ARREAR
+                    LEFT OUTER JOIN TSPL_DA_ARREAR_EMPLOYEE ON TSPL_DA_ARREAR_EMPLOYEE.Document_Code=TSPL_DA_ARREAR.Document_Code where PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
         Dim DATable As DataTable = clsDBFuncationality.GetDataTable(DAAreear, trans)
         Dim periodfromdate As DateTime = Nothing
         Dim periodTodate As DateTime = Nothing
         Dim DAAreearpercent As Decimal = 0
         Dim DAAreearEmp As Decimal = 0
+        Dim empCodeList As New List(Of String)
         If DATable IsNot Nothing AndAlso DATable.Rows.Count > 0 Then
             periodfromdate = clsCommon.myCDate(DATable.Rows(0)("PeriodFrom_Date"))
             periodTodate = clsCommon.myCDate(DATable.Rows(0)("PeriodTo_Date"))
             DAAreearpercent = clsCommon.myCdbl(DATable.Rows(0)("DA_Per"))
-            DAAreearEmp = clsCommon.myCdbl(DATable.Rows(0)("EMP_CODE"))
+            'DAAreearEmp = clsCommon.myCdbl(DATable.Rows(0)("EMP_CODE"))
+
+            ' Loop through all rows to collect EMP_CODEs
+            For Each row As DataRow In DATable.Rows
+                Dim code As String = clsCommon.myCstr(row("EMP_CODE"))
+                If Not String.IsNullOrEmpty(code) Then
+                    empCodeList.Add("'" & code & "'")
+                End If
+            Next
         End If
 
         If DATable IsNot Nothing AndAlso DATable.Rows.Count > 0 Then
@@ -5413,12 +5424,14 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
 
             'Now join the list into a single string with commas
             Dim payPeriodCodeString As String = String.Join(",", payPeriodCodeList.ToArray())
+            'Dim Emp_Code As String = String.Join(",")
+            Dim empCodeString As String = String.Join(",", empCodeList.ToArray())
 
             ' Step 1: Fetch all relevant data
             Dim PayEmp As String = ""
             PayEmp = " Select TSPL_GENERATE_SALARY.PAY_PERIOD_CODE,EMP_CODE,ACTUAL_AMOUNT,* from TSPL_GENERATE_SALARY_PAYHEADS
                    LEFT OUTER JOIN TSPL_GENERATE_SALARY ON TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE
-                   WHERE TSPL_GENERATE_SALARY.PAY_PERIOD_CODE in (" & payPeriodCodeString & ")  and PAY_HEAD_CODE='BASIC' "
+                   WHERE TSPL_GENERATE_SALARY.PAY_PERIOD_CODE in (" & payPeriodCodeString & ")  and PAY_HEAD_CODE='BASIC' and EMP_CODE in (" & empCodeString & ") "
             Dim Dt7 As DataTable = clsDBFuncationality.GetDataTable(PayEmp, trans)
 
             ' Step 2: Get unique Pay Period Codes
@@ -5442,14 +5455,21 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
                 ' Get current value of ARREAR DA
                 Dim EmpAct_Amt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT ISNULL(ACTUAL_AMOUNT, 0) FROM " & strTableName & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE 'ARR%' " & "AND EMP_CODE = '" & empCode & "'"))
 
+                'Total Arrear Value
+                Dim Tot_Val As Decimal = clsCommon.myCdbl(fivePercentValue + EmpAct_Amt)
                 ' Final update: increment total
                 'Dim updateQry As String = "UPDATE " & strTableName & " " & "SET ACTUAL_AMOUNT = " & EmpAct_Amt & " + " & fivePercentValue & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE '%ARREAR%' " & "AND EMP_CODE = '" & empCode & "'"
-                Dim updateQry As String = "UPDATE " & strTableName & " " & "SET ACTUAL_AMOUNT = " & fivePercentValue & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE 'ARR%' " & "AND EMP_CODE = '" & empCode & "'"
+                Dim updateQry As String = "UPDATE " & strTableName & " " & "SET ACTUAL_AMOUNT = " & Tot_Val & " " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE 'ARR%' " & "AND EMP_CODE = '" & empCode & "'"
                 If Not clsDBFuncationality.ExecuteNonQuery(updateQry, trans) Then
                     Throw New Exception("Error in Updating Actual Amount !")
                 End If
                 'clsDBFuncationality.ExecuteNonQuery(updateQry, trans)
             Next
+
+            Dim updateQry1 As String = "UPDATE " & strTableName & " " & "SET ACTUAL_AMOUNT = 0  " & "WHERE PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " & "AND PAY_HEAD_CODE LIKE 'ARR%' " & "AND EMP_CODE Not In (" & empCodeString & ")"
+            If Not clsDBFuncationality.ExecuteNonQuery(updateQry1, trans) Then
+                Throw New Exception("Error in Updating Actual Amount !")
+            End If
         End If
 
         ' Step 3: Loop through each Pay Period

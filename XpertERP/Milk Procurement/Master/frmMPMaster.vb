@@ -718,22 +718,21 @@ Public Class FrmMPMaster
         End Try
     End Sub
     Sub save()
+        If clsCommon.CompairString(btnSave.Text, "&Update") = CompairStringResult.Equal Then
+            If MyBase.isUpdateFlag = False Then
+                clsCommon.MyMessageBoxShow(Me, "Don't have permission to update MP Master.", Me.Text)
+                Return
+            End If
+        End If
+
+        If MyBase.isModifyonPasswordFlag Then
+            If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmMPMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+            Else
+                Return
+            End If
+        End If
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            If clsCommon.CompairString(btnSave.Text, "&Update") = CompairStringResult.Equal Then
-                If MyBase.isUpdateFlag = False Then
-                    clsCommon.MyMessageBoxShow(Me, "Don't have permission to update MP Master.", Me.Text)
-                    Return
-                End If
-            End If
-
-            If MyBase.isModifyonPasswordFlag Then
-                If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmMPMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                Else
-                    Return
-                End If
-            End If
-
-            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             obj = New clsMpMaster()
             If clsCommon.CompairString(btnSave.Text, "&Save") = CompairStringResult.Equal Then
                 obj.isNewEntry = True
@@ -936,6 +935,7 @@ Public Class FrmMPMaster
             trans.Rollback()
 
         Catch ex As Exception
+            trans.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
@@ -2819,6 +2819,12 @@ Public Class FrmMPMaster
                                 If chkCount > 0 Then
                                 Else
                                     Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") is not exist !")
+                                End If
+
+                                Dim qry As String = "select 1 from TSPL_MP_MASTER where MP_Code not in ('" & obj.MP_Code & " ') and AccountNO='" & obj.AccountNO & "'"
+                                dt = clsDBFuncationality.GetDataTable(qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    Throw New Exception("MP Code (" + clsCommon.myCstr(obj.MP_Code) + ") Duplicate account no [" + obj.AccountNO + "]")
                                 End If
                                 Arr.Add(obj)
                             Catch ex As Exception

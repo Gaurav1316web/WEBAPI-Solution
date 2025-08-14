@@ -22,7 +22,7 @@ Partial Class frmDemandAdjustment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -100,6 +100,15 @@ Partial Class frmDemandAdjustment
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.rgbChangeProduct = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnChangebyPer = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnAll = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnchangeFixQty = New Telerik.WinControls.UI.RadRadioButton()
+        Me.txtChangeQty = New Telerik.WinControls.UI.RadTextBox()
+        Me.lblEnterQty = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.TxtFinder4 = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -179,6 +188,16 @@ Partial Class frmDemandAdjustment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbChangeProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbChangeProduct.SuspendLayout()
+        CType(Me.rbtnChangebyPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnchangeFixQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtChangeQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblEnterQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblEnterQty.SuspendLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -260,16 +279,16 @@ Partial Class frmDemandAdjustment
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(993, 409)
         Me.RadPageView1.TabIndex = 0
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rgbChangeProduct)
         Me.RadPageViewPage1.Controls.Add(Me.txtRouteCode)
         Me.RadPageViewPage1.Controls.Add(Me.txtZoneCode)
-        Me.RadPageViewPage1.Controls.Add(Me.lblChangeitemDesc)
         Me.RadPageViewPage1.Controls.Add(Me.rgbDecreaseOrder)
-        Me.RadPageViewPage1.Controls.Add(Me.lblChangeitem)
-        Me.RadPageViewPage1.Controls.Add(Me.txtChangeItemCode)
         Me.RadPageViewPage1.Controls.Add(Me.rgbIncreaseOrder)
+        Me.RadPageViewPage1.Controls.Add(Me.chkChangeItem)
         Me.RadPageViewPage1.Controls.Add(Me.rgbIDOrder)
         Me.RadPageViewPage1.Controls.Add(Me.rgbMode)
         Me.RadPageViewPage1.Controls.Add(Me.txtMinCrate)
@@ -277,7 +296,6 @@ Partial Class frmDemandAdjustment
         Me.RadPageViewPage1.Controls.Add(Me.lblMinCrate)
         Me.RadPageViewPage1.Controls.Add(Me.lblUOM)
         Me.RadPageViewPage1.Controls.Add(Me.txtUOM)
-        Me.RadPageViewPage1.Controls.Add(Me.chkChangeItem)
         Me.RadPageViewPage1.Controls.Add(Me.txtDemandDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblDemandDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblItemDesc)
@@ -347,9 +365,9 @@ Partial Class frmDemandAdjustment
         Me.lblChangeitemDesc.BorderVisible = True
         Me.lblChangeitemDesc.FieldName = Nothing
         Me.lblChangeitemDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblChangeitemDesc.Location = New System.Drawing.Point(756, 61)
+        Me.lblChangeitemDesc.Location = New System.Drawing.Point(200, 23)
         Me.lblChangeitemDesc.Name = "lblChangeitemDesc"
-        Me.lblChangeitemDesc.Size = New System.Drawing.Size(152, 19)
+        Me.lblChangeitemDesc.Size = New System.Drawing.Size(133, 19)
         Me.lblChangeitemDesc.TabIndex = 1551
         Me.lblChangeitemDesc.TextWrap = False
         '
@@ -379,7 +397,7 @@ Partial Class frmDemandAdjustment
         Me.lblChangeitem.Controls.Add(Me.MyLabel11)
         Me.lblChangeitem.Controls.Add(Me.TxtFinder5)
         Me.lblChangeitem.FieldName = Nothing
-        Me.lblChangeitem.Location = New System.Drawing.Point(566, 59)
+        Me.lblChangeitem.Location = New System.Drawing.Point(10, 21)
         Me.lblChangeitem.Name = "lblChangeitem"
         Me.lblChangeitem.Size = New System.Drawing.Size(58, 18)
         Me.lblChangeitem.TabIndex = 1550
@@ -443,7 +461,7 @@ Partial Class frmDemandAdjustment
         Me.txtChangeItemCode.IsSourceFromTable = False
         Me.txtChangeItemCode.IsSourceFromValueList = False
         Me.txtChangeItemCode.IsUnique = False
-        Me.txtChangeItemCode.Location = New System.Drawing.Point(629, 60)
+        Me.txtChangeItemCode.Location = New System.Drawing.Point(73, 22)
         Me.txtChangeItemCode.MendatroryField = False
         Me.txtChangeItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtChangeItemCode.MyLinkLable1 = Me.lblChangeitem
@@ -724,7 +742,7 @@ Partial Class frmDemandAdjustment
         '
         Me.txtMinCrate.Location = New System.Drawing.Point(473, 93)
         Me.txtMinCrate.Name = "txtMinCrate"
-        Me.txtMinCrate.Size = New System.Drawing.Size(120, 20)
+        Me.txtMinCrate.Size = New System.Drawing.Size(78, 20)
         Me.txtMinCrate.TabIndex = 1546
         '
         'lblUOMDesc
@@ -886,7 +904,7 @@ Partial Class frmDemandAdjustment
         'chkChangeItem
         '
         Me.chkChangeItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkChangeItem.Location = New System.Drawing.Point(566, 37)
+        Me.chkChangeItem.Location = New System.Drawing.Point(557, 30)
         Me.chkChangeItem.Name = "chkChangeItem"
         Me.chkChangeItem.Size = New System.Drawing.Size(102, 16)
         Me.chkChangeItem.TabIndex = 1589
@@ -1150,7 +1168,7 @@ Partial Class frmDemandAdjustment
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(805, 330)
         Me.gv1.TabIndex = 0
@@ -1208,6 +1226,114 @@ Partial Class frmDemandAdjustment
         Me.btnSave.Size = New System.Drawing.Size(74, 24)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'rgbChangeProduct
+        '
+        Me.rgbChangeProduct.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbChangeProduct.Controls.Add(Me.lblEnterQty)
+        Me.rgbChangeProduct.Controls.Add(Me.txtChangeQty)
+        Me.rgbChangeProduct.Controls.Add(Me.rbtnchangeFixQty)
+        Me.rgbChangeProduct.Controls.Add(Me.rbtnChangebyPer)
+        Me.rgbChangeProduct.Controls.Add(Me.rbtnAll)
+        Me.rgbChangeProduct.Controls.Add(Me.lblChangeitemDesc)
+        Me.rgbChangeProduct.Controls.Add(Me.lblChangeitem)
+        Me.rgbChangeProduct.Controls.Add(Me.txtChangeItemCode)
+        Me.rgbChangeProduct.HeaderText = "Change Product"
+        Me.rgbChangeProduct.Location = New System.Drawing.Point(557, 52)
+        Me.rgbChangeProduct.Name = "rgbChangeProduct"
+        Me.rgbChangeProduct.Size = New System.Drawing.Size(339, 99)
+        Me.rgbChangeProduct.TabIndex = 1600
+        Me.rgbChangeProduct.Text = "Change Product"
+        '
+        'rbtnChangebyPer
+        '
+        Me.rbtnChangebyPer.Location = New System.Drawing.Point(58, 47)
+        Me.rbtnChangebyPer.Name = "rbtnChangebyPer"
+        Me.rbtnChangebyPer.Size = New System.Drawing.Size(76, 18)
+        Me.rbtnChangebyPer.TabIndex = 1
+        Me.rbtnChangebyPer.Text = "Percentage"
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.Location = New System.Drawing.Point(14, 47)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
+        Me.rbtnAll.TabIndex = 0
+        Me.rbtnAll.Text = "All"
+        '
+        'rbtnchangeFixQty
+        '
+        Me.rbtnchangeFixQty.Location = New System.Drawing.Point(138, 47)
+        Me.rbtnchangeFixQty.Name = "rbtnchangeFixQty"
+        Me.rbtnchangeFixQty.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnchangeFixQty.TabIndex = 1590
+        Me.rbtnchangeFixQty.Text = "Fixed Qty"
+        '
+        'txtChangeQty
+        '
+        Me.txtChangeQty.Location = New System.Drawing.Point(146, 67)
+        Me.txtChangeQty.Name = "txtChangeQty"
+        Me.txtChangeQty.Size = New System.Drawing.Size(91, 20)
+        Me.txtChangeQty.TabIndex = 1591
+        '
+        'lblEnterQty
+        '
+        Me.lblEnterQty.Controls.Add(Me.MyLabel8)
+        Me.lblEnterQty.Controls.Add(Me.MyLabel9)
+        Me.lblEnterQty.Controls.Add(Me.TxtFinder4)
+        Me.lblEnterQty.FieldName = Nothing
+        Me.lblEnterQty.Location = New System.Drawing.Point(12, 69)
+        Me.lblEnterQty.Name = "lblEnterQty"
+        Me.lblEnterQty.Size = New System.Drawing.Size(91, 18)
+        Me.lblEnterQty.TabIndex = 1593
+        Me.lblEnterQty.Text = "Entry Percentage"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.AutoSize = False
+        Me.MyLabel8.BorderVisible = True
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(211, 26)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(152, 19)
+        Me.MyLabel8.TabIndex = 1542
+        Me.MyLabel8.TextWrap = False
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Location = New System.Drawing.Point(0, 24)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(54, 18)
+        Me.MyLabel9.TabIndex = 1541
+        Me.MyLabel9.Text = "Route No"
+        '
+        'TxtFinder4
+        '
+        Me.TxtFinder4.CalculationExpression = Nothing
+        Me.TxtFinder4.FieldCode = Nothing
+        Me.TxtFinder4.FieldDesc = Nothing
+        Me.TxtFinder4.FieldMaxLength = 0
+        Me.TxtFinder4.FieldName = Nothing
+        Me.TxtFinder4.isCalculatedField = False
+        Me.TxtFinder4.IsSourceFromTable = False
+        Me.TxtFinder4.IsSourceFromValueList = False
+        Me.TxtFinder4.IsUnique = False
+        Me.TxtFinder4.Location = New System.Drawing.Point(93, 26)
+        Me.TxtFinder4.MendatroryField = False
+        Me.TxtFinder4.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinder4.MyLinkLable1 = Me.MyLabel9
+        Me.TxtFinder4.MyLinkLable2 = Nothing
+        Me.TxtFinder4.MyReadOnly = False
+        Me.TxtFinder4.MyShowMasterFormButton = False
+        Me.TxtFinder4.Name = "TxtFinder4"
+        Me.TxtFinder4.ReferenceFieldDesc = Nothing
+        Me.TxtFinder4.ReferenceFieldName = Nothing
+        Me.TxtFinder4.ReferenceTableName = Nothing
+        Me.TxtFinder4.Size = New System.Drawing.Size(115, 19)
+        Me.TxtFinder4.TabIndex = 1540
+        Me.TxtFinder4.Value = ""
         '
         'frmDemandAdjustment
         '
@@ -1312,6 +1438,18 @@ Partial Class frmDemandAdjustment
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbChangeProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbChangeProduct.ResumeLayout(False)
+        Me.rgbChangeProduct.PerformLayout()
+        CType(Me.rbtnChangebyPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnchangeFixQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtChangeQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblEnterQty, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.lblEnterQty.ResumeLayout(False)
+        Me.lblEnterQty.PerformLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1394,4 +1532,13 @@ Partial Class frmDemandAdjustment
     Friend WithEvents TxtFinder9 As common.UserControls.txtFinder
     Friend WithEvents txtFixedQty As RadTextBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents rgbChangeProduct As RadGroupBox
+    Friend WithEvents txtChangeQty As RadTextBox
+    Friend WithEvents rbtnchangeFixQty As RadRadioButton
+    Friend WithEvents rbtnChangebyPer As RadRadioButton
+    Friend WithEvents rbtnAll As RadRadioButton
+    Friend WithEvents lblEnterQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents TxtFinder4 As common.UserControls.txtFinder
 End Class

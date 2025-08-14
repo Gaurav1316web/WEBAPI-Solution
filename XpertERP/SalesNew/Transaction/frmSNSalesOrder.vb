@@ -6010,7 +6010,7 @@ Public Class frmSNSalesOrder
 
                 If dt.Rows.Count > 0 Then
                     SetItemWiseTax(dt, txtDocNo.Value)
-                    strPdfAttachmentPath = frmCRV.funreport(IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptSalesOrderReport", "Sales Order", DOCDATE)
+                    strPdfAttachmentPath = frmCRV.funreport(MyBase.Form_ID, IsPdf, CrystalReportFolder.NewSalesReports, dt, "crptSalesOrderReport", "Sales Order", DOCDATE)
                 End If
 
             End If

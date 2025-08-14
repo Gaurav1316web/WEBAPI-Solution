@@ -8191,7 +8191,7 @@ Public Class frmDispatchAdviceProductSale
 
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                strPdfPath = frmCRV.funreport(isPDF, CrystalReportFolder.KwalitySalesReport, dt, "crptProductDeliveryOrderReport", "Delivery Order product Sale")
+                strPdfPath = frmCRV.funreport(MyBase.Form_ID, isPDF, CrystalReportFolder.KwalitySalesReport, dt, "crptProductDeliveryOrderReport", "Delivery Order product Sale")
                 frmCRV = Nothing
             End If
 

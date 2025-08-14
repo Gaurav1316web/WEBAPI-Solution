@@ -4015,7 +4015,7 @@ Public Class FrmMCCMilkRegister
                             Else
                                 gv.DataSource = Nothing
                                 Dim frmCRV As New frmCrystalReportViewer()
-                                frmCRV.funreport(False, CrystalReportFolder.SalesReport, dtPrint, "rptDairyMilkReportPrint", "Dairy Milk Report")
+                                frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dtPrint, "rptDairyMilkReportPrint", "Dairy Milk Report")
                                 frmCRV = Nothing
 
                             End If
@@ -4257,7 +4257,7 @@ Public Class FrmMCCMilkRegister
                     dt = clsDBFuncationality.GetDataTable(ffinalQry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, "crptRouteWiseUnitMilkCollection", "UNIT MILK COLLECTION REPORT")
                         frmCRV = Nothing
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
@@ -4299,7 +4299,7 @@ Public Class FrmMCCMilkRegister
                     dt = clsDBFuncationality.GetDataTable(CanfinalQry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(False, CrystalReportFolder.MilkProcurement, dt, "crptCanSummary", "CAN SUMMARY REPORT")
+                        frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.MilkProcurement, dt, "crptCanSummary", "CAN SUMMARY REPORT")
                         frmCRV = Nothing
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
