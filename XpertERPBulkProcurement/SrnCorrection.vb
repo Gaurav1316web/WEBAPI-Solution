@@ -25,7 +25,7 @@ Public Class SrnCorrection
                             left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail   
                             left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on  TabDCS2.PK_Id= TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
                             inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-        where TabDCS1.Document_No='" + docno + "'"
+                            where TabDCS1.Document_No='" + docno + "' or TabDCS2.Document_No='" + docno + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             gv1.DataSource = Nothing

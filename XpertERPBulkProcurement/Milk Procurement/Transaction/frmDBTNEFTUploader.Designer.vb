@@ -27,6 +27,14 @@ Partial Class frmDBTNEFTUploader
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Export = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
         Me.chkDBTRevisePayment = New Telerik.WinControls.UI.RadCheckBox()
         Me.BtnBank = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -85,6 +93,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDBTRevisePayment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -177,6 +186,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadMenu1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkDBTRevisePayment)
         Me.SplitContainer2.Panel1.Controls.Add(Me.BtnBank)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel4)
@@ -205,13 +215,64 @@ Partial Class frmDBTNEFTUploader
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Size = New System.Drawing.Size(860, 472)
-        Me.SplitContainer2.SplitterDistance = 147
+        Me.SplitContainer2.SplitterDistance = 180
         Me.SplitContainer2.TabIndex = 0
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(860, 20)
+        Me.RadMenu1.TabIndex = 348
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import})
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Setting"
+        Me.RadMenuItem3.UseCompatibleTextRendering = False
+        '
+        'Export
+        '
+        Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem4})
+        Me.Export.Name = "Export"
+        Me.Export.Text = "Export"
+        '
+        'RadMenuItem5
+        '
+        Me.RadMenuItem5.Name = "RadMenuItem5"
+        Me.RadMenuItem5.Text = "Valid-->Hold"
+        Me.RadMenuItem5.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Hold-->Valid"
+        '
+        'Import
+        '
+        Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem9, Me.RadMenuItem8})
+        Me.Import.Name = "Import"
+        Me.Import.Text = "Import"
+        Me.Import.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem9
+        '
+        Me.RadMenuItem9.Name = "RadMenuItem9"
+        Me.RadMenuItem9.Text = "Valid-->Hold"
+        Me.RadMenuItem9.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem8
+        '
+        Me.RadMenuItem8.Name = "RadMenuItem8"
+        Me.RadMenuItem8.Text = "Hold-->valid"
+        Me.RadMenuItem8.UseCompatibleTextRendering = False
         '
         'chkDBTRevisePayment
         '
         Me.chkDBTRevisePayment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDBTRevisePayment.Location = New System.Drawing.Point(313, 55)
+        Me.chkDBTRevisePayment.Location = New System.Drawing.Point(313, 88)
         Me.chkDBTRevisePayment.Name = "chkDBTRevisePayment"
         Me.chkDBTRevisePayment.Size = New System.Drawing.Size(15, 15)
         Me.chkDBTRevisePayment.TabIndex = 347
@@ -220,7 +281,7 @@ Partial Class frmDBTNEFTUploader
         'BtnBank
         '
         Me.BtnBank.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnBank.Location = New System.Drawing.Point(799, 6)
+        Me.BtnBank.Location = New System.Drawing.Point(799, 72)
         Me.BtnBank.Name = "BtnBank"
         Me.BtnBank.Size = New System.Drawing.Size(51, 20)
         Me.BtnBank.TabIndex = 92
@@ -230,7 +291,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(606, 8)
+        Me.MyLabel4.Location = New System.Drawing.Point(606, 41)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(91, 16)
         Me.MyLabel4.TabIndex = 91
@@ -250,7 +311,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtBankLetterDate.IsSourceFromTable = False
         Me.txtBankLetterDate.IsSourceFromValueList = False
         Me.txtBankLetterDate.IsUnique = False
-        Me.txtBankLetterDate.Location = New System.Drawing.Point(703, 7)
+        Me.txtBankLetterDate.Location = New System.Drawing.Point(703, 40)
         Me.txtBankLetterDate.MendatroryField = True
         Me.txtBankLetterDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtBankLetterDate.MyLinkLable1 = Me.MyLabel2
@@ -270,7 +331,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(373, 9)
+        Me.MyLabel2.Location = New System.Drawing.Point(373, 42)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel2.TabIndex = 7
@@ -282,7 +343,7 @@ Partial Class frmDBTNEFTUploader
         Me.lblZone.BorderVisible = True
         Me.lblZone.FieldName = Nothing
         Me.lblZone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblZone.Location = New System.Drawing.Point(307, 75)
+        Me.lblZone.Location = New System.Drawing.Point(307, 108)
         Me.lblZone.Name = "lblZone"
         Me.lblZone.Size = New System.Drawing.Size(296, 20)
         Me.lblZone.TabIndex = 89
@@ -298,7 +359,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtZone.IsSourceFromTable = False
         Me.txtZone.IsSourceFromValueList = False
         Me.txtZone.IsUnique = False
-        Me.txtZone.Location = New System.Drawing.Point(94, 75)
+        Me.txtZone.Location = New System.Drawing.Point(94, 108)
         Me.txtZone.MendatroryField = False
         Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtZone.MyLinkLable1 = Me.lblZonet
@@ -317,7 +378,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.lblZonet.FieldName = Nothing
         Me.lblZonet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblZonet.Location = New System.Drawing.Point(7, 77)
+        Me.lblZonet.Location = New System.Drawing.Point(7, 110)
         Me.lblZonet.Name = "lblZonet"
         Me.lblZonet.Size = New System.Drawing.Size(32, 16)
         Me.lblZonet.TabIndex = 88
@@ -335,7 +396,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(94, 120)
+        Me.txtRemarks.Location = New System.Drawing.Point(94, 153)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.RadLabel6
@@ -351,7 +412,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(7, 121)
+        Me.RadLabel6.Location = New System.Drawing.Point(7, 154)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(51, 16)
         Me.RadLabel6.TabIndex = 30
@@ -361,7 +422,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.txtMCC.arrDispalyMember = Nothing
         Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(94, 30)
+        Me.txtMCC.Location = New System.Drawing.Point(94, 63)
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -374,7 +435,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(7, 30)
+        Me.MyLabel16.Location = New System.Drawing.Point(7, 63)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 11
@@ -384,7 +445,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(190, 54)
+        Me.MyLabel1.Location = New System.Drawing.Point(190, 87)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(19, 16)
         Me.MyLabel1.TabIndex = 5
@@ -403,7 +464,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(217, 52)
+        Me.txtToDate.Location = New System.Drawing.Point(217, 85)
         Me.txtToDate.MendatroryField = True
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Me.MyLabel1
@@ -423,7 +484,7 @@ Partial Class frmDBTNEFTUploader
         'lblPending
         '
         Me.lblPending.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblPending.Location = New System.Drawing.Point(506, 7)
+        Me.lblPending.Location = New System.Drawing.Point(506, 40)
         Me.lblPending.Margin = New System.Windows.Forms.Padding(4)
         Me.lblPending.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPending.Name = "lblPending"
@@ -435,7 +496,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(7, 54)
+        Me.MyLabel3.Location = New System.Drawing.Point(7, 87)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel3.TabIndex = 12
@@ -454,7 +515,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(94, 52)
+        Me.txtFromDate.Location = New System.Drawing.Point(94, 85)
         Me.txtFromDate.MendatroryField = True
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
@@ -474,7 +535,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.MyLabel34.FieldName = Nothing
         Me.MyLabel34.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(7, 98)
+        Me.MyLabel34.Location = New System.Drawing.Point(7, 131)
         Me.MyLabel34.Name = "MyLabel34"
         Me.MyLabel34.Size = New System.Drawing.Size(42, 18)
         Me.MyLabel34.TabIndex = 13
@@ -484,7 +545,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.txtVLC.arrDispalyMember = Nothing
         Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(94, 98)
+        Me.txtVLC.Location = New System.Drawing.Point(94, 131)
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Nothing
         Me.txtVLC.MyLinkLable2 = Nothing
@@ -507,7 +568,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtdate.IsSourceFromTable = False
         Me.txtdate.IsSourceFromValueList = False
         Me.txtdate.IsUnique = False
-        Me.txtdate.Location = New System.Drawing.Point(409, 8)
+        Me.txtdate.Location = New System.Drawing.Point(409, 41)
         Me.txtdate.MendatroryField = True
         Me.txtdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtdate.MyLinkLable1 = Me.MyLabel2
@@ -528,7 +589,7 @@ Partial Class frmDBTNEFTUploader
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(350, 7)
+        Me.btnReset.Location = New System.Drawing.Point(350, 40)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(21, 20)
         Me.btnReset.TabIndex = 8
@@ -536,7 +597,7 @@ Partial Class frmDBTNEFTUploader
         'lblCode
         '
         Me.lblCode.FieldName = Nothing
-        Me.lblCode.Location = New System.Drawing.Point(7, 8)
+        Me.lblCode.Location = New System.Drawing.Point(7, 41)
         Me.lblCode.Name = "lblCode"
         Me.lblCode.Size = New System.Drawing.Size(32, 18)
         Me.lblCode.TabIndex = 10
@@ -545,7 +606,7 @@ Partial Class frmDBTNEFTUploader
         'txtDocumentNo
         '
         Me.txtDocumentNo.FieldName = Nothing
-        Me.txtDocumentNo.Location = New System.Drawing.Point(94, 7)
+        Me.txtDocumentNo.Location = New System.Drawing.Point(94, 40)
         Me.txtDocumentNo.MendatroryField = False
         Me.txtDocumentNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -570,6 +631,8 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(860, 321)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.Size = New System.Drawing.Size(860, 288)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -579,7 +642,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(839, 273)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(839, 240)
         Me.RadPageViewPage3.Text = "Valid Farmers"
         '
         'gvFarmer
@@ -597,7 +660,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
-        Me.gvFarmer.Size = New System.Drawing.Size(839, 273)
+        Me.gvFarmer.Size = New System.Drawing.Size(839, 240)
         Me.gvFarmer.TabIndex = 1
         Me.gvFarmer.TabStop = False
         Me.gvFarmer.VarID = ""
@@ -609,7 +672,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(839, 273)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(839, 240)
         Me.RadPageViewPage1.Text = "Valid"
         '
         'gvItem
@@ -627,7 +690,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(839, 260)
+        Me.gvItem.Size = New System.Drawing.Size(839, 227)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         Me.gvItem.VarID = ""
@@ -639,7 +702,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(0, 260)
+        Me.RadLabel12.Location = New System.Drawing.Point(0, 227)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(839, 13)
         Me.RadLabel12.TabIndex = 26
@@ -653,7 +716,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(49.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(839, 273)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(839, 240)
         Me.RadPageViewPage2.Text = "Invalid"
         '
         'gvInvalid
@@ -671,7 +734,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
-        Me.gvInvalid.Size = New System.Drawing.Size(839, 243)
+        Me.gvInvalid.Size = New System.Drawing.Size(839, 210)
         Me.gvInvalid.TabIndex = 1
         Me.gvInvalid.TabStop = False
         Me.gvInvalid.VarID = ""
@@ -701,7 +764,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(40.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(839, 273)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(839, 240)
         Me.RadPageViewPage4.Text = "Hold"
         '
         'gvHold
@@ -719,7 +782,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvHold.MyStopExport = False
         Me.gvHold.Name = "gvHold"
         Me.gvHold.ShowHeaderCellButtons = True
-        Me.gvHold.Size = New System.Drawing.Size(839, 260)
+        Me.gvHold.Size = New System.Drawing.Size(839, 227)
         Me.gvHold.TabIndex = 1
         Me.gvHold.TabStop = False
         Me.gvHold.VarID = ""
@@ -731,7 +794,7 @@ Partial Class frmDBTNEFTUploader
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(0, 260)
+        Me.MyLabel5.Location = New System.Drawing.Point(0, 227)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(839, 13)
         Me.MyLabel5.TabIndex = 27
@@ -744,7 +807,7 @@ Partial Class frmDBTNEFTUploader
         Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(839, 273)
+        Me.Attachments.Size = New System.Drawing.Size(839, 240)
         Me.Attachments.Text = "Attachment"
         '
         'SplitContainer3
@@ -761,8 +824,8 @@ Partial Class frmDBTNEFTUploader
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.UcAttachment1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(839, 273)
-        Me.SplitContainer3.SplitterDistance = 136
+        Me.SplitContainer3.Size = New System.Drawing.Size(839, 240)
+        Me.SplitContainer3.SplitterDistance = 119
         Me.SplitContainer3.TabIndex = 2
         '
         'UcAttachment2
@@ -770,7 +833,7 @@ Partial Class frmDBTNEFTUploader
         Me.UcAttachment2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment2.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment2.Name = "UcAttachment2"
-        Me.UcAttachment2.Size = New System.Drawing.Size(839, 136)
+        Me.UcAttachment2.Size = New System.Drawing.Size(839, 119)
         Me.UcAttachment2.TabIndex = 2
         Me.UcAttachment2.TabStop = False
         '
@@ -779,7 +842,7 @@ Partial Class frmDBTNEFTUploader
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(839, 133)
+        Me.UcAttachment1.Size = New System.Drawing.Size(839, 117)
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
         '
@@ -909,6 +972,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDBTRevisePayment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1017,5 +1081,13 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents gvHold As common.UserControls.MyRadGridView
     Friend WithEvents RadLabel12 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents RadMenuItem3 As RadMenuItem
+    Friend WithEvents Import As RadMenuItem
+    Friend WithEvents RadMenuItem8 As RadMenuItem
+    Friend WithEvents RadMenuItem9 As RadMenuItem
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents Export As RadMenuItem
+    Friend WithEvents RadMenuItem5 As RadMenuItem
+    Friend WithEvents RadMenuItem4 As RadMenuItem
 End Class
 
