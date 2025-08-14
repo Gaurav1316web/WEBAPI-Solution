@@ -8994,7 +8994,7 @@ from
             frm.txtlocation = txtLocation.Value
             frm.vehicleno = txtVehicleCode.Value
             frm.docdate = txtDate.Value
-            frm.Supplydate = txtDate.Value
+            frm.Supplydate = txtSupplyDate.Value
             frm.Shifttype = cmbGatePassType.Text
             frm.ShowDialog()
         Catch ex As Exception
