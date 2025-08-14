@@ -3025,11 +3025,16 @@ order by LEVEL"
 
         If clsCommon.myLen(ARR) > 0 Then
             Dim arraylistcount As Integer = ARR.Count
-            Dim qry As String = Nothing
-            qry = "update tspl_user_master set  Saras_PRO_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
-            Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, " Do you want to Logout " & arraylistcount & " User On Sara Pro App", Me.Text)
+            If clsCommon.MyMessageBoxShow("Do you want to Logout " & arraylistcount & " User Of Sara Pro App?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+
+                Dim qry As String = Nothing
+                qry = "update tspl_user_master set  Saras_PRO_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
+                Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                    ' clsCommon.MyMessageBoxShow(Me, " Do you want to Logout " & arraylistcount & " User On Sara Pro App", Me.Text)
+                End If
+            Else
+                Exit Sub
             End If
         End If
     End Sub
@@ -3051,13 +3056,16 @@ order by LEVEL"
         Dim ARR As ArrayList = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtOrderSaras.arrValueMember, txtOrderSaras.arrDispalyMember)
 
         If clsCommon.myLen(ARR) > 0 Then
-            Dim arraylistcount As Integer = ARR.Count
+                Dim arraylistcount As Integer = ARR.Count
+            If clsCommon.MyMessageBoxShow("Do you want to Logout " & arraylistcount & " User Of Sara Order App?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
 
-            Dim qry As String = Nothing
-            qry = "update tspl_user_master set  Saras_order_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
-            Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, " Do you want to Logout  " & arraylistcount & "   User On Sara Pro App", Me.Text)
+                Dim qry As String = Nothing
+                qry = "update tspl_user_master set  Saras_order_Session_Expired='1' where User_Code in (" & clsCommon.GetMulcallString(ARR) & ")"
+                Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dtS Is Nothing OrElse dtS.Rows.Count <= 0 Then
+                End If
+            Else
+                Exit Sub
             End If
 
         End If
@@ -3080,7 +3088,7 @@ order by LEVEL"
     Private Sub SaveUserMapping()
         Try
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_MAPPING_DETAIL where User_Code = '" + fndUserCode.Value + "' ")
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
+                    clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_BULK_ROUTE_MAPPING  where User_Code ='" + fndUserCode.Value + "' ")

@@ -23,7 +23,7 @@ Partial Class frmDBTPDAccountReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -44,6 +44,9 @@ Partial Class frmDBTPDAccountReport
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
+        Me.Panel6 = New System.Windows.Forms.Panel()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -61,6 +64,9 @@ Partial Class frmDBTPDAccountReport
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel6.SuspendLayout()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,13 +133,14 @@ Partial Class frmDBTPDAccountReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(851, 389)
         Me.RadPageView1.TabIndex = 74
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Panel6)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel10)
         Me.RadPageViewPage1.Controls.Add(Me.txtDocNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtDBTNEFTNo)
@@ -245,7 +252,7 @@ Partial Class frmDBTPDAccountReport
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvData.MyExportFilePath = ""
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
@@ -299,6 +306,42 @@ Partial Class frmDBTPDAccountReport
         Me.btnReport.TabIndex = 5
         Me.btnReport.Text = ">>>"
         '
+        'Panel6
+        '
+        Me.Panel6.Controls.Add(Me.rbtnSummary)
+        Me.Panel6.Controls.Add(Me.rbtnDetail)
+        Me.Panel6.Location = New System.Drawing.Point(90, 58)
+        Me.Panel6.Name = "Panel6"
+        Me.Panel6.Size = New System.Drawing.Size(208, 20)
+        Me.Panel6.TabIndex = 1082
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.rbtnSummary.Location = New System.Drawing.Point(98, 1)
+        Me.rbtnSummary.Margin = New System.Windows.Forms.Padding(4)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 1
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(44, 1)
+        Me.rbtnDetail.Margin = New System.Windows.Forms.Padding(4)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 0
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'frmDBTPDAccountReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -330,6 +373,10 @@ Partial Class frmDBTPDAccountReport
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel6.ResumeLayout(False)
+        Me.Panel6.PerformLayout()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -355,4 +402,7 @@ Partial Class frmDBTPDAccountReport
     Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents RadLabel10 As common.Controls.MyLabel
     Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents Panel6 As Panel
+    Protected WithEvents rbtnSummary As common.Controls.MyRadioButton
+    Protected WithEvents rbtnDetail As common.Controls.MyRadioButton
 End Class

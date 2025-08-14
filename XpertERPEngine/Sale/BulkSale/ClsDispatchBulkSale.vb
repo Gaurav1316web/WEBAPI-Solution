@@ -14,6 +14,7 @@ Public Class ClsDispatchBulkSale
     Public Tanker_Code As String = Nothing
     Public Tax_Calculation_Type As EnumTaxCalucationType
     Public Location_Code As String = Nothing
+    Public Item_Code As String = Nothing
     Public Dip_marking As String = Nothing
     Public Challan_No As String = Nothing
     Public Tare_Weight As Double = 0
@@ -112,6 +113,7 @@ Public Class ClsDispatchBulkSale
             clsCommon.AddColumnsForChange(coll, "QC_Code", obj.QC_Code)
             clsCommon.AddColumnsForChange(coll, "Tanker_Code", obj.Tanker_Code)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+            clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
             clsCommon.AddColumnsForChange(coll, "Dip_marking", obj.Dip_marking)
             clsCommon.AddColumnsForChange(coll, "Challan_No", obj.Challan_No)
             clsCommon.AddColumnsForChange(coll, "Insurance_No", obj.Insurance_No)
@@ -179,15 +181,15 @@ Public Class ClsDispatchBulkSale
                     End If
                 End If
                 ''-----------------------------
-                If clsDBFuncationality.getSingleValue("select count(*) from TSPL_Dispatch_BulkSale where QC_Code ='" & obj.QC_Code & "' ", trans) < 1 Then
-                    clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                'If clsDBFuncationality.getSingleValue("select count(*) from TSPL_Dispatch_BulkSale where QC_Code ='" & obj.QC_Code & "' ", trans) < 1 Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                     clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Insert, "", trans)
-                Else
-                    Throw New Exception("Document already created for QC No " & obj.QC_Code & "")
+                'Else
+                '    Throw New Exception("Document already created for QC No " & obj.QC_Code & "")
 
-                End If
+                'End If
             Else
                 ''richa 31/12/2014
                 If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale, trans) Then
@@ -204,7 +206,7 @@ Public Class ClsDispatchBulkSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Update, "TSPL_Dispatch_BulkSale.Document_No='" + obj.Document_No + "'", trans)
             End If
             clsDispatchDetailBulkSale.saveData(obj.arrDispatchDetailBulkSale, obj.Document_No, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", "TSPL_Dispatch_Silo_Detail", "Document_No", trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", "TSPL_Dispatch_Silo_Detail", "Document_No", trans)
 
             clsSiloDetailBulkSale.saveData(obj.arrSiloDetailBulkSale, obj.Document_No, trans)
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_Silo_Detail", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
@@ -234,6 +236,7 @@ Public Class ClsDispatchBulkSale
             clsCommon.AddColumnsForChange(coll, "QC_Code", obj.QC_Code)
             clsCommon.AddColumnsForChange(coll, "Tanker_Code", obj.Tanker_Code)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+            clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
             clsCommon.AddColumnsForChange(coll, "Dip_marking", obj.Dip_marking)
             clsCommon.AddColumnsForChange(coll, "Challan_No", obj.Challan_No)
             clsCommon.AddColumnsForChange(coll, "Seal_No", obj.Seal_No)
@@ -305,7 +308,7 @@ Public Class ClsDispatchBulkSale
     Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsDispatchBulkSale
         Dim obj As ClsDispatchBulkSale = Nothing
         Dim Arr As List(Of ClsDispatchBulkSale) = Nothing
-        Dim qry As String = "Select ChangedTCSBaseAmount,ActualTCSBaseAmount,EWayBillDate,EWayBillNo, SalesOrder_Code,Document_No,Document_Date,Customer_Code,QC_Code,Tanker_Code,Location_Code,Dip_marking,Challan_No,Insurance_No,Seal_No,Tare_Weight,ApprovalRequired,Approved,Status,Gross_Weight,Net_Weight,Price_Code,Total_Amt,Posted,Is_Create_Auto_Invoice,Posting_Date,Modified_Date,Created_Date,ReverseFlag,Fat_Weightage=isnull(Fat_Weightage,0),Snf_Weightage=isnull(Snf_Weightage,0),Fat_Ratio=isnull(Fat_Ratio,0),Snf_Ratio  =isnull(Snf_Ratio ,0),TSPL_Dispatch_BulkSale.Tax_Group,TSPL_Dispatch_BulkSale.TAX1,TSPL_Dispatch_BulkSale.TAX1_Rate,TSPL_Dispatch_BulkSale.TAX1_Amt,TSPL_Dispatch_BulkSale.TAX1_Base_Amt,TSPL_Dispatch_BulkSale.TAX2,TSPL_Dispatch_BulkSale.TAX2_Rate,TSPL_Dispatch_BulkSale.TAX2_Amt,TSPL_Dispatch_BulkSale.TAX2_Base_Amt,TSPL_Dispatch_BulkSale.TAX3,TSPL_Dispatch_BulkSale.TAX3_Rate,TSPL_Dispatch_BulkSale.TAX3_Amt,TSPL_Dispatch_BulkSale.TAX3_Base_Amt,TSPL_Dispatch_BulkSale.TAX4,TSPL_Dispatch_BulkSale.TAX4_Rate,TSPL_Dispatch_BulkSale.TAX4_Amt,TSPL_Dispatch_BulkSale.TAX4_Base_Amt,TSPL_Dispatch_BulkSale.TAX5,TSPL_Dispatch_BulkSale.TAX5_Rate,TSPL_Dispatch_BulkSale.TAX5_Amt,TSPL_Dispatch_BulkSale.TAX5_Base_Amt,TSPL_Dispatch_BulkSale.Total_Tax_Amt,TSPL_Dispatch_BulkSale.Document_Amount,TSPL_Dispatch_BulkSale.Tax_Calculation_Type,TSPL_Dispatch_BulkSale.Transporter  from TSPL_Dispatch_BulkSale where 2=2 "
+        Dim qry As String = "Select ChangedTCSBaseAmount,ActualTCSBaseAmount,EWayBillDate,EWayBillNo, SalesOrder_Code,Document_No,Document_Date,Customer_Code,QC_Code,Tanker_Code,Location_Code,Item_Code,Dip_marking,Challan_No,Insurance_No,Seal_No,Tare_Weight,ApprovalRequired,Approved,Status,Gross_Weight,Net_Weight,Price_Code,Total_Amt,Posted,Is_Create_Auto_Invoice,Posting_Date,Modified_Date,Created_Date,ReverseFlag,Fat_Weightage=isnull(Fat_Weightage,0),Snf_Weightage=isnull(Snf_Weightage,0),Fat_Ratio=isnull(Fat_Ratio,0),Snf_Ratio  =isnull(Snf_Ratio ,0),TSPL_Dispatch_BulkSale.Tax_Group,TSPL_Dispatch_BulkSale.TAX1,TSPL_Dispatch_BulkSale.TAX1_Rate,TSPL_Dispatch_BulkSale.TAX1_Amt,TSPL_Dispatch_BulkSale.TAX1_Base_Amt,TSPL_Dispatch_BulkSale.TAX2,TSPL_Dispatch_BulkSale.TAX2_Rate,TSPL_Dispatch_BulkSale.TAX2_Amt,TSPL_Dispatch_BulkSale.TAX2_Base_Amt,TSPL_Dispatch_BulkSale.TAX3,TSPL_Dispatch_BulkSale.TAX3_Rate,TSPL_Dispatch_BulkSale.TAX3_Amt,TSPL_Dispatch_BulkSale.TAX3_Base_Amt,TSPL_Dispatch_BulkSale.TAX4,TSPL_Dispatch_BulkSale.TAX4_Rate,TSPL_Dispatch_BulkSale.TAX4_Amt,TSPL_Dispatch_BulkSale.TAX4_Base_Amt,TSPL_Dispatch_BulkSale.TAX5,TSPL_Dispatch_BulkSale.TAX5_Rate,TSPL_Dispatch_BulkSale.TAX5_Amt,TSPL_Dispatch_BulkSale.TAX5_Base_Amt,TSPL_Dispatch_BulkSale.Total_Tax_Amt,TSPL_Dispatch_BulkSale.Document_Amount,TSPL_Dispatch_BulkSale.Tax_Calculation_Type,TSPL_Dispatch_BulkSale.Transporter  from TSPL_Dispatch_BulkSale where 2=2 "
         If clsCommon.myLen(arrLoc) > 0 Then
             qry += "  and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") "
         End If
@@ -332,6 +335,7 @@ Public Class ClsDispatchBulkSale
             obj.QC_Code = clsCommon.myCstr(dt.Rows(0)("QC_Code"))
             obj.Tanker_Code = clsCommon.myCstr(dt.Rows(0)("Tanker_Code"))
             obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+            obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
             obj.Dip_marking = clsCommon.myCstr(dt.Rows(0)("Dip_marking"))
             obj.Challan_No = clsCommon.myCstr(dt.Rows(0)("Challan_No"))
             obj.Insurance_No = clsCommon.myCstr(dt.Rows(0)("Insurance_No"))
