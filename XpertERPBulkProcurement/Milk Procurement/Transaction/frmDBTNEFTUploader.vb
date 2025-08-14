@@ -621,7 +621,9 @@ where 2=2 "
     Sub fillMPS()
         Try
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False, True))
+                Dim flag As Boolean = True
+                Dim arrRepAcNo As ArrayList = Nothing
+                Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False, True, arrRepAcNo))
                 If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
                     If common.clsCommon.MyMessageBoxShow(Me, "Error in " & dtCheck.Rows.Count & " Records.Do you want to open it", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                         Dim frm As New FrmFreeGrid
@@ -630,15 +632,28 @@ where 2=2 "
                         frm.dt = dtCheck
                         frm.ShowDialog()
                     End If
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to continue? Your input will be marked as invalid for above data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                        arrRepAcNo = New ArrayList
+                        For Each dr As DataRow In dtCheck.Rows
+                            If clsCommon.CompairString(clsCommon.myCstr(dr("ErrorCode")), "Repeated Account No") = CompairStringResult.Equal Then
+                                arrRepAcNo.Add(clsCommon.myCstr(dr("ErrorValue")))
+                            Else
+                                Exit For
+                            End If
+                        Next
+                    Else
+                        flag = False
+                    End If
                     gvItem.DataSource = Nothing
                     gvFarmer.DataSource = Nothing
                     gvInvalid.DataSource = Nothing
-                    Exit Sub
-                Else
+                End If
+
+                If flag Then
                     'loadBlankGrid()
                     gvItem.DataSource = Nothing
                     Dim isDataFound As Boolean = False
-                    Dim dtValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False, False))
+                    Dim dtValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False, False, arrRepAcNo))
                     If dtValid IsNot Nothing AndAlso dtValid.Rows.Count > 0 Then
                         isDataFound = True
                         gvItem.DataSource = dtValid
@@ -647,7 +662,7 @@ where 2=2 "
 
                     gvFarmer.DataSource = Nothing
                     If SettMPIncentiveEntryCycleWiseButNEFTMonthly Then
-                        Dim dtFarmerWiseValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, True, False))
+                        Dim dtFarmerWiseValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, True, False, arrRepAcNo))
                         If dtFarmerWiseValid IsNot Nothing AndAlso dtFarmerWiseValid.Rows.Count > 0 Then
                             isDataFound = True
                             gvFarmer.DataSource = dtFarmerWiseValid
@@ -656,7 +671,7 @@ where 2=2 "
                     End If
 
                     gvInvalid.DataSource = Nothing
-                    Dim dtInValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(False, False, False))
+                    Dim dtInValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(False, False, False, arrRepAcNo))
                     If dtInValid IsNot Nothing AndAlso dtInValid.Rows.Count > 0 Then
                         isDataFound = True
                         gvInvalid.DataSource = dtInValid
@@ -675,8 +690,6 @@ where 2=2 "
                         clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
                     End If
                 End If
-
-
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -730,7 +743,7 @@ where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
         Return strMain
     End Function
 
-    Private Function GetMpQry(ByVal IsPickValid As Boolean, ByVal GrpByFarmer As Boolean, ByVal isCheckOnly As Boolean) As String
+    Private Function GetMpQry(ByVal IsPickValid As Boolean, ByVal GrpByFarmer As Boolean, ByVal isCheckOnly As Boolean, ByVal arrRepAccNo As ArrayList) As String
 
         Dim BaseQry As String = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,case when len(isnull(TSPL_MP_MASTER.Telphone,''))=10 then TSPL_MP_MASTER.Telphone else '' end as Telphone,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount_Actual as Payable_Amount 
 ,TSPL_ZONE_MASTER.Description  as ZoneName   
@@ -755,9 +768,17 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
         End If
         If Not isCheckOnly Then
             If IsPickValid Then
-                BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))>0 and len(isnull(TSPL_MP_MASTER.IFCICode,''))=11 and len(isnull(TSPL_MP_MASTER.PayeeName,''))>0 )"
+                BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))>0 and len(isnull(TSPL_MP_MASTER.IFCICode,''))=11 and len(isnull(TSPL_MP_MASTER.PayeeName,''))>0 and dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(isnull(TSPL_MP_MASTER.PayeeName,'')))) = isnull(TSPL_MP_MASTER.PayeeName,'') and TSPL_MP_MASTER.AccountNO not like '%.%'"
+                If arrRepAccNo IsNot Nothing AndAlso arrRepAccNo.Count > 0 Then
+                    BaseQry += " and TSPL_MP_MASTER.AccountNO not in (" + clsCommon.GetMulcallString(arrRepAccNo) + ")"
+                End If
+                BaseQry += ")"
             Else
-                BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))=0 or len(isnull(TSPL_MP_MASTER.IFCICode,''))<>11 or len(isnull(TSPL_MP_MASTER.PayeeName,''))<=0 )"
+                BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))=0 or len(isnull(TSPL_MP_MASTER.IFCICode,''))<>11 or len(isnull(TSPL_MP_MASTER.PayeeName,''))<=0 or dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(isnull(TSPL_MP_MASTER.PayeeName,'')))) <> isnull(TSPL_MP_MASTER.PayeeName,'') or TSPL_MP_MASTER.AccountNO  like '%.%'"
+                If arrRepAccNo IsNot Nothing AndAlso arrRepAccNo.Count > 0 Then
+                    BaseQry += " or TSPL_MP_MASTER.AccountNO  in (" + clsCommon.GetMulcallString(arrRepAccNo) + ")"
+                End If
+                BaseQry += ")"
             End If
         End If
         BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
