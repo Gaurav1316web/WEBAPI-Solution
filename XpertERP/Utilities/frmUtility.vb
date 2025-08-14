@@ -9096,14 +9096,26 @@ Public Class FrmUtility
                 Dim msg As String = str
                 If msg.Length > 0 Then
                     Try
-                        msg = msg.Trim()
-                        OldReading += msg
+                        'msg = msg.Trim()
+
 
                         If clsCommon.myLen(msg) > 0 Then
-                            Dim reading As String = System.Text.RegularExpressions.Regex.Replace(msg.Trim(), "[^0-9[.]", "")
-                            _weight = clsCommon.myCDecimal(reading)
-                            If IsNumeric(_weight) Then
-                                clsCommon.MyMessageBoxShow(Me, _weight)
+                            OldReading += msg
+                            Dim strBreak As String() = clsCommon.myCstr(OldReading).Split(New String() {" "}, StringSplitOptions.None)
+                            If strBreak.Length > 0 Then
+                                Dim strTemp As String = strBreak(0)
+                                If clsCommon.myLen(strTemp) = 5 Then
+                                    If IsNumeric(strTemp) Then
+                                        _weight = clsCommon.myCDecimal(strTemp)
+                                        _weight = clsCommon.myCDivide(_weight, 100)
+                                        clsCommon.MyMessageBoxShow(Me, _weight)
+                                    End If
+                                    If strBreak.Length > 1 Then
+                                        OldReading = strBreak(strBreak.Length - 1)
+                                    Else
+                                        OldReading = ""
+                                    End If
+                                End If
                             End If
                         End If
 

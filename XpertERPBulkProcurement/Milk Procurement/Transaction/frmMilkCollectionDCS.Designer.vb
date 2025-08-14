@@ -820,18 +820,18 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton3.Location = New System.Drawing.Point(492, 3)
+        Me.RadButton3.Location = New System.Drawing.Point(471, 3)
         Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(87, 22)
+        Me.RadButton3.Size = New System.Drawing.Size(135, 22)
         Me.RadButton3.TabIndex = 45
-        Me.RadButton3.Text = "SRN Correction"
+        Me.RadButton3.Text = "Correction After process "
         '
         'btnBookSuspence
         '
         Me.btnBookSuspence.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnBookSuspence.Location = New System.Drawing.Point(947, 3)
+        Me.btnBookSuspence.Location = New System.Drawing.Point(969, 3)
         Me.btnBookSuspence.Name = "btnBookSuspence"
-        Me.btnBookSuspence.Size = New System.Drawing.Size(68, 22)
+        Me.btnBookSuspence.Size = New System.Drawing.Size(46, 22)
         Me.btnBookSuspence.TabIndex = 44
         Me.btnBookSuspence.Text = "Book Suspence"
         Me.btnBookSuspence.Visible = False
@@ -839,7 +839,7 @@ Partial Class frmMilkCollectionDCS
         'btnAddMissing
         '
         Me.btnAddMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddMissing.Location = New System.Drawing.Point(874, 3)
+        Me.btnAddMissing.Location = New System.Drawing.Point(896, 3)
         Me.btnAddMissing.Name = "btnAddMissing"
         Me.btnAddMissing.Size = New System.Drawing.Size(73, 22)
         Me.btnAddMissing.TabIndex = 43
@@ -850,7 +850,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.btnViewBalance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnViewBalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnViewBalance.Location = New System.Drawing.Point(799, 3)
+        Me.btnViewBalance.Location = New System.Drawing.Point(821, 3)
         Me.btnViewBalance.Name = "btnViewBalance"
         Me.btnViewBalance.Size = New System.Drawing.Size(75, 22)
         Me.btnViewBalance.TabIndex = 42
@@ -861,7 +861,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.btnCreateDCS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCreateDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateDCS.Location = New System.Drawing.Point(730, 3)
+        Me.btnCreateDCS.Location = New System.Drawing.Point(752, 3)
         Me.btnCreateDCS.Name = "btnCreateDCS"
         Me.btnCreateDCS.Size = New System.Drawing.Size(68, 22)
         Me.btnCreateDCS.TabIndex = 41
@@ -871,7 +871,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton2.Location = New System.Drawing.Point(589, 3)
+        Me.RadButton2.Location = New System.Drawing.Point(612, 3)
         Me.RadButton2.Name = "RadButton2"
         Me.RadButton2.Size = New System.Drawing.Size(140, 22)
         Me.RadButton2.TabIndex = 40
@@ -900,7 +900,7 @@ Partial Class frmMilkCollectionDCS
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(435, 3)
+        Me.btnHistory.Location = New System.Drawing.Point(414, 3)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(55, 22)
         Me.btnHistory.TabIndex = 39
@@ -920,9 +920,9 @@ Partial Class frmMilkCollectionDCS
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(373, 3)
+        Me.btnPrint.Location = New System.Drawing.Point(356, 3)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(60, 22)
+        Me.btnPrint.Size = New System.Drawing.Size(56, 22)
         Me.btnPrint.TabIndex = 9
         Me.btnPrint.Text = "Print"
         '
@@ -942,7 +942,7 @@ Partial Class frmMilkCollectionDCS
         Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnImport.Location = New System.Drawing.Point(299, 3)
         Me.btnImport.Name = "btnImport"
-        Me.btnImport.Size = New System.Drawing.Size(72, 22)
+        Me.btnImport.Size = New System.Drawing.Size(56, 22)
         Me.btnImport.TabIndex = 8
         Me.btnImport.Text = "Import"
         '

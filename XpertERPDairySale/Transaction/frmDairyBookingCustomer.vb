@@ -8746,6 +8746,7 @@ from
                                 objTr.Total_MRP_Amt = clsCommon.myCdbl(grow.Cells(colAmountWithTax).Value)
                                 objTr.Total_Basic_Amt = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                                 objTr.Row_Type = "Item"
+                                objTr.Trip_No = 1
                                 objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
                                 objTr.Amt_Less_Discount = clsCommon.myCDecimal(grow.Cells(colAmtAfterDis).Value)
                                 objTr.Item_Net_Amt = objTr.Total_Tax_Amt + objTr.Amt_Less_Discount
@@ -8993,7 +8994,7 @@ from
             frm.txtlocation = txtLocation.Value
             frm.vehicleno = txtVehicleCode.Value
             frm.docdate = txtDate.Value
-            frm.Supplydate = txtDate.Value
+            frm.Supplydate = txtSupplyDate.Value
             frm.Shifttype = cmbGatePassType.Text
             frm.ShowDialog()
         Catch ex As Exception
