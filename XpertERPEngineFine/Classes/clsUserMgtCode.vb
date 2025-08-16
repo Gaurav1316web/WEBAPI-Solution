@@ -2771,7 +2771,7 @@ Public Class clsUserMgtCode
     Public Const XpertAPIParlourShiftClose As String = "API-PLR-SFC"
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
-
+    Public Const XpertAPIDairyGatePass As String = "API-GT-PASS"
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"
