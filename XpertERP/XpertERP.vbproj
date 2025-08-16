@@ -326,7 +326,7 @@
     </Reference>
     <Reference Include="XpertCommon, Version=2.1.6.91, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Dell\Desktop\New folder\XpertCommon.dll</HintPath>
+      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPAdminServices">
       <HintPath>..\XpertERPAdminServices\bin\Debug\XpertERPAdminServices.dll</HintPath>
