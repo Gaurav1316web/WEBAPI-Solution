@@ -59,14 +59,24 @@ and convert(date, TSPL_DBT_NEFT.To_Date,103) >= '" + clsCommon.GetPrintDate(clsC
             Throw New Exception("Please DBT NEFT No")
         End If
         'TSPL_DBT_NEFT_DETAIL.PK_Id,
-        Dim BaseQry As String = "select dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(TSPL_DBT_NEFT_DETAIL.MP_Name))) as NAME,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No as [IFSC_CODE],TSPL_DBT_NEFT_DETAIL.MP_Account_No as BankActNo,TSPL_STATE_MASTER.STATE_NAME as StateName,TSPL_DISTRICT_MASTER.Name as DistrictName,31219 as OfficeId,dbo.RemoveSpecialCharacters(TSPL_MP_MASTER.Add1) as Address,isnull(TSPL_DBT_NEFT_DETAIL.MP_Mobile_No,'') as ContactNo,'' as [GSTINNO],'' as [PAN],TSPL_DBT_NEFT.Sanction_Number as SancationNo,convert(varchar,TSPL_DBT_NEFT.Sanction_Date ,103) as SancationDate,cast(TSPL_DBT_NEFT_DETAIL.Amount  as integer) as Amount,3831 as [PD account no]
+        Dim BaseQry As String = ""
+        BaseQry = " select dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(TSPL_DBT_NEFT_DETAIL.MP_Name))) as NAME,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No as [IFSC_CODE],TSPL_DBT_NEFT_DETAIL.MP_Account_No as BankActNo,TSPL_STATE_MASTER.STATE_NAME as StateName,TSPL_DISTRICT_MASTER.Name as DistrictName,31219 as OfficeId,dbo.RemoveSpecialCharacters(TSPL_MP_MASTER.Add1) as Address,isnull(TSPL_DBT_NEFT_DETAIL.MP_Mobile_No,'') as ContactNo,'' as [GSTINNO],'' as [PAN],TSPL_DBT_NEFT.Sanction_Number as SancationNo,convert(varchar,TSPL_DBT_NEFT.Sanction_Date ,103) as SancationDate,cast(TSPL_DBT_NEFT_DETAIL.Amount  as integer) as Amount,3831 as [PD account no],
+TSPL_MASTER.dbo.TSPL_APP_LOCATION.PD_Account_Prefix +FORMAT(UKID, '0000')+CAST(Lot_No as varchar) as Refenceno,TSPL_MASTER.dbo.TSPL_APP_LOCATION.Location_Name,FORMAT((Document_Date), 'MMM-yy') AS MonthName
 from " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT_DETAIL
 left outer join " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT on " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT.Document_Code = " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
 left outer join " + fndUnion.Value + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL on  " + fndUnion.Value + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id= " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 left outer join " + fndUnion.Value + ".dbo.TSPL_MP_MASTER on " + fndUnion.Value + ".dbo.TSPL_MP_MASTER.MP_Code=" + fndUnion.Value + ".dbo.TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
 left outer join " + fndUnion.Value + ".dbo.TSPL_DISTRICT_MASTER on " + fndUnion.Value + ".dbo.TSPL_DISTRICT_MASTER.Code=" + fndUnion.Value + ".dbo.TSPL_MP_MASTER.DISTRICT_Code
 left outer join " + fndUnion.Value + ".dbo.TSPL_STATE_MASTER on " + fndUnion.Value + ".dbo.TSPL_STATE_MASTER.STATE_CODE=" + fndUnion.Value + ".dbo.TSPL_MP_MASTER.State_Code
-where ISNULL(TSPL_DBT_NEFT.Status, 0) = 1 and isnull(TSPL_DBT_NEFT.RCDF_Status,0)= 1   and " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT.Document_Code='" + txtDBTNEFTNo.Value + "' "
+left outer join TSPL_MASTER.dbo.TSPL_APP_LOCATION on TSPL_MASTER.dbo.TSPL_APP_LOCATION.DataBase_Name='" + fndUnion.Value + "'
+where ISNULL(TSPL_DBT_NEFT.Status, 0) = 1 and isnull(TSPL_DBT_NEFT.RCDF_Status,0)= 1   and " + fndUnion.Value + ".dbo.TSPL_DBT_NEFT.Document_Code='" + txtDBTNEFTNo.Value + "'
+ "
+        If rbtnSummary.IsChecked Then
+            BaseQry = " Select CASE WHEN Refenceno IS NULL THEN 'Total' ELSE MAX(Location_Name) END AS DataBase_Name,CASE WHEN Refenceno IS NULL THEN '' ELSE MAX(MonthName)END AS MonthName,
+Refenceno as[ERP Reference No],COUNT(NAME) AS [No Of Ben. as per ERP],Sum(Amount)Amount from ( " & BaseQry & " )xx 
+group by Refenceno 
+ORDER BY DataBase_Name "
+        End If
         Return BaseQry
     End Function
     Private Sub btnReport_Click(sender As Object, e As EventArgs) Handles btnReport.Click
@@ -94,6 +104,10 @@ where ISNULL(TSPL_DBT_NEFT.Status, 0) = 1 and isnull(TSPL_DBT_NEFT.RCDF_Status,0
                 Dim summaryRowItem As New GridViewSummaryRowItem()
                 summaryRowItem.Add(New GridViewSummaryItem("Amount", "{0:n0}", GridAggregateFunction.Sum))
                 gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+                Dim item3 As New GridViewSummaryItem("No Of Ben. as per ERP", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item3)
+
                 gvData.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
                 'SetGridFormat()
                 'Dim viewBlank As New TableViewDefinition()
@@ -118,6 +132,7 @@ where ISNULL(TSPL_DBT_NEFT.Status, 0) = 1 and isnull(TSPL_DBT_NEFT.RCDF_Status,0
     Function enableDisable(ByVal val As Boolean)
         txtDBTNEFTNo.Enabled = val
         fndUnion.Enabled = val
+        Panel6.Enabled = val
     End Function
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Try

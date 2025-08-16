@@ -136,6 +136,8 @@ Partial Class FrmDispatchBulkSale
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.TxtItemCode = New common.UserControls.txtFinder()
+        Me.MyLabel25 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -212,6 +214,7 @@ Partial Class FrmDispatchBulkSale
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gv1.SuspendLayout()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
@@ -240,6 +243,7 @@ Partial Class FrmDispatchBulkSale
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -293,19 +297,16 @@ Partial Class FrmDispatchBulkSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel25)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtItemCode)
         Me.RadPageViewPage1.Controls.Add(Me.LblQCCode)
         Me.RadPageViewPage1.Controls.Add(Me.TxtLocCode)
         Me.RadPageViewPage1.Controls.Add(Me.fndCustomerNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtTransporter)
         Me.RadPageViewPage1.Controls.Add(Me.lblTransporterName)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel24)
-        Me.RadPageViewPage1.Controls.Add(Me.txtTCSTaxRate)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel57)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel25)
         Me.RadPageViewPage1.Controls.Add(Me.lblTaxAmt)
-        Me.RadPageViewPage1.Controls.Add(Me.lblActualTCSTaxBaseAmt)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel58)
-        Me.RadPageViewPage1.Controls.Add(Me.txttcstaxbaseamount)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel22)
         Me.RadPageViewPage1.Controls.Add(Me.lblDocumentAmount)
         Me.RadPageViewPage1.Controls.Add(Me.lblTotRAmt1)
@@ -315,7 +316,6 @@ Partial Class FrmDispatchBulkSale
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel19)
         Me.RadPageViewPage1.Controls.Add(Me.RadPanel1)
         Me.RadPageViewPage1.Controls.Add(Me.LblQCCode1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblCustomerCode)
         Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkCreateAoutoInvoice)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomerName)
@@ -335,7 +335,6 @@ Partial Class FrmDispatchBulkSale
         Me.RadPageViewPage1.Controls.Add(Me.txtGrossWeight)
         Me.RadPageViewPage1.Controls.Add(Me.LblLocationName)
         Me.RadPageViewPage1.Controls.Add(Me.LblTankerName)
-        Me.RadPageViewPage1.Controls.Add(Me.lblLocationCode)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
@@ -499,7 +498,7 @@ Partial Class FrmDispatchBulkSale
         Me.txtTCSTaxRate.IsSourceFromTable = False
         Me.txtTCSTaxRate.IsSourceFromValueList = False
         Me.txtTCSTaxRate.IsUnique = False
-        Me.txtTCSTaxRate.Location = New System.Drawing.Point(260, 198)
+        Me.txtTCSTaxRate.Location = New System.Drawing.Point(289, 20)
         Me.txtTCSTaxRate.MendatroryField = False
         Me.txtTCSTaxRate.MyLinkLable1 = Nothing
         Me.txtTCSTaxRate.MyLinkLable2 = Nothing
@@ -518,7 +517,7 @@ Partial Class FrmDispatchBulkSale
         '
         Me.MyLabel57.FieldName = Nothing
         Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel57.Location = New System.Drawing.Point(720, 161)
+        Me.MyLabel57.Location = New System.Drawing.Point(645, 35)
         Me.MyLabel57.Name = "MyLabel57"
         Me.MyLabel57.Size = New System.Drawing.Size(138, 16)
         Me.MyLabel57.TabIndex = 1404
@@ -553,7 +552,7 @@ Partial Class FrmDispatchBulkSale
         Me.lblActualTCSTaxBaseAmt.BorderVisible = True
         Me.lblActualTCSTaxBaseAmt.FieldName = Nothing
         Me.lblActualTCSTaxBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(864, 159)
+        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(789, 33)
         Me.lblActualTCSTaxBaseAmt.Name = "lblActualTCSTaxBaseAmt"
         Me.lblActualTCSTaxBaseAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblActualTCSTaxBaseAmt.TabIndex = 1403
@@ -564,7 +563,7 @@ Partial Class FrmDispatchBulkSale
         '
         Me.MyLabel58.FieldName = Nothing
         Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel58.Location = New System.Drawing.Point(731, 185)
+        Me.MyLabel58.Location = New System.Drawing.Point(670, 68)
         Me.MyLabel58.Name = "MyLabel58"
         Me.MyLabel58.Size = New System.Drawing.Size(122, 16)
         Me.MyLabel58.TabIndex = 1402
@@ -584,7 +583,7 @@ Partial Class FrmDispatchBulkSale
         Me.txttcstaxbaseamount.IsSourceFromTable = False
         Me.txttcstaxbaseamount.IsSourceFromValueList = False
         Me.txttcstaxbaseamount.IsUnique = False
-        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(864, 181)
+        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(807, 68)
         Me.txttcstaxbaseamount.MendatroryField = False
         Me.txttcstaxbaseamount.MyLinkLable1 = Nothing
         Me.txttcstaxbaseamount.MyLinkLable2 = Nothing
@@ -838,7 +837,7 @@ Partial Class FrmDispatchBulkSale
         Me.lblCustomerCode.AutoSize = False
         Me.lblCustomerCode.BorderVisible = True
         Me.lblCustomerCode.FieldName = Nothing
-        Me.lblCustomerCode.Location = New System.Drawing.Point(572, 232)
+        Me.lblCustomerCode.Location = New System.Drawing.Point(485, 20)
         Me.lblCustomerCode.Name = "lblCustomerCode"
         Me.lblCustomerCode.Size = New System.Drawing.Size(146, 20)
         Me.lblCustomerCode.TabIndex = 339
@@ -1476,7 +1475,7 @@ Partial Class FrmDispatchBulkSale
         Me.lblLocationCode.AutoSize = False
         Me.lblLocationCode.BorderVisible = True
         Me.lblLocationCode.FieldName = Nothing
-        Me.lblLocationCode.Location = New System.Drawing.Point(738, 231)
+        Me.lblLocationCode.Location = New System.Drawing.Point(681, 9)
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(146, 20)
         Me.lblLocationCode.TabIndex = 311
@@ -1561,6 +1560,13 @@ Partial Class FrmDispatchBulkSale
         'gv1
         '
         Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Controls.Add(Me.lblActualTCSTaxBaseAmt)
+        Me.gv1.Controls.Add(Me.MyLabel57)
+        Me.gv1.Controls.Add(Me.txttcstaxbaseamount)
+        Me.gv1.Controls.Add(Me.MyLabel58)
+        Me.gv1.Controls.Add(Me.lblLocationCode)
+        Me.gv1.Controls.Add(Me.txtTCSTaxRate)
+        Me.gv1.Controls.Add(Me.lblCustomerCode)
         Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1991,6 +1997,42 @@ Partial Class FrmDispatchBulkSale
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'TxtItemCode
+        '
+        Me.TxtItemCode.CalculationExpression = Nothing
+        Me.TxtItemCode.FieldCode = Nothing
+        Me.TxtItemCode.FieldDesc = Nothing
+        Me.TxtItemCode.FieldMaxLength = 0
+        Me.TxtItemCode.FieldName = Nothing
+        Me.TxtItemCode.isCalculatedField = False
+        Me.TxtItemCode.IsSourceFromTable = False
+        Me.TxtItemCode.IsSourceFromValueList = False
+        Me.TxtItemCode.IsUnique = False
+        Me.TxtItemCode.Location = New System.Drawing.Point(252, 198)
+        Me.TxtItemCode.MendatroryField = True
+        Me.TxtItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItemCode.MyLinkLable1 = Me.RadLabel2
+        Me.TxtItemCode.MyLinkLable2 = Nothing
+        Me.TxtItemCode.MyReadOnly = False
+        Me.TxtItemCode.MyShowMasterFormButton = False
+        Me.TxtItemCode.Name = "TxtItemCode"
+        Me.TxtItemCode.ReferenceFieldDesc = Nothing
+        Me.TxtItemCode.ReferenceFieldName = Nothing
+        Me.TxtItemCode.ReferenceTableName = Nothing
+        Me.TxtItemCode.Size = New System.Drawing.Size(146, 24)
+        Me.TxtItemCode.TabIndex = 1411
+        Me.TxtItemCode.Value = ""
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel25.Location = New System.Drawing.Point(185, 203)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel25.TabIndex = 1413
+        Me.MyLabel25.Text = "Item Code"
+        '
         'FrmDispatchBulkSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2084,6 +2126,8 @@ Partial Class FrmDispatchBulkSale
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gv1.ResumeLayout(False)
+        Me.gv1.PerformLayout()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
@@ -2114,6 +2158,7 @@ Partial Class FrmDispatchBulkSale
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2230,5 +2275,7 @@ Partial Class FrmDispatchBulkSale
     Friend WithEvents gvSiloDetails As common.UserControls.MyRadGridView
     Friend WithEvents TxtLocCode As common.UserControls.txtFinder
     Friend WithEvents LblQCCode As common.Controls.MyTextBox
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents TxtItemCode As common.UserControls.txtFinder
 End Class
 

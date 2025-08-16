@@ -180,9 +180,11 @@ Public Class frmDairyGatePass
         End If
         If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
             rbtnMorning.IsChecked = True
+            txtTripNo.Text = "1"
             funFillGrid()
         ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
             rbtnEvening.IsChecked = True
+            txtTripNo.Text="1"
             funFillGrid()
         End If
         '  LoadData(txtCode.Value, NavigatorType.Current)
