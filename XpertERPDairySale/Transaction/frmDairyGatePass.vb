@@ -3378,6 +3378,31 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code fro
         rgbItemType.Enabled = flag
         txtTripNo.Enabled = flag
     End Sub
+
+    Private Sub rbtn_product_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_product.ToggleStateChanged
+        If rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+            rbtnMorning.IsChecked = True
+            RadGroupBox3.Enabled = False
+            RadGroupBox3.Visible = False
+        End If
+    End Sub
+
+    Private Sub rbtn_IceCream_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_IceCream.ToggleStateChanged
+        If rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+            rbtnMorning.IsChecked = True
+            RadGroupBox3.Enabled = False
+            RadGroupBox3.Visible = False
+
+        End If
+    End Sub
+
+    Private Sub rbtn_Milk_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_Milk.ToggleStateChanged
+        If rbtn_Milk.IsChecked Then
+            RadGroupBox3.Enabled = True
+            RadGroupBox3.Visible = True
+
+        End If
+    End Sub
 End Class
 Public Class clsDRDetail
     Public Item_Code As String
