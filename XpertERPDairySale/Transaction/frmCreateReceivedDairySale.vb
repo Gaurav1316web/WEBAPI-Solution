@@ -1796,7 +1796,7 @@ Public Class frmCreateReceivedDairySale
             CloseForm()
             'Add Tool tip Task No- TEC/18/05/18-000237
 
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F10 Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
             frm.strCode = clsFixedParameterCode.SICrateEntry
@@ -1804,7 +1804,7 @@ Public Class frmCreateReceivedDairySale
             If frm.isPasswordCorrect Then
                 AllowDuplicateEntry = True
             End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = clsFixedParameterType.SIRC
