@@ -51,10 +51,6 @@ Public Class frmDBTNEFTUploader
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Mark_Invalid", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_DETAIL", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
-
         DBTRevisePayment = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DBTRevisePayment, clsFixedParameterCode.DBTRevisePayment, Nothing)) = 1, True, False)
 
         If clsCommon.myCBool(DBTRevisePayment) Then
