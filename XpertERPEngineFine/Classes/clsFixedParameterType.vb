@@ -1860,6 +1860,7 @@ Public Class clsFixedParameterCode
     Public Const EMP01 As String = "EMP01"
     Public Const SIRevers As String = "SIRevers"
     Public Const SIReversAndCreate As String = "SIReversAndCreate"
+    Public Const SICrateEntry As String = "SICrateEntry"
     Public Const ShuffleDemand As String = "ShuffleDemand"
     Public Const ItemAllowDecimal As String = "ItemAllowDecimal"
     Public Const UpdatePassword As String = "Update Password"
@@ -3434,6 +3435,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ServiceDealer, clsFixedParameterCode.ServiceDealer, "Employee Type", "Employee Type")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIR, clsFixedParameterCode.SIRevers, "salereverse", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SIReversAndCreate, "b12sec2", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SICrateEntry, "CrateEntry@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ShuffleDemand, "ShuffleDemand@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ItemAllowDecimal, "AllowDecimal@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.UpdatePassword, "c1032floor", "")
