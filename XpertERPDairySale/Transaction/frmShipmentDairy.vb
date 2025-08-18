@@ -5060,10 +5060,10 @@ Public Class frmShipmentDairy
                             If e.Column Is gv1.Columns(colQty) Then
                                 Dim DispatchQty As Decimal = 0
                                 If AllowGatePassDemandTripWise Then
-                                    DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Trip_No='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colTripNo).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"))
+                                    DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Trip_No='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colTripNo).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "' and Unit_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "'"))
                                     gvDistributor.AllowAddNewRow = True
                                     gvDistributor.Rows.AddNew()
-                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtRouteNo.Value, False, True, False, False, False, True)
+                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtBillToLocation.Value, False, True, False, False, False, False)
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("TR_Code").Value = ExtraTRCode
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Cust_Code").Value = txtVendorNo.Value
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Item_Code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
@@ -5075,10 +5075,10 @@ Public Class frmShipmentDairy
 
                                     gvDistributor.AllowAddNewRow = False
                                 Else
-                                    DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "'"))
+                                    DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "' and Unit_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "'"))
                                     gvDistributor.AllowAddNewRow = True
                                     gvDistributor.Rows.AddNew()
-                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtRouteNo.Value, False, True, False, False, False, True)
+                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtBillToLocation.Value, False, True, False, False, False, False)
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("TR_Code").Value = ExtraTRCode
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Cust_Code").Value = txtVendorNo.Value
                                         gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Item_Code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
@@ -6030,17 +6030,23 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
             Exit Sub
         End If
         If clsCommon.CompairString(strItemType, RowTypeItem) = CompairStringResult.Equal Then
-            Dim ItemTypeForBooking = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ItemTypeForDairyBooking & "'"))
+            'Dim ItemTypeForBooking = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ItemTypeForDairyBooking & "'"))
             Dim strItem As String = ""
-            If ItemTypeForBooking = "B" Then
-                strItem = "(Is_FreshItem =1 or Is_Ambient=1)"
-            ElseIf ItemTypeForBooking = "F" Then
-                strItem = "Is_FreshItem =1 "
-            ElseIf ItemTypeForBooking = "A" Then
-                strItem = "Is_Ambient=1"
+            'If ItemTypeForBooking = "B" Then
+            '    strItem = "(Is_FreshItem =1 or Is_Ambient=1)"
+            'ElseIf ItemTypeForBooking = "F" Then
+            '    strItem = "Is_FreshItem =1 "
+            'ElseIf ItemTypeForBooking = "A" Then
+            '    strItem = "Is_Ambient=1"
+            'End If
+            ''done by priti BHA/14/06/18-000053
+            'strItem += "  and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 "
+            strItem += " isnull(TSPL_ITEM_MASTER.item_type,'')='F' and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 and TSPL_ITEM_MASTER.Active=1 "
+            If clsCommon.CompairString(cmbDisItemType.SelectedValue, "T") = CompairStringResult.Equal Then
+                strItem += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+            Else
+                strItem += " and TSPL_ITEM_MASTER.IsTaxable=0 "
             End If
-            'done by priti BHA/14/06/18-000053
-            strItem += "  and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 "
             gv1.CurrentRow.Cells(colICode).Value = clsItemMaster.getFinder(strItem, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), False)
             gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Default_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
             gv1.CurrentRow.Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
@@ -16262,7 +16268,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                 Dim myDictionary As New Dictionary(Of String, clsSNShipmentDCSItemDetail)
                 'SetTax(clsCommon.myCstr(gv1.Rows(0).Cells(colICode).Value), trans)
                 For ii As Integer = 0 To gvDistributor.Rows.Count - 1
-                    If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 AndAlso clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) > 0 Then
+                    If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 Then
                         Dim strKey As String = "" ' clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                         If Not IsLoadCreditCust Then
                             isCreditCust = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + gvDistributor.Rows(ii).Cells("Cust_Code").Value + "'", trans))
