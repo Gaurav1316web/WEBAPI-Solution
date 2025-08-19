@@ -1935,32 +1935,29 @@ Public Class FrmCrateJaliReport
             Dim strWhrRoutSummaryPrint As String = String.Empty
 
             If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                WhrRoute += " and Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                WhrRoute += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
             End If
             If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
-                WhrVhcle += " and Vehicle_Id In (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+                WhrVhcle += " and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code In (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
             End If
             If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
-                WhrLocn += " and Location_Code = ('" + clsCommon.myCstr(fndLocation.Value) + "') "
+                WhrLocn += " and TSPL_LOCATION_MASTER.Location_Code = ('" + clsCommon.myCstr(fndLocation.Value) + "') "
             End If
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                 WhrCust += " and Customer_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
             End If
 
-            Query = " WITH my_cte AS (
+            Query = "  WITH my_cte AS (
                       select ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
                       select max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Desc)Location_Desc,max(Location_Code)Location_Code, max(Vehicle_Id)Vehicle_Id,
                       max(Vehicle_Number)Vehicle_Number,(Route_No)Route_No,max(Route_Desc)Route_Desc,
-                      (Customer_Code)Customer_Code,Sale_Invoice_Date ,
-                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Supply,
-                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Return,
-                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Supply,
-                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Return
-                      from (
-                      select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
+                      (Customer_Code)Customer_Code,Sale_Invoice_Date , sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end * case when Type='O' then 1 else 0 end ) as  Morning_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end * case when Type='I' then 1 else 0 end ) as  Morning_Return,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end * case when Type='O' then 1 else 0 end ) as  Evening_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end * case when Type='I' then 1 else 0 end ) as  Evening_Return
+					  from (select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, 
-                      CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE) AS Sale_Invoice_Date,
-                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd as Qty ,1 as RI,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
+                      CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE) AS Sale_Invoice_Date,TotalCrateQty as Qty, 1 as RI,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
                       TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name 
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
@@ -1968,29 +1965,12 @@ Public Class FrmCrateJaliReport
 					  left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code
 					  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
                       left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
-                      union all
-                      select TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
-                      CASE WHEN TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Morning' THEN 'M' ELSE 'E' END AS ShiftType,tspl_route_master.Route_Desc,
-                      (select cust_code from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Code,
-                      (select Customer_Name from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Name,
-                      CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS Sale_Invoice_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate  as Qty,-1 as RI,
-                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name
-                      from TSPL_DAIRYSALE_GATEPASS_MASTER
-                      left OUTER join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no 
-					  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code
-					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code 
-                      where 2=2 and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null
-                      )xx where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
-                      group by Sale_Invoice_Date,Customer_Code,Route_No
-                      )xxx )
+                      where  2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + "  )xx where 2=2 
+                      group by Sale_Invoice_Date,Customer_Code,Route_No )xxx )
                       select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,
                       Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Customer_Name,Sale_Invoice_Date,OP,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
                       (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL from  (
-                      select  (select isnull(sum((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return)),0)  from my_cte as InnCTE 
-                      where InnCTE.Sale_Invoice_Date<my_cte.Sale_Invoice_Date) as OP,* from my_cte 
-                      where Sale_Invoice_Date>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  and Sale_Invoice_Date<='" + clsCommon.GetPrintDate(ToDate.Value) + "') xx
-                      order by xx.Sale_Invoice_Date asc"
-
+                       select (select isnull(sum((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0) from my_cte as InnCTE where InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date  AND InnCTE.Customer_Code = my_cte.Customer_Code AND InnCTE.Route_No = my_cte.Route_No ) as OP, * from my_cte  where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103)  and convert(date,Sale_Invoice_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)) xx order by xx.Sale_Invoice_Date asc"
             Dim dt As New DataTable
             dt = clsDBFuncationality.GetDataTable(Query)
             Gv1.DataSource = Nothing
@@ -2167,11 +2147,11 @@ Public Class FrmCrateJaliReport
         Gv1.Columns("Location_Code").Width = 100
         Gv1.Columns("Location_Code").HeaderText = "Location"
 
-        Gv1.Columns("Vehicle_Id").IsVisible = True
+        Gv1.Columns("Vehicle_Id").IsVisible = False
         Gv1.Columns("Vehicle_Id").Width = 100
         Gv1.Columns("Vehicle_Id").HeaderText = "Vehicle Code"
 
-        Gv1.Columns("Vehicle_Number").IsVisible = True
+        Gv1.Columns("Vehicle_Number").IsVisible = False
         Gv1.Columns("Vehicle_Number").Width = 100
         Gv1.Columns("Vehicle_Number").HeaderText = "Vehicle Number"
 
@@ -2252,7 +2232,7 @@ Public Class FrmCrateJaliReport
                 WhrRoute += " and TSPL_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
             End If
             If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
-                WhrVhcle += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Id in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+                WhrVhcle += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
             End If
             If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
                 WhrLocn += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code In  ('" + clsCommon.myCstr(fndLocation.Value) + "') "
@@ -2268,16 +2248,22 @@ Public Class FrmCrateJaliReport
             '          convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
             '          and  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103) and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
             Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate, 
-TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,Source_Document_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,
+TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,Source_Document_Code,Loading_Slip,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No,convert(varchar,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103) as Document_Date,
 tspl_location_master.Location_Desc,
-TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code,TSPL_CRATE_RECEIVED_detail_FRESHSALE.VehicleNo,
 TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code,tspl_route_master.Route_Desc,
-ShiftType,TotalCrateQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+
+TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code,TSPL_CRATE_RECEIVED_detail_FRESHSALE.VehicleNo,
+TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TotalCrateQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
 left outer join TSPL_CRATE_RECEIVED_detail_FRESHSALE on TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
 left outer join tspl_location_master on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code=tspl_location_master.Location_Code
 left join tspl_route_master on tspl_route_master.route_no=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
-where  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
+left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Source_Document_Code
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='O' AND  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
 and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103) " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " 
+   ORDER BY 
+    CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
+   
+    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc 
  "
 
 
@@ -2317,17 +2303,27 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
             Gv1.Columns(ii).IsVisible = False
         Next
 
-        Gv1.Columns("Location_Code").IsVisible = True
+        Gv1.Columns("Location_Code").IsVisible = False
         Gv1.Columns("Location_Code").Width = 100
         Gv1.Columns("Location_Code").HeaderText = "Location"
 
-        Gv1.Columns("Source_Document_Code").IsVisible = True
-        Gv1.Columns("Source_Document_Code").Width = 100
-        Gv1.Columns("Source_Document_Code").HeaderText = "Document Code"
-
-        Gv1.Columns("Document_Date").IsVisible = False
+        Gv1.Columns("Document_Date").IsVisible = True
         Gv1.Columns("Document_Date").Width = 100
         Gv1.Columns("Document_Date").HeaderText = "Document Date"
+
+        Gv1.Columns("Source_Document_Code").IsVisible = True
+        Gv1.Columns("Source_Document_Code").Width = 100
+        Gv1.Columns("Source_Document_Code").HeaderText = "GP Code"
+
+        Gv1.Columns("Document_No").IsVisible = True
+        Gv1.Columns("Document_No").Width = 100
+        Gv1.Columns("Document_No").HeaderText = "Document No"
+
+        Gv1.Columns("Loading_Slip").IsVisible = True
+        Gv1.Columns("Loading_Slip").Width = 100
+        Gv1.Columns("Loading_Slip").HeaderText = "Loading Slip"
+
+
 
         'Gv1.Columns("GPCode").IsVisible = True
         'Gv1.Columns("GPCode").Width = 100
@@ -2337,26 +2333,26 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
         'Gv1.Columns("GPDate").Width = 100
         'Gv1.Columns("GPDate").HeaderText = "GatePassDate"
 
-        Gv1.Columns("Location_Desc").IsVisible = True
+        Gv1.Columns("Location_Desc").IsVisible = False
         Gv1.Columns("Location_Desc").Width = 100
         Gv1.Columns("Location_Desc").HeaderText = "Location Desc"
 
-        Gv1.Columns("Vehicle_Code").IsVisible = True
+
+
+        Gv1.Columns("Route_code").IsVisible = True
+        Gv1.Columns("Route_code").Width = 100
+        Gv1.Columns("Route_code").HeaderText = "Route No"
+
+        Gv1.Columns("Route_Desc").IsVisible = False
+        Gv1.Columns("Route_Desc").Width = 100
+        Gv1.Columns("Route_Desc").HeaderText = "Route Desc"
+        Gv1.Columns("Vehicle_Code").IsVisible = False
         Gv1.Columns("Vehicle_Code").Width = 100
         Gv1.Columns("Vehicle_Code").HeaderText = "Vehicle Id"
 
         Gv1.Columns("VehicleNo").IsVisible = True
         Gv1.Columns("VehicleNo").Width = 100
         Gv1.Columns("VehicleNo").HeaderText = "Vehicle Number"
-
-        Gv1.Columns("Route_code").IsVisible = True
-        Gv1.Columns("Route_code").Width = 100
-        Gv1.Columns("Route_code").HeaderText = "Route No"
-
-        Gv1.Columns("Route_Desc").IsVisible = True
-        Gv1.Columns("Route_Desc").Width = 100
-        Gv1.Columns("Route_Desc").HeaderText = "Route Desc"
-
         Gv1.Columns("ShiftType").IsVisible = True
         Gv1.Columns("ShiftType").Width = 100
         Gv1.Columns("ShiftType").HeaderText = "Shift Type"
@@ -2405,9 +2401,13 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
                       left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
-                      where convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
+
+                      where  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='I' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
                       and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhrClause + "
-                      order by line_no,Route_No "
+                                     ORDER BY 
+    CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
+   
+    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc "
 
             Dim dt As New DataTable
             dt = clsDBFuncationality.GetDataTable(Query)
@@ -2443,9 +2443,9 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).Width = 100
             Gv1.Columns(ii).IsVisible = False
-        Next
 
-        Gv1.Columns("Invoice_Date").IsVisible = True
+
+            Gv1.Columns("Invoice_Date").IsVisible = True
         Gv1.Columns("Invoice_Date").Width = 100
         Gv1.Columns("Invoice_Date").HeaderText = "Date"
 
@@ -2465,11 +2465,19 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
         Gv1.Columns("CrateQtyRecd").Width = 100
         Gv1.Columns("CrateQtyRecd").HeaderText = "No.Of Crates"
 
-        Gv1.Columns("Comments").IsVisible = True
-        Gv1.Columns("Comments").Width = 100
-        Gv1.Columns("Comments").HeaderText = "Remarks"
+        Gv1.Columns("Document_No").IsVisible = True
+        Gv1.Columns("Document_No").Width = 100
+            Gv1.Columns("Document_No").HeaderText = "Document No"
+        Next
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
 
-
+        Dim CrateQtyRecd As New GridViewSummaryItem("CrateQtyRecd", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(CrateQtyRecd)
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.AutoSizeRows = True
+        Gv1.BestFitColumns()
+        Gv1.MasterTemplate.AutoExpandGroups = True
 
     End Sub
 
@@ -2518,20 +2526,24 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                 End If
 
                 Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
-                      tspl_route_master.Route_No,Comp_Name,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
                       Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
-                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,
-                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, 
-                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType
+                      CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,tspl_route_master.Route_No,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,
+                      TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments
+,tspl_route_master.Location_Code,tspl_location_master.Location_Desc
                       From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE 
                       left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
-                      left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code
                       left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
-                      where convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
+  left outer join tspl_location_master on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code=tspl_location_master.Location_Code
+                      where  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='I' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)>=convert(date,'" + fromDate.Value + "',103) 
                       and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103)<=convert(date,'" + ToDate.Value + "',103)  " + strWhrClause + "
-                      order by line_no,Route_No "
+                      ORDER BY 
+    CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
+   
+    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc  "
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2570,23 +2582,28 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                     WhrRoute += " and TSPL_ROUTE_MASTER.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
                 End If
                 If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
-                    WhrVhcle += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+                    WhrVhcle += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
                 End If
                 If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
-                    WhrLocn += " and TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code In  ('" + clsCommon.myCstr(fndLocation.Value) + "') "
+                    WhrLocn += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code In  ('" + clsCommon.myCstr(fndLocation.Value) + "') "
                 End If
 
                 Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate, 
-                      TSPL_COMPANY_MASTER.Comp_Name, 
-                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode,CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS GPDate,
-                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Desc,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,
-                      RIGHT(TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number, 4) AS Vehicle_Number1,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
-                      TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,tspl_route_master.Route_Desc from TSPL_DAIRYSALE_GATEPASS_MASTER
-                      left join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no
-                      LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code
-                        where
-                      convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
-                      and  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)   and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " "
+TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,Source_Document_Code,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,
+tspl_location_master.Location_Desc,
+TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code,tspl_route_master.Route_Desc,
+TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Vehicle_Code,TSPL_CRATE_RECEIVED_detail_FRESHSALE.VehicleNo,
+
+ShiftType,TotalCrateQty,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+left outer join TSPL_CRATE_RECEIVED_detail_FRESHSALE on TSPL_CRATE_RECEIVED_detail_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+left outer join tspl_location_master on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code=tspl_location_master.Location_Code
+left join tspl_route_master on tspl_route_master.route_no=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='O' AND  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103) 
+and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103) " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " 
+    ORDER BY 
+    CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
+   
+    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc "
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2622,13 +2639,13 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                 Dim strWhrRoutSummaryPrint As String = String.Empty
 
                 If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-                    WhrRoute += " and Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
+                    WhrRoute += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")  "
                 End If
                 If txtVehicle.arrValueMember IsNot Nothing AndAlso txtVehicle.arrValueMember.Count > 0 Then
-                    WhrVhcle += " and Vehicle_Id in (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
+                    WhrVhcle += " and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code In (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
                 End If
                 If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
-                    WhrLocn += " and Location_Code In  (" + clsCommon.myCstr(fndLocation.Value) + ") "
+                    WhrLocn += " and TSPL_LOCATION_MASTER.Location_Code = ('" + clsCommon.myCstr(fndLocation.Value) + "') "
                 End If
                 If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                     WhrCust += " and Customer_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"
@@ -2637,15 +2654,15 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                 Query = " WITH my_cte AS (
                       select ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
                       select max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Desc)Location_Desc,max(Location_Code)Location_Code, max(Vehicle_Id)Vehicle_Id,
-                      max(Vehicle_Number)Vehicle_Number,max(Route_No)Route_No,max(Route_Desc)Route_Desc,
-                      max(Customer_Code)Customer_Code,Sale_Invoice_Date ,
-                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Supply,
-                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end ) as  Morning_Return,
-                      sum(Qty * case when RI=-1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Supply,
-                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end ) as  Evening_Return
-                      from (
-                      select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
-                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
+                      max(Vehicle_Number)Vehicle_Number,(Route_No)Route_No,max(Route_Desc)Route_Desc,
+                      (Customer_Code)Customer_Code,Sale_Invoice_Date ,
+					  					  sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end * case when Type='O' then 1 else 0 end ) as  Morning_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end * case when Type='I' then 1 else 0 end ) as  Morning_Return,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end * case when Type='O' then 1 else 0 end ) as  Evening_Supply,
+                      sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end * case when Type='I' then 1 else 0 end ) as  Evening_Return
+					                        from (
+                      select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, 
                       CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE) AS Sale_Invoice_Date,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd as Qty ,1 as RI,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
                       TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name 
@@ -2655,26 +2672,24 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
 					  left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code
 					  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
                       left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
-                      union all
-                      select TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,
-                      CASE WHEN TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Morning' THEN 'M' ELSE 'E' END AS ShiftType,tspl_route_master.Route_Desc,
-                      (select cust_code from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Code,
-                      (select Customer_Name from TSPL_CUSTOMER_MASTER where Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No and IsDistributor='Y') as Customer_Name,
-                      CAST(TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE) AS Sale_Invoice_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate  as Qty,-1 as RI,
-                      TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name
-                      from TSPL_DAIRYSALE_GATEPASS_MASTER
-                      left OUTER join tspl_route_master on tspl_route_master.route_no=TSPL_DAIRYSALE_GATEPASS_MASTER.route_no 
-					  LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code
-					  left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code
-                      where 2=2 and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null
-                      )xx where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + " 
-                      group by Sale_Invoice_Date
+                  where 2=2 " + WhrRoute + " " + WhrVhcle + " " + WhrLocn + " " + WhrCust + "
+               
+                      )xx where 2=2
+                      group by Sale_Invoice_Date,Customer_Code,Route_No
                       )xxx )
                       select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,
                       Customer_Name,Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Sale_Invoice_Date,OP,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
                       (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL from  (
-                      select  (select isnull(sum((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return)),0)  from my_cte as InnCTE 
-                      where InnCTE.Sale_Invoice_Date<my_cte.Sale_Invoice_Date) as OP,* from my_cte 
+                      select  
+    (select isnull(sum((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0)  
+     from my_cte as InnCTE 
+     where 
+         InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date
+         AND InnCTE.Customer_Code = my_cte.Customer_Code
+         AND InnCTE.Route_No = my_cte.Route_No
+    ) as OP, * 
+from my_cte
+
                       where Sale_Invoice_Date>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  and Sale_Invoice_Date<='" + clsCommon.GetPrintDate(ToDate.Value) + "') xx
                       order by xx.Sale_Invoice_Date asc"
 

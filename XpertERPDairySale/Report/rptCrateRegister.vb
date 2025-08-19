@@ -57,83 +57,255 @@ Public Class rptCrateRegister
             whrclsClosing = "  Document_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(FromDate), "dd/MMM/yyyy hh:mm:ss tt") & "'"
 
 
+            Dim whrclsCust As String = Nothing
+            Dim whrclsRoute As String = Nothing
 
             If MultLocation.arrValueMember IsNot Nothing AndAlso MultLocation.arrValueMember.Count > 0 Then
-                whrcls += "  and TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code in (" + clsCommon.GetMulcallString(MultLocation.arrValueMember) + ")  "
+                whrclsCust += "  and TSPL_CRATE_RECEIVED_detail_FRESHSALE.Customer_Code in (" + clsCommon.GetMulcallString(MultLocation.arrValueMember) + ")  "
 
             End If
 
             If MultArea.arrValueMember IsNot Nothing AndAlso MultArea.arrValueMember.Count > 0 Then
-                whrcls += " and tspl_route_master.Route_No in (" + clsCommon.GetMulcallString(MultArea.arrValueMember) + ")"
+                whrclsRoute += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code in (" + clsCommon.GetMulcallString(MultArea.arrValueMember) + ")"
             End If
+            '            qry = " WITH full_data AS (
+            '    SELECT 
+            '        CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE) AS Sale_Invoice_Date,
+            '        TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,
+            '        TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code AS Route_No,
+            '        MAX(TSPL_CUSTOMER_MASTER.Customer_Name) AS Customer_Name,
+            '        MAX(TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name,
+            '        MAX(TSPL_LOCATION_MASTER.Location_Desc) AS Location_Desc,
+            '        MAX(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code) AS Location_Code,
+            '        MAX(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code) AS Vehicle_Id,
+            '        MAX(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo) AS Vehicle_Number,
+            '        MAX(TSPL_ROUTE_MASTER.Route_Desc) AS Route_Desc,
+            '        SUM(CASE WHEN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType = 'M' AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type = 'O' THEN TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd ELSE 0 END) AS Morning_Supply,
+            '        SUM(CASE WHEN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType = 'M' AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type = 'I' THEN TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd ELSE 0 END) AS Morning_Return,
+            '        SUM(CASE WHEN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType = 'E' AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type = 'O' THEN TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd ELSE 0 END) AS Evening_Supply,
+            '        SUM(CASE WHEN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType = 'E' AND TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type = 'I' THEN TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd ELSE 0 END) AS Evening_Return
+            '    FROM TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
+            '    LEFT JOIN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE ON TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+            '    LEFT JOIN TSPL_ROUTE_MASTER ON TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code = TSPL_ROUTE_MASTER.Route_No
+            '    LEFT JOIN TSPL_LOCATION_MASTER ON TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code = TSPL_LOCATION_MASTER.Location_Code
+            '    LEFT JOIN TSPL_COMPANY_MASTER ON TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
+            '    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code
+            'where 2=2 " + whrclsCust + " " + whrclsRoute + " 
 
-            '            qry = " Select max(YY.Document_No)Document_No,max(YY.Document_Date)Document_Date,(DistributorCode)DistributorCode,max(DistributorName)DistributorName,sum(Supply)Supply,sum(ReturnQty)ReturnQty,sum(CloseingBal) CloseingBal
-            ',max(Code)Code,max(NAME)NAME,MAX(Comp_Code)Comp_Code,MAX(Comp_Name)Comp_Name,max(FromDate)FromDate,max(ToDate)ToDate
-            'from(select max(xxx.Document_Date)Document_Date,max(xxx.Document_No)Document_No,(DistributorCode)DistributorCode,max(DistributorName)DistributorName,
-            'sum(Supply)Supply,sum(ReturnQty)ReturnQty,0 as CloseingBal
-            ',max(Code)Code,max(NAME)NAME,MAX(Comp_Code)Comp_Code,MAX(Comp_Name)Comp_Name,max(FromDate)FromDate,max(ToDate)ToDate
-            'from(
-            'SELECT TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, Document_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, Customer_Code as DistributorCode,tspl_customer_master.Customer_Name as DistributorName,
-            'CrateQtyRecd as Supply ,OutQty as ReturnQty,TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.NAME,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name
-            ','" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate
-            'FROM TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
-            'LEFT OUTER JOIN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
-            'left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
-            'left outer join tspl_route_master on tspl_route_master.route_no=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
-            'left outer join TSPL_AREA_MASTER on TSPL_AREA_MASTER.Code=tspl_route_master.Area_Code
-            'Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "' 
-            '" & whrcls & "
-            ') as xxx
-            'group by DistributorCode
+            '    GROUP BY CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE), TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
+            '),
 
-            'union all
-            'select max(Document_Date)Document_Date,max(Document_No)Document_No,(DistributorCode)DistributorCode,max(DistributorName)DistributorName,--max(LocationCode)LocationCode,max(AreaName)AreaName,
+            'op_balance AS (
+            '    SELECT 
+            '        Customer_Code,
+            '        Route_No,
+            '        SUM((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)) AS OP
+            '    FROM full_data
+            '	where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
+            '    GROUP BY Customer_Code, Route_No
+            '),
 
-            '0 as Supply,0 as ReturnQty,(sum(Supply)-sum(ReturnQty)) as CloseingBal--,(route_no)route_no,max(route_desc)route_desc 
-            ',max(Code)Code,max(NAME)NAME,MAX(Comp_Code)Comp_Code,MAX(Comp_Name)Comp_Name,max(FromDate)FromDate,max(ToDate)ToDate
-            'from (
-            'SELECT TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, Document_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, Customer_Code as DistributorCode,tspl_customer_master.Customer_Name as DistributorName,
-            'CrateQtyRecd as Supply ,OutQty as ReturnQty,TSPL_AREA_MASTER.Code,TSPL_AREA_MASTER.NAME,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,'" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate
-            'FROM TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
-            'LEFT OUTER JOIN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
-            'left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
-            'left outer join tspl_route_master on tspl_route_master.route_no=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
-            'left outer join TSPL_AREA_MASTER on TSPL_AREA_MASTER.Code=tspl_route_master.Area_Code
-            'Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "' 
-            '" & whrclsClosing & "
-            ') as zxy
-            'group by DistributorCode
-            ')YY group by DistributorCode
+            'current_data AS (
+            '    SELECT 
+            '        *,
+            '        (Morning_Supply + Evening_Supply) AS Supply1,
+            '        (Morning_Return + Evening_Return) AS Return1
+            '    FROM full_data
+            '   WHERE Sale_Invoice_Date BETWEEN '" + clsCommon.GetPrintDate(txtToDate.Value) + "' AND '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'
 
+            ')
+
+            'SELECT 
+            '    '01/08/2025' AS FromDate,
+            '    '01/08/2025' AS ToDate,
+            '    ISNULL(current_data.Comp_Name, '') AS Comp_Name,
+            '    ISNULL(current_data.Location_Code, '') AS Location_Code,
+            '    ISNULL(current_data.Location_Desc, '') AS Location_Desc,
+            '    ISNULL(current_data.Vehicle_Id, '') AS Vehicle_Id,
+            '    ISNULL(current_data.Vehicle_Number, '') AS Vehicle_Number,
+            '    ISNULL(current_data.Route_No, op_balance.Route_No) AS Route_No,
+            '    ISNULL(current_data.Route_Desc, '') AS Route_Desc,
+            '    ISNULL(current_data.Customer_Code, op_balance.Customer_Code) AS Customer_Code,
+            '    ISNULL(current_data.Customer_Name, '') AS Customer_Name,
+            '    ISNULL(current_data.Sale_Invoice_Date, '2025-08-01') AS Sale_Invoice_Date,
+            '    ISNULL(current_data.Morning_Supply, 0) AS Morning_Supply,
+            '    ISNULL(current_data.Morning_Return, 0) AS Morning_Return,
+            '    ISNULL(current_data.Evening_Supply, 0) AS Evening_Supply,
+            '    ISNULL(current_data.Evening_Return, 0) AS Evening_Return,
+            '    ISNULL(op_balance.OP, 0) AS OP,
+            '    ISNULL(current_data.Supply1, 0) AS Supply1,
+            '    ISNULL(current_data.Return1, 0) AS Return1,
+            '    ISNULL(op_balance.OP, 0) + ISNULL(current_data.Supply1, 0) - ISNULL(current_data.Return1, 0) AS CL
+            'FROM op_balance
+            'LEFT JOIN current_data ON 
+            '    op_balance.Customer_Code = current_data.Customer_Code AND 
+            '    op_balance.Route_No = current_data.Route_No
+            'ORDER BY Sale_Invoice_Date;
             '"
-            qry = "SELECT (DistributorCode)DistributorCode,MAX(DistributorName)DistributorName,(Route_No)Route_No,max(Route_Desc)Route_Desc,MAX(Comp_Code)Comp_Code,MAX(Comp_Name)Comp_Name, sum(closingBalnce) ClosingBalance,SUM(Supply)Supply,SUM(ReturnQty)ReturnQty
-,    max(ToDate)ToDate,max(FromDate)FromDate
-FROM (
-select '" + FromDate + "' AS FromDate, '" + ToDate + " ' as ToDate ,Document_No,Document_Date,DistributorCode,DistributorName,Route_No,Route_Desc,Comp_Code,Comp_Name,TYPE,
-	 CASE  WHEN " & whrclss & "
-        THEN Supply ELSE 0 END AS Supply,
-	CASE  WHEN " & whrclss & "
-        THEN ReturnQty  ELSE 0 
-    END AS ReturnQty,
-	case when " & whrclsClosing & "
-	then (Supply-ReturnQty) else 0 end as closingBalnce
-from (
-SELECT TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, Document_Date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, Customer_Code as DistributorCode,tspl_customer_master.Customer_Name as DistributorName,
-CrateQtyRecd as Supply ,OutQty as ReturnQty,tspl_route_master.Route_No,tspl_route_master.Route_Desc,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name
-FROM TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
-LEFT OUTER JOIN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
-left outer join tspl_customer_master on tspl_customer_master.cust_code=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
-left outer join tspl_route_master on tspl_route_master.route_no=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
-Left Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "' 
-where 2 = 2   " & whrcls & "
-)as new
-) AS XXX where closingBalnce <> 0
-GROUP BY XXX.DistributorCode,xxx.Route_No
 
 
 
+            'qry = "WITH my_cte AS (
+            '    SELECT 
+            '        ROW_NUMBER() OVER (PARTITION BY 1 ORDER BY Sale_Invoice_Date) AS SNO,
+            '        *
+            '    FROM (
+            '        SELECT  
+            '            MAX(Customer_Name) AS Customer_Name,
+            '            MAX(Comp_Name) AS Comp_Name,
+            '            MAX(Location_Desc) AS Location_Desc,
+            '            MAX(Location_Code) AS Location_Code, 
+            '            MAX(Vehicle_Id) AS Vehicle_Id,
+            '            MAX(Vehicle_Number) AS Vehicle_Number,
+            '            Route_No,
+            '            MAX(Route_Desc) AS Route_Desc,
+            '            Customer_Code,
+            '            Sale_Invoice_Date,
 
-"
+            '            SUM(Qty * 
+            '                CASE WHEN RI = 1 AND ShiftType = 'M' AND Type = 'O' THEN 1 ELSE 0 END
+            '            ) AS Morning_Supply,
+
+            '            SUM(Qty * 
+            '                CASE WHEN RI = 1 AND ShiftType = 'M' AND Type = 'I' THEN 1 ELSE 0 END
+            '            ) AS Morning_Return,
+
+            '            SUM(Qty * 
+            '                CASE WHEN RI = 1 AND ShiftType = 'E' AND Type = 'O' THEN 1 ELSE 0 END
+            '            ) AS Evening_Supply,
+
+            '            SUM(Qty * 
+            '                CASE WHEN RI = 1 AND ShiftType = 'E' AND Type = 'I' THEN 1 ELSE 0 END
+            '            ) AS Evening_Return
+
+            '        FROM (
+            '            SELECT 
+            '                TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type,
+            '                TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,
+            '                TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, 
+            '                TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,
+            '                TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, 
+            '                TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code AS Route_No,
+            '                TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,
+            '                TSPL_ROUTE_MASTER.Route_Desc,
+            '                TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,
+            '                TSPL_CUSTOMER_MASTER.Customer_Name, 
+            '                CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE) AS Sale_Invoice_Date,
+            '                TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd AS Qty,
+            '                1 AS RI,
+            '                TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
+            '                TSPL_LOCATION_MASTER.Location_Desc,
+            '                TSPL_COMPANY_MASTER.Comp_Name 
+            '            FROM TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
+            '            LEFT JOIN TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+            '                ON TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
+            '            LEFT JOIN TSPL_ROUTE_MASTER 
+            '                ON TSPL_ROUTE_MASTER.Route_No = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code
+            '            LEFT JOIN TSPL_LOCATION_MASTER 
+            '                ON TSPL_LOCATION_MASTER.Location_Code = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code
+            '            LEFT JOIN TSPL_COMPANY_MASTER 
+            '                ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
+            '            LEFT JOIN TSPL_CUSTOMER_MASTER 
+            '                ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
+            '   where 2=2 " + whrclsRoute + " " + whrclsCust + "
+
+            '        ) AS inner_data
+            '        GROUP BY Sale_Invoice_Date, Customer_Code, Route_No
+            '    ) AS grouped_data
+            '),
+
+            'cte_with_op AS (
+            '    SELECT 
+            '        *,
+            '        (
+            '            SELECT ISNULL(SUM((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0)
+            '            FROM my_cte 
+            '            WHERE 
+            '                my_cte.Sale_Invoice_Date < curr.Sale_Invoice_Date
+            '                AND my_cte.Customer_Code = curr.Customer_Code
+            '                AND my_cte.Route_No = curr.Route_No
+            '        ) AS OP
+            '    FROM my_cte AS curr
+            ' where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  
+            ' and convert(date,Sale_Invoice_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
+            ')
+
+            'SELECT 
+            ' '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,
+            '    MAX(Comp_Name) AS Comp_Name,
+            '    MAX(Location_Code) AS Location_Code,
+            '    MAX(Location_Desc) AS Location_Desc,
+            '    MAX(Vehicle_Id) AS Vehicle_Id,
+            '    MAX(Vehicle_Number) AS Vehicle_Number,
+            '    MAX(Route_No) AS Route_No,
+            '    MAX(Route_Desc) AS Route_Desc,
+            '    MAX(Customer_Code) AS Customer_Code,
+            '    MAX(Customer_Name) AS Customer_Name,
+            '    SUM(Morning_Supply) AS Morning_Supply,
+            '    SUM(Morning_Return) AS Morning_Return,
+            '    SUM(Evening_Supply) AS Evening_Supply,
+            '    SUM(Evening_Return) AS Evening_Return,
+            '    SUM(OP) AS OP,
+            '    SUM(Morning_Supply + Evening_Supply) AS Supply1,
+            '    SUM(Morning_Return + Evening_Return) AS Return1,
+            '    SUM(OP + ((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return))) AS CL
+
+            'FROM cte_with_op
+            'GROUP BY Customer_Code, Route_No;
+            '"
+
+
+            'OLD DATA
+
+            qry = " WITH my_cte AS (
+                                  select ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
+                                  select max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Desc)Location_Desc,max(Location_Code)Location_Code, max(Vehicle_Id)Vehicle_Id,
+                                  max(Vehicle_Number)Vehicle_Number,(Route_No)Route_No,max(Route_Desc)Route_Desc,
+                                  (Customer_Code)Customer_Code,Sale_Invoice_Date ,
+            					  					  sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end * case when Type='O' then 1 else 0 end ) as  Morning_Supply,
+                                  sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='M' then 1 else 0 end * case when Type='I' then 1 else 0 end ) as  Morning_Return,
+                                  sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end * case when Type='O' then 1 else 0 end ) as  Evening_Supply,
+                                  sum(Qty * case when RI=1 THEN 1 else 0 end * case when ShiftType='E' then 1 else 0 end * case when Type='I' then 1 else 0 end ) as  Evening_Return
+            					                        from (
+                                  select TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No,  TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType,TSPL_route_master.Route_Desc,
+                                  TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, 
+                                  CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date AS DATE) AS Sale_Invoice_Date,
+                                  TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd as Qty ,1 as RI,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code,
+                                  TSPL_LOCATION_MASTER.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name 
+                                  From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE
+                                  left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No
+                                  left outer join tspl_route_master on tspl_route_master.route_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code 
+            					  left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code
+            					  LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
+                                  left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
+                              where 2=2 " + whrclsRoute + " " + whrclsCust + "
+
+                                  )xx where 2=2
+                                  group by Sale_Invoice_Date,Customer_Code,Route_No
+                                  )xxx )
+                                     select '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,
+                                  Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Customer_Name,Sale_Invoice_Date,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
+                                          (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL,
+                                     Evening_Supply+Morning_Supply as Supply1,
+            						Evening_Return+Morning_Return as Return1,
+                                     OP
+
+
+                                     from  (
+
+                                		  select  
+                (select isnull(sum((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0)  
+                 from my_cte as InnCTE 
+                 where 
+                     InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date
+                     AND InnCTE.Customer_Code = my_cte.Customer_Code
+                     AND InnCTE.Route_No = my_cte.Route_No
+                ) as OP, * 
+            from my_cte
+                                  where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  and convert(date,Sale_Invoice_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)) xx
+                                  order by xx.Sale_Invoice_Date asc"
+
+
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
@@ -199,28 +371,54 @@ GROUP BY XXX.DistributorCode,xxx.Route_No
             'gv2.Columns("Document_Date").IsVisible = False
             'gv2.Columns("Document_Date").HeaderText = "Document Date"
             'gv2.Columns("DistributorCode").IsVisible = True
-            gv2.Columns("DistributorCode").HeaderText = "Distributor Code"
-            gv2.Columns("DistributorName").IsVisible = True
-            gv2.Columns("DistributorName").HeaderText = "Distributor Name"
+            gv2.Columns("Comp_Name").HeaderText = "Comp_Name"
+            gv2.Columns("Comp_Name").IsVisible = False
+            gv2.Columns("Location_Code").HeaderText = "Location_Code"
+            gv2.Columns("Location_Code").IsVisible = False
+            gv2.Columns("Location_Desc").HeaderText = "Location_Desc"
+            gv2.Columns("Location_Desc").IsVisible = False
+            gv2.Columns("Vehicle_Id").HeaderText = "Vehicle_Id"
+            gv2.Columns("Vehicle_Id").IsVisible = False
+            gv2.Columns("Vehicle_Number").HeaderText = "Vehicle_Number"
+            gv2.Columns("Vehicle_Number").IsVisible = False
+
+            gv2.Columns("Customer_Code").HeaderText = "Distributor Code"
+            gv2.Columns("Customer_Code").IsVisible = True
+            gv2.Columns("Customer_Name").HeaderText = "Distributor Name"
             gv2.Columns("Route_No").IsVisible = True
             gv2.Columns("Route_No").HeaderText = "Area Code"
-            gv2.Columns("Route_Desc").IsVisible = True
+            gv2.Columns("Route_Desc").IsVisible = False
             gv2.Columns("Route_Desc").HeaderText = "Area Name"
-            gv2.Columns("Supply").IsVisible = True
-            gv2.Columns("Supply").HeaderText = "Supply"
-            gv2.Columns("ReturnQty").IsVisible = True
-            gv2.Columns("ReturnQty").HeaderText = "Return Qty"
-            gv2.Columns("ClosingBalance").IsVisible = True
-            gv2.Columns("ClosingBalance").HeaderText = "Closing Balance"
+            gv2.Columns("Supply1").IsVisible = True
+            gv2.Columns("Supply1").HeaderText = "Supply"
+            gv2.Columns("Return1").IsVisible = True
+            gv2.Columns("Return1").HeaderText = "Return"
 
-            gv2.Columns("Comp_Code").IsVisible = False
-            gv2.Columns("Comp_Code").HeaderText = "Comp_Code"
+
+            'gv2.Columns("Comp_Code").IsVisible = False
+            'gv2.Columns("Comp_Code").HeaderText = "Comp_Code"
             gv2.Columns("Comp_Name").IsVisible = False
             gv2.Columns("Comp_Name").HeaderText = "Comp_Name"
             gv2.Columns("FromDate").IsVisible = False
             gv2.Columns("FromDate").HeaderText = "FromDate"
             gv2.Columns("ToDate").IsVisible = False
             gv2.Columns("ToDate").HeaderText = "ToDate"
+            'gv2.Columns("Sale_Invoice_Date").IsVisible = False
+            'gv2.Columns("Sale_Invoice_Date").HeaderText = "Sale Invoice Date"
+
+
+            gv2.Columns("Morning_Supply").IsVisible = False
+            gv2.Columns("Morning_Supply").HeaderText = "Morning_Supply"
+            gv2.Columns("Morning_Return").IsVisible = False
+            gv2.Columns("Morning_Return").HeaderText = "Morning_Return"
+            gv2.Columns("Evening_Supply").IsVisible = False
+            gv2.Columns("Evening_Supply").HeaderText = "Evening_Supply"
+            gv2.Columns("Evening_Return").IsVisible = False
+            gv2.Columns("Evening_Return").HeaderText = "Evening_Return"
+            gv2.Columns("OP").IsVisible = True
+            gv2.Columns("OP").HeaderText = "Privious Balance"
+            gv2.Columns("CL").IsVisible = True
+            gv2.Columns("CL").HeaderText = "Closing Balance"
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
 

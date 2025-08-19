@@ -180,9 +180,11 @@ Public Class frmDairyGatePass
         End If
         If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
             rbtnMorning.IsChecked = True
+            txtTripNo.Text = "1"
             funFillGrid()
         ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
             rbtnEvening.IsChecked = True
+            txtTripNo.Text="1"
             funFillGrid()
         End If
         '  LoadData(txtCode.Value, NavigatorType.Current)
@@ -350,7 +352,7 @@ Public Class frmDairyGatePass
 
 
             Dim strItem As String = String.Empty
-            If CreateGatePassFromDemand = True Then
+            If CreateGatePassFromDemand Then
                 If clsCommon.myLen(strItemCode) > 0 Then
                     strItem = " and TSPL_DEMAND_BOOKING_DETAIL.Item_Code='" & strItemCode & "'"
                 End If
@@ -359,10 +361,14 @@ Public Class frmDairyGatePass
                        "from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_no=TSPL_DEMAND_BOOKING_DETAIL.DOCUMENT_no " &
                        "left outer join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                        "left outer join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
-                       "where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And isnull(GPCode,'') = '' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "' And " &
-                       "TSPL_DEMAND_BOOKING_MASTER.Location_Code='" & txtLocCode.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code='" + txtVehicle.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code <> '' " & strItem & " "
+                       "where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And isnull(GPCode,'') = ''"
+                If rbtn_Milk.IsChecked Then
+                    strQuery += "and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "'"
+
+                End If
+                strQuery += " and TSPL_DEMAND_BOOKING_MASTER.Location_Code='" & txtLocCode.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code='" + txtVehicle.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.Item_Code <> '' " & strItem & " "
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
-                    strQuery += "  and TSPL_DEMAND_BOOKING_MASTER.route_no='" + fndRouteNo.Value + "'"
+                    strQuery += "  and TSPL_DEMAND_BOOKING_MASTER.route_no='" & fndRouteNo.Value & "'"
                 End If
             Else
                 If clsCommon.myLen(strItemCode) > 0 Then
@@ -1250,9 +1256,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         LoadBlankGrid()
         isNewEntry = True
         'cmbitemtype.Text = "Select"
+        rbtn_Milk.IsChecked = True
         If EnableProductSaleForJPR Then
             rgbItemType.Visible = True
-            rbtn_Milk.IsChecked = True
         Else
             rgbItemType.Visible = False
         End If
@@ -1636,6 +1642,22 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
         End Try
         Return qry
     End Function
+    Private Function GetProductPrintQry(ByVal strCode As String) As String
+        Dim Qry As String = "select TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.ISO_No,TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, tspl_company_master.GSTReg_No,TSPL_COMPANY_MASTER.Logo_Img, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor', isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_ROUTE_MASTER.Zone_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post,tspl_item_master.sku_seq,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,tspl_item_master.Short_Description,BulkUnit.UOM_Code as BulkUOM,CurrentUnit.UOM_Code as CurrentUOM,TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty,floor( (TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty * CurrentUnit.Conversion_Factor) / nullif(BulkUnit.Conversion_Factor, 0) ) as BulkQty,LooseUnit.UOM_Code as LooseUOM,(((TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty * CurrentUnit.Conversion_Factor)- floor((TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty * CurrentUnit.Conversion_Factor) / nullif(BulkUnit.Conversion_Factor, 0))* BulkUnit.Conversion_Factor)/ nullif(LooseUnit.Conversion_Factor, 0)) as LooseQty
+from TSPL_DAIRYSALE_GATEPASS_MASTER   
+left join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode  
+left join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id  
+left join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code  
+left join tspl_company_master on tspl_company_master.comp_code=TSPL_DAIRYSALE_GATEPASS_MASTER.comp_code  
+left join tspl_item_master on tspl_item_master.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code  
+left join  TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id  
+left join  tspl_route_master on tspl_route_master.Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No  
+left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code
+left join tspl_item_uom_detail BulkUnit on BulkUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and BulkUnit.Bulk_UOM='1'
+left join tspl_item_uom_detail  LooseUnit on LooseUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and LooseUnit.Loose_UOM='1'
+where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
+        Return Qry
+    End Function
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
@@ -1733,7 +1755,7 @@ MAX(TAX8)TAX8,MAX(TAX8_Amt)TAX8_Amt "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             Qry += " ItemConversionInPrintUOM.Conversion_Factor as CFinPrintUOM,"
         End If
-        Qry += "CurrentUnit.Conversion_Factor,StockUnit.UOM_Code, isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo, TSPL_COMPANY_MASTER.Comp_Code, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Box' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CrateUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Pouch' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'LTR' THEN convert( decimal(18, 3), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CurrentUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) else 0 end as Box_Crate_Qty, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.ISO_No, TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code, TSPL_DAIRYSALE_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan, tspl_route_master.Route_Desc, TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 'hh:mm tt' ) as GPTime, TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post, case when isnull(TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item,'') = 'Y' then 
+        Qry += "CurrentUnit.Conversion_Factor,StockUnit.UOM_Code, isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo, TSPL_COMPANY_MASTER.Comp_Code, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Box' THEN convert( decimal(18, 2), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CrateUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) ELSE 0 END as Crate_Qty, CASE WHEN TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Crate' and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'Pouch'" & IIf(isDepartmentRoute, "", " and TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code <> 'LTR' ") & "  THEN convert( decimal(18, 3), ( TSPL_DAIRYSALE_GATEPASS_DETAIL.qty / CurrentUnit.conversion_factor )* StockUnit.conversion_factor * CurrentUnit.conversion_factor ) else 0 end as Box_Crate_Qty, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.ISO_No, TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code, TSPL_DAIRYSALE_GATEPASS_DETAIL.qty, TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Totalcrate, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCan, tspl_route_master.Route_Desc, TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 'hh:mm tt' ) as GPTime, TSPL_DAIRYSALE_GATEPASS_MASTER.GatePass_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post, case when isnull(TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item,'') = 'Y' then 
 TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code + '-Scheme' else TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code end as Item_code, case when isnull(TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item,'') = 'Y' then tspl_item_master.item_desc + '-Scheme' else tspl_item_master.item_desc end as item_desc, tspl_item_master.short_description, tspl_item_master.sku_seq, TSPL_TRANSPORT_MASTER.Transporter_Name as TranporterNameFromMaster, TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.Salesman, tspl_vehicle_master.Column_Crate, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No AS Area_Code, TSPL_CUSTOMER_MASTER.Zone_Code, TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType, tspl_company_master.GSTReg_No, TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip, ( Select Max(Document_Date) from TSPL_SD_SHIPMENT_HEAD where GPCode='" + StrCode + "') AS 'DispatchDate',case when Scheme_Item = 'Y' then 0 else  xyz.Amount end as Amount, xyz.AmountWithoutTax,xyz.Margin, xyz.SecurityAmt, xyz.Dist_Commission_Ratewithtax,xyz.RoundOffAmt,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += " 
@@ -2005,7 +2027,11 @@ xyz.Sale_Invoice_No, "
                 frm.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), Nothing, Nothing)
             Else
                 Dim strPath As String = ""
-                atchqry = GetAttachQry(Code, isDepartmentRoute)
+                If rbtn_Milk.IsChecked Then
+                    atchqry = GetAttachQry(Code, isDepartmentRoute)
+                ElseIf rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+                    atchqry = GetProductPrintQry(Code)
+                End If
                 Dim subrptqry As String = CrateInOut()
                 Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(subrptqry)
 
@@ -2017,8 +2043,10 @@ xyz.Sale_Invoice_No, "
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntryNewTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        If isDepartmentRoute Then
+                        If isDepartmentRoute AndAlso rbtn_Milk.IsChecked Then
                             strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR-DRP", "Dairy GatePass Entry DRP", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        ElseIf rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+                            strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassProductJPR", "Dairy Product GatePass ", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         Else
                             strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         End If
@@ -3371,6 +3399,31 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE in (select document_Code fro
         RadGroupBox3.Enabled = flag
         rgbItemType.Enabled = flag
         txtTripNo.Enabled = flag
+    End Sub
+
+    Private Sub rbtn_product_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_product.ToggleStateChanged
+        If rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+            rbtnMorning.IsChecked = True
+            RadGroupBox3.Enabled = False
+            RadGroupBox3.Visible = False
+        End If
+    End Sub
+
+    Private Sub rbtn_IceCream_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_IceCream.ToggleStateChanged
+        If rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+            rbtnMorning.IsChecked = True
+            RadGroupBox3.Enabled = False
+            RadGroupBox3.Visible = False
+
+        End If
+    End Sub
+
+    Private Sub rbtn_Milk_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_Milk.ToggleStateChanged
+        If rbtn_Milk.IsChecked Then
+            RadGroupBox3.Enabled = True
+            RadGroupBox3.Visible = True
+
+        End If
     End Sub
 End Class
 Public Class clsDRDetail

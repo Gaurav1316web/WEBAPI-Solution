@@ -1908,6 +1908,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.YearlyBillReport, "DCS Income", "1.17.03.150", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmLastDCSCollectionItem, "Last DCS Collection/Item", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptGheeAndCattleFeedDeductionStatementReport, "Ghee And Cattle Feed Deduction Statement Report", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, "Milk Procurement Society Summary", "1.17.03.154", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2473,7 +2474,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmQuickDemandReport, "Quick Demand Report", "1.06.03.65", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmIBPReport, "I B P Report", "1.06.03.66", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNewTenderPartyListReport, "New Tender Party List Report", "1.06.03.67", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate  Balance Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 
@@ -2971,9 +2972,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourShiftOpen, "Parlour Shift Open", "1.48.02.09", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourPOS, "POS", "1.48.02.10", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIParlourShiftClose, "Parlour Shift Close", "1.48.02.11", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
-
+        InsertDefaultValue(clsUserMgtCode.XpertAPIDairyGatePass, "Dairy GatePass", "1.48.02.12", clsUserMgtCode.SubModuleXpertAPITrans, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
+        InsertDefaultValue(clsUserMgtCode.XpertAPITruckSheet, "Truck Sheet Report", "1.48.03.02", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         ' 
 
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)

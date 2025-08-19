@@ -25,6 +25,9 @@ Partial Class FrmQuickEntry1
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtEntryNo = New common.UserControls.txtNavigator()
@@ -37,6 +40,10 @@ Partial Class FrmQuickEntry1
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.pnlCustType = New System.Windows.Forms.Panel()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel48 = New common.Controls.MyLabel()
+        Me.cboCustomerType = New common.Controls.MyComboBox()
         Me.chkSecurity = New System.Windows.Forms.CheckBox()
         Me.chkPrintCheque = New System.Windows.Forms.CheckBox()
         Me.txtLocation = New common.Controls.MyTextBox()
@@ -70,6 +77,10 @@ Partial Class FrmQuickEntry1
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.pnlCustType.SuspendLayout()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboCustomerType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBankName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -208,6 +219,7 @@ Partial Class FrmQuickEntry1
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.pnlCustType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkSecurity)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkPrintCheque)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
@@ -228,8 +240,70 @@ Partial Class FrmQuickEntry1
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.MasterTemplate)
         Me.SplitContainer1.Size = New System.Drawing.Size(787, 359)
-        Me.SplitContainer1.SplitterDistance = 86
+        Me.SplitContainer1.SplitterDistance = 102
         Me.SplitContainer1.TabIndex = 0
+        '
+        'pnlCustType
+        '
+        Me.pnlCustType.Controls.Add(Me.btnGo)
+        Me.pnlCustType.Controls.Add(Me.MyLabel48)
+        Me.pnlCustType.Controls.Add(Me.cboCustomerType)
+        Me.pnlCustType.Location = New System.Drawing.Point(6, 75)
+        Me.pnlCustType.Name = "pnlCustType"
+        Me.pnlCustType.Size = New System.Drawing.Size(485, 25)
+        Me.pnlCustType.TabIndex = 1392
+        Me.pnlCustType.Visible = False
+        '
+        'btnGo
+        '
+        Me.btnGo.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.btnGo.Location = New System.Drawing.Point(385, 4)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(91, 18)
+        Me.btnGo.TabIndex = 1392
+        Me.btnGo.Text = ">>"
+        '
+        'MyLabel48
+        '
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Location = New System.Drawing.Point(1, 3)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(82, 18)
+        Me.MyLabel48.TabIndex = 1391
+        Me.MyLabel48.Text = "Customer Type"
+        '
+        'cboCustomerType
+        '
+        Me.cboCustomerType.AutoCompleteDisplayMember = Nothing
+        Me.cboCustomerType.AutoCompleteValueMember = Nothing
+        Me.cboCustomerType.CalculationExpression = Nothing
+        Me.cboCustomerType.DropDownAnimationEnabled = True
+        Me.cboCustomerType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboCustomerType.FieldCode = Nothing
+        Me.cboCustomerType.FieldDesc = Nothing
+        Me.cboCustomerType.FieldMaxLength = 0
+        Me.cboCustomerType.FieldName = Nothing
+        Me.cboCustomerType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCustomerType.isCalculatedField = False
+        Me.cboCustomerType.IsSourceFromTable = False
+        Me.cboCustomerType.IsSourceFromValueList = False
+        Me.cboCustomerType.IsUnique = False
+        RadListDataItem1.Text = "Finished Goods"
+        RadListDataItem2.Text = "Promotional Item"
+        RadListDataItem3.Text = "Trading Item"
+        Me.cboCustomerType.Items.Add(RadListDataItem1)
+        Me.cboCustomerType.Items.Add(RadListDataItem2)
+        Me.cboCustomerType.Items.Add(RadListDataItem3)
+        Me.cboCustomerType.Location = New System.Drawing.Point(91, 3)
+        Me.cboCustomerType.MendatroryField = True
+        Me.cboCustomerType.MyLinkLable1 = Me.MyLabel48
+        Me.cboCustomerType.MyLinkLable2 = Nothing
+        Me.cboCustomerType.Name = "cboCustomerType"
+        Me.cboCustomerType.ReferenceFieldDesc = Nothing
+        Me.cboCustomerType.ReferenceFieldName = Nothing
+        Me.cboCustomerType.ReferenceTableName = Nothing
+        Me.cboCustomerType.Size = New System.Drawing.Size(274, 18)
+        Me.cboCustomerType.TabIndex = 1390
         '
         'chkSecurity
         '
@@ -370,13 +444,13 @@ Partial Class FrmQuickEntry1
         Me.ddlType.IsSourceFromTable = False
         Me.ddlType.IsSourceFromValueList = False
         Me.ddlType.IsUnique = False
-        RadListDataItem1.Selected = True
-        RadListDataItem1.Text = "Receipt"
-        RadListDataItem2.Text = "Misc Receipt"
-        RadListDataItem3.Text = "Payment"
-        Me.ddlType.Items.Add(RadListDataItem1)
-        Me.ddlType.Items.Add(RadListDataItem2)
-        Me.ddlType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Selected = True
+        RadListDataItem4.Text = "Receipt"
+        RadListDataItem5.Text = "Misc Receipt"
+        RadListDataItem6.Text = "Payment"
+        Me.ddlType.Items.Add(RadListDataItem4)
+        Me.ddlType.Items.Add(RadListDataItem5)
+        Me.ddlType.Items.Add(RadListDataItem6)
         Me.ddlType.Location = New System.Drawing.Point(448, 35)
         Me.ddlType.MendatroryField = True
         Me.ddlType.MyLinkLable1 = Me.RadLabel29
@@ -463,7 +537,7 @@ Partial Class FrmQuickEntry1
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MasterTemplate.Size = New System.Drawing.Size(787, 269)
+        Me.MasterTemplate.Size = New System.Drawing.Size(787, 253)
         Me.MasterTemplate.TabIndex = 0
         Me.MasterTemplate.TabStop = False
         Me.MasterTemplate.VarID = ""
@@ -537,6 +611,11 @@ Partial Class FrmQuickEntry1
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.pnlCustType.ResumeLayout(False)
+        Me.pnlCustType.PerformLayout()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboCustomerType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBankName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -586,5 +665,9 @@ Partial Class FrmQuickEntry1
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
     Friend WithEvents chkPrintCheque As CheckBox
     Friend WithEvents chkSecurity As CheckBox
+    Friend WithEvents cboCustomerType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel48 As common.Controls.MyLabel
+    Friend WithEvents pnlCustType As Panel
+    Friend WithEvents btnGo As RadButton
 End Class
 

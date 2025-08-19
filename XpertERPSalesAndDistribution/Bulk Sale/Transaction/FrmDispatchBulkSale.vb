@@ -1778,9 +1778,10 @@ Public Class FrmDispatchBulkSale
                 obj.Document_Date = txtDate.Value
                 'obj.Customer_Code = lblCustomerCode.Text
                 obj.Customer_Code = fndCustomerNo.Value
-                obj.QC_Code = LblQCCode1.Text
+                obj.QC_Code = LblQCCode.Text
                 obj.Tanker_Code = FndTankerCode.Value
                 obj.Location_Code = TxtLocCode.Value
+                obj.Item_Code = TxtItemCode.Value
                 obj.Dip_marking = TxtDipMarking.Text
                 obj.Challan_No = TxtChallanNo.Text
                 obj.Insurance_No = txtinsuranceno.Text
@@ -2001,11 +2002,12 @@ Public Class FrmDispatchBulkSale
                 txtTransporter.Value = obj.Transporter
                 lblTransporterName.Text = clsDBFuncationality.getSingleValue("Select Vendor_Name  from tspl_vendor_master where Vendor_Code='" + txtTransporter.Value + "'")
 
-                LblQCCode1.Text = obj.QC_Code
+                LblQCCode.Text = obj.QC_Code
                 TxtChallanNo.Text = obj.Challan_No
                 txtinsuranceno.Text = obj.Insurance_No
                 txtsealno.Text = obj.Seal_No
                 TxtLocCode.Value = obj.Location_Code
+                TxtItemCode.Value = obj.Item_Code
                 LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" + TxtLocCode.Value + "' ")
                 txtGrossWeight.Value = obj.Gross_Weight
                 TxtTareWeight.Value = obj.Tare_Weight
@@ -2139,7 +2141,7 @@ Public Class FrmDispatchBulkSale
                     For Each objTr As clsSiloDetailBulkSale In obj.arrSiloDetailBulkSale
                         ' gvSiloDetails.Rows.AddNew()
                         gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSlNoSilo).Value = gvSiloDetails.Rows.Count
-                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colItemCodeSilo).Value = "Raw Milk"
+                        gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colItemCodeSilo).Value = obj.Item_Code
                         gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colQtySilo).Value = objTr.Silo_Qty
                         gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSilo).Value = objTr.SILO
                         gvSiloDetails.Rows(gvSiloDetails.Rows.Count - 1).Cells(colSilo).Value = objTr.SILO
@@ -3414,17 +3416,33 @@ Public Class FrmDispatchBulkSale
             gvSiloDetails.BeginEdit()
         End If
     End Sub
+    Private Sub OpenItemCode(ByVal isButtonClick As Boolean)
+        If clsCommon.myLen(TxtLocCode.Value) <= 0 Then
+            TxtLocCode.Focus()
+            Throw New Exception("Location Code cannot be left blank")
+        End If
+        Dim Qry As String = "  Select Item_Code as Code,Item_Desc from TSPL_ITEM_MASTER  "
+        'Dim whrcls As String = " Main_Location_Code ='" + TxtLocCode.Value + "'"
 
+        gvSiloDetails.CurrentRow.Cells(colItemCodeSilo).Value = clsCommon.ShowSelectForm("TtS@vlc", Qry, "Code", Nothing, clsCommon.myCstr(gvSiloDetails.CurrentRow.Cells(colItemCodeSilo).Value), "Code", isButtonClick)
+        'gvSiloDetails.CurrentRow.Cells(colItemCodeSilo).Value = "Raw Milk"
+        isInsideLoadData = True
+        isInsideLoadData = False
+    End Sub
     Private Sub OpenSilo(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(TxtLocCode.Value) <= 0 Then
             TxtLocCode.Focus()
             Throw New Exception("Location Code cannot be left blank")
         End If
+        If clsCommon.myLen(TxtItemCode.Value) <= 0 Then
+            TxtItemCode.Focus()
+            Throw New Exception("Item Code cannot be left blank")
+        End If
         Dim Qry As String = "  Select Location_Code as Code,Location_Desc from TSPL_LOCATION_MASTER  "
         Dim whrcls As String = " Main_Location_Code ='" + TxtLocCode.Value + "'"
 
         gvSiloDetails.CurrentRow.Cells(colSilo).Value = clsCommon.ShowSelectForm("TtS@vlc", Qry, "Code", whrcls, clsCommon.myCstr(gvSiloDetails.CurrentRow.Cells(colSilo).Value), "Code", isButtonClick)
-        gvSiloDetails.CurrentRow.Cells(colItemCodeSilo).Value = "Raw Milk"
+        gvSiloDetails.CurrentRow.Cells(colItemCodeSilo).Value = TxtItemCode.Value
         isInsideLoadData = True
         isInsideLoadData = False
     End Sub
@@ -3441,6 +3459,9 @@ Public Class FrmDispatchBulkSale
                     If e.Column.FieldName.StartsWith("_CFLD_") Then
                         clsCustomFieldGrid.getFinderForCustomFieldGrid(gvSiloDetails, e.Column.Name.ToString, MyBase.Form_ID)
                     End If
+                    'If (clsCommon.CompairString(e.Column.Name, colItemCodeSilo) = CompairStringResult.Equal) Then
+                    '    OpenItemCode(False)
+                    'End If
                     If (clsCommon.CompairString(e.Column.Name, colSilo) = CompairStringResult.Equal) Then
                         OpenSilo(False)
                     End If
@@ -3683,6 +3704,11 @@ Public Class FrmDispatchBulkSale
         LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER WHERE Location_Code  ='" + TxtLocCode.Value + "' ")
     End Sub
 
+    Private Sub TxtItemCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtItemCode._MYValidating
+        Dim Qry As String = "  Select Item_Code as Code,Item_Desc,Product_Type,Structure_Code from TSPL_ITEM_MASTER  "
+        Dim whrcls As String = " Product_Type = 'MI'"
+        TxtItemCode.Value = clsCommon.ShowSelectForm("TtS@vlc", Qry, "Code", whrcls, TxtItemCode.Value, "Code", isButtonClicked)
+    End Sub
 
     Private Sub BlankTaxDetails(ByVal intRowNo As Integer, ByVal isBlankRate As Boolean)
         For ii As Integer = 1 To 5

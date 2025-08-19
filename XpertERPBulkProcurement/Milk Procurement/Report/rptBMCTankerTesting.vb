@@ -28,6 +28,11 @@ Public Class rptBMCTankerTesting
         dr("Type") = "Tanker"
         dtType.Rows.Add(dr)
 
+        dr = dtType.NewRow()
+        dr("Code") = "CAP"
+        dr("Type") = "Correction After Process"
+        dtType.Rows.Add(dr)
+
         txtReportType.DataSource = dtType
         txtReportType.ValueMember = "Code"
         txtReportType.DisplayMember = "Type"
@@ -108,7 +113,24 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 End If
                 qry += "ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL.SNO"
 
-
+            ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAP") = CompairStringResult.Equal Then
+                qry = " select TSPL_MILK_SRN_DETAIL.DOC_CODE AS SRNNO,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.RATE,TSPL_MILK_SRN_DETAIL.AMOUNT,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS [SRN AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty AS  [Qty AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER as[FAT% AFTER CORRECTION] ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER as [SNF% AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE as [RATE AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT as [AMOUNT AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
+                            from 
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_DETAIL.DOC_CODE
+                            where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
+                            and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103)"
+                If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
+                    qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
+                End If
             Else
                 qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty
                        ,Case When TSPL_MILK_COLLECTION_MCC.Original_Qty >0 Then cast(TSPL_MILK_COLLECTION_MCC.Original_FATKg * 100/TSPL_MILK_COLLECTION_MCC.Original_Qty as decimal(18,2)) Else 0 End as FAT
@@ -162,34 +184,54 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
             gv1.Columns(ii).IsVisible = True
         Next
 
-        gv1.Columns("Document_Date").HeaderText = "Date"
-        gv1.Columns("SNo").HeaderText = "SL.No"
-        gv1.Columns("Tanker_No").HeaderText = "Tanker No"
-        gv1.Columns("Route_Code").HeaderText = "Route No"
-        If clsCommon.CompairString(txtReportType.SelectedItem.Value, "BMC") = CompairStringResult.Equal Then
-            gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "BMC"
-            gv1.Columns("Sample_No").HeaderText = "Sample No"
+        If clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAP") = CompairStringResult.Equal Then
+            gv1.Columns("SRNNO").HeaderText = "SRN NO"
+            gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader NO"
+            gv1.Columns("DOC_DATE").HeaderText = "DATE"
+            gv1.Columns("Qty").HeaderText = "Qty"
+            gv1.Columns("FAT_PER").HeaderText = "FAT %"
+            gv1.Columns("SNF_PER").HeaderText = "SNF %"
+            gv1.Columns("RATE").HeaderText = "RATE"
+            gv1.Columns("AMOUNT").HeaderText = "AMOUNT"
+            gv1.Columns("SRN AFTER CORRECTION").HeaderText = "SRN AFTER CORRECTION"
+            gv1.Columns("SRN AFTER CORRECTION").IsVisible = False
+            gv1.Columns("Qty AFTER CORRECTION").HeaderText = "Qty AFTER CORRECTION"
+            gv1.Columns("FAT% AFTER CORRECTION").HeaderText = "FAT% AFTER CORRECTION"
+            gv1.Columns("SNF% AFTER CORRECTION").HeaderText = "SNF% AFTER CORRECTION"
+            gv1.Columns("RATE AFTER CORRECTION").HeaderText = "RATE AFTER CORRECTION"
+            gv1.Columns("AMOUNT AFTER CORRECTION").HeaderText = "AMOUNT AFTER CORRECTION"
+            gv1.Columns("Document_No").HeaderText = "AP Invoice"
+            gv1.Columns("Document_Type").HeaderText = "Type"
+            gv1.Columns("Document_Total").HeaderText = "Total"
+
         Else
-            gv1.Columns("Trip_No").HeaderText = "Trip No"
+            gv1.Columns("Document_Date").HeaderText = "Date"
+            gv1.Columns("SNo").HeaderText = "SL.No"
+            gv1.Columns("Tanker_No").HeaderText = "Tanker No"
+            gv1.Columns("Route_Code").HeaderText = "Route No"
+            If clsCommon.CompairString(txtReportType.SelectedItem.Value, "BMC") = CompairStringResult.Equal Then
+                gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "BMC"
+                gv1.Columns("Sample_No").HeaderText = "Sample No"
+            Else
+                gv1.Columns("Trip_No").HeaderText = "Trip No"
+            End If
+
+            gv1.Columns("Qty").HeaderText = "Qty"
+            gv1.Columns("FAT").HeaderText = "Fat"
+            gv1.Columns("SNF").HeaderText = "Snf"
+
+
+            gv1.Columns("Temp").HeaderText = "Temp"
+            gv1.Columns("Retesting_FAT").HeaderText = "Fat"
+            gv1.Columns("Retesting_SNF").HeaderText = "Snf"
+            gv1.Columns("Retesting_CLR").HeaderText = "CLR"
+            gv1.Columns("Corr_Qty").HeaderText = "Qty"
+            gv1.Columns("Correction_FAT").HeaderText = "Fat"
+            gv1.Columns("Correction_SNF").HeaderText = "Snf"
+            gv1.Columns("Corr_CLR").HeaderText = "CLR"
+            gv1.Columns("Retesting_Date").HeaderText = "Retesting_Date"
+            gv1.Columns("Retesting_By").HeaderText = "Retesting_By"
         End If
-
-        gv1.Columns("Qty").HeaderText = "Qty"
-        gv1.Columns("FAT").HeaderText = "Fat"
-        gv1.Columns("SNF").HeaderText = "Snf"
-
-
-        gv1.Columns("Temp").HeaderText = "Temp"
-        gv1.Columns("Retesting_FAT").HeaderText = "Fat"
-        gv1.Columns("Retesting_SNF").HeaderText = "Snf"
-        gv1.Columns("Retesting_CLR").HeaderText = "CLR"
-        gv1.Columns("Corr_Qty").HeaderText = "Qty"
-        gv1.Columns("Correction_FAT").HeaderText = "Fat"
-        gv1.Columns("Correction_SNF").HeaderText = "Snf"
-        gv1.Columns("Corr_CLR").HeaderText = "CLR"
-        gv1.Columns("Retesting_Date").HeaderText = "Retesting_Date"
-        gv1.Columns("Retesting_By").HeaderText = "Retesting_By"
-
-
 
         RadPageView1.SelectedPage = RadPageViewPage2
         gv1.AllowAddNewRow = False
@@ -203,22 +245,55 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
         Dim Corr_CLR As Decimal
         Dim RetestingCLR As Decimal
         For ii As Integer = 0 To dt.Rows.Count - 1
-            If dt.Rows(ii)("FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("SNF") IsNot DBNull.Value Then
-                CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("FAT"), dt.Rows(ii)("SNF"), corrFactor)
-                gv1.Rows(ii).Cells("CLR").Value = CLR
+            If clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAP") = CompairStringResult.Equal Then
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+                Dim item1 As New GridViewSummaryItem("Qty", "{0:F3}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item1)
+                Dim item2 As New GridViewSummaryItem("AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item2)
+                Dim item3 As New GridViewSummaryItem("Qty AFTER CORRECTION", "{0:F3}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item3)
+                Dim item4 As New GridViewSummaryItem("AMOUNT AFTER CORRECTION", "{0:F3}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item4)
+                Dim item5 As New GridViewSummaryItem("Document_Total", "{0:F3}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item5)
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+            Else
+                If dt.Rows(ii)("FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("SNF") IsNot DBNull.Value Then
+                    CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("FAT"), dt.Rows(ii)("SNF"), corrFactor)
+                    gv1.Rows(ii).Cells("CLR").Value = CLR
+                End If
+                If dt.Rows(ii)("Correction_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Correction_SNF") IsNot DBNull.Value Then
+                    Corr_CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Correction_FAT"), dt.Rows(ii)("Correction_SNF"), corrFactor)
+                    gv1.Rows(ii).Cells("Corr_CLR").Value = Corr_CLR
+                End If
+                If dt.Rows(ii)("Retesting_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Retesting_SNF") IsNot DBNull.Value Then
+                    RetestingCLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Retesting_FAT"), dt.Rows(ii)("Retesting_SNF"), corrFactor)
+                    gv1.Rows(ii).Cells("Retesting_CLR").Value = RetestingCLR
+                End If
             End If
-            If dt.Rows(ii)("Correction_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Correction_SNF") IsNot DBNull.Value Then
-                Corr_CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Correction_FAT"), dt.Rows(ii)("Correction_SNF"), corrFactor)
-                gv1.Rows(ii).Cells("Corr_CLR").Value = Corr_CLR
-            End If
-            If dt.Rows(ii)("Retesting_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Retesting_SNF") IsNot DBNull.Value Then
-                RetestingCLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Retesting_FAT"), dt.Rows(ii)("Retesting_SNF"), corrFactor)
-                gv1.Rows(ii).Cells("Retesting_CLR").Value = RetestingCLR
-            End If
+            'If dt.Rows(ii)("FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("SNF") IsNot DBNull.Value Then
+            '    CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("FAT"), dt.Rows(ii)("SNF"), corrFactor)
+            '    gv1.Rows(ii).Cells("CLR").Value = CLR
+            'End If
+            'If dt.Rows(ii)("Correction_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Correction_SNF") IsNot DBNull.Value Then
+            '    Corr_CLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Correction_FAT"), dt.Rows(ii)("Correction_SNF"), corrFactor)
+            '    gv1.Rows(ii).Cells("Corr_CLR").Value = Corr_CLR
+            'End If
+            'If dt.Rows(ii)("Retesting_FAT") IsNot DBNull.Value OrElse dt.Rows(ii)("Retesting_SNF") IsNot DBNull.Value Then
+            '    RetestingCLR = clsEkoPro.getClrOnCalculation(dt.Rows(ii)("Retesting_FAT"), dt.Rows(ii)("Retesting_SNF"), corrFactor)
+            '    gv1.Rows(ii).Cells("Retesting_CLR").Value = RetestingCLR
+            'End If
         Next
-        gv1.Columns("Corr_CLR").FormatString = "{0:n2}"
-        gv1.Columns("CLR").FormatString = "{0:n2}"
-        gv1.Columns("Retesting_CLR").FormatString = "{0:n2}"
+        If clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAP") = CompairStringResult.Equal Then
+        Else
+            gv1.Columns("Corr_CLR").FormatString = "{0:n2}"
+            gv1.Columns("CLR").FormatString = "{0:n2}"
+            gv1.Columns("Retesting_CLR").FormatString = "{0:n2}"
+        End If
+
         View()
     End Sub
 
@@ -251,42 +326,74 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
 
         If gv1.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
-            view.ColumnGroups.Add(New GridViewColumnGroup("Original"))
-            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_Date").Name)
-            'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_Date").Name)
-            'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_By").Name)
+            If clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAP") = CompairStringResult.Equal Then
+                'Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup("SRN"))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SRNNO").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("DOC_DATE").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("VLC_Code_VLC_Uploader").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Qty").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("FAT_PER").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNF_PER").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("RATE").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("AMOUNT").Name)
 
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNo").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Route_Code").Name)
-            If clsCommon.CompairString(txtReportType.SelectedItem.Value, "BMC") = CompairStringResult.Equal Then
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Mcc_Code_VLC_Uploader").Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Sample_No").Name)
+                view.ColumnGroups.Add(New GridViewColumnGroup("CORRECTION AFTER PROCESS"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SRN AFTER CORRECTION").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Qty AFTER CORRECTION").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("FAT% AFTER CORRECTION").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("SNF% AFTER CORRECTION").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("RATE AFTER CORRECTION").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("AMOUNT AFTER CORRECTION").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("AP DETAIL"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Document_No").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Document_Type").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Document_Total").Name)
 
             Else
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Trip_No").Name)
-            End If
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Qty").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Fat").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Snf").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("CLR").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("Retesting"))
-            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_FAT").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_SNF").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_CLR").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_Date").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_By").Name)
-            view.ColumnGroups.Add(New GridViewColumnGroup("Correction"))
-            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Route").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Corr_Qty").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Correction_FAT").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Correction_SNF").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Corr_CLR").Name)
+                View.ColumnGroups.Add(New GridViewColumnGroup("Original"))
+                View.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Document_Date").Name)
+                'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_Date").Name)
+                'view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_By").Name)
+
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNo").Name)
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Tanker_No").Name)
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Route_Code").Name)
+                If clsCommon.CompairString(txtReportType.SelectedItem.Value, "BMC") = CompairStringResult.Equal Then
+                    View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Mcc_Code_VLC_Uploader").Name)
+                    View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Sample_No").Name)
+
+                Else
+                    View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Trip_No").Name)
+                End If
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Qty").Name)
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Fat").Name)
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Snf").Name)
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("CLR").Name)
+                View.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Temp").Name)
+
+                View.ColumnGroups.Add(New GridViewColumnGroup("Retesting"))
+                View.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                View.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_FAT").Name)
+                View.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_SNF").Name)
+                View.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_CLR").Name)
+                View.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_Date").Name)
+                View.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Retesting_By").Name)
+                View.ColumnGroups.Add(New GridViewColumnGroup("Correction"))
+                View.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                View.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Route").Name)
+                View.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Corr_Qty").Name)
+                View.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Correction_FAT").Name)
+                View.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Correction_SNF").Name)
+                View.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Corr_CLR").Name)
+                'gv1.ViewDefinition = View()
+            End If
             gv1.ViewDefinition = view
         End If
     End Sub
@@ -295,10 +402,39 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
         If txtReportType.SelectedIndex = 0 Then
             lblBMC.Visible = True
             txtBMC.Visible = True
+            TxtDcsCode.Visible = False
+            lblDCS.Visible = False
+            txtRoute.Visible = True
+            lblLocation.Visible = True
+        ElseIf txtReportType.SelectedIndex = 2 Then
+            TxtDcsCode.Visible = True
+            lblDCS.Visible = True
+            txtBMC.Visible = False
+            lblBMC.Visible = False
+            txtRoute.Visible = False
+            lblLocation.Visible = False
+        ElseIf txtReportType.SelectedIndex = 1 Then
+            lblBMC.Visible = True
+            txtBMC.Visible = True
+            TxtDcsCode.Visible = False
+            lblDCS.Visible = False
+            txtRoute.Visible = True
+            lblLocation.Visible = True
         Else
             lblBMC.Visible = False
             txtBMC.Visible = False
+            TxtDcsCode.Visible = False
+            lblDCS.Visible = False
         End If
+    End Sub
+
+    Private Sub TxtDcsCode__My_Click(sender As Object, e As EventArgs) Handles TxtDcsCode._My_Click
+        Try
+            Dim qry As String = " Select VSP_Code as Code,VLC_Code,VLC_Name,VLC_Code_VLC_Uploader from TSPL_VLC_MASTER_HEAD where 2=2 "
+            TxtDcsCode.arrValueMember = clsCommon.ShowMultipleSelectForm("BMCRoute", qry, "Code", "VLC_Name", TxtDcsCode.arrValueMember, TxtDcsCode.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     ',Case When TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty >0 Then cast(TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg * 100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as decimal(18,2)) Else 0 End as FAT

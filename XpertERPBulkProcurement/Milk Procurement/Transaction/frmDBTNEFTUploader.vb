@@ -22,6 +22,30 @@ Public Class frmDBTNEFTUploader
     Dim settMaxRowExport As Integer = 0
     Dim SettMCCOneDBTOneDoc As String = ""
     Dim DBTRevisePayment As Boolean = False
+
+    Const PK_Id As String = "PK_Id"
+    Const SNo As String = "SNO"
+    Const UnionId As String = "UnionId"
+    Const UnionName As String = "UnionName"
+    Const SocietyID As String = "SocietyID"
+    Const SocietyName As String = "SocietyName"
+    Const FarmerID As String = "FarmerID"
+    Const FarmerName As String = "FarmerName"
+    Const FarmerContactNumber As String = "FarmerContactNumber"
+    Const FarmerEmailID As String = "FarmerEmailID"
+    Const FarmerAccountNumber As String = "FarmerAccountNumber"
+    Const FarmerIFSCCode As String = "FarmerIFSCCode"
+    Const FarmerBankName As String = "FarmerBankName"
+    Const FarmerBankBranch As String = "FarmerBankBranch"
+    Const AMOUNT As String = "AMOUNT"
+    Const SocietySubName As String = "SocietySubName"
+    Const AddInfo1 As String = "AddInfo1"
+    Const AddInfo2 As String = "AddInfo2"
+    Const AddInfo3 As String = "AddInfo3"
+    Const AddInfo4 As String = "AddInfo4"
+    Const DBTTRNO As String = "DBTTRNO"
+    Const FarmerID2 As String = "FarmerID2"
+    Const ZoneName As String = "ZoneName"
 #End Region
     Public Sub New()
         InitializeComponent()
@@ -621,6 +645,7 @@ where 2=2 "
     Sub fillMPS()
         Try
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                Dim flag As Boolean = True
                 Dim dtCheck As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False, True))
                 If dtCheck IsNot Nothing AndAlso dtCheck.Rows.Count > 0 Then
                     If common.clsCommon.MyMessageBoxShow(Me, "Error in " & dtCheck.Rows.Count & " Records.Do you want to open it", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
@@ -630,11 +655,15 @@ where 2=2 "
                         frm.dt = dtCheck
                         frm.ShowDialog()
                     End If
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to continue? Your input will be marked as invalid for above data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
+                        flag = False
+                    End If
                     gvItem.DataSource = Nothing
                     gvFarmer.DataSource = Nothing
                     gvInvalid.DataSource = Nothing
-                    Exit Sub
-                Else
+                End If
+
+                If flag Then
                     'loadBlankGrid()
                     gvItem.DataSource = Nothing
                     Dim isDataFound As Boolean = False
@@ -675,8 +704,6 @@ where 2=2 "
                         clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
                     End If
                 End If
-
-
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -755,9 +782,9 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
         End If
         If Not isCheckOnly Then
             If IsPickValid Then
-                BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))>0 and len(isnull(TSPL_MP_MASTER.IFCICode,''))=11 and len(isnull(TSPL_MP_MASTER.PayeeName,''))>0 )"
+                BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid=0"
             Else
-                BaseQry += " and (len(isnull(TSPL_MP_MASTER.AccountNO,''))=0 or len(isnull(TSPL_MP_MASTER.IFCICode,''))<>11 or len(isnull(TSPL_MP_MASTER.PayeeName,''))<=0 )"
+                BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid=1"
             End If
         End If
         BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
@@ -765,15 +792,44 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
     and not exists(select 1 from TSPL_DBT_NEFT_REJECT_DETAIL left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code where TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR=TSPL_DBT_NEFT_DETAIL.PK_Id and TSPL_DBT_NEFT_REJECT.Status=1))"
         Dim strMain As String = ""
         If isCheckOnly Then
+            Dim tempQty As String = "With CTE as ( " + BaseQry + ")
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 0 where PK_Id in (select PK_Id from CTE);"
+            clsDBFuncationality.ExecuteNonQuery(tempQty)
+
+            tempQty = "With CTE as ( " + BaseQry + ")
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
+select CTE.PK_Id from CTE
+inner join ( select  Payee_Joint_Account_No from  CTE  group by  Payee_Joint_Account_No having sum(1)>1 )x on x.Payee_Joint_Account_No=CTE.Payee_Joint_Account_No
+)xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
+            clsDBFuncationality.ExecuteNonQuery(tempQty)
+
+            tempQty = "With CTE as ( " + BaseQry + ")
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1 where PK_Id in (select PK_Id from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name);"
+            clsDBFuncationality.ExecuteNonQuery(tempQty)
+
+            tempQty = "With CTE as ( " + BaseQry + ")
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
+ (select PK_Id from CTE where dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No )
+ )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
+            clsDBFuncationality.ExecuteNonQuery(tempQty)
+
+            tempQty = "With CTE as ( " + BaseQry + ")
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
+ (select PK_Id from CTE where len(isnull(Payee_Joint_Account_No,''))<=10 or len(isnull(Payee_Joint_IFSC_Code,''))<>11 )
+ )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
+            clsDBFuncationality.ExecuteNonQuery(tempQty)
+
             strMain = "With CTE as ( " + BaseQry + ")
 select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,STRING_AGG(VLC_CODE_Uploader,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(Payee_Joint_Name,',') as MPPayeeName,STRING_AGG(VLC_Code_VLC_Uploader,',') as DCSUploaderCode  from  CTE  group by  Payee_Joint_Account_No having sum(1)>1
 union all
 select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name
 union all
-select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where Payee_Joint_Account_No like '%.%';"
+select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=10  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
+union all
+select 'Wrong IFSC No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_IFSC_Code,''))<>11 ;"
+
         Else
             Qry = "select   ROW_NUMBER() OVER (ORDER BY Bank_Code,MCC_Code,VLC_Code_VLC_Uploader) AS [" + clsDBTNEFTPerforma.colSlNo + "],MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],PK_Id as [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Bank_Code as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xxx "
-
             If GrpByFarmer Then
                 Qry = "select ROW_NUMBER() OVER (ORDER BY max(Bank_Code),max(MCC_Code),max([" + clsDBTNEFTPerforma.colMPUploaderCode + "])) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPBank + "]) as [" + clsDBTNEFTPerforma.colMPBank + "],max([" + clsDBTNEFTPerforma.colMPMobileNo + "]) as [" + clsDBTNEFTPerforma.colMPMobileNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max(Bank_Code) as Bank_Code,max(MCC_Code) as MCC_Code,max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from  (
 select MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Bank_Code as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xx 
@@ -1087,5 +1143,330 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+    Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
+        Try
+            clsCommon.MyExportToExcelGrid(Me.Text, gvItem, Nothing, Me.Text)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
+        Try
+            clsCommon.MyExportToExcelGrid(Me.Text, gvHold, Nothing, Me.Text)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    Private Sub RadMenuItem8_Click(sender As Object, e As EventArgs) Handles RadMenuItem8.Click
+        'Try
+        '    For i As Integer = 0 To gvHold.Rows.Count - 1
+        '        gvItem.Rows.AddNew()
+        '        For ii As Integer = 0 To gvHold.Columns.Count - 1
+        '            gvItem.Rows(i).Cells(gvHold.Columns(ii).Name).Value = gvHold.Rows(i).Cells(gvHold.Columns(ii).Name).Value
+        '        Next
+        '        gvHold.Rows(i).Delete()
+        '    Next
+
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
+
+        Try
+            Dim gvImport As New UserControls.MyRadGridView
+            Me.Controls.Add(gvImport)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFSCCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
+                Dim arr As New List(Of String)
+                Dim strDCSCode As String = ""
+                Dim dtError As New DataTable
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
+                Try
+                    Dim qry As String = "Valid Row [" + clsCommon.myCstr(gvImport.Rows.Count) + "] Do You want to Proceed"
+                    clsCommon.ProgressBarPercentShow()
+                    For ii As Integer = 0 To gvImport.Rows.Count - 1
+                        clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
+                        gvItem.Rows.AddNew()
+                        gvItem.Rows(ii).Cells(SNo).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SNo).Value)
+                        gvItem.Rows(ii).Cells(UnionId).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(UnionId).Value)
+                        gvItem.Rows(ii).Cells(UnionName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(UnionName).Value)
+                        gvItem.Rows(ii).Cells(SocietyID).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SocietyID).Value)
+                        gvItem.Rows(ii).Cells(SocietyName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SocietyName).Value)
+                        gvItem.Rows(ii).Cells(FarmerID).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerID).Value)
+                        gvItem.Rows(ii).Cells(FarmerName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerName).Value)
+                        gvItem.Rows(ii).Cells(FarmerContactNumber).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerContactNumber).Value)
+                        gvItem.Rows(ii).Cells(FarmerEmailID).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerEmailID).Value)
+                        gvItem.Rows(ii).Cells(FarmerAccountNumber).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerAccountNumber).Value)
+                        gvItem.Rows(ii).Cells(FarmerIFSCCode).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerIFSCCode).Value)
+                        gvItem.Rows(ii).Cells(FarmerBankName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerBankName).Value)
+                        gvItem.Rows(ii).Cells(FarmerBankBranch).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerBankBranch).Value)
+                        gvItem.Rows(ii).Cells(AMOUNT).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells(AMOUNT).Value)
+                        gvItem.Rows(ii).Cells(SocietySubName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SocietySubName).Value)
+                        gvItem.Rows(ii).Cells(AddInfo1).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(AddInfo1).Value)
+                        gvItem.Rows(ii).Cells(AddInfo2).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(AddInfo2).Value)
+                        gvItem.Rows(ii).Cells(AddInfo3).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(AddInfo3).Value)
+                        gvItem.Rows(ii).Cells(AddInfo4).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(AddInfo4).Value)
+                        gvItem.Rows(ii).Cells(DBTTRNO).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(DBTTRNO).Value)
+                        gvItem.Rows(ii).Cells(FarmerID2).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(FarmerID2).Value)
+                        gvItem.Rows(ii).Cells(ZoneName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(ZoneName).Value)
+                    Next
+
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    'End If
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+
+            End If
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub RadMenuItem9_Click(sender As Object, e As EventArgs) Handles RadMenuItem9.Click
+
+        Try
+            Dim gvImport As New UserControls.MyRadGridView
+            Me.Controls.Add(gvImport)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFSCCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
+                Dim arr As New List(Of String)
+                Dim strDCSCode As String = ""
+                Dim dtError As New DataTable
+                dtError.Columns.Add("RowNo", GetType(Integer))
+                dtError.Columns.Add("Error", GetType(String))
+                Try
+                    LoadBlankGrid()
+                    Dim qry As String = "Valid Row [" + clsCommon.myCstr(gvImport.Rows.Count) + "] Do You want to Proceed"
+                    clsCommon.ProgressBarPercentShow()
+                    For ii As Integer = 0 To gvImport.Rows.Count - 1
+
+                        'If clsCommon.myLen(gvImport.Rows(ii).Cells("FarmerID").Value) > 0 Then
+
+                        clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
+
+                        'For i As Integer = 0 To gvItem.Rows.Count - 1
+                        gvHold.Rows.AddNew()
+                        For ic As Integer = 0 To gvImport.Columns.Count - 1
+                            gvHold.Rows(ii).Cells(gvImport.Columns(ic).Name).Value = gvImport.Rows(ii).Cells(gvImport.Columns(ic).Name).Value
+                        Next
+                        gvItem.Rows(ii).Delete()
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    'End If
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+
+            End If
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+        'trans = clsDBFuncationality.GetTransactin()
+        'Try
+        '    For i As Integer = 0 To gvItem.Rows.Count - 1
+        '        gvHold.Rows.AddNew()
+        '        For ii As Integer = 0 To gvItem.Columns.Count - 1
+        '            gvHold.Rows(i).Cells(gvItem.Columns(ii).Name).Value = gvItem.Rows(i).Cells(gvItem.Columns(ii).Name).Value
+        '        Next
+        '        gvItem.Rows(i).Delete()
+        '    Next
+
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
+    End Sub
+
+
+
+    Private Sub LoadBlankGrid()
+        gvHold.DataSource = Nothing
+        gvHold.Rows.Clear()
+        gvHold.Columns.Clear()
+
+        Dim repoSNO As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoSNO.FormatString = ""
+        repoSNO.HeaderText = "SNo"
+        repoSNO.Name = SNo
+        repoSNO.Width = 40
+        repoSNO.ReadOnly = True
+        repoSNO.IsVisible = True
+        gvHold.MasterTemplate.Columns.Add(repoSNO)
+
+        Dim repoUnionId As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoUnionId.FormatString = ""
+        repoUnionId.HeaderText = "UnionId"
+        repoUnionId.Name = UnionId
+        repoUnionId.Width = 70
+        repoUnionId.ReadOnly = True
+        repoUnionId.IsVisible = True
+        gvHold.MasterTemplate.Columns.Add(repoUnionId)
+
+        Dim repoUnionName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoUnionName.FormatString = ""
+        repoUnionName.HeaderText = "UnionName"
+        repoUnionName.Name = UnionName
+        repoUnionName.Width = 100
+        repoUnionName.ReadOnly = True
+        repoUnionName.IsVisible = False
+        gvHold.MasterTemplate.Columns.Add(repoUnionName)
+
+        Dim repoSocietyID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoSocietyID.FormatString = ""
+        repoSocietyID.HeaderText = "SocietyID"
+        repoSocietyID.Name = SocietyID
+        repoSocietyID.Width = 150
+        repoSocietyID.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoSocietyID)
+
+        Dim repoSocietyName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoSocietyName.FormatString = ""
+        repoSocietyName.HeaderText = "SocietyName"
+        repoSocietyName.Name = SocietyName
+        repoSocietyName.Width = 150
+        repoSocietyName.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoSocietyName)
+
+        Dim repoFarmerID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerID.FormatString = ""
+        repoFarmerID.HeaderText = "FarmerID"
+        repoFarmerID.Name = FarmerID
+        repoFarmerID.Width = 150
+        repoFarmerID.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerID)
+
+        Dim repoFarmerName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerName.FormatString = ""
+        repoFarmerName.HeaderText = "FarmerName"
+        repoFarmerName.Name = FarmerName
+        repoFarmerName.Width = 150
+        repoFarmerName.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerName)
+
+        Dim repoFarmerContactNumber As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerContactNumber.FormatString = ""
+        repoFarmerContactNumber.HeaderText = "FarmerContactNumber"
+        repoFarmerContactNumber.Name = FarmerContactNumber
+        repoFarmerContactNumber.Width = 150
+        repoFarmerContactNumber.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerContactNumber)
+
+        Dim repoFarmerEmailID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerEmailID.FormatString = ""
+        repoFarmerEmailID.HeaderText = "FarmerEmailID"
+        repoFarmerEmailID.Name = FarmerEmailID
+        repoFarmerEmailID.Width = 150
+        repoFarmerEmailID.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerEmailID)
+
+        Dim repoFarmerAccountNumber As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerAccountNumber.FormatString = ""
+        repoFarmerAccountNumber.HeaderText = "FarmerAccountNumber"
+        repoFarmerAccountNumber.Name = FarmerAccountNumber
+        repoFarmerAccountNumber.Width = 150
+        repoFarmerAccountNumber.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerAccountNumber)
+
+        Dim repoFarmerIFSCCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerIFSCCode.FormatString = ""
+        repoFarmerIFSCCode.HeaderText = "FarmerIFSCCode"
+        repoFarmerIFSCCode.Name = FarmerIFSCCode
+        repoFarmerIFSCCode.Width = 150
+        repoFarmerIFSCCode.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerIFSCCode)
+
+        Dim repoFarmerBankName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerBankName.FormatString = ""
+        repoFarmerBankName.HeaderText = "FarmerBankName"
+        repoFarmerBankName.Name = FarmerBankName
+        repoFarmerBankName.Width = 150
+        repoFarmerBankName.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerBankName)
+
+        Dim repoFarmerBankBranch As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoFarmerBankBranch.FormatString = ""
+        repoFarmerBankBranch.HeaderText = "FarmerBankBranch"
+        repoFarmerBankBranch.Name = FarmerBankBranch
+        repoFarmerBankBranch.Width = 150
+        repoFarmerBankBranch.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoFarmerBankBranch)
+
+        Dim repoAMOUNT As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoAMOUNT.FormatString = ""
+        repoAMOUNT.HeaderText = "AMOUNT"
+        repoAMOUNT.Name = AMOUNT
+        repoAMOUNT.Width = 150
+        repoAMOUNT.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoAMOUNT)
+
+        Dim repoSocietySubName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoSocietySubName.FormatString = ""
+        repoSocietySubName.HeaderText = "SocietySubName"
+        repoSocietySubName.Name = SocietySubName
+        repoSocietySubName.Width = 150
+        repoSocietySubName.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoSocietySubName)
+
+        Dim repoAddInfo1 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoAddInfo1.FormatString = ""
+        repoAddInfo1.HeaderText = "AddInfo1"
+        repoAddInfo1.Name = AddInfo1
+        repoAddInfo1.Width = 150
+        repoAddInfo1.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoAddInfo1)
+
+        Dim repoAddInfo2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoAddInfo2.FormatString = ""
+        repoAddInfo2.HeaderText = "AddInfo2"
+        repoAddInfo2.Name = AddInfo2
+        repoAddInfo2.Width = 150
+        repoAddInfo2.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoAddInfo2)
+
+        Dim repoAddInfo3 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoAddInfo3.FormatString = ""
+        repoAddInfo3.HeaderText = "AddInfo3"
+        repoAddInfo3.Name = AddInfo3
+        repoAddInfo3.Width = 150
+        repoAddInfo3.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoAddInfo3)
+
+        Dim repoAddInfo4 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoAddInfo4.FormatString = ""
+        repoAddInfo4.HeaderText = "AddInfo4"
+        repoAddInfo4.Name = AddInfo4
+        repoAddInfo4.Width = 150
+        repoAddInfo4.ReadOnly = True
+        gvHold.MasterTemplate.Columns.Add(repoAddInfo4)
+
+        gvHold.AllowDeleteRow = True
+        gvHold.AllowAddNewRow = False
+        gvHold.ShowGroupPanel = False
+        gvHold.AllowColumnReorder = False
+        gvHold.AllowRowReorder = False
+        gvHold.EnableSorting = False
+        gvHold.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvHold.MasterTemplate.ShowRowHeaderColumn = False
+        gvHold.TableElement.TableHeaderHeight = 40
+        gvHold.AutoSizeRows = False
+        gvHold.Rows.AddNew()
+        gvHold.BestFitColumns()
+        'ReStoreGridLayoutgv1()
+    End Sub
+
+
 End Class
 
