@@ -2272,6 +2272,7 @@ Public Class clsUserMgtCode
     Public Const FrmLastDCSCollectionItem As String = "Las-DCS-ITE"
 
     Public Const rptGheeAndCattleFeedDeductionStatementReport As String = "GH-CF-D-SMT"
+    Public Const FrmMilkProcurementSocietySummary As String = "MILK-SUM"
     Public Const frmDBTRecoVsIncentiveReport As String = "DBTREC_INC_R"
     Public Const frmAutoAdditionDeductionReport As String = "AUTO_AD_R"
     'Public Const rptTankerStatusReport As String = "R-T-STAT"

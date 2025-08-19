@@ -8677,6 +8677,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmTransferToSaving
                         frm = New frmTransferToSaving()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmMilkProcurementSocietySummary
+                        frm = New FrmMilkProcurementSocietySummary()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmMakeSavingPayment
                         frm = New frmMakeSavingPayment()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
