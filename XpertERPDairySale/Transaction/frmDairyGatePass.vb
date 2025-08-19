@@ -1642,6 +1642,22 @@ group by TSPL_DAIRYSALE_GATEPASS_DETAIL.Unit_Code"
         End Try
         Return qry
     End Function
+    Private Function GetProductPrintQry(ByVal strCode As String) As String
+        Dim Qry As String = "select TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Insurance_Comp_Name, TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.ISO_No,TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address, tspl_location_master.add1 + case when len(tspl_location_master.add2)> 0 then ', ' + tspl_location_master.add2 else '' end + case when LEN( isnull(tspl_location_master.Add3, '') )> 0 then ', ' + isnull(tspl_location_master.Add3, '') else ' ' end as Loc_add, tspl_company_master.GSTReg_No,TSPL_COMPANY_MASTER.Logo_Img, FORMAT( TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date, 'dd/MM/yyyy' ) as Supply_Date,TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType,TSPL_DAIRYSALE_GATEPASS_MASTER.DistributorName As 'Distributor', isnull( TSPL_DAIRYSALE_GATEPASS_MASTER.AgainstTransferNo, '' ) as AgainstTransferNo,TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No,TSPL_ROUTE_MASTER.Zone_Code,TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode, convert( varchar, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103 ) as GPDate,TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id AS vehicle_id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as VehicleDesc, TSPL_DAIRYSALE_GATEPASS_MASTER.location_code, tspl_location_master.Location_desc, TSPL_DAIRYSALE_GATEPASS_MASTER.transporter, TSPL_DAIRYSALE_GATEPASS_MASTER.remarks, TSPL_DAIRYSALE_GATEPASS_MASTER.comments, TSPL_DAIRYSALE_GATEPASS_MASTER.post,tspl_item_master.sku_seq,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo,TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip,TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_Code,tspl_item_master.Short_Description,BulkUnit.UOM_Code as BulkUOM,CurrentUnit.UOM_Code as CurrentUOM,TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty,floor( (TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty * CurrentUnit.Conversion_Factor) / nullif(BulkUnit.Conversion_Factor, 0) ) as BulkQty,LooseUnit.UOM_Code as LooseUOM,(((TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty * CurrentUnit.Conversion_Factor)- floor((TSPL_DAIRYSALE_GATEPASS_DETAIL.Qty * CurrentUnit.Conversion_Factor) / nullif(BulkUnit.Conversion_Factor, 0))* BulkUnit.Conversion_Factor)/ nullif(LooseUnit.Conversion_Factor, 0)) as LooseQty
+from TSPL_DAIRYSALE_GATEPASS_MASTER   
+left join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode  
+left join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id=TSPL_DAIRYSALE_GATEPASS_MASTER.vehicle_id  
+left join tspl_location_master on tspl_location_master.location_code=TSPL_DAIRYSALE_GATEPASS_MASTER.location_code  
+left join tspl_company_master on tspl_company_master.comp_code=TSPL_DAIRYSALE_GATEPASS_MASTER.comp_code  
+left join tspl_item_master on tspl_item_master.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.Item_code  
+left join  TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id  
+left join  tspl_route_master on tspl_route_master.Route_No=TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No  
+left join tspl_item_uom_detail CurrentUnit on CurrentUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and 	CurrentUnit.uom_code=	TSPL_DAIRYSALE_GATEPASS_DETAIL.unit_code
+left join tspl_item_uom_detail BulkUnit on BulkUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and BulkUnit.Bulk_UOM='1'
+left join tspl_item_uom_detail  LooseUnit on LooseUnit.item_code=TSPL_DAIRYSALE_GATEPASS_DETAIL.item_code and LooseUnit.Loose_UOM='1'
+where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
+        Return Qry
+    End Function
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
@@ -2011,7 +2027,11 @@ xyz.Sale_Invoice_No, "
                 frm.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"), Nothing, Nothing)
             Else
                 Dim strPath As String = ""
-                atchqry = GetAttachQry(Code, isDepartmentRoute)
+                If rbtn_Milk.IsChecked Then
+                    atchqry = GetAttachQry(Code, isDepartmentRoute)
+                ElseIf rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+                    atchqry = GetProductPrintQry(Code)
+                End If
                 Dim subrptqry As String = CrateInOut()
                 Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(subrptqry)
 
@@ -2023,8 +2043,10 @@ xyz.Sale_Invoice_No, "
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntryNewTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        If isDepartmentRoute Then
+                        If isDepartmentRoute AndAlso rbtn_Milk.IsChecked Then
                             strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR-DRP", "Dairy GatePass Entry DRP", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                        ElseIf rbtn_product.IsChecked OrElse rbtn_IceCream.IsChecked Then
+                            strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassProductJPR", "Dairy Product GatePass ", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         Else
                             strPath = frmCRV.funreport(MyBase.Form_ID, isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewJPR", "Dairy GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         End If
