@@ -5063,7 +5063,7 @@ Public Class frmShipmentDairy
                                     DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Trip_No='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colTripNo).Value) & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "' and Unit_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "'"))
                                     gvDistributor.AllowAddNewRow = True
                                     gvDistributor.Rows.AddNew()
-                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtBillToLocation.Value, False, True, False, False, False, False)
+                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.Detail, clsDocTransactionType.ExcludeShipmentTRCode, txtBillToLocation.Value, False, True, False, False, False, False)
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("TR_Code").Value = ExtraTRCode
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Cust_Code").Value = txtVendorNo.Value
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Item_Code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
@@ -5078,7 +5078,7 @@ Public Class frmShipmentDairy
                                     DispatchQty = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where DOCUMENT_CODE='" & txtDocNo.Value & "' and Item_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "' and Unit_code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "'"))
                                     gvDistributor.AllowAddNewRow = True
                                     gvDistributor.Rows.AddNew()
-                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.DetailSale, clsDocTransactionType.ExcludeShipmentTRCode, txtBillToLocation.Value, False, True, False, False, False, False)
+                                    Dim ExtraTRCode As String = clsERPFuncationality.GetNextCode(Nothing, txtSupplyDate.Value, clsDocType.Detail, clsDocTransactionType.ExcludeShipmentTRCode, txtBillToLocation.Value, False, True, False, False, False, False)
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("TR_Code").Value = ExtraTRCode
                                     gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Cust_Code").Value = txtVendorNo.Value
                                         gvDistributor.Rows(gvDistributor.Rows.Count - 1).Cells("Item_Code").Value = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
