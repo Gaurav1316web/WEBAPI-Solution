@@ -15194,6 +15194,7 @@ Public Class clsCreateAllTable
             coll.Add("SkipTaxableInvoice", "int null default 0")
             coll.Add("SkipNonTaxableInvoice", "int null default 0")
             coll.Add("Inter_Union_Sale", "Integer null default 0")
+            coll.Add("Type", "char(1) NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -27608,6 +27609,9 @@ Public Class clsCreateAllTable
             coll.Add("Report_UOM", "integer  null default 0")
             coll.Add("Decimal_UOM", "integer  null default 0")
             coll.Add("InterUnionItem", "varchar(30) NULL")
+            coll.Add("Bulk_UOM", "integer  null default 0")
+            coll.Add("Loose_UOM", "integer  null default 0")
+
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
@@ -55625,6 +55629,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Rahat_Kampekat_Feed_Qty", "Decimal(18,2) null")
             coll.Add("Rahat_Kampekat_Feed_Amount", "Decimal(18,2) null")
             coll.Add("Total_Amount", "Decimal(18,2) null")
+            coll.Add("Mark_Invalid", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_DETAIL", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
             coll = New Dictionary(Of String, String)()

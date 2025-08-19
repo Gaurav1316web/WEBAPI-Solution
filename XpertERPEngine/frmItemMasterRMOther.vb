@@ -32,6 +32,8 @@ Public Class FrmItemMasterRMOther
     Const UOMDefault As String = "UOMDefault"
     Const PrintUOM As String = "PrintUOM"
     Const ReportUOM As String = "ReportUOM"
+    Const BulkUOM As String = "BulkUOM"
+    Const LooseUOM As String = "LooseUOM"
     Const RMProcessloss As String = "RMProcessloss"
     Const UOMPieces As String = "UOMPieces"
     Const UOMGrossWeight As String = "GrossWeight"
@@ -903,6 +905,8 @@ Public Class FrmItemMasterRMOther
         gvUOM.Rows(IntRowNo).Cells(UOMDefault).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(PrintUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(ReportUOM).ReadOnly = False
+        gvUOM.Rows(IntRowNo).Cells(BulkUOM).ReadOnly = False
+        gvUOM.Rows(IntRowNo).Cells(LooseUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMColIsDecimal).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(RMProcessloss).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMPieces).ReadOnly = False
@@ -1110,6 +1114,25 @@ Public Class FrmItemMasterRMOther
         repoReportUOM.IsVisible = True
         repoReportUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoReportUOM)
+
+        Dim repoBulkUOM As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoBulkUOM.FormatString = ""
+        repoBulkUOM.HeaderText = "Bulk UOM"
+        repoBulkUOM.Name = BulkUOM
+        repoBulkUOM.Width = 80
+        repoBulkUOM.ThreeState = False
+        repoBulkUOM.IsVisible = True
+        repoBulkUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvUOM.MasterTemplate.Columns.Add(repoBulkUOM)
+        Dim repoLooseUOM As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoLooseUOM.FormatString = ""
+        repoLooseUOM.HeaderText = "Loose UOM"
+        repoLooseUOM.Name = LooseUOM
+        repoLooseUOM.Width = 80
+        repoLooseUOM.ThreeState = False
+        repoLooseUOM.IsVisible = True
+        repoLooseUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvUOM.MasterTemplate.Columns.Add(repoLooseUOM)
 
         Dim repoIsDecimal As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsDecimal.FormatString = ""
@@ -1733,6 +1756,18 @@ Public Class FrmItemMasterRMOther
                         CountReportUOM = CountReportUOM + 1
                     End If
                 Next
+                Dim CountBulkUOM As Integer = 0
+                For ii As Integer = 0 To gvUOM.RowCount - 1
+                    If gvUOM.Rows(ii).Cells(BulkUOM).Value = True Then
+                        CountBulkUOM = CountBulkUOM + 1
+                    End If
+                Next
+                Dim CountLooseUOM As Integer = 0
+                For ii As Integer = 0 To gvUOM.RowCount - 1
+                    If gvUOM.Rows(ii).Cells(LooseUOM).Value = True Then
+                        CountLooseUOM = CountLooseUOM + 1
+                    End If
+                Next
                 Dim CountIsDecimal As Integer = 0
                 For ii As Integer = 0 To gvUOM.RowCount - 1
                     If gvUOM.Rows(ii).Cells(UOMColIsDecimal).Value = True Then
@@ -1799,6 +1834,16 @@ Public Class FrmItemMasterRMOther
                         objtr.Report_UOM = 1
                     Else
                         objtr.Report_UOM = 0
+                    End If
+                    If clsCommon.CompairString(gvUOM.Rows(ii).Cells(BulkUOM).Value, True) = CompairStringResult.Equal Then
+                        objtr.Bulk_UOM = 1
+                    Else
+                        objtr.Bulk_UOM = 0
+                    End If
+                    If clsCommon.CompairString(gvUOM.Rows(ii).Cells(LooseUOM).Value, True) = CompairStringResult.Equal Then
+                        objtr.Loose_UOM = 1
+                    Else
+                        objtr.Loose_UOM = 0
                     End If
                     If clsCommon.CompairString(gvUOM.Rows(ii).Cells(UOMColIsDecimal).Value, True) = CompairStringResult.Equal Then
                         objtr.Decimal_UOM = 1
@@ -2177,6 +2222,8 @@ Public Class FrmItemMasterRMOther
                 Dim CountDefaultUnit As Integer = 0
                 Dim CountPrintUOM As Integer = 0
                 Dim CountReportUOM As Integer = 0
+                Dim CountBulkUOM As Integer = 0
+                Dim CountLooseUOM As Integer = 0
                 Dim CountDecimalUOM As Integer = 0
 
                 Dim countRmProcessLoss As Integer = 0
@@ -2215,6 +2262,12 @@ Public Class FrmItemMasterRMOther
                         End If
                         If gvUOM.Rows(ii).Cells(ReportUOM).Value = True Then
                             CountReportUOM = CountReportUOM + 1
+                        End If
+                        If gvUOM.Rows(ii).Cells(BulkUOM).Value = True Then
+                            CountBulkUOM = CountBulkUOM + 1
+                        End If
+                        If gvUOM.Rows(ii).Cells(LooseUOM).Value = True Then
+                            CountLooseUOM = CountLooseUOM + 1
                         End If
                         If gvUOM.Rows(ii).Cells(UOMColIsDecimal).Value = True Then
                             CountDecimalUOM = CountDecimalUOM + 1
@@ -2255,6 +2308,14 @@ Public Class FrmItemMasterRMOther
                 If CountReportUOM > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
                     Throw New Exception("Report UOM should be 1")
+                End If
+                If CountBulkUOM > 1 Then
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Throw New Exception("Bulk UOM should be 1")
+                End If
+                If CountLooseUOM > 1 Then
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Throw New Exception("Loose UOM should be 1")
                 End If
                 If CountDecimalUOM > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
@@ -3025,6 +3086,16 @@ Public Class FrmItemMasterRMOther
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(ReportUOM).Value = True
                         Else
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(ReportUOM).Value = False
+                        End If
+                        If objtr.Bulk_UOM = 1 Then
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(BulkUOM).Value = True
+                        Else
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(BulkUOM).Value = False
+                        End If
+                        If objtr.Loose_UOM = 1 Then
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(LooseUOM).Value = True
+                        Else
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(LooseUOM).Value = False
                         End If
                         If objtr.Decimal_UOM = 1 Then
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMColIsDecimal).Value = True

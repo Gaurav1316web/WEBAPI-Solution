@@ -5316,8 +5316,16 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         Dim strwherecls As String = ""
         strwherecls = Xtra.CustomerPermission()
         '-----------------------------------------------------
-        Dim qry As String = "select Document_Code as Code,SALE_INVOICE_NO AS [Invoice No],CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,Total_Amt as Amount,case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch] from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code"
+        Dim qry As String = "select Document_Code as Code,SALE_INVOICE_NO AS [Invoice No],CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,Total_Amt as Amount,
+case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch] ,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as[DCS Uploader],
+TSPL_SD_SHIPMENT_HEAD.Created_By as [Created By],TSPL_SD_SHIPMENT_HEAD.Created_Date as [Created Date],TSPL_SD_SHIPMENT_HEAD.Sub_Location_code AS [Sub Location],
+case when TSPL_SD_SHIPMENT_HEAD.Is_CashSale='Y' then 'Cash' else'Credit' end as SaleType
+from TSPL_SD_SHIPMENT_HEAD 
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+"
         Dim whrClas As String = ""
         '-------richa 30/07/2014 Ticket No. BM00000003242---------
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
