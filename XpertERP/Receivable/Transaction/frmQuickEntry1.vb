@@ -52,8 +52,35 @@ Public Class FrmQuickEntry1
             txtEntryNo.Value = clsCommon.myCstr(Me.Tag)
             fillData(clsCommon.myCstr(Me.Tag))
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            pnlCustType.Visible = True
+        End If
     End Sub
+    Sub LoadCustomerType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
 
+        dr = dt.NewRow()
+        dr("Code") = ""
+        dr("Name") = "Select"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "M"
+        dr("Name") = "Milk"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "P"
+        dr("Name") = "Product"
+        dt.Rows.Add(dr)
+
+        cboCustomerType.DataSource = dt
+        cboCustomerType.ValueMember = "Code"
+        cboCustomerType.DisplayMember = "Name"
+    End Sub
     Private Sub LoadBlankGrid()
         MasterTemplate.DataSource = Nothing
         MasterTemplate.Rows.Clear()
@@ -1659,6 +1686,8 @@ Public Class FrmQuickEntry1
     End Sub
 
     Public Sub funReset()
+        LoadCustomerType()
+        cboCustomerType.SelectedValue = ""
         chkPrintCheque.Checked = False
         chkSecurity.Checked = False
         txtEntryNo.Value = ""
@@ -1901,7 +1930,6 @@ Public Class FrmQuickEntry1
             If clsCommon.myLen(strwherecls) > 0 Then
                 whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") "
             End If
-
             MasterTemplate.CurrentRow.Cells(2).Value = clsCommon.ShowSelectForm("CustomerCode", qry, "Cust_Code", whrCls, MasterTemplate.CurrentRow.Cells(2).Value, "Cust_Code", isButtonClick)
             MasterTemplate.CurrentRow.Cells(3).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(MasterTemplate.CurrentRow.Cells(2).Value) + "'"))
             ''richa agarwal VIJ/09/12/19-000111
@@ -1912,15 +1940,18 @@ Public Class FrmQuickEntry1
                 End If
             End If
             ''richa 14 Jan,2019 to show location into grid
-            If clsCommon.myLen(txtLocation.Text) > 0 Then
-                MasterTemplate.CurrentRow.Cells("gvLocation").Value = txtLocation.Text
-                IsLoadData = False
-                If clsCommon.myLen(clsCommon.myCstr(MasterTemplate.CurrentRow.Cells("gvLocation").Value)) > 0 Then
-                    MasterTemplate.CurrentRow.Cells("gvLocation_Name").Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(MasterTemplate.CurrentRow.Cells("gvLocation").Value) & "'"))
-                Else
-                    MasterTemplate.CurrentRow.Cells("gvLocation_Name").Value = ""
+            If cboCustomerType.SelectedIndex = 0 Then
+                If clsCommon.myLen(txtLocation.Text) > 0 Then
+                    MasterTemplate.CurrentRow.Cells("gvLocation").Value = txtLocation.Text
+                    IsLoadData = False
+                    If clsCommon.myLen(clsCommon.myCstr(MasterTemplate.CurrentRow.Cells("gvLocation").Value)) > 0 Then
+                        MasterTemplate.CurrentRow.Cells("gvLocation_Name").Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(MasterTemplate.CurrentRow.Cells("gvLocation").Value) & "'"))
+                    Else
+                        MasterTemplate.CurrentRow.Cells("gvLocation_Name").Value = ""
+                    End If
                 End If
             End If
+
         ElseIf ddlType.Text = "Misc Receipt" Then
             If clsCommon.myLen(fndBankCode.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please Select Bank Code ", Me.Text)
@@ -2595,6 +2626,54 @@ Public Class FrmQuickEntry1
         IsLoadData = False
     End Sub
 
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        Try
+            If cboCustomerType.SelectedIndex > 0 Then
+                Dim qry As String = "select Cust_Code ,Customer_Name,TSPL_CUSTOMER_MASTER.Alies_Name ,Cust_Group_Code ,(select case when Status ='N' then 'Active' when Status ='Y' then 'In-Active' end) as [Status] from TSPL_CUSTOMER_MASTER "
+                Dim whrCls As String = " where Status ='N' AND OnHold='N'"
+                Dim strwherecls As String = ""
+                strwherecls = Xtra.CustomerPermission()
+                If clsCommon.myLen(strwherecls) > 0 Then
+                    whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") "
+                End If
+                whrCls += " and TSPL_CUSTOMER_MASTER.Type ='" + cboCustomerType.SelectedValue + "' "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + whrCls)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    MasterTemplate.Rows.Clear()
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        MasterTemplate.Rows.AddNew()
+                        MasterTemplate.Rows(ii).Cells(2).Value = clsCommon.myCstr(dt.Rows(ii)("Cust_Code"))
+                        MasterTemplate.Rows(ii).Cells(3).Value = clsCommon.myCstr(dt.Rows(ii)("Customer_Name"))
+                    Next
+
+                    qry = "select distinct(Segment_code) as Code ,Description  from TSPL_GL_SEGMENT_CODE left outer join TSPL_LOCATION_MASTER on TSPL_GL_SEGMENT_CODE .Segment_code =TSPL_LOCATION_MASTER .Loc_Segment_Code "
+                    whrCls = "Seg_No = '7' AND GIT='N'"
+                    If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                        whrCls += "  and  TSPL_LOCATION_MASTER.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+                    End If
+                    dt = clsDBFuncationality.GetDataTable(qry + " where " + whrCls)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count = 1 Then
+                        For ii As Integer = 0 To MasterTemplate.Rows.Count - 1
+                            MasterTemplate.Rows(ii).Cells("gvLocation").Value = dt.Rows(0)("Code")
+                            If clsCommon.myLen(clsCommon.myCstr(MasterTemplate.Rows(ii).Cells("gvLocation").Value)) > 0 Then
+                                MasterTemplate.Rows(ii).Cells("gvLocation_Name").Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(MasterTemplate.Rows(ii).Cells("gvLocation").Value) & "'"))
+                            Else
+                                MasterTemplate.Rows(ii).Cells("gvLocation_Name").Value = ""
+                            End If
+                        Next
+                    Else
+                        MasterTemplate.CurrentRow.Cells("gvLocation").Value = ""
+                    End If
+                Else
+                    MasterTemplate.Rows.Clear()
+                    MasterTemplate.Rows.AddNew()
+                End If
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
     Private Sub rmiExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiExport.Click
         Dim Qry As String = Nothing
