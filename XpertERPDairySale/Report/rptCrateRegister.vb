@@ -95,16 +95,25 @@ Public Class rptCrateRegister
                       group by Sale_Invoice_Date,Customer_Code,Route_No
                       )xxx )
                          select '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,
-                     Comp_Name,Customer_Code,Customer_Name,Route_No,Route_Desc,
-					        (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL ,
-							Evening_Supply+Morning_Supply as Supply1,
+                      Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Customer_Name,Sale_Invoice_Date,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
+                              (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL,
+                         Evening_Supply+Morning_Supply as Supply1,
 						Evening_Return+Morning_Return as Return1,
-Sale_Invoice_Date,OP from  (
+                         OP
+                  
+                      
+                         from  (
 
-               
-                      select  (select isnull(sum((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return)),0)  from my_cte as InnCTE 
-                      where InnCTE.Sale_Invoice_Date<my_cte.Sale_Invoice_Date) as OP,* from my_cte 
-                      where Sale_Invoice_Date>= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and Sale_Invoice_Date<='" + clsCommon.GetPrintDate(txtToDate.Value) + "') xx
+                    		  select  
+    (select isnull(sum((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0)  
+     from my_cte as InnCTE 
+     where 
+         InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date
+         AND InnCTE.Customer_Code = my_cte.Customer_Code
+         AND InnCTE.Route_No = my_cte.Route_No
+    ) as OP, * 
+from my_cte
+                      where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)  and convert(date,Sale_Invoice_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)) xx
                       order by xx.Sale_Invoice_Date asc"
 
 
@@ -173,6 +182,17 @@ Sale_Invoice_Date,OP from  (
             'gv2.Columns("Document_Date").IsVisible = False
             'gv2.Columns("Document_Date").HeaderText = "Document Date"
             'gv2.Columns("DistributorCode").IsVisible = True
+            gv2.Columns("Comp_Name").HeaderText = "Comp_Name"
+            gv2.Columns("Comp_Name").IsVisible = False
+            gv2.Columns("Location_Code").HeaderText = "Location_Code"
+            gv2.Columns("Location_Code").IsVisible = False
+            gv2.Columns("Location_Desc").HeaderText = "Location_Desc"
+            gv2.Columns("Location_Desc").IsVisible = False
+            gv2.Columns("Vehicle_Id").HeaderText = "Vehicle_Id"
+            gv2.Columns("Vehicle_Id").IsVisible = False
+            gv2.Columns("Vehicle_Number").HeaderText = "Vehicle_Number"
+            gv2.Columns("Vehicle_Number").IsVisible = False
+
             gv2.Columns("Customer_Code").HeaderText = "Distributor Code"
             gv2.Columns("Customer_Code").IsVisible = True
             gv2.Columns("Customer_Name").HeaderText = "Distributor Name"
@@ -183,11 +203,8 @@ Sale_Invoice_Date,OP from  (
             gv2.Columns("Supply1").IsVisible = True
             gv2.Columns("Supply1").HeaderText = "Supply"
             gv2.Columns("Return1").IsVisible = True
-            gv2.Columns("Return1").HeaderText = "Return Qty"
-            gv2.Columns("CL").IsVisible = True
-            gv2.Columns("CL").HeaderText = "Closing Balance"
-            gv2.Columns("OP").IsVisible = True
-            gv2.Columns("OP").HeaderText = "Opening Balance"
+            gv2.Columns("Return1").HeaderText = "Return"
+
 
             'gv2.Columns("Comp_Code").IsVisible = False
             'gv2.Columns("Comp_Code").HeaderText = "Comp_Code"
@@ -199,6 +216,20 @@ Sale_Invoice_Date,OP from  (
             gv2.Columns("ToDate").HeaderText = "ToDate"
             gv2.Columns("Sale_Invoice_Date").IsVisible = False
             gv2.Columns("Sale_Invoice_Date").HeaderText = "Sale Invoice Date"
+
+
+            gv2.Columns("Morning_Supply").IsVisible = False
+            gv2.Columns("Morning_Supply").HeaderText = "Morning_Supply"
+            gv2.Columns("Morning_Return").IsVisible = False
+            gv2.Columns("Morning_Return").HeaderText = "Morning_Return"
+            gv2.Columns("Evening_Supply").IsVisible = False
+            gv2.Columns("Evening_Supply").HeaderText = "Evening_Supply"
+            gv2.Columns("Evening_Return").IsVisible = False
+            gv2.Columns("Evening_Return").HeaderText = "Evening_Return"
+            gv2.Columns("OP").IsVisible = True
+            gv2.Columns("OP").HeaderText = "Balance"
+            gv2.Columns("CL").IsVisible = True
+            gv2.Columns("CL").HeaderText = "Closing Balance"
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
 

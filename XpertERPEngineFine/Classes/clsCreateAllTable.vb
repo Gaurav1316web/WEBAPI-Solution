@@ -55626,6 +55626,7 @@ where len( ISNULL(Bank_Code_Saving,''))>0 and TSPL_PAYMENT_PROCESS_DETAIL.Bank_A
             coll.Add("Rahat_Kampekat_Feed_Qty", "Decimal(18,2) null")
             coll.Add("Rahat_Kampekat_Feed_Amount", "Decimal(18,2) null")
             coll.Add("Total_Amount", "Decimal(18,2) null")
+            coll.Add("Mark_Invalid", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MP_INCENTIVE_ENTRY_DETAIL", coll, "", True, False, "TSPL_MP_INCENTIVE_ENTRY_HEAD", "Document_Code", "")
 
             coll = New Dictionary(Of String, String)()
