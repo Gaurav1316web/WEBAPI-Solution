@@ -8378,6 +8378,9 @@ Public Class clsCreateAllTable
             coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
             coll.Add("IsUpdating", "integer null")
             coll.Add("IsPosting", "integer null")
+            coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date", True)
             Try
                 qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Demand_UniqueID'"
@@ -33145,6 +33148,8 @@ Public Class clsCreateAllTable
             coll.Add("Recommended_By", "Varchar(50) null")
             coll.Add("TPT_Vendor", "varchar(12) NULL references TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

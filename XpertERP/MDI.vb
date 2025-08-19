@@ -5223,8 +5223,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmProductDispatchGateOut
                         frm = New FrmProductDispatchGateOut()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
-
+                    Case clsUserMgtCode.frmSendBilltoDistributor
+                        frm = New frmSendBilltoDistributor()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmdispatchAdviceProductSale
                         frm = New frmDispatchAdviceProductSale()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
