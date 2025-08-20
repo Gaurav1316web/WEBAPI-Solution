@@ -88,6 +88,7 @@ Public Class Can_Summary_Report
                 RadPageView1.SelectedPage = RadPageViewPage2
 
                 Gv1.EnableFiltering = True
+                Gv1.ReadOnly = True
                 'FormatGrid()
                 'ControlEnableDisable(False)
             Else
