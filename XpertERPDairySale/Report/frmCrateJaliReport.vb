@@ -1970,7 +1970,8 @@ Public Class FrmCrateJaliReport
                       select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,
                       Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Customer_Name,Sale_Invoice_Date,OP,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
                       (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL from  (
-                       select (select isnull(sum((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0) from my_cte as InnCTE where InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date  AND InnCTE.Customer_Code = my_cte.Customer_Code AND InnCTE.Route_No = my_cte.Route_No ) as OP, * from my_cte  where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103)  and convert(date,Sale_Invoice_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)) xx order by xx.Sale_Invoice_Date asc"
+                       select (select isnull(sum((Morning_Supply + Evening_Supply) - (Morning_Return + Evening_Return)), 0) from my_cte as InnCTE where InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date  AND InnCTE.Customer_Code = my_cte.Customer_Code AND InnCTE.Route_No = my_cte.Route_No ) as OP, * from my_cte  where convert(date,Sale_Invoice_Date,103)>= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value) + "',103)  and convert(date,Sale_Invoice_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(ToDate.Value) + "',103)) xx
+order by xx.Sale_Invoice_Date asc ,XX.Route_No asc"
             Dim dt As New DataTable
             dt = clsDBFuncationality.GetDataTable(Query)
             Gv1.DataSource = Nothing
@@ -2263,7 +2264,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
    ORDER BY 
     CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
    
-    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc 
+    ShiftType desc ,Route_code asc
  "
 
 
@@ -2392,7 +2393,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
 
             Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
-                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code,
                       Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
                       CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,tspl_route_master.Route_No,
@@ -2407,7 +2408,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                                      ORDER BY 
     CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
    
-    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc "
+    ShiftType desc,Route_code asc "
 
             Dim dt As New DataTable
             dt = clsDBFuncationality.GetDataTable(Query)
@@ -2527,7 +2528,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
 
                 Query = " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual,
-                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,
+                      TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code ,
                       Convert(varchar(10),TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,105) as Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No,
                       TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No,
                       CAST(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE) as Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code,tspl_route_master.Route_No,
@@ -2543,7 +2544,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                       ORDER BY 
     CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
    
-    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc  "
+  ShiftType desc ,Route_code ASC "
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2603,7 +2604,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
     ORDER BY 
     CAST(TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date AS DATE) ASC,
    
-    TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No ASC,ShiftType desc "
+    ShiftType desc ,Route_code ASC"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -2691,7 +2692,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
 from my_cte
 
                       where Sale_Invoice_Date>= '" + clsCommon.GetPrintDate(fromDate.Value) + "'  and Sale_Invoice_Date<='" + clsCommon.GetPrintDate(ToDate.Value) + "') xx
-                      order by xx.Sale_Invoice_Date asc"
+                      order by xx.Sale_Invoice_Date asc,XX.Route_No asc"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Query)
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
