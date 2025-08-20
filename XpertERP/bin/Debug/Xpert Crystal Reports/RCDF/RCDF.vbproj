@@ -1542,6 +1542,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptBulkMilkPurchaseMultipleInvoice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptBulkMilkSRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptBulkProcItemPrice.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptCanSummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDailySummaryReportCycleWise.rpt" />

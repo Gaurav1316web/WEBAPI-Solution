@@ -255,6 +255,12 @@
     <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\CanSummaryReport.Designer.vb">
+      <DependentUpon>CanSummaryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\CanSummaryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\frmCompareVoucherReport.designer.vb">
       <DependentUpon>frmCompareVoucherReport.vb</DependentUpon>
     </Compile>
@@ -1192,6 +1198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterAJM.resx">
       <DependentUpon>frmPriceChartPlanMasterAJM.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\CanSummaryReport.resx">
+      <DependentUpon>CanSummaryReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmCompareVoucherReport.resx">
       <DependentUpon>frmCompareVoucherReport.vb</DependentUpon>

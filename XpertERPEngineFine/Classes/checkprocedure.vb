@@ -1908,6 +1908,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.YearlyBillReport, "DCS Income", "1.17.03.150", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmLastDCSCollectionItem, "Last DCS Collection/Item", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptGheeAndCattleFeedDeductionStatementReport, "Ghee And Cattle Feed Deduction Statement Report", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.CanSummaryReport, "Can Summary Report", "1.17.03.152", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
