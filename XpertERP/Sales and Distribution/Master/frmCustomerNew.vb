@@ -827,9 +827,9 @@ Public Class frmCustomer
         dr("Code") = "B"
         dr("Name") = "Both"
         dt.Rows.Add(dr)
-        cboType.DataSource = dt
-        cboType.ValueMember = "Code"
-        cboType.DisplayMember = "Name"
+        cboCustType.DataSource = dt
+        cboCustType.ValueMember = "Code"
+        cboCustType.DisplayMember = "Name"
     End Sub
     Sub ListInstalledInputLanguages()
         If Not clsLanguage.ListInstalledInputLanguages() Then
@@ -1331,7 +1331,7 @@ Public Class frmCustomer
             End If
 
             'obj.CUSTOMER_FORM_TYPE = "ALL"
-            obj.Type = cboType.SelectedValue
+            obj.Cust_Type = cboCustType.SelectedValue
             'Add Bank detail
             obj.Bank_Name = clsCommon.myCstr(TxtBankName.Text)
             obj.IFSC_Code = clsCommon.myCstr(TxtIFSCCode.Text)
@@ -2074,7 +2074,7 @@ Public Class frmCustomer
             myDs = connectSql.RunSQLReturnDS(strCmd)
             Dim myDr As DataRow
             For Each myDr In myDs.Tables(0).Rows
-                cboType.SelectedValue = clsCommon.myCstr(myDr("Type"))
+                cboCustType.SelectedValue = clsCommon.myCstr(myDr("Customer Type"))
                 TxtBankName.Text = clsCommon.myCstr(myDr("Bank_Name"))
                 TxtIFSCCode.Text = clsCommon.myCstr(myDr("IFSC_Code"))
                 txtbranchname.Text = clsCommon.myCstr(myDr("Branch_Name"))
@@ -2593,7 +2593,7 @@ Public Class frmCustomer
     End Sub
     Public Sub funNew()
         LoadType()
-        cboType.SelectedValue = ""
+        cboCustType.SelectedValue = ""
         btnSave.Enabled = True
         ChkDcsOnly.ReadOnly = False
         txtCastCategory.Value = ""
@@ -3247,7 +3247,7 @@ Public Class frmCustomer
             strCmd += " ,case when isnull(a.Bank_Name,'')='' then '' else a.Bank_Name end as [Bank Name],case when isnull(a.IFSC_Code,'')='' then '' else a.IFSC_Code end as [IFSC Code],case when isnull(a.Branch_Name,'')='' then '' else a.Branch_Name end as [Branch Name],case when isnull(a.Account_No,'')='' then '' else a.Account_No end as [Account No]"
             strCmd += " ,a.RSM as [RSM Code],P.Emp_Name as [RSM Name],a.ZSM as [ZSM Code],Q.Emp_Name as [ZSM Name],a.ASM as [ASM Code],R.Emp_Name as [ASM Name],a.ASO as [ASO Code],S.Emp_Name as [ASO Name],a.CheckCreditLimit as [Check Credit Limit], case when  isnull (a.IsTCSGreaterthan50K,0) = 1 then 'Yes' else 'No' end as [TCS Greater than 50K], case when  isnull (a.IsTurnoverMorethan10CR,0) = 1 then 'Yes' else 'No' end as [Turnover More than 10CR], case when  isnull (a.IsITRfilledinLast2Years,0) = 1  then 'Yes' else 'No' end as [ITR filled in Last 2 Years] "
             strCmd += " ,(case when a.Status='Y' then 'Inactive' else 'Active' end) as [Customer Status] "
-            strCmd += " ,isnull(a.MaritalStatus,'') as [Marital Status(Married-Unmarried)],a.DOB as [DOB],isnull(a.F_H_Name,'') as [Father-Husband name],isnull(a.Education,'') as [Education],isnull(a.ResidentialAdd1,'') as [ResidentialAdd1],isnull(a.ResidentialAdd2,'') as [ResidentialAdd2],isnull(a.CustStatus,'') as [Cust Status],a.Inter_Union_Sale as [Inter Union Sale],a.Type "
+            strCmd += " ,isnull(a.MaritalStatus,'') as [Marital Status(Married-Unmarried)],a.DOB as [DOB],isnull(a.F_H_Name,'') as [Father-Husband name],isnull(a.Education,'') as [Education],isnull(a.ResidentialAdd1,'') as [ResidentialAdd1],isnull(a.ResidentialAdd2,'') as [ResidentialAdd2],isnull(a.CustStatus,'') as [Cust Status],a.Inter_Union_Sale as [Inter Union Sale],a.Cust_Type as [Customer Type] "
             'strCmd += ",CP.perInactive AS[Permanent Inactive]"
             strCmd += " FROM [TSPL_CUSTOMER_MASTER] as a left outer join TSPL_EMPLOYEE_MASTER as b on a.service_dealer_code=b.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as c on a.tdm_code=c.EMP_CODE left outer join TSPL_customer_MASTER as d on a.distributor_code=d.Cust_Code left join tspl_vendor_Master frnc on frnc.vendor_code=a.Franchise_Code"
             strCmd += " left outer join TSPL_EMPLOYEE_MASTER as P on a.RSM=P.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as Q on a.ZSM=Q.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as R on a.ASM=R.EMP_CODE left outer join TSPL_EMPLOYEE_MASTER as S on a.ASO=S.EMP_CODE"
@@ -3268,9 +3268,9 @@ Public Class frmCustomer
         Dim currentdate As Date = Date.Today
         Dim Input() As String = {}
         If GstApplicable Then
-            Input = {"Customer Code", "Name", "ADDRESS1", "ADDRESS2", "ADDRESS3", "Customer Category Code", "Group Code", "Customer Type Code", "Route No", "Route Description", "Excisable Price Code", "City Code", "State", "Country", "Phone Num1", "Phone Num2", "Fax Num", "Pin No", "Email Id", "Website", "Contact Person Name", "Contect Person Phone", "Contect Person Fax", "Contact Person website", "Contact Person Email", "Vehicle No", "Driver Name", "Driver Mobile No", "Terms Code", "Account Set", "Tax Group", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Paymemt Code", "Service Tax No", "Tin No", "List No", "Form Type", "Channel Code", "Channel Desc", "Status", "On Hold", "Remarks1", "Remarks2", "Additional1", "Additional2", "Additional3", "Salesman Code", "Salesman desc", "VIsi ID", "Visi Desc", "Credit Limit", "Created By", "Created Date", "Modify by", "Modify date", "Route Group", "Cst", "Ecc", "Range", "Collectorate", "Pan", "Division", "Parent Customer No", "Customer Class", "Credit Customer", "Price Code Non-Excise", "Inter Branch", "Transaction Type", "Parent Customer", "Service Dealer Code", "TDM Code", "Distributor Code", "Is Distributor", "Price Group Code", "Alias Name", "Zone Code", "CURRENCY CODE", "Old Name", "GSTIN NO", "Registered", "Region Type", "Composition", "Other For Pan", "FSSAI LIC NO", "Booking Type", "Customer Category", "Bank Name", "IFSC Code", "Branch Name", "Account No", "RSM Code", "ZSM Code", "ASM Code", "ASO Code", "Check Credit Limit", "TCS Greater than 50K", "Turnover More than 10CR", "ITR filled in Last 2 Years", "Marital Status(Married-Unmarried)", "DOB", "Father-Husband name", "Education", "ResidentialAdd1", "ResidentialAdd2", "Cust Status", "Inter Union Sale"}
+            Input = {"Customer Code", "Name", "ADDRESS1", "ADDRESS2", "ADDRESS3", "Customer Category Code", "Group Code", "Customer Type Code", "Route No", "Route Description", "Excisable Price Code", "City Code", "State", "Country", "Phone Num1", "Phone Num2", "Fax Num", "Pin No", "Email Id", "Website", "Contact Person Name", "Contect Person Phone", "Contect Person Fax", "Contact Person website", "Contact Person Email", "Vehicle No", "Driver Name", "Driver Mobile No", "Terms Code", "Account Set", "Tax Group", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Paymemt Code", "Service Tax No", "Tin No", "List No", "Form Type", "Channel Code", "Channel Desc", "Status", "On Hold", "Remarks1", "Remarks2", "Additional1", "Additional2", "Additional3", "Salesman Code", "Salesman desc", "VIsi ID", "Visi Desc", "Credit Limit", "Created By", "Created Date", "Modify by", "Modify date", "Route Group", "Cst", "Ecc", "Range", "Collectorate", "Pan", "Division", "Parent Customer No", "Customer Class", "Credit Customer", "Price Code Non-Excise", "Inter Branch", "Transaction Type", "Parent Customer", "Service Dealer Code", "TDM Code", "Distributor Code", "Is Distributor", "Price Group Code", "Alias Name", "Zone Code", "CURRENCY CODE", "Old Name", "GSTIN NO", "Registered", "Region Type", "Composition", "Other For Pan", "FSSAI LIC NO", "Booking Type", "Customer Category", "Bank Name", "IFSC Code", "Branch Name", "Account No", "RSM Code", "ZSM Code", "ASM Code", "ASO Code", "Check Credit Limit", "TCS Greater than 50K", "Turnover More than 10CR", "ITR filled in Last 2 Years", "Marital Status(Married-Unmarried)", "DOB", "Father-Husband name", "Education", "ResidentialAdd1", "ResidentialAdd2", "Cust Status", "Inter Union Sale", "Customer Type"}
         Else
-            Input = {"Customer Code", "Name", "ADDRESS1", "ADDRESS2", "ADDRESS3", "Customer Category Code", "Group Code", "Customer Type Code", "Route No", "Route Description", "Excisable Price Code", "City Code", "State", "Country", "Phone Num1", "Phone Num2", "Fax Num", "Pin No", "Email Id", "Website", "Contact Person Name", "Contect Person Phone", "Contect Person Fax", "Contact Person website", "Contact Person Email", "Vehicle No", "Driver Name", "Driver Mobile No", "Terms Code", "Account Set", "Tax Group", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Paymemt Code", "Service Tax No", "Tin No", "List No", "Form Type", "Channel Code", "Channel Desc", "Status", "On Hold", "Remarks1", "Remarks2", "Additional1", "Additional2", "Additional3", "Salesman Code", "Salesman desc", "VIsi ID", "Visi Desc", "Credit Limit", "Created By", "Created Date", "Modify by", "Modify date", "Route Group", "Cst", "Ecc", "Range", "Collectorate", "Pan", "Division", "Parent Customer No", "Customer Class", "Credit Customer", "Price Code Non-Excise", "Inter Branch", "Transaction Type", "Parent Customer", "Service Dealer Code", "TDM Code", "Distributor Code", "Is Distributor", "Price Group Code", "Alias Name", "Zone Code", "CURRENCY CODE", "Old Name", "Other For Pan", "FSSAI LIC NO", "Inter Union Sale"}
+            Input = {"Customer Code", "Name", "ADDRESS1", "ADDRESS2", "ADDRESS3", "Customer Category Code", "Group Code", "Customer Type Code", "Route No", "Route Description", "Excisable Price Code", "City Code", "State", "Country", "Phone Num1", "Phone Num2", "Fax Num", "Pin No", "Email Id", "Website", "Contact Person Name", "Contect Person Phone", "Contect Person Fax", "Contact Person website", "Contact Person Email", "Vehicle No", "Driver Name", "Driver Mobile No", "Terms Code", "Account Set", "Tax Group", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Paymemt Code", "Service Tax No", "Tin No", "List No", "Form Type", "Channel Code", "Channel Desc", "Status", "On Hold", "Remarks1", "Remarks2", "Additional1", "Additional2", "Additional3", "Salesman Code", "Salesman desc", "VIsi ID", "Visi Desc", "Credit Limit", "Created By", "Created Date", "Modify by", "Modify date", "Route Group", "Cst", "Ecc", "Range", "Collectorate", "Pan", "Division", "Parent Customer No", "Customer Class", "Credit Customer", "Price Code Non-Excise", "Inter Branch", "Transaction Type", "Parent Customer", "Service Dealer Code", "TDM Code", "Distributor Code", "Is Distributor", "Price Group Code", "Alias Name", "Zone Code", "CURRENCY CODE", "Old Name", "Other For Pan", "FSSAI LIC NO", "Inter Union Sale", "Customer Type"}
         End If
         Dim strInputlist As List(Of String) = New List(Of String)(Input)
         If transportSql.importExcel(gv, strInputlist.ToArray()) Then
@@ -3331,7 +3331,7 @@ Public Class frmCustomer
                     Dim strComposition As Integer = 0
                     Dim Other_For_Pan As Integer = clsCommon.myCdbl(grow.Cells("Other For Pan").Value)
                     Dim Inter_Union_Sale As Double = clsCommon.myCdbl(grow.Cells("Inter Union Sale").Value)
-                    Dim Type As Double = clsCommon.myCdbl(grow.Cells("Type").Value)
+                    Dim Cust_Type As Double = clsCommon.myCdbl(grow.Cells("Customer Type").Value)
                     ' Dim per_Inactive As Double = clsCommon.myCdbl(grow.Cells("Permanent Inactive").Value)
 
                     If GstApplicable Then
@@ -3372,7 +3372,7 @@ Public Class frmCustomer
                     ' clsCommon.AddColumnsForChange(coll, "perInactive", per_Inactive)
 
                     clsCommon.AddColumnsForChange(coll, "Inter_Union_Sale", Inter_Union_Sale)
-                    clsCommon.AddColumnsForChange(coll, "Type", Type, True)
+                    clsCommon.AddColumnsForChange(coll, "Cust_Type", Cust_Type, True)
                     clsCommon.AddColumnsForChange(coll, "Other_For_PAN", Other_For_Pan)
                     clsCommon.AddColumnsForChange(coll, "GSTNO", strGstNo)
                     clsCommon.AddColumnsForChange(coll, "GSTEntity", StrGstEntity)

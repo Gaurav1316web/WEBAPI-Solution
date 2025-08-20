@@ -398,8 +398,9 @@ Public Class MDI
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
             If Not clsCommon.CompairString(strTempVersion, "2.1.6.93") = CompairStringResult.Equal Then
-                Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
-            End If
+                If Not clsCommon.CompairString(strTempVersion, "2.1.6.91") = CompairStringResult.Equal Then
+                    Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
+                End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
             If Not clsCommon.CompairString(strTempVersion, "1.0.0.1") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPBlankTableScript ")
@@ -8426,6 +8427,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.BmcLabReport
                         frm = New BmcLabReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.CanSummaryReport
+                        frm = New Can_Summary_Report
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.FrmDayWiseMilkCollectionVsDispatch
