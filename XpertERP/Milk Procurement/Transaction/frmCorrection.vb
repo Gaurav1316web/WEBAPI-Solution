@@ -2070,7 +2070,7 @@ left outer join TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS on TSPL_MILK_SRN_CORRECTI
 
                 TxtCAPDCSCode.Value = txtCAPVLC.Value
                 TxtCAPDCSCode.Tag = txtCAPVLC.Tag
-                lblCAPDCSName.Text = lblVLC.Text
+                lblCAPDCSName.Text = lblCAPVLC.Text
 
                 RadGroupBox9.Enabled = False
                 RadGroupBox10.Enabled = True
@@ -2866,6 +2866,7 @@ select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date, Qty, FAT_PER,SNF_PER
         RadGroupBox9.Enabled = True
         RadGroupBox10.Enabled = False
         btnCAPSave.Enabled = True
+        TxtCAPRemarks.Text = ""
     End Sub
 
     Private Sub TxtCAPDCSCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtCAPDCSCode._MYValidating
