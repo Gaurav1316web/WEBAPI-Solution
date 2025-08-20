@@ -1908,6 +1908,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.YearlyBillReport, "DCS Income", "1.17.03.150", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmLastDCSCollectionItem, "Last DCS Collection/Item", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptGheeAndCattleFeedDeductionStatementReport, "Ghee And Cattle Feed Deduction Statement Report", "1.17.03.151", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, "Milk Procurement Society Summary", "1.17.03.154", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2428,7 +2429,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmBoothCountReport, "Booth Count Report", "1.36.03.35", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDemandNill, "Booth Nill Demand Report", "1.36.03.36", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMonthlyBillSummaryReport, "Monthly Bill Summary Report", "1.36.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDayWiseBoothDemand, "Day Wise Booth Demand Report", "1.36.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDayWiseBoothDemand, "Day Wise Booth Demand Report", "1.36.03.38", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmSendBilltoDistributor, "Send Bill To Distributor", "1.36.03.39", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2471,7 +2474,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmQuickDemandReport, "Quick Demand Report", "1.06.03.65", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmIBPReport, "I B P Report", "1.06.03.66", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptNewTenderPartyListReport, "New Tender Party List Report", "1.06.03.67", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCrateRegister, "Crate  Balance Register", "1.06.03.69", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         '-------------------------SERVICE MODULE END----------------------------------------
 

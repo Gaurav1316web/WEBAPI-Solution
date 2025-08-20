@@ -285,6 +285,12 @@
     <Compile Include="Milk Procurement\Report\FrmLastDCSCollectionItem.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\FrmMilkProcurementSocietySummary.Designer.vb">
+      <DependentUpon>FrmMilkProcurementSocietySummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\FrmMilkProcurementSocietySummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptAbsentBMCDCS.Designer.vb">
       <DependentUpon>rptAbsentBMCDCS.vb</DependentUpon>
     </Compile>
@@ -1207,6 +1213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\FrmLastDCSCollectionItem.resx">
       <DependentUpon>FrmLastDCSCollectionItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\FrmMilkProcurementSocietySummary.resx">
+      <DependentUpon>FrmMilkProcurementSocietySummary.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptAbsentBMCDCS.resx">
       <DependentUpon>rptAbsentBMCDCS.vb</DependentUpon>

@@ -2745,7 +2745,18 @@ where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code='" & strLocation & "' and
                             End If
 
                         Else
-                            DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "'"))
+                            If Not AllowDuplicateEntry Then
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and Type='" & strTypeIO & "'"))
+                            ElseIf clsCommon.myLen(strCustCode) > 0 Then
+                                Dim docQry As String = "select top 1 TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+left join TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE on TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code='" & strLocation & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code='" & strRoute & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType='" & strshift & "' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "' and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code='" & strCustCode & "'"
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(docQry))
+                            Else
+                                Throw New Exception("Customer Code Required for Duplicate Entry")
+                            End If
+
+                            'DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "'"))
                         End If
                         If clsCommon.myLen(DocNo) > 0 Then
                             Throw New Exception("Document [" & DocNo & " ] already exists!")

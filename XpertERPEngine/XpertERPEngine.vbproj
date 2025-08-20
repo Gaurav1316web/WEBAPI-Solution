@@ -164,7 +164,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="XpertCommon">
-      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPBlankTableScript">
       <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
