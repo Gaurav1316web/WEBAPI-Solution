@@ -3,6 +3,8 @@ Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
+    Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
+    Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
     Public Const DefaultFilesPath As String = "Default File Path"
     Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
@@ -1353,6 +1355,8 @@ End Class
 Public Class clsFixedParameterCode
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
+    Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
+    Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
     Public Const PrintOnlyPostedDocument As String = "Print Only Posted Document"
     Public Const DefaultFilesPath As String = "Default File Path"
     Public Const B2CDocumentAmountRangeOtherState As String = "B2C Document Amount Range Other State"
@@ -1860,6 +1864,7 @@ Public Class clsFixedParameterCode
     Public Const EMP01 As String = "EMP01"
     Public Const SIRevers As String = "SIRevers"
     Public Const SIReversAndCreate As String = "SIReversAndCreate"
+    Public Const SICrateEntry As String = "SICrateEntry"
     Public Const ShuffleDemand As String = "ShuffleDemand"
     Public Const ItemAllowDecimal As String = "ItemAllowDecimal"
     Public Const UpdatePassword As String = "Update Password"
@@ -2928,6 +2933,8 @@ Public Class clsFixedParameter
     Public Shared Function FixedParameterValues() As Boolean
         InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, "3.2", "MaxFatPerLimitForReport")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, "7.2", "MaxSnfPerLimitForReport")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, "E:\XpertServices\XpertFileUpload\Upload", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, "100000", "Define Document Amount Range For Other State B2C Large/Small")
         InsertDefaultValueFixedParameter(clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, "250000", "Define Document Amount Range For Same State B2C Large/Small")
@@ -3434,6 +3441,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ServiceDealer, clsFixedParameterCode.ServiceDealer, "Employee Type", "Employee Type")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIR, clsFixedParameterCode.SIRevers, "salereverse", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SIReversAndCreate, "b12sec2", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SICrateEntry, "CrateEntry@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ShuffleDemand, "ShuffleDemand@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ItemAllowDecimal, "AllowDecimal@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.UpdatePassword, "c1032floor", "")
@@ -4549,6 +4557,8 @@ Public Class clsFixedParameterProgramMapping
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, clsFixedParameterType.MaxSNFPerLimitforReport, clsFixedParameterCode.MaxSNFPerLimitforReport, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, clsFixedParameterType.DefaultFilesPath, clsFixedParameterCode.DefaultFilesPath, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRangeOtherState, clsFixedParameterCode.B2CDocumentAmountRangeOtherState, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptGSTRReport, clsFixedParameterType.B2CDocumentAmountRange, clsFixedParameterCode.B2CDocumentAmountRange, EnumControlType.TextBox)

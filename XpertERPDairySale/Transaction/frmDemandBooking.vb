@@ -2343,25 +2343,25 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                             End If
                         ElseIf rdbnFreshAmbientBoth.IsChecked Then
                             gv1.Columns(dblcolumns).IsVisible = True
-                                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                                    gv1.Columns(colPAmt).IsVisible = False
-                                    gv1.Columns(colPCount).IsVisible = False
-                                    gv1.Columns(colMAmt).IsVisible = False
-                                    gv1.Columns(colCrate).IsVisible = False
-                                    gv1.Columns(colLitre).IsVisible = False
-                                Else
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                gv1.Columns(colPAmt).IsVisible = False
+                                gv1.Columns(colPCount).IsVisible = False
+                                gv1.Columns(colMAmt).IsVisible = False
+                                gv1.Columns(colCrate).IsVisible = False
+                                gv1.Columns(colLitre).IsVisible = False
+                            Else
 
-                                    gv1.Columns(colPAmt).IsVisible = True
-                                    gv1.Columns(colPCount).IsVisible = True
-                                    gv1.Columns(colMAmt).IsVisible = True
-                                    gv1.Columns(colCrate).IsVisible = True
-                                    gv1.Columns(colLitre).IsVisible = True
-                                End If
-
+                                gv1.Columns(colPAmt).IsVisible = True
+                                gv1.Columns(colPCount).IsVisible = True
+                                gv1.Columns(colMAmt).IsVisible = True
+                                gv1.Columns(colCrate).IsVisible = True
+                                gv1.Columns(colLitre).IsVisible = True
                             End If
 
-
                         End If
+
+
+                    End If
                 End If
                 k = k + 1
             Next
@@ -5275,12 +5275,17 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Public Sub PrintGatePass(ByVal StrFormType As String, ByVal StrDocCode As String, ByVal StrShift As String, ByVal Fresh As Boolean, ByVal Ambient As Boolean)
+
+    Function PrintGatePass(ByVal StrFormType As String, ByVal StrDocCode As String, ByVal StrShift As String, ByVal Fresh As Boolean, ByVal Ambient As Boolean) As String
+        Return PrintGatePass(StrFormType, StrDocCode, StrShift, Fresh, Ambient, False)
+    End Function
+    Function PrintGatePass(ByVal StrFormType As String, ByVal StrDocCode As String, ByVal StrShift As String, ByVal Fresh As Boolean, ByVal Ambient As Boolean, ByVal isPdf As Boolean) As String
         'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsGatePassGenerated='Y' where " + IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") + "'='" & StrDocCode & "' and ShiftType='" & StrShift & "'")
+        Dim filePath As String = Nothing
         Dim whr As String = ""
-        If Fresh = True Then
+        If Fresh Then
             whr = "and TSPL_ITEM_MASTER.IsTaxable=0 "
-        ElseIf Ambient = True Then
+        ElseIf Ambient Then
             whr = "and TSPL_ITEM_MASTER.IsTaxable=1 "
         Else
             whr = ""
@@ -5292,7 +5297,7 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             mainTrip = " ,Main_Final.Trip "
         End If
         Dim Qry As String = "select  zone.Phone1 as Dist_Phn, zone.Zone_Code,FSSAI_NO, TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.Phone2,TSPL_COMPANY_MASTER.GSTINNo,  TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_LIC_NO
-                  ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" + objCommonVar.CurrentUser + "' as Currentuser
+                  ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" & objCommonVar.CurrentUser & "' as Currentuser
                   ,Main_Final.Distributor,Main_Final.Distributor_Code,Employee_Name,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
                   ,Main_Final.Item_alies_name,Main_Final.UOM,Main_Final.unit_code_result,"
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
@@ -5300,12 +5305,12 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
         Else
             Qry += " Main_Final.Crate_Qty,"
         End If
-        Qry += " Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount,Main_Final.Production_Remarks" + mainTrip + ""
+        Qry += " Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount,Main_Final.Production_Remarks" & mainTrip & ""
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += " ,Main_Final.HSN_Code ,Main_Final.item_rate  ,Main_Final.TAX1,Main_Final.TAX2,Main_Final.TAX3,Main_Final.TAX4,Main_Final.TAX5,Main_Final.TAX6
 				  ,Main_Final.TAX1_Amt,Main_Final.TAX2_Amt,Main_Final.TAX3_Amt,Main_Final.TAX4_Amt,Main_Final.TAX5_Amt,Main_Final.TAX6_Amt ,Main_Final.TAX7_Amt,Main_Final.TAX8_Amt,Main_Final.TAX7,Main_Final.TAX8  "
         End If
-        Qry += "       from (select " + Trip + " max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,max(TSPL_VENDOR_MASTER.Vendor_Code) as Distributor_Code,max(TSPL_customer_master.FSSAI_NO)FSSAI_NO ,
+        Qry += "       from (select " & Trip & " max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,max(TSPL_VENDOR_MASTER.Vendor_Code) as Distributor_Code,max(TSPL_customer_master.FSSAI_NO)FSSAI_NO ,
                   max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,max(TSPL_city_MASTER.City_Name) as City_Name,max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,max(TSPL_DEMAND_BOOKING_MASTER.location_code) as location_code,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc,max(TSPL_Route_Master.Employee_Name)Employee_Name
                   ,max(isnull(TSPL_VEHICLE_MASTER.Description,'')) as Vehicle_Desc ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name,
                   max(TSPL_ITEM_MASTER.Unit_Code) as UOM,CASE WHEN max(TSPL_ITEM_MASTER.Unit_Code) = 'crate' OR max(TSPL_ITEM_MASTER.Unit_Code) = 'pouch' THEN 'Crate/Pouch' ELSE max(TSPL_ITEM_MASTER.Unit_Code) END AS unit_code_result,"
@@ -5336,10 +5341,10 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                   left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
                   left outer join TSPL_city_MASTER on TSPL_city_MASTER.city_code = TSPL_DEMAND_BOOKING_MASTER.city_code
                   left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VEHICLE_MASTER.Transport_Id
-                  cross apply(select distinct  convert(varchar,TSPL_DEMAND_BOOKING_DETAIL.Trip_No) + ',' as [text()] from TSPL_DEMAND_BOOKING_DETAIL where Document_No= '" + StrDocCode + "' 
+                  cross apply(select distinct  convert(varchar,TSPL_DEMAND_BOOKING_DETAIL.Trip_No) + ',' as [text()] from TSPL_DEMAND_BOOKING_DETAIL where Document_No= '" & StrDocCode & "' 
                   FOR XML PATH(''))el(files)
-                  WHERE " + IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") + " = '" + StrDocCode + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & StrShift & "'
-                  " + whr + " group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Route_No
+                  WHERE " & IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") & " = '" & StrDocCode & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & StrShift & "'
+                  " & whr & " group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Route_No
                   ) as Main_Final
                   LEFT OUTER JOIN TSPL_COMPANY_MASTER ON 2=2
                    LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =Main_Final.location_code
@@ -5349,21 +5354,21 @@ from (" + BaseQry + ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseUDP", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseUDP", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseCHITTORGARH", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseCHITTORGARH", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseAJM", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
-
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseAJM", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             Else
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
+                filePath = frmCRV.funsubreportWithdt(MyBase.Form_ID, isPdf, CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             End If
             'frmCRV.funsubreportWithdt(CrystalReportFolder.NewSalesReports, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWise", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("Demand_Date")), "rptCompanyAddress.rpt")
             frmCRV = Nothing
         End If
-    End Sub
+        Return filePath
+    End Function
     Private Sub Btn_GPCancel_Click(sender As Object, e As EventArgs) Handles btn_GPCancel.Click
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then

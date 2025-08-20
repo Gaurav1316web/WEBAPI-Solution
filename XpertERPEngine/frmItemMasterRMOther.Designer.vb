@@ -53,6 +53,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkDcsSaleZeroCost = New common.Controls.MyCheckBox()
         Me.chkAllowDecimal = New common.Controls.MyCheckBox()
         Me.chkIsRepeat = New common.Controls.MyCheckBox()
         Me.chkSFGCF = New common.Controls.MyCheckBox()
@@ -321,13 +322,13 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkDcsSaleZeroCost = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -571,7 +572,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -776,6 +776,17 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'chkDcsSaleZeroCost
+        '
+        Me.chkDcsSaleZeroCost.Location = New System.Drawing.Point(867, 326)
+        Me.chkDcsSaleZeroCost.MyLinkLable1 = Nothing
+        Me.chkDcsSaleZeroCost.MyLinkLable2 = Nothing
+        Me.chkDcsSaleZeroCost.Name = "chkDcsSaleZeroCost"
+        Me.chkDcsSaleZeroCost.Size = New System.Drawing.Size(116, 18)
+        Me.chkDcsSaleZeroCost.TabIndex = 219
+        Me.chkDcsSaleZeroCost.Tag1 = Nothing
+        Me.chkDcsSaleZeroCost.Text = "DCS Sale Zero Cost"
         '
         'chkAllowDecimal
         '
@@ -4658,17 +4669,6 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'chkDcsSaleZeroCost
-        '
-        Me.chkDcsSaleZeroCost.Location = New System.Drawing.Point(867, 326)
-        Me.chkDcsSaleZeroCost.MyLinkLable1 = Nothing
-        Me.chkDcsSaleZeroCost.MyLinkLable2 = Nothing
-        Me.chkDcsSaleZeroCost.Name = "chkDcsSaleZeroCost"
-        Me.chkDcsSaleZeroCost.Size = New System.Drawing.Size(116, 18)
-        Me.chkDcsSaleZeroCost.TabIndex = 219
-        Me.chkDcsSaleZeroCost.Tag1 = Nothing
-        Me.chkDcsSaleZeroCost.Text = "DCS Sale Zero Cost"
-        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4689,6 +4689,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSFGCF, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4945,7 +4946,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

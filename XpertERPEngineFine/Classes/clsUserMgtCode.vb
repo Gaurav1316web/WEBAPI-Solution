@@ -1,7 +1,7 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmSendBilltoDistributor As String = "SND-BLL-DST"
     Public Const frmIBPReport As String = "IBP-RPT"
-
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
     Public Const frmTTSavingReport As String = "SVNG-BLNCE"
@@ -2272,6 +2272,7 @@ Public Class clsUserMgtCode
     Public Const FrmLastDCSCollectionItem As String = "Las-DCS-ITE"
 
     Public Const rptGheeAndCattleFeedDeductionStatementReport As String = "GH-CF-D-SMT"
+    Public Const FrmMilkProcurementSocietySummary As String = "MILK-SUM"
     Public Const frmDBTRecoVsIncentiveReport As String = "DBTREC_INC_R"
     Public Const frmAutoAdditionDeductionReport As String = "AUTO_AD_R"
     'Public Const rptTankerStatusReport As String = "R-T-STAT"
@@ -2773,6 +2774,7 @@ Public Class clsUserMgtCode
 
     Public Const XpertAPIMilkMilkRegister As String = "API-MLK-REG"
     Public Const XpertAPIDairyGatePass As String = "API-GT-PASS"
+    Public Const XpertAPITruckSheet As String = "API-TS-RPT"
     ''=================== MIS start here============
 
     Public Const ModuleMIS As String = "MMIS"

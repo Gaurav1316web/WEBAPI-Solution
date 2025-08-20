@@ -1612,10 +1612,15 @@ order by TSPL_Booth_Route_Mapping_Head.Document_No desc", trans))
     '        End Try
     '        Return True
     '    End Function
-    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup) As Boolean
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup) As String
         Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False, False)
     End Function
-    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean, ByVal isDepartmentRoute As Boolean) As Boolean
+
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean, ByVal isDepartmentRoute As Boolean) As String
+        Return PrintDOSData(ArrRoute, strShift, DocDate, IsFreshItem, IsAmbientItem, IsIndividualCustomer, CharColumn, CharRows, EnumPageSize, enumPageSetup, False, False, False)
+    End Function
+
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal strShift As String, ByVal DocDate As Date, ByVal IsFreshItem As Boolean, ByVal IsAmbientItem As Boolean, ByVal IsIndividualCustomer As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isSplitPrint As Boolean, ByVal isDepartmentRoute As Boolean, ByVal isPdf As Boolean) As String
         Try
             If clsCommon.myLen(strShift) <= 0 Then
                 Throw New Exception("Please select Shift")
@@ -1990,12 +1995,14 @@ group by XXXFinal.Short_Description,XXXFinal.Sku_Seq,XXXFinal.Conversion_Factor,
             'If EnumPageSize = DosPaperSize.Tecxpert15X12 Then
             '    obj.ApplyPrintCommand = False
             'End If
-            obj.Print(obj, dt, enumPageSetup, "", "", EnumPageSize)
+
+            Return obj.Print(obj, dt, enumPageSetup, "", "", EnumPageSize, isPdf)
+
             Dim x As Integer = 1
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-        Return True
+        Return Nothing
     End Function
     Public Shared Function ShuffleBoothRouteData(ByVal DocDate As DateTime, ByVal ShiftType As String, ByVal strRoute As ArrayList) As Boolean
         Try

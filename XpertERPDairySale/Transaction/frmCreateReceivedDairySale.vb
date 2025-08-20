@@ -14,6 +14,7 @@ Public Class frmCreateReceivedDairySale
     Dim dt As DataTable
     Public strCrateReceived As String = Nothing
     Dim AllowWo_Outstanding As Boolean
+    Dim AllowDuplicateEntry As Boolean = False
     Dim Qry As String
     Public isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -1794,7 +1795,16 @@ Public Class frmCreateReceivedDairySale
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
             'Add Tool tip Task No- TEC/18/05/18-000237
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F10 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.SICrateEntry
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                AllowDuplicateEntry = True
+            End If
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = clsFixedParameterType.SIRC
@@ -2723,9 +2733,30 @@ Public Class frmCreateReceivedDairySale
                         End If
                         Dim DocNo As String = String.Empty
                         If clsCommon.CompairString(strTypeIO, "I") = CompairStringResult.Equal Then
-                            DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and Type='" & strTypeIO & "'"))
+                            If Not AllowDuplicateEntry Then
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and Type='" & strTypeIO & "'"))
+                            ElseIf clsCommon.myLen(strCustCode) > 0 Then
+                                Dim docQry As String = "select top 1 TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+left join TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE on TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code='" & strLocation & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code='" & strRoute & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType='" & strshift & "' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "' and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code='" & strCustCode & "'"
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(docQry))
+                            Else
+                                Throw New Exception("Customer Code Required for Duplicate Entry")
+                            End If
+
                         Else
-                            DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "'"))
+                            If Not AllowDuplicateEntry Then
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and Type='" & strTypeIO & "'"))
+                            ElseIf clsCommon.myLen(strCustCode) > 0 Then
+                                Dim docQry As String = "select top 1 TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+left join TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE on TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code='" & strLocation & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code='" & strRoute & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType='" & strshift & "' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "' and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code='" & strCustCode & "'"
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(docQry))
+                            Else
+                                Throw New Exception("Customer Code Required for Duplicate Entry")
+                            End If
+
+                            'DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "'"))
                         End If
                         If clsCommon.myLen(DocNo) > 0 Then
                             Throw New Exception("Document [" & DocNo & " ] already exists!")

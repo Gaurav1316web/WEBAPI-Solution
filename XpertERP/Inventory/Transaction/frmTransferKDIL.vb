@@ -5490,7 +5490,7 @@ Public Class FrmTransferKDIL
             ElseIf clsCommon.CompairString(cboTransferType.SelectedValue, "I") = CompairStringResult.Equal OrElse clsCommon.CompairString(cboTransferType.SelectedValue, "T") = CompairStringResult.Equal Then
                 pnlLoadIn.Visible = True
                 pnlRMDA.Visible = False
-                gv1.Columns(colOutQty).ReadOnly = True
+                gv1.Columns(colOutQty).ReadOnly = False
                 ''richa 03/03/2015
                 chkAgainst_Form.Enabled = False
                 chkAgainst_Form.Checked = False

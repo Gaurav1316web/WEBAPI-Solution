@@ -56,6 +56,9 @@ Partial Class frmCustomer
         Dim RadListDataItem28 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem29 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem30 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem31 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem32 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem33 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
@@ -69,9 +72,9 @@ Partial Class frmCustomer
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem31 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem32 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem33 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem34 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem35 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem36 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnucustbesic_Import_profile = New Telerik.WinControls.UI.RadMenuItem()
@@ -288,7 +291,9 @@ Partial Class frmCustomer
         Me.lblPRouteCode = New common.Controls.MyLabel()
         Me.txtArea = New common.UserControls.txtFinder()
         Me.MyLabel35 = New common.Controls.MyLabel()
-        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.pnlParentCust = New System.Windows.Forms.Panel()
+        Me.cboCustType = New common.Controls.MyComboBox()
+        Me.MyLabel48 = New common.Controls.MyLabel()
         Me.RadLabel32 = New common.Controls.MyLabel()
         Me.lblParentCustDesc = New common.Controls.MyLabel()
         Me.txtParentCstmrNo = New common.Controls.MyTextBox()
@@ -597,7 +602,9 @@ Partial Class frmCustomer
         CType(Me.lblIRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel2.SuspendLayout()
+        Me.pnlParentCust.SuspendLayout()
+        CType(Me.cboCustType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblParentCustDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtParentCstmrNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -900,8 +907,8 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
-        Me.pageCus.Size = New System.Drawing.Size(1079, 472)
+        Me.pageCus.SelectedPage = Me.RadPageViewPage3
+        Me.pageCus.Size = New System.Drawing.Size(1079, 462)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -981,7 +988,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1058, 424)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1058, 414)
         Me.RadPageViewPage1.Text = "Address"
         '
         'chkpermanentInactive
@@ -989,7 +996,7 @@ Partial Class frmCustomer
         Me.chkpermanentInactive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkpermanentInactive.Location = New System.Drawing.Point(726, 170)
         Me.chkpermanentInactive.Name = "chkpermanentInactive"
-        Me.chkpermanentInactive.Size = New System.Drawing.Size(118, 16)
+        Me.chkpermanentInactive.Size = New System.Drawing.Size(108, 16)
         Me.chkpermanentInactive.TabIndex = 1387
         Me.chkpermanentInactive.Text = "Permanent Close"
         '
@@ -4082,7 +4089,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage3.Controls.Add(Me.lblPRouteCode)
         Me.RadPageViewPage3.Controls.Add(Me.txtArea)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel35)
-        Me.RadPageViewPage3.Controls.Add(Me.Panel2)
+        Me.RadPageViewPage3.Controls.Add(Me.pnlParentCust)
         Me.RadPageViewPage3.Controls.Add(Me.cmbCustomerCategory)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel22)
         Me.RadPageViewPage3.Controls.Add(Me.cmbBookingType)
@@ -4120,7 +4127,7 @@ Partial Class frmCustomer
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1058, 424)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1058, 414)
         Me.RadPageViewPage3.Text = "Activity"
         '
         'cmbSplitPrint
@@ -4302,18 +4309,62 @@ Partial Class frmCustomer
         Me.MyLabel35.TabIndex = 394
         Me.MyLabel35.Text = "Area"
         '
-        'Panel2
+        'pnlParentCust
         '
-        Me.Panel2.Controls.Add(Me.RadLabel32)
-        Me.Panel2.Controls.Add(Me.lblParentCustDesc)
-        Me.Panel2.Controls.Add(Me.txtParentCstmrNo)
-        Me.Panel2.Controls.Add(Me.txtParentCstNo)
-        Me.Panel2.Controls.Add(Me.Chkparntcutmr)
-        Me.Panel2.Location = New System.Drawing.Point(798, 1)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(260, 208)
-        Me.Panel2.TabIndex = 392
-        Me.Panel2.Visible = False
+        Me.pnlParentCust.Controls.Add(Me.cboCustType)
+        Me.pnlParentCust.Controls.Add(Me.MyLabel48)
+        Me.pnlParentCust.Controls.Add(Me.RadLabel32)
+        Me.pnlParentCust.Controls.Add(Me.lblParentCustDesc)
+        Me.pnlParentCust.Controls.Add(Me.txtParentCstmrNo)
+        Me.pnlParentCust.Controls.Add(Me.txtParentCstNo)
+        Me.pnlParentCust.Controls.Add(Me.Chkparntcutmr)
+        Me.pnlParentCust.Location = New System.Drawing.Point(781, 1)
+        Me.pnlParentCust.Name = "pnlParentCust"
+        Me.pnlParentCust.Size = New System.Drawing.Size(260, 152)
+        Me.pnlParentCust.TabIndex = 392
+        Me.pnlParentCust.Visible = False
+        '
+        'cboCustType
+        '
+        Me.cboCustType.AutoCompleteDisplayMember = Nothing
+        Me.cboCustType.AutoCompleteValueMember = Nothing
+        Me.cboCustType.CalculationExpression = Nothing
+        Me.cboCustType.DropDownAnimationEnabled = True
+        Me.cboCustType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboCustType.FieldCode = Nothing
+        Me.cboCustType.FieldDesc = Nothing
+        Me.cboCustType.FieldMaxLength = 0
+        Me.cboCustType.FieldName = Nothing
+        Me.cboCustType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCustType.isCalculatedField = False
+        Me.cboCustType.IsSourceFromTable = False
+        Me.cboCustType.IsSourceFromValueList = False
+        Me.cboCustType.IsUnique = False
+        RadListDataItem16.Text = "Finished Goods"
+        RadListDataItem17.Text = "Promotional Item"
+        RadListDataItem18.Text = "Trading Item"
+        Me.cboCustType.Items.Add(RadListDataItem16)
+        Me.cboCustType.Items.Add(RadListDataItem17)
+        Me.cboCustType.Items.Add(RadListDataItem18)
+        Me.cboCustType.Location = New System.Drawing.Point(124, 85)
+        Me.cboCustType.MendatroryField = True
+        Me.cboCustType.MyLinkLable1 = Me.MyLabel48
+        Me.cboCustType.MyLinkLable2 = Nothing
+        Me.cboCustType.Name = "cboCustType"
+        Me.cboCustType.ReferenceFieldDesc = Nothing
+        Me.cboCustType.ReferenceFieldName = Nothing
+        Me.cboCustType.ReferenceTableName = Nothing
+        Me.cboCustType.Size = New System.Drawing.Size(125, 18)
+        Me.cboCustType.TabIndex = 1390
+        '
+        'MyLabel48
+        '
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Location = New System.Drawing.Point(13, 86)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(82, 18)
+        Me.MyLabel48.TabIndex = 1391
+        Me.MyLabel48.Text = "Customer Type"
         '
         'RadLabel32
         '
@@ -4409,22 +4460,22 @@ Partial Class frmCustomer
         Me.cmbCustomerCategory.IsSourceFromTable = False
         Me.cmbCustomerCategory.IsSourceFromValueList = False
         Me.cmbCustomerCategory.IsUnique = False
-        RadListDataItem16.Text = "Select"
-        RadListDataItem17.Text = "Institution CR"
-        RadListDataItem18.Text = "Institution SO"
-        RadListDataItem19.Text = "Distributor"
-        RadListDataItem20.Text = "Others"
-        RadListDataItem21.Text = "UP COUNTRY"
-        RadListDataItem22.Text = "FORENOON"
-        RadListDataItem23.Text = "PARLOR SALES"
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem16)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem17)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem18)
+        RadListDataItem19.Text = "Select"
+        RadListDataItem20.Text = "Institution CR"
+        RadListDataItem21.Text = "Institution SO"
+        RadListDataItem22.Text = "Distributor"
+        RadListDataItem23.Text = "Others"
+        RadListDataItem24.Text = "UP COUNTRY"
+        RadListDataItem25.Text = "FORENOON"
+        RadListDataItem26.Text = "PARLOR SALES"
         Me.cmbCustomerCategory.Items.Add(RadListDataItem19)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem20)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem21)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem22)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem23)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem24)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem25)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem26)
         Me.cmbCustomerCategory.Location = New System.Drawing.Point(695, 217)
         Me.cmbCustomerCategory.MendatroryField = False
         Me.cmbCustomerCategory.MyLinkLable1 = Nothing
@@ -4461,20 +4512,20 @@ Partial Class frmCustomer
         Me.cmbBookingType.IsSourceFromTable = False
         Me.cmbBookingType.IsSourceFromValueList = False
         Me.cmbBookingType.IsUnique = False
-        RadListDataItem24.Text = "Select"
-        RadListDataItem25.Text = "CD"
-        RadListDataItem26.Text = "CR"
-        RadListDataItem27.Text = "SO"
-        RadListDataItem28.Text = "Cash"
-        RadListDataItem29.Text = "Festive Offer"
-        RadListDataItem30.Text = "Form F"
-        Me.cmbBookingType.Items.Add(RadListDataItem24)
-        Me.cmbBookingType.Items.Add(RadListDataItem25)
-        Me.cmbBookingType.Items.Add(RadListDataItem26)
+        RadListDataItem27.Text = "Select"
+        RadListDataItem28.Text = "CD"
+        RadListDataItem29.Text = "CR"
+        RadListDataItem30.Text = "SO"
+        RadListDataItem31.Text = "Cash"
+        RadListDataItem32.Text = "Festive Offer"
+        RadListDataItem33.Text = "Form F"
         Me.cmbBookingType.Items.Add(RadListDataItem27)
         Me.cmbBookingType.Items.Add(RadListDataItem28)
         Me.cmbBookingType.Items.Add(RadListDataItem29)
         Me.cmbBookingType.Items.Add(RadListDataItem30)
+        Me.cmbBookingType.Items.Add(RadListDataItem31)
+        Me.cmbBookingType.Items.Add(RadListDataItem32)
+        Me.cmbBookingType.Items.Add(RadListDataItem33)
         Me.cmbBookingType.Location = New System.Drawing.Point(388, 217)
         Me.cmbBookingType.MendatroryField = False
         Me.cmbBookingType.MyLinkLable1 = Nothing
@@ -6072,12 +6123,12 @@ Partial Class frmCustomer
         Me.CmbTransaction.IsSourceFromTable = False
         Me.CmbTransaction.IsSourceFromValueList = False
         Me.CmbTransaction.IsUnique = False
-        RadListDataItem31.Text = "Retail"
-        RadListDataItem32.Text = "Tax"
-        RadListDataItem33.Text = "Vendor"
-        Me.CmbTransaction.Items.Add(RadListDataItem31)
-        Me.CmbTransaction.Items.Add(RadListDataItem32)
-        Me.CmbTransaction.Items.Add(RadListDataItem33)
+        RadListDataItem34.Text = "Retail"
+        RadListDataItem35.Text = "Tax"
+        RadListDataItem36.Text = "Vendor"
+        Me.CmbTransaction.Items.Add(RadListDataItem34)
+        Me.CmbTransaction.Items.Add(RadListDataItem35)
+        Me.CmbTransaction.Items.Add(RadListDataItem36)
         Me.CmbTransaction.Location = New System.Drawing.Point(488, 49)
         Me.CmbTransaction.MendatroryField = True
         Me.CmbTransaction.MyLinkLable1 = Me.lblTransaction
@@ -6304,7 +6355,7 @@ Partial Class frmCustomer
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1079, 599)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1079, 589)
         Me.SplitContainer1.SplitterDistance = 94
         Me.SplitContainer1.TabIndex = 79
         '
@@ -6560,14 +6611,14 @@ Partial Class frmCustomer
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1079, 501)
-        Me.SplitContainer2.SplitterDistance = 472
+        Me.SplitContainer2.Size = New System.Drawing.Size(1079, 491)
+        Me.SplitContainer2.SplitterDistance = 462
         Me.SplitContainer2.TabIndex = 0
         '
         'rbtnAddSecurity
         '
         Me.rbtnAddSecurity.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.rbtnAddSecurity.Location = New System.Drawing.Point(252, 4)
+        Me.rbtnAddSecurity.Location = New System.Drawing.Point(252, 3)
         Me.rbtnAddSecurity.Name = "rbtnAddSecurity"
         Me.rbtnAddSecurity.Size = New System.Drawing.Size(80, 18)
         Me.rbtnAddSecurity.TabIndex = 17
@@ -6586,7 +6637,7 @@ Partial Class frmCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1079, 619)
+        Me.ClientSize = New System.Drawing.Size(1079, 609)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -6773,8 +6824,10 @@ Partial Class frmCustomer
         CType(Me.lblIRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
+        Me.pnlParentCust.ResumeLayout(False)
+        Me.pnlParentCust.PerformLayout()
+        CType(Me.cboCustType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblParentCustDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtParentCstmrNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7203,7 +7256,7 @@ Partial Class frmCustomer
     Friend WithEvents txtResidentialAdd2 As common.Controls.MyTextBox
     Friend WithEvents MyLabel33 As common.Controls.MyLabel
     Friend WithEvents btnCC As RadButton
-    Friend WithEvents Panel2 As Panel
+    Friend WithEvents pnlParentCust As Panel
     Friend WithEvents txtArea As common.UserControls.txtFinder
     Friend WithEvents MyLabel35 As common.Controls.MyLabel
     Friend WithEvents MyLabel34 As common.Controls.MyLabel
@@ -7273,5 +7326,7 @@ Partial Class frmCustomer
     Friend WithEvents chkSkipNonTaxableInvoice As RadCheckBox
     Friend WithEvents chkInterUnionSale As RadCheckBox
     Friend WithEvents chkpermanentInactive As RadCheckBox
+    Friend WithEvents cboCustType As common.Controls.MyComboBox
+    Friend WithEvents MyLabel48 As common.Controls.MyLabel
 End Class
 

@@ -324,7 +324,7 @@
       <HintPath>lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.1.6.91, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertCommon, Version=2.1.6.93, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>

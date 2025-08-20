@@ -33,6 +33,12 @@ Partial Class frmDairyGatePass
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.lblDemandNo = New common.Controls.MyLabel()
         Me.txtDemandNo = New common.UserControls.txtFinder()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.lblOpKM = New common.Controls.MyLabel()
+        Me.txtOpKM = New common.MyNumBox()
+        Me.txtClKM = New common.MyNumBox()
+        Me.lblClKM = New common.Controls.MyLabel()
         Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkGhee = New Telerik.WinControls.UI.RadCheckBox()
         Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
@@ -71,12 +77,6 @@ Partial Class frmDairyGatePass
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.lblOpKM = New common.Controls.MyLabel()
-        Me.txtOpKM = New common.MyNumBox()
-        Me.txtClKM = New common.MyNumBox()
-        Me.lblClKM = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
@@ -133,6 +133,12 @@ Partial Class frmDairyGatePass
         CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblOpKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOpKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtClKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblClKM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -170,12 +176,6 @@ Partial Class frmDairyGatePass
         CType(Me.txtSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel2.SuspendLayout()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblOpKM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtOpKM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtClKM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblClKM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalCan, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -392,6 +392,103 @@ Partial Class frmDairyGatePass
         Me.txtDemandNo.TabIndex = 1459
         Me.txtDemandNo.Value = ""
         '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.MyLabel8)
+        Me.Panel2.Controls.Add(Me.lblOpKM)
+        Me.Panel2.Controls.Add(Me.txtOpKM)
+        Me.Panel2.Controls.Add(Me.txtClKM)
+        Me.Panel2.Controls.Add(Me.lblClKM)
+        Me.Panel2.Location = New System.Drawing.Point(899, 27)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(278, 24)
+        Me.Panel2.TabIndex = 81
+        Me.Panel2.Visible = False
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(475, 3)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel8.TabIndex = 81
+        Me.MyLabel8.Text = "Date"
+        '
+        'lblOpKM
+        '
+        Me.lblOpKM.FieldName = Nothing
+        Me.lblOpKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOpKM.Location = New System.Drawing.Point(3, 4)
+        Me.lblOpKM.Name = "lblOpKM"
+        Me.lblOpKM.Size = New System.Drawing.Size(69, 16)
+        Me.lblOpKM.TabIndex = 77
+        Me.lblOpKM.Text = "Opening KM"
+        '
+        'txtOpKM
+        '
+        Me.txtOpKM.BackColor = System.Drawing.Color.White
+        Me.txtOpKM.CalculationExpression = Nothing
+        Me.txtOpKM.DecimalPlaces = 0
+        Me.txtOpKM.FieldCode = Nothing
+        Me.txtOpKM.FieldDesc = Nothing
+        Me.txtOpKM.FieldMaxLength = 5
+        Me.txtOpKM.FieldName = Nothing
+        Me.txtOpKM.isCalculatedField = False
+        Me.txtOpKM.IsSourceFromTable = False
+        Me.txtOpKM.IsSourceFromValueList = False
+        Me.txtOpKM.IsUnique = False
+        Me.txtOpKM.Location = New System.Drawing.Point(78, 2)
+        Me.txtOpKM.MendatroryField = False
+        Me.txtOpKM.MyLinkLable1 = Me.lblOpKM
+        Me.txtOpKM.MyLinkLable2 = Nothing
+        Me.txtOpKM.Name = "txtOpKM"
+        Me.txtOpKM.ReferenceFieldDesc = Nothing
+        Me.txtOpKM.ReferenceFieldName = Nothing
+        Me.txtOpKM.ReferenceTableName = Nothing
+        Me.txtOpKM.Size = New System.Drawing.Size(55, 20)
+        Me.txtOpKM.TabIndex = 76
+        Me.txtOpKM.Text = "0"
+        Me.txtOpKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtOpKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'txtClKM
+        '
+        Me.txtClKM.BackColor = System.Drawing.Color.White
+        Me.txtClKM.CalculationExpression = Nothing
+        Me.txtClKM.DecimalPlaces = 0
+        Me.txtClKM.FieldCode = Nothing
+        Me.txtClKM.FieldDesc = Nothing
+        Me.txtClKM.FieldMaxLength = 5
+        Me.txtClKM.FieldName = Nothing
+        Me.txtClKM.isCalculatedField = False
+        Me.txtClKM.IsSourceFromTable = False
+        Me.txtClKM.IsSourceFromValueList = False
+        Me.txtClKM.IsUnique = False
+        Me.txtClKM.Location = New System.Drawing.Point(206, 3)
+        Me.txtClKM.MendatroryField = False
+        Me.txtClKM.MyLinkLable1 = Me.lblClKM
+        Me.txtClKM.MyLinkLable2 = Nothing
+        Me.txtClKM.Name = "txtClKM"
+        Me.txtClKM.ReferenceFieldDesc = Nothing
+        Me.txtClKM.ReferenceFieldName = Nothing
+        Me.txtClKM.ReferenceTableName = Nothing
+        Me.txtClKM.Size = New System.Drawing.Size(61, 20)
+        Me.txtClKM.TabIndex = 78
+        Me.txtClKM.Text = "0"
+        Me.txtClKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtClKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'lblClKM
+        '
+        Me.lblClKM.FieldName = Nothing
+        Me.lblClKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblClKM.Location = New System.Drawing.Point(136, 4)
+        Me.lblClKM.Name = "lblClKM"
+        Me.lblClKM.Size = New System.Drawing.Size(64, 16)
+        Me.lblClKM.TabIndex = 79
+        Me.lblClKM.Text = "Closing KM"
+        '
         'chkIndividualCustomer
         '
         Me.chkIndividualCustomer.Location = New System.Drawing.Point(507, 28)
@@ -417,7 +514,7 @@ Partial Class frmDairyGatePass
         Me.rgbItemType.Controls.Add(Me.rbtn_product)
         Me.rgbItemType.Controls.Add(Me.rbtn_Milk)
         Me.rgbItemType.HeaderText = ""
-        Me.rgbItemType.Location = New System.Drawing.Point(853, 111)
+        Me.rgbItemType.Location = New System.Drawing.Point(883, 111)
         Me.rgbItemType.Name = "rgbItemType"
         Me.rgbItemType.Size = New System.Drawing.Size(97, 60)
         Me.rgbItemType.TabIndex = 1046
@@ -739,9 +836,9 @@ Partial Class frmDairyGatePass
         Me.RadGroupBox3.Controls.Add(Me.rbtnEvening)
         Me.RadGroupBox3.Controls.Add(Me.rbtnMorning)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(956, 108)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(985, 112)
         Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(73, 55)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(97, 60)
         Me.RadGroupBox3.TabIndex = 1033
         '
         'rbtnEvening
@@ -933,103 +1030,6 @@ Partial Class frmDairyGatePass
         Me.UsLock1.Size = New System.Drawing.Size(91, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 82
-        '
-        'Panel2
-        '
-        Me.Panel2.Controls.Add(Me.MyLabel8)
-        Me.Panel2.Controls.Add(Me.lblOpKM)
-        Me.Panel2.Controls.Add(Me.txtOpKM)
-        Me.Panel2.Controls.Add(Me.txtClKM)
-        Me.Panel2.Controls.Add(Me.lblClKM)
-        Me.Panel2.Location = New System.Drawing.Point(899, 27)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(278, 24)
-        Me.Panel2.TabIndex = 81
-        Me.Panel2.Visible = False
-        '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(475, 3)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(30, 16)
-        Me.MyLabel8.TabIndex = 81
-        Me.MyLabel8.Text = "Date"
-        '
-        'lblOpKM
-        '
-        Me.lblOpKM.FieldName = Nothing
-        Me.lblOpKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOpKM.Location = New System.Drawing.Point(3, 4)
-        Me.lblOpKM.Name = "lblOpKM"
-        Me.lblOpKM.Size = New System.Drawing.Size(69, 16)
-        Me.lblOpKM.TabIndex = 77
-        Me.lblOpKM.Text = "Opening KM"
-        '
-        'txtOpKM
-        '
-        Me.txtOpKM.BackColor = System.Drawing.Color.White
-        Me.txtOpKM.CalculationExpression = Nothing
-        Me.txtOpKM.DecimalPlaces = 0
-        Me.txtOpKM.FieldCode = Nothing
-        Me.txtOpKM.FieldDesc = Nothing
-        Me.txtOpKM.FieldMaxLength = 5
-        Me.txtOpKM.FieldName = Nothing
-        Me.txtOpKM.isCalculatedField = False
-        Me.txtOpKM.IsSourceFromTable = False
-        Me.txtOpKM.IsSourceFromValueList = False
-        Me.txtOpKM.IsUnique = False
-        Me.txtOpKM.Location = New System.Drawing.Point(78, 2)
-        Me.txtOpKM.MendatroryField = False
-        Me.txtOpKM.MyLinkLable1 = Me.lblOpKM
-        Me.txtOpKM.MyLinkLable2 = Nothing
-        Me.txtOpKM.Name = "txtOpKM"
-        Me.txtOpKM.ReferenceFieldDesc = Nothing
-        Me.txtOpKM.ReferenceFieldName = Nothing
-        Me.txtOpKM.ReferenceTableName = Nothing
-        Me.txtOpKM.Size = New System.Drawing.Size(55, 20)
-        Me.txtOpKM.TabIndex = 76
-        Me.txtOpKM.Text = "0"
-        Me.txtOpKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOpKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'txtClKM
-        '
-        Me.txtClKM.BackColor = System.Drawing.Color.White
-        Me.txtClKM.CalculationExpression = Nothing
-        Me.txtClKM.DecimalPlaces = 0
-        Me.txtClKM.FieldCode = Nothing
-        Me.txtClKM.FieldDesc = Nothing
-        Me.txtClKM.FieldMaxLength = 5
-        Me.txtClKM.FieldName = Nothing
-        Me.txtClKM.isCalculatedField = False
-        Me.txtClKM.IsSourceFromTable = False
-        Me.txtClKM.IsSourceFromValueList = False
-        Me.txtClKM.IsUnique = False
-        Me.txtClKM.Location = New System.Drawing.Point(206, 3)
-        Me.txtClKM.MendatroryField = False
-        Me.txtClKM.MyLinkLable1 = Me.lblClKM
-        Me.txtClKM.MyLinkLable2 = Nothing
-        Me.txtClKM.Name = "txtClKM"
-        Me.txtClKM.ReferenceFieldDesc = Nothing
-        Me.txtClKM.ReferenceFieldName = Nothing
-        Me.txtClKM.ReferenceTableName = Nothing
-        Me.txtClKM.Size = New System.Drawing.Size(61, 20)
-        Me.txtClKM.TabIndex = 78
-        Me.txtClKM.Text = "0"
-        Me.txtClKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtClKM.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'lblClKM
-        '
-        Me.lblClKM.FieldName = Nothing
-        Me.lblClKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblClKM.Location = New System.Drawing.Point(136, 4)
-        Me.lblClKM.Name = "lblClKM"
-        Me.lblClKM.Size = New System.Drawing.Size(64, 16)
-        Me.lblClKM.TabIndex = 79
-        Me.lblClKM.Text = "Closing KM"
         '
         'MyLabel6
         '
@@ -1711,6 +1711,13 @@ Partial Class frmDairyGatePass
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.lblDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblOpKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOpKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtClKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblClKM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIndividualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1750,13 +1757,6 @@ Partial Class frmDairyGatePass
         CType(Me.txtSalesman, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblOpKM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtOpKM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtClKM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblClKM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalCan, System.ComponentModel.ISupportInitialize).EndInit()
