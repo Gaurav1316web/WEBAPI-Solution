@@ -25401,6 +25401,7 @@ Public Class clsCreateAllTable
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null unique references TSPL_MILK_SRN_HEAD(DOC_CODE)")
+            coll.Add("VLC_CODE", "VARCHAR(30) NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
             coll.Add("Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
             coll.Add("UOM_Code", "VARCHAR(30) not NULL")
             coll.Add("FAT_PER", "DECIMAL(5,3) NULL")

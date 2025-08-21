@@ -930,10 +930,10 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
         Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, Remark, False)
     End Sub
     Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String, ByVal MarkAsSuspence As Boolean)
-        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, Remark, MarkAsSuspence, False, "")
+        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, IsOwnBMCAdjustment, Form_ID, strRejectType, Remark, MarkAsSuspence, False, "", "")
     End Sub
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String, ByVal MarkAsSuspence As Boolean, ByVal MarkAsAdulteration As Boolean, ByVal SuspenceRemarks As String)
-        Dim strRouteCode As String = ""
+    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean, ByVal Form_ID As String, ByVal strRejectType As String, ByVal Remark As String, ByVal MarkAsSuspence As Boolean, ByVal MarkAsAdulteration As Boolean, ByVal SuspenceRemarks As String, ByVal strRouteCode As String)
+        'Dim strRouteCode As String = ""
         Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Trans)) > 0)
         Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, Trans)) > 0)
         Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
@@ -987,7 +987,9 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'"
             Dim conv_fac As Decimal = clsWeightConversionInfo.GetConversion_factor(clsMilkSRNMCC.ObjList(0).Item_CODE, Unit_Code, IIf(clsCommon.CompairString(Unit_Code, "KG") = CompairStringResult.Equal, "LTR", "KG"), Trans)
 
             Dim qry As String
-
+            If clsCommon.myLen(strRouteCode) > 0 Then
+                objHead.ROUTE_CODE = strRouteCode
+            End If
 
             Dim strMilkType As String = objHead.Dock_Collection_Milk_Type
             If objCommonVar.DisplayTypeInMilkReceipt Then

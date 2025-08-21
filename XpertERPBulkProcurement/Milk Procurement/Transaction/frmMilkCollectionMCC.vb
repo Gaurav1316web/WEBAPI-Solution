@@ -109,87 +109,11 @@ Public Class frmMilkCollectionMCC
         'End If
     End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "Datetime NOT NULL")
-        coll.Add("Late", "int Null")
-        coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
-        coll.Add("Vehicle_No", "Varchar(150) not null")
-        coll.Add("Entered_Qty", "Decimal(18,3) null")
-        coll.Add("Entered_FATKg", "Decimal(18,3) null")
-        coll.Add("Entered_SNFKg", "Decimal(18,3) null")
-        coll.Add("Original_Qty", "Decimal(18,3) null")
-        coll.Add("Original_FATKg", "Decimal(18,3) null")
-        coll.Add("Original_SNFKg", "Decimal(18,3) null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("FAT_SNF_Type", "int Null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Temp", "Decimal(18,2) null")
-        coll.Add("Age", "Decimal(18,2) null")
-        coll.Add("ALCOB", "varchar(3) NULL")
-        coll.Add("Acidity", "Decimal(18,2) null")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        coll.Add("Slip_No", "Varchar(30) null")
-        coll.Add("Trip_No", "Integer not NULL default 1")
-        coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
-        coll.Add("ORG", "Varchar(10) null")
-        coll.Add("Retesting_FAT", "Decimal(18,2) null")
-        coll.Add("Retesting_SNF", "Decimal(18,2) null")
-        coll.Add("Retesting_CLR", "Decimal(18,2) null")
-        coll.Add("Correction_Qty", "Decimal(18,3) null")
-        coll.Add("Correction_FAT", "Decimal(18,2) null")
-        coll.Add("Correction_SNF", "Decimal(18,2) null")
-        coll.Add("operation_type", "VARCHAR(50)")
-        coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
-        coll.Add("Remark", "varchar(200) NULL")
+        Dim coll As New Dictionary(Of String, String)
+        coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
+        coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_MCC(Document_No)")
-        coll.Add("SNo", "Integer NULL")
-        coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
-        coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FATKG", "Decimal(18,3) null")
-        coll.Add("SNFKG", "Decimal(18,3) null")
-        coll.Add("Original_Qty", "Decimal(18,3) null")
-        coll.Add("Original_FATKg", "Decimal(18,3) null")
-        coll.Add("Original_SNFKg", "Decimal(18,3) null")
-        coll.Add("Gaze_Reading", "Decimal(18,1) null")
-        coll.Add("Silo_Capacity", "integer null")
-        coll.Add("Temp", "Decimal(18,2) null")
-        coll.Add("Sample_No", "integer null")
-        coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
-        coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
-        coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
-        coll.Add("Against_Multiple_Days_Merge_Day_Detail", "integer NULL references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE_DAY_DETAIL(PK_Id)")
-        coll.Add("Machine_FAT", "Decimal(18,2) null")
-        coll.Add("Machine_SNF", "Decimal(18,2) null")
-        coll.Add("Retesting_FAT", "Decimal(18,2) null")
-        coll.Add("Retesting_SNF", "Decimal(18,2) null")
-        coll.Add("Retesting_CLR", "Decimal(18,2) null")
-        coll.Add("Retesting_OR_Correction", "integer null")
-        coll.Add("Correction_Qty", "Decimal(18,3) null")
-        coll.Add("Correction_FAT", "Decimal(18,2) null")
-        coll.Add("Correction_SNF", "Decimal(18,2) null")
-        coll.Add("Gaze_Qty", "Decimal(18,2) null")
-        coll.Add("Milk_Not_Picked", "int Null")
-        coll.Add("Required_Retesting", "int Null")
-        coll.Add("Retesting_By", "varchar(12)  NULL")
-        coll.Add("Retesting_Date", "Datetime  NULL")
-        coll.Add("Remark", "varchar(200) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, True, "TSPL_MILK_COLLECTION_MCC", "Document_No", "", True)
+
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
@@ -218,6 +142,7 @@ Public Class frmMilkCollectionMCC
         LoadFATSNFType()
         AddNew()
         SetUserMgmtNew()
+        LoadReject()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtMDate.Value = clsCommon.GETSERVERDATE()
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
@@ -232,6 +157,11 @@ Public Class frmMilkCollectionMCC
             txtTotEnteredSNF.Enabled = True
         End If
         AllowSMS()
+    End Sub
+    Public Sub LoadReject()
+        cboRejectType.DataSource = clsMilkReceiptMCC.GetReject(False)
+        cboRejectType.ValueMember = "Code"
+        cboRejectType.DisplayMember = "Name"
     End Sub
     Sub AllowSMS()
         Dim Check As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("Select Is_SMS_Applied from TSPL_PROGRAM_MASTER Where Program_Code='" + Form_ID + "'"))
@@ -306,6 +236,8 @@ Public Class frmMilkCollectionMCC
         isNewEntry = True
         txtRoute.Value = ""
         lblRoute.Text = ""
+        cboRejectType.SelectedValue = ""
+        txtRejectRecoveryPer.Value = 0
         txtVehicleNo.Text = ""
         txtTotEnteredQty.Text = ""
         txtTotEnteredFAT.Text = ""
@@ -1029,7 +961,7 @@ Public Class frmMilkCollectionMCC
         Dim qry As String = " select tspl_Silo_Detail.Silo_Area as Capacity,tspl_Silo_Detail.Gaze_Reading_Code as [Gaze Reading Code],TSPL_GAZE_READING.Description as [Description] from tspl_Silo_Detail 
 Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaze_Reading_Code "
         Dim whr As String = "tspl_Silo_Detail.Prog_Code='MCC-MST' and tspl_Silo_Detail.Trans_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCCode).Value) + "'"
-      Dim dr As DataRow=  clsCommon.ShowSelectFormForRow("MCCSiloF", qry + " Where " + whr)
+        Dim dr As DataRow = clsCommon.ShowSelectFormForRow("MCCSiloF", qry + " Where " + whr)
         If dr IsNot Nothing Then
             gv1.CurrentRow.Cells(colMCCSiloCapacity).Value = clsCommon.myCstr(dr("Capacity"))
             gv1.CurrentRow.Cells(colGazeReadingCode).Value = clsCommon.myCstr(dr("Gaze Reading Code"))
@@ -1108,6 +1040,14 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             txtTripNo.Focus()
             Throw New Exception("Please Provide Trip no")
         End If
+        If clsCommon.myLen(cboRejectType.SelectedValue) > 0 Then
+            If txtRejectRecoveryPer.Value <= 0 Then
+                Throw New Exception("Please define recovery %")
+            End If
+            If txtRejectRecoveryPer.Value > 100 Then
+                Throw New Exception("Please recovery % can't be more than 100")
+            End If
+        End If
         Dim qry As String = "select Count(Trip_No) as TripNo from TSPL_MILK_COLLECTION_MCC where Trip_No='" + clsCommon.myCstr(txtTripNo.Value) + "' And Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' And convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) = '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "'and Document_No='" + txtDocNo.Value + "'"
         Dim _count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
         If (_count > 0) Then
@@ -1152,6 +1092,8 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 obj.Original_SNFKg = txtTotEnteredSNF.Value
                 obj.Slip_No = txtSlipNo.Text
                 obj.Description = txtDesc.Text
+                obj.Reject_Type = clsCommon.myCstr(cboRejectType.SelectedValue)
+                obj.Reject_Recovery_Per = txtRejectRecoveryPer.Value
                 obj.Arr = GetTRData(False)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     Throw New Exception("Please Fill at list one Item")
@@ -1244,7 +1186,8 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
                 txtDesc.Text = obj.Description
                 txtSlipNo.Text = obj.Slip_No
-
+                cboRejectType.SelectedValue = obj.Reject_Type
+                txtRejectRecoveryPer.Value = obj.Reject_Recovery_Per
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsMilkCollectionMCCDetail In obj.Arr
                         gv1.Rows.AddNew()
