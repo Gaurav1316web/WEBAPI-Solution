@@ -12,6 +12,7 @@ Public Class frmDairyBookingCustomer
     Dim isRCDFRateControl As Boolean = False
     Dim OneTimeCheck As Boolean = False
     Dim ApplyDefaultTCSIsChecked As Boolean = False
+    Dim HideOutstanding As Boolean = True
     Dim ApplyManualScheme As Boolean = False
     Dim ApplyItemCapacityLimit As Boolean = False
     Dim isloadBookingTypeValues As Boolean = True
@@ -1549,7 +1550,7 @@ Public Class frmDairyBookingCustomer
         ''''''''''''scheme
         dt = clsDBFuncationality.GetDataTable(qry)
         If dt.Rows.Count > 0 Then
-            If chkSampling.Checked = True Then
+            If chkSampling.Checked Then
                 gv1.Rows(introw).Cells(colSellingRate).Value = clsCommon.myCdbl(0)
                 gv1.Rows(introw).Cells(colOrgRate).Value = clsCommon.myCdbl(0)
                 gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(0)
@@ -1565,16 +1566,16 @@ Public Class frmDairyBookingCustomer
                 gv1.Rows(introw).Cells(colPricePlanNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Plan_Code  from TSPL_ITEM_PRICE_PLAN_DETAIL WHERE PLAN_TR_CODE='" & clsCommon.myCstr(dt.Rows(0).Item("Against_Plan_TR_Code")) & "'"))
 
             End If
-            If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
+            If ShowMulMRPOfSameItemOnDairyBookingCustomer Then
                 isCellValueChangedOpen = True
             End If
-            If chkSampling.Checked = True Then
+            If chkSampling.Checked Then
                 gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(0)
             Else
                 gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
             End If
             'gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
-            If ShowMulMRPOfSameItemOnDairyBookingCustomer = True Then
+            If ShowMulMRPOfSameItemOnDairyBookingCustomer Then
                 isCellValueChangedOpen = False
             End If
             gv1.Rows(introw).Cells(colTBaseAmt).Value = tax_on_amt
@@ -2783,6 +2784,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         chkDCS.Checked = False
         chkDCS.Visible = False
         chkSampling.Enabled = True
+        chkSampling.Checked = False
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
@@ -2958,7 +2960,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             End If
 
         End If
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+        If HideOutstanding Then
             lblOutStanding.Visible = False
             lblOutstandingDesc.Visible = False
             lblUnbilledMilk.Visible = False
@@ -5167,14 +5169,14 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.E Then
             btnprinte_wayBill.Visible = True
         ElseIf e.Control AndAlso e.KeyCode = Keys.F Then
-            If PanelSearchItem.Visible = True Then
+            If PanelSearchItem.Visible Then
                 PanelSearchItem.Visible = False
             Else
                 PanelSearchItem.Visible = True
             End If
-
-
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+        ElseIf e.Control AndAlso e.KeyCode = Keys.H Then
+            HideOutstanding = False
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = clsFixedParameterType.SIR
@@ -5288,7 +5290,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                 ''richa VIJ/18/12/19-000123
                 ' CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                If HideOutstanding Then
                     If chkDCS.Checked Then
                         GetOutStandingBal(txtVendorNo.Value, docdate)
                     Else
@@ -6328,10 +6330,11 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
     ''richa 16 Sep,2019 ERO/11/09/19-001027
     Private Sub chkSampling_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkSampling.ToggleStateChanged
         For i As Integer = 0 To gv1.Rows.Count - 1
-            If chkSampling.Checked = False And DonotAllowtoChangeUOMinDairyBookingCustomer = True Then
+            If Not chkSampling.Checked AndAlso DonotAllowtoChangeUOMinDairyBookingCustomer Then
                 gv1.Rows(i).Cells(colUnit).ReadOnly = True
             Else
                 gv1.Rows(i).Cells(colUnit).ReadOnly = False
+                chkSampling.Enabled = False
             End If
         Next
     End Sub

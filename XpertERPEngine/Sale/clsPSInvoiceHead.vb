@@ -1705,7 +1705,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
 
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 Then
                 If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
                     If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
