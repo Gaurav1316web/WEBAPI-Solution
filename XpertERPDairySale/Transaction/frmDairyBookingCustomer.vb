@@ -1382,6 +1382,7 @@ Public Class frmDairyBookingCustomer
     End Sub
     Sub OpenItemList(ByVal isButtonClick As Boolean)
         Dim strTax As String = Nothing
+        chkSampling.Enabled = False
         GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
         Dim whrCls As String = ""
         If CreateCommonDairyDispatchforFreshAmbient = 0 Then
@@ -2783,8 +2784,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         chkDistributor.Checked = True
         chkDCS.Checked = False
         chkDCS.Visible = False
-        chkSampling.Enabled = True
         chkSampling.Checked = False
+        chkSampling.Enabled = True
         txtDCSDemandNo.Text = ""
         lblDCSDemand.Visible = False
         txtDCSDemandNo.Visible = False
@@ -2960,7 +2961,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             End If
 
         End If
-        If HideOutstanding Then
+        If Not HideOutstanding Then
             lblOutStanding.Visible = False
             lblOutstandingDesc.Visible = False
             lblUnbilledMilk.Visible = False
@@ -5290,7 +5291,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                 ''richa VIJ/18/12/19-000123
                 ' CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                If HideOutstanding Then
+                If Not HideOutstanding Then
                     If chkDCS.Checked Then
                         GetOutStandingBal(txtVendorNo.Value, docdate)
                     Else
@@ -6334,9 +6335,14 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" + clsCommon.GetPrintDate(txtDa
                 gv1.Rows(i).Cells(colUnit).ReadOnly = True
             Else
                 gv1.Rows(i).Cells(colUnit).ReadOnly = False
-                chkSampling.Enabled = False
             End If
         Next
+        If chkSampling.Checked Then
+            chkSampling.Enabled = False
+        Else
+            chkSampling.Enabled = True
+
+        End If
     End Sub
     Private Sub cmbBookingType_Leave(sender As Object, e As EventArgs)
         If clsCommon.CompairString(cmbcashcredit.Text, "Select") <> CompairStringResult.Equal Then
