@@ -2961,11 +2961,16 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             End If
 
         End If
-        If Not HideOutstanding Then
+        If HideOutstanding Then
             lblOutStanding.Visible = False
             lblOutstandingDesc.Visible = False
             lblUnbilledMilk.Visible = False
             lblUnbilledMilkAmt.Visible = False
+        Else
+            lblOutStanding.Visible = True
+            lblOutstandingDesc.Visible = True
+            lblUnbilledMilk.Visible = True
+            lblUnbilledMilkAmt.Visible = True
         End If
         If ApplyTPT Then
             chkTPT.Visible = True
