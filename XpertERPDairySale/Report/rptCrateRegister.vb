@@ -68,7 +68,8 @@ Public Class rptCrateRegister
             If MultArea.arrValueMember IsNot Nothing AndAlso MultArea.arrValueMember.Count > 0 Then
                 whrclsRoute += " and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code in (" + clsCommon.GetMulcallString(MultArea.arrValueMember) + ")"
             End If
-            qry = " 
+            qry = "  SELECT *
+FROM(
 select
 '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,
 Route_No,max(Route_Desc)Route_Desc,Customer_Code, max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Code)Location_Code,max(Location_Desc)Location_Desc, max(Vehicle_Id)Vehicle_Id,max(Vehicle_Number)Vehicle_Number 
@@ -86,7 +87,8 @@ left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_
 LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code 
 left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code
 where 2=2  " + whrclsRoute + " " + whrclsCust + "
-)xx group by Customer_Code,Route_No
+)xx group by Customer_Code,Route_No) final
+WHERE NOT (OP = 0 AND Supply = 0 AND [Return] = 0 AND CL = 0)
                                "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
@@ -209,10 +211,12 @@ where 2=2  " + whrclsRoute + " " + whrclsCust + "
 
         Dim Supply As New GridViewSummaryItem("Supply", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(Supply)
-        Dim ReturnQty As New GridViewSummaryItem("ReturnQty", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(ReturnQty)
-        Dim CloseingBal As New GridViewSummaryItem("CloseingBal", "{0:n2}", GridAggregateFunction.Sum)
+        Dim Returnqty As New GridViewSummaryItem("Return", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(Returnqty)
+        Dim CloseingBal As New GridViewSummaryItem("CL", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(CloseingBal)
+        Dim OpeningBal As New GridViewSummaryItem("OP", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(OpeningBal)
         gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
         gv2.AutoSizeRows = True
         gv2.BestFitColumns()
