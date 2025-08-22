@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 ' Review the values of the assembly attributes 
 <Assembly: AssemblyTitle("XPERT ERP")>
-<Assembly: AssemblyDescription("20-08-2025")>
+<Assembly: AssemblyDescription("22-08-2025")>
 <Assembly: AssemblyCompany("Tecxpert Software Private Limited")>
 <Assembly: AssemblyCopyright("Copyright © Tecxpert 2008-2025")>
 <Assembly: AssemblyTrademark("")>
@@ -15,5 +15,5 @@ Imports System.Runtime.InteropServices
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("30f2e993-87ce-4f88-a9fa-ea12e3f50930")>
-<Assembly: AssemblyVersion("7.1.4.91")>
-<Assembly: AssemblyFileVersion("7.1.4.91")>
+<Assembly: AssemblyVersion("7.1.4.92")>
+<Assembly: AssemblyFileVersion("7.1.4.92")>
