@@ -15,6 +15,7 @@ Public Class frmMilkProcurementUploader
     Const colVLCCode As String = "colVLCCode"
     Const colVLCName As String = "colVLCName"
     Const colBulkRouteCode As String = "colBulkRouteCode"
+    Const colVehicleNo As String = "colVehicleNo"
     Const colNoOfCan As String = "colNoOfCan"
     Const colMilkWeight As String = "colMilkWeight"
     Const colFATPer As String = "colFATPer"
@@ -205,6 +206,14 @@ Public Class frmMilkProcurementUploader
         repoTextBox.HeaderText = "Bulk Route"
         repoTextBox.Name = colBulkRouteCode
         'repoTextBox.HeaderImage = Global.ERP.My.Resources.Resources.search4
+        repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTextBox.IsVisible = True
+        gv1.MasterTemplate.Columns.Add(repoTextBox)
+
+        repoTextBox = New GridViewTextBoxColumn()
+        repoTextBox.FormatString = ""
+        repoTextBox.HeaderText = "Vehicle No"
+        repoTextBox.Name = colVehicleNo
         repoTextBox.TextImageRelation = TextImageRelation.TextBeforeImage
         repoTextBox.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoTextBox)
@@ -891,8 +900,9 @@ Public Class frmMilkProcurementUploader
                             objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
                             objTr.Dock_Collection_Milk_Type_Auto = Not objCommonVar.SepratePriceChartForCamel
                             objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
-                            objTr.Bulk_Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colBulkRouteCode).Value)
-                            objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
+                        objTr.Bulk_Route_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colBulkRouteCode).Value)
+                        objTr.Vehicle_No = clsCommon.myCstr(gv1.Rows(ii).Cells(colVehicleNo).Value)
+                        objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
                             objTr.Milk_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMilkWeight).Value)
                             objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), 1, MidpointRounding.ToEven)
                             objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
@@ -1023,6 +1033,7 @@ Public Class frmMilkProcurementUploader
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCName).Tag = objTr.VLC_Name
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colBulkRouteCode).Value = objTr.Bulk_Route_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colBulkRouteCode).Tag = objTr.Bulk_Route_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVehicleNo).Value = objTr.Vehicle_No
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colNoOfCan).Value = objTr.No_Of_Cans
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colNoOfCan).Tag = objTr.No_Of_Cans
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkWeight).Value = objTr.Milk_Weight
@@ -1116,7 +1127,7 @@ Public Class frmMilkProcurementUploader
     End Sub
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
-        Dim qry As String = "select '01/JAN/2017' as Date,'M' as Shift,1 as 'S NO','' as 'Rt.Code',null as  'Route Name',null as 'VLC Code',null as 'VLC Name',null as 'VSP Name',null as 'Milk Type',null as 'Basic Rate',0 as 'Commission%',null as 'Qty (Ltr)',null as 'KGFat',null as 'KGSNF',null as 'FAT%',null as '" + IIf(isPickCLRInsteadOfSNF, "CLR", "SNF") + "%',0 as 'Avg. Rate',0 as 'KGFat Rate',0 as 'KGSNF Rate',0 as 'Milk Amount',0 as 'Std Milk (Ltr)',0 as 'Commission',0 as 'Incentive',0 as 'Total','' as [Milk Type(M/C/B)] "
+        Dim qry As String = "select '01/JAN/2017' as Date,'M' as Shift,1 as 'S NO','' as 'Rt.Code', '' as 'Vehicle No',null as  'Route Name',null as 'VLC Code',null as 'VLC Name',null as 'VSP Name',null as 'Milk Type',null as 'Basic Rate',0 as 'Commission%',null as 'Qty (Ltr)',null as 'KGFat',null as 'KGSNF',null as 'FAT%',null as '" + IIf(isPickCLRInsteadOfSNF, "CLR", "SNF") + "%',0 as 'Avg. Rate',0 as 'KGFat Rate',0 as 'KGSNF Rate',0 as 'Milk Amount',0 as 'Std Milk (Ltr)',0 as 'Commission',0 as 'Incentive',0 as 'Total','' as [Milk Type(M/C/B)] "
         If chkMilkReject.Checked Then
             qry = "select 'M' as Shift,1 as 'S NO',null as 'VLC Code',null as 'Qty (Ltr)',null as 'FAT%',null as 'SNF%','' as [Milk Type(M/C/B)],'' as  [Reject Type],'' as [Reject Defaulter]"
         End If
@@ -1136,9 +1147,9 @@ Public Class frmMilkProcurementUploader
             If chkMilkReject.Checked Then
                 isCorrect = transportSql.importExcel(gv, "Shift", "S NO", "VLC Code", "Qty (Ltr)", "FAT%", "SNF%", "Milk Type(M/C/B)", "Reject Type", "Reject Defaulter")
             ElseIf isPickCLRInsteadOfSNF Then
-                isCorrect = transportSql.importExcel(gv, "Date", "Shift", "S NO", "Rt.Code", "Route Name", "VLC Code", "VLC Name", "VSP Name", "Milk Type", "Basic Rate", "Commission%", "Qty (Ltr)", "KGFat", "KGSNF", "FAT%", "CLR%", "Avg. Rate", "KGFat Rate", "KGSNF Rate", "Milk Amount", "Std Milk (Ltr)", "Commission", "Incentive", "Total", "Milk Type(M/C/B)")
+                isCorrect = transportSql.importExcel(gv, "Date", "Shift", "S NO", "Rt.Code", "Vehicle No", "Route Name", "VLC Code", "VLC Name", "VSP Name", "Milk Type", "Basic Rate", "Commission%", "Qty (Ltr)", "KGFat", "KGSNF", "FAT%", "CLR%", "Avg. Rate", "KGFat Rate", "KGSNF Rate", "Milk Amount", "Std Milk (Ltr)", "Commission", "Incentive", "Total", "Milk Type(M/C/B)")
             Else
-                isCorrect = transportSql.importExcel(gv, "Date", "Shift", "S NO", "Rt.Code", "Route Name", "VLC Code", "VLC Name", "VSP Name", "Milk Type", "Basic Rate", "Commission%", "Qty (Ltr)", "KGFat", "KGSNF", "FAT%", "SNF%", "Avg. Rate", "KGFat Rate", "KGSNF Rate", "Milk Amount", "Std Milk (Ltr)", "Commission", "Incentive", "Total", "Milk Type(M/C/B)")
+                isCorrect = transportSql.importExcel(gv, "Date", "Shift", "S NO", "Rt.Code", "Vehicle No", "Route Name", "VLC Code", "VLC Name", "VSP Name", "Milk Type", "Basic Rate", "Commission%", "Qty (Ltr)", "KGFat", "KGSNF", "FAT%", "SNF%", "Avg. Rate", "KGFat Rate", "KGSNF Rate", "Milk Amount", "Std Milk (Ltr)", "Commission", "Incentive", "Total", "Milk Type(M/C/B)")
             End If
 
             If isCorrect Then
@@ -1198,6 +1209,7 @@ Public Class frmMilkProcurementUploader
                             End If
 
                             objTr.Bulk_Route_Code = clsCommon.myCstr(gv.Rows(ii).Cells("Rt.Code").Value)
+                            objTr.Vehicle_No = clsCommon.myCstr(gv.Rows(ii).Cells("Vehicle No").Value)
                             If clsCommon.myLen(objTr.Bulk_Route_Code) > 0 Then
                                 objTr.Bulk_Route_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + objTr.Bulk_Route_Code + "'"))
                                 If clsCommon.myLen(objTr.Bulk_Route_Code) <= 0 Then
@@ -1390,6 +1402,7 @@ ExitLOOP:
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colFATPer).Value = objTr.FAT
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = objTr.SNF
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBulkRouteCode).Value = objTr.Bulk_Route_Code
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVehicleNo).Value = objTr.Vehicle_No
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDockCollectionMilkType).Value = objTr.Dock_Collection_Milk_Type
                     TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     If chkMilkReject.Checked Then

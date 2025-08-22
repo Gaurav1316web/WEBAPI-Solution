@@ -15204,6 +15204,15 @@ Public Class clsCreateAllTable
             Catch ex As Exception
 
             End Try
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_CUSTOMER_MASTER' and COLUMN_NAME='TYPE'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing OrElse dt.Rows.Count > 0 Then
+                Try
+                    qry = "alter table TSPL_CUSTOMER_MASTER drop column Type"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                Catch ex As Exception
+                End Try
+            End If
             Try
                 clsDBFuncationality.ExecuteNonQuery("CREATE UNIQUE INDEX Unique_Virtual_AC_No ON TSPL_CUSTOMER_MASTER (Virtual_AC_No) WHERE Virtual_AC_No IS NOT NULL;")
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_CUSTOMER_MASTER set Split_Print='Auto 1' where Split_Print='Part 1'")
@@ -24360,6 +24369,7 @@ Public Class clsCreateAllTable
             coll.Add("Arrival_Time", "Datetime NULL")
             coll.Add("Weighment_Time", "Datetime NULL")
             coll.Add("Is_Drip_Saver", "Integer NULL")
+            coll.Add("Vehicle_No", "varchar(150) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)

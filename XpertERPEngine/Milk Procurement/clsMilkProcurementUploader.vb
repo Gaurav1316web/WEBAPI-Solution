@@ -860,6 +860,7 @@ Public Class clsMilkProcurementUploaderDetail
     Public VLC_Code As String
     Public VLC_Name As String
     Public Bulk_Route_Code As String
+    Public Vehicle_No As String
     Public No_Of_Cans As Integer
     Public Milk_Weight As Decimal
     Public FAT As Decimal
@@ -922,6 +923,7 @@ Public Class clsMilkProcurementUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "Reject_Defaulter", obj.Reject_Defaulter)
                 clsCommon.AddColumnsForChange(coll, "Against_Milk_Collection_DCS_Detail", obj.Against_Milk_Collection_DCS_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "Bulk_Route_Code", obj.Bulk_Route_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No, True)
                 clsCommon.AddColumnsForChange(coll, "Is_Drip_Saver", obj.Is_Drip_Saver, True)
 
                 If obj.Arrival_Time Is Nothing Then
@@ -991,6 +993,7 @@ Public Class clsMilkProcurementUploaderDetail
                 clsCommon.AddColumnsForChange(coll, "Reject_Defaulter", obj.Reject_Defaulter)
                 clsCommon.AddColumnsForChange(coll, "Against_Milk_Collection_DCS_Detail", obj.Against_Milk_Collection_DCS_Detail, True)
                 clsCommon.AddColumnsForChange(coll, "Bulk_Route_Code", obj.Bulk_Route_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No, True)
                 If obj.Arrival_Time Is Nothing Then
                     clsCommon.AddColumnsForChange(coll, "Arrival_Time", obj.Arrival_Time, True)
                 Else
@@ -1048,7 +1051,7 @@ where  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Reject_Defaulter = clsCommon.myCstr(dr("Reject_Defaulter"))
                 objTr.Uploader_Code = clsCommon.myCstr(dr("Uploader_Code"))
                 objTr.Bulk_Route_Code = clsCommon.myCstr(dr("Bulk_Route_Code"))
-
+                objTr.Vehicle_No = clsCommon.myCstr(dr("Vehicle_No"))
                 objTr.Manual_Weight = clsCommon.myCDecimal(dr("Manual_Weight"))
                 objTr.Manual_Sample = clsCommon.myCDecimal(dr("Manual_Sample"))
                 objTr.Empty_Sample = clsCommon.myCDecimal(dr("Empty_Sample"))

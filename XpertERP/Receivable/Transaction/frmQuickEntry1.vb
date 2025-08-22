@@ -2636,7 +2636,7 @@ Public Class FrmQuickEntry1
                 If clsCommon.myLen(strwherecls) > 0 Then
                     whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") "
                 End If
-                whrCls += " and TSPL_CUSTOMER_MASTER.Type ='" + cboCustomerType.SelectedValue + "' "
+                whrCls += " and TSPL_CUSTOMER_MASTER.Cust_Type ='" + cboCustomerType.SelectedValue + "' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + whrCls)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     MasterTemplate.Rows.Clear()
@@ -2667,6 +2667,7 @@ Public Class FrmQuickEntry1
                 Else
                     MasterTemplate.Rows.Clear()
                     MasterTemplate.Rows.AddNew()
+                    Throw New Exception("No data found to display.")
                 End If
 
             End If
