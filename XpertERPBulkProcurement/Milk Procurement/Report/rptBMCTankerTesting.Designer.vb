@@ -22,13 +22,15 @@ Partial Class rptBMCTankerTesting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblDCS = New common.Controls.MyLabel()
+        Me.TxtDcsCode = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -49,8 +51,6 @@ Partial Class rptBMCTankerTesting
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblDCS = New common.Controls.MyLabel()
-        Me.TxtDcsCode = New common.UserControls.txtMultiSelectFinder()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -59,6 +59,7 @@ Partial Class rptBMCTankerTesting
         Me.RadPanel1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.lblDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,14 +76,13 @@ Partial Class rptBMCTankerTesting
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition5
+        Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -134,6 +134,31 @@ Partial Class rptBMCTankerTesting
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(368, 148)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'lblDCS
+        '
+        Me.lblDCS.FieldName = Nothing
+        Me.lblDCS.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDCS.Location = New System.Drawing.Point(5, 112)
+        Me.lblDCS.Name = "lblDCS"
+        Me.lblDCS.Size = New System.Drawing.Size(27, 18)
+        Me.lblDCS.TabIndex = 390
+        Me.lblDCS.Text = "DCS"
+        Me.lblDCS.Visible = False
+        '
+        'TxtDcsCode
+        '
+        Me.TxtDcsCode.arrDispalyMember = Nothing
+        Me.TxtDcsCode.arrValueMember = Nothing
+        Me.TxtDcsCode.Location = New System.Drawing.Point(95, 112)
+        Me.TxtDcsCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDcsCode.MyLinkLable1 = Me.lblDCS
+        Me.TxtDcsCode.MyLinkLable2 = Nothing
+        Me.TxtDcsCode.MyNullText = "All"
+        Me.TxtDcsCode.Name = "TxtDcsCode"
+        Me.TxtDcsCode.Size = New System.Drawing.Size(243, 19)
+        Me.TxtDcsCode.TabIndex = 389
+        Me.TxtDcsCode.Visible = False
         '
         'MyLabel1
         '
@@ -201,7 +226,7 @@ Partial Class rptBMCTankerTesting
         Me.txtReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtReportType.Location = New System.Drawing.Point(95, 10)
         Me.txtReportType.Name = "txtReportType"
-        Me.txtReportType.Size = New System.Drawing.Size(139, 20)
+        Me.txtReportType.Size = New System.Drawing.Size(243, 20)
         Me.txtReportType.TabIndex = 365
         '
         'txtToDate
@@ -304,7 +329,7 @@ Partial Class rptBMCTankerTesting
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -373,31 +398,6 @@ Partial Class rptBMCTankerTesting
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'lblDCS
-        '
-        Me.lblDCS.FieldName = Nothing
-        Me.lblDCS.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDCS.Location = New System.Drawing.Point(5, 112)
-        Me.lblDCS.Name = "lblDCS"
-        Me.lblDCS.Size = New System.Drawing.Size(27, 18)
-        Me.lblDCS.TabIndex = 390
-        Me.lblDCS.Text = "DCS"
-        Me.lblDCS.Visible = False
-        '
-        'TxtDcsCode
-        '
-        Me.TxtDcsCode.arrDispalyMember = Nothing
-        Me.TxtDcsCode.arrValueMember = Nothing
-        Me.TxtDcsCode.Location = New System.Drawing.Point(95, 112)
-        Me.TxtDcsCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtDcsCode.MyLinkLable1 = Me.lblDCS
-        Me.TxtDcsCode.MyLinkLable2 = Nothing
-        Me.TxtDcsCode.MyNullText = "All"
-        Me.TxtDcsCode.Name = "TxtDcsCode"
-        Me.TxtDcsCode.Size = New System.Drawing.Size(243, 19)
-        Me.TxtDcsCode.TabIndex = 389
-        Me.TxtDcsCode.Visible = False
-        '
         'rptBMCTankerTesting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -422,6 +422,7 @@ Partial Class rptBMCTankerTesting
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.lblDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMC, System.ComponentModel.ISupportInitialize).EndInit()
@@ -438,7 +439,6 @@ Partial Class rptBMCTankerTesting
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -1030,7 +1030,7 @@ Public Class FrmItemMasterRMOther
         repoPieces.Name = UOMCustomConversion
         repoPieces.Width = 80
         repoPieces.ThreeState = False
-        repoPieces.IsVisible = True
+        repoPieces.IsVisible = False
         repoPieces.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoPieces)
         '================Added by preeti gupta against Ticket No[ERO/01/05/18-000285]================
@@ -1040,7 +1040,7 @@ Public Class FrmItemMasterRMOther
         repoPieces.Name = UOMPieces
         repoPieces.Width = 80
         repoPieces.ThreeState = False
-        repoPieces.IsVisible = True
+        repoPieces.IsVisible = False
         repoPieces.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoPieces)
         ''======================================================
@@ -1052,6 +1052,7 @@ Public Class FrmItemMasterRMOther
         repoConvFactor.Minimum = 0
         repoConvFactor.Width = 100
         repoConvFactor.WrapText = True
+        repoConvFactor.IsVisible = False
         repoConvFactor.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoConvFactor.DecimalPlaces = 6
         repoConvFactor.FormatString = "{0:n6}"
@@ -1065,6 +1066,7 @@ Public Class FrmItemMasterRMOther
         repoConvFactor.Minimum = 0
         repoConvFactor.Width = 100
         repoConvFactor.WrapText = True
+        repoConvFactor.IsVisible = False
         repoConvFactor.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoConvFactor.DecimalPlaces = 6
         repoConvFactor.FormatString = "{0:n6}"

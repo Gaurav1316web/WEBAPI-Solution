@@ -2362,10 +2362,16 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
         Gv1.Columns("TotalCrateQty").Width = 100
         Gv1.Columns("TotalCrateQty").HeaderText = "Total Crate"
 
-        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
 
-        Dim item1 As New GridViewSummaryItem("TotalCrateQty", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
+        Dim TotalCrateQty As New GridViewSummaryItem("TotalCrateQty", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(TotalCrateQty)
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.AutoSizeRows = True
+        Gv1.BestFitColumns()
+        Gv1.MasterTemplate.AutoExpandGroups = True
+
 
     End Sub
 

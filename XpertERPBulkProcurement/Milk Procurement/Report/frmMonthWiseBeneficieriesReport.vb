@@ -5,9 +5,14 @@ Public Class frmMonthWiseBeneficieriesReport
     Dim Slot2 As DateTime = Nothing
     Private Sub frmMonthWiseBeneficieriesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            txtFromDate.Value = clsCommon.GETSERVERDATE()
-            rbtnMPWise.Checked = True
-            reset()
+            montrangwise.Visible = True
+            If rbtnMonthRange.Checked Then
+                txtToDate.Enabled = False
+                txtFromDate.Value = clsCommon.GETSERVERDATE()
+                rbtnMPWise.Checked = True
+                reset()
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -48,11 +53,32 @@ Public Class frmMonthWiseBeneficieriesReport
         Try
             PageSetupReport_ID = MyBase.Form_ID
             Dim Qry As String = Nothing
-            If rbtnMPWise.Checked Then
-                Qry = "Select Max(Month_Year)[Month],COUNT(MP_Code)[No Of Beneficieries] from(Select MP_Code,MP_Name,FORMAT(CONVERT(DATE, Created_Date, 103), 'MMM-yyyy')Month_Year,Month(Created_Date)Created_Month,Year(Created_Date)Created_Year from TSPL_MP_MASTER where CONVERT(date,Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(txtFromDate.Value) + "',103) And CONVERT(date,Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(txtToDate.Value) + "',103))final Group By Created_Month,Created_Year Order By Convert(int,Created_Year) ASC,Convert(int,Created_Month) ASC"
+            If rbtnDCSWise.Checked Then
+                If rbtnMonthRange.Checked Then
+                    Qry = " Select Max(Month_Year)[Month],COUNT(Vendor_Code)[No Of Beneficieries] from (Select Vendor_Code,Vendor_Name,FORMAT(CONVERT(Date, Created_Date, 103), 'MMM-yyyy')Month_Year ,Month(CONVERT(DATE, Created_Date, 103))Created_Month,Year(CONVERT(DATE, Created_Date, 103))Created_Year from TSPL_Vendor_MASTER where TSPL_Vendor_MASTER.Form_Type='VSP' And CONVERT(date,Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(fromdate.Value) + "',103) And CONVERT(date,Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(todate.Value) + "',103))final Group By Created_Month,Created_Year Order By Convert(int,Created_Year) ASC,Convert(int,Created_Month) ASC"
+                ElseIf rbtDateWise.Checked Then
+                    Qry = "select coalesce(VSP_Code,Vendor_Code) as [Dcs Code],coalesce(VLC_Name,vendor_name) as [Dcs Name],VLC_Code_VLC_Uploader as[Uploader Code],
+TSPL_VLC_MASTER_HEAD.mcc as [MCC],
+TSPL_ROUTE_MASTER.Route_Desc as [Route Name],
+coalesce(TSPL_VLC_MASTER_HEAD.Created_By,TSPL_Vendor_MASTER.Created_By)[Created By],
+coalesce(TSPL_VLC_MASTER_HEAD.Created_Date,TSPL_Vendor_MASTER.Created_Date)[Created Date]
+from TSPL_Vendor_MASTER
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_Vendor_MASTER.Vendor_Code
+ left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_VLC_MASTER_HEAD.Route_Code 
+                where TSPL_Vendor_MASTER.Form_Type='VSP' and CONVERT(date,TSPL_Vendor_MASTER.Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(fromdate.Value) + "',103) And CONVERT(date,TSPL_Vendor_MASTER.Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(todate.Value) + "',103)"
+                End If
             Else
-                Qry = "Select Max(Month_Year)[Month],COUNT(Vendor_Code)[No Of Beneficieries] from (Select Vendor_Code,Vendor_Name,FORMAT(CONVERT(DATE, Created_Date, 103), 'MMM-yyyy')Month_Year ,Month(CONVERT(DATE, Created_Date, 103))Created_Month,Year(CONVERT(DATE, Created_Date, 103))Created_Year from TSPL_Vendor_MASTER where TSPL_Vendor_MASTER.Form_Type='VSP' And CONVERT(date,Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(txtFromDate.Value) + "',103) And CONVERT(date,Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(txtToDate.Value) + "',103))final Group By Created_Month,Created_Year Order By Convert(int,Created_Year) ASC,Convert(int,Created_Month) ASC"
+                If rbtnMPWise.Checked Then
+                    If rbtnMonthRange.Checked Then
+                        Qry = "Select Max(Month_Year)[Month],COUNT(MP_Code)[No Of Beneficieries] from(Select MP_Code,MP_Name,FORMAT(CONVERT(DATE, Created_Date, 103), 'MMM-yyyy')Month_Year,Month(Created_Date)Created_Month,Year(Created_Date)Created_Year from TSPL_MP_MASTER where CONVERT(date,Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(txtFromDate.Value) + "',103) And CONVERT(date,Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(txtToDate.Value) + "',103))final Group By Created_Month,Created_Year Order By Convert(int,Created_Year) ASC,Convert(int,Created_Month) ASC"
+                    ElseIf rbtDateWise.Checked Then
+                        Qry = "(Select MP_Code,MP_Name,vlc_code,FORMAT(CONVERT(DATE, Created_Date, 103), 'MMM-yyyy')Month_Year,Month(Created_Date)Created_Month,Year(Created_Date)Created_Year from TSPL_MP_MASTER 
+where CONVERT(date,Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(fromdate.Value) + "',103)  And CONVERT(date,Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(todate.Value) + "',103) )"
+                        'Qry = "Select Max(Month_Year)[Month],COUNT(Vendor_Code)[No Of Beneficieries] from (Select Vendor_Code,Vendor_Name,FORMAT(CONVERT(DATE, Created_Date, 103), 'MMM-yyyy')Month_Year ,Month(CONVERT(DATE, Created_Date, 103))Created_Month,Year(CONVERT(DATE, Created_Date, 103))Created_Year from TSPL_Vendor_MASTER where TSPL_Vendor_MASTER.Form_Type='VSP' And CONVERT(date,Created_Date,103)>=CONVERT(date,'" + clsCommon.myCstr(txtFromDate.Value) + "',103) And CONVERT(date,Created_Date,103)<=CONVERT(date,'" + clsCommon.myCstr(txtToDate.Value) + "',103))final Group By Created_Month,Created_Year Order By Convert(int,Created_Year) ASC,Convert(int,Created_Month) ASC"
+                    End If
+                End If
             End If
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 disabledFields()
@@ -160,4 +186,24 @@ Public Class frmMonthWiseBeneficieriesReport
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub rbtDateWise_Click(sender As Object, e As EventArgs) Handles rbtDateWise.Click
+        If rbtDateWise.Checked Then
+            fromdate.Value = clsCommon.GETSERVERDATE()
+            todate.Value = clsCommon.GETSERVERDATE()
+
+            montrangwise.Visible = False
+
+            daterangewise.Visible = True
+        End If
+    End Sub
+
+    Private Sub rbtnMonthRange_Click(sender As Object, e As EventArgs) Handles rbtnMonthRange.Click
+        If rbtnMonthRange.Checked Then
+            daterangewise.Visible = False
+            montrangwise.Visible = True
+        End If
+    End Sub
+
+
 End Class

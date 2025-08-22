@@ -30,10 +30,6 @@ Public Class frmCorrection
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim id As String = Form_ID
         Try
-            Dim coll As New Dictionary(Of String, String)()
-            coll.Add("VLC_CODE", "VARCHAR(30) NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS", coll, "", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "", True)
-
             SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
             SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
             SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
@@ -486,6 +482,10 @@ Public Class frmCorrection
                     TxtFinder1.Focus()
                     Throw New Exception("Please Enter VLC")
                 End If
+                If clsCommon.myLen(txtRoute.Value) <= 0 Then
+                    txtRoute.Focus()
+                    Throw New Exception("Please Enter route")
+                End If
                 Dim obj As New clsMilkProcurementUploaderHead()
                 obj.Document_No = "" ''To be Generated
                 obj.Document_Date = clsCommon.GETSERVERDATE()
@@ -507,6 +507,7 @@ Public Class frmCorrection
                 objTr.SNF = Math.Round(txtSNF.Value, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
                 'objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
                 objTr.Reject_Type = clsCommon.myCstr(cboRejectType.SelectedValue)
+                objTr.Bulk_Route_Code = txtRoute.Value
                 'objTr.arrQCParameter = GetParamCollection(ii)
                 obj.Arr.Add(objTr)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
@@ -572,7 +573,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
                 End If
                 Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
                 Try
-                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), Remark, chkMarkAsSuspence.Checked, chkMarkAsAdulteration.Checked, txtSuspenceRemarks.Text)
+                    clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, TxtFinder1.Value, False, tran, False, Form_ID, clsCommon.myCstr(cboRejectType.SelectedValue), Remark, chkMarkAsSuspence.Checked, chkMarkAsAdulteration.Checked, txtSuspenceRemarks.Text, txtRoute.Value)
                     tran.Commit()
                 Catch ex As Exception
                     tran.Rollback()
@@ -621,6 +622,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE='" + lblSRNNo.Text + "' and TSPL_MILK_COLLECTI
 ,(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_FAT Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.FAT_PER Else TSPL_MILK_SRN_DETAIL.Retesting_FAT End)End) As FAT
 ,(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_SNF Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else TSPL_MILK_SRN_DETAIL.Retesting_SNF End) End) As SNF 
 ,case when TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type else TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type end Reject_Type
+,TSPL_MILK_SRN_HEAD.ROUTE_CODE
 from TSPL_MILK_SRN_DETAIL
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
@@ -649,11 +651,6 @@ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETA
                 txtQty.Tag = clsCommon.myCdbl(dt.Rows(0)("Qty"))
                 lblUOM.Text = clsCommon.myCstr(dt.Rows(0)("UOM_Code"))
 
-                'If clsCommon.myCdbl(dt.Rows(0)("Retesting_OR_Correction_Status")) = 1 Then
-                '    txtFAT.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
-                '    txtFAT.Tag = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
-                '    txtSNF.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_SNF"))
-                '    txtSNF.Tag = clsCommon.myCdbl(dt.Rows(0)("Retesting_SNF"))
                 If clsCommon.myCdbl(dt.Rows(0)("Retesting_OR_Correction_Status")) > 0 Then
                     txtFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
                     txtFAT.Tag = clsCommon.myCdbl(dt.Rows(0)("FAT"))
@@ -665,19 +662,17 @@ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETA
                     txtSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF_PER"))
                     txtSNF.Tag = clsCommon.myCdbl(dt.Rows(0)("SNF_PER"))
                 End If
-                'txtRetestFAT.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
-                'txtRetestSNF.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
                 cboMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("MilkType"))
                 cboMilkType.Tag = clsCommon.myCstr(dt.Rows(0)("MilkType"))
                 cboRejectType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Reject_Type"))
                 cboRejectType.Tag = clsCommon.myCstr(dt.Rows(0)("Reject_Type"))
+                txtRoute.Value = clsCommon.myCstr(dt.Rows(0)("ROUTE_CODE"))
 
                 TxtFinder1.Value = txtVLC.Value
                 TxtFinder1.Tag = txtVLC.Tag
                 MyLabel5.Text = lblVLC.Text
                 RadGroupBox2.Enabled = False
                 RadGroupBox1.Enabled = True
-
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -696,7 +691,7 @@ left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETA
         cboMilkType.Tag = Nothing
         cboRejectType.SelectedValue = Nothing
         cboRejectType.Tag = Nothing
-
+        txtRoute.Value = Nothing
 
         TxtFinder1.Value = Nothing
         TxtFinder1.Tag = Nothing
@@ -1575,7 +1570,7 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             If clsCommon.myCDecimal(lblBMCTankerSNFKG.Text) <= 0 Then
                 Throw New Exception("SNF KG Can't be Zero/-ve")
             End If
-            If Not (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal AndAlso isCorrection = 1) Then
+            If Not (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal) Then
                 Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
@@ -2871,5 +2866,15 @@ select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date, Qty, FAT_PER,SNF_PER
 
     Private Sub TxtCAPDCSCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtCAPDCSCode._MYValidating
         vlcUploaderFinder(TxtCAPDCSCode, lblCAPDCSName, isButtonClicked)
+    End Sub
+
+    Private Sub txtRoute__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRoute._MYValidating
+        Try
+            Dim qry As String = " select ROUTE_NO as Code,ROUTE_NAME as Name from  TSPL_BULK_ROUTE_MASTER "
+            Dim whrCls As String = ""
+            txtRoute.Value = clsCommon.ShowSelectForm("corRoutFnd", qry, "Code", whrCls, txtRoute.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
