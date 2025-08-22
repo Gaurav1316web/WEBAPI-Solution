@@ -6787,6 +6787,8 @@ Public Class clsCreateAllTable
             coll.Add("DistributorName", "varchar(50) NULL")
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
             coll.Add("Trip_No", "int NULL")
             coll.Add("Is_GHEE", "Integer Default 0")
             coll.Add("IsIndividualCustomer", "Integer Default 0")
@@ -31363,6 +31365,9 @@ Public Class clsCreateAllTable
             coll.Add("Demand_UniqueID", "varchar(12) null")
             coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
+            coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "

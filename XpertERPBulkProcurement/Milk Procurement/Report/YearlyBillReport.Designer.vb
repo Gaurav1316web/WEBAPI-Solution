@@ -23,11 +23,12 @@ Partial Class YearlyBillReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnAliasNameWise = New common.Controls.MyRadioButton()
         Me.rdbArea = New common.Controls.MyRadioButton()
         Me.MyRadioButton1 = New common.Controls.MyRadioButton()
         Me.rdbBMC = New common.Controls.MyRadioButton()
@@ -55,7 +56,10 @@ Partial Class YearlyBillReport
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnAliasNameWise = New common.Controls.MyRadioButton()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.txtMultArea = New common.UserControls.txtMultiSelectFinder()
+        Me.txtMultBMC = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -64,6 +68,7 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage4.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.rbtnAliasNameWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,7 +95,8 @@ Partial Class YearlyBillReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnAliasNameWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,6 +135,10 @@ Partial Class YearlyBillReport
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.txtMultBMC)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage4.Controls.Add(Me.txtMultArea)
+        Me.RadPageViewPage4.Controls.Add(Me.lblArea)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox6)
         Me.RadPageViewPage4.Controls.Add(Me.txtRoute)
@@ -157,6 +167,17 @@ Partial Class YearlyBillReport
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(404, 64)
         Me.RadGroupBox1.TabIndex = 419
+        '
+        'rbtnAliasNameWise
+        '
+        Me.rbtnAliasNameWise.Location = New System.Drawing.Point(16, 35)
+        Me.rbtnAliasNameWise.MyLinkLable1 = Nothing
+        Me.rbtnAliasNameWise.MyLinkLable2 = Nothing
+        Me.rbtnAliasNameWise.Name = "rbtnAliasNameWise"
+        Me.rbtnAliasNameWise.Size = New System.Drawing.Size(104, 18)
+        Me.rbtnAliasNameWise.TabIndex = 6
+        Me.rbtnAliasNameWise.TabStop = False
+        Me.rbtnAliasNameWise.Text = "Alias Name Wise"
         '
         'rdbArea
         '
@@ -278,7 +299,7 @@ Partial Class YearlyBillReport
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(107, 80)
+        Me.txtRoute.Location = New System.Drawing.Point(107, 119)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Nothing
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -292,7 +313,7 @@ Partial Class YearlyBillReport
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(16, 80)
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 118)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(36, 18)
         Me.MyLabel1.TabIndex = 416
@@ -406,7 +427,7 @@ Partial Class YearlyBillReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -468,16 +489,51 @@ Partial Class YearlyBillReport
         Me.btnReset.TabIndex = 160
         Me.btnReset.Text = "Reset"
         '
-        'rbtnAliasNameWise
+        'lblArea
         '
-        Me.rbtnAliasNameWise.Location = New System.Drawing.Point(16, 35)
-        Me.rbtnAliasNameWise.MyLinkLable1 = Nothing
-        Me.rbtnAliasNameWise.MyLinkLable2 = Nothing
-        Me.rbtnAliasNameWise.Name = "rbtnAliasNameWise"
-        Me.rbtnAliasNameWise.Size = New System.Drawing.Size(77, 18)
-        Me.rbtnAliasNameWise.TabIndex = 6
-        Me.rbtnAliasNameWise.TabStop = False
-        Me.rbtnAliasNameWise.Text = "Alias Name Wise"
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(16, 99)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1505
+        Me.lblArea.Text = "Area"
+        '
+        'txtMultArea
+        '
+        Me.txtMultArea.arrDispalyMember = Nothing
+        Me.txtMultArea.arrValueMember = Nothing
+        Me.txtMultArea.Location = New System.Drawing.Point(107, 98)
+        Me.txtMultArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultArea.MyLinkLable1 = Me.MyLabel2
+        Me.txtMultArea.MyLinkLable2 = Nothing
+        Me.txtMultArea.MyNullText = "All"
+        Me.txtMultArea.Name = "txtMultArea"
+        Me.txtMultArea.Size = New System.Drawing.Size(259, 19)
+        Me.txtMultArea.TabIndex = 1506
+        '
+        'txtMultBMC
+        '
+        Me.txtMultBMC.arrDispalyMember = Nothing
+        Me.txtMultBMC.arrValueMember = Nothing
+        Me.txtMultBMC.Location = New System.Drawing.Point(107, 77)
+        Me.txtMultBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultBMC.MyLinkLable1 = Me.MyLabel2
+        Me.txtMultBMC.MyLinkLable2 = Nothing
+        Me.txtMultBMC.MyNullText = "All"
+        Me.txtMultBMC.Name = "txtMultBMC"
+        Me.txtMultBMC.Size = New System.Drawing.Size(259, 19)
+        Me.txtMultBMC.TabIndex = 1508
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(16, 77)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel3.TabIndex = 1507
+        Me.MyLabel3.Text = "BMC"
         '
         'YearlyBillReport
         '
@@ -501,6 +557,7 @@ Partial Class YearlyBillReport
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.rbtnAliasNameWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).EndInit()
@@ -529,7 +586,8 @@ Partial Class YearlyBillReport
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnAliasNameWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -567,4 +625,8 @@ Partial Class YearlyBillReport
     Friend WithEvents rdbDCS As common.Controls.MyRadioButton
     Friend WithEvents rdbArea As common.Controls.MyRadioButton
     Friend WithEvents rbtnAliasNameWise As common.Controls.MyRadioButton
+    Friend WithEvents txtMultBMC As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtMultArea As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblArea As common.Controls.MyLabel
 End Class
