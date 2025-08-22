@@ -6787,6 +6787,8 @@ Public Class clsCreateAllTable
             coll.Add("DistributorName", "varchar(50) NULL")
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
             coll.Add("Trip_No", "int NULL")
             coll.Add("Is_GHEE", "Integer Default 0")
             coll.Add("IsIndividualCustomer", "Integer Default 0")
@@ -15197,7 +15199,7 @@ Public Class clsCreateAllTable
             coll.Add("SkipTaxableInvoice", "int null default 0")
             coll.Add("SkipNonTaxableInvoice", "int null default 0")
             coll.Add("Inter_Union_Sale", "Integer null default 0")
-            coll.Add("Type", "char(1) NULL")
+            coll.Add("Cust_Type", "char(1) NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -24655,6 +24657,8 @@ Public Class clsCreateAllTable
             coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
             coll.Add("Remark", "varchar(200) NULL")
+            coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -25401,6 +25405,7 @@ Public Class clsCreateAllTable
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null unique references TSPL_MILK_SRN_HEAD(DOC_CODE)")
+            coll.Add("VLC_CODE", "VARCHAR(30) NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
             coll.Add("Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
             coll.Add("UOM_Code", "VARCHAR(30) not NULL")
             coll.Add("FAT_PER", "DECIMAL(5,3) NULL")
@@ -31363,6 +31368,9 @@ Public Class clsCreateAllTable
             coll.Add("Demand_UniqueID", "varchar(12) null")
             coll.Add("Bank_Code", "VARCHAR(12) null REFERENCES TSPL_Bank_MASTER(Bank_Code)")
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
+            coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "

@@ -22,18 +22,19 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -122,7 +123,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblPriceCode1 = New common.Controls.MyLabel()
         Me.lblPriceCodeDesc = New common.Controls.MyLabel()
         Me.lblVehicle1 = New common.Controls.MyLabel()
-        Me.chkDCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSampling = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -201,6 +201,9 @@ Partial Class frmDairyBookingCustomer
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkDCS = New Telerik.WinControls.UI.RadCheckBox()
+        Me.btnGatePassPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnCreateDO = New Telerik.WinControls.UI.RadButton()
         Me.txtSalesman1 = New common.UserControls.txtFinder()
         Me.lblSalesmandesc1 = New common.Controls.MyLabel()
@@ -283,7 +286,6 @@ Partial Class frmDairyBookingCustomer
         Me.btnPrintChallan = New Telerik.WinControls.UI.RadButton()
         Me.btnGatepass = New Telerik.WinControls.UI.RadButton()
         Me.BtnRecieptEntry = New Telerik.WinControls.UI.RadButton()
-        Me.btnGatePassPrint = New Telerik.WinControls.UI.RadButton()
         Me.lblCreatedByValue = New common.Controls.MyLabel()
         Me.btn_QtyReset = New Telerik.WinControls.UI.RadButton()
         Me.lblCreatedBy = New common.Controls.MyLabel()
@@ -298,7 +300,6 @@ Partial Class frmDairyBookingCustomer
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.lblTotalDocAmt = New common.Controls.MyLabel()
         Me.btnCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -407,7 +408,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblPriceCode1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPriceCodeDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicle1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -481,6 +481,9 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCreateDO, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -560,7 +563,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.btnPrintChallan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGatepass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnRecieptEntry, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedByValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -577,7 +579,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -620,7 +621,6 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintChallan)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatepass)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnRecieptEntry)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatePassPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblCreatedByValue)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_QtyReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblCreatedBy)
@@ -629,7 +629,6 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -731,7 +730,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Controls.Add(Me.lblPriceCode1)
         Me.RadPageViewPage1.Controls.Add(Me.lblPriceCodeDesc)
         Me.RadPageViewPage1.Controls.Add(Me.lblVehicle1)
-        Me.RadPageViewPage1.Controls.Add(Me.chkDCS)
         Me.RadPageViewPage1.Controls.Add(Me.chkSampling)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
@@ -1097,17 +1095,17 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.IsSourceFromTable = False
         Me.cmbPaymentType.IsSourceFromValueList = False
         Me.cmbPaymentType.IsUnique = False
-        RadListDataItem1.Text = "CASH"
-        RadListDataItem2.Text = "NEFT"
-        RadListDataItem3.Text = "RTGS"
-        RadListDataItem4.Text = "CHEQUE"
-        RadListDataItem5.Text = "UPI"
-        Me.cmbPaymentType.Items.Add(RadListDataItem1)
-        Me.cmbPaymentType.Items.Add(RadListDataItem2)
-        Me.cmbPaymentType.Items.Add(RadListDataItem3)
-        Me.cmbPaymentType.Items.Add(RadListDataItem4)
-        Me.cmbPaymentType.Items.Add(RadListDataItem5)
-        Me.cmbPaymentType.Location = New System.Drawing.Point(1048, 1)
+        RadListDataItem7.Text = "CASH"
+        RadListDataItem8.Text = "NEFT"
+        RadListDataItem9.Text = "RTGS"
+        RadListDataItem10.Text = "CHEQUE"
+        RadListDataItem11.Text = "UPI"
+        Me.cmbPaymentType.Items.Add(RadListDataItem7)
+        Me.cmbPaymentType.Items.Add(RadListDataItem8)
+        Me.cmbPaymentType.Items.Add(RadListDataItem9)
+        Me.cmbPaymentType.Items.Add(RadListDataItem10)
+        Me.cmbPaymentType.Items.Add(RadListDataItem11)
+        Me.cmbPaymentType.Location = New System.Drawing.Point(1010, 1)
         Me.cmbPaymentType.MendatroryField = True
         Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
         Me.cmbPaymentType.MyLinkLable2 = Nothing
@@ -1132,7 +1130,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.lblPaymentType.FieldName = Nothing
         Me.lblPaymentType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentType.Location = New System.Drawing.Point(963, 1)
+        Me.lblPaymentType.Location = New System.Drawing.Point(931, 2)
         Me.lblPaymentType.Name = "lblPaymentType"
         Me.lblPaymentType.Size = New System.Drawing.Size(79, 16)
         Me.lblPaymentType.TabIndex = 1560
@@ -1141,7 +1139,7 @@ Partial Class frmDairyBookingCustomer
         'chkcashsale
         '
         Me.chkcashsale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkcashsale.Location = New System.Drawing.Point(891, 1)
+        Me.chkcashsale.Location = New System.Drawing.Point(856, 2)
         Me.chkcashsale.Name = "chkcashsale"
         Me.chkcashsale.Size = New System.Drawing.Size(72, 16)
         Me.chkcashsale.TabIndex = 139
@@ -1492,12 +1490,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem6.Text = "Select"
-        RadListDataItem7.Text = "AM"
-        RadListDataItem8.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem6)
-        Me.cmbGatePassType.Items.Add(RadListDataItem7)
-        Me.cmbGatePassType.Items.Add(RadListDataItem8)
+        RadListDataItem12.Text = "Select"
+        RadListDataItem13.Text = "AM"
+        RadListDataItem14.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem12)
+        Me.cmbGatePassType.Items.Add(RadListDataItem13)
+        Me.cmbGatePassType.Items.Add(RadListDataItem14)
         Me.cmbGatePassType.Location = New System.Drawing.Point(171, 179)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1675,7 +1673,7 @@ Partial Class frmDairyBookingCustomer
         'chkBPL
         '
         Me.chkBPL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBPL.Location = New System.Drawing.Point(847, 1)
+        Me.chkBPL.Location = New System.Drawing.Point(808, 1)
         Me.chkBPL.Name = "chkBPL"
         Me.chkBPL.Size = New System.Drawing.Size(42, 16)
         Me.chkBPL.TabIndex = 1485
@@ -1687,9 +1685,9 @@ Partial Class frmDairyBookingCustomer
         Me.rgbItemType.Controls.Add(Me.rbtnNonTax)
         Me.rgbItemType.Controls.Add(Me.rbtnTaxable)
         Me.rgbItemType.HeaderText = "Item Type"
-        Me.rgbItemType.Location = New System.Drawing.Point(1154, -3)
+        Me.rgbItemType.Location = New System.Drawing.Point(1115, -4)
         Me.rgbItemType.Name = "rgbItemType"
-        Me.rgbItemType.Size = New System.Drawing.Size(100, 61)
+        Me.rgbItemType.Size = New System.Drawing.Size(100, 64)
         Me.rgbItemType.TabIndex = 1534
         Me.rgbItemType.Text = "Item Type"
         '
@@ -1895,10 +1893,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem9.Text = "CASH"
-        RadListDataItem10.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem9)
-        Me.cmbcashcredit.Items.Add(RadListDataItem10)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "CASH"
+        RadListDataItem3.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem1)
+        Me.cmbcashcredit.Items.Add(RadListDataItem2)
+        Me.cmbcashcredit.Items.Add(RadListDataItem3)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -2016,16 +2016,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblVehicle1.TabIndex = 1490
         Me.lblVehicle1.Text = "Vehicle"
         '
-        'chkDCS
-        '
-        Me.chkDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDCS.Location = New System.Drawing.Point(802, 1)
-        Me.chkDCS.Name = "chkDCS"
-        Me.chkDCS.Size = New System.Drawing.Size(44, 16)
-        Me.chkDCS.TabIndex = 1484
-        Me.chkDCS.Text = "DCS"
-        Me.chkDCS.Visible = False
-        '
         'chkSampling
         '
         Me.chkSampling.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2135,7 +2125,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -2411,7 +2401,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -3161,6 +3151,9 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.chkDCS)
+        Me.RadPageViewPage3.Controls.Add(Me.btnGatePassPrint)
+        Me.RadPageViewPage3.Controls.Add(Me.btnPrint)
         Me.RadPageViewPage3.Controls.Add(Me.btnCreateDO)
         Me.RadPageViewPage3.Controls.Add(Me.txtSalesman1)
         Me.RadPageViewPage3.Controls.Add(Me.lblSalesmandesc1)
@@ -3186,6 +3179,37 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage3.Text = "Others"
+        '
+        'chkDCS
+        '
+        Me.chkDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDCS.Location = New System.Drawing.Point(580, 287)
+        Me.chkDCS.Name = "chkDCS"
+        Me.chkDCS.Size = New System.Drawing.Size(44, 16)
+        Me.chkDCS.TabIndex = 1530
+        Me.chkDCS.Text = "DCS"
+        Me.chkDCS.Visible = False
+        '
+        'btnGatePassPrint
+        '
+        Me.btnGatePassPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGatePassPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGatePassPrint.Location = New System.Drawing.Point(892, 267)
+        Me.btnGatePassPrint.Name = "btnGatePassPrint"
+        Me.btnGatePassPrint.Size = New System.Drawing.Size(92, 22)
+        Me.btnGatePassPrint.TabIndex = 1529
+        Me.btnGatePassPrint.Text = "Gate Pass Print"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(986, 267)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(47, 22)
+        Me.btnPrint.TabIndex = 1528
+        Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
         '
         'btnCreateDO
         '
@@ -4145,7 +4169,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(1173, 32)
+        Me.RadLabel10.Location = New System.Drawing.Point(1182, 32)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(84, 16)
         Me.RadLabel10.TabIndex = 1485
@@ -4182,16 +4206,6 @@ Partial Class frmDairyBookingCustomer
         Me.BtnRecieptEntry.TabIndex = 1503
         Me.BtnRecieptEntry.Text = "Reciept Entry"
         '
-        'btnGatePassPrint
-        '
-        Me.btnGatePassPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGatePassPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGatePassPrint.Location = New System.Drawing.Point(966, 38)
-        Me.btnGatePassPrint.Name = "btnGatePassPrint"
-        Me.btnGatePassPrint.Size = New System.Drawing.Size(92, 22)
-        Me.btnGatePassPrint.TabIndex = 1502
-        Me.btnGatePassPrint.Text = "Gate Pass Print"
-        '
         'lblCreatedByValue
         '
         Me.lblCreatedByValue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -4218,7 +4232,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblCreatedBy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblCreatedBy.FieldName = Nothing
         Me.lblCreatedBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCreatedBy.Location = New System.Drawing.Point(1113, 39)
+        Me.lblCreatedBy.Location = New System.Drawing.Point(1119, 39)
         Me.lblCreatedBy.Name = "lblCreatedBy"
         Me.lblCreatedBy.Size = New System.Drawing.Size(63, 16)
         Me.lblCreatedBy.TabIndex = 1500
@@ -4343,17 +4357,6 @@ Partial Class frmDairyBookingCustomer
         Me.btnCancel.TabIndex = 20
         Me.btnCancel.Text = "Cancel"
         '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(1060, 38)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(47, 22)
-        Me.btnPrint.TabIndex = 3
-        Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
-        '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -4378,9 +4381,9 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1413, 36)
+        Me.btnClose.Location = New System.Drawing.Point(1033, 38)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(42, 22)
+        Me.btnClose.Size = New System.Drawing.Size(71, 22)
         Me.btnClose.TabIndex = 10
         Me.btnClose.Text = "Close"
         '
@@ -4658,7 +4661,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblPriceCode1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPriceCodeDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicle1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4739,6 +4741,9 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCreateDO, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4823,7 +4828,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.btnPrintChallan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGatepass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnRecieptEntry, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedByValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4842,7 +4846,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4889,7 +4892,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents RadLabel14 As common.Controls.MyLabel
     Friend WithEvents RadLabel32 As common.Controls.MyLabel
     Friend WithEvents lblAddCharges1 As common.Controls.MyLabel
-    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtApplicableFrom As common.Controls.MyLabel
     Friend WithEvents lblEffectiveFrom As common.Controls.MyLabel
     Friend WithEvents lblConvRate As common.Controls.MyLabel
@@ -4936,7 +4938,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents btn_QtyReset As RadButton
     Friend WithEvents lblCreatedBy As common.Controls.MyLabel
     Friend WithEvents lblCreatedByValue As common.Controls.MyLabel
-    Friend WithEvents btnGatePassPrint As RadButton
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents ItemTypePanel As Panel
     Friend WithEvents rbtn_Ambient As RadRadioButton
@@ -4998,7 +4999,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents lblCancelStatus As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents chkDCS As RadCheckBox
     Friend WithEvents chkSampling As RadCheckBox
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
@@ -5154,5 +5154,8 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtSupplyDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblSupplyDate As common.Controls.MyLabel
     Friend WithEvents chkExcludeKKFMND As RadCheckBox
+    Friend WithEvents btnGatePassPrint As RadButton
+    Friend WithEvents btnPrint As RadButton
+    Friend WithEvents chkDCS As RadCheckBox
 End Class
 

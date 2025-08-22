@@ -8,9 +8,13 @@ Imports Telerik.WinControls.UI
 Imports System.Drawing
 Imports Microsoft.Office.Interop
 Imports common.UserControls
+Imports System
+Imports System.Runtime.InteropServices
 
 Public Class FrmMainTranScreen
 #Region "Variables"
+
+
     Public isReadFlag As Boolean = False
     Public isModifyFlag As Boolean = False
     Public isDeleteFlag As Boolean = False
@@ -48,6 +52,8 @@ Public Class FrmMainTranScreen
     Public TemplateGridview As MyRadGridView
     Public ListImpExpColumnsMandatory As List(Of String)
     Public ListImpExpColumnsSuperMandatory As List(Of String)
+    Private mouseMoveHandlers As New List(Of MouseEventHandler)()
+    Private mouseUpHandlers As New List(Of MouseEventHandler)()
 
 
 #End Region
@@ -56,6 +62,9 @@ Public Class FrmMainTranScreen
     '''' </summar---------Update By Preeti Guptay>
     '''' <param name="FormID"></param>
     '''' <remarks></remarks>
+
+
+
 
     Public Sub SetUserMgmt(ByVal FormID As String)
         Me.KeyPreview = True
@@ -68,7 +77,7 @@ Public Class FrmMainTranScreen
         Me.Form_ID = FormID
 
 
-        qry = " select (select inn.Parent_Code  from TSPL_PROGRAM_MASTER as inn where inn.program_code=TSPL_PROGRAM_MASTER.Parent_Code) as ModuleCode,Is_SMS_Applied,Is_EMAIL_Applied,Is_Notification_Applied from TSPL_PROGRAM_MASTER where program_code='" + Form_ID + "'"
+        qry = " select (select inn.Parent_Code  from TSPL_PROGRAM_MASTER as inn where inn.program_code=TSPL_PROGRAM_MASTER.Parent_Code) as ModuleCode,Is_SMS_Applied,Is_EMAIL_Applied,Is_Notification_Applied from TSPL_PROGRAM_MASTER where program_code='" & Form_ID & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Me.Module_Code = clsCommon.myCstr(dt.Rows(0)("ModuleCode"))
@@ -92,54 +101,54 @@ Public Class FrmMainTranScreen
             isAmendmentFlag = True
             isUpdateFlag = True
         Else
-            qry = "select Read_Flag,Modify_Flag,Delete_Flag,Authorized_Flag, Reverse_Flag, Export_Flag,Print_Flag,cancel_Flag,cancel_Flag_After_Posting,QucikExport_Flag,isModifyonPassword,isnull(TSPL_GROUP_PROGRAM_MAPPING.is_Amendment,0) as is_Amendment,update_flag from TSPL_GROUP_PROGRAM_MAPPING where Program_Code='" + FormID + "' and Group_Code in (select Group_Code  from TSPL_USER_GROUP_MAPPING where User_Code='" + objCommonVar.CurrentUserCode + "')"
+            qry = "select Read_Flag,Modify_Flag,Delete_Flag,Authorized_Flag, Reverse_Flag, Export_Flag,Print_Flag,cancel_Flag,cancel_Flag_After_Posting,QucikExport_Flag,isModifyonPassword,isnull(TSPL_GROUP_PROGRAM_MAPPING.is_Amendment,0) as is_Amendment,update_flag from TSPL_GROUP_PROGRAM_MAPPING where Program_Code='" & FormID & "' and Group_Code in (select Group_Code  from TSPL_USER_GROUP_MAPPING where User_Code='" & objCommonVar.CurrentUserCode & "')"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
-                    If isReadFlag = False Then
+                    If Not isReadFlag Then
                         isReadFlag = IIf(clsCommon.myCdbl(dr("Read_Flag")) = 1, True, False)
                     End If
-                    If isModifyFlag = False Then
+                    If Not isModifyFlag Then
                         isModifyFlag = IIf(clsCommon.myCdbl(dr("Modify_Flag")) = 1, True, False)
                     End If
-                    If isDeleteFlag = False Then
+                    If Not isDeleteFlag Then
                         isDeleteFlag = IIf(clsCommon.myCdbl(dr("Delete_Flag")) = 1, True, False)
                     End If
-                    If isPostFlag = False Then
+                    If Not isPostFlag Then
                         isPostFlag = IIf(clsCommon.myCdbl(dr("Authorized_Flag")) = 1, True, False)
                     End If
-                    If isReverse = False Then
+                    If Not isReverse Then
                         isReverse = IIf(clsCommon.myCdbl(dr("Reverse_Flag")) = 1, True, False)
                     End If
-                    If isExport = False Then
+                    If Not isExport Then
                         isExport = IIf(clsCommon.myCdbl(dr("Export_Flag")) = 1, True, False)
                     End If
-                    If isPrintFlag = False Then
+                    If Not isPrintFlag Then
                         isPrintFlag = IIf(clsCommon.myCdbl(dr("Print_Flag")) = 1, True, False)
                     End If
-                    If isQuickExportFlag = False Then
+                    If Not isQuickExportFlag Then
                         isQuickExportFlag = IIf(clsCommon.myCdbl(dr("QucikExport_Flag")) = 1, True, False)
                     End If
-                    If isCancel_Flag = False Then
+                    If Not isCancel_Flag Then
                         isCancel_Flag = IIf(clsCommon.myCdbl(dr("Cancel_Flag")) = 1, True, False)
                     End If
-                    If isCancel_Flag_After_Posting = False Then
+                    If Not isCancel_Flag_After_Posting Then
                         isCancel_Flag_After_Posting = IIf(clsCommon.myCdbl(dr("Cancel_Flag_After_Posting")) = 1, True, False)
                     End If
-                    If isModifyonPasswordFlag = False Then
+                    If Not isModifyonPasswordFlag Then
                         isModifyonPasswordFlag = IIf(clsCommon.myCdbl(dr("isModifyonPassword")) = 1, True, False)
                     End If
-                    If isAmendmentFlag = False Then
+                    If Not isAmendmentFlag Then
                         isAmendmentFlag = IIf(clsCommon.myCdbl(dr("is_Amendment")) = 1, True, False)
                     End If
-                    If isUpdateFlag = False Then
+                    If Not isUpdateFlag Then
                         isUpdateFlag = IIf(clsCommon.myCdbl(dr("update_flag")) = 1, True, False)
                     End If
                 Next
             End If
         End If
 
-        qry = "select 1 from TSPL_CUSTOM_FIELD_MAPPING where Program_Code='" + FormID + "' and Is_For_Detail_Level='0' "
+        qry = "select 1 from TSPL_CUSTOM_FIELD_MAPPING where Program_Code='" & FormID & "' and Is_For_Detail_Level='0' "
         Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dtNew IsNot Nothing AndAlso dtNew.Rows.Count Then
             customFieldTabProperty = ElementVisibility.Visible
@@ -153,12 +162,12 @@ Public Class FrmMainTranScreen
     Public Shared Function bankPermission(Optional ByVal trans As SqlTransaction = Nothing) As String
         Dim qry As String = ""
         Dim strvalue As String = ""
-        qry = "select distinct bank_code from TSPL_User_Bank_mapping where Item_Code ='" + objCommonVar.CurrentUserCode + "'"
+        qry = "select distinct bank_code from TSPL_User_Bank_mapping where Item_Code ='" & objCommonVar.CurrentUserCode & "'"
         Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
         If dtNew IsNot Nothing AndAlso dtNew.Rows.Count > 0 Then
             For Each dr As DataRow In dtNew.Rows
-                strvalue = strvalue + ",'" + clsCommon.myCstr(dr("bank_code")) + "'"
+                strvalue = strvalue + ",'" & clsCommon.myCstr(dr("bank_code")) & "'"
                 If strvalue.Substring(0, 1) = "," Then
 
                     strvalue = strvalue.Substring(1, strvalue.Length - 1)
@@ -177,7 +186,7 @@ Public Class FrmMainTranScreen
     Public Shared Function CustomerPermission() As String
         Dim qry As String = ""
         Dim strvalue As String = ""
-        qry = "select distinct Cust_Code from TSPL_CUSTOMER_MAPPING where User_Code ='" + objCommonVar.CurrentUserCode + "' and Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
+        qry = "select distinct Cust_Code from TSPL_CUSTOMER_MAPPING where User_Code ='" & objCommonVar.CurrentUserCode & "' and Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
         Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry)
 
         If dtNew IsNot Nothing AndAlso dtNew.Rows.Count > 0 Then
@@ -215,20 +224,10 @@ Public Class FrmMainTranScreen
             End If
 
         End If
-        Try
 
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
         Return strvalue
     End Function
 
-
-    Private Sub FrmMainTranScreen_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
-
-
-
-    End Sub
 
     Private Sub FrmMainTranScreen_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         'Try
@@ -259,6 +258,9 @@ Public Class FrmMainTranScreen
         'Catch ex As Exception
 
         'End Try
+        RemoveMouseMove()
+        RemoveMouseUp()
+
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDesignAtRunTime, clsFixedParameterCode.AllowDesignAtRunTime, Nothing)) = 1 Then
             If objCD IsNot Nothing Then
                 objCD.Dispose()
@@ -268,10 +270,10 @@ Public Class FrmMainTranScreen
             Dim objCM As New ControlManager
 
             'Save all supported properties of current form's controls (except btnDesigner) to config file
-            If bolDesignMode Then
-                If clsCommon.MyMessageBoxShow(Me, "Save Design Mode Data ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                    objCM.SaveProperties(Me, New List(Of Control)({}))
-                End If
+            If bolDesignMode AndAlso clsCommon.MyMessageBoxShow(Me, "Save Design Mode Data ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                'If clsCommon.MyMessageBoxShow(Me, "Save Design Mode Data ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                objCM.SaveProperties(Me, New List(Of Control)({}))
+                'End If
             End If
             bolDesignMode = False
             'Close manager
@@ -284,37 +286,37 @@ Public Class FrmMainTranScreen
     Private Sub FrmMainTranScreen_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         'Ticket No-TEC/24/07/19-000956,TEC/26/07/19-000965 
         'If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.UseControlMForHelp, clsFixedParameterCode.UseControlMForHelp, Nothing), "0") = CompairStringResult.Equal Then
-        If e.KeyCode = Keys.F1 AndAlso objCommonVar.ControlMForHelp = False Then
+        If e.KeyCode = Keys.F1 AndAlso Not objCommonVar.ControlMForHelp Then
             Dim strpath = Application.StartupPath
             Dim strHelpPath As String = ""
-            strHelpPath = strpath + "\HTMLHELPERP\" & Form_ID & ".html"
+            strHelpPath = strpath & "\HTMLHELPERP\" & Form_ID & ".html"
             Dim IsExists As Boolean = System.IO.File.Exists(strHelpPath)
 
-            If IsExists = True Then
-                Help.ShowHelp(Me, Application.StartupPath & "\HTMLHELPERP\usermanual.chm", HelpNavigator.Topic, Form_ID + ".html")
+            If IsExists Then
+                Help.ShowHelp(Me, Application.StartupPath & "\HTMLHELPERP\usermanual.chm", HelpNavigator.Topic, Form_ID & ".html")
             Else
                 Exit Sub
             End If
         End If
         'Else
-        If e.Control AndAlso e.KeyCode = Keys.M AndAlso objCommonVar.ControlMForHelp = True Then
+        If e.Control AndAlso e.KeyCode = Keys.M AndAlso objCommonVar.ControlMForHelp Then
             Dim strpath = Application.StartupPath
             Dim strHelpPath As String = ""
-            strHelpPath = strpath + "\HTMLHELPERP\" & Form_ID & ".html"
+            strHelpPath = strpath & "\HTMLHELPERP\" & Form_ID & ".html"
             Dim IsExists As Boolean = System.IO.File.Exists(strHelpPath)
 
-            If IsExists = True Then
-                Help.ShowHelp(Me, Application.StartupPath & "\HTMLHELPERP\usermanual.chm", HelpNavigator.Topic, Form_ID + ".html")
+            If IsExists Then
+                Help.ShowHelp(Me, Application.StartupPath & "\HTMLHELPERP\usermanual.chm", HelpNavigator.Topic, Form_ID & ".html")
             Else
                 Exit Sub
             End If
         End If
         'End If
-        If e.Control And e.Shift And e.KeyCode = Keys.L Then
+        If e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.L Then
             LoadChangeLabel()
         End If
 
-        If e.Control And e.Shift And e.Alt And e.KeyCode = Keys.J Then
+        If e.Control AndAlso e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.J Then
             'If clsCommon.CompairString(Form_ID, clsUserMgtCode.frmCSASaleInvoice) = CompairStringResult.Equal Then ''journal entry skip on Sale Patti[By Amit Sir 05/10/2015]
             '    Exit Sub
             'End If
@@ -351,7 +353,7 @@ Public Class FrmMainTranScreen
             ShowJE(Form_ID, strCode)
         End If
 
-        If e.Control And e.Shift And e.Alt And e.KeyCode = Keys.A Then
+        If e.Control AndAlso e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.A Then
             strRvalue = ""
             Dim strCode As String = getNavigatorValue(Me)
             If clsCommon.myLen(strCode) <= 0 Then
@@ -372,7 +374,7 @@ Public Class FrmMainTranScreen
         End If
 
         '=================================Ticket No : TEC/03/10/18-000332=============================================
-        If e.Control And e.Shift And e.Alt And e.KeyCode = Keys.B Then
+        If e.Control AndAlso e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.B Then
             strRvalue = ""
             Dim strCode As String = getNavigatorValue(Me)
             If clsCommon.myLen(strCode) <= 0 Then
@@ -381,11 +383,11 @@ Public Class FrmMainTranScreen
             End If
             'Ticket No :TEC/10/09/19-001005
             If clsCommon.CompairString(Me.Form_ID, clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal OrElse clsCommon.CompairString(Me.Form_ID, clsUserMgtCode.frmShipmentProductSale) = CompairStringResult.Equal OrElse clsCommon.CompairString(Me.Form_ID, clsUserMgtCode.FrmDispatchFreshSale) = CompairStringResult.Equal OrElse clsCommon.CompairString(Me.Form_ID, clsUserMgtCode.frmSaleDispatchDairy) = CompairStringResult.Equal Then
-                strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code = '" + strCode + "'"))
+                strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code = '" & strCode & "'"))
             ElseIf clsCommon.CompairString(Me.Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
-                strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No = '" + strCode + "'"))
+                strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select invoice_No from TSPL_SCRAPINVOICE_HEAD where shipment_No = '" & strCode & "'"))
             ElseIf clsCommon.CompairString(Me.Form_ID, clsUserMgtCode.FrmCanSale) = CompairStringResult.Equal Then
-                strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Document_No from TSPL_CANSALE_INVOICE_HEAD where CanSale_Doc_No= '" + strCode + "'"))
+                strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Document_No from TSPL_CANSALE_INVOICE_HEAD where CanSale_Doc_No= '" & strCode & "'"))
 
             End If
             strCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Document_No  from TSPL_Customer_Invoice_Head where Description like'%" & strCode & "%' Or RefDocNo like'%" & strCode & "%' Or AgainstScrap like'%" & strCode & "%' Or Against_Sale_No like'%" & strCode & "%' Or Against_Sale_Return_No like'%" & strCode & "%' Or Against_MCC_Material_Sale_Return like'%" & strCode & "%' Or Against_VCGL like'%" & strCode & "%' Or Against_Service_Visit_Code like'%" & strCode & "%' Or Against_Asset_Disposal like'%" & strCode & "%' Or AgainstScrapReturn  like'%" & strCode & "%' Or Against_Security_Receipt_No like'%" & strCode & "%' Or Against_Subsidy_No like '%" & strCode & "%' "))
@@ -407,15 +409,15 @@ Public Class FrmMainTranScreen
                 frmPWD.strCode = clsFixedParameterCode.SMSEMailPassword
                 frmPWD.ShowDialog()
                 If frmPWD.isPasswordCorrect Then
-                    Dim qry As String = "select * from ( select Program_Code+'1' as Code,ES_Trans_Type_1 as Name  from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                    Dim qry As String = "select * from ( select Program_Code+'1' as Code,ES_Trans_Type_1 as Name  from TSPL_PROGRAM_MASTER where Program_Code='" & Me.Form_ID & "'" & Environment.NewLine +
                      "union all" + Environment.NewLine +
-                     "select Program_Code+'2' as Code,ES_Trans_Type_2 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "select Program_Code+'2' as Code,ES_Trans_Type_2 as Name from TSPL_PROGRAM_MASTER where Program_Code='" & Me.Form_ID & "'" & Environment.NewLine +
                      "union all" + Environment.NewLine +
-                     "select Program_Code+'3' as Code,ES_Trans_Type_3 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "select Program_Code+'3' as Code,ES_Trans_Type_3 as Name from TSPL_PROGRAM_MASTER where Program_Code='" & Me.Form_ID & "'" & Environment.NewLine +
                      "union all" + Environment.NewLine +
-                     "select Program_Code+'4' as Code,ES_Trans_Type_4 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "'" + Environment.NewLine +
+                     "select Program_Code+'4' as Code,ES_Trans_Type_4 as Name from TSPL_PROGRAM_MASTER where Program_Code='" & Me.Form_ID & "'" & Environment.NewLine +
                      "union all" + Environment.NewLine +
-                     "select Program_Code+'5' as Code,ES_Trans_Type_5 as Name from TSPL_PROGRAM_MASTER where Program_Code='" + Me.Form_ID + "')xx where len(isnull(Name,''))>0"
+                     "select Program_Code+'5' as Code,ES_Trans_Type_5 as Name from TSPL_PROGRAM_MASTER where Program_Code='" & Me.Form_ID & "')xx where len(isnull(Name,''))>0"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     Dim strFormID As String = Me.Form_ID
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -468,34 +470,34 @@ Public Class FrmMainTranScreen
                 frmShowCrystalReportActionType.ShowDialog()
             End If
         End If
-        If e.Control And e.Shift And e.KeyCode = Keys.R Then
+        If e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.R Then
             FindAndRestoreGridLayout(Me)
         End If
-        If e.Control And e.Shift And e.Alt And e.KeyCode = Keys.X Then
-            If objCommonVar.is_Cancel_Allowed = "1" Then
-                Dim obj As New FrmMainTranScreen
-                obj.SetUserMgmt(Me.Form_ID)
-                If obj.isCancel_Flag = True Then
-                    If clsCommon.MyMessageBoxShow(Me, "Do you want to cancel this Document.?", "cancel Docuement", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                        Dim cancel_after_Posting_Date As Date = Nothing
-                        If obj.isCancel_Flag_After_Posting Then
-                            obj.isCancel_Flag_After_Posting = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Cancel_After_Posting_Tables_Details where form_id='" & Me.Form_ID & "'", trans)) > 0, True, False)
-                            cancel_after_Posting_Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,starting_date,103) from TSPL_Cancel_After_Posting_Tables_Details where form_id='" & Me.Form_ID & "'", trans))
-                        End If
-                        frmClientFormLableDetails.CancelDocument(Me, Me.Form_ID, trans, cancel_after_Posting_Date, Me, obj.isCancel_Flag_After_Posting, True)
+        If e.Control AndAlso e.Shift AndAlso e.Alt AndAlso e.KeyCode = Keys.X AndAlso objCommonVar.is_Cancel_Allowed = "1" Then
+            'If objCommonVar.is_Cancel_Allowed = "1" Then
+            Dim obj As New FrmMainTranScreen
+            obj.SetUserMgmt(Me.Form_ID)
+            If obj.isCancel_Flag Then
+                If clsCommon.MyMessageBoxShow(Me, "Do you want to cancel this Document.?", "cancel Docuement", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Dim cancel_after_Posting_Date As Date = Nothing
+                    If obj.isCancel_Flag_After_Posting Then
+                        obj.isCancel_Flag_After_Posting = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Cancel_After_Posting_Tables_Details where form_id='" & Me.Form_ID & "'", trans)) > 0, True, False)
+                        cancel_after_Posting_Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,starting_date,103) from TSPL_Cancel_After_Posting_Tables_Details where form_id='" & Me.Form_ID & "'", trans))
                     End If
+                    frmClientFormLableDetails.CancelDocument(Me, Me.Form_ID, trans, cancel_after_Posting_Date, Me, obj.isCancel_Flag_After_Posting, True)
                 End If
             End If
+            'End If
 
         End If
-        If e.Alt And e.KeyCode = Keys.D Then
-            If is_Cancel_Allowed = "1" Then
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_Cancel_Table_Details where Form_Id='" & Me.Form_ID & "'")
-                If dt.Rows.Count > 0 Then
-                    Me.isDeleteFlag = False
-                End If
+        If e.Alt AndAlso e.KeyCode = Keys.D AndAlso is_Cancel_Allowed = "1" Then
+            'If is_Cancel_Allowed = "1" Then
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_Cancel_Table_Details where Form_Id='" & Me.Form_ID & "'")
+            If dt.Rows.Count > 0 Then
+                Me.isDeleteFlag = False
             End If
+            'End If
         End If
 
 
@@ -534,7 +536,7 @@ Public Class FrmMainTranScreen
         End If
 
         'sanjay
-        If e.Control And e.KeyCode = Keys.F Then
+        If e.Control AndAlso e.KeyCode = Keys.F Then
             If clsCommon.myLen(PageSetupReport_ID) > 0 Then
                 Dim frm As New frmPDFPageSize
                 frm.Text = "PDF Page Size [" + PageSetupReport_ID + "]"
@@ -544,7 +546,7 @@ Public Class FrmMainTranScreen
             End If
         End If
         'Sanjay Ticket No- TEC/12/12/18-000379 Template
-        If e.Alt And e.KeyCode = Keys.T Then
+        If e.Alt AndAlso e.KeyCode = Keys.T Then
             If clsCommon.myLen(PageSetupReport_ID) > 0 AndAlso TemplateGridview IsNot Nothing Then
                 If TemplateGridview.Rows.Count <= 0 Then
                     clsCommon.MyMessageBoxShow(Me, "No Data in Grid", Me.Text)
@@ -659,7 +661,7 @@ Public Class FrmMainTranScreen
             If clsCommon.myLen(Me.Form_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
                 obj = CType(obj.GetData(Me.Form_ID & gridName.Name.ToString & clsCommon.myCstr(gridName.Tag), "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= CType(gridName, RadGridView).ColumnCount Then
+                If obj IsNot Nothing AndAlso obj.GridColumns >= CType(gridName, RadGridView).ColumnCount Then
                     Dim ii As Integer
                     For ii = 0 To CType(gridName, RadGridView).Columns.Count - 1 Step ii + 1
                         CType(gridName, RadGridView).Columns(ii).IsVisible = False
@@ -684,10 +686,10 @@ Public Class FrmMainTranScreen
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
                 If Not (TypeOf (ctrl) Is MyCheckBoxGrid) Then
-                    If ctrl.HasChildren = True Then
+                    If ctrl.HasChildren Then
                         FindAndSaveGridLayout(Me, ctrl)
                     End If
-                    If TypeOf (ctrl) Is RadGridView Or TypeOf (ctrl) Is DataGridView Or TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
+                    If TypeOf (ctrl) Is RadGridView OrElse TypeOf (ctrl) Is DataGridView OrElse TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
                         Try
                             SaveLayout(ctrl)
                             CType(ctrl, RadGridView).AutoSizeRows = True
@@ -698,7 +700,7 @@ Public Class FrmMainTranScreen
                 End If
             Next
         Else
-            If TypeOf (contrl) Is RadGridView Or TypeOf (contrl) Is DataGridView Or TypeOf (contrl) Is common.UserControls.MyRadGridView Then
+            If TypeOf (contrl) Is RadGridView OrElse TypeOf (contrl) Is DataGridView OrElse TypeOf (contrl) Is common.UserControls.MyRadGridView Then
                 Try
                     SaveLayout(contrl)
                     CType(contrl, RadGridView).AutoSizeRows = True
@@ -709,10 +711,10 @@ Public Class FrmMainTranScreen
                 '' change in query by Panch Raj against ticket no-UDL/21/05/18-000168
                 For Each ctrl As Control In contrl.Controls
                     If Not TypeOf (ctrl) Is MyCheckBoxGrid Then
-                        If ctrl.HasChildren = True Then
+                        If ctrl.HasChildren Then
                             FindAndSaveGridLayout(Me, ctrl)
                         End If
-                        If TypeOf (ctrl) Is RadGridView Or TypeOf (ctrl) Is DataGridView Or TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
+                        If TypeOf (ctrl) Is RadGridView OrElse TypeOf (ctrl) Is DataGridView OrElse TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
                             Try
                                 SaveLayout(ctrl)
                                 CType(ctrl, RadGridView).AutoSizeRows = True
@@ -740,7 +742,7 @@ Public Class FrmMainTranScreen
         'common.Controls.MyTextBox
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     FindAndSetTabStopFalse(Me, ctrl)
                 End If
                 'If TypeOf (ctrl) Is common.UserControls.txtNavigator Then
@@ -756,7 +758,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.UserControls.txtFinder Then
                     Try
-                        If CType(ctrl, common.UserControls.txtFinder).MyReadOnly = True Then
+                        If CType(ctrl, common.UserControls.txtFinder).MyReadOnly Then
                             CType(ctrl, common.UserControls.txtFinder).TabStop = False
                             CType(ctrl, common.UserControls.txtFinder).MendatroryField = False
                             'CType(ctrl, common.UserControls.txtFinder).Enabled = False
@@ -767,7 +769,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyCheckBox Then
                     Try
-                        If CType(ctrl, common.Controls.MyCheckBox).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyCheckBox).ReadOnly Then
                             CType(ctrl, common.Controls.MyCheckBox).TabStop = False
                             'CType(ctrl, common.Controls.MyCheckBox).Enabled = False
                         End If
@@ -777,7 +779,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyComboBox Then
                     Try
-                        If CType(ctrl, common.Controls.MyComboBox).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyComboBox).ReadOnly Then
                             CType(ctrl, common.Controls.MyComboBox).TabStop = False
                             CType(ctrl, common.Controls.MyComboBox).MendatroryField = False
                             ' CType(ctrl, common.Controls.MyComboBox).Enabled = False
@@ -788,7 +790,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyDateTimePicker Then
                     Try
-                        If CType(ctrl, common.Controls.MyDateTimePicker).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyDateTimePicker).ReadOnly Then
                             CType(ctrl, common.Controls.MyDateTimePicker).TabStop = False
                             CType(ctrl, common.Controls.MyDateTimePicker).MendatroryField = False
                             ' CType(ctrl, common.Controls.MyDateTimePicker).Enabled = False
@@ -799,7 +801,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyRadioButton Then
                     Try
-                        If CType(ctrl, common.Controls.MyRadioButton).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyRadioButton).ReadOnly Then
                             CType(ctrl, common.Controls.MyRadioButton).TabStop = False
                             'CType(ctrl, common.Controls.MyRadioButton).Enabled = False
                         End If
@@ -809,7 +811,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyTextBox Then
                     Try
-                        If CType(ctrl, common.Controls.MyTextBox).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyTextBox).ReadOnly Then
                             CType(ctrl, common.Controls.MyTextBox).TabStop = False
                             CType(ctrl, common.Controls.MyTextBox).MendatroryField = False
                             ' CType(ctrl, common.Controls.MyTextBox).Enabled = False
@@ -819,7 +821,7 @@ Public Class FrmMainTranScreen
                 End If
                 If TypeOf (ctrl) Is common.MyNumBox Then
                     Try
-                        If CType(ctrl, common.MyNumBox).ReadOnly = True Then
+                        If CType(ctrl, common.MyNumBox).ReadOnly Then
                             CType(ctrl, common.MyNumBox).TabStop = False
                             CType(ctrl, common.MyNumBox).MendatroryField = False
                             ' CType(ctrl, common.MyNumBox).Enabled = False
@@ -830,7 +832,7 @@ Public Class FrmMainTranScreen
             Next
         Else
             For Each ctrl As Control In contrl.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     FindAndSetTabStopFalse(Me, ctrl)
                 End If
                 'If TypeOf (ctrl) Is common.UserControls.txtNavigator Then
@@ -846,7 +848,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.UserControls.txtFinder Then
                     Try
-                        If CType(ctrl, common.UserControls.txtFinder).MyReadOnly = True Then
+                        If CType(ctrl, common.UserControls.txtFinder).MyReadOnly Then
                             CType(ctrl, common.UserControls.txtFinder).TabStop = False
                             CType(ctrl, common.UserControls.txtFinder).MendatroryField = False
                             ' CType(ctrl, common.UserControls.txtFinder).Enabled = False
@@ -857,7 +859,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyCheckBox Then
                     Try
-                        If CType(ctrl, common.Controls.MyCheckBox).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyCheckBox).ReadOnly Then
                             CType(ctrl, common.Controls.MyCheckBox).TabStop = False
                             'CType(ctrl, common.Controls.MyCheckBox).Enabled = False
                         End If
@@ -867,7 +869,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyComboBox Then
                     Try
-                        If CType(ctrl, common.Controls.MyComboBox).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyComboBox).ReadOnly Then
                             CType(ctrl, common.Controls.MyComboBox).TabStop = False
                             CType(ctrl, common.Controls.MyComboBox).MendatroryField = False
                             'CType(ctrl, common.Controls.MyComboBox).Enabled = False
@@ -878,7 +880,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyDateTimePicker Then
                     Try
-                        If CType(ctrl, common.Controls.MyDateTimePicker).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyDateTimePicker).ReadOnly Then
                             CType(ctrl, common.Controls.MyDateTimePicker).TabStop = False
                             CType(ctrl, common.Controls.MyDateTimePicker).MendatroryField = False
                             'CType(ctrl, common.Controls.MyDateTimePicker).Enabled = False
@@ -889,7 +891,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyRadioButton Then
                     Try
-                        If CType(ctrl, common.Controls.MyRadioButton).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyRadioButton).ReadOnly Then
                             CType(ctrl, common.Controls.MyRadioButton).TabStop = False
                             ' CType(ctrl, common.Controls.MyRadioButton).Enabled = False
                         End If
@@ -899,7 +901,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.Controls.MyTextBox Then
                     Try
-                        If CType(ctrl, common.Controls.MyTextBox).ReadOnly = True Then
+                        If CType(ctrl, common.Controls.MyTextBox).ReadOnly Then
                             CType(ctrl, common.Controls.MyTextBox).TabStop = False
                             CType(ctrl, common.Controls.MyTextBox).MendatroryField = False
                             'CType(ctrl, common.Controls.MyTextBox).Enabled = False
@@ -910,7 +912,7 @@ Public Class FrmMainTranScreen
 
                 If TypeOf (ctrl) Is common.MyNumBox Then
                     Try
-                        If CType(ctrl, common.MyNumBox).ReadOnly = True Then
+                        If CType(ctrl, common.MyNumBox).ReadOnly Then
                             CType(ctrl, common.MyNumBox).TabStop = False
                             CType(ctrl, common.MyNumBox).MendatroryField = False
                             'CType(ctrl, common.MyNumBox).Enabled = False
@@ -926,7 +928,7 @@ Public Class FrmMainTranScreen
 
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     FindAndSetgridUpDownFalse(Me, ctrl)
 
                 End If
@@ -942,7 +944,7 @@ Public Class FrmMainTranScreen
 
         Else
             For Each ctrl As Control In contrl.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     FindAndSetgridUpDownFalse(Me, ctrl)
                 End If
 
@@ -961,17 +963,23 @@ Public Class FrmMainTranScreen
         Try
             If IsNothing(contrl) Then
                 For Each ctrl As Control In formname.Controls
-                    If ctrl.HasChildren = True Then
+                    If ctrl.HasChildren Then
                         AddMouseMove(Me, ctrl)
                     End If
-                    AddHandler ctrl.MouseMove, AddressOf FrmMainTranScreen_MouseMove
+                    'AddHandler ctrl.MouseMove, AddressOf FrmMainTranScreen_MouseMove
+                    Dim handler As New MouseEventHandler(AddressOf FrmMainTranScreen_MouseMove)
+                    AddHandler ctrl.MouseMove, handler
+                    mouseMoveHandlers.Add(handler)
                 Next
             Else
                 For Each ctrl As Control In contrl.Controls
-                    If ctrl.HasChildren = True Then
+                    If ctrl.HasChildren Then
                         AddMouseMove(Me, ctrl)
                     End If
-                    AddHandler ctrl.MouseMove, AddressOf FrmMainTranScreen_MouseMove
+                    'AddHandler ctrl.MouseMove, AddressOf FrmMainTranScreen_MouseMove
+                    Dim handler As New MouseEventHandler(AddressOf FrmMainTranScreen_MouseMove)
+                    AddHandler ctrl.MouseMove, handler
+                    mouseMoveHandlers.Add(handler)
                 Next
             End If
 
@@ -984,10 +992,10 @@ Public Class FrmMainTranScreen
 
 
             For Each ctrl As Control In formname.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     FindAndDeleteGridLayout(Me, ctrl)
                 End If
-                If TypeOf (ctrl) Is RadGridView Or TypeOf (ctrl) Is DataGridView Or TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
+                If TypeOf (ctrl) Is RadGridView OrElse TypeOf (ctrl) Is DataGridView OrElse TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
                     Try
                         clsGridLayout.DeleteData(Me.Form_ID & ctrl.Name & clsCommon.myCstr(ctrl.Tag), objCommonVar.CurrentUserCode)
                         isSavedGrid = True
@@ -998,7 +1006,7 @@ Public Class FrmMainTranScreen
             Next
         Else
             '' change in query by Panch Raj against ticket no-UDL/21/05/18-000168
-            If TypeOf (contrl) Is RadGridView Or TypeOf (contrl) Is DataGridView Or TypeOf (contrl) Is common.UserControls.MyRadGridView Then
+            If TypeOf (contrl) Is RadGridView OrElse TypeOf (contrl) Is DataGridView OrElse TypeOf (contrl) Is common.UserControls.MyRadGridView Then
                 Try
                     clsGridLayout.DeleteData(Me.Form_ID & contrl.Name & clsCommon.myCstr(contrl.Tag), objCommonVar.CurrentUserCode)
                     isSavedGrid = True
@@ -1007,10 +1015,10 @@ Public Class FrmMainTranScreen
                 End Try
             Else
                 For Each ctrl As Control In contrl.Controls
-                    If ctrl.HasChildren = True Then
+                    If ctrl.HasChildren Then
                         FindAndDeleteGridLayout(Me, ctrl)
                     End If
-                    If TypeOf (ctrl) Is RadGridView Or TypeOf (ctrl) Is DataGridView Or TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
+                    If TypeOf (ctrl) Is RadGridView OrElse TypeOf (ctrl) Is DataGridView OrElse TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
                         Try
                             clsGridLayout.DeleteData(Me.Form_ID & ctrl.Name & clsCommon.myCstr(ctrl.Tag), objCommonVar.CurrentUserCode)
                             isSavedGrid = True
@@ -1027,10 +1035,10 @@ Public Class FrmMainTranScreen
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
                 If Not (TypeOf (ctrl) Is MyCheckBoxGrid) Then
-                    If ctrl.HasChildren = True Then
+                    If ctrl.HasChildren Then
                         FindAndRestoreGridLayout(Me, ctrl)
                     End If
-                    If TypeOf (ctrl) Is RadGridView Or TypeOf (ctrl) Is DataGridView Or TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
+                    If TypeOf (ctrl) Is RadGridView OrElse TypeOf (ctrl) Is DataGridView OrElse TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
                         Try
                             ReStoreGridLayoutMain(ctrl)
                         Catch ex As Exception
@@ -1041,7 +1049,7 @@ Public Class FrmMainTranScreen
             Next
         Else
             '' change in query by Panch Raj against ticket no-UDL/21/05/18-000168
-            If TypeOf (contrl) Is RadGridView Or TypeOf (contrl) Is DataGridView Or TypeOf (contrl) Is common.UserControls.MyRadGridView Then
+            If TypeOf (contrl) Is RadGridView OrElse TypeOf (contrl) Is DataGridView OrElse TypeOf (contrl) Is common.UserControls.MyRadGridView Then
                 Try
                     ReStoreGridLayoutMain(contrl)
                 Catch ex As Exception
@@ -1050,10 +1058,10 @@ Public Class FrmMainTranScreen
             Else
                 For Each ctrl As Control In contrl.Controls
                     If Not (TypeOf (ctrl) Is MyCheckBoxGrid) Then
-                        If ctrl.HasChildren = True Then
+                        If ctrl.HasChildren Then
                             FindAndRestoreGridLayout(Me, ctrl)
                         End If
-                        If TypeOf (ctrl) Is RadGridView Or TypeOf (ctrl) Is DataGridView Or TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
+                        If TypeOf (ctrl) Is RadGridView OrElse TypeOf (ctrl) Is DataGridView OrElse TypeOf (ctrl) Is common.UserControls.MyRadGridView Then
                             Try
                                 ReStoreGridLayoutMain(ctrl)
                             Catch ex As Exception
@@ -1149,7 +1157,7 @@ Public Class FrmMainTranScreen
 
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     getNavigatorValue(Me, ctrl)
                 End If
                 If TypeOf (ctrl) Is common.UserControls.txtNavigator Then
@@ -1162,7 +1170,7 @@ Public Class FrmMainTranScreen
             Next
         Else
             For Each ctrl As Control In contrl.Controls
-                If ctrl.HasChildren = True Then
+                If ctrl.HasChildren Then
                     getNavigatorValue(Me, ctrl)
                 End If
                 If TypeOf (ctrl) Is common.UserControls.txtNavigator Then
@@ -1181,9 +1189,7 @@ Public Class FrmMainTranScreen
         Return ""
     End Function
 
-    Private Sub FrmMainTranScreen_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
 
-    End Sub
 
     Private Sub FrmMainTranScreen_MouseEnter(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.MouseEnter
         clsDBFuncationality._LastActiveTime = DateTime.Now()
@@ -1201,7 +1207,7 @@ Public Class FrmMainTranScreen
 
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
-                If ctrl.HasChildren = True AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
+                If ctrl.HasChildren AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
                     AddSpecialAttributesToFormControl(formname, ctrl)
                 End If
                 If Not (TypeOf ctrl Is RadGroupBox OrElse TypeOf ctrl Is SplitContainer OrElse TypeOf ctrl Is RadPanel OrElse TypeOf ctrl Is Panel OrElse TypeOf ctrl Is GroupBox OrElse TypeOf ctrl Is common.UserControls.MyRadGridView) AndAlso clsCommon.myLen(ctrl.Name) > 0 Then
@@ -1217,7 +1223,7 @@ Public Class FrmMainTranScreen
             Next
         Else
             For Each ctrl As Control In contrl.Controls
-                If ctrl.HasChildren = True AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
+                If ctrl.HasChildren AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
                     AddSpecialAttributesToFormControl(formname, ctrl)
                 End If
                 If Not (TypeOf ctrl Is RadGroupBox OrElse TypeOf ctrl Is SplitContainer OrElse TypeOf ctrl Is RadPanel OrElse TypeOf ctrl Is Panel OrElse TypeOf ctrl Is GroupBox OrElse TypeOf ctrl Is common.UserControls.MyRadGridView) AndAlso clsCommon.myLen(ctrl.Name) > 0 Then
@@ -1238,26 +1244,32 @@ Public Class FrmMainTranScreen
 
         If IsNothing(contrl) Then
             For Each ctrl As Control In formname.Controls
-                If ctrl.HasChildren = True AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
+                If ctrl.HasChildren AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
                     AddMouseUpEventHandlerToAllControl(formname, ctrl)
                 End If
                 'If Not (TypeOf ctrl Is RadGroupBox OrElse TypeOf ctrl Is SplitContainer OrElse TypeOf ctrl Is RadPanel OrElse TypeOf ctrl Is Panel OrElse TypeOf ctrl Is GroupBox OrElse TypeOf ctrl Is common.UserControls.MyRadGridView) AndAlso clsCommon.myLen(ctrl.Name) > 0 Then
                 '    AddHandler ctrl.MouseUp, AddressOf FrmMainTranScreen_MouseUp
                 'End If
                 If TypeOf ctrl Is common.UserControls.MyRadGridView AndAlso clsCommon.myLen(ctrl.Name) > 0 Then
-                    AddHandler ctrl.MouseUp, AddressOf FrmMainTranScreen_MouseUp
+                    'AddHandler ctrl.MouseUp, AddressOf FrmMainTranScreen_MouseUp
+                    Dim handler As New MouseEventHandler(AddressOf FrmMainTranScreen_MouseUp)
+                    AddHandler ctrl.MouseUp, handler
+                    mouseUpHandlers.Add(handler)
                 End If
             Next
         Else
             For Each ctrl As Control In contrl.Controls
-                If ctrl.HasChildren = True AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
+                If ctrl.HasChildren AndAlso Not (TypeOf ctrl Is common.UserControls.txtFinder OrElse TypeOf ctrl Is common.UserControls.txtNavigator) Then
                     AddMouseUpEventHandlerToAllControl(formname, ctrl)
                 End If
                 'If Not (TypeOf ctrl Is RadGroupBox OrElse TypeOf ctrl Is SplitContainer OrElse TypeOf ctrl Is RadPanel OrElse TypeOf ctrl Is Panel OrElse TypeOf ctrl Is GroupBox OrElse TypeOf ctrl Is common.UserControls.MyRadGridView) AndAlso clsCommon.myLen(ctrl.Name) > 0 Then
                 '    AddHandler ctrl.MouseUp, AddressOf FrmMainTranScreen_MouseUp
                 'End If
                 If TypeOf ctrl Is common.UserControls.MyRadGridView AndAlso clsCommon.myLen(ctrl.Name) > 0 Then
-                    AddHandler ctrl.MouseUp, AddressOf FrmMainTranScreen_MouseUp
+                    'AddHandler ctrl.MouseUp, AddressOf FrmMainTranScreen_MouseUp
+                    Dim handler As New MouseEventHandler(AddressOf FrmMainTranScreen_MouseUp)
+                    AddHandler ctrl.MouseUp, handler
+                    mouseUpHandlers.Add(handler)
                 End If
             Next
         End If
@@ -1276,43 +1288,71 @@ Public Class FrmMainTranScreen
 
     End Sub
 
+    Public Sub RemoveMouseMove()
+        Dim allControls As IEnumerable(Of Control) = GetAllControls(Me) ' Assuming 'Me' is your form
 
+        For Each handler As MouseEventHandler In mouseMoveHandlers
+            For Each ctrl As Control In allControls
+                RemoveHandler ctrl.MouseMove, handler
+            Next
+        Next
+        mouseMoveHandlers.Clear()
+    End Sub
+    Public Sub RemoveMouseUp()
+        Dim allControls As IEnumerable(Of Control) = GetAllControls(Me) ' Assuming 'Me' is your form
+
+        For Each handler As MouseEventHandler In mouseUpHandlers
+            For Each ctrl As Control In allControls
+                RemoveHandler ctrl.MouseUp, handler
+            Next
+        Next
+        mouseUpHandlers.Clear()
+    End Sub
+    Private Function GetAllControls(ByVal parent As Control) As IEnumerable(Of Control)
+        Dim controls As New List(Of Control)
+        For Each ctrl As Control In parent.Controls
+            controls.Add(ctrl)
+            ' Recurse into child controls
+            controls.AddRange(GetAllControls(ctrl))
+        Next
+        Return controls
+    End Function
 
     'Private Sub FrmMainTranScreen_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
 
     'End Sub
     Private Sub FrmMainTranScreen_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        If Not Me.DesignMode Then
-            Try
-                If clsCommon.myLen(Form_ID) > 0 Then
-                    Dim obj As New frmClientFormLableDetails
-                    obj.formcode = Form_ID
-                    obj.formnam = Me
-                    obj.LoadLableChanged(Me, , True)
-                    'obj.Dispose()
-                    'If objCommonVar.AutoRestoreGridLayout Then
-                    '    FindAndRestoreGridLayout(Me)
-                    'End If
-                    FindAndSetgridUpDownFalse(Me)
-                    'AddMouseMove(Me)
+        'If Not Me.DesignMode Then
+        '    Try
+        '        If clsCommon.myLen(Form_ID) > 0 Then
+        '            Dim obj As New frmClientFormLableDetails
+        '            obj.formcode = Form_ID
+        '            obj.formnam = Me
+        '            obj.LoadLableChanged(Me, , True)
+        '            obj.Dispose()
+        '            'If objCommonVar.AutoRestoreGridLayout Then 
+        '            '    FindAndRestoreGridLayout(Me)
+        '            'End If
+        '            FindAndSetgridUpDownFalse(Me)
+        '            'AddMouseMove(Me)
 
-                End If
-                If is_Cancel_Allowed = "1" Then
-                    frmClientFormLableDetails.HideDeleteButon(Me, Me.Form_ID, Nothing)
-                End If
-            Catch ex As Exception
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            End Try
-        End If
+        '        End If
+        '        If is_Cancel_Allowed = "1" Then
+        '            frmClientFormLableDetails.HideDeleteButon(Me, Me.Form_ID, Nothing)
+        '        End If
+        '    Catch ex As Exception
+        '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '    End Try
+        'End If
     End Sub
     '' Anubhooti 09-Sep-2014 Check Transactions For Financial Year--------------------------------------------
     Public Shared Function ValidateTransactionAccToFinYear(ByVal Form_Name As String, ByVal DocDate As String) As Boolean
         'Try
         '    Dim Post_Previousyear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Post_Previousyear From TSPL_GLSETTING"))
         '    If clsCommon.CompairString(Post_Previousyear, "Y") = CompairStringResult.Equal Then
-        '        Dim QryCurrYear As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("  Select COUNT(Is_Current_Year) As Is_Current_Year  From TSPL_Fiscal_Year_Master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' and Is_Current_Year =1"))
-        '        Dim Qry As String = "  Select COUNT(Fiscal_Code) As Fiscal_Code  From TSPL_Fiscal_Year_Master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' AND convert(Date, '" + DocDate + "', 103)>= CONVERT(date, Start_Date,103) AND convert(Date, '" + DocDate + "', 103) <= CONVERT(date, End_Date ,103) and Is_Current_Year =1"
-        '        Dim DocDateWOTime As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select convert(Date, '" + DocDate + "', 103)"))
+        '        Dim QryCurrYear As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("  Select COUNT(Is_Current_Year) As Is_Current_Year  From TSPL_Fiscal_Year_Master where Comp_Code='" & objCommonVar.CurrentCompanyCode & "' and Is_Current_Year =1"))
+        '        Dim Qry As String = "  Select COUNT(Fiscal_Code) As Fiscal_Code  From TSPL_Fiscal_Year_Master where Comp_Code='" & objCommonVar.CurrentCompanyCode & "' AND convert(Date, '" & DocDate & "', 103)>= CONVERT(date, Start_Date,103) AND convert(Date, '" & DocDate & "', 103) <= CONVERT(date, End_Date ,103) and Is_Current_Year =1"
+        '        Dim DocDateWOTime As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select convert(Date, '" & DocDate & "', 103)"))
         '        Dim Fiscal_Code As Integer = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
         '        If Fiscal_Code = 0 Then
         '            If common.clsCommon.MyMessageBoxShow("Document date " + DocDateWOTime + " does not exists in current financial year.Do you still want to continue ", Form_Name, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
@@ -1328,24 +1368,23 @@ Public Class FrmMainTranScreen
 
         Try
             Dim QryCurrYear As Integer
-            QryCurrYear = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COUNT(Is_Current_Year) As Is_Current_Year  From TSPL_Fiscal_Year_Master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' and Is_Current_Year =1"))
+            QryCurrYear = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COUNT(Is_Current_Year) As Is_Current_Year  From TSPL_Fiscal_Year_Master where Comp_Code='" & objCommonVar.CurrentCompanyCode & "' and Is_Current_Year =1"))
             Dim Post_Previousyear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Post_Previousyear From TSPL_GLSETTING"))
             If clsCommon.CompairString(Post_Previousyear, "Y") = CompairStringResult.Equal Then
                 If QryCurrYear > 0 Then
-                    Dim Qry As String = "  Select COUNT(Fiscal_Code) As Fiscal_Code  From TSPL_Fiscal_Year_Master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' AND convert(Date, '" + DocDate + "', 103)>= CONVERT(date, Start_Date,103) AND convert(Date, '" + DocDate + "', 103) <= CONVERT(date, End_Date ,103) and Is_Current_Year =1"
-                    Dim DocDateWOTime As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select convert(Date, '" + DocDate + "', 103)"))
+                    Dim Qry As String = "  Select COUNT(Fiscal_Code) As Fiscal_Code  From TSPL_Fiscal_Year_Master where Comp_Code='" & objCommonVar.CurrentCompanyCode & "' AND convert(Date, '" & DocDate & "', 103)>= CONVERT(date, Start_Date,103) AND convert(Date, '" & DocDate & "', 103) <= CONVERT(date, End_Date ,103) and Is_Current_Year =1"
+                    Dim DocDateWOTime As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select convert(Date, '" & DocDate & "', 103)"))
                     Dim Fiscal_Code As Integer = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
                     If Fiscal_Code = 0 Then
-                        If common.clsCommon.MyMessageBoxShow("Document date " + DocDateWOTime + " does not exists in current financial year.Do you still want to continue ", Form_Name, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                        Else
+                        If common.clsCommon.MyMessageBoxShow("Document date " + DocDateWOTime + " does not exists in current financial year.Do you still want to continue ", Form_Name, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                             Return False
                         End If
                     End If
                 End If
                 'ElseIf clsCommon.CompairString(Post_Previousyear, "N") = CompairStringResult.Equal Then
                 '    If QryCurrYear > 0 Then
-                '        Dim QrySettOff As String = "  Select COUNT(Fiscal_Code) As Fiscal_Code  From TSPL_Fiscal_Year_Master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "' AND convert(Date, '" + DocDate + "', 103)>= CONVERT(date, Start_Date,103) AND convert(Date, '" + DocDate + "', 103) <= CONVERT(date, End_Date ,103) and Is_Current_Year =1"
-                '        Dim DocDateWOTimeSettOff As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select convert(Date, '" + DocDate + "', 103)"))
+                '        Dim QrySettOff As String = "  Select COUNT(Fiscal_Code) As Fiscal_Code  From TSPL_Fiscal_Year_Master where Comp_Code='" & objCommonVar.CurrentCompanyCode & "' AND convert(Date, '" & DocDate & "', 103)>= CONVERT(date, Start_Date,103) AND convert(Date, '" & DocDate & "', 103) <= CONVERT(date, End_Date ,103) and Is_Current_Year =1"
+                '        Dim DocDateWOTimeSettOff As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select convert(Date, '" & DocDate & "', 103)"))
                 '        Dim Fiscal_CodeSettOff As Integer = clsCommon.myCstr(clsDBFuncationality.getSingleValue(QrySettOff))
                 '        If Fiscal_CodeSettOff = 0 Then
                 '            clsCommon.MyMessageBoxShow("You can not make this entry beacuse document date " + DocDateWOTimeSettOff + " does not lie in current financial year")
@@ -1405,7 +1444,6 @@ Public Class FrmMainTranScreen
     End Function
 
     Public Sub New()
-
         ' This call is required by the designer.
         InitializeComponent()
 
@@ -1459,34 +1497,34 @@ Public Class FrmMainTranScreen
             End If
             isAmendmentFlag = True
         Else
-            qry = "select Read_Flag,Modify_Flag,Delete_Flag,Authorized_Flag, Reverse_Flag, Export_Flag,cancel_Flag,cancel_Flag_After_Posting,isnull(TSPL_GROUP_PROGRAM_MAPPING.is_Amendment,0) as is_Amendment from TSPL_GROUP_PROGRAM_MAPPING where Program_Code='" + FormID + "' and Group_Code in (select Group_Code  from TSPL_USER_GROUP_MAPPING where User_Code='" + objCommonVar.CurrentUserCode + "')"
+            qry = "select Read_Flag,Modify_Flag,Delete_Flag,Authorized_Flag, Reverse_Flag, Export_Flag,cancel_Flag,cancel_Flag_After_Posting,isnull(TSPL_GROUP_PROGRAM_MAPPING.is_Amendment,0) as is_Amendment from TSPL_GROUP_PROGRAM_MAPPING where Program_Code='" & FormID & "' and Group_Code in (select Group_Code  from TSPL_USER_GROUP_MAPPING where User_Code='" & objCommonVar.CurrentUserCode & "')"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
-                    If isReadFlag = False Then
+                    If Not isReadFlag Then
                         Throw New Exception("Permission Denied")
                         isReadFlag = IIf(clsCommon.myCdbl(dr("Read_Flag")) = 1, True, False)
                     End If
 
-                    If isModifyFlag = False Then
+                    If Not isModifyFlag Then
                         isModifyFlag = IIf(clsCommon.myCdbl(dr("Modify_Flag")) = 1, True, False)
                     End If
-                    If isDeleteFlag = False Then
+                    If Not isDeleteFlag Then
                         isDeleteFlag = IIf(clsCommon.myCdbl(dr("Delete_Flag")) = 1, True, False)
                     End If
-                    If isPostFlag = False Then
+                    If Not isPostFlag Then
                         isPostFlag = IIf(clsCommon.myCdbl(dr("Authorized_Flag")) = 1, True, False)
                     End If
-                    If isReverse = False Then
+                    If Not isReverse Then
                         isReverse = IIf(clsCommon.myCdbl(dr("Reverse_Flag")) = 1, True, False)
                     End If
-                    If isExport = False Then
+                    If Not isExport Then
                         isExport = IIf(clsCommon.myCdbl(dr("Export_Flag")) = 1, True, False)
                     End If
-                    If isCancel_Flag = False Then
+                    If Not isCancel_Flag Then
                         isCancel_Flag = IIf(clsCommon.myCdbl(dr("Cancel_Flag")) = 1, True, False)
                     End If
-                    If isCancel_Flag_After_Posting = False Then
+                    If Not isCancel_Flag_After_Posting Then
                         isCancel_Flag_After_Posting = IIf(clsCommon.myCdbl(dr("Cancel_Flag_After_Posting")) = 1, True, False)
                     End If
 
@@ -1498,7 +1536,7 @@ Public Class FrmMainTranScreen
                         btnImport.Enabled = isExport
                         btnExport.Enabled = isExport
                     End If
-                    If isAmendmentFlag = False Then
+                    If Not isAmendmentFlag Then
                         isAmendmentFlag = IIf(clsCommon.myCdbl(dr("is_Amendment")) = 1, True, False)
                     End If
                 Next
@@ -1512,7 +1550,7 @@ Public Class FrmMainTranScreen
             End If
         End If
 
-        qry = "select 1 from TSPL_CUSTOM_FIELD_MAPPING where Program_Code='" + FormID + "' and Is_For_Detail_Level='0' "
+        qry = "select 1 from TSPL_CUSTOM_FIELD_MAPPING where Program_Code='" & FormID & "' and Is_For_Detail_Level='0' "
         Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dtNew IsNot Nothing AndAlso dtNew.Rows.Count Then
             customFieldTabProperty = ElementVisibility.Visible
@@ -1527,14 +1565,14 @@ Public Class FrmMainTranScreen
     Dim IsSettingOn As Boolean = False
     Public Function AllowFutureDateTransaction(ByVal docDate As Date, ByVal trans As SqlClient.SqlTransaction) As Boolean
         IsSettingOn = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterType.AllowFutureDateTransaction, trans)) = 1, True, False)
-        If IsSettingOn = False Then
+        If Not IsSettingOn Then
             If docDate > clsCommon.GETSERVERDATE(trans) Then
                 clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & docDate)
                 Return False
             End If
         End If
         '===================added By preeti Gupta [01/02/2017]=================
-        If AllowBackDateEntry(docDate, trans) = False Then
+        If Not AllowBackDateEntry(docDate, trans) Then
             Return False
         End If
         '======================================================================
@@ -1572,8 +1610,8 @@ Public Class FrmMainTranScreen
     Public Function AllowAmendmentWithPasssword(ByVal FormId As String, ByVal trans As SqlClient.SqlTransaction) As Boolean
         Dim qry As String = Nothing
         Dim val As String = Nothing
-        Dim dt As DataTable = New DataTable()
-        qry = "select is_Amendment from TSPL_GROUP_PROGRAM_MAPPING left outer join TSPL_USER_GROUP_MAPPING on TSPL_GROUP_PROGRAM_MAPPING.Group_Code=TSPL_USER_GROUP_MAPPING.Group_Code where User_Code='" + clsCommon.myCstr(objCommonVar.CurrentUserCode) + "' and Program_Code='" + clsCommon.myCstr(FormId) + "' "
+        'Dim dt As DataTable = New DataTable()
+        qry = "select is_Amendment from TSPL_GROUP_PROGRAM_MAPPING left outer join TSPL_USER_GROUP_MAPPING on TSPL_GROUP_PROGRAM_MAPPING.Group_Code=TSPL_USER_GROUP_MAPPING.Group_Code where User_Code='" & clsCommon.myCstr(objCommonVar.CurrentUserCode) & "' and Program_Code='" & clsCommon.myCstr(FormId) & "' "
         val = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
         If clsCommon.myLen(val) > 0 AndAlso clsCommon.CompairString(val, "1") = CompairStringResult.Equal Then
             Dim frm As New FrmPWD(trans)

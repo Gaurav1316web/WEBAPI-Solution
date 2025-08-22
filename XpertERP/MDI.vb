@@ -8428,6 +8428,10 @@ Public Class MDI
                         frm = New BmcLabReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.CanSummaryReport
+                        frm = New Can_Summary_Report
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.FrmDayWiseMilkCollectionVsDispatch
                         frm = New FrmDayWiseMilkCollectionVsDispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

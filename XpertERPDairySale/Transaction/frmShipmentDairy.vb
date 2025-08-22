@@ -14263,12 +14263,12 @@ and TSPL_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Dema
     End Sub
     Private Sub BtnPrintChallan_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
         '==========update by preeti gupta Against ticket no[BHA/13/08/18-000421]
-        If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
-        Else
-            'Dim objInvoice As New frmSaleInvoiceProductSale
-            'objInvoice.funPrintChallan(txtInvoiceNo.Text, AllowManualVehicleOnDairyDispatch)
-            Try
+        'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+        '    myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+        'Else
+        'Dim objInvoice As New frmSaleInvoiceProductSale
+        'objInvoice.funPrintChallan(txtInvoiceNo.Text, AllowManualVehicleOnDairyDispatch)
+        Try
                 Dim frmCRV As New frmCrystalReportViewer()
 
 
@@ -14376,7 +14376,7 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
-        End If
+        'End If
     End Sub
     Private Sub btnUpdateCustomer_Click(sender As Object, e As EventArgs) Handles btnUpdateCustomer.Click
         Try
