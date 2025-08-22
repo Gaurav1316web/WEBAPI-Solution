@@ -59,7 +59,7 @@ Public Class frmMonthWiseBeneficieriesReport
                 ElseIf rbtDateWise.Checked Then
                     Qry = "select coalesce(VSP_Code,Vendor_Code) as [Dcs Code],coalesce(VLC_Name,vendor_name) as [Dcs Name],VLC_Code_VLC_Uploader as[Uploader Code],
 TSPL_VLC_MASTER_HEAD.mcc as [MCC],
-TSPL_ROUTE_MASTER.Route_Desc as [Route Name],
+TSPL_ROUTE_MASTER.Route_Desc as [Route Name],TSPL_VLC_MASTER_head.AccountType2 as [Bank Detail],
 coalesce(TSPL_VLC_MASTER_HEAD.Created_By,TSPL_Vendor_MASTER.Created_By)[Created By],
 coalesce(TSPL_VLC_MASTER_HEAD.Created_Date,TSPL_Vendor_MASTER.Created_Date)[Created Date]
 from TSPL_Vendor_MASTER
