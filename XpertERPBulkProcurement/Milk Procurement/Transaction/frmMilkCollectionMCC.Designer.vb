@@ -23,12 +23,14 @@ Partial Class frmMilkCollectionMCC
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -45,8 +47,8 @@ Partial Class frmMilkCollectionMCC
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnTankerData = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.txtMDate = New common.Controls.MyDateTimePicker()
         Me.lblMDate = New common.Controls.MyLabel()
         Me.btnMGo = New Telerik.WinControls.UI.RadButton()
@@ -94,6 +96,10 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvParam = New common.UserControls.MyRadGridView()
+        Me.MyLabel29 = New common.Controls.MyLabel()
+        Me.cboRejectType = New common.Controls.MyComboBox()
+        Me.txtRejectRecoveryPer = New common.MyNumBox()
+        Me.MyLabel6 = New common.Controls.MyLabel()
         Me.Panel2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -161,6 +167,10 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRejectRecoveryPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -309,6 +319,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvTotal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTotal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTotal.MyExportFilePath = ""
         Me.gvTotal.MyStopExport = False
         Me.gvTotal.Name = "gvTotal"
         Me.gvTotal.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -321,6 +332,10 @@ Partial Class frmMilkCollectionMCC
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtRejectRecoveryPer)
+        Me.Panel1.Controls.Add(Me.MyLabel6)
+        Me.Panel1.Controls.Add(Me.MyLabel29)
+        Me.Panel1.Controls.Add(Me.cboRejectType)
         Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.txtTripNo)
         Me.Panel1.Controls.Add(Me.RadButton1)
@@ -391,15 +406,15 @@ Partial Class frmMilkCollectionMCC
         Me.btnTankerData.TabIndex = 30
         Me.btnTankerData.Text = "Tanker Data"
         '
-        'btnImport
-        '
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Text = "Import"
-        '
         'btnExport
         '
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
         '
         'txtMDate
         '
@@ -475,7 +490,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtTripNo.TabIndex = 1423
         Me.txtTripNo.Text = "1"
         Me.txtTripNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTripNo.Value = 1.0R
+        Me.txtTripNo.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'RadButton1
         '
@@ -490,7 +505,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(479, 5)
+        Me.MyLabel5.Location = New System.Drawing.Point(477, 5)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(43, 16)
         Me.MyLabel5.TabIndex = 36
@@ -521,7 +536,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtTotEnteredFATPer.TabIndex = 8
         Me.txtTotEnteredFATPer.Text = "0"
         Me.txtTotEnteredFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotEnteredFATPer.Value = 0R
+        Me.txtTotEnteredFATPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtTotEnteredSNFPer
         '
@@ -548,13 +563,13 @@ Partial Class frmMilkCollectionMCC
         Me.txtTotEnteredSNFPer.TabIndex = 10
         Me.txtTotEnteredSNFPer.Text = "0"
         Me.txtTotEnteredSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotEnteredSNFPer.Value = 0R
+        Me.txtTotEnteredSNFPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(479, 48)
+        Me.MyLabel4.Location = New System.Drawing.Point(477, 48)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(40, 16)
         Me.MyLabel4.TabIndex = 32
@@ -657,10 +672,10 @@ Partial Class frmMilkCollectionMCC
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem1)
-        Me.cboFATSNFType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem3)
+        Me.cboFATSNFType.Items.Add(RadListDataItem4)
         Me.cboFATSNFType.Location = New System.Drawing.Point(720, 29)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
@@ -697,7 +712,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(479, 28)
+        Me.MyLabel2.Location = New System.Drawing.Point(477, 28)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel2.TabIndex = 31
@@ -745,10 +760,10 @@ Partial Class frmMilkCollectionMCC
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem3)
-        Me.cboLate.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem5)
+        Me.cboLate.Items.Add(RadListDataItem6)
         Me.cboLate.Location = New System.Drawing.Point(525, 27)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -845,7 +860,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtTotEnteredSNF.TabIndex = 11
         Me.txtTotEnteredSNF.Text = "0"
         Me.txtTotEnteredSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotEnteredSNF.Value = 0R
+        Me.txtTotEnteredSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtTotReceivedSNF
         '
@@ -906,7 +921,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtTotEnteredFAT.TabIndex = 9
         Me.txtTotEnteredFAT.Text = "0"
         Me.txtTotEnteredFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotEnteredFAT.Value = 0R
+        Me.txtTotEnteredFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtTotReceivedQty
         '
@@ -955,7 +970,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtTotEnteredQty.TabIndex = 7
         Me.txtTotEnteredQty.Text = "0"
         Me.txtTotEnteredQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotEnteredQty.Value = 0R
+        Me.txtTotEnteredQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel10
         '
@@ -1098,7 +1113,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(722, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(402, 18)
         Me.txtDesc.TabIndex = 12
         '
         'btnAddNew
@@ -1128,6 +1143,7 @@ Partial Class frmMilkCollectionMCC
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1193,6 +1209,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvParam.MyExportFilePath = ""
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1202,6 +1219,84 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
         Me.gvParam.VarID = ""
+        '
+        'MyLabel29
+        '
+        Me.MyLabel29.FieldName = Nothing
+        Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel29.Location = New System.Drawing.Point(477, 90)
+        Me.MyLabel29.Name = "MyLabel29"
+        Me.MyLabel29.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel29.TabIndex = 1425
+        Me.MyLabel29.Text = "Milk Type"
+        '
+        'cboRejectType
+        '
+        Me.cboRejectType.AutoCompleteDisplayMember = Nothing
+        Me.cboRejectType.AutoCompleteValueMember = Nothing
+        Me.cboRejectType.CalculationExpression = Nothing
+        Me.cboRejectType.DropDownAnimationEnabled = True
+        Me.cboRejectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboRejectType.FieldCode = Nothing
+        Me.cboRejectType.FieldDesc = Nothing
+        Me.cboRejectType.FieldMaxLength = 0
+        Me.cboRejectType.FieldName = Nothing
+        Me.cboRejectType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboRejectType.isCalculatedField = False
+        Me.cboRejectType.IsSourceFromTable = False
+        Me.cboRejectType.IsSourceFromValueList = False
+        Me.cboRejectType.IsUnique = False
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboRejectType.Items.Add(RadListDataItem1)
+        Me.cboRejectType.Items.Add(RadListDataItem2)
+        Me.cboRejectType.Location = New System.Drawing.Point(536, 89)
+        Me.cboRejectType.MendatroryField = True
+        Me.cboRejectType.MyLinkLable1 = Me.MyLabel29
+        Me.cboRejectType.MyLinkLable2 = Nothing
+        Me.cboRejectType.Name = "cboRejectType"
+        Me.cboRejectType.ReferenceFieldDesc = Nothing
+        Me.cboRejectType.ReferenceFieldName = Nothing
+        Me.cboRejectType.ReferenceTableName = Nothing
+        Me.cboRejectType.Size = New System.Drawing.Size(112, 18)
+        Me.cboRejectType.TabIndex = 1424
+        '
+        'txtRejectRecoveryPer
+        '
+        Me.txtRejectRecoveryPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtRejectRecoveryPer.CalculationExpression = Nothing
+        Me.txtRejectRecoveryPer.DecimalPlaces = 2
+        Me.txtRejectRecoveryPer.FieldCode = Nothing
+        Me.txtRejectRecoveryPer.FieldDesc = Nothing
+        Me.txtRejectRecoveryPer.FieldMaxLength = 0
+        Me.txtRejectRecoveryPer.FieldName = Nothing
+        Me.txtRejectRecoveryPer.isCalculatedField = False
+        Me.txtRejectRecoveryPer.IsSourceFromTable = False
+        Me.txtRejectRecoveryPer.IsSourceFromValueList = False
+        Me.txtRejectRecoveryPer.IsUnique = False
+        Me.txtRejectRecoveryPer.Location = New System.Drawing.Point(745, 88)
+        Me.txtRejectRecoveryPer.MendatroryField = True
+        Me.txtRejectRecoveryPer.MyLinkLable1 = Nothing
+        Me.txtRejectRecoveryPer.MyLinkLable2 = Nothing
+        Me.txtRejectRecoveryPer.Name = "txtRejectRecoveryPer"
+        Me.txtRejectRecoveryPer.ReferenceFieldDesc = Nothing
+        Me.txtRejectRecoveryPer.ReferenceFieldName = Nothing
+        Me.txtRejectRecoveryPer.ReferenceTableName = Nothing
+        Me.txtRejectRecoveryPer.Size = New System.Drawing.Size(45, 20)
+        Me.txtRejectRecoveryPer.TabIndex = 1426
+        Me.txtRejectRecoveryPer.Text = "0"
+        Me.txtRejectRecoveryPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRejectRecoveryPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(670, 90)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(67, 16)
+        Me.MyLabel6.TabIndex = 1427
+        Me.MyLabel6.Text = "Recovery %"
         '
         'frmMilkCollectionMCC
         '
@@ -1288,6 +1383,10 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboRejectType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRejectRecoveryPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1357,5 +1456,9 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents btnExport As RadMenuItem
     Friend WithEvents gvTotal As common.UserControls.MyRadGridView
     Friend WithEvents gvParam As common.UserControls.MyRadGridView
+    Friend WithEvents MyLabel29 As common.Controls.MyLabel
+    Friend WithEvents cboRejectType As common.Controls.MyComboBox
+    Friend WithEvents txtRejectRecoveryPer As common.MyNumBox
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
 End Class
 

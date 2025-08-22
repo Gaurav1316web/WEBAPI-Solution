@@ -24657,6 +24657,8 @@ Public Class clsCreateAllTable
             coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
             coll.Add("Remark", "varchar(200) NULL")
+            coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -25403,6 +25405,7 @@ Public Class clsCreateAllTable
             ''ERO/10/05/19-000600,ERO/08/05/19-000596 By Balwinder on 13/05/2019 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null unique references TSPL_MILK_SRN_HEAD(DOC_CODE)")
+            coll.Add("VLC_CODE", "VARCHAR(30) NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
             coll.Add("Qty", "DECIMAL(18,3) NOT NULL DEFAULT 0")
             coll.Add("UOM_Code", "VARCHAR(30) not NULL")
             coll.Add("FAT_PER", "DECIMAL(5,3) NULL")
