@@ -31349,7 +31349,6 @@ Public Class clsCreateAllTable
             coll.Add("Transporter_Commission_TotalAmt", "decimal(18,2) null")
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
             coll.Add("Supply_Date", "Date NULL")
-            coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("FAT_Per", "decimal(18,2) null")
             coll.Add("SNF_Per", "decimal(18,2) null")
             coll.Add("Acidity", "decimal(18,2) null")
