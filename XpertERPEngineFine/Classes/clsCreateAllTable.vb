@@ -24655,6 +24655,8 @@ Public Class clsCreateAllTable
             coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Against_DCS_Multiple_Days_Merge", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_MERGE(Document_No)")
             coll.Add("Remark", "varchar(200) NULL")
+            coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
