@@ -123,16 +123,21 @@ Public Class frmSendBilltoDistributor
     Private Sub txtMultInvoice__My_Click(sender As Object, e As EventArgs) Handles txtMultInvoice._My_Click
         Try
             strQry = Nothing
-            strQry = "select Document_Code As [Document Code],CONVERT(VARCHAR(10), Document_Date, 103) As [Document Date],Customer_Code As [Customer Code] from TSPL_SD_SALE_INVOICE_HEAD where Status=1 And File_Info is Null "
+            strQry = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No as [Invoice No], 
+TSPL_SD_SHIPMENT_HEAD.Route_No As [Route No],case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end As [Shift Type], 
+CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.supply_date, 103) AS [Supply Date], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as [Customer Name],TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code],TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount
+from TSPL_SD_SHIPMENT_HEAD 
+Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code where TSPL_SD_SHIPMENT_HEAD.Status=1 and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' "
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
-                strQry += " And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate2.Value & "',103) "
+                strQry += " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.supply_date,103) = Convert(Date,'" & txtDate2.Value & "',103) "
             Else
                 clsCommon.MyMessageBoxShow(Me, "Date can't be greater then current day date !", Me.Text)
 #Disable Warning
                 Exit Sub
 #Enable Warning
             End If
-            txtMultInvoice.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "InvDoc@", strQry, "Document Code", "", txtMultInvoice.arrValueMember, Nothing)
+            txtMultInvoice.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "InvDoc@", strQry, "Invoice No", "", txtMultInvoice.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -142,14 +147,14 @@ Public Class frmSendBilltoDistributor
         clsCommon.ProgressBarPercentShow()
         Try
             strQry = Nothing
-            strQry = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,CONVERT(VARCHAR(10), TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103)Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Email,TSPL_CUSTOMER_MASTER.Phone1,TSPL_CUSTOMER_MASTER.Phone2 from TSPL_SD_SALE_INVOICE_HEAD 
-Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where TSPL_SD_SALE_INVOICE_HEAD.Status=1 And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate2.Value & "',103)"
+            strQry = "select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,CONVERT(VARCHAR(10), TSPL_SD_SHIPMENT_HEAD.Document_Date, 103)Document_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Email,TSPL_CUSTOMER_MASTER.Phone1,TSPL_CUSTOMER_MASTER.Phone2 from TSPL_SD_SHIPMENT_HEAD 
+Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(Date,'" & txtDate2.Value & "',103)"
 
             If txtMultInvoice.arrValueMember IsNot Nothing AndAlso txtMultInvoice.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" & clsCommon.GetMulcallString(txtMultInvoice.arrValueMember) & ")"
+                strQry += " and TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No in (" & clsCommon.GetMulcallString(txtMultInvoice.arrValueMember) & ")"
             End If
-            strQry += " and TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO is null " 'and TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO2 is null "
+            strQry += " and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null " 'and TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO2 is null "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Integer = 0
@@ -176,8 +181,8 @@ where TSPL_SD_SALE_INVOICE_HEAD.Status=1 And CONVERT(Date,Document_Date,103)=CON
 
     Private Sub ProcessFileInvoice(dr As DataRow)
         Dim objInvoicePath As New frmShipmentDairy
-        Dim PDFPath As String = objInvoicePath.PrintInvoiveForAll(Nothing, txtDate2.Value, clsCommon.myCstr(dr("Document_Code")), False, True, clsCommon.myCstr(dr("Customer_Code")))
-        Dim qry1 As String = " Select FILE_INFO from TSPL_SD_SALE_INVOICE_HEAD where Document_Code= '" & clsCommon.myCstr(dr("Document_Code")) & "'"
+        Dim PDFPath As String = objInvoicePath.PrintInvoiveForAll(clsCommon.myCstr(dr("Document_Code")), txtDate2.Value, clsCommon.myCstr(dr("Sale_Invoice_No")), False, True, clsCommon.myCstr(dr("Customer_Code")))
+        Dim qry1 As String = " Select FILE_INFO from TSPL_SD_SHIPMENT_HEAD where Document_Code= '" & clsCommon.myCstr(dr("Document_Code")) & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
@@ -189,7 +194,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Status=1 And CONVERT(Date,Document_Date,103)=CON
             If clsCommon.myLen(PDFPath) > 0 Then
                 Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), "INV-BLL", clsCommon.myCstr(dr("Document_Code")))
                 If FileNo > 0 Then
-                    Dim qry As String = " UPDATE TSPL_SD_SALE_INVOICE_HEAD set FILE_INFO=" & clsCommon.myCstr(FileNo) & ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where Document_Code='" & clsCommon.myCstr(dr("Document_Code")) & "'"
+                    Dim qry As String = " UPDATE TSPL_SD_SHIPMENT_HEAD set FILE_INFO=" & clsCommon.myCstr(FileNo) & ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where Document_Code='" & clsCommon.myCstr(dr("Document_Code")) & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
                 'Else
@@ -217,16 +222,20 @@ where TSPL_SD_SALE_INVOICE_HEAD.Status=1 And CONVERT(Date,Document_Date,103)=CON
     Private Sub txtMultGatePass__My_Click(sender As Object, e As EventArgs) Handles txtMultGatePass._My_Click
         Try
             strQry = Nothing
-            strQry = "select Document_No As [Document Code],CONVERT(VARCHAR(10), Document_Date, 103) As [Document Date],ShiftType As [Shift], ItemType As [Item Type]  from TSPL_DEMAND_BOOKING_MASTER Where Posted=1 and FILE_INFO Is Null  "
+            strQry = " SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode As [GP Code],convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) As [GP Date],convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103) As [Supply Date],TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType As [Shift Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number AS [Vehicle Number],
+TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],tspl_Route_Master.Route_Desc As [Route Desc],TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code As [Location Code],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate 
+FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
+left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
+Where TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' "
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
-                strQry += " And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103) "
+                strQry += " And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103) "
             Else
                 clsCommon.MyMessageBoxShow(Me, "Date can't be greater then current day date !", Me.Text)
 #Disable Warning
                 Exit Sub
 #Enable Warning
             End If
-            txtMultGatePass.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "GateDoc@", strQry, "Document Code", "", txtMultGatePass.arrValueMember, Nothing)
+            txtMultGatePass.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "GateDoc@", strQry, "GP Code", "", txtMultGatePass.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -236,18 +245,14 @@ where TSPL_SD_SALE_INVOICE_HEAD.Status=1 And CONVERT(Date,Document_Date,103)=CON
         clsCommon.ProgressBarPercentShow()
         Try
             strQry = Nothing
-            strQry = "select TSPL_DEMAND_BOOKING_MASTER.Document_No As [Document Code],CONVERT(VARCHAR(10), TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103) As [Document Date], 
-Max(TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) As [Customer Code],  Max(TSPL_CUSTOMER_MASTER.Customer_Name) As [Customer Name],
-TSPL_DEMAND_BOOKING_MASTER.ShiftType As [Shift], TSPL_DEMAND_BOOKING_MASTER.ItemType As [Item Type] 
- from TSPL_DEMAND_BOOKING_MASTER 
- Left Outer Join TSPL_DEMAND_BOOKING_DETAIL On TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
- Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-where Posted=1   And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103)"
-            strQry += " And TSPL_DEMAND_BOOKING_MASTER.File_Info Is Null "
+            strQry = "SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode As [GP Code],convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) As [GP Date],convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103) As [Supply Date],TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType As [Shift Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],tspl_Route_Master.Route_Desc As [Route Desc],TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code As [Location Code] 
+FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
+left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
+where TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y'   And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103)"
+            strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
             If txtMultGatePass.arrValueMember IsNot Nothing AndAlso txtMultGatePass.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_DEMAND_BOOKING_MASTER.Document_No in (" & clsCommon.GetMulcallString(txtMultGatePass.arrValueMember) & ")"
+                strQry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode in (" & clsCommon.GetMulcallString(txtMultGatePass.arrValueMember) & ")"
             End If
-            strQry += " Group By TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_DEMAND_BOOKING_MASTER.ShiftType ,TSPL_DEMAND_BOOKING_MASTER.ItemType "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Integer = 0
@@ -273,9 +278,9 @@ where Posted=1   And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate3.
     End Sub
 
     Private Sub ProcessFileGatePass(dr As DataRow)
-        Dim objGatePassPath As New frmDemandBooking
-        Dim PDFPath As String = objGatePassPath.PrintGatePass("DB", clsCommon.myCstr(dr("Document Code")), clsCommon.myCstr(dr("Shift")), IIf(clsCommon.myCstr(dr("Item Type")) = "Fresh", True, False), IIf(clsCommon.myCstr(dr("Item Type")) = "Ambient", True, False), True)
-        Dim qry1 As String = " Select FILE_INFO from TSPL_DEMAND_BOOKING_MASTER where Document_No= '" & clsCommon.myCstr(dr("Document Code")) & "'"
+        Dim objGatePassPath As New frmDairyGatePass
+        Dim PDFPath As String = objGatePassPath.GatepassWithFilePath(clsCommon.myCstr(dr("GP Code")), clsCommon.myCstr(dr("GP Date")), clsCommon.myCstr(dr("Shift Type")), Nothing, Nothing, clsCommon.myCstr(dr("Route No")), clsCommon.myCstr(dr("Location Code")), True)
+        Dim qry1 As String = " Select FILE_INFO from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode= '" & clsCommon.myCstr(dr("GP Code")) & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
@@ -285,9 +290,9 @@ where Posted=1   And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate3.
 #Enable Warning
             End If
             If clsCommon.myLen(PDFPath) > 0 Then
-                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), "GTP-BLL", clsCommon.myCstr(dr("Document Code")))
+                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), "GTP-BLL", clsCommon.myCstr(dr("GP Code")))
                 If FileNo > 0 Then
-                    Dim qry As String = " UPDATE TSPL_DEMAND_BOOKING_MASTER set FILE_INFO=" & clsCommon.myCstr(FileNo) & ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where Document_No='" & clsCommon.myCstr(dr("Document Code")) & "'"
+                    Dim qry As String = " UPDATE TSPL_DAIRYSALE_GATEPASS_MASTER set FILE_INFO=" & clsCommon.myCstr(FileNo) & ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where GPCode='" & clsCommon.myCstr(dr("GP Code")) & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
                 'Else
@@ -312,34 +317,34 @@ where Posted=1   And CONVERT(Date,Document_Date,103)=CONVERT(Date,'" & txtDate3.
     '==================End GatePass=======================
 
 
-    Private Sub SaveFile(ByVal FilePath As String, ByVal Documnet_No As String, ByVal Document_Date As DateTime, ByVal Cust_Code As String, ByVal Cust_Name As String, ByVal txtDate As Date)
-        Try
-            If Cust_Code IsNot Nothing AndAlso clsCommon.myLen(Cust_Code) > 0 Then
-                Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" & clsUserMgtCode.frmSendBilltoDistributor & "Invoice" & "'", Nothing)
-                Dim Qry As String = "Select Email from TSPL_CUSTOMER_MASTER where Cust_Code='" & Cust_Code & "'"
-                Dim arrMailID As List(Of String) = New List(Of String)()
-                arrMailID.Add(clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry)))
-                If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 AndAlso arrMailID IsNot Nothing AndAlso arrMailID.Count > 0 Then
-                    Dim objEmailH As New clsEMailHead()
-                    'objEmailH.arrEMail = New List(Of String)()
-                    objEmailH.arrEMail = arrMailID
-                    objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
-                    objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.DOC_NO, Documnet_No)
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.DOC_Date, clsCommon.GetPrintDate(Document_Date, "dd/MMM/yyyy"))
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.VLCCode, Cust_Code)
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.VLCName, Cust_Name)
-                    'objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.VLCUploaderCode, VLC_Uploader_Code)
-                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.FromDate, clsCommon.GetPrintDate(txtDate, "dd/MMM/yyyy"))
-                    'objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.ToDate, clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy"))
-                    objEmailH.Attachment_1_Path = FilePath
-                    objEmailH.SaveData(clsUserMgtCode.frmSendBilltoDistributor & "Invoice", objEmailH, Nothing)
-                    objEmailH = Nothing
-                End If
-            End If
-        Catch ex As Exception
-        End Try
-    End Sub
+    'Private Sub SaveFile(ByVal FilePath As String, ByVal Documnet_No As String, ByVal Document_Date As DateTime, ByVal Cust_Code As String, ByVal Cust_Name As String, ByVal txtDate As Date)
+    '    Try
+    '        If Cust_Code IsNot Nothing AndAlso clsCommon.myLen(Cust_Code) > 0 Then
+    '            Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" & clsUserMgtCode.frmSendBilltoDistributor & "Invoice" & "'", Nothing)
+    '            Dim Qry As String = "Select Email from TSPL_CUSTOMER_MASTER where Cust_Code='" & Cust_Code & "'"
+    '            Dim arrMailID As List(Of String) = New List(Of String)()
+    '            arrMailID.Add(clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry)))
+    '            If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 AndAlso arrMailID IsNot Nothing AndAlso arrMailID.Count > 0 Then
+    '                Dim objEmailH As New clsEMailHead()
+    '                'objEmailH.arrEMail = New List(Of String)()
+    '                objEmailH.arrEMail = arrMailID
+    '                objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
+    '                objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
+    '                objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.DOC_NO, Documnet_No)
+    '                objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.DOC_Date, clsCommon.GetPrintDate(Document_Date, "dd/MMM/yyyy"))
+    '                objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.VLCCode, Cust_Code)
+    '                objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.VLCName, Cust_Name)
+    '                'objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.VLCUploaderCode, VLC_Uploader_Code)
+    '                objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.FromDate, clsCommon.GetPrintDate(txtDate, "dd/MMM/yyyy"))
+    '                'objEmailH.Email_Text = objEmailH.Email_Text.Replace(clsEmailSMSConstants.ToDate, clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy"))
+    '                objEmailH.Attachment_1_Path = FilePath
+    '                objEmailH.SaveData(clsUserMgtCode.frmSendBilltoDistributor & "Invoice", objEmailH, Nothing)
+    '                objEmailH = Nothing
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '    End Try
+    'End Sub
 
 
 End Class

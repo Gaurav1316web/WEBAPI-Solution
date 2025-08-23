@@ -9,6 +9,7 @@ Public Class YearlyBillReport
     Inherits FrmMainTranScreen
 #Region "Variable"
     Dim AreaWiseBilling As Boolean = False
+    Dim StrPermission As String
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -17,10 +18,17 @@ Public Class YearlyBillReport
     End Sub
 
     Private Sub YearlyBillReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AreaWiseBilling = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
-        funreset()
-        fromDate.Value = clsCommon.GETSERVERDATE()
-        ToDate.Value = clsCommon.GETSERVERDATE()
+        Try
+            AreaWiseBilling = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+            funreset()
+            fromDate.Value = clsCommon.GETSERVERDATE()
+            ToDate.Value = clsCommon.GETSERVERDATE()
+            StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
+            txtMultArea.Visible = AreaWiseBilling
+            lblArea.Visible = AreaWiseBilling
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End try
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -140,8 +148,6 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
             End If
 
             If dtDoc.Rows.Count > 0 Then
-
-
                 Dim Qry1 As String = "    Select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,
 				                    TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER,'' as Gender,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE,TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,0 as Milk_Qty,0 as Milk_Amount,0 as Head_Load_Amount,0 as Payable_Amount,0 as Deduction_Amount,0 as Credit_Note_Amount,
 									TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,
@@ -286,7 +292,13 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date 
                                    from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                        sQuery += " and Vendor_CODE In (" & clsCommon.GetMulcallString(txtDCS.arrValueMember) & ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " group by xx.Doc_No,"
                     If rbtnAliasNameWise.IsChecked Then
@@ -329,16 +341,25 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                     sQuery += "SUM(XX.Qty)Qty,XX.QBD,CASE WHEN QBD='SWEET' THEN sum(isnull(Qty,0)) end AS SweetQty,CASE WHEN QBD='SOUR' THEN sum(isnull(Qty,0)) end AS SourQty,
                                     CASE WHEN QBD='CURD' THEN sum(isnull(Qty,0)) end AS CurdQty 
                                     FROM (Select TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,
-                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName from TSPL_MILK_PURCHASE_INVOICE_DETAIL
+                                    TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE,Qty,(case when  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,'SWEET') else (case when  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No is not null then isnull (TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,'SWEET') end) end) as QBD,Case When ISNULL(TSPL_VENDOR_MASTER.Alies_Name,'')<>'' Then TSPL_VENDOR_MASTER.Alies_Name Else TSPL_VENDOR_MASTER.Vendor_Name End As AliasName 
+                                    from TSPL_MILK_PURCHASE_INVOICE_DETAIL
                                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
                                     left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
                                     left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
+                                   left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                                   left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
                                     left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by "
                     If rbtnAliasNameWise.IsChecked Then
@@ -379,6 +400,12 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
+                    End If
                     sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
                         PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by VSP_CODE )YY 
 
@@ -394,12 +421,19 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
                         left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
                         left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                        left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
                         left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                         LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
                         where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                         and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by MCC order by MCC  "
 
@@ -422,6 +456,12 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
+                    End If
                     sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by VSP_CODE,DCS_Addition_Deduction)Tab1 
                         PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by VSP_CODE )YY 
 
@@ -437,12 +477,19 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
                                     left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_PURCHASE_INVOICE_DETAIL.VLC_NO
                                     left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
                                     left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                                    left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
                                     left join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
                                     LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No  
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD)yy group by VSP_CODE )Tab2 group by MCC,VSP_CODE)
 SELECT * FROM BaseData
@@ -470,6 +517,12 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
+                    End If
                     sQuery += " group by xx.Doc_No,Area_Location_Code,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by Area_Location_Code,DCS_Addition_Deduction)Tab1 
                         PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by Area_Location_Code )YY 
 
@@ -492,6 +545,12 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                         and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD,Area_Location_Code)yy group by Area_Location_Code )Tab2 group by Area_Location_Code order by Area_Location_Code  "
 
@@ -516,6 +575,12 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                                    from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " group by xx.Doc_No,"
                     If rdbDCS.IsChecked Then
@@ -577,6 +642,12 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103) "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD,Month_Number "
                     If rdbDCS.IsChecked Then
@@ -645,6 +716,12 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
+                    End If
                     sQuery += " group by xx.Doc_No,"
                     If rdbDCS.IsChecked Then
                         sQuery += " xx.Vendor_CODE,"
@@ -705,6 +782,12 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
+                    End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2 "
                     If rdbArea.IsChecked Then
                         sQuery += " where ISNULL(Area_Location_Code,'')<>'' "
@@ -724,11 +807,11 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                     If rdbBMC.IsChecked Then
                         sQuery += " ) Select * from BaseData "
                         sQuery += " Union All "
-                        sQuery += " Select 'Total of '+ Max(MCC_NAME) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Null As Area_Location_Code, Null As Location_Desc,MCC As MCC,Max(MCC_Name) As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By MCC Order By MCC ,To_Date "
+                        sQuery += " Select 'Total of '+ Max(MCC_NAME) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Null As Area_Location_Code, Null As Location_Desc,MCC As MCC,Max(MCC_Name) As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As AliasName,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By MCC Order By MCC ,To_Date "
                     ElseIf rdbArea.IsChecked Then
                         sQuery += " ) Select * from BaseData "
                         sQuery += " Union All "
-                        sQuery += " Select 'Total of '+ Max(Location_Desc) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Max(Area_Location_Code) As Area_Location_Code, Max(Location_Desc) As Location_Desc,Null As MCC,Null As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By Area_Location_Code Order By Area_Location_Code ,To_Date "
+                        sQuery += " Select 'Total of '+ Max(Location_Desc) As Date_Range,MAX(To_Date) As To_Date,MIN(From_Date) As From_Date, Max(Area_Location_Code) As Area_Location_Code, Max(Location_Desc) As Location_Desc,Null As MCC,Null As MCC_Name,Null As VSP_CODE,Null As DCSCode, Null VSP_NAME,Null As AliasName,Null As Registered_PDCS_CLUSTER,Null As Gender, SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & ",Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(Payable_Amount)Payable_Amount from BaseData Group By Area_Location_Code Order By Area_Location_Code ,To_Date "
                     End If
                 ElseIf rdbMonthCycle.IsChecked = True Then
                     sQuery = "  With BaseData As ( Select DATENAME(MONTH, max(From_Date)) As Month_Name,MONTH(max(From_Date)) As Month_Number,FORMAT(MAX(From_Date), 'dd-MM') + ' to ' + FORMAT(To_Date, 'dd-MM') AS Date_Range
@@ -750,7 +833,13 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                                    SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date ,
                                    max(To_Date)To_Date from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                        sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                        sQuery += " and Vendor_CODE In (" & clsCommon.GetMulcallString(txtDCS.arrValueMember) & ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " group by xx.Doc_No,xx.Vendor_CODE,xx.DCS_Addition_Deduction )YY group by To_Date,"
                     If rdbDCS.IsChecked Then
@@ -798,7 +887,13 @@ FROM BaseData GROUP BY MCC order by MCC,DCSCode "
                                     where 2=2 and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)>=convert(date,'" & fromDate.Value & "',103) 
                                     and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE ,103)<=convert(date,'" & ToDate.Value & "',103)"
                     If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
+                        sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" & clsCommon.GetMulcallString(txtDCS.arrValueMember) & ") "
+                    End If
+                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                    End If
+                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                        sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY DOC_DATE)Tab2"
                     If rdbArea.IsChecked Then
@@ -1251,7 +1346,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             For ii As Integer = index To gv1.Columns.Count - 1
                 summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
             Next
-        ElseIf rdbMonthCycle.IsChecked = True Then
+        ElseIf rdbMonthCycle.IsChecked Then
             If rdbDCS.IsChecked Then
                 gv1.Columns("DCSCode").HeaderText = "DCS Code"
                 gv1.Columns("DCSCode").IsVisible = True
@@ -1357,7 +1452,11 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-        funreset()
+        Try
+            funreset()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub funreset()
@@ -1394,8 +1493,6 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
-
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1411,8 +1508,6 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
-
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1447,5 +1542,26 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
     Private Sub rdbMonthCycle_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbMonthCycle.ToggleStateChanged
         'RadGroupBox1.Enabled = False
         RadGroupBox1.Enabled = True
+    End Sub
+
+    Private Sub txtMultArea__My_Click(sender As Object, e As EventArgs) Handles txtMultArea._My_Click
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER Where TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc' "
+            txtMultArea.arrValueMember = clsCommon.ShowMultipleSelectForm("@Area", sQuery, "Code", "Code", txtMultArea.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultBMC__My_Click(sender As Object, e As EventArgs) Handles txtMultBMC._My_Click
+        Try
+            Dim arrMCCRights As ArrayList
+            arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
+
+            Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (  tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & "))"
+            txtMultBMC.arrValueMember = clsCommon.ShowMultipleSelectForm("@BMC", qry, "MCC_Code", "MCC_NAME", txtMultBMC.arrValueMember, txtMultBMC.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

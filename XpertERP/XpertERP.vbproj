@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -324,9 +324,8 @@
       <HintPath>lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon, Version=2.1.6.93, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\XpertCommon\common\bin\Debug\XpertCommon.dll</HintPath>
+    <Reference Include="XpertCommon">
+      <HintPath>C:\Users\Dell\Desktop\New folder\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPAdminServices">
       <HintPath>..\XpertERPAdminServices\bin\Debug\XpertERPAdminServices.dll</HintPath>

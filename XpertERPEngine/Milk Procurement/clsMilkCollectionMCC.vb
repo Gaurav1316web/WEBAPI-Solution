@@ -24,6 +24,8 @@ Public Class clsMilkCollectionMCC
     Public Correction_FAT As Decimal
     Public Correction_SNF As Decimal
     Public Slip_No As String
+    Public Reject_Type As String
+    Public Reject_Recovery_Per As Decimal
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
@@ -139,6 +141,8 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "FAT_SNF_Type", obj.FAT_SNF_Type)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
+            clsCommon.AddColumnsForChange(coll, "Reject_Type", obj.Reject_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Reject_Recovery_Per", obj.Reject_Recovery_Per, True)
             clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
             clsCommon.AddColumnsForChange(coll, "Age", obj.Age)
             clsCommon.AddColumnsForChange(coll, "ALCOB", obj.ALCOB)
@@ -211,6 +215,8 @@ where 2=2"
             obj.Entered_SNFKg = clsCommon.myCDecimal(dt.Rows(0)("Entered_SNFKg"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Slip_No = clsCommon.myCstr(dt.Rows(0)("Slip_No"))
+            obj.Reject_Type = clsCommon.myCstr(dt.Rows(0)("Reject_Type"))
+            obj.Reject_Recovery_Per = clsCommon.myCDecimal(dt.Rows(0)("Reject_Recovery_Per"))
             obj.Temp = clsCommon.myCDecimal(dt.Rows(0)("Temp"))
             obj.Age = clsCommon.myCDecimal(dt.Rows(0)("Age"))
             obj.ALCOB = clsCommon.myCstr(dt.Rows(0)("ALCOB"))

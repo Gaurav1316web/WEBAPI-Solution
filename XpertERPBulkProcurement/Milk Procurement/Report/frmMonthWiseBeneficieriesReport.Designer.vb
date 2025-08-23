@@ -22,11 +22,19 @@ Partial Class frmMonthWiseBeneficieriesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtDateWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnMonthRange = New System.Windows.Forms.RadioButton()
+        Me.montrangwise = New Telerik.WinControls.UI.RadGroupBox()
+        Me.daterangewise = New Telerik.WinControls.UI.RadGroupBox()
+        Me.todate = New common.Controls.MyDateTimePicker()
+        Me.fromdate = New common.Controls.MyDateTimePicker()
+        Me.lblToDate = New common.Controls.MyLabel()
+        Me.lblfromDate = New common.Controls.MyLabel()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -48,8 +56,16 @@ Partial Class frmMonthWiseBeneficieriesReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.montrangwise, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.montrangwise.SuspendLayout()
+        CType(Me.daterangewise, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.daterangewise.SuspendLayout()
+        CType(Me.todate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,7 +117,9 @@ Partial Class frmMonthWiseBeneficieriesReport
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.daterangewise)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage1.Controls.Add(Me.montrangwise)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
@@ -109,19 +127,145 @@ Partial Class frmMonthWiseBeneficieriesReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 271)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'RadGroupBox2
+        'RadGroupBox3
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.RadLabel3)
-        Me.RadGroupBox2.Controls.Add(Me.txtToDate)
-        Me.RadGroupBox2.Controls.Add(Me.txtFromDate)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel1)
-        Me.RadGroupBox2.HeaderText = "Month Range"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(28, 41)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(268, 48)
-        Me.RadGroupBox2.TabIndex = 22
-        Me.RadGroupBox2.Text = "Month Range"
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtDateWise)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnMonthRange)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(349, 10)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(305, 34)
+        Me.RadGroupBox3.TabIndex = 23
+        '
+        'rbtDateWise
+        '
+        Me.rbtDateWise.AutoSize = True
+        Me.rbtDateWise.Location = New System.Drawing.Point(138, 8)
+        Me.rbtDateWise.Name = "rbtDateWise"
+        Me.rbtDateWise.Size = New System.Drawing.Size(77, 17)
+        Me.rbtDateWise.TabIndex = 1
+        Me.rbtDateWise.Text = "Date Wise"
+        Me.rbtDateWise.UseVisualStyleBackColor = True
+        '
+        'rbtnMonthRange
+        '
+        Me.rbtnMonthRange.AutoSize = True
+        Me.rbtnMonthRange.Checked = True
+        Me.rbtnMonthRange.Location = New System.Drawing.Point(15, 8)
+        Me.rbtnMonthRange.Name = "rbtnMonthRange"
+        Me.rbtnMonthRange.Size = New System.Drawing.Size(88, 17)
+        Me.rbtnMonthRange.TabIndex = 0
+        Me.rbtnMonthRange.TabStop = True
+        Me.rbtnMonthRange.Text = "Month Wise"
+        Me.rbtnMonthRange.UseVisualStyleBackColor = True
+        '
+        'montrangwise
+        '
+        Me.montrangwise.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.montrangwise.Controls.Add(Me.RadLabel3)
+        Me.montrangwise.Controls.Add(Me.txtToDate)
+        Me.montrangwise.Controls.Add(Me.txtFromDate)
+        Me.montrangwise.Controls.Add(Me.MyLabel1)
+        Me.montrangwise.HeaderText = "Month Range"
+        Me.montrangwise.Location = New System.Drawing.Point(33, 0)
+        Me.montrangwise.Name = "montrangwise"
+        Me.montrangwise.Size = New System.Drawing.Size(305, 51)
+        Me.montrangwise.TabIndex = 22
+        Me.montrangwise.Text = "Month Range"
+        Me.montrangwise.Visible = False
+        '
+        'daterangewise
+        '
+        Me.daterangewise.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.daterangewise.Controls.Add(Me.todate)
+        Me.daterangewise.Controls.Add(Me.fromdate)
+        Me.daterangewise.Controls.Add(Me.lblToDate)
+        Me.daterangewise.Controls.Add(Me.lblfromDate)
+        Me.daterangewise.HeaderText = "Date Wise"
+        Me.daterangewise.Location = New System.Drawing.Point(33, 10)
+        Me.daterangewise.Name = "daterangewise"
+        Me.daterangewise.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.daterangewise.Size = New System.Drawing.Size(305, 41)
+        Me.daterangewise.TabIndex = 24
+        Me.daterangewise.Text = "Date Wise"
+        Me.daterangewise.Visible = False
+        '
+        'todate
+        '
+        Me.todate.CalculationExpression = Nothing
+        Me.todate.CustomFormat = "dd-MM-yyyy"
+        Me.todate.FieldCode = Nothing
+        Me.todate.FieldDesc = Nothing
+        Me.todate.FieldMaxLength = 0
+        Me.todate.FieldName = Nothing
+        Me.todate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.todate.isCalculatedField = False
+        Me.todate.IsSourceFromTable = False
+        Me.todate.IsSourceFromValueList = False
+        Me.todate.IsUnique = False
+        Me.todate.Location = New System.Drawing.Point(214, 11)
+        Me.todate.MendatroryField = False
+        Me.todate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.todate.MyLinkLable1 = Nothing
+        Me.todate.MyLinkLable2 = Nothing
+        Me.todate.Name = "todate"
+        Me.todate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.todate.ReferenceFieldDesc = Nothing
+        Me.todate.ReferenceFieldName = Nothing
+        Me.todate.ReferenceTableName = Nothing
+        Me.todate.Size = New System.Drawing.Size(82, 20)
+        Me.todate.TabIndex = 1
+        Me.todate.TabStop = False
+        Me.todate.Text = "17-12-2011"
+        Me.todate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'fromdate
+        '
+        Me.fromdate.CalculationExpression = Nothing
+        Me.fromdate.CustomFormat = "dd-MM-yyyy"
+        Me.fromdate.FieldCode = Nothing
+        Me.fromdate.FieldDesc = Nothing
+        Me.fromdate.FieldMaxLength = 0
+        Me.fromdate.FieldName = Nothing
+        Me.fromdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.fromdate.isCalculatedField = False
+        Me.fromdate.IsSourceFromTable = False
+        Me.fromdate.IsSourceFromValueList = False
+        Me.fromdate.IsUnique = False
+        Me.fromdate.Location = New System.Drawing.Point(75, 11)
+        Me.fromdate.MendatroryField = False
+        Me.fromdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromdate.MyLinkLable1 = Nothing
+        Me.fromdate.MyLinkLable2 = Nothing
+        Me.fromdate.Name = "fromdate"
+        Me.fromdate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromdate.ReferenceFieldDesc = Nothing
+        Me.fromdate.ReferenceFieldName = Nothing
+        Me.fromdate.ReferenceTableName = Nothing
+        Me.fromdate.Size = New System.Drawing.Size(82, 20)
+        Me.fromdate.TabIndex = 0
+        Me.fromdate.TabStop = False
+        Me.fromdate.Text = "17-12-2011"
+        Me.fromdate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        '
+        'lblToDate
+        '
+        Me.lblToDate.FieldName = Nothing
+        Me.lblToDate.Location = New System.Drawing.Point(163, 13)
+        Me.lblToDate.Name = "lblToDate"
+        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.lblToDate.TabIndex = 14
+        Me.lblToDate.Text = "To Date"
+        '
+        'lblfromDate
+        '
+        Me.lblfromDate.FieldName = Nothing
+        Me.lblfromDate.Location = New System.Drawing.Point(9, 12)
+        Me.lblfromDate.Name = "lblfromDate"
+        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
+        Me.lblfromDate.TabIndex = 13
+        Me.lblfromDate.Text = "From Date"
         '
         'RadLabel3
         '
@@ -136,7 +280,6 @@ Partial Class frmMonthWiseBeneficieriesReport
         '
         Me.txtToDate.CalculationExpression = Nothing
         Me.txtToDate.CustomFormat = "MMM-yyyy"
-        Me.txtToDate.Enabled = False
         Me.txtToDate.FieldCode = Nothing
         Me.txtToDate.FieldDesc = Nothing
         Me.txtToDate.FieldMaxLength = 0
@@ -206,9 +349,9 @@ Partial Class frmMonthWiseBeneficieriesReport
         Me.RadGroupBox1.Controls.Add(Me.rbtnDCSWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnMPWise)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(28, 3)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(33, 57)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(268, 34)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(305, 34)
         Me.RadGroupBox1.TabIndex = 0
         '
         'rbtnDCSWise
@@ -249,7 +392,7 @@ Partial Class frmMonthWiseBeneficieriesReport
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(779, 359)
         Me.gv1.TabIndex = 0
@@ -321,9 +464,19 @@ Partial Class frmMonthWiseBeneficieriesReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.montrangwise, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.montrangwise.ResumeLayout(False)
+        Me.montrangwise.PerformLayout()
+        CType(Me.daterangewise, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.daterangewise.ResumeLayout(False)
+        Me.daterangewise.PerformLayout()
+        CType(Me.todate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -358,8 +511,16 @@ Partial Class frmMonthWiseBeneficieriesReport
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
-    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents montrangwise As RadGroupBox
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
     Friend WithEvents rmiPDF As RadMenuItem
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rbtnMonthRange As RadioButton
+    Friend WithEvents rbtDateWise As RadioButton
+    Friend WithEvents daterangewise As RadGroupBox
+    Friend WithEvents todate As common.Controls.MyDateTimePicker
+    Friend WithEvents fromdate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblToDate As common.Controls.MyLabel
+    Friend WithEvents lblfromDate As common.Controls.MyLabel
 End Class

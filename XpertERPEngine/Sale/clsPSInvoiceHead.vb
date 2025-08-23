@@ -379,10 +379,10 @@ Public Class clsPSInvoiceHead
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Supplementary_Type), "S") = CompairStringResult.Equal Then
                                 obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.SupplementaryNonTaxable, obj.Bill_To_Location, False, isIncrementCounter)
                             Else
-                                If IsDairyModule = False Then
+                                If Not IsDairyModule Then
                                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTBillofSupply, obj.Bill_To_Location, False, isIncrementCounter)
                                 Else
-                                    If IsTaxable = False Then
+                                    If Not IsTaxable Then
                                         obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTBillofSupply, obj.Bill_To_Location, False, isIncrementCounter)
                                     Else
                                         intExempted = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & obj.Scheme_Tax_Group & "'", trans))
@@ -421,7 +421,7 @@ Public Class clsPSInvoiceHead
                             Dim strExcise As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_LOCATION_MASTER where Location_Code='" + obj.Bill_To_Location + "'", trans)) = "T", True, False)
                             If obj.Item_Tax_Type = 1 Then
                                 obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, SaleInvoiceProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location, False, isIncrementCounter)
-                            ElseIf obj.Item_Tax_Type = 2 AndAlso strExcise = True Then
+                            ElseIf obj.Item_Tax_Type = 2 AndAlso strExcise Then
                                 'If strExcise = False Then
                                 '    Throw New Exception("Both Location and Item should be excisable.")
                                 'End If
@@ -844,14 +844,14 @@ Public Class clsPSInvoiceHead
                     qry = "Select SUM(Balance_Amt) From(" &
         " Select TSPL_Customer_Invoice_Head.Document_No, Against_Sale_No, TSPL_Customer_Invoice_Head.Balance_Amt, TSPL_Customer_Invoice_Head.Customer_Code" &
         " from TSPL_Customer_Invoice_Head WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1" &
-        " AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "'" &
+        " AND TSPL_Customer_Invoice_Head.Customer_Code='" & obj.Customer_Code & "'" &
              " UNION ALL" &
         " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt, TSPL_SD_SALE_INVOICE_HEAD.Customer_Code from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND Document_Code<>'" + obj.Document_Code + "'" &
         " ) XXX"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > CreditLimit Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
                             'clsCommon.MyMessageBoxShow(clsCommon.myCstr(dt.Rows(0)("Notification")))
-                            If common.clsCommon.MyMessageBoxShow(clsCommon.myCstr(dr("Notification")) + Environment.NewLine + "Do you want to continue?.", "Load Out", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                            If common.clsCommon.MyMessageBoxShow(clsCommon.myCstr(dr("Notification")) & Environment.NewLine & "Do you want to continue?.", "Load Out", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                                 Dim frm As New FrmPWD(trans)
                                 frm.strCode = clsFixedParameterCode.CreditLimitApproval
                                 frm.strType = clsFixedParameterType.CreditLimitApproval
@@ -896,9 +896,9 @@ TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
 from TSPL_SD_SALE_INVOICE_HEAD
 left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE= TSPL_SD_SALE_INVOICE_HEAD.Document_Code
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
-left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
-where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
+where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
         Return Qry
     End Function
 
@@ -930,23 +930,23 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
         End If
 
         'sanjay 11-dec-2017
-        If IsDairyModule = False Then
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ") "
+        If Not IsDairyModule Then
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 AndAlso clsCommon.myLen(strwherecls) > 0 Then
+                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='' AND Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ") and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" & strwherecls & ") "
             ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='' AND Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ")"
             ElseIf clsCommon.myLen(strwherecls) > 0 Then
-                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='' AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ")"
+                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type='PS' AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='' AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" & strwherecls & ")"
             Else
                 whrCls = " AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type=''"
             End If
         Else
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ") "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 AndAlso clsCommon.myLen(strwherecls) > 0 Then
+                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' AND Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ") and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" & strwherecls & ") "
             ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' AND Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ")"
             ElseIf clsCommon.myLen(strwherecls) > 0 Then
-                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ")"
+                whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" & strwherecls & ")"
             Else
                 whrCls = " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SALE_INVOICE_HEAD.Screen_Type='DS' "
             End If
@@ -955,15 +955,15 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
         '-----------------------------------------------------
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select MIN(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD WHERE Invoice_Type in (" & strInvoiceType & ")  " + whrCls + ")"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select MIN(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD WHERE Invoice_Type in (" & strInvoiceType & ")  " & whrCls & ")"
             Case NavigatorType.Last
-                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select Max(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD WHERE Invoice_Type in (" & strInvoiceType & ") " + whrCls + ")"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select Max(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD WHERE Invoice_Type in (" & strInvoiceType & ") " & whrCls & ")"
             Case NavigatorType.Current
-                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" + strPONo + "'"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" & strPONo & "'"
             Case NavigatorType.Next
-                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select Min(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code>'" + strPONo + "' and Invoice_Type in (" & strInvoiceType & ") " + whrCls + ")"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select Min(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code>'" & strPONo & "' and Invoice_Type in (" & strInvoiceType & ") " & whrCls & ")"
             Case NavigatorType.Previous
-                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select Max(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code<'" + strPONo + "' and Invoice_Type in (" & strInvoiceType & ") " + whrCls + ")"
+                qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code = (select Max(Document_Code) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code<'" & strPONo & "' and Invoice_Type in (" & strInvoiceType & ") " & whrCls & ")"
         End Select
         'sanjay 11-dec-2017
 
@@ -973,7 +973,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             obj = New clsPSInvoiceHead()
             obj.Deduction_Type = clsCommon.myCstr(dt.Rows(0)("Deduction_Type"))
             obj.Deduction = clsCommon.myCstr(dt.Rows(0)("Deduction"))
-            If IsDBNull(dt.Rows(0)("cust_po_date")) = True Then
+            If IsDBNull(dt.Rows(0)("cust_po_date")) Then
                 obj.podate = Nothing
             Else
                 obj.podate = clsCommon.GetPrintDate(dt.Rows(0)("cust_po_date"), "dd/MMM/yyyy hh:mm tt")
@@ -1203,7 +1203,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
             '' CURRENCYCONVERSION 
             obj.CURRENCY_CODE = clsCommon.myCstr(dt.Rows(0)("CURRENCY_CODE"))
             obj.ConvRate = clsCommon.myCdbl(dt.Rows(0)("ConvRate"))
-            If IsDBNull(dt.Rows(0)("ApplicableFrom")) = True Then
+            If IsDBNull(dt.Rows(0)("ApplicableFrom")) Then
                 obj.ApplicableFrom = Nothing
             Else
                 obj.ApplicableFrom = clsCommon.GetPrintDate(dt.Rows(0)("ApplicableFrom"), "dd/MMM/yyyy")
@@ -1256,7 +1256,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
            FROM TSPL_SD_SALE_INVOICE_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code"
-            qry += " where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + obj.Document_Code + "' ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
+            qry += " where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" & obj.Document_Code & "' ORDER BY TSPL_SD_SALE_INVOICE_DETAIL.Line_No asc"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -1385,7 +1385,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + strInvoiceNO + "' "
                     objTr.Total_Cust_Discount = clsCommon.myCdbl(dr("Total_Cust_Discount"))
                     objTr.ActualRate = clsCommon.myCdbl(dr("ActualRate"))
                     objTr.Cust_DiscountQty = clsCommon.myCdbl(dr("Cust_DiscountQty"))
-                    If IsDBNull(dt.Rows(0)("Price_Date")) = True Then
+                    If IsDBNull(dt.Rows(0)("Price_Date")) Then
                         objTr.Price_Date = Nothing
                     Else
                         objTr.Price_Date = clsCommon.GetPrintDate(dt.Rows(0)("Price_Date"), "dd/MMM/yyyy")
@@ -1571,7 +1571,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                     End If
                     If Not stopEWayBill Then
-                        If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+                        If objCommonVar.GenerateEWayBillWithEInvoice Then
                             Dim EwbNo As String = objResult.SelectToken("EwbNo").ToString
                             Dim EwbDt As String = objResult.SelectToken("EwbDt").ToString
                             Dim EwbValidTill As String = objResult.SelectToken("EwbValidTill").ToString
@@ -1705,7 +1705,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
             'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
 
             ''richa agarwal 21 Dec,2020 check eInvoice Implementation
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Is_Taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.IsSampling = 0 Then
                 If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
                     If clsCommon.myLen(GetIRNNo(strDocNo, trans)) <= 0 Then
