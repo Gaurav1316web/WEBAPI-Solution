@@ -86,6 +86,9 @@ Public Class FrmDispatchBulkSale
     Const colTotTaxAmt As String = "colTotTaxAmt"
     Const colAmtAfterTax As String = "colAmtAfterTax"
     Const colIsExcisable As String = "IsExcisable"
+    Const colAChgCode As String = "COLACCODE"
+    Const colAChgName As String = "COLACNAME"
+    Const colAChgAmount As String = "COLACAMOUNT"
     Dim arrLoc As String = Nothing
     Public arrList As List(Of String) = Nothing
     Public arrListDesc As List(Of String) = Nothing
@@ -148,74 +151,77 @@ Public Class FrmDispatchBulkSale
     End Sub
 
     Private Sub FrmDispatchBulkSale_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        AllowNLevel = clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale)
-        EnterInsuranceNoandSealNo = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.InsuranceNoAndSealNoInBulkDispatch, clsFixedParameterCode.InsuranceNoAndSealNoInBulkDispatch, Nothing)) = 1, True, False))
-        ApplyMultiChamber = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyMultiChamberInBulkWeighmentEntry, clsFixedParameterCode.ApplyMultiChamberInBulkWeighmentEntry, Nothing)) = 1, True, False))
-        ApplyTSPriceAtBulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, Nothing)) = 1, True, False))
-        AllowSNFNotManditoryInBulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, Nothing)) = 1, True, False))
-        ShowBulkDispatchQtyInLtr = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowBulkDispatchQtyInLtr, clsFixedParameterCode.ShowBulkDispatchQtyInLtr, Nothing)) = 1, True, False))
-        UseKGLitreConversionInBulkSaleAsperCLRCalculation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseKGLitreConversionInBulkSaleAsperCLRCalculation, clsFixedParameterCode.UseKGLitreConversionInBulkSaleAsperCLRCalculation, Nothing)) = 1, True, False))
-        AllowtoChangeTCSBaseAmount = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, Nothing)) = 0, False, True)
-        ItemStructureMandatoryOnWeightConversion = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ItemStructureMandatoryOnWeightConversion, clsFixedParameterCode.ItemStructureMandatoryOnWeightConversion, Nothing)) = 1, True, False))
-        CreateInvoiceAutomaticallyOnbulkDispatch = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateInvoiceAutomaticallyOnbulkDispatch, clsFixedParameterCode.CreateInvoiceAutomaticallyOnbulkDispatch, Nothing)) = 1, True, False))
-        TCSTaxApplicableOnbulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.TCSTaxApplicableOnbulkSale, clsFixedParameterCode.TCSTaxApplicableOnbulkSale, Nothing)) = 1, True, False))
-        AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
-        EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
-        AllowFatPerInanynumberofMultipesonBulkQC = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowFatPerInanynumberofMultipesonBulkQC, clsFixedParameterCode.AllowFatPerInanynumberofMultipesonBulkQC, Nothing)) = 1, True, False))
-        If EnterInsuranceNoandSealNo Then
-            RadPanel1.Visible = True
-        Else
-            RadPanel1.Visible = False
-        End If
-        MyLabel15.Text = "Standard Rate"
-        If ApplyTSPriceAtBulkSale = True Then
-            MyLabel17.Visible = False
-            TxtToleranceinplus.Visible = False
-            txtToleranceinminus.Visible = False
-            MyLabel4.Visible = False
-            TxtFatWeightage.Enabled = True
-            TxtSNFWeightage.Enabled = True
-            txtfatRatio.Enabled = True
-            txtSNFRatio.Enabled = True
-            ''richa agarwal ERO/10/01/19-000463 ts rate from price chart of bulk
-            MyLabel1.Visible = True
-            FndPriceCode.Visible = True
-            MyLabel5.Visible = True
-            MyLabel15.Text = "TS Rate"
-            txtStanadardrate.Visible = True
-        End If
-        SetUserMgmtNew()
-        SetMailRight()
-        Reset()
-        SetMaxlength()
-        UcAttachment1.Form_ID = MyBase.Form_ID
-        ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
-        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Transaction")
-        ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Transaction")
-        ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N New Transaction")
-        If clsCommon.myLen(DocumentNo) > 0 Then
-            LoadData(DocumentNo, NavigatorType.Current)
-        End If
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-        End If
-        btnUpdateCustomer.Visible = False
-        EmailSmsSetting.Visibility = ElementVisibility.Collapsed
+        Try
+            AllowNLevel = clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale)
+            EnterInsuranceNoandSealNo = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.InsuranceNoAndSealNoInBulkDispatch, clsFixedParameterCode.InsuranceNoAndSealNoInBulkDispatch, Nothing)) = 1, True, False))
+            ApplyMultiChamber = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyMultiChamberInBulkWeighmentEntry, clsFixedParameterCode.ApplyMultiChamberInBulkWeighmentEntry, Nothing)) = 1, True, False))
+            ApplyTSPriceAtBulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, Nothing)) = 1, True, False))
+            AllowSNFNotManditoryInBulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, Nothing)) = 1, True, False))
+            ShowBulkDispatchQtyInLtr = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowBulkDispatchQtyInLtr, clsFixedParameterCode.ShowBulkDispatchQtyInLtr, Nothing)) = 1, True, False))
+            UseKGLitreConversionInBulkSaleAsperCLRCalculation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseKGLitreConversionInBulkSaleAsperCLRCalculation, clsFixedParameterCode.UseKGLitreConversionInBulkSaleAsperCLRCalculation, Nothing)) = 1, True, False))
+            AllowtoChangeTCSBaseAmount = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, Nothing)) = 0, False, True)
+            ItemStructureMandatoryOnWeightConversion = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ItemStructureMandatoryOnWeightConversion, clsFixedParameterCode.ItemStructureMandatoryOnWeightConversion, Nothing)) = 1, True, False))
+            CreateInvoiceAutomaticallyOnbulkDispatch = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateInvoiceAutomaticallyOnbulkDispatch, clsFixedParameterCode.CreateInvoiceAutomaticallyOnbulkDispatch, Nothing)) = 1, True, False))
+            TCSTaxApplicableOnbulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.TCSTaxApplicableOnbulkSale, clsFixedParameterCode.TCSTaxApplicableOnbulkSale, Nothing)) = 1, True, False))
+            AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
+            EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
+            AllowFatPerInanynumberofMultipesonBulkQC = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowFatPerInanynumberofMultipesonBulkQC, clsFixedParameterCode.AllowFatPerInanynumberofMultipesonBulkQC, Nothing)) = 1, True, False))
+            If EnterInsuranceNoandSealNo Then
+                RadPanel1.Visible = True
+            Else
+                RadPanel1.Visible = False
+            End If
+            MyLabel15.Text = "Standard Rate"
+            If ApplyTSPriceAtBulkSale Then
+                MyLabel17.Visible = False
+                TxtToleranceinplus.Visible = False
+                txtToleranceinminus.Visible = False
+                MyLabel4.Visible = False
+                TxtFatWeightage.Enabled = True
+                TxtSNFWeightage.Enabled = True
+                txtfatRatio.Enabled = True
+                txtSNFRatio.Enabled = True
+                ''richa agarwal ERO/10/01/19-000463 ts rate from price chart of bulk
+                MyLabel1.Visible = True
+                FndPriceCode.Visible = True
+                MyLabel5.Visible = True
+                MyLabel15.Text = "TS Rate"
+                txtStanadardrate.Visible = True
+            End If
+            SetUserMgmtNew()
+            SetMailRight()
+            Reset()
+            SetMaxlength()
+            UcAttachment1.Form_ID = MyBase.Form_ID
+            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
+            ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Transaction")
+            ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Transaction")
+            ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N New Transaction")
+            If clsCommon.myLen(DocumentNo) > 0 Then
+                LoadData(DocumentNo, NavigatorType.Current)
+            End If
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+            End If
+            btnUpdateCustomer.Visible = False
+            EmailSmsSetting.Visibility = ElementVisibility.Collapsed
 
-        Dim coll As Dictionary(Of String, String)
+            Dim coll As Dictionary(Of String, String)
 
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_No", "varchar(30)  NULL references TSPL_Dispatch_BulkSale(Document_No) ")
-        coll.Add("SILO", "Varchar(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Silo_Qty", "float not null default 0")
-        coll.Add("Silo_FatPer", "float not NULL default 0")
-        coll.Add("Silo_SNFPer", "float not NULL default 0")
-        coll.Add("Silo_Fat_KG", "float not NULL default 0")
-        coll.Add("Silo_SNF_KG", "float not NULL default 0")
-        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Dispatch_BulkSale_Silo", coll, "", True, False, "", "", "", True)
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_Silo_Detail", coll, Nothing, True, False, "TSPL_DISPATCH_BULKSALE", "Document_No", "", True)
-
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30)  NULL references TSPL_Dispatch_BulkSale(Document_No) ")
+            coll.Add("SILO", "Varchar(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Silo_Qty", "float not null default 0")
+            coll.Add("Silo_FatPer", "float not NULL default 0")
+            coll.Add("Silo_SNFPer", "float not NULL default 0")
+            coll.Add("Silo_Fat_KG", "float not NULL default 0")
+            coll.Add("Silo_SNF_KG", "float not NULL default 0")
+            'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_Dispatch_BulkSale_Silo", coll, "", True, False, "", "", "", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_Silo_Detail", coll, Nothing, True, False, "TSPL_DISPATCH_BULKSALE", "Document_No", "", True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmDispatchBulkSale)
@@ -732,7 +738,7 @@ Public Class FrmDispatchBulkSale
         Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.Columns.Add(Amount)
 
-        If ApplyTSPriceAtBulkSale = True Then
+        If ApplyTSPriceAtBulkSale Then
             Dim Standardrate As New GridViewDecimalColumn
             Standardrate.FormatString = "{0:n2}"
             Standardrate.HeaderText = "Standard rate"
@@ -880,6 +886,47 @@ Public Class FrmDispatchBulkSale
         strUnitCode = Nothing
     End Sub
 
+    Sub LoadBlankGridAC()
+        gvAC.Rows.Clear()
+        gvAC.Columns.Clear()
+
+        Dim repoACCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoACCode.FormatString = ""
+        repoACCode.HeaderText = "Addition Charges Code"
+        repoACCode.Name = colAChgCode
+        repoACCode.HeaderImage = My.Resources.Resources.search4
+        repoACCode.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoACCode.Width = 150
+        repoACCode.ReadOnly = False
+        gvAC.MasterTemplate.Columns.Add(repoACCode)
+
+        Dim repoACName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoACName.FormatString = ""
+        repoACName.HeaderText = "Addition Charges Description"
+        repoACName.Name = colAChgName
+        repoACName.Width = 300
+        repoACName.ReadOnly = True
+        gvAC.MasterTemplate.Columns.Add(repoACName)
+
+        Dim repoACAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoACAmt.FormatString = ""
+        repoACAmt.HeaderText = "Amount"
+        repoACAmt.Name = colAChgAmount
+        repoACAmt.Width = 100
+        repoACAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoACAmt.ReadOnly = False
+        gvAC.MasterTemplate.Columns.Add(repoACAmt)
+
+        gvAC.AllowAddNewRow = False
+        gvAC.ShowGroupPanel = False
+        gvAC.AllowColumnReorder = True
+        gvAC.AllowRowReorder = False
+        gvAC.EnableSorting = False
+        gvAC.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvAC.MasterTemplate.ShowRowHeaderColumn = False
+        gvAC.TableElement.TableHeaderHeight = 40
+    End Sub
+
     Function FillYesNoValue() As DataTable
         Dim dt As DataTable
         Dim qry As String = " select '' as value union all select 'Yes' as value union all select 'No' as value "
@@ -901,6 +948,8 @@ Public Class FrmDispatchBulkSale
         rbtnTaxCalAutomatic.IsChecked = True
         LoadBlankGridTax()
         LoadBlankGridSiloDetails()
+        LoadBlankGridAC()
+        gvAC.Rows.AddNew()
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
         txtinsuranceno.Text = ""
@@ -951,7 +1000,7 @@ Public Class FrmDispatchBulkSale
         btnPost.Enabled = True
         btnsave.Enabled = True
         ''richa ERO/18/11/19-001115 18 Nov,2019
-        If CreateInvoiceAutomaticallyOnbulkDispatch = True Then
+        If CreateInvoiceAutomaticallyOnbulkDispatch Then
             chkCreateAoutoInvoice.Checked = True
         Else
             chkCreateAoutoInvoice.Checked = False
@@ -970,8 +1019,9 @@ Public Class FrmDispatchBulkSale
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
         lblTaxAmt.Text = "0"
+        lblAdditionalCharges.Text = "0"
         lblDocumentAmount.Text = "0"
-        If AllowtoChangeTCSBaseAmount = True Then
+        If AllowtoChangeTCSBaseAmount Then
             txttcstaxbaseamount.Enabled = True
         Else
             txttcstaxbaseamount.Enabled = False
@@ -980,10 +1030,12 @@ Public Class FrmDispatchBulkSale
         lblActualTCSTaxBaseAmt.Text = "0"
     End Sub
     Private Sub FndTankerCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles FndTankerCode._MYValidating
-
-        Dim qry As String = "Select Tanker_No as Code,Tanker_Name,Tanker_Transporter_Code,Description from TSPL_TANKER_MASTER  "
-        FndTankerCode.Value = clsCommon.ShowSelectForm("PAY_HEAD", qry, "Code", "", FndTankerCode.Value, "Code", isButtonClicked)
-
+        Try
+            Dim qry As String = "Select Tanker_No as Code,Tanker_Name,Tanker_Transporter_Code,Description from TSPL_TANKER_MASTER  "
+            FndTankerCode.Value = clsCommon.ShowSelectForm("PAY_HEAD", qry, "Code", "", FndTankerCode.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
         'Dim strwhrclause As String = String.Empty
         'strwhrclause = " TSPL_Quality_Check_BulkSale.Location_Code in (" + arrLoc + ") and TSPL_Quality_Check_BulkSale.QC_No not in (Select QC_Code from TSPL_Dispatch_BulkSale where Document_No<>'" + txtDocNo.Value + "' and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") ) and  TSPL_WEIGHMENT_DETAIL_BULKSALE.Posted=1"
         'LblQCCode.Text = ClsQualityCheckBulkSale.getTankerFinder(strwhrclause, FndTankerCode.Value, isButtonClicked)
@@ -1191,54 +1243,58 @@ Public Class FrmDispatchBulkSale
     Private Function QtyInLtr(ByVal ItemCode As String, ByVal UOM As String, ByVal Qty As Double) As Double
         Dim CONVERTED_Qty As Double
         Dim strsql As String = ""
-        strsql = "select  ISNULL(round(case when coalesce(CONVERTED_UOM.Conversion_factor,0)=0 then 0 else (" + clsCommon.myCstr(Qty) + " *StockingUnit.Conversion_Factor /coalesce(CONVERTED_UOM.Conversion_factor,1)) end,2),0) as Qty from TSPL_ITEM_MASTER"
-        strsql += " LEFT OUTER JOIN tspl_item_uom_detail as StockingUnit on StockingUnit.Item_Code=TSPL_ITEM_MASTER.item_code and StockingUnit.UOM_CODE='" + UOM + "' "
+        strsql = "select  ISNULL(round(case when coalesce(CONVERTED_UOM.Conversion_factor,0)=0 then 0 else (" & clsCommon.myCstr(Qty) & " *StockingUnit.Conversion_Factor /coalesce(CONVERTED_UOM.Conversion_factor,1)) end,2),0) as Qty from TSPL_ITEM_MASTER"
+        strsql += " LEFT OUTER JOIN tspl_item_uom_detail as StockingUnit on StockingUnit.Item_Code=TSPL_ITEM_MASTER.item_code and StockingUnit.UOM_CODE='" & UOM & "' "
         strsql += " inner join TSPL_ITEM_UOM_DETAIL AS CONVERTED_UOM ON CONVERTED_UOM.Item_Code=TSPL_ITEM_MASTER.item_code and CONVERTED_UOM.UOM_CODE='Ltr' "
-        strsql += " where TSPL_ITEM_MASTER.item_code = '" + ItemCode + "'"
+        strsql += " where TSPL_ITEM_MASTER.item_code = '" & ItemCode & "'"
         CONVERTED_Qty = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strsql))
         Return CONVERTED_Qty
     End Function
 
 
     Private Sub FndPriceCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles FndPriceCode._MYValidating
-        Dim dt As DataTable = Nothing
-        Dim whrcls As String = String.Empty
-        whrcls = " convert(date,isnull(TSPL_BulkSalePrice_MASTER.ValidTill ,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'),103)>='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'"
+        Try
+            Dim dt As DataTable = Nothing
+            Dim whrcls As String = String.Empty
+            whrcls = " convert(date,isnull(TSPL_BulkSalePrice_MASTER.ValidTill ,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'),103)>='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'"
 
-        ''richa agarwal 12 Sep, 2016
-        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where code= '" & clsFixedParameterCode.showPostrequiredforBulkSale & "' and Type ='" & clsFixedParameterType.showPostrequiredforBulkSale & "'")), "1") = CompairStringResult.Equal Then
-            whrcls += " and TSPL_BulkSalePrice_MASTER.Posted='1' "
-        End If
-
-        Dim Qry As String = "Select Price_Code as Code ,Convert(varchar,Price_Date,103) as Date,Convert(varchar,isnull(TSPL_BulkSalePrice_MASTER.ValidTill,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'),103) as [Valid Upto],Location_Code as [Location Code],Fat_Weightage as [Fat Weightage],Snf_Weightage as [SNF Weightage],Fat_Ratio As [Fat Ratio],Snf_Ratio as [SNF Ratio],Standard_Rate as [Standard Rate],Posted,case when  UseInCanSale =1 then 'True' else 'False' end as [Use In Cancel],TSRate as [TS Rate] from TSPL_BulkSalePrice_MASTER "
-        FndPriceCode.Value = clsCommon.ShowSelectForm("BulkSalePriceChart", Qry, "Code", whrcls, FndPriceCode.Value, "Code", isButtonClicked)
-
-
-        'FndPriceCode.Value = ClsBulkSalePriceChart.getFinder(whrcls, FndPriceCode.Value, isButtonClicked)
-
-        If clsCommon.myLen(FndPriceCode.Value) > 0 Then
-            dt = clsDBFuncationality.GetDataTable("Select Price_Code ,Fat_Weightage,Snf_Weightage,Fat_Ratio,Snf_Ratio,Standard_Rate,TolerancePerPlus,TolerancePerMinus,Posted,TSRate,UOM from TSPL_BulkSalePrice_MASTER where Price_Code='" + FndPriceCode.Value + "'")
-            If dt.Rows.Count > 0 Then
-                ''richa agarwal 18/12/2014
-                TxtFatWeightage.Value = clsCommon.myCdbl(dt.Rows(0)("Fat_Weightage"))
-                TxtSNFWeightage.Value = clsCommon.myCdbl(dt.Rows(0)("Snf_Weightage"))
-                txtfatRatio.Value = clsCommon.myCdbl(dt.Rows(0)("Fat_Ratio"))
-                txtSNFRatio.Value = clsCommon.myCdbl(dt.Rows(0)("Snf_Ratio"))
-                txtStanadardrate.Value = clsCommon.myCdbl(dt.Rows(0)("Standard_Rate"))
-                TxtToleranceinplus.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePerPlus"))
-                txtToleranceinminus.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePerMinus"))
-                ''richa against Ticket no ERO/10/01/19-000463 on 14 Jan,2019
-                If ApplyTSPriceAtBulkSale = True Then
-                    txtStanadardrate.Value = clsCommon.myCdbl(dt.Rows(0)("TSRate"))
-                End If
-                gv1.Rows(0).Cells(colUnitCode).Value = clsCommon.myCstr(dt.Rows(0)("UOM"))
-                UpdateCurrentRow(0)
+            ''richa agarwal 12 Sep, 2016
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where code= '" & clsFixedParameterCode.showPostrequiredforBulkSale & "' and Type ='" & clsFixedParameterType.showPostrequiredforBulkSale & "'")), "1") = CompairStringResult.Equal Then
+                whrcls += " and TSPL_BulkSalePrice_MASTER.Posted='1' "
             End If
-        Else
-            gv1.DataSource = Nothing
-        End If
-        dt = Nothing
-        whrcls = Nothing
+
+            Dim Qry As String = "Select Price_Code as Code ,Convert(varchar,Price_Date,103) as Date,Convert(varchar,isnull(TSPL_BulkSalePrice_MASTER.ValidTill,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'),103) as [Valid Upto],Location_Code as [Location Code],Fat_Weightage as [Fat Weightage],Snf_Weightage as [SNF Weightage],Fat_Ratio As [Fat Ratio],Snf_Ratio as [SNF Ratio],Standard_Rate as [Standard Rate],Posted,case when  UseInCanSale =1 then 'True' else 'False' end as [Use In Cancel],TSRate as [TS Rate] from TSPL_BulkSalePrice_MASTER "
+            FndPriceCode.Value = clsCommon.ShowSelectForm("BulkSalePriceChart", Qry, "Code", whrcls, FndPriceCode.Value, "Code", isButtonClicked)
+
+
+            'FndPriceCode.Value = ClsBulkSalePriceChart.getFinder(whrcls, FndPriceCode.Value, isButtonClicked)
+
+            If clsCommon.myLen(FndPriceCode.Value) > 0 Then
+                dt = clsDBFuncationality.GetDataTable("Select Price_Code ,Fat_Weightage,Snf_Weightage,Fat_Ratio,Snf_Ratio,Standard_Rate,TolerancePerPlus,TolerancePerMinus,Posted,TSRate,UOM from TSPL_BulkSalePrice_MASTER where Price_Code='" + FndPriceCode.Value + "'")
+                If dt.Rows.Count > 0 Then
+                    ''richa agarwal 18/12/2014
+                    TxtFatWeightage.Value = clsCommon.myCdbl(dt.Rows(0)("Fat_Weightage"))
+                    TxtSNFWeightage.Value = clsCommon.myCdbl(dt.Rows(0)("Snf_Weightage"))
+                    txtfatRatio.Value = clsCommon.myCdbl(dt.Rows(0)("Fat_Ratio"))
+                    txtSNFRatio.Value = clsCommon.myCdbl(dt.Rows(0)("Snf_Ratio"))
+                    txtStanadardrate.Value = clsCommon.myCdbl(dt.Rows(0)("Standard_Rate"))
+                    TxtToleranceinplus.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePerPlus"))
+                    txtToleranceinminus.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePerMinus"))
+                    ''richa against Ticket no ERO/10/01/19-000463 on 14 Jan,2019
+                    If ApplyTSPriceAtBulkSale = True Then
+                        txtStanadardrate.Value = clsCommon.myCdbl(dt.Rows(0)("TSRate"))
+                    End If
+                    gv1.Rows(0).Cells(colUnitCode).Value = clsCommon.myCstr(dt.Rows(0)("UOM"))
+                    UpdateCurrentRow(0)
+                End If
+            Else
+                gv1.DataSource = Nothing
+            End If
+            dt = Nothing
+            whrcls = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -1264,7 +1320,7 @@ Public Class FrmDispatchBulkSale
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value)
         If clsCommon.myLen(strICode) > 0 Then
             Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
-            Dim whrCls As String = "Item_Code='" + strICode + "'"
+            Dim whrCls As String = "Item_Code='" & strICode & "'"
             gv1.CurrentRow.Cells(colUnitCode).Value = clsCommon.ShowSelectForm("DispatchUnitFinder", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnitCode).Value), "Code", isButtonClick)
             qry = Nothing
             whrCls = Nothing
@@ -1392,9 +1448,18 @@ Public Class FrmDispatchBulkSale
                     End Select
                 Next
             End If
+
+            Dim dblACAmount As Double = 0
+            For ii As Integer = 0 To gvAC.Rows.Count - 1
+                If (clsCommon.myLen(gvAC.Rows(ii).Cells(colAChgCode).Value) > 0) Then
+                    dblACAmount = dblACAmount + clsCommon.myCdbl(gvAC.Rows(ii).Cells(colAChgAmount).Value)
+                End If
+            Next
+
             lblDocumentAmount.Text = clsCommon.myFormat(dblTotAmt)
             lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
-            lblTotRAmt1.Text = clsCommon.myFormat(clsCommon.myCdbl(dblTaxTotAmt) + clsCommon.myCdbl(dblTotAmt))
+            lblAdditionalCharges.Text = clsCommon.myFormat(dblACAmount)
+            lblTotRAmt1.Text = clsCommon.myFormat(clsCommon.myCdbl(dblTaxTotAmt) + clsCommon.myCdbl(dblTotAmt) + clsCommon.myCdbl(dblACAmount))
             lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(dblTotAmt)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -1419,7 +1484,7 @@ Public Class FrmDispatchBulkSale
             Dim SNFAmount As Double = 0
             Dim Amount As Double = 0
             Dim dblAmtAfterDis As Double = 0
-            If ApplyTSPriceAtBulkSale = True Then
+            If ApplyTSPriceAtBulkSale Then
                 ''richa agarwal 14 Jan,2019 ERO/10/01/19-000463
                 If clsCommon.myLen(FndPriceCode.Value) > 0 Then
                     StandardRate = clsCommon.myCdbl(txtStanadardrate.Value)
@@ -1437,14 +1502,14 @@ Public Class FrmDispatchBulkSale
             SNFRatio = clsCommon.myCdbl(txtSNFRatio.Value)
 
             ''richa agarwal 8 Jan,2019 ERO/07/01/19-000457
-            If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+            If UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                 Qty = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQtyLtr).Value), 0)
             Else
                 Qty = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value), 3)
             End If
 
             ''richa agarwal 8 Jan,2019 ERO/07/01/19-000457
-            If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+            If UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                 FatRate = Math.Round(StandardRate, 2)
                 SNFRate = Math.Round(StandardRate, 2)
 
@@ -1471,18 +1536,18 @@ Public Class FrmDispatchBulkSale
             gv1.Rows(IntRowNo).Cells(colAmount).Value = clsCommon.myCdbl(Amount)
             ''richa Against ticket No BM00000003893 on 11/09/2014
             If Qty > 0 Then
-                If ApplyTSPriceAtBulkSale = True Then
+                If ApplyTSPriceAtBulkSale Then
                     gv1.Rows(IntRowNo).Cells(colNetMilkRate).Value = Math.Round((StandardRate * (FatPer + SNFPer)) / 100, 2)
-                    If UseKGLitreConversionInBulkSaleAsperCLRCalculation = False Then
+                    If Not UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                         gv1.Rows(IntRowNo).Cells(colAmount).Value = Math.Round(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colNetMilkRate).Value) * Qty, 2)
                     End If
                 Else
                     gv1.Rows(IntRowNo).Cells(colNetMilkRate).Value = Math.Round(clsCommon.myCdbl(Amount / Qty), 2)
                 End If
                 'Sanjay
-                If ShowBulkDispatchQtyInLtr = True Then
+                If ShowBulkDispatchQtyInLtr Then
                     ''richa agarwal 8 Jan,2019 ERO/07/01/19-000457
-                    If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+                    If UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                         ''richa ERO/25/02/19-000499
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQtyLtr).Value = Math.Round(clsCommon.myCdbl(clsItemMaster.GetQtyInLtrFromKgByCLR(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value), clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colCLR).Value))), 0)
                     Else
@@ -1495,14 +1560,14 @@ Public Class FrmDispatchBulkSale
             For ii As Integer = 1 To 5
                 Dim Strii As String = clsCommon.myCstr(ii)
                 If rbtnTaxCalAutomatic.IsChecked Then
-                    Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
+                    Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" & Strii)).Value)
                     If clsCommon.myLen(strTaxCode) > 0 Then
-                        Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
-                        Dim IsSurTax As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" + Strii)).Value)
-                        Dim strSurTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + Strii)).Value)
-                        Dim IsTaxable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + Strii)).Value)
-                        Dim IsExcisable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + Strii)).Value)
-                        Dim IsTaxonBaseAmount As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsTaxOnBaseAmount + clsCommon.myCstr(ii)).Value)
+                        Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" & Strii)).Value)
+                        Dim IsSurTax As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" & Strii)).Value)
+                        Dim strSurTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" & Strii)).Value)
+                        Dim IsTaxable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" & Strii)).Value)
+                        Dim IsExcisable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" & Strii)).Value)
+                        Dim IsTaxonBaseAmount As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsTaxOnBaseAmount & clsCommon.myCstr(ii)).Value)
                         dblAmtAfterDis = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmount).Value)
                         Dim dblBaseAmt As Double = 0
                         Dim dblTaxAmt As Double = 0
@@ -1515,7 +1580,7 @@ Public Class FrmDispatchBulkSale
                             If Not IsTaxonBaseAmount Then
                                 dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
                             End If
-                            If IsTaxonBaseAmount = False AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount = True Then
+                            If Not IsTaxonBaseAmount AndAlso clsCommon.myCdbl(txttcstaxbaseamount.Value) > 0 AndAlso AllowtoChangeTCSBaseAmount Then
                                 Dim dblTotalBasicPrice As Double = 0
                                 For n As Integer = 0 To gv1.Rows.Count - 1
                                     If clsCommon.myLen(gv1.Rows(n).Cells(colItemCode).Value) > 0 Then
@@ -1533,23 +1598,23 @@ Public Class FrmDispatchBulkSale
                             End If
                             ''
                         End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" & Strii)).Value = Math.Round(dblBaseAmt, 2)
                         dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 6)
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" & Strii)).Value = Math.Round(dblTaxAmt, 6)
                         If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
                             arrTaxableAuth.Add(strTaxCode.ToUpper())
                         End If
 
                     Else
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxRate" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + Strii)).Value = Nothing
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr(colIsTaxOnBaseAmount + Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxRate" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" & Strii)).Value = Nothing
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr(colIsTaxOnBaseAmount & Strii)).Value = Nothing
                     End If
                 ElseIf rbtnTaxCalManual.IsChecked Then
                     If gv2.Rows.Count >= ii Then
@@ -1563,7 +1628,7 @@ Public Class FrmDispatchBulkSale
                         If dblTotAmt <> 0 Then
                             dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
                         End If
-                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+                        gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" & Strii)).Value = dblCurrCalTax
                     End If
                 End If
             Next
@@ -1593,116 +1658,32 @@ Public Class FrmDispatchBulkSale
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
-        ' KUNAL > TICKET : BM00000009609 > Modified Date : 22-09-2016
-        'If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
-        '    txtDate.Focus()
-        '    txtDate.Select()
-        '    Return False
-        'End If
+        Try
+            ' KUNAL > TICKET : BM00000009609 > Modified Date : 22-09-2016
+            'If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+            '    txtDate.Focus()
+            '    txtDate.Select()
+            '    Return False
+            'End If
 
 
-        'If clsCommon.myLen(lblCustomerCode.Text) <= 0 Then
-        '    lblCustomerCode.Focus()
-        '    Throw New Exception("Customer No cannot be left blank")
-        'End If
-        If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, QC_Date,103) from TSPL_Quality_Check_BulkSale where QC_No ='" + LblQCCode1.Text + "'")) > clsCommon.myCDate(txtDate.Value) Then
-            txtDate.Focus()
-            Throw New Exception("Date cannot be less than from QC No Date")
-        End If
-        If clsCommon.myLen(FndTankerCode.Value) <= 0 Then
-            FndTankerCode.Focus()
-            Throw New Exception("Tanker No cannot be left blank")
-        End If
-        'If clsCommon.myLen(LblQCCode1.Text) <= 0 Then
-        '    LblQCCode1.Focus()
-        '    Throw New Exception("Qc No cannot be left blank")
-        'End If
-        If ApplyTSPriceAtBulkSale = False Then
-            If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
-                FndPriceCode.Focus()
-                Throw New Exception("Price Code cannot be left blank")
+            'If clsCommon.myLen(lblCustomerCode.Text) <= 0 Then
+            '    lblCustomerCode.Focus()
+            '    Throw New Exception("Customer No cannot be left blank")
+            'End If
+            If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, QC_Date,103) from TSPL_Quality_Check_BulkSale where QC_No ='" & LblQCCode1.Text & "'")) > clsCommon.myCDate(txtDate.Value) Then
+                txtDate.Focus()
+                Throw New Exception("Date cannot be less than from QC No Date")
             End If
-
-            Dim dt1 As DataTable = Nothing
-            dt1 = clsDBFuncationality.GetDataTable("select TSPL_BulkSalePrice_MASTER.Price_Code as Code from  TSPL_BulkSalePrice_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BulkSalePrice_MASTER .Location_Code where TSPL_BulkSalePrice_MASTER.Price_Code='" & FndPriceCode.Value & "' and Convert(date,TSPL_BulkSalePrice_MASTER.Price_Date ,103)<=CONVERT(date,'" & txtDate.Value & "',103) AND (ISNULL(Convert(date,TSPL_BulkSalePrice_MASTER.ValidTill ,103),'')='' OR Convert(date,TSPL_BulkSalePrice_MASTER.ValidTill,103)>=CONVERT(date,'" & txtDate.Value & "',103))")
-            If dt1.Rows.Count <= 0 Then
-                Throw New Exception("Please check Price Code Date")
+            If clsCommon.myLen(FndTankerCode.Value) <= 0 Then
+                FndTankerCode.Focus()
+                Throw New Exception("Tanker No cannot be left blank")
             End If
-
-            If clsCommon.myCdbl(txtStanadardrate.Value) < 0 Then
-                txtStanadardrate.Focus()
-                Throw New Exception("Stanadard Rate cannot be in negative")
-            End If
-            If clsCommon.myCdbl(txtStanadardrate.Value) = 0 Then
-                txtStanadardrate.Focus()
-                Throw New Exception("Stanadard Rate cannot be zero")
-            End If
-
-            If clsCommon.myLen(txtStanadardrate.Value) > 0 Then
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select round((Standard_Rate+((Standard_Rate *TolerancePerPlus )/100)),2) as StandardRatePlus,round((Standard_Rate-((Standard_Rate *TolerancePerMinus  )/100)),2) as StandardRateMinus  from TSPL_BulkSalePrice_MASTER where Price_Code ='" + FndPriceCode.Value + "'")
-                If dt.Rows.Count > 0 Then
-
-                    If clsCommon.myCdbl(txtStanadardrate.Value) >= clsCommon.myCdbl(dt.Rows(0)("StandardRateMinus")) And clsCommon.myCdbl(txtStanadardrate.Value) <= clsCommon.myCdbl(dt.Rows(0)("StandardRatePlus")) Then
-                    Else
-                        txtStanadardrate.Focus()
-                        Throw New Exception("Standard rate should be in range according to price chart")
-                    End If
-                End If
-            End If
-        End If
-        If EnterInsuranceNoandSealNo Then
-            If clsCommon.myLen(txtinsuranceno.Text) <= 0 Then
-                txtinsuranceno.Focus()
-                Throw New Exception("Insurance No cannot be blank")
-            End If
-
-            If clsCommon.myLen(txtsealno.Text) <= 0 Then
-                txtsealno.Focus()
-                Throw New Exception("Seal No cannot be blank")
-            End If
-        End If
-
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            If clsCommon.myLen(gv1.Rows(i).Cells(colFatPer).Value) <= 0 Then
-                Throw New Exception("Fat% cannot be left blank or zero")
-            End If
-            If AllowSNFNotManditoryInBulkSale = False Then
-                If clsCommon.myLen(gv1.Rows(i).Cells(colSNFPer).Value) <= 0 Then
-                    Throw New Exception("SNF% cannot be left blank or zero")
-                End If
-            End If
-
-            ''richa agarwal 28/02/2016 apply tolerance limit and check stock qty 
-            Dim balqty As Double = 0
-            Dim dispatchqty As Double = clsCommon.myCdbl(gv1.Rows(i).Cells(colQty).Value)
-            Dim SubLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsNull(Silo_No,'')  from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No=(Select LoadingTanker_No  from TSPL_Quality_Check_BulkSale where QC_No='" + LblQCCode1.Text + "')"))
-
-            If clsCommon.myLen(SubLocation) > 0 Then
-                balqty = ClsLoadingTanker.getBalance(clsCommon.myCstr(gv1.Rows(i).Cells(colItemCode).Value), lblLocationCode.Text, SubLocation, txtDocNo.Value, txtDate.Value, Nothing, "KG")
-            Else
-                balqty = ClsLoadingTanker.getBalance(clsCommon.myCstr(gv1.Rows(i).Cells(colItemCode).Value), lblLocationCode.Text, "", txtDocNo.Value, txtDate.Value, Nothing, "KG")
-
-            End If
-            If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.AllowStockToleranceNegative, clsFixedParameterCode.AllowStockToleranceNegative, Nothing), "1") = CompairStringResult.Equal Then
-                If balqty > 0 Then
-                    balqty = ClsLoadingTanker.GetTolerane(balqty, dispatchqty)
-                End If
-            End If
-
-            If balqty < dispatchqty Then
-                Throw New Exception("Available Stock " & balqty & Environment.NewLine & " Dispatch Qty " & dispatchqty)
-            End If
-
-        Next
-
-        If ApplyTSPriceAtBulkSale = True Then
-            Qry = "select TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No from TSPL_SALES_ORDER_DETAIL_BULKSALE" &
-             " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No " &
-            " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No " &
-             " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No " &
-             " where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and TSPL_Quality_Check_BulkSale.Tanker_No='" + FndTankerCode.Value + "'   "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
+            'If clsCommon.myLen(LblQCCode1.Text) <= 0 Then
+            '    LblQCCode1.Focus()
+            '    Throw New Exception("Qc No cannot be left blank")
+            'End If
+            If Not ApplyTSPriceAtBulkSale Then
                 If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
                     FndPriceCode.Focus()
                     Throw New Exception("Price Code cannot be left blank")
@@ -1713,21 +1694,105 @@ Public Class FrmDispatchBulkSale
                 If dt1.Rows.Count <= 0 Then
                     Throw New Exception("Please check Price Code Date")
                 End If
-                ''richa agarwal ERO/10/01/19-000461 15 Jan,2019
-                If clsCommon.myCdbl(txtStanadardrate.Value) <= 0 Then
-                    If (common.clsCommon.MyMessageBoxShow("TS Rate is 0,Do you want to continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
-                        Throw New Exception("Please check TS Rate.")
+
+                If clsCommon.myCdbl(txtStanadardrate.Value) < 0 Then
+                    txtStanadardrate.Focus()
+                    Throw New Exception("Stanadard Rate cannot be in negative")
+                End If
+                If clsCommon.myCdbl(txtStanadardrate.Value) = 0 Then
+                    txtStanadardrate.Focus()
+                    Throw New Exception("Stanadard Rate cannot be zero")
+                End If
+
+                If clsCommon.myLen(txtStanadardrate.Value) > 0 Then
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select round((Standard_Rate+((Standard_Rate *TolerancePerPlus )/100)),2) as StandardRatePlus,round((Standard_Rate-((Standard_Rate *TolerancePerMinus  )/100)),2) as StandardRateMinus  from TSPL_BulkSalePrice_MASTER where Price_Code ='" & FndPriceCode.Value & "'")
+                    If dt.Rows.Count > 0 Then
+                        If clsCommon.myCdbl(txtStanadardrate.Value) >= clsCommon.myCdbl(dt.Rows(0)("StandardRateMinus")) AndAlso clsCommon.myCdbl(txtStanadardrate.Value) <= clsCommon.myCdbl(dt.Rows(0)("StandardRatePlus")) Then
+                        Else
+                            txtStanadardrate.Focus()
+                            Throw New Exception("Standard rate should be in range according to price chart")
+                        End If
+                    End If
+                End If
+            End If
+            If EnterInsuranceNoandSealNo Then
+                If clsCommon.myLen(txtinsuranceno.Text) <= 0 Then
+                    txtinsuranceno.Focus()
+                    Throw New Exception("Insurance No cannot be blank")
+                End If
+
+                If clsCommon.myLen(txtsealno.Text) <= 0 Then
+                    txtsealno.Focus()
+                    Throw New Exception("Seal No cannot be blank")
+                End If
+            End If
+
+            For i As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myLen(gv1.Rows(i).Cells(colFatPer).Value) <= 0 Then
+                    Throw New Exception("Fat% cannot be left blank or zero")
+                End If
+                If Not AllowSNFNotManditoryInBulkSale AndAlso clsCommon.myLen(gv1.Rows(i).Cells(colSNFPer).Value) <= 0 Then
+                    Throw New Exception("SNF% cannot be left blank or zero")
+                End If
+
+                ''richa agarwal 28/02/2016 apply tolerance limit and check stock qty 
+                Dim balqty As Double = 0
+                Dim dispatchqty As Double = clsCommon.myCdbl(gv1.Rows(i).Cells(colQty).Value)
+                Dim SubLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsNull(Silo_No,'')  from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No=(Select LoadingTanker_No  from TSPL_Quality_Check_BulkSale where QC_No='" & LblQCCode1.Text & "')"))
+
+                If clsCommon.myLen(SubLocation) > 0 Then
+                    balqty = ClsLoadingTanker.getBalance(clsCommon.myCstr(gv1.Rows(i).Cells(colItemCode).Value), lblLocationCode.Text, SubLocation, txtDocNo.Value, txtDate.Value, Nothing, "KG")
+                Else
+                    balqty = ClsLoadingTanker.getBalance(clsCommon.myCstr(gv1.Rows(i).Cells(colItemCode).Value), lblLocationCode.Text, "", txtDocNo.Value, txtDate.Value, Nothing, "KG")
+
+                End If
+                If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.AllowStockToleranceNegative, clsFixedParameterCode.AllowStockToleranceNegative, Nothing), "1") = CompairStringResult.Equal Then
+                    If balqty > 0 Then
+                        balqty = ClsLoadingTanker.GetTolerane(balqty, dispatchqty)
                     End If
                 End If
 
-            End If
-        End If
-        If AllowtoChangeTCSBaseAmount Then
-            If clsCommon.myCdbl(txttcstaxbaseamount.Value) > clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text) Then
-                Throw New Exception("TCS Tax Base amount should not be greater than Actual TCS Tax Base Amount")
-            End If
-        End If
+                If balqty < dispatchqty Then
+                    Throw New Exception("Available Stock " & balqty & Environment.NewLine & " Dispatch Qty " & dispatchqty)
+                End If
 
+            Next
+
+            If ApplyTSPriceAtBulkSale Then
+                Qry = "select TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No from TSPL_SALES_ORDER_DETAIL_BULKSALE" &
+             " left join TSPL_SALES_ORDER_MASTER_BULKSALE on TSPL_SALES_ORDER_MASTER_BULKSALE.Document_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No " &
+            " left join TSPL_GATEENTRY_SALE on TSPL_GATEENTRY_SALE.Bulk_SO_No=TSPL_SALES_ORDER_DETAIL_BULKSALE.Document_No " &
+             " left join TSPL_Quality_Check_BulkSale on TSPL_Quality_Check_BulkSale.GateEntry_Document_No=TSPL_GATEENTRY_SALE.Document_No " &
+             " where TSPL_Quality_Check_BulkSale.QC_No='" & LblQCCode1.Text & "' and TSPL_Quality_Check_BulkSale.Tanker_No='" & FndTankerCode.Value & "'   "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
+                    If clsCommon.myLen(FndPriceCode.Value) <= 0 Then
+                        FndPriceCode.Focus()
+                        Throw New Exception("Price Code cannot be left blank")
+                    End If
+
+                    Dim dt1 As DataTable = Nothing
+                    dt1 = clsDBFuncationality.GetDataTable("select TSPL_BulkSalePrice_MASTER.Price_Code as Code from  TSPL_BulkSalePrice_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BulkSalePrice_MASTER .Location_Code where TSPL_BulkSalePrice_MASTER.Price_Code='" & FndPriceCode.Value & "' and Convert(date,TSPL_BulkSalePrice_MASTER.Price_Date ,103)<=CONVERT(date,'" & txtDate.Value & "',103) AND (ISNULL(Convert(date,TSPL_BulkSalePrice_MASTER.ValidTill ,103),'')='' OR Convert(date,TSPL_BulkSalePrice_MASTER.ValidTill,103)>=CONVERT(date,'" & txtDate.Value & "',103))")
+                    If dt1.Rows.Count <= 0 Then
+                        Throw New Exception("Please check Price Code Date")
+                    End If
+                    ''richa agarwal ERO/10/01/19-000461 15 Jan,2019
+                    If clsCommon.myCdbl(txtStanadardrate.Value) <= 0 Then
+                        If (common.clsCommon.MyMessageBoxShow("TS Rate is 0,Do you want to continue", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No) Then
+                            Throw New Exception("Please check TS Rate.")
+                        End If
+                    End If
+
+                End If
+            End If
+            If AllowtoChangeTCSBaseAmount Then
+                If clsCommon.myCdbl(txttcstaxbaseamount.Value) > clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text) Then
+                    Throw New Exception("TCS Tax Base amount should not be greater than Actual TCS Tax Base Amount")
+                End If
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 
@@ -1738,16 +1803,16 @@ Public Class FrmDispatchBulkSale
             ''richa 31/12/2014
             If dblAmt < lblTotRAmt1.Text AndAlso UsLock1.Status = ERPTransactionStatus.Open Then
                 Dim dblNewCredtitLimit = dblAmt - lblTotRAmt1.Text
-                common.clsCommon.MyMessageBoxShow("Please send for approval for increasing credit limit " + clsCommon.myCstr(dblNewCredtitLimit))
+                common.clsCommon.MyMessageBoxShow("Please send for approval for increasing credit limit " & clsCommon.myCstr(dblNewCredtitLimit))
                 Return False
             End If
-            If dblAmt < lblTotRAmt1.Text And UsLock1.Status = ERPTransactionStatus.Pending Then
+            If dblAmt < lblTotRAmt1.Text AndAlso UsLock1.Status = ERPTransactionStatus.Pending Then
                 Dim dblNewCredtitLimit = dblAmt - lblTotRAmt1.Text
-                common.clsCommon.MyMessageBoxShow("Please increase credit limit " + clsCommon.myCstr(dblNewCredtitLimit) + " for customer " + lblCustomerCode.Text)
+                common.clsCommon.MyMessageBoxShow("Please increase credit limit " & clsCommon.myCstr(dblNewCredtitLimit) & " for customer " & lblCustomerCode.Text)
                 Return False
             End If
 
-            If ChekPostBtn = True Then
+            If ChekPostBtn Then
                 Return True
             End If
             'Return True
@@ -1767,10 +1832,10 @@ Public Class FrmDispatchBulkSale
         Dim objTr As New clsDispatchDetailBulkSale
         Dim objSilo As New clsSiloDetailBulkSale
         Try
-            If AllowNLevel Then
-                If Not AllowModifcationByApprovalUser Then
-                    clsApply_Approval.CheckUpdate_Doc_Valid(clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(txtDocNo.Value))
-                End If
+            If AllowNLevel AndAlso Not AllowModifcationByApprovalUser Then
+                'If Not AllowModifcationByApprovalUser Then
+                clsApply_Approval.CheckUpdate_Doc_Valid(clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(txtDocNo.Value))
+                'End If
             End If
             If AllowToSave() Then
 
@@ -1789,13 +1854,13 @@ Public Class FrmDispatchBulkSale
                 obj.Tare_Weight = TxtTareWeight.Value
                 obj.Gross_Weight = txtGrossWeight.Value
                 obj.Net_Weight = txtNetWeight.Value
-                If ApplyTSPriceAtBulkSale = False Then
+                If Not ApplyTSPriceAtBulkSale Then
                     obj.Price_Code = FndPriceCode.Value
                 End If
                 obj.Total_Amt = lblTotRAmt1.Text
                 obj.CreditLimit = clsCommon.myCdbl(txtCreditLimit.Text)
 
-                If chkCreateAoutoInvoice.Checked = True Then
+                If chkCreateAoutoInvoice.Checked Then
                     obj.Is_Create_Auto_Invoice = 1
                 Else
                     obj.Is_Create_Auto_Invoice = 0
@@ -1852,10 +1917,10 @@ Public Class FrmDispatchBulkSale
 
                 ''richa 31/12/2014
                 Dim desc As String = ""
-                desc = clsDBFuncationality.getSingleValue("Select CheckCreditLimit from TSPL_CUSTOMER_MASTER WHERE Cust_Code='" + lblCustomerCode.Text + "'")
+                desc = clsDBFuncationality.getSingleValue("Select CheckCreditLimit from TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & lblCustomerCode.Text & "'")
                 If clsCommon.CompairString(desc, "1") = CompairStringResult.Equal Then
-                    Dim dblAllowedAmt As Double = 0
-                    If CheckCustomerOutstandingAmount(lblCustomerCode.Text, True) = False AndAlso Not AllowNLevel Then
+                    'Dim dblAllowedAmt As Double = 0
+                    If Not CheckCustomerOutstandingAmount(lblCustomerCode.Text, True) AndAlso Not AllowNLevel Then
                         obj.ApprovalRequired = "Y"
                         obj.Status = "Pending"
                     End If
@@ -1892,31 +1957,31 @@ Public Class FrmDispatchBulkSale
                     objTr.FatRate = clsCommon.myCdbl(grow.Cells(colFatRate).Value)
                     objTr.SNFRate = clsCommon.myCdbl(grow.Cells(colSNFRate).Value)
 
-                    objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(1)).Value)
-                    objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt + clsCommon.myCstr(1)).Value)
-                    objTr.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate + clsCommon.myCstr(1)).Value)
-                    objTr.TAX1_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt + clsCommon.myCstr(1)).Value)
-                    objTr.TAX2 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(2)).Value)
-                    objTr.TAX2_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt + clsCommon.myCstr(2)).Value)
-                    objTr.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate + clsCommon.myCstr(2)).Value)
-                    objTr.TAX2_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt + clsCommon.myCstr(2)).Value)
-                    objTr.TAX3 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(3)).Value)
-                    objTr.TAX3_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt + clsCommon.myCstr(3)).Value)
-                    objTr.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate + clsCommon.myCstr(3)).Value)
-                    objTr.TAX3_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt + clsCommon.myCstr(3)).Value)
-                    objTr.TAX4 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(4)).Value)
-                    objTr.TAX4_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt + clsCommon.myCstr(4)).Value)
-                    objTr.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate + clsCommon.myCstr(4)).Value)
-                    objTr.TAX4_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt + clsCommon.myCstr(4)).Value)
-                    objTr.TAX5 = clsCommon.myCstr(grow.Cells(colTax + clsCommon.myCstr(5)).Value)
-                    objTr.TAX5_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt + clsCommon.myCstr(5)).Value)
-                    objTr.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate + clsCommon.myCstr(5)).Value)
-                    objTr.TAX5_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt + clsCommon.myCstr(5)).Value)
+                    objTr.TAX1 = clsCommon.myCstr(grow.Cells(colTax & clsCommon.myCstr(1)).Value)
+                    objTr.TAX1_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt & clsCommon.myCstr(1)).Value)
+                    objTr.TAX1_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate & clsCommon.myCstr(1)).Value)
+                    objTr.TAX1_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt & clsCommon.myCstr(1)).Value)
+                    objTr.TAX2 = clsCommon.myCstr(grow.Cells(colTax & clsCommon.myCstr(2)).Value)
+                    objTr.TAX2_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt & clsCommon.myCstr(2)).Value)
+                    objTr.TAX2_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate & clsCommon.myCstr(2)).Value)
+                    objTr.TAX2_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt & clsCommon.myCstr(2)).Value)
+                    objTr.TAX3 = clsCommon.myCstr(grow.Cells(colTax & clsCommon.myCstr(3)).Value)
+                    objTr.TAX3_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt & clsCommon.myCstr(3)).Value)
+                    objTr.TAX3_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate & clsCommon.myCstr(3)).Value)
+                    objTr.TAX3_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt & clsCommon.myCstr(3)).Value)
+                    objTr.TAX4 = clsCommon.myCstr(grow.Cells(colTax & clsCommon.myCstr(4)).Value)
+                    objTr.TAX4_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt & clsCommon.myCstr(4)).Value)
+                    objTr.TAX4_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate & clsCommon.myCstr(4)).Value)
+                    objTr.TAX4_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt & clsCommon.myCstr(4)).Value)
+                    objTr.TAX5 = clsCommon.myCstr(grow.Cells(colTax & clsCommon.myCstr(5)).Value)
+                    objTr.TAX5_Base_Amt = clsCommon.myCdbl(grow.Cells(colTaxBaseAmt & clsCommon.myCstr(5)).Value)
+                    objTr.TAX5_Rate = clsCommon.myCdbl(grow.Cells(colTaxRate & clsCommon.myCstr(5)).Value)
+                    objTr.TAX5_Amt = clsCommon.myCdbl(grow.Cells(colTaxAmt & clsCommon.myCstr(5)).Value)
                     objTr.Total_Tax_Amt = clsCommon.myCdbl(grow.Cells(colTotTaxAmt).Value)
                     objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmtAfterTax).Value)
 
 
-                    If ApplyTSPriceAtBulkSale = True Then
+                    If ApplyTSPriceAtBulkSale Then
                         ''richa agarwal 14 Jan,2019 ERO/10/01/19-000463
                         If clsCommon.myLen(FndPriceCode.Value) > 0 Then
                             objTr.StandardRate = clsCommon.myCdbl(txtStanadardrate.Value)
@@ -1952,13 +2017,64 @@ Public Class FrmDispatchBulkSale
                             obj.arrSiloDetailBulkSale.Add(objSilo)
                         End If
                     End If
-
                 Next
+
+                If (gvAC.Rows.Count > 0) AndAlso clsCommon.myLen(gvAC.Rows(0).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name1 = clsCommon.myCstr(gvAC.Rows(0).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt1 = clsCommon.myCdbl(gvAC.Rows(0).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 1) AndAlso clsCommon.myLen(gvAC.Rows(1).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name2 = clsCommon.myCstr(gvAC.Rows(1).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt2 = clsCommon.myCdbl(gvAC.Rows(1).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 2) AndAlso clsCommon.myLen(gvAC.Rows(2).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name3 = clsCommon.myCstr(gvAC.Rows(2).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt3 = clsCommon.myCdbl(gvAC.Rows(2).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 3) AndAlso clsCommon.myLen(gvAC.Rows(3).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name4 = clsCommon.myCstr(gvAC.Rows(3).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt4 = clsCommon.myCdbl(gvAC.Rows(3).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 4) AndAlso clsCommon.myLen(gvAC.Rows(4).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name5 = clsCommon.myCstr(gvAC.Rows(4).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt5 = clsCommon.myCdbl(gvAC.Rows(4).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 5) AndAlso clsCommon.myLen(gvAC.Rows(5).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name6 = clsCommon.myCstr(gvAC.Rows(5).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt6 = clsCommon.myCdbl(gvAC.Rows(5).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 6) AndAlso clsCommon.myLen(gvAC.Rows(6).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name7 = clsCommon.myCstr(gvAC.Rows(6).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt7 = clsCommon.myCdbl(gvAC.Rows(6).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 7) AndAlso clsCommon.myLen(gvAC.Rows(7).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name8 = clsCommon.myCstr(gvAC.Rows(7).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt8 = clsCommon.myCdbl(gvAC.Rows(7).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 8) AndAlso clsCommon.myLen(gvAC.Rows(8).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name9 = clsCommon.myCstr(gvAC.Rows(8).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt9 = clsCommon.myCdbl(gvAC.Rows(8).Cells(colAChgAmount).Value)
+                End If
+                If (gvAC.Rows.Count > 9) AndAlso clsCommon.myLen(gvAC.Rows(9).Cells(colAChgCode).Value) > 0 Then
+                    obj.Add_Charge_Code10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colAChgCode).Value)
+                    obj.Add_Charge_Name10 = clsCommon.myCstr(gvAC.Rows(9).Cells(colAChgName).Value)
+                    obj.Add_Charge_Amt10 = clsCommon.myCdbl(gvAC.Rows(9).Cells(colAChgAmount).Value)
+                End If
+                obj.Total_Add_Charge = clsCommon.myCdbl(lblAdditionalCharges.Text)
+
 
                 If (ClsDispatchBulkSale.SaveData(obj, isNewEntry)) Then
                     UcAttachment1.SaveData(obj.Document_No)
                     If Not isFlag Then
-
                         clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
                         txtDocNo.Value = obj.Document_No
                         ''done by stuti approval work 01/12/2016
@@ -1986,6 +2102,7 @@ Public Class FrmDispatchBulkSale
         Dim dt As DataTable = Nothing
         Dim obj As ClsDispatchBulkSale = Nothing
         Try
+            LoadBlankGridAC()
             obj = ClsDispatchBulkSale.GetData(strCode, arrLoc, NavTyep)
             If ApplyMultiChamber Then
                 gv1.Rows.Clear()
@@ -1997,10 +2114,10 @@ Public Class FrmDispatchBulkSale
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
                 fndCustomerNo.Value = obj.Customer_Code
-                lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustomerNo.Value + "'")
+                lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code='" & fndCustomerNo.Value & "'")
                 FndTankerCode.Value = obj.Tanker_Code
                 txtTransporter.Value = obj.Transporter
-                lblTransporterName.Text = clsDBFuncationality.getSingleValue("Select Vendor_Name  from tspl_vendor_master where Vendor_Code='" + txtTransporter.Value + "'")
+                lblTransporterName.Text = clsDBFuncationality.getSingleValue("Select Vendor_Name  from tspl_vendor_master where Vendor_Code='" & txtTransporter.Value & "'")
 
                 LblQCCode.Text = obj.QC_Code
                 TxtChallanNo.Text = obj.Challan_No
@@ -2008,7 +2125,7 @@ Public Class FrmDispatchBulkSale
                 txtsealno.Text = obj.Seal_No
                 TxtLocCode.Value = obj.Location_Code
                 TxtItemCode.Value = obj.Item_Code
-                LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" + TxtLocCode.Value + "' ")
+                LblLocationName.Text = clsDBFuncationality.getSingleValue("Select Location_Desc from TSPL_LOCATION_MASTER where Location_Code  ='" & TxtLocCode.Value & "' ")
                 txtGrossWeight.Value = obj.Gross_Weight
                 TxtTareWeight.Value = obj.Tare_Weight
                 txtNetWeight.Value = obj.Net_Weight
@@ -2158,7 +2275,7 @@ Public Class FrmDispatchBulkSale
                             gv1.Rows.AddNew()
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSlNo).Value = gv1.Rows.Count
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" + objTr.Item_Code + "' ")
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" & objTr.Item_Code & "' ")
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value = objTr.Unit_code
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSOUnitCode).Value = objTr.SO_Unit_code
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNCode).Value = objTr.HSN_code
@@ -2166,9 +2283,9 @@ Public Class FrmDispatchBulkSale
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colSOQty).Value = objTr.SO_Qty
 
                             'Sanjay
-                            If ShowBulkDispatchQtyInLtr = True Then
+                            If ShowBulkDispatchQtyInLtr Then
                                 ''richa agarwal 8 Jan,2018
-                                If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+                                If UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                                     ''richa ERO/25/02/19-000499
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQtyLtr).Value = objTr.Qty_in_Ltr
                                 Else
@@ -2186,7 +2303,7 @@ Public Class FrmDispatchBulkSale
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNFAmount).Value = objTr.SNFAmount
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colNetMilkRate).Value = objTr.NetMilkRate
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colAmount).Value = objTr.Amount
-                            If ApplyTSPriceAtBulkSale = True Then
+                            If ApplyTSPriceAtBulkSale Then
                                 ''richa agarwal 14 Jan,2019 ERO/10/01/19-000463
                                 If clsCommon.myLen(FndPriceCode.Value) > 0 Then
                                     txtStanadardrate.Value = objTr.StandardRate
@@ -2201,26 +2318,26 @@ Public Class FrmDispatchBulkSale
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colType).Value = objTr.Type
                             txtStanadardrate.Value = objTr.StandardRate
 
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax + clsCommon.myCstr(1)).Value = objTr.TAX1
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt + clsCommon.myCstr(1)).Value = objTr.TAX1_Base_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate + clsCommon.myCstr(1)).Value = objTr.TAX1_Rate
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt + clsCommon.myCstr(1)).Value = objTr.TAX1_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax + clsCommon.myCstr(2)).Value = objTr.TAX2
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt + clsCommon.myCstr(2)).Value = objTr.TAX2_Base_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate + clsCommon.myCstr(2)).Value = objTr.TAX2_Rate
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt + clsCommon.myCstr(2)).Value = objTr.TAX2_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax + clsCommon.myCstr(3)).Value = objTr.TAX3
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt + clsCommon.myCstr(3)).Value = objTr.TAX3_Base_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate + clsCommon.myCstr(3)).Value = objTr.TAX3_Rate
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt + clsCommon.myCstr(3)).Value = objTr.TAX3_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax + clsCommon.myCstr(4)).Value = objTr.TAX4
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt + clsCommon.myCstr(4)).Value = objTr.TAX4_Base_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate + clsCommon.myCstr(4)).Value = objTr.TAX4_Rate
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt + clsCommon.myCstr(4)).Value = objTr.TAX4_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax + clsCommon.myCstr(5)).Value = objTr.TAX5
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt + clsCommon.myCstr(5)).Value = objTr.TAX5_Base_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate + clsCommon.myCstr(5)).Value = objTr.TAX5_Rate
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt + clsCommon.myCstr(5)).Value = objTr.TAX5_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax & clsCommon.myCstr(1)).Value = objTr.TAX1
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt & clsCommon.myCstr(1)).Value = objTr.TAX1_Base_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate & clsCommon.myCstr(1)).Value = objTr.TAX1_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt & clsCommon.myCstr(1)).Value = objTr.TAX1_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax & clsCommon.myCstr(2)).Value = objTr.TAX2
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt & clsCommon.myCstr(2)).Value = objTr.TAX2_Base_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate & clsCommon.myCstr(2)).Value = objTr.TAX2_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt & clsCommon.myCstr(2)).Value = objTr.TAX2_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax & clsCommon.myCstr(3)).Value = objTr.TAX3
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt & clsCommon.myCstr(3)).Value = objTr.TAX3_Base_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate & clsCommon.myCstr(3)).Value = objTr.TAX3_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt & clsCommon.myCstr(3)).Value = objTr.TAX3_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax & clsCommon.myCstr(4)).Value = objTr.TAX4
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt & clsCommon.myCstr(4)).Value = objTr.TAX4_Base_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate & clsCommon.myCstr(4)).Value = objTr.TAX4_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt & clsCommon.myCstr(4)).Value = objTr.TAX4_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTax & clsCommon.myCstr(5)).Value = objTr.TAX5
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxBaseAmt & clsCommon.myCstr(5)).Value = objTr.TAX5_Base_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate & clsCommon.myCstr(5)).Value = objTr.TAX5_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt & clsCommon.myCstr(5)).Value = objTr.TAX5_Amt
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTotTaxAmt).Value = objTr.Total_Tax_Amt
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterTax).Value = objTr.Item_Net_Amt
 
@@ -2231,9 +2348,9 @@ Public Class FrmDispatchBulkSale
                             Qry = "select stuff((select DISTINCT ',[' + TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc+']'  from TSPL_QC_Parameter_Detail_BulKSALE for xml path('')  ),1,1,'')"
                             strpivotcol = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
                             If clsCommon.myLen(strpivotcol) > 0 Then
-                                Qry = "select Item_Code,Type,Fat,SNF,CLR,Unit_Code,Chamber_Desc,NetWeight," + strpivotcol + " from (select (TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,(TSPL_ITEM_MASTER.Product_Type) AS Type,(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,(xx.Net_Weight) as NetWeight ,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Value" &
-                                        " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" + LblQCCode1.Text + "' and xx.Chamber_Desc='" + clsCommon.myCstr(objTr.Chamber_Desc) + "' ) as st " &
-                                        " PIVOT ( MAX(PARAM_FIELD_VALUE) FOR PARAM_FIELD_DESC IN (" + strpivotcol + ")) AS PT ORDER BY Chamber_Desc"
+                                Qry = "select Item_Code,Type,Fat,SNF,CLR,Unit_Code,Chamber_Desc,NetWeight," & strpivotcol & " from (select (TSPL_QC_Parameter_Detail_BulKSALE.Item_Code) as Item_Code,(TSPL_ITEM_MASTER.Product_Type) AS Type,(TSPL_QC_Parameter_Detail_BulKSALE.Fat) as Fat ,(TSPL_QC_Parameter_Detail_BulKSALE.SNF) as SNF,(TSPL_QC_Parameter_Detail_BulKSALE.CLR) as CLR,(TSPL_QC_Parameter_Detail_BulKSALE.Unit_Code) as Unit_Code,TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc,(xx.Net_Weight) as NetWeight ,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Desc,TSPL_QC_Parameter_Detail_BulKSALE.Param_Field_Value" &
+                                        " from TSPL_Quality_Check_BulkSale  left outer join TSPL_QC_Parameter_Detail_BulKSALE on TSPL_Quality_Check_BulkSale.QC_No=TSPL_QC_Parameter_Detail_BulKSALE.QC_No left outer join (select (TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Tare_Weight) as Tare_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Gross_Weight) as Gross_Weight,(TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Net_Weight)as Net_Weight,TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Chamber_Desc from TSPL_WEIGHMENT_DETAIL_BULKSALE  left outer join TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS on TSPL_WEIGHMENTBULKSALE_CHEMBER_DETAILS.Weighment_No=TSPL_WEIGHMENT_DETAIL_BULKSALE.Weighment_No where TSPL_WEIGHMENT_DETAIL_BULKSALE.GateEntry_Document_No=(Select TSPL_Quality_Check_BulkSale.GateEntry_Document_No as GateEntryNo from TSPL_Quality_Check_BulkSale where  TSPL_Quality_Check_BulkSale.QC_No='" & LblQCCode1.Text & "')) as xx on xx.Chamber_Desc=TSPL_QC_Parameter_Detail_BulKSALE.Chamber_Desc left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_Parameter_Detail_BulKSALE.Item_Code where TSPL_Quality_Check_BulkSale.QC_No='" & LblQCCode1.Text & "' and xx.Chamber_Desc='" & clsCommon.myCstr(objTr.Chamber_Desc) & "' ) as st " &
+                                        " PIVOT ( MAX(PARAM_FIELD_VALUE) FOR PARAM_FIELD_DESC IN (" & strpivotcol & ")) AS PT ORDER BY Chamber_Desc"
                             End If
                             dt = clsDBFuncationality.GetDataTable(Qry)
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -2247,12 +2364,12 @@ Public Class FrmDispatchBulkSale
                         Else
                             gv1.Rows(0).Cells(colSlNo).Value = "1"
                             gv1.Rows(0).Cells(colItemCode).Value = objTr.Item_Code
-                            gv1.Rows(0).Cells(colItemDesc).Value = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" + objTr.Item_Code + "' ")
+                            gv1.Rows(0).Cells(colItemDesc).Value = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" & objTr.Item_Code & "' ")
                             gv1.Rows(0).Cells(colUnitCode).Value = objTr.Unit_code
                             gv1.Rows(0).Cells(colHSNCode).Value = objTr.HSN_code
                             gv1.Rows(0).Cells(colQty).Value = objTr.Qty
-                            If ShowBulkDispatchQtyInLtr = True Then
-                                If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+                            If ShowBulkDispatchQtyInLtr Then
+                                If UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                                     ''richa ERO/25/02/19-000499
                                     gv1.Rows(0).Cells(colQtyLtr).Value = objTr.Qty_in_Ltr
                                 Else
@@ -2268,7 +2385,7 @@ Public Class FrmDispatchBulkSale
                             gv1.Rows(0).Cells(ColSNFAmount).Value = objTr.SNFAmount
                             gv1.Rows(0).Cells(colNetMilkRate).Value = objTr.NetMilkRate
                             gv1.Rows(0).Cells(colAmount).Value = objTr.Amount
-                            If ApplyTSPriceAtBulkSale = True Then
+                            If ApplyTSPriceAtBulkSale Then
                                 ''richa agarwal 14 Jan,2019 ERO/10/01/19-000463
                                 If clsCommon.myLen(FndPriceCode.Value) > 0 Then
                                     txtStanadardrate.Value = objTr.StandardRate
@@ -2285,7 +2402,7 @@ Public Class FrmDispatchBulkSale
                         End If
 
                         If clsCommon.myLen(FndPriceCode.Value) > 0 Then
-                            dt = clsDBFuncationality.GetDataTable("Select Price_Code ,Fat_Weightage,Snf_Weightage,Fat_Ratio,Snf_Ratio,Standard_Rate,TolerancePerPlus,TolerancePerMinus from TSPL_BulkSalePrice_MASTER where Price_Code='" + FndPriceCode.Value + "'")
+                            dt = clsDBFuncationality.GetDataTable("Select Price_Code ,Fat_Weightage,Snf_Weightage,Fat_Ratio,Snf_Ratio,Standard_Rate,TolerancePerPlus,TolerancePerMinus from TSPL_BulkSalePrice_MASTER where Price_Code='" & FndPriceCode.Value & "'")
                             If dt.Rows.Count > 0 Then
                                 ''richa agarwal 18/12/2014
                                 TxtFatWeightage.Value = clsCommon.myCdbl(dt.Rows(0)("Fat_Weightage"))
@@ -2301,6 +2418,71 @@ Public Class FrmDispatchBulkSale
                 Else
                     gv1.DataSource = Nothing
                 End If
+
+                If (clsCommon.myLen(obj.Add_Charge_Code1) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code1
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name1
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt1
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code2) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code2
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name2
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt2
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code3) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code3
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name3
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt3
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code4) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code4
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name4
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt4
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code5) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code5
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name5
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt5
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code6) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code6
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name6
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt6
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code7) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code7
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name7
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt7
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code8) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code8
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name8
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt8
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code9) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code9
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name9
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt9
+                End If
+                If (clsCommon.myLen(obj.Add_Charge_Code10) > 0) Then
+                    gvAC.Rows.AddNew()
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code10
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgName).Value = obj.Add_Charge_Name10
+                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgAmount).Value = obj.Add_Charge_Amt10
+                End If
+
+                lblAdditionalCharges.Text = clsCommon.myFormat(obj.Total_Add_Charge)
+
+
                 lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(obj.ActualTCSBaseAmount)
                 txttcstaxbaseamount.Value = clsCommon.myCdbl(obj.ChangedTCSBaseAmount)
 
@@ -2375,7 +2557,7 @@ Public Class FrmDispatchBulkSale
     Private Sub txtDocNo__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocNo._MYNavigator
         Dim qry As String = String.Empty
         Try
-            qry = "select count(*) from TSPL_Dispatch_BulkSale where Document_No='" + txtDocNo.Value + "' and Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
+            qry = "select count(*) from TSPL_Dispatch_BulkSale where Document_No='" & txtDocNo.Value & "' and Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
             Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If check > 0 Then
                 txtDocNo.MyReadOnly = True
@@ -2392,10 +2574,14 @@ Public Class FrmDispatchBulkSale
     End Sub
 
     Private Sub txtDocNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "Select TSPL_Dispatch_BulkSale.Document_No as Code,Convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as [Dispatch Date],TSPL_Dispatch_BulkSale.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_Dispatch_BulkSale.Tanker_Code as [Tanker Code],TSPL_Dispatch_BulkSale.QC_Code as [QC Code],TSPL_Dispatch_BulkSale.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_Dispatch_BulkSale.Price_Code as [Price Code],TSPL_Dispatch_BulkSale.Dip_marking as [Dip Marking],TSPL_Dispatch_BulkSale.Challan_No as [Challan No],case when TSPL_Dispatch_BulkSale.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_Dispatch_BulkSale left outer Join TSPL_CUSTOMER_MASTER on TSPL_Dispatch_BulkSale.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_Dispatch_BulkSale.Location_Code =TSPL_LOCATION_MASTER.Location_Code"
-        txtDocNo.Value = clsCommon.ShowSelectForm("DispatchBulkSale", qry, "Code", " TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ")", txtDocNo.Value, "", isButtonClicked)
-        LoadData(txtDocNo.Value, NavigatorType.Current)
-        qry = Nothing
+        Try
+            Dim qry As String = "Select TSPL_Dispatch_BulkSale.Document_No as Code,Convert(varchar,TSPL_Dispatch_BulkSale.Document_Date,103) as [Dispatch Date],TSPL_Dispatch_BulkSale.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_Dispatch_BulkSale.Tanker_Code as [Tanker Code],TSPL_Dispatch_BulkSale.QC_Code as [QC Code],TSPL_Dispatch_BulkSale.Location_Code as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_Dispatch_BulkSale.Price_Code as [Price Code],TSPL_Dispatch_BulkSale.Dip_marking as [Dip Marking],TSPL_Dispatch_BulkSale.Challan_No as [Challan No],case when TSPL_Dispatch_BulkSale.Posted=0 then 'Pending' else 'Approved' end as Status from TSPL_Dispatch_BulkSale left outer Join TSPL_CUSTOMER_MASTER on TSPL_Dispatch_BulkSale.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code Left Outer Join TSPL_LOCATION_MASTER on TSPL_Dispatch_BulkSale.Location_Code =TSPL_LOCATION_MASTER.Location_Code"
+            txtDocNo.Value = clsCommon.ShowSelectForm("DispatchBulkSale", qry, "Code", " TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ")", txtDocNo.Value, "", isButtonClicked)
+            LoadData(txtDocNo.Value, NavigatorType.Current)
+            qry = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnAddNew_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
@@ -2433,10 +2619,10 @@ Public Class FrmDispatchBulkSale
         Dim desc As String = Nothing
         Try
 
-            desc = clsDBFuncationality.getSingleValue("Select CheckCreditLimit from TSPL_CUSTOMER_MASTER WHERE Cust_Code='" + lblCustomerCode.Text + "'")
+            desc = clsDBFuncationality.getSingleValue("Select CheckCreditLimit from TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & lblCustomerCode.Text & "'")
             If clsCommon.CompairString(desc, "1") = CompairStringResult.Equal Then
                 Dim dblAllowedAmt As Double = 0
-                If CheckCustomerOutstandingAmount(lblCustomerCode.Text, False) = False AndAlso Not AllowNLevel Then Exit Sub
+                If Not CheckCustomerOutstandingAmount(lblCustomerCode.Text, False) AndAlso Not AllowNLevel Then Exit Sub
             End If
             isFlag = True
             If (myMessages.postConfirm()) Then
@@ -2825,7 +3011,7 @@ Public Class FrmDispatchBulkSale
                              " cast(TSPL_COMPANY_MASTER.CINNo as varchar) as Comp_Corp_Id_No,Format(TSPL_COMPANY_MASTER.TinNo_Issue_Date,'dd.MM.yyyy') as Comp_DT, " &
                              " TSPL_LOCATION_MASTER.Add1 +case when len(TSPL_LOCATION_MASTER.Add2)>0 then ', '+TSPL_LOCATION_MASTER.Add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_LOCATION_MASTER.Pin_Code    )>3 then ', Pin Code - '+ cast(TSPL_LOCATION_MASTER.Pin_Code as varchar)  else ' ' end as Comp_AddressHead,TSPL_Dispatch_BulkSale.Challan_No, " &
                              " TSPL_Dispatch_BulkSale.Tanker_Code  TankerNo,TSPL_Dispatch_Detail_BulkSale.Qty  as MilkQty,TSPL_Dispatch_Detail_BulkSale.FatPer  as Fatper,TSPL_Dispatch_Detail_BulkSale.SNFPer  as Snfper, TSPL_Dispatch_Detail_BulkSale.NetMilkRate  as Rate, " &
-                             " TSPL_Dispatch_Detail_BulkSale.Amount  as Amount,TSPL_Dispatch_Detail_BulkSale.CLR ,TSPL_Dispatch_BulkSale.Created_By as CreatedBy,TSPL_Dispatch_BulkSale.Modified_By as ModifiedBy, TSPL_Dispatch_BulkSale.Total_Amt as DocumentAmount,TSPL_Dispatch_Detail_BulkSale.StandardRate ,TSPL_CUSTOMER_MASTER.Tin_No as ConsigneeTinno,isnull(TSPL_CUSTOMER_MASTER.PIN_Code,'') as ConsigneePin,TSPL_Dispatch_BulkSale.EWayBillNo,Convert(varchar,TSPL_Dispatch_BulkSale.EWayBillDate,106) as EWayBillDate  " &
+                             " TSPL_Dispatch_Detail_BulkSale.Amount  as Amount,TSPL_Dispatch_Detail_BulkSale.CLR ,TSPL_Dispatch_BulkSale.Created_By as CreatedBy,TSPL_Dispatch_BulkSale.Modified_By as ModifiedBy, TSPL_Dispatch_BulkSale.Total_Amt as DocumentAmount,TSPL_Dispatch_Detail_BulkSale.StandardRate ,TSPL_CUSTOMER_MASTER.Tin_No as ConsigneeTinno,isnull(TSPL_CUSTOMER_MASTER.PIN_Code,'') as ConsigneePin,TSPL_Dispatch_BulkSale.EWayBillNo,Convert(varchar,TSPL_Dispatch_BulkSale.EWayBillDate,106) as EWayBillDate,TSPL_Dispatch_BulkSale.Total_Add_Charge  " &
                              " from TSPL_Dispatch_Detail_BulkSale " &
                              " Left Outer Join TSPL_Dispatch_BulkSale  on TSPL_Dispatch_Detail_BulkSale.Document_No =TSPL_Dispatch_BulkSale.Document_No Left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_Dispatch_BulkSale.Comp_Code  " &
                              " left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_Dispatch_BulkSale.tax1   left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_Dispatch_BulkSale.tax2   left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_Dispatch_BulkSale.TAX3  left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_Dispatch_BulkSale.tax4 " &
@@ -3708,6 +3894,46 @@ Public Class FrmDispatchBulkSale
         Dim Qry As String = "  Select Item_Code as Code,Item_Desc,Product_Type,Structure_Code from TSPL_ITEM_MASTER  "
         Dim whrcls As String = " Product_Type = 'MI'"
         TxtItemCode.Value = clsCommon.ShowSelectForm("TtS@vlc", Qry, "Code", whrcls, TxtItemCode.Value, "Code", isButtonClicked)
+    End Sub
+
+    Private Sub gvAC_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvAC.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvAC.Columns(colAChgAmount) Then
+
+                        UpdateAllTotals()
+                    ElseIf e.Column Is gvAC.Columns(colAChgCode) Then
+                        Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gvAC.CurrentRow.Cells(colAChgCode).Value), False)
+                        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
+                            gvAC.CurrentRow.Cells(colAChgCode).Value = obj.Code
+                            gvAC.CurrentRow.Cells(colAChgName).Value = obj.desc
+                        Else
+                            gvAC.CurrentRow.Cells(colAChgCode).Value = ""
+                            gvAC.CurrentRow.Cells(colAChgName).Value = ""
+                            gvAC.CurrentRow.Cells(colAChgAmount).Value = 0
+                        End If
+                    End If
+                End If
+                setGridFocusAC()
+                isCellValueChangedOpen = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub setGridFocusAC()
+        Try
+            Dim intCurrRow As Integer = gvAC.CurrentRow.Index
+            If intCurrRow = gvAC.Rows.Count - 1 AndAlso gvAC.Rows.Count <= 10 Then
+                gvAC.Rows.AddNew()
+                gvAC.CurrentRow = gvAC.Rows(intCurrRow)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub BlankTaxDetails(ByVal intRowNo As Integer, ByVal isBlankRate As Boolean)
