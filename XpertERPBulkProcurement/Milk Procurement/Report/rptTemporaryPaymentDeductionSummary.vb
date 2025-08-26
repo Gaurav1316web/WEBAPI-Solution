@@ -297,7 +297,7 @@ where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null "
                        left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_ITEM_MASTER.Deduction 
                        left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
         left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_MCC_Material_Sale=TSPL_SD_SHIPMENT_HEAD.Document_Code
-        where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and
+        where TSPL_SD_SHIPMENT_HEAD.Is_CashSale='N' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and
                    convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS'"
 
         Dim qry As String = ""
@@ -705,7 +705,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                     qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
                 End If
-                qry += " where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and
+                qry += " where TSPL_SD_SHIPMENT_HEAD.Is_CashSale='N' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and
                 convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS' "
                 If AreaWiseBilling = True Then
                     qry += subAreaQry
