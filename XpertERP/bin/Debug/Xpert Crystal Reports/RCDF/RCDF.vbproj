@@ -380,6 +380,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR_PartyWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceRJS.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSKR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSKRPrintDistribution.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceSWM1.rpt" />
@@ -494,6 +495,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalJDH.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxable.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxables.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMccMilkRate.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\RptMilkJobWorkTransfer.rpt" />

@@ -2,7 +2,7 @@
 '--------Created By Richa 07/08/2014 Against Ticket No BM00000003249
 Imports common
 Imports System.Data.SqlClient
-
+Imports System.Text
 
 Public Class ClsInvoiceBulkSale
 #Region "Variable"
@@ -50,6 +50,37 @@ Public Class ClsInvoiceBulkSale
     Public TAX5_Base_Amt As Double = 0
     Public TAX5_Amt As Double = 0
     Public Total_Tax_Amt As Double = 0
+    Public Add_Charge_Code1 As String = Nothing
+    Public Add_Charge_Name1 As String = Nothing
+    Public Add_Charge_Amt1 As Double = 0
+    Public Add_Charge_Code2 As String = Nothing
+    Public Add_Charge_Name2 As String = Nothing
+    Public Add_Charge_Amt2 As Double = 0
+    Public Add_Charge_Code3 As String = Nothing
+    Public Add_Charge_Name3 As String = Nothing
+    Public Add_Charge_Amt3 As Double = 0
+    Public Add_Charge_Code4 As String = Nothing
+    Public Add_Charge_Name4 As String = Nothing
+    Public Add_Charge_Amt4 As Double = 0
+    Public Add_Charge_Code5 As String = Nothing
+    Public Add_Charge_Name5 As String = Nothing
+    Public Add_Charge_Amt5 As Double = 0
+    Public Add_Charge_Code6 As String = Nothing
+    Public Add_Charge_Name6 As String = Nothing
+    Public Add_Charge_Amt6 As Double = 0
+    Public Add_Charge_Code7 As String = Nothing
+    Public Add_Charge_Name7 As String = Nothing
+    Public Add_Charge_Amt7 As Double = 0
+    Public Add_Charge_Code8 As String = Nothing
+    Public Add_Charge_Name8 As String = Nothing
+    Public Add_Charge_Amt8 As Double = 0
+    Public Add_Charge_Code9 As String = Nothing
+    Public Add_Charge_Name9 As String = Nothing
+    Public Add_Charge_Amt9 As Double = 0
+    Public Add_Charge_Code10 As String = Nothing
+    Public Add_Charge_Name10 As String = Nothing
+    Public Add_Charge_Amt10 As Double = 0
+    Public Total_Add_Charge As Double = 0
     Public Document_Amount As Double = 0
 
 #End Region
@@ -81,25 +112,25 @@ Public Class ClsInvoiceBulkSale
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
             End If
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmInvoiceBulkSale, obj.Location_Code, obj.Document_Date, trans)
-            qry = "delete from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" & obj.Document_No & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            If isNewEntry Then
-                If clsCommon.myLen(obj.Document_No) <= 0 Then
-                    Dim GSTStatus As Boolean = clsERPFuncationality.GetGSTStatus(obj.Document_Date)
-                    If GSTStatus Then
-                        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateCommonSeriesLocationwiseForAllSale, clsFixedParameterCode.CreateCommonSeriesLocationwiseForAllSale, trans)) = 0 Then
-                            If clsCommon.CompairString(obj.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
-                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.InvoiceBulkSale, clsDocTransactionType.BULKMilkSale, obj.Location_Code)
-                            Else
-                                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.InvoiceBulkSale, clsDocTransactionType.BULKMilkSaleTrade, obj.Location_Code)
-                            End If
+            If isNewEntry AndAlso clsCommon.myLen(obj.Document_No) <= 0 Then
+                'If clsCommon.myLen(obj.Document_No) <= 0 Then
+                Dim GSTStatus As Boolean = clsERPFuncationality.GetGSTStatus(obj.Document_Date)
+                If GSTStatus Then
+                    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateCommonSeriesLocationwiseForAllSale, clsFixedParameterCode.CreateCommonSeriesLocationwiseForAllSale, trans)) = 0 Then
+                        If clsCommon.CompairString(obj.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.InvoiceBulkSale, clsDocTransactionType.BULKMilkSale, obj.Location_Code)
                         Else
-                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTBillofSupply, obj.Location_Code)
+                            obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.InvoiceBulkSale, clsDocTransactionType.BULKMilkSaleTrade, obj.Location_Code)
                         End If
                     Else
-                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.InvoiceBulkSale, clsDocTransactionType.NA, obj.Location_Code)
+                        obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.CommonSaleSeries, clsDocTransactionType.GSTBillofSupply, obj.Location_Code)
                     End If
+                Else
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.InvoiceBulkSale, clsDocTransactionType.NA, obj.Location_Code)
                 End If
+                'End If
             End If
             Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
             Dim coll As New Hashtable()
@@ -157,38 +188,78 @@ Public Class ClsInvoiceBulkSale
             clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
             clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
             clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code1", obj.Add_Charge_Code1)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name1", obj.Add_Charge_Name1)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt1", obj.Add_Charge_Amt1)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code2", obj.Add_Charge_Code2)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name2", obj.Add_Charge_Name2)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt2", obj.Add_Charge_Amt2)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code3", obj.Add_Charge_Code3)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name3", obj.Add_Charge_Name3)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt3", obj.Add_Charge_Amt3)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code4", obj.Add_Charge_Code4)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name4", obj.Add_Charge_Name4)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt4", obj.Add_Charge_Amt4)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code5", obj.Add_Charge_Code5)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name5", obj.Add_Charge_Name5)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt5", obj.Add_Charge_Amt5)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code6", obj.Add_Charge_Code6)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name6", obj.Add_Charge_Name6)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt6", obj.Add_Charge_Amt6)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code7", obj.Add_Charge_Code7)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name7", obj.Add_Charge_Name7)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt7", obj.Add_Charge_Amt7)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code8", obj.Add_Charge_Code8)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name8", obj.Add_Charge_Name8)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt8", obj.Add_Charge_Amt8)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code9", obj.Add_Charge_Code9)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name9", obj.Add_Charge_Name9)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt9", obj.Add_Charge_Amt9)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code10", obj.Add_Charge_Code10)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name10", obj.Add_Charge_Name10)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt10", obj.Add_Charge_Amt10)
+            clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
             clsCommon.AddColumnsForChange(coll, "Document_Amount", obj.Document_Amount)
             clsCommon.AddColumnsForChange(coll, "ActualTCSBaseAmount", obj.ActualTCSBaseAmount)
             clsCommon.AddColumnsForChange(coll, "ChangedTCSBaseAmount", obj.ChangedTCSBaseAmount)
 
             If isNewEntry Then
-
                 ''richa 05/011/2015 BM00000008340
-                Dim strdispatchCode As String = String.Empty
+                'Dim strdispatchCode As String = String.Empty
+                'Dim arrObjdetail As List(Of ClsInvoiceDetailBulkSale) = obj.arrInvoiceDetailBulkSale
+                'If obj.arrInvoiceDetailBulkSale.Count > 1 Then
+                '    For Each obj1 As ClsInvoiceDetailBulkSale In arrObjdetail
+                '        strdispatchCode = strdispatchCode & "'" & obj1.Dispatch_Code & "',"
+                '    Next
+                '    strdispatchCode = strdispatchCode.Substring(0, strdispatchCode.Length - 1)
+                'Else
+                '    For Each obj1 As ClsInvoiceDetailBulkSale In arrObjdetail
+                '        strdispatchCode = "'" & obj1.Dispatch_Code & "'"
+                '    Next
+                'End If
+
                 Dim arrObjdetail As List(Of ClsInvoiceDetailBulkSale) = obj.arrInvoiceDetailBulkSale
-                If obj.arrInvoiceDetailBulkSale.Count > 1 Then
-                    For Each obj1 As ClsInvoiceDetailBulkSale In arrObjdetail
-                        strdispatchCode = strdispatchCode + "'" + obj1.Dispatch_Code + "',"
-                    Next
-                    strdispatchCode = strdispatchCode.Substring(0, strdispatchCode.Length - 1)
-                Else
-                    For Each obj1 As ClsInvoiceDetailBulkSale In arrObjdetail
-                        strdispatchCode = "'" + obj1.Dispatch_Code + "'"
-                    Next
-                End If
+                Dim strdispatchCode As New StringBuilder()
+                For Each obj1 As ClsInvoiceDetailBulkSale In arrObjdetail
+                    If clsCommon.myLen(strdispatchCode) > 0 Then
+                        strdispatchCode.Append(",")
+                    End If
+                    strdispatchCode.Append("'" & obj1.Dispatch_Code & "'")
+                Next
 
                 ''-----------------
 
-                If clsDBFuncationality.getSingleValue("select count(*) from TSPL_INVOICE_DETAIL_BULKSALE  where Dispatch_Code in (" & strdispatchCode & ") ", trans) < 1 Then
+                If clsDBFuncationality.getSingleValue("select count(*) from TSPL_INVOICE_DETAIL_BULKSALE  where Dispatch_Code in (" & clsCommon.myCstr(strdispatchCode) & ") ", trans) < 1 Then
                     clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                     clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVOICE_MASTER_BULKSAlE", OMInsertOrUpdate.Insert, "", trans)
                 Else
-                    Throw New Exception("Document already created for Dispatch No " & strdispatchCode & "")
+                    Throw New Exception("Document already created for Dispatch No " & clsCommon.myCstr(strdispatchCode) & "")
                 End If
+                strdispatchCode = Nothing
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVOICE_MASTER_BULKSAlE", OMInsertOrUpdate.Update, "TSPL_INVOICE_MASTER_BULKSAlE.Document_No='" + obj.Document_No + "'", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVOICE_MASTER_BULKSAlE", OMInsertOrUpdate.Update, "TSPL_INVOICE_MASTER_BULKSAlE.Document_No='" & obj.Document_No & "'", trans)
             End If
             isSaved = isSaved AndAlso ClsInvoiceDetailBulkSale.saveData(obj.arrInvoiceDetailBulkSale, obj.Document_No, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
@@ -204,7 +275,7 @@ Public Class ClsInvoiceBulkSale
     End Function
     Public Shared Function UpdateAfterPosting(ByVal obj As ClsInvoiceBulkSale, ByVal trans As SqlTransaction) As Boolean
         Try
-            If obj IsNot Nothing And clsCommon.myLen(obj.Document_No) > 0 Then
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0 Then
                 Dim coll As New Hashtable()
 
                 clsCommon.AddColumnsForChange(coll, "EWayBillNo", obj.EWayBillNo)
@@ -225,7 +296,7 @@ Public Class ClsInvoiceBulkSale
                         clsDBFuncationality.getSingleValue("Update TSPL_Dispatch_BulkSale set EWayBillNo='" & clsCommon.myCstr(obj.EWayBillNo) & "',EWayBillDate=NULL where Document_No in (Select Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No='" & clsCommon.myCstr(obj.Document_No) & "')", trans)
                         clsDBFuncationality.getSingleValue("Update TSPL_Dispatch_BulkSale_History set EWayBillNo='" & clsCommon.myCstr(obj.EWayBillNo) & "',EWayBillDate=NULL where Document_No in (Select Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No='" & clsCommon.myCstr(obj.Document_No) & "')", trans)
                     End If
-                   
+
                 Else
                     If clsCommon.myLen(obj.EWayBillDate) > 0 Then
                         clsDBFuncationality.getSingleValue("Update TSPL_Dispatch_BulkSale_Trade set EWayBillNo='" & clsCommon.myCstr(obj.EWayBillNo) & "',EWayBillDate='" & clsCommon.GetPrintDate(obj.EWayBillDate, "dd/MMM/yyyy") & "' where Document_No in (Select Dispatch_Code  from TSPL_INVOICE_DETAIL_BULKSALE where Document_No='" & clsCommon.myCstr(obj.Document_No) & "')", trans)
@@ -257,33 +328,33 @@ Public Class ClsInvoiceBulkSale
             '' TSPL_INVOICE_MASTER_BULKSALE_History
             Dim qry As String = String.Empty
             Dim strInvColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_INVOICE_MASTER_BULKSALE", trans)
-            qry = "INSERT INTO TSPL_INVOICE_MASTER_BULKSALE_History (" + strInvColumns + ",History_Date) SELECT  " + strInvColumns + ",'" + clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") + "' FROM TSPL_INVOICE_MASTER_BULKSALE WHERE Document_No='" + clsCommon.myCstr(strCode) + "'"
+            qry = "INSERT INTO TSPL_INVOICE_MASTER_BULKSALE_History (" & strInvColumns & ",History_Date) SELECT  " & strInvColumns & ",'" & clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") & "' FROM TSPL_INVOICE_MASTER_BULKSALE WHERE Document_No='" & clsCommon.myCstr(strCode) & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             '' Detail
             ''-------------- TSPL_INVOICE_DETAIL_BULKSALE_History)
             Dim strDetailColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_INVOICE_DETAIL_BULKSALE", trans)
-            qry = "INSERT INTO TSPL_INVOICE_DETAIL_BULKSALE_History(" + strDetailColumns + ",History_Date) SELECT " + strDetailColumns + ",'" + clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") + "' FROM TSPL_INVOICE_DETAIL_BULKSALE WHERE Document_No='" + clsCommon.myCstr(strCode) + "'"
+            qry = "INSERT INTO TSPL_INVOICE_DETAIL_BULKSALE_History(" & strDetailColumns & ",History_Date) SELECT " & strDetailColumns & ",'" & clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") & "' FROM TSPL_INVOICE_DETAIL_BULKSALE WHERE Document_No='" & clsCommon.myCstr(strCode) & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             '' TSPL_Customer_Invoice_Head_History
             Dim strCustInvColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_Customer_Invoice_Head", trans)
-            qry = "INSERT INTO TSPL_Customer_Invoice_Head_History (" + strCustInvColumns + ",History_Date) SELECT  " + strCustInvColumns + ",'" + clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") + "' FROM TSPL_Customer_Invoice_Head WHERE Against_Sale_No='" + clsCommon.myCstr(strCode) + "'"
+            qry = "INSERT INTO TSPL_Customer_Invoice_Head_History (" & strCustInvColumns & ",History_Date) SELECT  " & strCustInvColumns & ",'" & clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") & "' FROM TSPL_Customer_Invoice_Head WHERE Against_Sale_No='" & clsCommon.myCstr(strCode) & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             '' Detail
             ''-------------- TSPL_Customer_Invoice_Detail_History)
             Dim strCustDetailColumns As String = clsERPFuncationality.GetTableColumnNameForQry("TSPL_Customer_Invoice_Detail", trans)
-            qry = "INSERT INTO TSPL_Customer_Invoice_Detail_History(" + strCustDetailColumns + ",History_Date) SELECT " + strCustDetailColumns + ",'" + clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") + "' FROM TSPL_Customer_Invoice_Detail WHERE Document_No=(Select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No ='" & clsCommon.myCstr(strCode) & "')"
+            qry = "INSERT INTO TSPL_Customer_Invoice_Detail_History(" & strCustDetailColumns & ",History_Date) SELECT " & strCustDetailColumns & ",'" & clsCommon.GetPrintDate(strHistoryDate, "dd/MMM/yyyy hh:mm tt") & "' FROM TSPL_Customer_Invoice_Detail WHERE Document_No=(Select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No ='" & clsCommon.myCstr(strCode) & "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             '' For Journal Entry ERO/11/01/19-000467
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where source_code='AR-IN' and source_doc_no=(Select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No ='" & clsCommon.myCstr(strCode) & "')", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
-                qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
+                qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" & VoucherNo & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
+                qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" & VoucherNo & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
 
@@ -366,26 +437,26 @@ Public Class ClsInvoiceBulkSale
         '    End If
         'End If
         Dim obj As ClsInvoiceBulkSale = Nothing
-        Dim Arr As List(Of ClsInvoiceBulkSale) = Nothing
-        Dim qry As String = "Select TSPL_INVOICE_MASTER_BULKSAlE.ChangedTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.ActualTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillDate,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillNo,TSPL_INVOICE_MASTER_BULKSAlE.Electronic_Ref_No,TSPL_INVOICE_MASTER_BULKSAlE.Document_No,isnull(TSPL_INVOICE_MASTER_BULKSAlE.To_date,GetDate()) as To_date,isnull(TSPL_INVOICE_MASTER_BULKSAlE.From_date,DATEADD(MONTH,-1,GETDATE())) as From_date,TSPL_INVOICE_MASTER_BULKSAlE.Document_Date,TSPL_INVOICE_MASTER_BULKSAlE.Location_Code,TSPL_INVOICE_MASTER_BULKSAlE.Customer_Code,TSPL_INVOICE_MASTER_BULKSAlE.Total_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Posted,TSPL_INVOICE_MASTER_BULKSAlE.RoundOffAmount,TSPL_INVOICE_MASTER_BULKSAlE.InvoiceAgainst,TSPL_INVOICE_MASTER_BULKSAlE.comments,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Group,TSPL_INVOICE_MASTER_BULKSAlE.TAX1,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Total_Tax_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Document_Amount,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Calculation_Type from TSPL_INVOICE_MASTER_BULKSAlE where 2=2  "
+        'Dim Arr As List(Of ClsInvoiceBulkSale) = Nothing
+        Dim qry As String = "Select TSPL_INVOICE_MASTER_BULKSAlE.ChangedTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.ActualTCSBaseAmount,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillDate,TSPL_INVOICE_MASTER_BULKSAlE.EWayBillNo,TSPL_INVOICE_MASTER_BULKSAlE.Electronic_Ref_No,TSPL_INVOICE_MASTER_BULKSAlE.Document_No,isnull(TSPL_INVOICE_MASTER_BULKSAlE.To_date,GetDate()) as To_date,isnull(TSPL_INVOICE_MASTER_BULKSAlE.From_date,DATEADD(MONTH,-1,GETDATE())) as From_date,TSPL_INVOICE_MASTER_BULKSAlE.Document_Date,TSPL_INVOICE_MASTER_BULKSAlE.Location_Code,TSPL_INVOICE_MASTER_BULKSAlE.Customer_Code,TSPL_INVOICE_MASTER_BULKSAlE.Total_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Posted,TSPL_INVOICE_MASTER_BULKSAlE.RoundOffAmount,TSPL_INVOICE_MASTER_BULKSAlE.InvoiceAgainst,TSPL_INVOICE_MASTER_BULKSAlE.comments,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Group,TSPL_INVOICE_MASTER_BULKSAlE.TAX1,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX1_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX2_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX3_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX4_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Rate,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Amt,TSPL_INVOICE_MASTER_BULKSAlE.TAX5_Base_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Total_Tax_Amt,TSPL_INVOICE_MASTER_BULKSAlE.Document_Amount,TSPL_INVOICE_MASTER_BULKSAlE.Tax_Calculation_Type,Add_Charge_Code1,Add_Charge_Name1,Add_Charge_Amt1,Add_Charge_Code2,Add_Charge_Name2,Add_Charge_Amt2,Add_Charge_Code3,Add_Charge_Name3,Add_Charge_Amt3,Add_Charge_Code4,Add_Charge_Name4,Add_Charge_Amt4,Add_Charge_Code5,Add_Charge_Name5,Add_Charge_Amt5,Add_Charge_Code6,Add_Charge_Name6,Add_Charge_Amt6,Add_Charge_Code7,Add_Charge_Name7,Add_Charge_Amt7,Add_Charge_Code8,Add_Charge_Name8,Add_Charge_Amt8,Add_Charge_Code9,Add_Charge_Name9,Add_Charge_Amt9,Add_Charge_Code10,Add_Charge_Name10,Add_Charge_Amt10,Total_Add_Charge from TSPL_INVOICE_MASTER_BULKSAlE where 2=2  "
         If clsCommon.myLen(arrLoc) > 0 Then
-            qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Location_Code in (" + arrLoc + ") "
+            qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Location_Code in (" & arrLoc & ") "
         End If
         Dim whrclas As String = ""
         If clsCommon.myLen(arrLoc) > 0 Then
-            whrclas += " and TSPL_INVOICE_MASTER_BULKSAlE.Location_Code in (" + arrLoc + ")"
+            whrclas += " and TSPL_INVOICE_MASTER_BULKSAlE.Location_Code in (" & arrLoc & ")"
         End If
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select MIN(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE WHERE 1=1 " + whrclas + "  )"
+                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select MIN(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE WHERE 1=1 " & whrclas & "  )"
             Case NavigatorType.Last
-                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select Max(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE WHERE 1=1 " + whrclas + " )"
+                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select Max(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE WHERE 1=1 " & whrclas & " )"
             Case NavigatorType.Current
-                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No ='" + strCode + "' "
+                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No ='" & strCode & "' "
             Case NavigatorType.Next
-                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select Min(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE where Document_No>'" + strCode + "' " + whrclas + " )"
+                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select Min(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE where Document_No>'" & strCode & "' " & whrclas & " )"
             Case NavigatorType.Previous
-                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select Max(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE where Document_No<'" + strCode + "' " + whrclas + "  )"
+                qry += " and TSPL_INVOICE_MASTER_BULKSAlE.Document_No = (select Max(Document_No) from TSPL_INVOICE_MASTER_BULKSAlE where Document_No<'" & strCode & "' " & whrclas & "  )"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -401,12 +472,11 @@ Public Class ClsInvoiceBulkSale
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
             obj.InvoiceAgainst = clsCommon.myCstr(dt.Rows(0)("InvoiceAgainst"))
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
-            If clsCommon.CompairString(obj.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
-                If clsCommon.myLen(dt.Rows(0)("From_date")) > 0 Then
-                    obj.fromdate = clsCommon.myCDate(dt.Rows(0)("From_date"))
-                    obj.todate = clsCommon.myCDate(dt.Rows(0)("To_date"))
-                End If
-
+            If clsCommon.CompairString(obj.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal AndAlso clsCommon.myLen(dt.Rows(0)("From_date")) > 0 Then
+                'If clsCommon.myLen(dt.Rows(0)("From_date")) > 0 Then
+                obj.fromdate = clsCommon.myCDate(dt.Rows(0)("From_date"))
+                obj.todate = clsCommon.myCDate(dt.Rows(0)("To_date"))
+                'End If
             End If
             obj.ChangedTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ChangedTCSBaseAmount"))
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ActualTCSBaseAmount"))
@@ -436,8 +506,38 @@ Public Class ClsInvoiceBulkSale
             obj.TAX5_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX5_Base_Amt"))
             obj.TAX5_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX5_Amt"))
             obj.Total_Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Tax_Amt"))
+            obj.Add_Charge_Code1 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code1"))
+            obj.Add_Charge_Name1 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name1"))
+            obj.Add_Charge_Amt1 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt1"))
+            obj.Add_Charge_Code2 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code2"))
+            obj.Add_Charge_Name2 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name2"))
+            obj.Add_Charge_Amt2 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt2"))
+            obj.Add_Charge_Code3 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code3"))
+            obj.Add_Charge_Name3 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name3"))
+            obj.Add_Charge_Amt3 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt3"))
+            obj.Add_Charge_Code4 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code4"))
+            obj.Add_Charge_Name4 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name4"))
+            obj.Add_Charge_Amt4 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt4"))
+            obj.Add_Charge_Code5 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code5"))
+            obj.Add_Charge_Name5 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name5"))
+            obj.Add_Charge_Amt5 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt5"))
+            obj.Add_Charge_Code6 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code6"))
+            obj.Add_Charge_Name6 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name6"))
+            obj.Add_Charge_Amt6 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt6"))
+            obj.Add_Charge_Code7 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code7"))
+            obj.Add_Charge_Name7 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name7"))
+            obj.Add_Charge_Amt7 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt7"))
+            obj.Add_Charge_Code8 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code8"))
+            obj.Add_Charge_Name8 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name8"))
+            obj.Add_Charge_Amt8 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt8"))
+            obj.Add_Charge_Code9 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code9"))
+            obj.Add_Charge_Name9 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name9"))
+            obj.Add_Charge_Amt9 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt9"))
+            obj.Add_Charge_Code10 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code10"))
+            obj.Add_Charge_Name10 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name10"))
+            obj.Add_Charge_Amt10 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt10"))
+            obj.Total_Add_Charge = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge"))
             obj.Document_Amount = clsCommon.myCdbl(dt.Rows(0)("Document_Amount"))
-
             obj.arrInvoiceDetailBulkSale = ClsInvoiceDetailBulkSale.getData(obj.Document_No, trans)
         End If
         Return obj
@@ -451,7 +551,7 @@ Public Class ClsInvoiceBulkSale
             Throw New Exception("Document No not found to Delete")
         End If
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_INVOICE_MASTER_BULKSAlE where Document_No='" + strDocNo + "'", trans)
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_INVOICE_MASTER_BULKSAlE where Document_No='" & strDocNo & "'", trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmInvoiceBulkSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
@@ -461,9 +561,9 @@ Public Class ClsInvoiceBulkSale
         Try
             'ClsInvoiceDetailBulkSale.deleteData(strDocNo)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", "TSPL_INVOICE_DETAIL_BulKSALE", "Document_No", trans)
-            qry = "delete from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" + strDocNo + "'"
+            qry = "delete from TSPL_INVOICE_DETAIL_BulKSALE where Document_No='" & strDocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_INVOICE_MASTER_BULKSAlE where Document_No='" + strDocNo + "'"
+            qry = "delete from TSPL_INVOICE_MASTER_BULKSAlE where Document_No='" & strDocNo & "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
         Catch ex As Exception
@@ -504,9 +604,9 @@ Public Class ClsInvoiceBulkSale
 
             createARInvoice(obj, "", "", trans)
 
-            Dim qry = "Update TSPL_INVOICE_MASTER_BULKSAlE set Posted=1, " & _
-            "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " & _
-            " where Document_No='" + strDocNo + "'"
+            Dim qry = "Update TSPL_INVOICE_MASTER_BULKSAlE set Posted=1, " &
+            "Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' " &
+            " where Document_No='" & strDocNo & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_INVOICE_MASTER_BULKSAlE", "Document_No", trans)
             Return True
@@ -533,9 +633,9 @@ Public Class ClsInvoiceBulkSale
         objCustInv.Document_Total = obj.Total_Amt
         objCustInv.Customer_Code = obj.Customer_Code
         objCustInv.RoundOffAmount = obj.RoundOffAmount
-        objCustInv.Customer_Name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans))
+        objCustInv.Customer_Name = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Customer_Code & "'", trans))
         objCustInv.Posting_Date = obj.Document_Date
-        Dim qry As String = " select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'"
+        Dim qry As String = " select Cust_Account from TSPL_CUSTOMER_MASTER where Cust_Code='" & obj.Customer_Code & "'"
         objCustInv.Account_Set = clsDBFuncationality.getSingleValue(qry, trans)
         ''objCustInv.Order_No
         objCustInv.loc_code = clsLocation.GetSegmentCode(obj.Location_Code, trans)
@@ -585,9 +685,9 @@ Public Class ClsInvoiceBulkSale
         objCustInv.Tax9_BAmount = 0
         objCustInv.Tax10_BAmount = 0
         objCustInv.Balance_Amt = obj.Total_Amt
+
         objCustInv.Terms_Code = ""
         objCustInv.PROJECT_ID = ""
-
         '' currency details
         objCustInv.CURRENCY_CODE = ""
         objCustInv.ConvRate = 0
@@ -608,7 +708,7 @@ Public Class ClsInvoiceBulkSale
         objCustInv.Amount_Less_Discount = obj.Document_Amount
         ''==============
         Dim dt As DataTable
-        dt = clsDBFuncationality.GetDataTable("select Receivable_Control_acct,Receipts_Discount_acct from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + objCustInv.Account_Set + "'", trans)
+        dt = clsDBFuncationality.GetDataTable("select Receivable_Control_acct,Receipts_Discount_acct from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" & objCustInv.Account_Set & "'", trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             objCustInv.Customer_Control_AC = clsCommon.myCstr(dt.Rows(0)("Receivable_Control_acct"))
             'If clsCommon.myCdbl(obj.Discount_Amt) > 0 Then
@@ -659,37 +759,37 @@ Public Class ClsInvoiceBulkSale
 
         'objCustInv.RefDocType=
         'objCustInv.RefDocNo
-        objCustInv.Add_Charge_Code1 = ""
-            objCustInv.Add_Charge_Name1 = ""
-        objCustInv.Add_Charge_Amt1 = 0
-        objCustInv.Add_Charge_Code2 = ""
-        objCustInv.Add_Charge_Name2 = ""
-        objCustInv.Add_Charge_Amt2 = 0
-        objCustInv.Add_Charge_Code3 = ""
-        objCustInv.Add_Charge_Name3 = ""
-        objCustInv.Add_Charge_Amt3 = 0
-        objCustInv.Add_Charge_Code4 = ""
-        objCustInv.Add_Charge_Name4 = ""
-        objCustInv.Add_Charge_Amt4 = 0
-        objCustInv.Add_Charge_Code5 = ""
-        objCustInv.Add_Charge_Name5 = ""
-        objCustInv.Add_Charge_Amt5 = 0
-        objCustInv.Add_Charge_Code6 = ""
-        objCustInv.Add_Charge_Name6 = ""
-        objCustInv.Add_Charge_Amt6 = 0
-        objCustInv.Add_Charge_Code7 = ""
-        objCustInv.Add_Charge_Name7 = ""
-        objCustInv.Add_Charge_Amt7 = 0
-        objCustInv.Add_Charge_Code8 = ""
-        objCustInv.Add_Charge_Name8 = ""
-        objCustInv.Add_Charge_Amt8 = 0
-        objCustInv.Add_Charge_Code9 = ""
-        objCustInv.Add_Charge_Name9 = ""
-        objCustInv.Add_Charge_Amt9 = 0
-        objCustInv.Add_Charge_Code10 = ""
-        objCustInv.Add_Charge_Name10 = ""
-        objCustInv.Add_Charge_Amt10 = 0
-        objCustInv.Total_Add_Charge = 0
+        objCustInv.Add_Charge_Code1 = obj.Add_Charge_Code1
+        objCustInv.Add_Charge_Name1 = obj.Add_Charge_Name1
+        objCustInv.Add_Charge_Amt1 = obj.Add_Charge_Amt1
+        objCustInv.Add_Charge_Code2 = obj.Add_Charge_Code2
+        objCustInv.Add_Charge_Name2 = obj.Add_Charge_Name2
+        objCustInv.Add_Charge_Amt2 = obj.Add_Charge_Amt2
+        objCustInv.Add_Charge_Code3 = obj.Add_Charge_Code3
+        objCustInv.Add_Charge_Name3 = obj.Add_Charge_Name3
+        objCustInv.Add_Charge_Amt3 = obj.Add_Charge_Amt3
+        objCustInv.Add_Charge_Code4 = obj.Add_Charge_Code4
+        objCustInv.Add_Charge_Name4 = obj.Add_Charge_Name4
+        objCustInv.Add_Charge_Amt4 = obj.Add_Charge_Amt4
+        objCustInv.Add_Charge_Code5 = obj.Add_Charge_Code5
+        objCustInv.Add_Charge_Name5 = obj.Add_Charge_Name5
+        objCustInv.Add_Charge_Amt5 = obj.Add_Charge_Amt5
+        objCustInv.Add_Charge_Code6 = obj.Add_Charge_Code6
+        objCustInv.Add_Charge_Name6 = obj.Add_Charge_Name6
+        objCustInv.Add_Charge_Amt6 = obj.Add_Charge_Amt6
+        objCustInv.Add_Charge_Code7 = obj.Add_Charge_Code7
+        objCustInv.Add_Charge_Name7 = obj.Add_Charge_Name7
+        objCustInv.Add_Charge_Amt7 = obj.Add_Charge_Amt7
+        objCustInv.Add_Charge_Code8 = obj.Add_Charge_Code8
+        objCustInv.Add_Charge_Name8 = obj.Add_Charge_Name8
+        objCustInv.Add_Charge_Amt8 = obj.Add_Charge_Amt8
+        objCustInv.Add_Charge_Code9 = obj.Add_Charge_Code9
+        objCustInv.Add_Charge_Name9 = obj.Add_Charge_Name9
+        objCustInv.Add_Charge_Amt9 = obj.Add_Charge_Amt9
+        objCustInv.Add_Charge_Code10 = obj.Add_Charge_Code10
+        objCustInv.Add_Charge_Name10 = obj.Add_Charge_Name10
+        objCustInv.Add_Charge_Amt10 = obj.Add_Charge_Amt10
+        objCustInv.Total_Add_Charge = obj.Total_Add_Charge
         objCustInv.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
         ''objCustInv.Status
         ''objCustInv.AgainstScrap
@@ -703,7 +803,7 @@ Public Class ClsInvoiceBulkSale
             objCustInvTR.SNo = counter
             dt = clsItemMaster.GetSaleAccGLAC(objTr.Item_Code, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception("Please set sale account for item" + objTr.Item_Code)
+                Throw New Exception("Please set sale account for item" & objTr.Item_Code)
             End If
             objCustInvTR.GL_Account_Code = clsCommon.myCstr(dt.Rows(0)("Sales_Account"))
             objCustInvTR.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objCustInvTR.GL_Account_Code, obj.Location_Code, trans)
@@ -897,7 +997,7 @@ Public Class ClsInvoiceDetailBulkSale
 
                     clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
                     clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVOICE_DETAIL_BulKSALE", OMInsertOrUpdate.Insert, "", trans)
+                    issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_INVOICE_DETAIL_BulKSALE", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
             Return issaved
