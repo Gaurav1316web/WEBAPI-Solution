@@ -134,7 +134,7 @@ Public Class Can_Summary_Report
     Private Sub txtDCS__My_Click(sender As Object, e As EventArgs) Handles txtDCS._My_Click
         Try
             Dim qry As String = "select VLC_Code as Dcs,VLC_Name as DcsName from TSPL_VLC_MASTER_HEAD where 2=2 "
-            txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUDcs", qry, "VLC_Code", "DcsName", txtDCS.arrValueMember, txtDCS.arrDispalyMember)
+            txtDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUDcs", qry, "Dcs", "DcsName", txtDCS.arrValueMember, txtDCS.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
