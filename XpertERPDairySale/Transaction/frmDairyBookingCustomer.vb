@@ -8568,9 +8568,16 @@ from
                         obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
                         obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
                         obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
-                        If chkcashsale.Checked AndAlso clsCommon.CompairString(cmbPaymentType.Text, "Cash") = CompairStringResult.Equal Then
-                            obj.Is_CashSale = "Y"
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                            If chkcashsale.Checked AndAlso clsCommon.CompairString(cmbPaymentType.Text, "Cash") = CompairStringResult.Equal Then
+                                obj.Is_CashSale = "Y"
+                            End If
+                        Else
+                            If chkcashsale.Checked Then
+                                obj.Is_CashSale = "Y"
+                            End If
                         End If
+
 
                         'obj.can
                         obj.Screen_Type = "DS"
