@@ -3020,8 +3020,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso Is_Cancelled = 1 Then
                 'If Is_Cancelled = 1 Then
                 clsCommon.MyMessageBoxShow(Me, "Booking Cancelled,Can not Update", Me.Text)
-                    'Exit Function
-                    Return False
+                'Exit Function
+                Return False
                 'End If
             End If
             'Sanjay Ticket No- ERO/12/07/18-000371
@@ -3034,7 +3034,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 'If Not chkDCS.Checked Then
                 'If clsCommon.myLen(strRoutecode) = 0 Then
                 Throw New Exception("Please Map Route for customer ")
-                        blnSaveTotalQTy = False
+                blnSaveTotalQTy = False
                 'Exit Function
                 'End If
                 'End If
@@ -3043,14 +3043,14 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If Not chkDCS.Checked AndAlso clsCommon.myLen(txtVehicleCode.Value) = 0 Then
                     'If clsCommon.myLen(txtVehicleCode.Value) = 0 Then
                     Throw New Exception("Please enter Vehicle ")
-                        blnSaveTotalQTy = False
+                    blnSaveTotalQTy = False
                     'Exit Function
                     'End If
                 Else
                     If clsCommon.CompairString(cmbcashcredit.Text, "Cash") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtReceipt.Value) = 0 Then
                         'If clsCommon.myLen(txtReceipt.Value) = 0 Then
                         Throw New Exception("Please Select Receipt No.")
-                            blnSaveTotalQTy = False
+                        blnSaveTotalQTy = False
                         'Exit Function
                         'End If
                     End If
@@ -3100,11 +3100,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             If EnableCustomerPODetailonDairyBooking = 1 AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_CUSTOMER_GROUP_MASTER.PONOMandatory  from TSPL_CUSTOMER_MASTER left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMER_MASTER.Cust_Group_Code where TSPL_CUSTOMER_MASTER.cust_code='" & txtVendorNo.Value & "'", trans)), "1") = CompairStringResult.Equal Then
                 'If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_CUSTOMER_GROUP_MASTER.PONOMandatory  from TSPL_CUSTOMER_MASTER left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMER_MASTER.Cust_Group_Code where TSPL_CUSTOMER_MASTER.cust_code='" & txtVendorNo.Value & "'", trans)), "1") = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtPONo.Text) = 0 Then
-                        Throw New Exception("Please enter Customer PO No ")
-                    End If
-                    If txtCustPODate.Checked = False Then
-                        Throw New Exception("Please select Customer PO Date ")
-                    End If
+                    Throw New Exception("Please enter Customer PO No ")
+                End If
+                If txtCustPODate.Checked = False Then
+                    Throw New Exception("Please select Customer PO Date ")
+                End If
                 'End If
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
@@ -3319,7 +3319,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             If ShowBookingTypeDropDownonDairyBookingCustomer AndAlso dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking Then
                 'If dblQuantity <= 0 AndAlso AllowZeroQtyOnDairyBooking Then
                 Throw New Exception("Please enter Qunatity at least in one row")
-                    Return False
+                Return False
                 'End If
             End If
             '' 18 SEP,2020 NOT CHECKED CONDITION FOR CUSTOMER CATEGORY OTHERS AND NULL
@@ -3573,8 +3573,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         If Not isNewEntry AndAlso clsCommon.myLen(isDemandBooking1) > 0 Then
                             'If clsCommon.myLen(isDemandBooking1) > 0 Then
                             objTr.Against_DemandBooking_No = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'")
-                                objTr.Against_DemandBooking_TR_Code = clsDBFuncationality.getSingleValue("select Against_DemandBooking_TR_Code from TSPL_BOOKING_DETAIL  where Document_No='" & txtDocNo.Value & "' and Line_No=" + clsCommon.myCstr(objTr.Line_No) + "")
-                                obj.Against_DemandBooking_No = objTr.Against_DemandBooking_No
+                            objTr.Against_DemandBooking_TR_Code = clsDBFuncationality.getSingleValue("select Against_DemandBooking_TR_Code from TSPL_BOOKING_DETAIL  where Document_No='" & txtDocNo.Value & "' and Line_No=" + clsCommon.myCstr(objTr.Line_No) + "")
+                            obj.Against_DemandBooking_No = objTr.Against_DemandBooking_No
                             'End If
                         End If
                         'sanjay
@@ -3836,9 +3836,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     If Not isNewEntry AndAlso obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                         'If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                         For Each item As clsBookingDetailDairySale In obj.Arr
-                                qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty=" + clsCommon.myCstr(item.Booking_Qty) + " where TR_Code='" & item.Against_DemandBooking_TR_Code & "'"
-                                clsDBFuncationality.ExecuteNonQuery(qry)
-                            Next
+                            qry = "update TSPL_DEMAND_BOOKING_DETAIL set Qty=" + clsCommon.myCstr(item.Booking_Qty) + " where TR_Code='" & item.Against_DemandBooking_TR_Code & "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry)
+                        Next
                         'End If
                     End If
                     'Dim intSampling As Integer = 0
@@ -3922,12 +3922,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     If clsCommon.CompairString(strNotificationOn, "S") = CompairStringResult.Equal AndAlso txtEx_Factory_Date.Checked Then
                         'If txtEx_Factory_Date.Checked Then
                         Dim Booking_Id As String = obj.Document_No
-                            Dim Booking_Date As DateTime = clsCommon.myCDate(txtDate.Value)
-                            Dim Ex_Factory_Date As DateTime = Nothing
-                            If clsCommon.myLen(txtEx_Factory_Date.Value) > 0 Then
-                                Ex_Factory_Date = clsCommon.myCDate(txtEx_Factory_Date.Value)
-                            End If
-                            CreateNotificationContentEMP(Booking_Id, Booking_Date, Ex_Factory_Date, Nothing)
+                        Dim Booking_Date As DateTime = clsCommon.myCDate(txtDate.Value)
+                        Dim Ex_Factory_Date As DateTime = Nothing
+                        If clsCommon.myLen(txtEx_Factory_Date.Value) > 0 Then
+                            Ex_Factory_Date = clsCommon.myCDate(txtEx_Factory_Date.Value)
+                        End If
+                        CreateNotificationContentEMP(Booking_Id, Booking_Date, Ex_Factory_Date, Nothing)
                         'End If
                     End If
                     ''=============================================
@@ -6353,7 +6353,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             'If gv1.Rows.Count > 0 Then
             'gv1.Focus()
             gv1.CurrentRow = gv1.Rows(0)
-                gv1.CurrentColumn = gv1.Columns(colQty)
+            gv1.CurrentColumn = gv1.Columns(colQty)
             'End If
         End If
     End Sub
@@ -8902,6 +8902,9 @@ from
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceRJS", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceSKR", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then

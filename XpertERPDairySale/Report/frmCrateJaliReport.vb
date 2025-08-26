@@ -2362,10 +2362,16 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
         Gv1.Columns("TotalCrateQty").Width = 100
         Gv1.Columns("TotalCrateQty").HeaderText = "Total Crate"
 
-        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim summaryRowItemB As New GridViewSummaryRowItem()
 
-        Dim item1 As New GridViewSummaryItem("TotalCrateQty", "{0:F2}", GridAggregateFunction.Sum)
-        summaryRowItem.Add(item1)
+        Dim TotalCrateQty As New GridViewSummaryItem("TotalCrateQty", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(TotalCrateQty)
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.AutoSizeRows = True
+        Gv1.BestFitColumns()
+        Gv1.MasterTemplate.AutoExpandGroups = True
+
 
     End Sub
 
@@ -2653,7 +2659,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                 End If
 
                 Query = " WITH my_cte AS (
-                      select ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
+                      select ROW_NUMBER() OVER (PARTITION BY Route_No, Customer_Code ORDER BY Sale_Invoice_Date) AS PageNo,ROW_NUMBER() over (Partition by 1 order by Sale_Invoice_Date) as SNO , * from (
                       select max(Customer_Name)Customer_Name,max(Comp_Name)Comp_Name,max(Location_Desc)Location_Desc,max(Location_Code)Location_Code, max(Vehicle_Id)Vehicle_Id,
                       max(Vehicle_Number)Vehicle_Number,(Route_No)Route_No,max(Route_Desc)Route_Desc,
                       (Customer_Code)Customer_Code,Sale_Invoice_Date ,
@@ -2678,7 +2684,7 @@ and  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Invoice_Date,103) <= conver
                       )xx where 2=2
                       group by Sale_Invoice_Date,Customer_Code,Route_No
                       )xxx )
-                      select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,
+                      select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' as fromdate,'" + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + "' as ToDate,PageNo,
                       Customer_Name,Comp_Name,Location_Code,Location_Desc,Vehicle_Id,Vehicle_Number,Route_No,Route_Desc,Customer_Code,Sale_Invoice_Date,OP,Morning_Supply,Morning_Return,Evening_Supply,Evening_Return,
                       (OP+((Morning_Supply+Evening_Supply)-(Morning_Return+Evening_Return))) as CL from  (
                       select  

@@ -2878,7 +2878,12 @@ Public Class clsMCCMaterialSale
         If clsERPFuncationality.GetQRCodeStatus(strDate) = True AndAlso EnableDynamicQRCodeForB2CInvoice = True AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select EInvoice_Type from  TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No = '" + strCode + "'")), "BC") = CompairStringResult.Equal Then
             isShowQRcode = 1
         End If
-        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select TabBatch.Batch_No, (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
+        Dim Qry As String = "select *, itemcost/ConversionFactor As RateLtr from (  select "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+            Qry += "1 As CopyType,"
+        End If
+
+        Qry += " TabBatch.Batch_No, (CASE when TSPL_SD_SHIPMENT_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_SHIPMENT_DETAIL.Sampling=1 then 0 else  TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
 ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
         If isCancel Then
             Qry += " 'Cancelled' As Report_Status,"
@@ -2998,6 +3003,9 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
 ) TabBatch On TabBatch.Document_Code= TSPL_SD_SHIPMENT_head.Document_Code And TabBatch.Parent_Line_No = TSPL_SD_SHIPMENT_DETAIL.Line_No"
         Qry += "  where 2=2 "
         Qry += "  and  TSPL_SD_SHIPMENT_HEAD.Document_Code = '" + strCode + "' )xx "
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+            Qry += " Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=XX.CopyType "
+        End If
         Return Qry
     End Function
     Public Shared Function funPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal strDate As DateTime, ByVal strCode As String, ByVal GetPDFPath As Boolean) As String
@@ -3085,7 +3093,11 @@ SELECT Document_Code, Batch_No, Qty, Parent_Line_No FROM TSPL_BATCH_ITEM WHERE T
                         If GetPDFPath Then
                             pdfPath = frmCRV.funsubreportWithdt(Form_ID, GetPDFPath, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                         Else
-                            frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
+                                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxableRJS", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            Else
+                                frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.MilkProcurement, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMCCMaterialSale_NonTaxable", "MCC Material Sale Non Taxable", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                            End If
                         End If
                     End If
                 Else

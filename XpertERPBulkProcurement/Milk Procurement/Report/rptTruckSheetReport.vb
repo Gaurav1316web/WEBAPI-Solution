@@ -86,6 +86,7 @@ Public Class rptTruckSheetReport
 
 
             Dim MCCSumQty As Decimal = 0.0
+            Dim RejectRecovery As String = Nothing
             Dim MCCSumFATKG As Decimal = 0.0
             Dim MCCSumSNFKG As Decimal = 0.0
             Dim MCCAVGFAT As Decimal = 0.0
@@ -118,7 +119,7 @@ Public Class rptTruckSheetReport
             End If
 
             Dim qry As String = Nothing
-            qry = "select TSPL_MILK_COLLECTION_MCC.Document_date,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_MCC_DETAIL.* 
+            qry = "select TSPL_MILK_COLLECTION_MCC.Document_date,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,Case when TSPL_MILK_COLLECTION_MCC.Reject_Type is null then 'GOOD' else TSPL_MILK_COLLECTION_MCC.Reject_Type end as Reject_Types,Case when TSPL_MILK_COLLECTION_MCC.Reject_Recovery_Per is null then 0 else TSPL_MILK_COLLECTION_MCC.Reject_Recovery_Per end as Reject_Recovery_Pers ,TSPL_MILK_COLLECTION_MCC_DETAIL.* 
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.document_no=TSPL_MILK_COLLECTION_MCC_DETAIL.document_no
 left join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_CODE=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_CODE
@@ -136,7 +137,7 @@ where 1=1 "
 
 
             'Mcc Head
-            qry = "select TSPL_MILK_COLLECTION_MCC.* from TSPL_MILK_COLLECTION_MCC
+            qry = "select TSPL_MILK_COLLECTION_MCC.*,Case when TSPL_MILK_COLLECTION_MCC.Reject_Type is null then 'GOOD' else TSPL_MILK_COLLECTION_MCC.Reject_Type end as Reject_Types,Case when TSPL_MILK_COLLECTION_MCC.Reject_Recovery_Per is null then 0 else TSPL_MILK_COLLECTION_MCC.Reject_Recovery_Per end as Reject_Recovery_Pers  from TSPL_MILK_COLLECTION_MCC
                 where 1=1"
 
             If TxtMultiRoute.arrValueMember IsNot Nothing AndAlso TxtMultiRoute.arrValueMember.Count > 0 Then
@@ -354,6 +355,13 @@ where 1=1 "
                                             MCCSumQty = Math.Round(clsCommon.myCdbl(dtMCC.Compute("SUM([Qty])", " [Qty] is not null")), 2)
                                             MCCSumFATKG = Math.Round(clsCommon.myCdbl(dtMCC.Compute("SUM([FATKG])", " [FATKG] is not null")), 2)
                                             MCCSumSNFKG = Math.Round(clsCommon.myCdbl(dtMCC.Compute("SUM([SNFKG])", " [SNFKG] is not null")), 2)
+                                            'RejectRecovery = clsCommon
+                                            Dim rejectType As String = clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Reject_Types"))
+                                            Dim recoveryPer As Double = clsCommon.myCdbl(dtMCCDetailFilter.Rows(j).Item("Reject_Recovery_Pers"))
+
+                                            ' Format as "GOOD(20%)"
+                                            RejectRecovery = rejectType & "(" & clsCommon.myCstr(recoveryPer) & "%)"
+
                                             If MCCSumQty > 0 Then
                                                 MCCAVGFAT = Math.Round(clsCommon.myCdbl(dtMCC.Compute("(SUM([FATKG])*100)/SUM([Qty])", "")), 2)
                                                 MCCAVGSNF = Math.Round(clsCommon.myCdbl(dtMCC.Compute("(SUM([SNFKG])*100)/SUM([Qty])", "")), 2)
@@ -368,7 +376,13 @@ where 1=1 "
 
                                     If rbtnRouteWise.IsChecked = True Then
                                         If isAdded Or i = 0 Then
-                                            dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                                                dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, RejectRecovery, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                            Else
+                                                dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+                                            End If
+                                            'dtReport.Rows.Add("Dispatch Detail for BMC : " + clsCommon.myCstr(dtMCCDetailFilter.Rows(j).Item("Mcc_Code_VLC_Uploader")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG, MCCSumQty, MCCAVGFAT, MCCAVGSNF, MCCSumFATKG, MCCSumSNFKG)
+
                                         End If
 
                                     End If

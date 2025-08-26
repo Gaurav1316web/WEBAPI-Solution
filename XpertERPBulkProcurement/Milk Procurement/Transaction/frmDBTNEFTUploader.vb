@@ -35,6 +35,7 @@ Public Class frmDBTNEFTUploader
     Const FarmerEmailID As String = "FarmerEmailID"
     Const FarmerAccountNumber As String = "FarmerAccountNumber"
     Const FarmerIFSCCode As String = "FarmerIFSCCode"
+    'Const FarmerIFCSCode As String = "FarmerIFCSCode"
     Const FarmerBankName As String = "FarmerBankName"
     Const FarmerBankBranch As String = "FarmerBankBranch"
     Const AMOUNT As String = "AMOUNT"
@@ -709,7 +710,11 @@ where 2=2 "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Function GetQry(ByVal TableName As String, ByVal GrpByFarmer As Boolean) As String
+        Return GetQry(TableName, GrpByFarmer, Nothing, Nothing)
+    End Function
+    Function GetQry(ByVal TableName As String, ByVal GrpByFarmer As Boolean, ByVal lstMPCode As List(Of String), ByVal lstAccCode As List(Of String)) As String
         Dim qry As String = "Select  " + TableName + ".PK_Id, " + TableName + ".SNo as [" + clsDBTNEFTPerforma.colSlNo + "]," + TableName + ".Against_MP_Incentive_TR AS [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "]," + TableName + ".VLC_Uploader_Code AS [" + clsDBTNEFTPerforma.colSociety + "]
                 ," + TableName + ".MP_Uploader_Code AS [" + clsDBTNEFTPerforma.colMPUploaderCode + "]"
 
@@ -730,6 +735,12 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_IN
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VLC_MASTER_HEAD.VSP_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
 where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
+        If lstMPCode IsNot Nothing AndAlso lstMPCode.Count > 0 Then
+            qry += " and TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code in (" & clsCommon.GetMulcallString(lstMPCode) & ")"
+        End If
+        If lstAccCode IsNot Nothing AndAlso lstAccCode.Count > 0 Then
+            qry += " and TSPL_DBT_NEFT_DETAIL.MP_Account_No in (" & clsCommon.GetMulcallString(lstAccCode) & ")"
+        End If
         If GrpByFarmer Then
             qry = "select min(PK_Id) as PK_Id,ROW_NUMBER() OVER (ORDER BY [" + clsDBTNEFTPerforma.colFarmerCode + "]) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPBank + "]) as [" + clsDBTNEFTPerforma.colMPBank + "],max([" + clsDBTNEFTPerforma.colMPMobileNo + "]) as [" + clsDBTNEFTPerforma.colMPMobileNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + qry + ")xx group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
         End If
@@ -815,7 +826,7 @@ update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
 
             tempQty = "With CTE as ( " + BaseQry + ")
 update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
- (select PK_Id from CTE where len(isnull(Payee_Joint_Account_No,''))<=10 or len(isnull(Payee_Joint_IFSC_Code,''))<>11 )
+ (select PK_Id from CTE where len(isnull(Payee_Joint_Account_No,''))<=8 or len(isnull(Payee_Joint_IFSC_Code,''))<>11 )
  )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
@@ -824,7 +835,7 @@ select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,S
 union all
 select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name
 union all
-select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=10  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
+select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=8  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
 union all
 select 'Wrong IFSC No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_IFSC_Code,''))<>11 ;"
 
@@ -1122,7 +1133,7 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         End Try
     End Sub
 
-    Private Sub gvHold_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gvHold.CellDoubleClick
+    Private Sub gvHold_CellDoubleClick(sender As Object, e As GridViewCellEventArgs)
         Try
             If gvHold.CurrentRow.Index >= 0 Then
                 HoldUnloadRow(gvHold, gvItem)
@@ -1467,6 +1478,110 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         'ReStoreGridLayoutgv1()
     End Sub
 
+    Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                txtDocumentNo.Focus()
+                Throw New Exception("Please select Document No")
+            End If
+            Dim strHeading As String = clsCommon.myCstr("Hold Data")
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            arrHeader.Add(" ")
+            clsCommon.MyExportToExcelGrid(strHeading, gvHold, Nothing, Me.Text)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 
+    Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
+        Dim lstMPUploaderCode As New List(Of String)
+        Dim gvImport As New UserControls.MyRadGridView
+        Me.Controls.Add(gvImport)
+
+        Dim currentDate As Date = Date.Today
+        If transportSql.importExcel(gvImport, "SNo", "FarmerID", "FarmerAccountNumber") Then
+            For Each row As GridViewRowInfo In gvImport.Rows
+                lstMPUploaderCode.Add(clsCommon.myCstr(row.Cells("FarmerID").Value))
+            Next
+        End If
+        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False, lstMPUploaderCode, Nothing))
+        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            gvInvalid.DataSource = dt1
+            FormatGrid(gvInvalid)
+        End If
+
+        Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False))
+        If dt1 IsNot Nothing AndAlso dt2 IsNot Nothing Then
+            For i As Integer = dt2.Rows.Count - 1 To 0 Step -1
+                Dim farmerId2 As String = clsCommon.myCstr(dt2.Rows(i)("MP Uploader Code"))
+                Dim found() As DataRow = dt1.Select("[MP Uploader Code] = '" & farmerId2.Replace("'", "''") & "'")
+                If found.Length > 0 Then
+                    dt2.Rows.RemoveAt(i)
+                End If
+            Next
+        End If
+        If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+            gvItem.DataSource = Nothing
+            gvItem.Rows.Clear()
+            gvItem.Refresh()
+            gvItem.DataSource = dt2
+            FormatGrid(gvItem)
+        End If
+
+        lstMPUploaderCode = Nothing
+    End Sub
+
+
+    Private Sub RadMenuItem7_Click(sender As Object, e As EventArgs) Handles RadMenuItem7.Click
+        Dim lstMPAccountNo As New List(Of String)
+        Dim gvImport As New UserControls.MyRadGridView
+        Me.Controls.Add(gvImport)
+
+        Dim currentDate As Date = Date.Today
+        If transportSql.importExcel(gvImport, "SNo", "FarmerAccountNumber") Then
+            For Each row As GridViewRowInfo In gvImport.Rows
+                lstMPAccountNo.Add(clsCommon.myCstr(row.Cells("FarmerAccountNumber").Value))
+            Next
+        End If
+        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False, Nothing, lstMPAccountNo))
+        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            gvInvalid.DataSource = dt1
+            FormatGrid(gvInvalid)
+        End If
+        Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False))
+        If dt1 IsNot Nothing AndAlso dt2 IsNot Nothing Then
+            For i As Integer = dt2.Rows.Count - 1 To 0 Step -1
+                Dim farmerId2 As String = clsCommon.myCstr(dt2.Rows(i)("BENEFICERY ACCOUNT  NO."))
+                Dim found() As DataRow = dt1.Select("[BENEFICERY ACCOUNT  NO.] = '" & farmerId2.Replace("'", "''") & "'")
+                If found.Length > 0 Then
+                    dt2.Rows.RemoveAt(i)
+                End If
+            Next
+        End If
+        If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+            gvItem.DataSource = Nothing
+            gvItem.Rows.Clear()
+            gvItem.Refresh()
+            gvItem.DataSource = dt2
+            FormatGrid(gvItem)
+        End If
+        lstMPAccountNo = Nothing
+    End Sub
+
+    Private Sub RadMenuItem10_Click(sender As Object, e As EventArgs) Handles RadMenuItem10.Click
+        Try
+            clsCommon.MyExportToExcelGrid(Nothing, gvItem, Nothing, Me.Text)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadMenuItem11_Click(sender As Object, e As EventArgs) Handles RadMenuItem11.Click
+        Try
+            clsCommon.MyExportToExcelGrid(Nothing, gvItem, Nothing, Me.Text)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 

@@ -177,7 +177,8 @@ Public Class rptMccMasterDetail
                     qry += "   ,TSPL_COMPANY_MASTER.Comp_Code1 As [Comp Code],  TSPL_COMPANY_MASTER.Comp_Name "
                 End If
 
-                qry += "  ,TSPL_VENDOR_MASTER.Latitude as [Latitude],TSPL_VENDOR_MASTER.Longitude as [Longitude] from TSPL_VLC_MASTER_HEAD " &
+                qry += " ,case when TSPL_VLC_MASTER_HEAD.Active='1' then 'Y' else 'N' end as Active
+ ,TSPL_VENDOR_MASTER.Latitude as [Latitude],TSPL_VENDOR_MASTER.Longitude as [Longitude] from TSPL_VLC_MASTER_HEAD " &
               " left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code and TSPL_VENDOR_MASTER.Form_Type='VSP' " &
               " left join (select distinct Route_CODE , VLC_CODE from TSPL_MCC_ROUTE_VLC_MAPPING) as TSPL_MCC_ROUTE_VLC_MAPPING on TSPL_MCC_ROUTE_VLC_MAPPING.VLC_CODE=TSPL_VLC_MASTER_HEAD.VLC_Code " &
               " left join tspl_mcc_route_master on tspl_mcc_route_master.Route_Code=TSPL_MCC_ROUTE_VLC_MAPPING.Route_CODE " &

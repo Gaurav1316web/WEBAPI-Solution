@@ -65,7 +65,37 @@ Public Class ClsDispatchBulkSale
     Public TAX5_Amt As Double = 0
     Public Total_Tax_Amt As Double = 0
     Public Document_Amount As Double = 0
-
+    Public Add_Charge_Code1 As String = Nothing
+    Public Add_Charge_Name1 As String = Nothing
+    Public Add_Charge_Amt1 As Double = 0
+    Public Add_Charge_Code2 As String = Nothing
+    Public Add_Charge_Name2 As String = Nothing
+    Public Add_Charge_Amt2 As Double = 0
+    Public Add_Charge_Code3 As String = Nothing
+    Public Add_Charge_Name3 As String = Nothing
+    Public Add_Charge_Amt3 As Double = 0
+    Public Add_Charge_Code4 As String = Nothing
+    Public Add_Charge_Name4 As String = Nothing
+    Public Add_Charge_Amt4 As Double = 0
+    Public Add_Charge_Code5 As String = Nothing
+    Public Add_Charge_Name5 As String = Nothing
+    Public Add_Charge_Amt5 As Double = 0
+    Public Add_Charge_Code6 As String = Nothing
+    Public Add_Charge_Name6 As String = Nothing
+    Public Add_Charge_Amt6 As Double = 0
+    Public Add_Charge_Code7 As String = Nothing
+    Public Add_Charge_Name7 As String = Nothing
+    Public Add_Charge_Amt7 As Double = 0
+    Public Add_Charge_Code8 As String = Nothing
+    Public Add_Charge_Name8 As String = Nothing
+    Public Add_Charge_Amt8 As Double = 0
+    Public Add_Charge_Code9 As String = Nothing
+    Public Add_Charge_Name9 As String = Nothing
+    Public Add_Charge_Amt9 As Double = 0
+    Public Add_Charge_Code10 As String = Nothing
+    Public Add_Charge_Name10 As String = Nothing
+    Public Add_Charge_Amt10 As Double = 0
+    Public Total_Add_Charge As Double = 0
     Public arrDispatchDetailBulkSale As List(Of clsDispatchDetailBulkSale) = Nothing
     Public arrSiloDetailBulkSale As List(Of clsSiloDetailBulkSale) = Nothing
 #End Region
@@ -168,42 +198,73 @@ Public Class ClsDispatchBulkSale
             clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
             clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
             clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code1", obj.Add_Charge_Code1)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name1", obj.Add_Charge_Name1)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt1", obj.Add_Charge_Amt1)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code2", obj.Add_Charge_Code2)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name2", obj.Add_Charge_Name2)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt2", obj.Add_Charge_Amt2)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code3", obj.Add_Charge_Code3)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name3", obj.Add_Charge_Name3)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt3", obj.Add_Charge_Amt3)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code4", obj.Add_Charge_Code4)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name4", obj.Add_Charge_Name4)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt4", obj.Add_Charge_Amt4)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code5", obj.Add_Charge_Code5)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name5", obj.Add_Charge_Name5)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt5", obj.Add_Charge_Amt5)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code6", obj.Add_Charge_Code6)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name6", obj.Add_Charge_Name6)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt6", obj.Add_Charge_Amt6)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code7", obj.Add_Charge_Code7)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name7", obj.Add_Charge_Name7)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt7", obj.Add_Charge_Amt7)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code8", obj.Add_Charge_Code8)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name8", obj.Add_Charge_Name8)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt8", obj.Add_Charge_Amt8)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code9", obj.Add_Charge_Code9)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name9", obj.Add_Charge_Name9)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt9", obj.Add_Charge_Amt9)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Code10", obj.Add_Charge_Code10)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Name10", obj.Add_Charge_Name10)
+            clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt10", obj.Add_Charge_Amt10)
+            clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
             clsCommon.AddColumnsForChange(coll, "Document_Amount", obj.Document_Amount)
 
             If isNewEntry Then
                 'clsCommon.AddColumnsForChange(coll, "Status", "Open")
                 ''richa 31/12/2014
-                If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale, trans) Then
-                    If clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
-                        qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
-                        "values ('Bulk Dispatch Order','" & clsUserMgtCode.FrmDispatchBulkSale & "','" & obj.Document_No & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" & objCommonVar.CurrentCompanyCode & "')"
-                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                    End If
+                If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale, trans) AndAlso clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
+                    qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
+                        "values ('Bulk Dispatch Order','" & clsUserMgtCode.FrmDispatchBulkSale & "','" & obj.Document_No & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" & objCommonVar.CurrentUserCode & "','" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "','" & objCommonVar.CurrentUserCode & "','" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "','" & objCommonVar.CurrentCompanyCode & "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    'End If
                 End If
                 ''-----------------------------
                 'If clsDBFuncationality.getSingleValue("select count(*) from TSPL_Dispatch_BulkSale where QC_Code ='" & obj.QC_Code & "' ", trans) < 1 Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-                    clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Insert, "", trans)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Insert, "", trans)
                 'Else
                 '    Throw New Exception("Document already created for QC No " & obj.QC_Code & "")
 
                 'End If
             Else
                 ''richa 31/12/2014
-                If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale, trans) Then
-                    If clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
-                        Dim intExist As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_TRANSACTION_APPROVAL where Program_Code='" & clsUserMgtCode.FrmDispatchBulkSale & "' and Document_No='" & obj.Document_No & "' ", trans))
-                        If intExist = 0 Then
-                            qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
-                         "values ('Bulk Dispatch Order','" & clsUserMgtCode.FrmDispatchBulkSale & "','" & obj.Document_No & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" & objCommonVar.CurrentCompanyCode & "')"
-                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                        End If
+                If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.FrmDispatchBulkSale, trans) AndAlso clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
+                    'If clsCommon.CompairString(obj.Status, "Pending") = CompairStringResult.Equal Then
+                    Dim intExist As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_TRANSACTION_APPROVAL where Program_Code='" & clsUserMgtCode.FrmDispatchBulkSale & "' and Document_No='" & obj.Document_No & "' ", trans))
+                    If intExist = 0 Then
+                        qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
+                     "values ('Bulk Dispatch Order','" & clsUserMgtCode.FrmDispatchBulkSale & "','" & obj.Document_No & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" & objCommonVar.CurrentUserCode & "','" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "','" & objCommonVar.CurrentUserCode & "','" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "','" & objCommonVar.CurrentCompanyCode & "')"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
+                    'End If
                 End If
                 ''-----------------------------
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Update, "TSPL_Dispatch_BulkSale.Document_No='" + obj.Document_No + "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_BulkSale", OMInsertOrUpdate.Update, "TSPL_Dispatch_BulkSale.Document_No='" & obj.Document_No & "'", trans)
             End If
             clsDispatchDetailBulkSale.saveData(obj.arrDispatchDetailBulkSale, obj.Document_No, trans)
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", "TSPL_Dispatch_Silo_Detail", "Document_No", trans)
@@ -212,8 +273,8 @@ Public Class ClsDispatchBulkSale
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_Dispatch_Silo_Detail", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
 
-            If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Approved from TSPL_Dispatch_BulkSale where Document_No='" + obj.Document_No + "'", trans), "Y") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(obj.CreditLimit) > 0 Then
-                qry = "update TSPL_CUSTOMER_MASTER set Credit_Limit=Credit_Limit+" + clsCommon.myCstr(obj.CreditLimit) + " where Cust_Code='" + obj.Customer_Code + "'"
+            If clsCommon.CompairString(clsDBFuncationality.getSingleValue("Select Approved from TSPL_Dispatch_BulkSale where Document_No='" & obj.Document_No & "'", trans), "Y") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(obj.CreditLimit) > 0 Then
+                qry = "update TSPL_CUSTOMER_MASTER set Credit_Limit=Credit_Limit+" & clsCommon.myCstr(obj.CreditLimit) & " where Cust_Code='" & obj.Customer_Code & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
             ' trans.Commit()
@@ -307,23 +368,23 @@ Public Class ClsDispatchBulkSale
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsDispatchBulkSale
         Dim obj As ClsDispatchBulkSale = Nothing
-        Dim Arr As List(Of ClsDispatchBulkSale) = Nothing
-        Dim qry As String = "Select ChangedTCSBaseAmount,ActualTCSBaseAmount,EWayBillDate,EWayBillNo, SalesOrder_Code,Document_No,Document_Date,Customer_Code,QC_Code,Tanker_Code,Location_Code,Item_Code,Dip_marking,Challan_No,Insurance_No,Seal_No,Tare_Weight,ApprovalRequired,Approved,Status,Gross_Weight,Net_Weight,Price_Code,Total_Amt,Posted,Is_Create_Auto_Invoice,Posting_Date,Modified_Date,Created_Date,ReverseFlag,Fat_Weightage=isnull(Fat_Weightage,0),Snf_Weightage=isnull(Snf_Weightage,0),Fat_Ratio=isnull(Fat_Ratio,0),Snf_Ratio  =isnull(Snf_Ratio ,0),TSPL_Dispatch_BulkSale.Tax_Group,TSPL_Dispatch_BulkSale.TAX1,TSPL_Dispatch_BulkSale.TAX1_Rate,TSPL_Dispatch_BulkSale.TAX1_Amt,TSPL_Dispatch_BulkSale.TAX1_Base_Amt,TSPL_Dispatch_BulkSale.TAX2,TSPL_Dispatch_BulkSale.TAX2_Rate,TSPL_Dispatch_BulkSale.TAX2_Amt,TSPL_Dispatch_BulkSale.TAX2_Base_Amt,TSPL_Dispatch_BulkSale.TAX3,TSPL_Dispatch_BulkSale.TAX3_Rate,TSPL_Dispatch_BulkSale.TAX3_Amt,TSPL_Dispatch_BulkSale.TAX3_Base_Amt,TSPL_Dispatch_BulkSale.TAX4,TSPL_Dispatch_BulkSale.TAX4_Rate,TSPL_Dispatch_BulkSale.TAX4_Amt,TSPL_Dispatch_BulkSale.TAX4_Base_Amt,TSPL_Dispatch_BulkSale.TAX5,TSPL_Dispatch_BulkSale.TAX5_Rate,TSPL_Dispatch_BulkSale.TAX5_Amt,TSPL_Dispatch_BulkSale.TAX5_Base_Amt,TSPL_Dispatch_BulkSale.Total_Tax_Amt,TSPL_Dispatch_BulkSale.Document_Amount,TSPL_Dispatch_BulkSale.Tax_Calculation_Type,TSPL_Dispatch_BulkSale.Transporter  from TSPL_Dispatch_BulkSale where 2=2 "
+        'Dim Arr As List(Of ClsDispatchBulkSale) = Nothing
+        Dim qry As String = "Select ChangedTCSBaseAmount,ActualTCSBaseAmount,EWayBillDate,EWayBillNo, SalesOrder_Code,Document_No,Document_Date,Customer_Code,QC_Code,Tanker_Code,Location_Code,Item_Code,Dip_marking,Challan_No,Insurance_No,Seal_No,Tare_Weight,ApprovalRequired,Approved,Status,Gross_Weight,Net_Weight,Price_Code,Total_Amt,Posted,Is_Create_Auto_Invoice,Posting_Date,Modified_Date,Created_Date,ReverseFlag,Fat_Weightage=isnull(Fat_Weightage,0),Snf_Weightage=isnull(Snf_Weightage,0),Fat_Ratio=isnull(Fat_Ratio,0),Snf_Ratio  =isnull(Snf_Ratio ,0),TSPL_Dispatch_BulkSale.Tax_Group,TSPL_Dispatch_BulkSale.TAX1,TSPL_Dispatch_BulkSale.TAX1_Rate,TSPL_Dispatch_BulkSale.TAX1_Amt,TSPL_Dispatch_BulkSale.TAX1_Base_Amt,TSPL_Dispatch_BulkSale.TAX2,TSPL_Dispatch_BulkSale.TAX2_Rate,TSPL_Dispatch_BulkSale.TAX2_Amt,TSPL_Dispatch_BulkSale.TAX2_Base_Amt,TSPL_Dispatch_BulkSale.TAX3,TSPL_Dispatch_BulkSale.TAX3_Rate,TSPL_Dispatch_BulkSale.TAX3_Amt,TSPL_Dispatch_BulkSale.TAX3_Base_Amt,TSPL_Dispatch_BulkSale.TAX4,TSPL_Dispatch_BulkSale.TAX4_Rate,TSPL_Dispatch_BulkSale.TAX4_Amt,TSPL_Dispatch_BulkSale.TAX4_Base_Amt,TSPL_Dispatch_BulkSale.TAX5,TSPL_Dispatch_BulkSale.TAX5_Rate,TSPL_Dispatch_BulkSale.TAX5_Amt,TSPL_Dispatch_BulkSale.TAX5_Base_Amt,TSPL_Dispatch_BulkSale.Total_Tax_Amt,TSPL_Dispatch_BulkSale.Document_Amount,TSPL_Dispatch_BulkSale.Tax_Calculation_Type,TSPL_Dispatch_BulkSale.Transporter,Add_Charge_Code1,Add_Charge_Name1,Add_Charge_Amt1,Add_Charge_Code2,Add_Charge_Name2,Add_Charge_Amt2,Add_Charge_Code3,Add_Charge_Name3,Add_Charge_Amt3,Add_Charge_Code4,Add_Charge_Name4,Add_Charge_Amt4,Add_Charge_Code5,Add_Charge_Name5,Add_Charge_Amt5,Add_Charge_Code6,Add_Charge_Name6,Add_Charge_Amt6,Add_Charge_Code7,Add_Charge_Name7,Add_Charge_Amt7,Add_Charge_Code8,Add_Charge_Name8,Add_Charge_Amt8,Add_Charge_Code9,Add_Charge_Name9,Add_Charge_Amt9,Add_Charge_Code10,Add_Charge_Name10,Add_Charge_Amt10,Total_Add_Charge  from TSPL_Dispatch_BulkSale where 2=2 "
         If clsCommon.myLen(arrLoc) > 0 Then
-            qry += "  and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") "
+            qry += "  and TSPL_Dispatch_BulkSale.Location_Code in (" & arrLoc & ") "
         End If
         Dim whrclas As String = ""
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select MIN(Document_No) from TSPL_Dispatch_BulkSale WHERE 1=1 " + whrclas + " and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") )"
+                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select MIN(Document_No) from TSPL_Dispatch_BulkSale WHERE 1=1 " & whrclas & " and TSPL_Dispatch_BulkSale.Location_Code in (" & arrLoc & ") )"
             Case NavigatorType.Last
-                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select Max(Document_No) from TSPL_Dispatch_BulkSale WHERE 1=1 " + whrclas + " and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") )"
+                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select Max(Document_No) from TSPL_Dispatch_BulkSale WHERE 1=1 " & whrclas & " and TSPL_Dispatch_BulkSale.Location_Code in (" & arrLoc & ") )"
             Case NavigatorType.Current
-                qry += " and TSPL_Dispatch_BulkSale.Document_No='" + strCode + "' "
+                qry += " and TSPL_Dispatch_BulkSale.Document_No='" & strCode & "' "
             Case NavigatorType.Next
-                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select Min(Document_No) from TSPL_Dispatch_BulkSale where Document_No>'" + strCode + "' " + whrclas + " and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") )"
+                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select Min(Document_No) from TSPL_Dispatch_BulkSale where Document_No>'" & strCode & "' " & whrclas & " and TSPL_Dispatch_BulkSale.Location_Code in (" & arrLoc & ") )"
             Case NavigatorType.Previous
-                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select Max(Document_No) from TSPL_Dispatch_BulkSale where Document_No<'" + strCode + "' " + whrclas + " and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") )"
+                qry += " and TSPL_Dispatch_BulkSale.Document_No = (select Max(Document_No) from TSPL_Dispatch_BulkSale where Document_No<'" & strCode & "' " & whrclas & " and TSPL_Dispatch_BulkSale.Location_Code in (" & arrLoc & ") )"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -396,6 +457,46 @@ Public Class ClsDispatchBulkSale
             obj.TAX5_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX5_Base_Amt"))
             obj.TAX5_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX5_Amt"))
             obj.Total_Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Tax_Amt"))
+            obj.Add_Charge_Code1 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code1"))
+            obj.Add_Charge_Name1 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name1"))
+            obj.Add_Charge_Amt1 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt1"))
+
+            obj.Add_Charge_Code2 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code2"))
+            obj.Add_Charge_Name2 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name2"))
+            obj.Add_Charge_Amt2 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt2"))
+
+            obj.Add_Charge_Code3 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code3"))
+            obj.Add_Charge_Name3 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name3"))
+            obj.Add_Charge_Amt3 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt3"))
+
+            obj.Add_Charge_Code4 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code4"))
+            obj.Add_Charge_Name4 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name4"))
+            obj.Add_Charge_Amt4 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt4"))
+
+            obj.Add_Charge_Code5 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code5"))
+            obj.Add_Charge_Name5 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name5"))
+            obj.Add_Charge_Amt5 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt5"))
+
+            obj.Add_Charge_Code6 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code6"))
+            obj.Add_Charge_Name6 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name6"))
+            obj.Add_Charge_Amt6 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt6"))
+
+            obj.Add_Charge_Code7 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code7"))
+            obj.Add_Charge_Name7 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name7"))
+            obj.Add_Charge_Amt7 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt7"))
+
+            obj.Add_Charge_Code8 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code8"))
+            obj.Add_Charge_Name8 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name8"))
+            obj.Add_Charge_Amt8 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt8"))
+
+            obj.Add_Charge_Code9 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code9"))
+            obj.Add_Charge_Name9 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name9"))
+            obj.Add_Charge_Amt9 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt9"))
+
+            obj.Add_Charge_Code10 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code10"))
+            obj.Add_Charge_Name10 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name10"))
+            obj.Add_Charge_Amt10 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt10"))
+            obj.Total_Add_Charge = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge"))
             obj.Document_Amount = clsCommon.myCdbl(dt.Rows(0)("Document_Amount"))
             obj.arrDispatchDetailBulkSale = clsDispatchDetailBulkSale.getData(obj.Document_No, trans)
             obj.arrSiloDetailBulkSale = clsSiloDetailBulkSale.getData(obj.Document_No, trans)
@@ -408,7 +509,7 @@ Public Class ClsDispatchBulkSale
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale where Document_No='" + strDocNo + "'", trans)
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale where Document_No='" & strDocNo & "'", trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
@@ -421,13 +522,13 @@ Public Class ClsDispatchBulkSale
             Dim qry As String = ""
             'clsDispatchDetailBulkSale.deleteData(strDocNo)
             ''richa agarwal ERO/11/01/19-000467 delete tanker out(if created) if we delete after reverse and unpost of dispatch
-            qry = " delete from TSPL_GATEOUT_SALE where GateEntryNo in ( select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No in ( SELECT QC_Code FROM TSPL_Dispatch_BulkSale where Document_No='" + strDocNo + "'))"
+            qry = " delete from TSPL_GATEOUT_SALE where GateEntryNo in ( select GateEntry_Document_No  from TSPL_Quality_Check_BulkSale where QC_No in ( SELECT QC_Code FROM TSPL_Dispatch_BulkSale where Document_No='" & strDocNo & "'))"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
-            qry = "delete from TSPL_Dispatch_Detail_BulkSale where Document_No='" + strDocNo + "'"
+            qry = "delete from TSPL_Dispatch_Detail_BulkSale where Document_No='" & strDocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_Dispatch_BulkSale where Document_No='" + strDocNo + "'"
+            qry = "delete from TSPL_Dispatch_BulkSale where Document_No='" & strDocNo & "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
         Catch ex As Exception
@@ -481,18 +582,18 @@ Public Class ClsDispatchBulkSale
             End If
 
             Dim qry = "Update TSPL_Dispatch_BulkSale set Posted=1, " &
-            "Posting_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' , ProformaInvoice_No='" + clsCommon.myCstr(ProformainVoiceNo) + "' " &
-            " where Document_No='" + strDocNo + "'"
+            "Posting_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' , ProformaInvoice_No='" & clsCommon.myCstr(ProformainVoiceNo) & "' " &
+            " where Document_No='" & strDocNo & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Dispatch_BulkSale", "Document_No", trans)
 
             ''richa 15/09/2014
             If obj.Is_Create_Auto_Invoice Then
-                Dim AmountLimitInvoiceBulkSale As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select description from tspl_fixed_parameter where type='" + clsFixedParameterType.AmountLimitForInvoiceBulkSale + "' and code='" + clsFixedParameterCode.AmountLimitForInvoiceBulkSale + "'", trans))
-                If AmountLimitInvoiceBulkSale > 0 Then
-                    If obj.Total_Amt > AmountLimitInvoiceBulkSale Then
-                        Throw New Exception("You cannot post this Dispatch because amount limit of invoice is less than Document amount")
-                    End If
+                Dim AmountLimitInvoiceBulkSale As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select description from tspl_fixed_parameter where type='" & clsFixedParameterType.AmountLimitForInvoiceBulkSale & "' and code='" & clsFixedParameterCode.AmountLimitForInvoiceBulkSale & "'", trans))
+                If AmountLimitInvoiceBulkSale > 0 AndAlso obj.Total_Amt > AmountLimitInvoiceBulkSale Then
+                    'If obj.Total_Amt > AmountLimitInvoiceBulkSale Then
+                    Throw New Exception("You cannot post this Dispatch because amount limit of invoice is less than Document amount")
+                    'End If
                 End If
                 Dim objSI As ClsInvoiceBulkSale = ConvertDispatchToSaleInvoice(obj)
                 ClsInvoiceBulkSale.SaveData(objSI, True, trans)
@@ -531,19 +632,19 @@ Public Class ClsDispatchBulkSale
 
             Dim ConvFac As Double = clsItemMaster.GetConvertionFactor(objTr.Item_Code, objTr.Unit_code, trans)
             If ConvFac = 0 Then
-                Throw New Exception("Conversion Factor found zero for item :" + objTr.Item_Code + " and Uom:'" + objTr.Unit_code)
+                Throw New Exception("Conversion Factor found zero for item :" & objTr.Item_Code & " and Uom:'" & objTr.Unit_code)
             End If
             objLocationDetails.Item_Code = objTr.Item_Code
-            objLocationDetails.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" + objTr.Item_Code + "' ", trans)
+            objLocationDetails.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" & objTr.Item_Code & "' ", trans)
             objLocationDetails.Location_Code = obj.Location_Code
-            objLocationDetails.Location_Desc = clsDBFuncationality.getSingleValue("Select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" + obj.Location_Code + "' ", trans)
+            objLocationDetails.Location_Desc = clsDBFuncationality.getSingleValue("Select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code='" & obj.Location_Code & "' ", trans)
             objLocationDetails.Item_Qty = -1 * objTr.Qty
             objLocationDetails.Amount = -1 * objTr.Amount
             objLocationDetails.MRP = 0 * ConvFac
             objLocationDetails.ItemType = strItemTypeToSave
             ArrLocationDetails.Add(objLocationDetails)
 
-            Dim SubLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsNull(Silo_No,'')  from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No=(Select LoadingTanker_No  from TSPL_Quality_Check_BulkSale where QC_No=(Select QC_Code  from TSPL_Dispatch_BulkSale where Document_No='" + obj.Document_No + "'))", trans))
+            Dim SubLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select IsNull(Silo_No,'')  from TSPL_LOADING_TANKER_DETAIL_BULKSALE where LoadingTanker_No=(Select LoadingTanker_No  from TSPL_Quality_Check_BulkSale where QC_No=(Select QC_Code  from TSPL_Dispatch_BulkSale where Document_No='" & obj.Document_No & "'))", trans))
 
             Dim objInventoryMovemnt As New clsInventoryMovementNew()
             objInventoryMovemnt.InOut = "O"
@@ -557,9 +658,9 @@ Public Class ClsDispatchBulkSale
             objInventoryMovemnt.Cust_Name = clsCustomerMaster.GetName(obj.Customer_Code, trans)
 
             objInventoryMovemnt.Item_Code = objTr.Item_Code
-            objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" + objTr.Item_Code + "' ", trans)
+            objInventoryMovemnt.Item_Desc = clsDBFuncationality.getSingleValue("Select Item_Desc from TSPL_ITEM_MASTER where Item_Code ='" & objTr.Item_Code & "' ", trans)
             Dim UseKGLitreConversionInBulkSaleAsperCLRCalculation As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseKGLitreConversionInBulkSaleAsperCLRCalculation, clsFixedParameterCode.UseKGLitreConversionInBulkSaleAsperCLRCalculation, trans)) = 1, True, False))
-            If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+            If UseKGLitreConversionInBulkSaleAsperCLRCalculation Then
                 objInventoryMovemnt.Qty = objTr.Qty_in_Ltr
                 objInventoryMovemnt.UOM = "Ltr"
             Else
@@ -574,7 +675,7 @@ Public Class ClsDispatchBulkSale
                 ''Here exclude all document of same day.
                 Dim extraWhr As String = ""
                 If arrBulkSaleDoc IsNot Nothing AndAlso arrBulkSaleDoc.Count > 0 Then
-                    extraWhr += " and Source_Doc_No not in (" + clsCommon.GetMulcallString(arrBulkSaleDoc) + ")"
+                    extraWhr += " and Source_Doc_No not in (" & clsCommon.GetMulcallString(arrBulkSaleDoc) & ")"
                 End If
                 'Dim objMCT As MIlkComponentType = clsInventoryMovementNew.GetAvgCost(True, True, False, False, extraWhr, "MI", objTr.Item_Code, SubLocation, 1, objInventoryMovemnt.UOM, 1, 1, obj.Document_Date, obj.Document_Date, False, trans, obj.Document_No)
                 Dim objMCT As MIlkComponentType = clsInventoryMovementNew.GetAvgCost(True, True, False, False, extraWhr, "MI", objTr.Item_Code, SubLocation, objInventoryMovemnt.Qty, objInventoryMovemnt.UOM, 1, 1, obj.Document_Date, obj.Document_Date, False, trans, obj.Document_No)
@@ -677,55 +778,55 @@ Public Class ClsDispatchBulkSale
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Transaction No not found for reverse and unpost")
             End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale where Document_No='" + strCode + "'", trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale where Document_No='" & strCode & "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
 
-            Dim Qry As String = "select Posted  from TSPL_Dispatch_BulkSale where Document_No ='" + strCode + "'"
-            If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
+            Dim Qry As String = "select Posted  from TSPL_Dispatch_BulkSale where Document_No ='" & strCode & "'"
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) <> 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
 
-            Qry = "select distinct Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code='" + strCode + "'"
+            Qry = "select distinct Document_No  from TSPL_INVOICE_DETAIL_BULKSALE where Dispatch_Code='" & strCode & "'"
             dt = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Qry = "Current Bulk Dispatch is used in following Bulk Sale Invoice -"
                 For Each dr As DataRow In dt.Rows
-                    Qry += Environment.NewLine + clsCommon.myCstr(dr("Document_No"))
+                    Qry += Environment.NewLine & clsCommon.myCstr(dr("Document_No"))
                 Next
                 Throw New Exception(Qry)
             End If
 
-            Qry = "select distinct Document_No  from TSPL_SALE_RETURN_MASTER_BULKSALE where Against ='Bulk Dispatch' and DispatchNo='" + strCode + "'"
+            Qry = "select distinct Document_No  from TSPL_SALE_RETURN_MASTER_BULKSALE where Against ='Bulk Dispatch' and DispatchNo='" & strCode & "'"
             dt = clsDBFuncationality.GetDataTable(Qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Qry = "Current Bulk Dispatch is used in following Sale return -"
                 For Each dr As DataRow In dt.Rows
-                    Qry += Environment.NewLine + clsCommon.myCstr(dr("Document_No"))
+                    Qry += Environment.NewLine & clsCommon.myCstr(dr("Document_No"))
                 Next
                 Throw New Exception(Qry)
             End If
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Dispatch_BulkSale", "Document_No", "TSPL_Dispatch_Detail_BulkSale", "Document_No", trans)
 
-            Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='DS-BS' and Source_Doc_No='" + strCode + "'", trans)
+            Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='DS-BS' and Source_Doc_No='" & strCode & "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
-                Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
+                Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" & VoucherNo & "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-                Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
+                Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" & VoucherNo & "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT_NEW", "Source_Doc_No", trans)
-            Qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No ='" + strCode + "'"
+            Qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No ='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-            Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No ='" + strCode + "'"
+            Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No ='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-            Qry = "Update TSPL_Dispatch_BulkSale set Posted = 0 where Document_No='" + strCode + "'"
+            Qry = "Update TSPL_Dispatch_BulkSale set Posted = 0 where Document_No='" & strCode & "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_Dispatch_BulkSale", "Document_No", trans)
@@ -784,6 +885,37 @@ Public Class ClsDispatchBulkSale
         obj.TAX5_Base_Amt = objDispatch.TAX5_Base_Amt
         obj.TAX5_Amt = objDispatch.TAX5_Amt
         obj.Total_Tax_Amt = objDispatch.Total_Tax_Amt
+        obj.Add_Charge_Code1 = objDispatch.Add_Charge_Code1
+        obj.Add_Charge_Name1 = objDispatch.Add_Charge_Name1
+        obj.Add_Charge_Amt1 = objDispatch.Add_Charge_Amt1
+        obj.Add_Charge_Code2 = objDispatch.Add_Charge_Code2
+        obj.Add_Charge_Name2 = objDispatch.Add_Charge_Name2
+        obj.Add_Charge_Amt2 = objDispatch.Add_Charge_Amt2
+        obj.Add_Charge_Code3 = objDispatch.Add_Charge_Code3
+        obj.Add_Charge_Name3 = objDispatch.Add_Charge_Name3
+        obj.Add_Charge_Amt3 = objDispatch.Add_Charge_Amt3
+        obj.Add_Charge_Code4 = objDispatch.Add_Charge_Code4
+        obj.Add_Charge_Name4 = objDispatch.Add_Charge_Name4
+        obj.Add_Charge_Amt4 = objDispatch.Add_Charge_Amt4
+        obj.Add_Charge_Code5 = objDispatch.Add_Charge_Code5
+        obj.Add_Charge_Name5 = objDispatch.Add_Charge_Name5
+        obj.Add_Charge_Amt5 = objDispatch.Add_Charge_Amt5
+        obj.Add_Charge_Code6 = objDispatch.Add_Charge_Code6
+        obj.Add_Charge_Name6 = objDispatch.Add_Charge_Name6
+        obj.Add_Charge_Amt6 = objDispatch.Add_Charge_Amt6
+        obj.Add_Charge_Code7 = objDispatch.Add_Charge_Code7
+        obj.Add_Charge_Name7 = objDispatch.Add_Charge_Name7
+        obj.Add_Charge_Amt7 = objDispatch.Add_Charge_Amt7
+        obj.Add_Charge_Code8 = objDispatch.Add_Charge_Code8
+        obj.Add_Charge_Name8 = objDispatch.Add_Charge_Name8
+        obj.Add_Charge_Amt8 = objDispatch.Add_Charge_Amt8
+        obj.Add_Charge_Code9 = objDispatch.Add_Charge_Code9
+        obj.Add_Charge_Name9 = objDispatch.Add_Charge_Name9
+        obj.Add_Charge_Amt9 = objDispatch.Add_Charge_Amt9
+        obj.Add_Charge_Code10 = objDispatch.Add_Charge_Code10
+        obj.Add_Charge_Name10 = objDispatch.Add_Charge_Name10
+        obj.Add_Charge_Amt10 = objDispatch.Add_Charge_Amt10
+        obj.Total_Add_Charge = objDispatch.Total_Add_Charge
         obj.Document_Amount = objDispatch.Document_Amount
         obj.Tax_Calculation_Type = IIf(objDispatch.Tax_Calculation_Type = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
         obj.ActualTCSBaseAmount = objDispatch.ActualTCSBaseAmount
@@ -879,7 +1011,7 @@ Public Class ClsDispatchBulkSale
 
             strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
           " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
-           " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.arrDispatchDetailBulkSale.Item(0).Item_Code + "'", trans)
+           " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" & obj.arrDispatchDetailBulkSale.Item(0).Item_Code & "'", trans)
             strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.Location_Code, trans)
 
             If clsCommon.myLen(strShipmentClearingAC) = 0 Then
@@ -899,7 +1031,7 @@ Public Class ClsDispatchBulkSale
                 For Each dr As DataRow In dt.Rows
                     strInventoryControlAc = clsDBFuncationality.getSingleValue("SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
                     " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
-                    " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
+                    " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" & clsCommon.myCstr(dr("Item_Code")) & "'", trans)
                     strInventoryControlAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInventoryControlAc, obj.Location_Code, trans)
 
                     If clsCommon.myLen(strInventoryControlAc) = 0 Then
@@ -919,14 +1051,14 @@ Public Class ClsDispatchBulkSale
 
             If isGLUpdate Then
                 ''richa BHA/12/11/18-000672
-                Dim qry1 As String = "select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No='" + obj.Document_No + "' "
+                Dim qry1 As String = "select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No='" & obj.Document_No & "' "
                 Dim strVoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
-                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNo, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNo, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " & obj.Document_No & " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
                 'ClsDispatchBulkSale.updateJournalEntry("DS-BS", obj.Document_No, dblCogsCost, trans)
             ElseIf clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
-                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVourcherNoForRecreateOnly, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVourcherNoForRecreateOnly, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " & obj.Document_No & " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
             Else
-                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " & obj.Document_No & " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
             End If
 
         End If
@@ -969,7 +1101,7 @@ Public Class ClsDispatchBulkSale
             ''=================
             dblCreditLimit = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Credit_Limit from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustomer & "'"))
             dblSecurityAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select SUM(Receipt_Amount) from TSPL_RECEIPT_HEADER where Receipt_Type='P' and SecurityDeposit='Y' and SecurityDepositType not in ('C') and isnull(Posted,'')='Y' and Cust_Code='" & strCustomer & "'"))
-            dblPendingDeliveryAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(Total_Amt) from TSPL_Dispatch_BulkSale where  Posted=0 and Customer_Code='" & strCustomer & "' and Document_No<>'" + strCode + "'"))
+            dblPendingDeliveryAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(Total_Amt) from TSPL_Dispatch_BulkSale where  Posted=0 and Customer_Code='" & strCustomer & "' and Document_No<>'" & strCode & "'"))
 
             dblAmt = dblCreditLimit + dblSecurityAmount - dblPendingDeliveryAmt - dblOutstandingAmt
             Return dblAmt
@@ -1091,7 +1223,7 @@ Public Class clsDispatchDetailBulkSale
 
                     clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
                     clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale", OMInsertOrUpdate.Insert, "", trans)
+                    issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
             Return issaved
@@ -1162,7 +1294,7 @@ Public Class clsDispatchDetailBulkSale
 
                     clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
                     clsCommon.AddColumnsForChange(coll, "Item_Net_Amt", obj.Item_Net_Amt)
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale_History", OMInsertOrUpdate.Insert, "", trans)
+                    issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale_History", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
             Return issaved
@@ -1276,7 +1408,7 @@ Public Class clsSiloDetailBulkSale
                     clsCommon.AddColumnsForChange(coll, "Silo_SNFPer", obj.Silo_SNFPer)
                     clsCommon.AddColumnsForChange(coll, "Silo_Fat_KG", obj.Silo_Fat_KG)
                     clsCommon.AddColumnsForChange(coll, "Silo_SNF_KG", obj.Silo_SNF_KG)
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Silo_Detail", OMInsertOrUpdate.Insert, "", trans)
+                    issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Silo_Detail", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
             Return issaved
@@ -1301,7 +1433,7 @@ Public Class clsSiloDetailBulkSale
                     clsCommon.AddColumnsForChange(coll, "Silo_SNFPer", obj.Silo_SNFPer)
                     clsCommon.AddColumnsForChange(coll, "Silo_Fat_KG", obj.Silo_Fat_KG)
                     clsCommon.AddColumnsForChange(coll, "Silo_SNF_KG", obj.Silo_SNF_KG)
-                    issaved = issaved And clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale_History", OMInsertOrUpdate.Insert, "", trans)
+                    issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Dispatch_Detail_BulkSale_History", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
             Return issaved

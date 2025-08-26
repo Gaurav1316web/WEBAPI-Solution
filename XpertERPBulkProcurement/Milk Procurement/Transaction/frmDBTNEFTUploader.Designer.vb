@@ -21,10 +21,10 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition41 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition42 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition43 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition44 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -70,6 +70,8 @@ Partial Class frmDBTNEFTUploader
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvHold = New common.UserControls.MyRadGridView()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
@@ -87,6 +89,10 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem10 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem11 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -129,6 +135,8 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage4.SuspendLayout()
         CType(Me.gvHold, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvHold.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
@@ -235,7 +243,7 @@ Partial Class frmDBTNEFTUploader
         '
         'Export
         '
-        Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem4})
+        Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem4, Me.RadMenuItem10, Me.RadMenuItem11})
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
@@ -252,7 +260,7 @@ Partial Class frmDBTNEFTUploader
         '
         'Import
         '
-        Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem9, Me.RadMenuItem8})
+        Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem8, Me.RadMenuItem9, Me.RadMenuItem6, Me.RadMenuItem7})
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         Me.Import.UseCompatibleTextRendering = False
@@ -653,7 +661,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition41
         Me.gvFarmer.MyExportFilePath = ""
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
@@ -683,7 +691,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition42
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
@@ -727,7 +735,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition43
         Me.gvInvalid.MyExportFilePath = ""
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
@@ -758,6 +766,7 @@ Partial Class frmDBTNEFTUploader
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.gvHold)
+        Me.RadPageViewPage4.Controls.Add(Me.Panel2)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel5)
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(40.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
@@ -768,22 +777,40 @@ Partial Class frmDBTNEFTUploader
         'gvHold
         '
         Me.gvHold.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvHold.Location = New System.Drawing.Point(0, 0)
+        Me.gvHold.Location = New System.Drawing.Point(0, 30)
         '
         '
         '
         Me.gvHold.MasterTemplate.AllowAddNewRow = False
         Me.gvHold.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHold.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition44
         Me.gvHold.MyExportFilePath = ""
         Me.gvHold.MyStopExport = False
         Me.gvHold.Name = "gvHold"
         Me.gvHold.ShowHeaderCellButtons = True
-        Me.gvHold.Size = New System.Drawing.Size(839, 227)
-        Me.gvHold.TabIndex = 1
+        Me.gvHold.Size = New System.Drawing.Size(839, 197)
+        Me.gvHold.TabIndex = 29
         Me.gvHold.TabStop = False
         Me.gvHold.VarID = ""
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.RadButton2)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel2.Location = New System.Drawing.Point(0, 0)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(839, 30)
+        Me.Panel2.TabIndex = 28
+        '
+        'RadButton2
+        '
+        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton2.Location = New System.Drawing.Point(6, 5)
+        Me.RadButton2.Name = "RadButton2"
+        Me.RadButton2.Size = New System.Drawing.Size(137, 20)
+        Me.RadButton2.TabIndex = 5
+        Me.RadButton2.Text = "Export Hold Data"
         '
         'MyLabel5
         '
@@ -951,6 +978,26 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'RadMenuItem6
+        '
+        Me.RadMenuItem6.Name = "RadMenuItem6"
+        Me.RadMenuItem6.Text = "Valid-->Invalid(Mp Code)"
+        '
+        'RadMenuItem7
+        '
+        Me.RadMenuItem7.Name = "RadMenuItem7"
+        Me.RadMenuItem7.Text = "Valid-->Invalid(AccountNo)"
+        '
+        'RadMenuItem10
+        '
+        Me.RadMenuItem10.Name = "RadMenuItem10"
+        Me.RadMenuItem10.Text = "Valid-->Invalid(MpCode)"
+        '
+        'RadMenuItem11
+        '
+        Me.RadMenuItem11.Name = "RadMenuItem11"
+        Me.RadMenuItem11.Text = "Valid-->Invalid(AccountNo)"
+        '
         'frmDBTNEFTUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1006,6 +1053,8 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage4.ResumeLayout(False)
         CType(Me.gvHold.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvHold, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
@@ -1054,7 +1103,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents RadPageView1 As RadPageView
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
-    Friend WithEvents gvInvalid As common.UserControls.MyRadGridView
     Friend WithEvents Panel1 As Panel
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents lblZone As common.Controls.MyLabel
@@ -1076,7 +1124,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents chkDBTRevisePayment As RadCheckBox
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents RadPageViewPage4 As RadPageViewPage
-    Friend WithEvents gvHold As common.UserControls.MyRadGridView
     Friend WithEvents RadLabel12 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents RadMenuItem3 As RadMenuItem
@@ -1087,5 +1134,13 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents Export As RadMenuItem
     Friend WithEvents RadMenuItem5 As RadMenuItem
     Friend WithEvents RadMenuItem4 As RadMenuItem
+    Friend WithEvents gvInvalid As common.UserControls.MyRadGridView
+    Friend WithEvents gvHold As common.UserControls.MyRadGridView
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents RadMenuItem6 As RadMenuItem
+    Friend WithEvents RadMenuItem7 As RadMenuItem
+    Friend WithEvents RadMenuItem10 As RadMenuItem
+    Friend WithEvents RadMenuItem11 As RadMenuItem
 End Class
 
