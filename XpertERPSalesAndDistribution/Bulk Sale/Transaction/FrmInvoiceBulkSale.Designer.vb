@@ -22,8 +22,8 @@ Partial Class FrmInvoiceBulkSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -90,6 +90,7 @@ Partial Class FrmInvoiceBulkSale
         Me.RMSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.EmailSMSSetting = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintJV = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnimportdocument = New Telerik.WinControls.UI.RadButton()
@@ -99,7 +100,8 @@ Partial Class FrmInvoiceBulkSale
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblAdditionalCharges = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -163,6 +165,7 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnimportdocument, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -172,7 +175,8 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAdditionalCharges, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -224,6 +228,8 @@ Partial Class FrmInvoiceBulkSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
+        Me.RadPageViewPage1.Controls.Add(Me.lblAdditionalCharges)
         Me.RadPageViewPage1.Controls.Add(Me.txtTCSTaxRate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel57)
         Me.RadPageViewPage1.Controls.Add(Me.lblActualTCSTaxBaseAmt)
@@ -290,14 +296,14 @@ Partial Class FrmInvoiceBulkSale
         Me.txtTCSTaxRate.TabIndex = 1409
         Me.txtTCSTaxRate.Text = "0"
         Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.txtTCSTaxRate.Visible = False
         '
         'MyLabel57
         '
         Me.MyLabel57.FieldName = Nothing
         Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel57.Location = New System.Drawing.Point(722, 156)
+        Me.MyLabel57.Location = New System.Drawing.Point(744, 156)
         Me.MyLabel57.Name = "MyLabel57"
         Me.MyLabel57.Size = New System.Drawing.Size(138, 16)
         Me.MyLabel57.TabIndex = 1408
@@ -309,7 +315,7 @@ Partial Class FrmInvoiceBulkSale
         Me.lblActualTCSTaxBaseAmt.BorderVisible = True
         Me.lblActualTCSTaxBaseAmt.FieldName = Nothing
         Me.lblActualTCSTaxBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(859, 154)
+        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(882, 154)
         Me.lblActualTCSTaxBaseAmt.Name = "lblActualTCSTaxBaseAmt"
         Me.lblActualTCSTaxBaseAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblActualTCSTaxBaseAmt.TabIndex = 1407
@@ -319,7 +325,7 @@ Partial Class FrmInvoiceBulkSale
         '
         Me.MyLabel58.FieldName = Nothing
         Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel58.Location = New System.Drawing.Point(722, 180)
+        Me.MyLabel58.Location = New System.Drawing.Point(744, 180)
         Me.MyLabel58.Name = "MyLabel58"
         Me.MyLabel58.Size = New System.Drawing.Size(122, 16)
         Me.MyLabel58.TabIndex = 1406
@@ -338,7 +344,7 @@ Partial Class FrmInvoiceBulkSale
         Me.txttcstaxbaseamount.IsSourceFromTable = False
         Me.txttcstaxbaseamount.IsSourceFromValueList = False
         Me.txttcstaxbaseamount.IsUnique = False
-        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(859, 176)
+        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(881, 176)
         Me.txttcstaxbaseamount.MendatroryField = False
         Me.txttcstaxbaseamount.MyLinkLable1 = Nothing
         Me.txttcstaxbaseamount.MyLinkLable2 = Nothing
@@ -350,14 +356,14 @@ Partial Class FrmInvoiceBulkSale
         Me.txttcstaxbaseamount.TabIndex = 1405
         Me.txttcstaxbaseamount.Text = "0"
         Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txttcstaxbaseamount.Value = 0R
+        Me.txttcstaxbaseamount.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel22
         '
         Me.MyLabel22.AutoSize = False
         Me.MyLabel22.FieldName = Nothing
         Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel22.Location = New System.Drawing.Point(536, 179)
+        Me.MyLabel22.Location = New System.Drawing.Point(536, 177)
         Me.MyLabel22.Name = "MyLabel22"
         Me.MyLabel22.Size = New System.Drawing.Size(72, 19)
         Me.MyLabel22.TabIndex = 350
@@ -367,7 +373,7 @@ Partial Class FrmInvoiceBulkSale
         '
         Me.RadLabel25.FieldName = Nothing
         Me.RadLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel25.Location = New System.Drawing.Point(536, 156)
+        Me.RadLabel25.Location = New System.Drawing.Point(536, 136)
         Me.RadLabel25.Name = "RadLabel25"
         Me.RadLabel25.Size = New System.Drawing.Size(67, 16)
         Me.RadLabel25.TabIndex = 349
@@ -379,7 +385,7 @@ Partial Class FrmInvoiceBulkSale
         Me.lblTaxAmt.BorderVisible = True
         Me.lblTaxAmt.FieldName = Nothing
         Me.lblTaxAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTaxAmt.Location = New System.Drawing.Point(614, 155)
+        Me.lblTaxAmt.Location = New System.Drawing.Point(618, 135)
         Me.lblTaxAmt.Name = "lblTaxAmt"
         Me.lblTaxAmt.Size = New System.Drawing.Size(104, 18)
         Me.lblTaxAmt.TabIndex = 348
@@ -406,7 +412,7 @@ Partial Class FrmInvoiceBulkSale
         Me.GroupBox2.Controls.Add(Me.btnEwaybillupdate)
         Me.GroupBox2.Controls.Add(Me.TxtEWayBillNo)
         Me.GroupBox2.Controls.Add(Me.MyLabel20)
-        Me.GroupBox2.Location = New System.Drawing.Point(535, 56)
+        Me.GroupBox2.Location = New System.Drawing.Point(535, 25)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(346, 92)
         Me.GroupBox2.TabIndex = 343
@@ -722,7 +728,7 @@ Partial Class FrmInvoiceBulkSale
         Me.lblInvoiceStatus.BackColor = System.Drawing.Color.LightSteelBlue
         Me.lblInvoiceStatus.FieldName = Nothing
         Me.lblInvoiceStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblInvoiceStatus.Location = New System.Drawing.Point(643, 30)
+        Me.lblInvoiceStatus.Location = New System.Drawing.Point(643, 7)
         Me.lblInvoiceStatus.Name = "lblInvoiceStatus"
         Me.lblInvoiceStatus.Size = New System.Drawing.Size(77, 16)
         Me.lblInvoiceStatus.TabIndex = 21
@@ -742,7 +748,7 @@ Partial Class FrmInvoiceBulkSale
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(538, 29)
+        Me.UsLock1.Location = New System.Drawing.Point(538, 5)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(92, 20)
@@ -765,7 +771,7 @@ Partial Class FrmInvoiceBulkSale
         Me.lblTotRAmt1.BorderVisible = True
         Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(614, 177)
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(618, 177)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
         Me.lblTotRAmt1.Size = New System.Drawing.Size(104, 19)
         Me.lblTotRAmt1.TabIndex = 20
@@ -924,7 +930,8 @@ Partial Class FrmInvoiceBulkSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1108,7 +1115,8 @@ Partial Class FrmInvoiceBulkSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1164,6 +1172,15 @@ Partial Class FrmInvoiceBulkSale
         '
         Me.EmailSMSSetting.Name = "EmailSMSSetting"
         Me.EmailSMSSetting.Text = "Email/SMS Setting"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(884, 8)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
+        Me.btnHistory.TabIndex = 11
+        Me.btnHistory.Text = "History"
         '
         'btnPrintJV
         '
@@ -1248,14 +1265,27 @@ Partial Class FrmInvoiceBulkSale
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'btnHistory
+        'MyLabel6
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(884, 8)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(73, 20)
-        Me.btnHistory.TabIndex = 11
-        Me.btnHistory.Text = "History"
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(536, 157)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(75, 16)
+        Me.MyLabel6.TabIndex = 1411
+        Me.MyLabel6.Text = "Add. Charges"
+        '
+        'lblAdditionalCharges
+        '
+        Me.lblAdditionalCharges.AutoSize = False
+        Me.lblAdditionalCharges.BorderVisible = True
+        Me.lblAdditionalCharges.FieldName = Nothing
+        Me.lblAdditionalCharges.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAdditionalCharges.Location = New System.Drawing.Point(618, 156)
+        Me.lblAdditionalCharges.Name = "lblAdditionalCharges"
+        Me.lblAdditionalCharges.Size = New System.Drawing.Size(104, 18)
+        Me.lblAdditionalCharges.TabIndex = 1410
+        Me.lblAdditionalCharges.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'FrmInvoiceBulkSale
         '
@@ -1339,6 +1369,7 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnimportdocument, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1348,7 +1379,8 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAdditionalCharges, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1429,5 +1461,7 @@ Partial Class FrmInvoiceBulkSale
     Friend WithEvents txtTCSTaxRate As common.MyNumBox
     Friend WithEvents btnPrintJV As RadButton
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents lblAdditionalCharges As common.Controls.MyLabel
 End Class
 
