@@ -247,7 +247,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             '================================
             Dim flag As Boolean = False
             Try
-                qry = "select 1 from TSPL_MASTER.dbo.TSPL_APP_LOCATION where  code not in ('5888','6888') and DataBase_Name in ('" + objCommonVar.CurrDatabase + "') "
+                qry = "select 1 from TSPL_MASTER.dbo.TSPL_APP_LOCATION where  code not in ('7544','7545') and DataBase_Name in ('" + objCommonVar.CurrDatabase + "') "
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     flag = True
