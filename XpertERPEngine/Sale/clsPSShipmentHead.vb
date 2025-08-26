@@ -259,6 +259,7 @@ Public Class clsPSShipmentHead
     Public ParentDocNo As String = ""
     Public Vehicle_Type As String = ""
     Public Exclude_KKF_And_Mandi As Integer = 0
+    Public Is_CashSale As String = ""
 
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
     Public ArrBoothScheme As List(Of clsPSShipmentBoothWiseScheme) = Nothing
@@ -831,6 +832,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
             clsCommon.AddColumnsForChange(coll, "Temperature", obj.Temperature)
             clsCommon.AddColumnsForChange(coll, "MBRT_Hours", obj.MBRT_Hours)
+            clsCommon.AddColumnsForChange(coll, "Is_CashSale", obj.Is_CashSale, True)
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
             Else
