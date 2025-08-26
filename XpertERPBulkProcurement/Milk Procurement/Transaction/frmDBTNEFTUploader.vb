@@ -826,7 +826,7 @@ update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
 
             tempQty = "With CTE as ( " + BaseQry + ")
 update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
- (select PK_Id from CTE where len(isnull(Payee_Joint_Account_No,''))<=10 or len(isnull(Payee_Joint_IFSC_Code,''))<>11 )
+ (select PK_Id from CTE where len(isnull(Payee_Joint_Account_No,''))<=8 or len(isnull(Payee_Joint_IFSC_Code,''))<>11 )
  )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
@@ -835,7 +835,7 @@ select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,S
 union all
 select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name
 union all
-select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=10  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
+select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=8  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
 union all
 select 'Wrong IFSC No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_IFSC_Code,''))<>11 ;"
 
