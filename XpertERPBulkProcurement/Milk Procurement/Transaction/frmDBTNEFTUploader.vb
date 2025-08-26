@@ -1499,16 +1499,32 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         Me.Controls.Add(gvImport)
 
         Dim currentDate As Date = Date.Today
-        If transportSql.importExcel(gvImport, "SNo", "FarmerID", "FarmerAccountNumber") Then
+        If transportSql.importExcel(gvImport, "FarmerID") Then
             For Each row As GridViewRowInfo In gvImport.Rows
                 lstMPUploaderCode.Add(clsCommon.myCstr(row.Cells("FarmerID").Value))
             Next
         End If
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False, lstMPUploaderCode, Nothing))
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            Dim source As DataTable = TryCast(gvInvalid.DataSource, DataTable)
+            If source IsNot Nothing Then
+                If dt1 Is Nothing OrElse dt1.Columns.Count = 0 Then
+                    dt1 = source.Copy()
+                End If
+                For Each dr As DataRow In source.Rows
+                    dt1.ImportRow(dr)
+                Next
+            End If
+            gvInvalid.DataSource = Nothing
+            gvInvalid.Rows.Clear()
+            gvInvalid.Refresh()
             gvInvalid.DataSource = dt1
             FormatGrid(gvInvalid)
         End If
+        'If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+        '    gvInvalid.DataSource = dt1
+        '    FormatGrid(gvInvalid)
+        'End If
 
         Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False))
         If dt1 IsNot Nothing AndAlso dt2 IsNot Nothing Then
@@ -1538,13 +1554,25 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         Me.Controls.Add(gvImport)
 
         Dim currentDate As Date = Date.Today
-        If transportSql.importExcel(gvImport, "SNo", "FarmerAccountNumber") Then
+        If transportSql.importExcel(gvImport, "FarmerAccountNumber") Then
             For Each row As GridViewRowInfo In gvImport.Rows
                 lstMPAccountNo.Add(clsCommon.myCstr(row.Cells("FarmerAccountNumber").Value))
             Next
         End If
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False, Nothing, lstMPAccountNo))
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            Dim source As DataTable = TryCast(gvInvalid.DataSource, DataTable)
+            If source IsNot Nothing Then
+                If dt1 Is Nothing OrElse dt1.Columns.Count = 0 Then
+                    dt1 = source.Copy()
+                End If
+                For Each dr As DataRow In source.Rows
+                    dt1.ImportRow(dr)
+                Next
+            End If
+            gvInvalid.DataSource = Nothing
+            gvInvalid.Rows.Clear()
+            gvInvalid.Refresh()
             gvInvalid.DataSource = dt1
             FormatGrid(gvInvalid)
         End If
