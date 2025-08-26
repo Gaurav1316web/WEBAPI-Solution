@@ -72,11 +72,19 @@ Public Class YearlyBillReport
 select COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code ) AS Ded_Code,
 COALESCE(TSPL_DEDUCTION_MASTER.Description,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc )  as Ded_Desc  
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_no=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code  
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
-where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No In (" & Document & ")
+where "
+                If rbtnAddition.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' And"
+                End If
+                If rbtnDeduction.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And"
+                End If
+                qry += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No In (" & Document & ")
 UNION ALL
 
 select  COALESCE(TSPL_DEDUCTION_MASTER.Code, TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode) AS Ded_Code,
@@ -87,7 +95,15 @@ left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No In (" & Document & ")
+left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
+where "
+                If rbtnAddition.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' And"
+                End If
+                If rbtnDeduction.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And"
+                End If
+                qry += " TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No In (" & Document & ")
 union all
 select  TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_DEDUCTION_MASTER.Description as Ded_Desc
 from TSPL_PAYMENT_PROCESS_SAVING 
@@ -96,7 +112,14 @@ left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Documen
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where TSPL_PAYMENT_PROCESS_SAVING.Doc_No In (" & Document & ")
+where "
+                If rbtnAddition.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' And"
+                End If
+                If rbtnDeduction.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And"
+                End If
+                qry += " TSPL_PAYMENT_PROCESS_SAVING.Doc_No In (" & Document & ")
 union all
 select  TSPL_DEDUCTION_MASTER.Code as Ded_Code,TSPL_DEDUCTION_MASTER.Description as Ded_Desc
 from TSPL_PAYMENT_PROCESS_COMPULSORY 
@@ -105,7 +128,14 @@ left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Documen
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_DCS_ADDITION_DEDUCTION.Deduction
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No In (" & Document & ")
+where "
+                If rbtnAddition.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' And"
+                End If
+                If rbtnDeduction.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And"
+                End If
+                qry += " TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No In (" & Document & ")
 union all
 select  case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as Ded_Code , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Ded_Desc
 from TSPL_PAYMENT_PROCESS_MCC_SALE 
@@ -114,7 +144,14 @@ left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Documen
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-where TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
+where "
+                If rbtnAddition.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' And"
+                End If
+                If rbtnDeduction.IsChecked Then
+                    qry += " TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And"
+                End If
+                qry += " TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No In (" & Document & ")
 )xx where 2=2 and Ded_Code is not null "
                 Dim dtDesc As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dtDesc.Rows.Count > 0 Then
@@ -1559,6 +1596,9 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             arrMCCRights = clsMCCCodes.GetUserHavingMCCRights()
 
             Dim qry As String = "select MCC_Code,MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code where tspl_mcc_master.mcc_Code in (" & StrPermission & ") and (  tspl_mcc_master.mcc_Code in (" & clsCommon.GetMulcallString(arrMCCRights) & "))"
+            If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                qry += " And tspl_location_master.location_code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
+            End If
             txtMultBMC.arrValueMember = clsCommon.ShowMultipleSelectForm("@BMC", qry, "MCC_Code", "MCC_NAME", txtMultBMC.arrValueMember, txtMultBMC.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
