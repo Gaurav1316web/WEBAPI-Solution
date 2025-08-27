@@ -297,8 +297,7 @@ where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null "
                        left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_ITEM_MASTER.Deduction 
                        left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
         left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_MCC_Material_Sale=TSPL_SD_SHIPMENT_HEAD.Document_Code
-        where TSPL_SD_SHIPMENT_HEAD.Is_CashSale='N' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and
-                   convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS'"
+        where  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.is_cashsale='N'  and TSPL_SD_SHIPMENT_HEAD.Status=1 "
 
         Dim qry As String = ""
         If chkDCSWise.Checked Then
@@ -308,7 +307,7 @@ where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null "
             Else
                 subQry = "Select "
             End If
-            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount],Active from (
+            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,cast((OP+Sale) as  decimal(18,2)) as [Opening+Sale],AMTDeducted as [Amt Deducted],cast((OP+Sale-AMTDeducted) as decimal(18,2)) as [Balance Amount],Active from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
