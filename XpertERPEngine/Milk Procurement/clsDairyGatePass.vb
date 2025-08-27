@@ -168,8 +168,9 @@ Public Class clsDairyGatePassEntry
                 '    qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
-
-            CrateReceiveDairy(obj, isNewEntry, trans)
+            If obj.TotalCrate > 0 Then
+                CrateReceiveDairy(obj, isNewEntry, trans)
+            End If
 
             If isSaved Then
                 trans.Commit()
@@ -409,8 +410,11 @@ Public Class clsDairyGatePassEntry
             If (clsCommon.myCdbl(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOnOpeningAndClosingKM, clsFixedParameterCode.CreateProvisionOnOpeningAndClosingKM, trans))) = 0) Then
                 CreateProvison(obj, FormId, trans)
             End If
-            Dim CrateReceivedDoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'", trans))
-            clsCrateReceivedHead.PostData(FormId, CrateReceivedDoc, trans)
+            If obj.TotalCrate > 0 Then
+                Dim CrateReceivedDoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_Head_FRESHSALE where Source_Document_Code='" + obj.GPCode + "'", trans))
+                clsCrateReceivedHead.PostData(FormId, CrateReceivedDoc, trans)
+            End If
+
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y', Modified_By = '" + objCommonVar.CurrentUserCode + "',Modified_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") + "'  where gpcode='" & obj.GPCode & "'", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", trans)
 

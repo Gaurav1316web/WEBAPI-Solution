@@ -4560,6 +4560,7 @@ Public Class clsPSShipmentDemand
     Public Trip_No As Decimal
     Public Commission_Amt As Decimal
     Public Security_Amt As Decimal
+    Public NoCrateIssue As Integer = 0
 
     Friend Shared Sub SaveData(strDocNo As String, arrDemand As List(Of clsPSShipmentDemand), trans As SqlTransaction)
         If (arrDemand IsNot Nothing AndAlso arrDemand.Count > 0) Then
@@ -4574,6 +4575,7 @@ Public Class clsPSShipmentDemand
                 clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                 clsCommon.AddColumnsForChange(coll, "Commission_Amt", obj.Commission_Amt)
                 clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt)
+                clsCommon.AddColumnsForChange(coll, "NoCrateIssue", obj.NoCrateIssue)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If

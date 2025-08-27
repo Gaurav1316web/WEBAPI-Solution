@@ -8383,6 +8383,7 @@ Public Class clsCreateAllTable
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
+            coll.Add("NoCrateIssue", "integer  NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date", True)
             Try
                 qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Demand_UniqueID'"
@@ -31625,6 +31626,7 @@ Public Class clsCreateAllTable
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("isSchemeItem", "varchar(12) NULL")
             coll.Add("Scheme_Code", "varchar(12) NULL References TSPL_SCHEME_MASTER_NEW(Scheme_Code)")
+            coll.Add("NoCrateIssue", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_SD_SHIPMENT_BOOKING_DETAIL'"))

@@ -745,6 +745,8 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             btnPrint.Enabled = True
             btn_TSCancel.Enabled = False
             btn_GPCancel.Enabled = False
+            chkNoCrateIssue.Enabled = True
+            chkNoCrateIssue.Checked = False
             txtcustomersearch.Text = ""
             txtDate.Value = clsCommon.GETSERVERDATE()
             txtShuffleDate.Value = txtDate.Value
@@ -1053,6 +1055,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 obj.TotalQtyInCrates = clsCommon.myCdbl(lblTotalCrate.Text)
                 obj.TotalQtyInLtr = clsCommon.myCdbl(lblTotalLitre.Text)
                 obj.DocumentAmount = clsCommon.myCdbl(lblDocumentAmt.Text)
+                obj.NoCrateIssue = IIf(chkNoCrateIssue.Checked, 1, 0)
                 obj.Arr = New List(Of clsDemandBookingSaleDetail)
                 ''richa 4 Aug,2021 optimization related
                 'Dim intLine As Integer = 0
@@ -1254,6 +1257,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 btnDelete.Enabled = True
                 isInsideLoadData = True
                 txtDate.Enabled = False
+                chkNoCrateIssue.Enabled = False
                 isNewEntry = False
                 btn_TSCancel.Enabled = True
                 btn_Gatepass.Enabled = True
@@ -1264,6 +1268,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 TxtCity.Value = obj.City_Code
                 txtRouteNo.Value = obj.Route_No
                 txtTripNo.Text = obj.TripNo
+                chkNoCrateIssue.Checked = IIf(obj.NoCrateIssue = 1, True, False)
                 If obj.IsIndividualCustomer = 1 Then
                     chkIndividualCustomer.Checked = True
                     txtCustomerNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT top 1 cust_code  FROM TSPL_DEMAND_BOOKING_DETAIL where document_no='" & txtDocNo.Value & "' "))
@@ -3313,6 +3318,7 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
                 setRouteVehicleCityDetail()
             End If
+            SetRouteColumns()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
