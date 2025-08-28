@@ -30,6 +30,17 @@ Public Class YearlyDBTSummaryReport
 			left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
             left outer join TSPL_VLC_MASTER_HEAD on TSPL_MP_INCENTIVE_ENTRY_detail.vlc_code= TSPL_VLC_MASTER_HEAD.VLC_Code 
             where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
+            ElseIf rblCappingHold.Checked Then
+                qry = "select TSPL_DBT_CAPING.Document_Code,TSPL_VLC_MASTER_HEAD.VSP_Code as Dcscode,TSPL_VLC_MASTER_HEAD.vlc_name as DcsName,TSPL_DBT_CAPING_DETAIL.MP_Code AS MpCode,TSPL_DBT_NEFT_DETAIL.MP_Name AS MpName,TSPL_DBT_NEFT_DETAIL.MP_Bank as MpBank,TSPL_DBT_NEFT_DETAIL.MP_Account_No as MpAccountNo,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No As MPIFSCNO,
+TSPL_DBT_CAPING_DETAIL.qty As Quantity
+from TSPL_DBT_CAPING_DETAIL 
+left outer join TSPL_DBT_CAPING on TSPL_DBT_CAPING.Document_Code=TSPL_DBT_CAPING_DETAIL.Document_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_DBT_CAPING_DETAIL.DCS_Code= TSPL_VLC_MASTER_HEAD.VLC_Code 
+left outer join tspl_mp_master on tspl_mp_master.MP_Code=TSPL_DBT_CAPING_DETAIL.MP_Code
+left outer join TSPL_MP_INCENTIVE_ENTRY_detail on TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id=TSPL_DBT_CAPING_DETAIL.PK_Id
+left outer join TSPL_DBT_NEFT_DETAIL on TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_detail.PK_Id
+WHERE Capping_Status='0' and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) "
+
             Else
                 qry = "SELECT 
     TSPL_MP_INCENTIVE_ENTRY_detail.MP_Code AS MPCODEERP,
@@ -58,6 +69,7 @@ CROSS APPLY (
 ) dnd  where 2 = 2 and convert(date,Document_Date,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,Document_Date,103) <=convert(date,'" + txtToDate.Value + "' ,103) 
 "
             End If
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -86,5 +98,10 @@ CROSS APPLY (
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub YearlyDBTSummaryReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
+        txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
     End Sub
 End Class
