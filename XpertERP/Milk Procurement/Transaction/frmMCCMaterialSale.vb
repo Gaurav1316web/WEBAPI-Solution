@@ -4340,7 +4340,8 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         End If
                     End If
                 End If
-                If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                'If clsCommon.myLen(txtRateAmt.Text) <= 0 OrElse clsCommon.myLen(txtRatePer.Text) <= 0 OrElse clsCommon.myCdbl(txtRateAmt.Text) = 0 OrElse clsCommon.myCdbl(txtRatePer.Text) = 0 Then
+                If True Then
                     txtRatePer.Text = obj.RateDiff_Per
                     If clsCommon.myCdbl(txtRatePer.Text) = 0 Then
                         txtRateAmt.Text = obj.RateDiff_Amt
@@ -9012,14 +9013,16 @@ a:          End If
         End If
     End Sub
     Private Sub chkRateDiffAmt_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkRateDiffAmt.ToggleStateChanged, chkRateDiffRate.ToggleStateChanged
-        If chkRateDiffAmt.IsChecked Then
-            txtRateAmt.Enabled = True
-            txtRatePer.Enabled = False
-            txtRatePer.Text = 0
-        Else
-            txtRateAmt.Enabled = False
-            txtRatePer.Enabled = True
-            txtRatePer.Text = 0
+        If Not isInsideLoadData Then
+            If chkRateDiffAmt.IsChecked Then
+                txtRateAmt.Enabled = True
+                txtRatePer.Enabled = False
+                txtRatePer.Text = 0
+            Else
+                txtRateAmt.Enabled = False
+                txtRatePer.Enabled = True
+                txtRatePer.Text = 0
+            End If
         End If
     End Sub
     Private Sub txtRateAmt_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRateAmt.Leave

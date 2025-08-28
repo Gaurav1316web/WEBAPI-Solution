@@ -1284,6 +1284,7 @@ Public Class frmLocationMaster
                 rbtnDispatchfromDO.IsChecked = IIf(row("DairyDispatchFromDO").ToString = "1", True, False)
                 rbtnDispatchFromGAtepass.IsChecked = IIf(row("DairyDispatchFromDO").ToString = "0", True, False)
                 '' Anubhooti 31-July-2014 BM00000003350
+                rdbbtnNA.IsChecked = True
                 If row("Is_Section").ToString() = "Y" Then
                     rdbbtnSection.IsChecked = True
                 Else
@@ -1294,6 +1295,7 @@ Public Class frmLocationMaster
                 Else
                     rdbbtnSubLoc.IsChecked = False
                 End If
+
                 If row("IsParlour").ToString() = "Y" Then
                     chkParlour.Checked = True
                 Else
@@ -1615,6 +1617,7 @@ Public Class frmLocationMaster
         TxtMainLoc.Value = ""
         rdbbtnSection.IsChecked = False
         rdbbtnSubLoc.IsChecked = False
+        rdbbtnNA.IsChecked = True
         chkSubLocationWise.IsChecked = False
         TxtMainLoc.Enabled = False
         TxtSection.Enabled = False

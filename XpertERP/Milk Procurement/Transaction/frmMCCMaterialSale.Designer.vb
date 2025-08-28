@@ -562,7 +562,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1292, 461)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2671,9 +2671,9 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage4.Controls.Add(Me.lblGrossAmount)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel14)
         Me.RadPageViewPage4.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage4.Controls.Add(Me.txtRatePer)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage4.Controls.Add(Me.txtRateAmt)
-        Me.RadPageViewPage4.Controls.Add(Me.txtRatePer)
         Me.RadPageViewPage4.Controls.Add(Me.lblRound_Off)
         Me.RadPageViewPage4.Controls.Add(Me.txtRoundOff)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel21)
@@ -2705,7 +2705,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1261, 387)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1271, 415)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtTPTAmt
@@ -3022,7 +3022,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(974, 70)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(984, 70)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(268, 18)
         Me.btnReverseAndUnpost.TabIndex = 9
@@ -3356,7 +3356,7 @@ Partial Class frmMCCMaterialSale
         'chkVendorGrossReceipt
         '
         Me.chkVendorGrossReceipt.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkVendorGrossReceipt.Location = New System.Drawing.Point(1130, 3)
+        Me.chkVendorGrossReceipt.Location = New System.Drawing.Point(1140, 3)
         Me.chkVendorGrossReceipt.MyLinkLable1 = Nothing
         Me.chkVendorGrossReceipt.MyLinkLable2 = Nothing
         Me.chkVendorGrossReceipt.Name = "chkVendorGrossReceipt"
