@@ -578,7 +578,7 @@ Public Class frmShipmentDairy
         'intDispatchfromDelivery = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select DairyDispatchFromDO from TSPL_LOCATION_MASTER where Location_Code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'")) = 0, 0, 1)
         'AutoCalculateCrate = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AutoCalculateCrateOnDairyDispatch & "'")) = 0, 0, 1)
         'ShowShipToPartyInDairyDispatch = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ShowShipToPartyInDairyDispatch & "'")) = 0, 0, 1)
-        If AllowCrateCanPhysicalStock = 1 And AutoCalculateCrate = 0 Then
+        If AllowCrateCanPhysicalStock = 1 AndAlso AutoCalculateCrate = 0 Then
             clsDBFuncationality.ExecuteNonQuery("update tspl_fixed_parameter set Description=1 where code='Auto Calculate Crate on Dairy Dispatch'")
             AutoCalculateCrate = 1
         End If
@@ -7947,7 +7947,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             'left join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
                             'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_code='" + lst.Booth_Code + "'"
                             Dim strQry As String = "select 
-TSPL_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Demand_Booking_Detail.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Demand_Booking_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Demand_Booking_Detail.Qty as DemandQty,TSPL_Demand_Booking_Detail.Qty as Qty,TSPL_Demand_Booking_Detail.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.trip_No,0 as Commission_Amt,0 as Security_Amt 
+TSPL_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Demand_Booking_Detail.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Demand_Booking_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Demand_Booking_Detail.Qty as DemandQty,TSPL_Demand_Booking_Detail.Qty as Qty,TSPL_Demand_Booking_Detail.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.trip_No,0 as Commission_Amt,0 as Security_Amt,TSPL_Demand_Booking_Master.NoCrateIssue 
 from TSPL_Demand_Booking_Master
 left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
@@ -8786,8 +8786,9 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     objD.Qty = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Qty").Value)
                     objD.Trip_No = clsCommon.myCdbl(gvDistributor.Rows(ii).Cells("Trip_No").Value)
                     objD.Commission_Amt = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Commission_Amt").Value)
-                    objD.Security_Amt = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Security_Amt").Value)
-                    obj.ArrDemand.Add(objD)
+                objD.Security_Amt = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Security_Amt").Value)
+                objD.NoCrateIssue = clsCommon.myCdbl(gvDistributor.Rows(ii).Cells("NoCrateIssue").Value)
+                obj.ArrDemand.Add(objD)
                 Next
             'End If
             If ApplyBoothWiseScheme Then
@@ -9828,8 +9829,8 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                 '                '    qry += " and TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code='" + txtVendorNo.Value + "' "
                 '                'End If
                 '                qry += " order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
-                qry = " Select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code As TR_Code,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code As Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty As DemandQty ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt 
-From TSPL_SD_SHIPMENT_BOOKING_DETAIL
+                qry = " Select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code As TR_Code,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code As Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty As DemandQty ,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Unit_code, TSPL_SD_SHIPMENT_BOOKING_DETAIL.Trip_No,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_BOOKING_DETAIL.NoCrateIssue 
+ From TSPL_SD_SHIPMENT_BOOKING_DETAIL
 Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Item_Code
 Left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code
 where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE ='" & obj.Document_Code & "'
@@ -12242,10 +12243,24 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                             'If IsStockingUnit = "Y" Then
                             Dim CrateConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value) & "' and tspl_unit_master.Crate_Type ='Y' ", trans))
                             Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value) & "' ", trans))
-                            If CrateConvFactor > 0 And ItemConvFactor > 0 Then
-                                Dim DispatchQty As Double = gv1.Rows(IntRowNo).Cells(colQty).Value * ItemConvFactor
+                            If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+
+                                Dim dtdis As DataTable = DirectCast(gvDistributor.DataSource, DataTable)
+
+                                Dim totaldNoCrateQty As Decimal = dtdis.AsEnumerable().Where(Function(row) clsCommon.myCdbl(row("NoCrateIssue")) = 1 AndAlso clsCommon.myCdbl(row("trip_No")) = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colTripNo).Value) AndAlso row("Item_code").ToString() = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value) AndAlso row("Unit_code").ToString() = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colOrgUnit).Value)).Sum(Function(row) Convert.ToDecimal(row("Qty")))
+
+                                '                             dtdis.AsEnumerable() _
+                                '.Where(Function(row) clsCommon.myCdbl(row("NoCrateIssue")) = 1 AndAlso
+                                '                     clsCommon.myCdbl(row("trip_No")) = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colTripNo).Value) AndAlso
+                                '                     row("Item_code").ToString() = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value) AndAlso
+                                '                     row("Unit_code").ToString() = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colOrgUnit).Value)) _
+                                ' .Sum(Function(row) Convert.ToDecimal(row("Qty")))
+
+
+
+                                Dim DispatchQty As Double = (gv1.Rows(IntRowNo).Cells(colQty).Value - totaldNoCrateQty) * ItemConvFactor
                                 If DispatchQty >= CrateConvFactor Then
-                                    If IncreaseCrateQtyOnFiftyPercent = True Then
+                                    If IncreaseCrateQtyOnFiftyPercent Then
                                         Dim IntegerPart As Integer = Math.Floor(DispatchQty / CrateConvFactor)
                                         Dim fractionPart As Integer = ((DispatchQty / CrateConvFactor) - IntegerPart) * 100
                                         If fractionPart >= 50 Then
@@ -15898,7 +15913,7 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
                 clsCommon.myLen(txtVendorNo.Value) > 0 Then
                     '               
                     Dim qry As String = "select 
-TSPL_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Demand_Booking_Detail.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Demand_Booking_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Demand_Booking_Detail.Qty as DemandQty,TSPL_Demand_Booking_Detail.Qty as Qty,TSPL_Demand_Booking_Detail.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.trip_No,0 as Commission_Amt,0 as Security_Amt 
+TSPL_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Demand_Booking_Detail.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_Demand_Booking_Detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_Demand_Booking_Detail.Qty as DemandQty,TSPL_Demand_Booking_Detail.Qty as Qty,TSPL_Demand_Booking_Detail.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.trip_No,0 as Commission_Amt,0 as Security_Amt,TSPL_Demand_Booking_Master.NoCrateIssue 
 from TSPL_Demand_Booking_Master
 left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
@@ -15921,8 +15936,7 @@ and TSPL_Demand_Booking_Master.Route_No='" & txtRouteNo.Value & "' and TSPL_Dema
                             Else
                                 Throw New Exception("Please Select Demand no")
                             End If
-                        Else
-                            qry += " and TSPL_Demand_Booking_Master.IsIndividualCustomer=0 "
+
                         End If
 
                     End If
@@ -16025,6 +16039,7 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" & clsCommon.myCstr(gvDistributor.Row
             gvDistributor.Columns("Trip_No").HeaderText = "Trip No"
             gvDistributor.Columns("Commission_Amt").HeaderText = "Commission Amt"
             gvDistributor.Columns("Security_Amt").HeaderText = "Security Amt"
+            gvDistributor.Columns("NoCrateIssue").HeaderText = "NoCrateIssue"
 
             gv1.ReadOnly = True
 

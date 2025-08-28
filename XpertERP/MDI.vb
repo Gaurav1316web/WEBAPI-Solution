@@ -1145,7 +1145,7 @@ Public Class MDI
 
             Dim ExpiryDate As String = clsCommon.myCstr(dt.Rows(0)("ExpiryDate"))
             If clsCommon.myLen(ExpiryDate) > 0 AndAlso clsCommon.myCDate(ExpiryDate) < clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy") Then
-                clsCommon.MyMessageBoxShow(Me, "Can't Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                clsCommon.MyMessageBoxShow(Me, "Can't    Access in demo version. " + Environment.NewLine + " For any queries/details, contact tecxpert@tecxpert.in. ", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
             End If
             Dim Pwd As String = clsCommon.myCstr(dt.Rows(0)("password"))
@@ -8430,6 +8430,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.CanSummaryReport
                         frm = New Can_Summary_Report
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.YearlyDBTSummaryReport
+                        frm = New YearlyDBTSummaryReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.FrmDayWiseMilkCollectionVsDispatch

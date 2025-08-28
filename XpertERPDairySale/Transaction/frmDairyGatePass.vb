@@ -449,7 +449,7 @@ Public Class frmDairyGatePass
                     Else
                         strQuery += " ,Qty"
                     End If
-                    strQuery += ",TSPL_ITEM_MASTER.HSN_Code,Scheme_Item  " &
+                    strQuery += ",TSPL_ITEM_MASTER.HSN_Code,Scheme_Item,TSPL_SD_SHIPMENT_DETAIL.Crate as [Crate_Issue]  " &
                       "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE "
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         strQuery += "Left outer join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Document_No = TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
@@ -613,7 +613,7 @@ Public Class frmDairyGatePass
             If arrShipmentFromMultiple IsNot Nothing AndAlso arrShipmentFromMultiple.Count > 0 Then
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Document_Code in (" + clsCommon.GetMulcallString(arrShipmentFromMultiple) + ") "
             End If
-            strQuery = "Select xxfinal.PK_ID,xxfinal.[Item Code]" + IIf(VehicleNofromDispatch, ",max(VehicleNo) as VehicleNo", "") + ",max(xxfinal.[Item Desc]) as [Item Desc],xxfinal.Unit,xxfinal.Quantity,Case When Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)>0 Then IsNull(((xxfinal.Quantity)-Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)),0) Else xxfinal.Quantity End As BalanceQty,max(xxfinal.HSN_Code) as HSN_Code,max(xxfinal.Customer_Name) as Customer_Name,max(xxfinal.Scheme_Item)Scheme_Item  from (select PK_ID,[Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code, max(Customer_Name) as Customer_Name ,max(Scheme_Item)Scheme_Item"
+            strQuery = "Select xxfinal.PK_ID,xxfinal.[Item Code]" + IIf(VehicleNofromDispatch, ",max(VehicleNo) as VehicleNo", "") + ",max(xxfinal.[Item Desc]) as [Item Desc],xxfinal.Unit,xxfinal.Quantity,Case When Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)>0 Then IsNull(((xxfinal.Quantity)-Sum(TSPL_DAIRYSALE_GATEPASS_Shipment_DETAIL.GP_Qty)),0) Else xxfinal.Quantity End As BalanceQty,max(xxfinal.HSN_Code) as HSN_Code,max(xxfinal.Customer_Name) as Customer_Name,max(xxfinal.Scheme_Item)Scheme_Item,sum([Crate_Issue]) as [Crate_Issue]  from (select PK_ID,[Item Code],max([Item Desc]) as [Item Desc],Unit,sum(qty) as Quantity,max(HSN_Code) as HSN_Code, max(Customer_Name) as Customer_Name ,max(Scheme_Item)Scheme_Item,sum([Crate_Issue]) as [Crate_Issue] "
             If VehicleNofromDispatch Then
                 strQuery += " ,max(VehicleNo) as VehicleNo "
             End If
@@ -690,6 +690,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(dr("Item Desc"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dr("Unit"))
                         DRobj.Unit_Code = clsCommon.myCstr(dr("Unit"))
+                        DRobj.Crate = clsCommon.myCdbl(dr("Crate_Issue"))
                         If clsCommon.myCDecimal(dr("BalanceQty")) > 0 Then
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(dr("BalanceQty"))
                             DRobj.Qty = clsCommon.myCDecimal(dr("Quantity"))
@@ -760,27 +761,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtCrateQty.Text = totalCrate
                 txtCanQty.Text = totalCan
                 If AllowManualCrateForDispatch Then
-                    Dim strCrateQty As String = ""
-                    Dim Whrcls As String = ""
-                    '                    If AllowGatePassDemandTripWise Then
-                    '                        strCrateQty = " select sum(TSPL_SD_SHIPMENT_DETAIL.Crate)  as Crate from tspl_sd_shipment_head
-                    'left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=tspl_sd_shipment_head.Document_Code  "
-                    '                        Whrcls = " and TSPL_SD_SHIPMENT_DETAIL.Trip_No='" + txtTripNo.Text + "' "
-                    '                    Else
-                    '                        strCrateQty = "select SUM( tspl_sd_shipment_head.Crate) as Crate from tspl_sd_shipment_head "
-                    '                    End If
-                    '                    strCrateQty += " where
-                    '                    Convert(date, TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "'           
-                    '          and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location = '" + txtLocCode.Value + "' and TSPL_SD_SHIPMENT_HEAD.route_no = '" + fndRouteNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Shift_Type = '" + IIf(rbtnMorning.IsChecked, "AM", "PM") + "'  and TSPL_SD_SHIPMENT_HEAD.Status = 1 " + Whrcls
-                    '                    txtCrateQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strCrateQty))
-
                     totalCrate = 0
                     Dim groupbyItem = From i In lstDRobj
                                       Group By i.Item_Code, i.Unit_Code Into Group
                                       Select New With {
                         Key .Item = Item_Code,
                         Key .Unit = Unit_Code,
-                        Key .TotalQty = Group.Sum(Function(x) x.Qty)
+                        Key .TotalQty = Group.Sum(Function(x) x.Crate)
                     }
                     For Each result In groupbyItem
                         Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and tspl_unit_master.Crate_Type ='Y' "))
@@ -791,6 +778,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         End If
                     Next
                     txtCrateQty.Text = totalCrate
+
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
@@ -3468,5 +3456,6 @@ Public Class clsDRDetail
     Public Item_Code As String
     Public Unit_Code As String
     Public Qty As Decimal
+    Public Crate As Decimal
 
 End Class

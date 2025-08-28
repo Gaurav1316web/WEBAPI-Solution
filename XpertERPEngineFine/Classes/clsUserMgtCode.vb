@@ -2399,6 +2399,8 @@ Public Class clsUserMgtCode
     Public Const rptPaymentProcessRouteReport As String = "ROUT_PR_RPT"
     Public Const BmcLabReport As String = "BMC_LB_RPT"
     Public Const CanSummaryReport As String = "CN_SM_RPT"
+    Public Const YearlyDBTSummaryReport As String = "YE_DBT_SU"
+
     Public Const FrmDayWiseMilkCollectionVsDispatch As String = "DY_MKCO_DS"
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
     Public Const rptSocietyLedgerReport As String = "MCC_SOC_LED"

@@ -2085,7 +2085,7 @@ union
 where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") And len(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE) > 0
 Group by TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No, TSPL_DEDUCTION_MASTER.Description, TSPL_DEDUCTION_MASTER.Code, Sequence_No
  "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal Then
                 sQuery += " Union
                             Select  TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 As sequence_no, coalesce (mapping.mmCode, TT.Code) As Code,TT.Amount
                             FROM(
@@ -3098,6 +3098,10 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in  (" + strDocNo + ") "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             sQuerySaving += " and TSPL_DCS_ADDITION_DEDUCTION.Description is not null "
+        End If
+
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+            sQuerySaving += " and TSPL_DCS_ADDITION_DEDUCTION.Saving = 2 "
         End If
 
         sQuerySaving += " )TT

@@ -21,6 +21,7 @@ Public Class clsDemandBookingSale
     Public TotalQtyInLtr As Decimal = 0
     Public DocumentAmount As Decimal = 0
     Public Posted_Morning As Integer = 0
+    Public NoCrateIssue As Integer = 0
     Public Posted_Evening As Integer = 0
     Public UploderDocNo As String = String.Empty
     Public Arr As List(Of clsDemandBookingSaleDetail) = Nothing
@@ -104,6 +105,7 @@ Public Class clsDemandBookingSale
             clsCommon.AddColumnsForChange(coll, "TotalQtyInCrates", obj.TotalQtyInCrates)
             clsCommon.AddColumnsForChange(coll, "TotalQtyInLtr", obj.TotalQtyInLtr)
             clsCommon.AddColumnsForChange(coll, "DocumentAmount", obj.DocumentAmount)
+            clsCommon.AddColumnsForChange(coll, "NoCrateIssue", obj.NoCrateIssue)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -740,6 +742,7 @@ Public Class clsDemandBookingSale
             obj.Posted_Morning = clsCommon.myCdbl(dt.Rows(0)("Posted_Morning"))
             obj.Posted_Evening = clsCommon.myCdbl(dt.Rows(0)("Posted_Evening"))
             obj.TripNo = clsCommon.myCstr(dt.Rows(0)("TripNo"))
+            obj.NoCrateIssue = clsCommon.myCdbl(dt.Rows(0)("NoCrateIssue"))
             obj.IsIndividualCustomer = clsCommon.myCdbl(dt.Rows(0)("IsIndividualCustomer"))
             obj.TotalQtyInCrates = clsCommon.myCdbl(dt.Rows(0)("TotalQtyInCrates"))
             obj.DocumentAmount = clsCommon.myCdbl(dt.Rows(0)("DocumentAmount"))

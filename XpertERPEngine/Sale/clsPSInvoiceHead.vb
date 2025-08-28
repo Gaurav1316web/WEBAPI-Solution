@@ -3714,7 +3714,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             End If
             strMCCMaterial += " [LUT No],TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,PaymentType,CustomerType "
+                strMCCMaterial += " ,[Payment Type] as PaymentType,CustomerType "
             End If
             strMCCMaterial += "" & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, " ,Fat_Amt as [Fat Amount],SNF_Amt as [SNF Amount],Standard_Rate as [Standard Rate] ", "") & " "
 
@@ -4035,7 +4035,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(ISNULL(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,MAX(Status)Status "
             End If
 
             strMCCMaterial += " from ("
@@ -4046,7 +4046,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strScarpCommonQry += " select "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strScarpCommonQry += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strScarpCommonQry += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+                                        ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                                        ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -4165,7 +4167,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Status)Status "
             End If
             strMCCMaterial += " from ("
 
@@ -4174,7 +4176,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strScarpCommonQry = " select "
             
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strScarpCommonQry += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strScarpCommonQry += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -4344,7 +4348,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDRCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDRCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strSDRCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -4423,7 +4429,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Status)Status "
             End If
 
             strMCCMaterial += " from ( "
@@ -4535,7 +4541,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strMCCMaterial += "  select "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strMCCMaterial += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -4602,7 +4610,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDRCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDRCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strSDRCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -4678,7 +4688,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Status)Status "
             End If
 
             strMCCMaterial += " from ( "
@@ -5160,7 +5170,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 strSDCommonQuery = " select "
 
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                    strSDCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                    strSDCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -5475,7 +5487,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strDebitCreditCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strDebitCreditCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strDebitCreditCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -5630,7 +5644,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDCommonQuery = " select"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDCommonQuery += "  Case when TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH' ELSE 'CREDIT' end as PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                strSDCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Status
+,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MASTER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
 						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
 						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
@@ -5724,7 +5740,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],max([LUT No]) as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Status) "
             End If
 
             strMCCMaterial += " from ("

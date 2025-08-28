@@ -134,6 +134,7 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkNoCrateIssue = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -236,6 +237,7 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -407,6 +409,7 @@ Partial Class frmDemandBooking
         'rgbDemandHead
         '
         Me.rgbDemandHead.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbDemandHead.Controls.Add(Me.chkNoCrateIssue)
         Me.rgbDemandHead.Controls.Add(Me.txtDemandUniqueID)
         Me.rgbDemandHead.Controls.Add(Me.lblDemandUniqueID)
         Me.rgbDemandHead.Controls.Add(Me.btnQuickDemand)
@@ -516,7 +519,7 @@ Partial Class frmDemandBooking
         '
         'chkMorningGatepassTruckSheetGenerated
         '
-        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(602, 129)
+        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(597, 145)
         Me.chkMorningGatepassTruckSheetGenerated.Name = "chkMorningGatepassTruckSheetGenerated"
         Me.chkMorningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkMorningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(228, 18)
@@ -525,7 +528,7 @@ Partial Class frmDemandBooking
         '
         'chkEveningGatepassTruckSheetGenerated
         '
-        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(602, 150)
+        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(597, 166)
         Me.chkEveningGatepassTruckSheetGenerated.Name = "chkEveningGatepassTruckSheetGenerated"
         Me.chkEveningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkEveningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(224, 18)
@@ -1610,6 +1613,14 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
+        'chkNoCrateIssue
+        '
+        Me.chkNoCrateIssue.Location = New System.Drawing.Point(597, 125)
+        Me.chkNoCrateIssue.Name = "chkNoCrateIssue"
+        Me.chkNoCrateIssue.Size = New System.Drawing.Size(93, 18)
+        Me.chkNoCrateIssue.TabIndex = 1457
+        Me.chkNoCrateIssue.Text = "No Crate Issue"
+        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1736,6 +1747,7 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNoCrateIssue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1848,5 +1860,6 @@ Partial Class frmDemandBooking
     Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents rmi_BoothSlipExcel As RadMenuItem
+    Friend WithEvents chkNoCrateIssue As RadCheckBox
 End Class
 
