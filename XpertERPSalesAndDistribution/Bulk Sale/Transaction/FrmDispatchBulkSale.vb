@@ -3756,10 +3756,11 @@ Public Class FrmDispatchBulkSale
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = SnfPerValue
                 gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFKG).Value = SNFKgValue
             End If
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Item_Code  from TSPL_ITEM_MASTER where Item_Desc ='Raw Milk' "))
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemDesc).Value = "Raw Milk"
+            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = TxtItemCode.Value
+            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Item_Desc  from TSPL_ITEM_MASTER where Item_Code = '" & TxtItemCode.Value & "' "))
             gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNCode).Value = ""
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value = ""
+
+            'gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value = ""
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
