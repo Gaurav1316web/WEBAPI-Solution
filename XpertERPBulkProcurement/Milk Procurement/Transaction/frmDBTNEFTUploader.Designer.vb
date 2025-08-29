@@ -21,10 +21,10 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition41 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition42 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition43 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition44 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -32,9 +32,13 @@ Partial Class frmDBTNEFTUploader
         Me.Export = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem10 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem11 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
         Me.chkDBTRevisePayment = New Telerik.WinControls.UI.RadCheckBox()
         Me.BtnBank = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -89,10 +93,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem10 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem11 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -258,6 +258,16 @@ Partial Class frmDBTNEFTUploader
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Hold-->Valid"
         '
+        'RadMenuItem10
+        '
+        Me.RadMenuItem10.Name = "RadMenuItem10"
+        Me.RadMenuItem10.Text = "Valid-->Invalid(MpCode)"
+        '
+        'RadMenuItem11
+        '
+        Me.RadMenuItem11.Name = "RadMenuItem11"
+        Me.RadMenuItem11.Text = "Valid-->Invalid(AccountNo)"
+        '
         'Import
         '
         Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem8, Me.RadMenuItem9, Me.RadMenuItem6, Me.RadMenuItem7})
@@ -265,17 +275,27 @@ Partial Class frmDBTNEFTUploader
         Me.Import.Text = "Import"
         Me.Import.UseCompatibleTextRendering = False
         '
+        'RadMenuItem8
+        '
+        Me.RadMenuItem8.Name = "RadMenuItem8"
+        Me.RadMenuItem8.Text = "Hold-->valid"
+        Me.RadMenuItem8.UseCompatibleTextRendering = False
+        '
         'RadMenuItem9
         '
         Me.RadMenuItem9.Name = "RadMenuItem9"
         Me.RadMenuItem9.Text = "Valid-->Hold"
         Me.RadMenuItem9.UseCompatibleTextRendering = False
         '
-        'RadMenuItem8
+        'RadMenuItem6
         '
-        Me.RadMenuItem8.Name = "RadMenuItem8"
-        Me.RadMenuItem8.Text = "Hold-->valid"
-        Me.RadMenuItem8.UseCompatibleTextRendering = False
+        Me.RadMenuItem6.Name = "RadMenuItem6"
+        Me.RadMenuItem6.Text = "Valid-->Invalid(Mp Code)"
+        '
+        'RadMenuItem7
+        '
+        Me.RadMenuItem7.Name = "RadMenuItem7"
+        Me.RadMenuItem7.Text = "Valid-->Invalid(AccountNo)"
         '
         'chkDBTRevisePayment
         '
@@ -661,7 +681,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition41
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvFarmer.MyExportFilePath = ""
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
@@ -691,7 +711,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition42
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
@@ -735,7 +755,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition43
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvInvalid.MyExportFilePath = ""
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
@@ -784,7 +804,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvHold.MasterTemplate.AllowAddNewRow = False
         Me.gvHold.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHold.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition44
+        Me.gvHold.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvHold.MyExportFilePath = ""
         Me.gvHold.MyStopExport = False
         Me.gvHold.Name = "gvHold"
@@ -977,26 +997,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.Size = New System.Drawing.Size(73, 20)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
-        '
-        'RadMenuItem6
-        '
-        Me.RadMenuItem6.Name = "RadMenuItem6"
-        Me.RadMenuItem6.Text = "Valid-->Invalid(Mp Code)"
-        '
-        'RadMenuItem7
-        '
-        Me.RadMenuItem7.Name = "RadMenuItem7"
-        Me.RadMenuItem7.Text = "Valid-->Invalid(AccountNo)"
-        '
-        'RadMenuItem10
-        '
-        Me.RadMenuItem10.Name = "RadMenuItem10"
-        Me.RadMenuItem10.Text = "Valid-->Invalid(MpCode)"
-        '
-        'RadMenuItem11
-        '
-        Me.RadMenuItem11.Name = "RadMenuItem11"
-        Me.RadMenuItem11.Text = "Valid-->Invalid(AccountNo)"
         '
         'frmDBTNEFTUploader
         '
