@@ -38,7 +38,7 @@ Public Class FrmUtility
             qry += " order by Location_Code,ItemType"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If (common.clsCommon.MyMessageBoxShow("There are some items with Negative balance.Create and Post Adjustment", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes) Then
+                If (clsCommon.MyMessageBoxShow("There are some items with Negative balance.Create and Post Adjustment", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes) Then
                     clsCommon.ProgressBarShow()
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
@@ -110,13 +110,13 @@ Public Class FrmUtility
                         clsCommon.ProgressBarHide()
                     End Try
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Adjustment Created and posted successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow("Adjustment Created and posted successfully", Me.Text)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No item found with Negative balance", Me.Text)
+                clsCommon.MyMessageBoxShow("No item found with Negative balance", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -128,6 +128,7 @@ Public Class FrmUtility
         txtAddBatchExpiryDate.Value = txtRetestingDate.Value
         txtAddBatchMfgDate.Value = txtRetestingDate.Value
         txtFromGPDate.Value = txtRetestingDate.Value
+        txtBmcMilkCollectionDate.Value = txtRetestingDate.Value
         Timer3.Enabled = True
         MyCheckBox1.Checked = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, Nothing)) > 0)
         MyCheckBox7.Checked = True
@@ -207,7 +208,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnUpdateInventoryAndItemLocation_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateInventoryAndItemLocation.Click
-        If common.clsCommon.MyMessageBoxShow("Update MRP in Inventory and Item Location stock" + Environment.NewLine + "Are you sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow("Update MRP in Inventory and Item Location stock" + Environment.NewLine + "Are you sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim qry As String = ""
@@ -338,11 +339,11 @@ Public Class FrmUtility
 
             trans.Commit()
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
+            clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -377,7 +378,7 @@ Public Class FrmUtility
     End Sub
 
     Private Sub btnDeleteShipment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteShipment.Click
-        If common.clsCommon.MyMessageBoxShow("Delete the Shipment and it's Sale Invoices." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow("Delete the Shipment and it's Sale Invoices." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
 
@@ -391,7 +392,7 @@ Public Class FrmUtility
             clsSaleHead.ReverseSaleAndShipment(txtShipment.Value, arr, True, trans, True)
 
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
+            clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
 
             txtShipment.Value = ""
             gvShipment.DataSource = Nothing
@@ -399,13 +400,13 @@ Public Class FrmUtility
             gvShipment.Columns.Clear()
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
 
     ''Private Sub btnDeleteShipment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteShipment.Click
-    ''    If common.clsCommon.MyMessageBoxShow("Delete the Shipment and it's Sale Invoices." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+    ''    If clsCommon.MyMessageBoxShow("Delete the Shipment and it's Sale Invoices." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
     ''        Exit Sub
     ''    End If
 
@@ -542,7 +543,7 @@ Public Class FrmUtility
 
 
     ''        trans.Commit()
-    ''        common.clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
+    ''        clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
 
     ''        txtShipment.Value = ""
     ''        gvShipment.DataSource = Nothing
@@ -550,22 +551,22 @@ Public Class FrmUtility
     ''        gvShipment.Columns.Clear()
     ''    Catch ex As Exception
     ''        trans.Rollback()
-    ''        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
+    ''        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     ''    End Try
 
     ''End Sub
 
 
     Private Sub btnUpdateSaleInvoiceBalanceAmt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateSaleInvoiceBalanceAmt.Click
-        If common.clsCommon.MyMessageBoxShow("Update the Balance Amount Sale invoice" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow("Update the Balance Amount Sale invoice" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Try
             If Xtra.UpdateSaleInvoiceBalanceAmt() Then
-                common.clsCommon.MyMessageBoxShow("Balance Amount of Sale Invoice Updated Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow("Balance Amount of Sale Invoice Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Public Shared Function UpdateSaleInvoiceBalanceAmt() As Boolean
@@ -640,7 +641,7 @@ Public Class FrmUtility
             '    Next
             'Next
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Updated Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow("Updated Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
@@ -650,7 +651,7 @@ Public Class FrmUtility
     Private Sub btnCreateIndex_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateIndex.Click
         If clsCommon.MyMessageBoxShow(Me, "Do You want to create Index", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
             CreateIndex()
-            common.clsCommon.MyMessageBoxShow("Indexes created successfully", Me.Text)
+            clsCommon.MyMessageBoxShow("Indexes created successfully", Me.Text)
         End If
     End Sub
     Sub CreateIndex()
@@ -2138,7 +2139,7 @@ Public Class FrmUtility
             clsCommon.ProgressBarHide()
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error")
+            clsCommon.MyMessageBoxShow(ex.Message, "Error")
         End Try
 
 
@@ -2165,14 +2166,14 @@ Public Class FrmUtility
     'End Sub
 
     Private Sub btnupdateTransfer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnupdateTransfer.Click
-        If common.clsCommon.MyMessageBoxShow("Update Transfers Pending Quantity In Bottle" + Environment.NewLine + "Are you sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow("Update Transfers Pending Quantity In Bottle" + Environment.NewLine + "Are you sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Xtra.UpdateBalanceQtyAndBalanceQtyInBottleOFTransfer("", trans)
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Updated Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow("Updated Successfully", Me.Text)
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
@@ -2210,7 +2211,7 @@ Public Class FrmUtility
         Dim qry As String = "select   TransferNo from TEMP_Delete_Tranfer where TransferNo not in (select TransferNo from TEMP_Created_Tranfer)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Empty Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Empty Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 For Each dr As DataRow In dt.Rows
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
@@ -2233,7 +2234,7 @@ Public Class FrmUtility
                         trans.Rollback()
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -2246,7 +2247,7 @@ Public Class FrmUtility
         Dim qry As String = "select TransferNo from TEMP_Delete_TranferOE where TransferNo not in (select TransferNo from TEMP_Created_TranferOE)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " other than Empty Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " other than Empty Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 For Each dr As DataRow In dt.Rows
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
@@ -2269,7 +2270,7 @@ Public Class FrmUtility
                         trans.Rollback()
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -2935,7 +2936,7 @@ Public Class FrmUtility
     'End Function
 
     Private Sub btnDeleteMaterialSAleInvoice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteMaterialSAleInvoice.Click
-        If common.clsCommon.MyMessageBoxShow("Delete Material Sale Invoice's GL-Entry." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow("Delete Material Sale Invoice's GL-Entry." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
         Dim QryTableCreate As String = " if not exists (select 1 from sys.objects o where o.name ='TempDelete_MaterialInvoice' and o.type ='U')" &
@@ -2954,10 +2955,10 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(" delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + row("Voucher_No") + "'", trans)
             Next
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
+            clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2978,10 +2979,10 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery("Insert into   TempCreate_MaterialInvoice  (Invoice_No,Voucher_No) values ('" + row("Invoice_No") + "','')", trans)
                 trans.Commit()
             Next
-            common.clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
+            clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2999,10 +3000,10 @@ Public Class FrmUtility
                 clsAdjustmentEntryReceivables.FunPostForUtility(row("Adjustment_No"), trans)
                 trans.Commit()
             Next
-            common.clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
+            clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3022,10 +3023,10 @@ Public Class FrmUtility
                     ' trans.Commit()
                 End If
             Next
-            common.clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
+            clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
         Catch ex As Exception
             ' trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3041,7 +3042,7 @@ Public Class FrmUtility
         'Dim qry As String = "select TEMP_Delete_JE.Code,TSPL_JOURNAL_MASTER.Voucher_Date,(select top 1 SUBSTRING( TSPL_JOURNAL_DETAILS.Account_code,len(TSPL_JOURNAL_DETAILS.Account_code)-2,3)from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No=TSPL_JOURNAL_MASTER.Voucher_No and TSPL_JOURNAL_DETAILS.Detail_Line_No=1) as SegmentCode from TEMP_Delete_JE left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Voucher_No=TEMP_Delete_JE.code where TEMP_Delete_JE.code not in (select TEMP_Create_JE.Code from TEMP_Create_JE)"
         'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-        '    common.clsCommon.MyMessageBoxShow("No Voucher found for Rename by new counter")
+        '    clsCommon.MyMessageBoxShow("No Voucher found for Rename by new counter")
         '    Exit Sub
         'End If
         'Try
@@ -3117,15 +3118,15 @@ Public Class FrmUtility
         '            trans.Commit()
         '        Catch ex As Exception
         '            trans.Rollback()
-        '            If common.clsCommon.MyMessageBoxShow(ex.Message + Environment.NewLine + "Do you want to Continue ....", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        '            If clsCommon.MyMessageBoxShow(ex.Message + Environment.NewLine + "Do you want to Continue ....", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
         '                Exit For
         '            End If
         '        End Try
         '    Next
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'Finally
-        '    common.clsCommon.MyMessageBoxShow(me,"Task Completed", Me.Text)
+        '    clsCommon.MyMessageBoxShow(me,"Task Completed", Me.Text)
         'End Try
     End Sub
 
@@ -3206,7 +3207,7 @@ Public Class FrmUtility
             qry = "select * from TEMP_DELETE_SHIPMENT where shipment_no not in (select shipment_no from TEMP_CREATE_SHIPMENT)"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strShipmentNo As String = clsCommon.myCstr(dr("shipment_no"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -3220,9 +3221,9 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3245,7 +3246,7 @@ Public Class FrmUtility
             qry = "select * from TEMP_DELETE_SALE_RETURN where SR_NO not in (select sr_no from TEMP_CREATE_SALE_RETURN)"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Return.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Return.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strReturnNo As String = clsCommon.myCstr(dr("sr_no"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -3259,9 +3260,9 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3278,7 +3279,7 @@ Public Class FrmUtility
         Dim qry As String = "select DocNo from xxx_sale_invoice where DocNo not in (select DocNo from xxx_sale_invoice_Complete)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Sale Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Sale Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 For Each dr As DataRow In dt.Rows
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
@@ -3300,7 +3301,7 @@ Public Class FrmUtility
                         trans.Rollback()
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -3815,9 +3816,9 @@ Public Class FrmUtility
             End If
         Catch ex As Exception
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
-            common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         End Try
     End Sub
 
@@ -4035,7 +4036,7 @@ Public Class FrmUtility
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strTransferNo As String = clsCommon.myCstr(dr("TransferNo"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -4048,9 +4049,9 @@ Public Class FrmUtility
             End If ''end dt
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4075,7 +4076,7 @@ Public Class FrmUtility
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Purchase Return", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Purchase Return", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strPRNo As String = clsCommon.myCstr(dr("pr_no"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -4089,9 +4090,9 @@ Public Class FrmUtility
             End If ''end dt
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4112,7 +4113,7 @@ Public Class FrmUtility
             qry = "select * from TEMP_DELETE_SCRAPINVOICE where invoice_no not in (select invoice_no from TEMP_CREATE_SCRAPINVOICE)"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Scrap Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Scrap Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strShipmentNo As String = clsCommon.myCstr(dr("shipment_no"))
                         Dim strInvno As String = clsCommon.myCstr(dr("invoice_no"))
@@ -4128,9 +4129,9 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4154,7 +4155,7 @@ Public Class FrmUtility
             qry = "select * from TEMP_DELETE_SHIPMENT where shipment_no not in (select shipment_no from TEMP_CREATE_SHIPMENT)"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strShipmentNo As String = clsCommon.myCstr(dr("shipment_no"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -4167,9 +4168,9 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4193,7 +4194,7 @@ Public Class FrmUtility
             qry = "select * from TEMP_DELETE_SHIPMENT where shipment_no not in (select shipment_no from TEMP_CREATE_SHIPMENT)"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strShipmentNo As String = clsCommon.myCstr(dr("shipment_no"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -4206,9 +4207,9 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4232,7 +4233,7 @@ Public Class FrmUtility
             qry = "select * from TEMP_DELETE_SHIPMENT where shipment_no not in (select shipment_no from TEMP_CREATE_SHIPMENT)"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Shipments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     For Each dr As DataRow In dt.Rows
                         Dim strShipmentNo As String = clsCommon.myCstr(dr("shipment_no"))
                         Dim strVoucherNo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -4245,9 +4246,9 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+                clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4569,7 +4570,7 @@ Public Class FrmUtility
         Dim strERROR As String = ""
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Try
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
@@ -4623,7 +4624,7 @@ Public Class FrmUtility
                 If clsCommon.myLen(strERROR) > 0 Then
                     clsCommon.MyMessageBoxShow(strERROR, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
 
             End If
@@ -4668,7 +4669,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery("update Temp_Sale set Form_ID= (select case when Trans_Type='FS' then 'FreshSaleInvoice' else case when Trans_Type='MCC' then '' else case when Trans_Type='PS' then '' else '' end end end from TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code=Temp_Sale.InvNo)", trans)
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -4718,7 +4719,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strSRNNo As String = clsCommon.myCstr(dt.Rows(ii)("srn_no"))
@@ -4738,9 +4739,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                 End If
             End If
 
@@ -4784,7 +4785,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AP Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AP Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -5070,9 +5071,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -5113,7 +5114,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Store Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Store Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strAdjNo As String = clsCommon.myCstr(dt.Rows(ii)("AdjustmentNo"))
@@ -5151,9 +5152,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
@@ -5178,7 +5179,7 @@ Public Class FrmUtility
     '        dt = New DataTable()
     '        dt = clsDBFuncationality.GetDataTable(qry)
     '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+    '            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
     '                For Each dr As DataRow In dt.Rows
     '                    Dim strAdjNo As String = clsCommon.myCstr(dr("AdjustmentNo"))
     '                    Dim strJENo As String = clsCommon.myCstr(dr("voucher_no"))
@@ -5191,9 +5192,9 @@ Public Class FrmUtility
     '        End If ''dt cond.
 
     '        If counter > 0 Then
-    '            common.clsCommon.MyMessageBoxShow(me,"Task Completed", Me.Text)
+    '            clsCommon.MyMessageBoxShow(me,"Task Completed", Me.Text)
     '        Else
-    '            common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
+    '            clsCommon.MyMessageBoxShow("No record found.", Me.Text)
     '        End If
     '    Catch ex As Exception
     '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
@@ -5237,7 +5238,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Dispatch", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Dispatch", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -5263,9 +5264,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
@@ -5304,7 +5305,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -5365,7 +5366,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -5385,7 +5386,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payments", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -5456,9 +5457,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
@@ -5516,7 +5517,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -5536,7 +5537,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipts", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipts", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -5580,9 +5581,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -6534,7 +6535,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk Transfer out", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk Transfer out", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -6555,9 +6556,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -6600,7 +6601,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk Transfer In", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk Transfer In", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -6620,9 +6621,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -6669,7 +6670,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
 
                     For ii As Integer = 0 To dt.Rows.Count - 1
@@ -6693,9 +6694,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -6734,7 +6735,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " PI", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " PI", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -6809,9 +6810,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
@@ -6829,7 +6830,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate PJV of " + clsCommon.myCstr(dt.Rows.Count) + " PI", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate PJV of " + clsCommon.myCstr(dt.Rows.Count) + " PI", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -6854,9 +6855,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
@@ -6902,7 +6903,7 @@ Public Class FrmUtility
         Dim qry As String = "select * from Temp_BSSale where DocumentNo not in (select DocumentNo from Temp_BSSale_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -6945,9 +6946,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -7010,7 +7011,7 @@ Public Class FrmUtility
              " SNF_Amt=round(round((Net_Cost*1/(3*case when SNF_KG=0 then 1 else SNF_KG end)),2)* SNF_KG ,2) where Trans_Type='IC-Ad' and InOut='I' and (Fat_KG>0 or SNF_KG>0)"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7029,7 +7030,7 @@ Public Class FrmUtility
             qry = "update  TSPL_INVENTORY_MOVEMENT_NEW set fat_amt=fat_rate*fat_kg,SNF_Amt=SNF_Rate*SNF_KG where TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type in ('MCC-MSRN')"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7044,7 +7045,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7062,7 +7063,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7076,7 +7077,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7107,7 +7108,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7124,7 +7125,7 @@ Public Class FrmUtility
 
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7141,7 +7142,7 @@ Public Class FrmUtility
 
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7204,7 +7205,7 @@ Public Class FrmUtility
             Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7257,7 +7258,7 @@ Public Class FrmUtility
             'Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7333,7 +7334,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7380,7 +7381,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7760,7 +7761,7 @@ Public Class FrmUtility
 
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -7799,7 +7800,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -8339,7 +8340,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -8360,7 +8361,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AR Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AR Invoice", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -8389,9 +8390,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
@@ -8419,7 +8420,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow(Me, "Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
 
@@ -8447,9 +8448,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                     'If clsUtility.ReCreateSaleReturn(strInvoiceNo, strVoucherNo, strAR_Inv_No) Then
                     '    counter += 1
@@ -8525,7 +8526,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow(Me, "Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Recreate journal entry for " + clsCommon.myCstr(dt.Rows.Count) + Environment.NewLine + " of Sale Invoices.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
 
@@ -8575,9 +8576,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                     'If clsUtility.ReCreateSaleReturn(strInvoiceNo, strVoucherNo, strAR_Inv_No) Then
                     '    counter += 1
@@ -9400,7 +9401,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " PR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " PR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -9442,9 +9443,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                 End If
             End If
 
@@ -9669,7 +9670,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Milk SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Milk SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strSRNNo As String = clsCommon.myCstr(dt.Rows(ii)("srn_no"))
@@ -9694,9 +9695,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                 End If
             End If
 
@@ -9767,7 +9768,7 @@ Public Class FrmUtility
         Dim qry As String = "select * from Temp_BSSale_Return where DocumentNo not in (select DocumentNo from Temp_BSSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -9810,9 +9811,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -9855,7 +9856,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -9908,9 +9909,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
@@ -9966,7 +9967,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipt Adj", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipt Adj", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -9994,9 +9995,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -10033,7 +10034,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -10088,7 +10089,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payment Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payment Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -10114,9 +10115,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -10153,7 +10154,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -10212,7 +10213,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Fresh Dispatch", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Fresh Dispatch", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -10232,9 +10233,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -10270,7 +10271,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -10329,7 +10330,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Fresh Dispatch", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Fresh Dispatch", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -10349,9 +10350,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -10387,7 +10388,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -10437,7 +10438,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Milk PI", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + "Milk PI", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -10473,9 +10474,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
@@ -10585,7 +10586,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -10605,9 +10606,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -11629,7 +11630,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recalculate cost of " + clsCommon.myCstr(dt.Rows.Count) + " Document From Tanker Dispatch To Milk Transfer In", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recalculate cost of " + clsCommon.myCstr(dt.Rows.Count) + " Document From Tanker Dispatch To Milk Transfer In", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -11659,9 +11660,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12196,7 +12197,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bank Reverse", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bank Reverse", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -12218,9 +12219,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12257,7 +12258,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -12340,7 +12341,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -12360,7 +12361,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12378,9 +12379,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12406,7 +12407,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12424,9 +12425,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12444,7 +12445,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12462,9 +12463,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12482,7 +12483,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12500,9 +12501,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12520,7 +12521,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12538,9 +12539,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12606,7 +12607,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk SRN", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12626,9 +12627,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12675,7 +12676,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Inventory Movement of " + clsCommon.myCstr(dt.Rows.Count) + " Fresh Dispatch No", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Inventory Movement of " + clsCommon.myCstr(dt.Rows.Count) + " Fresh Dispatch No", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -12695,9 +12696,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12754,7 +12755,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork outward Transfer other", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork outward Transfer other", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -12773,9 +12774,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12826,7 +12827,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork outward Transfer Milk", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork outward Transfer Milk", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -12846,9 +12847,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12899,7 +12900,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " CSA Transfer ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " CSA Transfer ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -12917,9 +12918,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -12968,7 +12969,7 @@ Public Class FrmUtility
             Dim sett As String = ""
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork outward Transfer other", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork outward Transfer other", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -12993,9 +12994,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -13036,7 +13037,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -13071,7 +13072,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Receipt Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipts", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Receipt Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Receipts", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -13094,9 +13095,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -13156,7 +13157,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -13212,9 +13213,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -13253,7 +13254,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Payment Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payments.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Payment Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Payments.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     Dim obj As clsPaymentHeader
                     For ii As Integer = 0 To dt.Rows.Count - 1
@@ -13284,9 +13285,9 @@ Public Class FrmUtility
                     End If
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -13321,7 +13322,7 @@ Public Class FrmUtility
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -13376,7 +13377,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bank Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Bank Transfer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -13397,9 +13398,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -13977,7 +13978,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -13995,9 +13996,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -14015,7 +14016,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Correcting Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Documents", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -14033,9 +14034,9 @@ Public Class FrmUtility
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -14213,7 +14214,7 @@ Public Class FrmUtility
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -14261,9 +14262,9 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -14527,7 +14528,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Change Bank Code of " + clsCommon.myCstr(dt.Rows.Count) + " Transaction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Change Bank Code of " + clsCommon.myCstr(dt.Rows.Count) + " Transaction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocNo"))
@@ -14581,9 +14582,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -14656,7 +14657,7 @@ line1:
                     Next
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()
@@ -14686,7 +14687,7 @@ line1:
             End If
             txtRPLocation.Value = clsCommon.ShowSelectForm("PELoc@u", qry, "Code", WhrCls, txtRPLocation.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14774,7 +14775,7 @@ line1:
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                'If common.clsCommon.MyMessageBoxShow("Exists Document " + clsCommon.myCstr(dt.Rows.Count) + " Transaction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                'If clsCommon.MyMessageBoxShow("Exists Document " + clsCommon.myCstr(dt.Rows.Count) + " Transaction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 clsCommon.ProgressBarPercentShow()
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -14863,7 +14864,7 @@ line1:
             Dim qry As String = "select * from TEMP_PR_CHANGE_PARY_DATE_AMOUNT where isnull(DocumentNo,'') ='' and status is null and NewDocumentNo is null "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                'If common.clsCommon.MyMessageBoxShow("New Document " + clsCommon.myCstr(dt.Rows.Count) + " Transaction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                'If clsCommon.MyMessageBoxShow("New Document " + clsCommon.myCstr(dt.Rows.Count) + " Transaction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 clsCommon.ProgressBarPercentShow()
                 Dim oldValueSkipLockLocation As String = clsFixedParameter.GetData(clsFixedParameterType.SkipLockLocation, clsFixedParameterCode.SkipLockLocation, Nothing)
                 For ii As Integer = 0 To dt.Rows.Count - 1
@@ -16489,7 +16490,7 @@ line1:
             Dim qry As String = "select * from TEMP_CREATED_CAN_SALE where DocumentNo not in (select DocumentNo from TEMP_CREATED_CAN_SALE_Done)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -16517,9 +16518,9 @@ line1:
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -16624,7 +16625,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Reverse And Post " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk Transfer In", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Reverse And Post " + clsCommon.myCstr(dt.Rows.Count) + " Bulk Milk Transfer In", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -16644,9 +16645,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -17112,7 +17113,7 @@ line1:
             Dim qry As String = "select * from TEMP_CREATED_BMPI_JE where DocumentNo not in (select DocumentNo from TEMP_CREATED_BMPI_JE_Done)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -17199,9 +17200,9 @@ line1:
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -17261,7 +17262,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -17317,9 +17318,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -17363,7 +17364,7 @@ line1:
             Dim qry As String = "select * from TEMP_CREATED_SRN_RETURN where DocumentNo not in (select DocumentNo from TEMP_CREATED_SRN_RETURN_Done)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -17415,9 +17416,9 @@ line1:
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -17477,7 +17478,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Product Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Product Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -17533,9 +17534,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -17860,7 +17861,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -17895,12 +17896,12 @@ line1:
                         clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, "Recreate journal entry " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
                     Next
                     clsCommon.ProgressBarPercentHide()
-                    common.clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
+                    clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -18048,7 +18049,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Ar Invoice Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AR Invoice.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Ar Invoice Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AR Invoice.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     Dim oldValueSkipLockLocation As String = clsFixedParameter.GetData(clsFixedParameterType.SkipLockLocation, clsFixedParameterCode.SkipLockLocation, Nothing)
                     For ii As Integer = 0 To dt.Rows.Count - 1
@@ -18075,9 +18076,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -18112,7 +18113,7 @@ line1:
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -18386,7 +18387,7 @@ line1:
         Dim qry As String = "select * from Temp_PSSale_Return where DocumentNo not in (select DocumentNo from Temp_PSSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -18427,9 +18428,9 @@ line1:
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18480,7 +18481,7 @@ line1:
         Dim qry As String = "select * from Temp_FSSale_Return where DocumentNo not in (select DocumentNo from Temp_FSSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -18521,9 +18522,9 @@ line1:
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18574,7 +18575,7 @@ line1:
         Dim qry As String = "select * from Temp_DSSale_Return where DocumentNo not in (select DocumentNo from Temp_DSSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -18615,9 +18616,9 @@ line1:
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18664,7 +18665,7 @@ line1:
         Dim qry As String = "select * from Temp_MaterialSale_Return where DocumentNo not in (select DocumentNo from Temp_MaterialSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -18705,9 +18706,9 @@ line1:
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18743,7 +18744,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete AP Invoice Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AP Invoice.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete AP Invoice Entry of " + clsCommon.myCstr(dt.Rows.Count) + " AP Invoice.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     Dim oldValueSkipLockLocation As String = clsFixedParameter.GetData(clsFixedParameterType.SkipLockLocation, clsFixedParameterCode.SkipLockLocation, Nothing)
                     For ii As Integer = 0 To dt.Rows.Count - 1
@@ -18770,9 +18771,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -18807,7 +18808,7 @@ line1:
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -18867,7 +18868,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -18896,9 +18897,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -18958,7 +18959,7 @@ line1:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -18997,9 +18998,9 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -19069,7 +19070,7 @@ line1:
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -19136,7 +19137,7 @@ line1:
     'Sanjay Ticket No-TEC/23/04/19-000469 ,ERO/09/05/19-000599
     Private Sub btnUpdate_I_Click(sender As Object, e As EventArgs) Handles btnUpdate_I.Click
         If txtMultiDocInv.arrDispalyMember Is Nothing Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Document type.", Me.Text)
+            clsCommon.MyMessageBoxShow("Please select at least one Document type.", Me.Text)
             Exit Sub
         End If
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -21341,7 +21342,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDispatchDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DispatchDocNo"))
@@ -21418,9 +21419,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -21455,7 +21456,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -21502,7 +21503,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
 
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -21919,7 +21920,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Inventory of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Inventory of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -21957,9 +21958,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -22008,7 +22009,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Store Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Store Adjustment", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strAdjNo As String = clsCommon.myCstr(dt.Rows(ii)("AdjustmentNo"))
@@ -22026,9 +22027,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -22081,7 +22082,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Can Sale Entries of " + clsCommon.myCstr(dt.Rows.Count) + " Can Sale.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Can Sale Entries of " + clsCommon.myCstr(dt.Rows.Count) + " Can Sale.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -22151,9 +22152,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -22201,7 +22202,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Tanker Dispatch Entries of " + clsCommon.myCstr(dt.Rows.Count) + " Tanker Dispatch.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Tanker Dispatch Entries of " + clsCommon.myCstr(dt.Rows.Count) + " Tanker Dispatch.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -22320,9 +22321,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -22472,7 +22473,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted MCC Material Sale", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted MCC Material Sale", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
@@ -22489,9 +22490,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -22540,7 +22541,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Silo Milk Transfer of " + clsCommon.myCstr(dt.Rows.Count) + " Silo Milk Transfer.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Silo Milk Transfer of " + clsCommon.myCstr(dt.Rows.Count) + " Silo Milk Transfer.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -22561,9 +22562,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -22598,7 +22599,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -22660,7 +22661,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -22687,9 +22688,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -22732,7 +22733,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             Dim qry As String = "select * from Temp_BSSale where DocumentNo not in (select DocumentNo from Temp_BSSale_Done)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -22756,9 +22757,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -23292,7 +23293,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             Dim strErro As String = ""
             Dim trans As SqlTransaction = Nothing
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     flag = False
                     trans = clsDBFuncationality.GetTransactin()
                     clsCommon.ProgressBarPercentShow()
@@ -23357,7 +23358,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             strErro = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If flag Then
-                    If Not common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If Not clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         clsCommon.ProgressBarPercentHide()
                         Exit Sub
                     End If
@@ -23389,9 +23390,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             End If
             clsCommon.ProgressBarPercentHide()
             If clsCommon.myLen(strErro) > 0 Then
-                common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                clsCommon.MyMessageBoxShow(strErro, Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -23448,7 +23449,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Unpost Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Unpost Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -23469,9 +23470,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -23524,7 +23525,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Gate In Entries of " + clsCommon.myCstr(dt.Rows.Count) + " Gate Entry.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Gate In Entries of " + clsCommon.myCstr(dt.Rows.Count) + " Gate Entry.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -23630,9 +23631,9 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -23705,7 +23706,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 Throw New Exception("From Date cannot be more than to date")
             End If
             strfromDate = txtDairyFromdate.Value
-            If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale for  " & clsCommon.GetPrintDate(strfromDate, "dd/MMM/yyyy"), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale for  " & clsCommon.GetPrintDate(strfromDate, "dd/MMM/yyyy"), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim dtNoOfdays As DataTable = clsDBFuncationality.GetDataTable("select datediff(day,convert(date, '" & txtDairyFromdate.Value & "',103),convert(date,'" + clsCommon.GetPrintDate(txtDairyTodate.Value, "dd/MM/yyyy") + "',103)  ) as NoofDay ")
                 If dtNoOfdays IsNot Nothing AndAlso dtNoOfdays.Rows.Count > 0 Then
                     Dim NoofDays As Integer = Convert.ToInt16(dtNoOfdays.Rows(0)("NoofDay"))
@@ -23877,7 +23878,7 @@ Recreate:
                             strErro = ""
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 If flag Then
-                                    If Not common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale/Transfer " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                                    If Not clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale/Transfer " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                                         clsCommon.ProgressBarPercentHide()
                                         Exit Sub
                                     End If
@@ -23939,9 +23940,9 @@ Recreate:
                 End If
             End If
             If clsCommon.myLen(strErro) > 0 Then
-                common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                clsCommon.MyMessageBoxShow(strErro, Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -24004,7 +24005,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Acquisition JV " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Acquisition JV " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Acquisition_Code"))
@@ -24033,9 +24034,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24241,7 +24242,7 @@ Recreate:
             Dim qry As String = "select * from TEMP_CREATED_RGP_JE where RGP_No not in (select DocumentNo from TEMP_CREATED_RGP_JE_Done)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -24274,9 +24275,9 @@ Recreate:
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24294,7 +24295,7 @@ Recreate:
 " where not exists (select 1   from tspl_Journal_master where Source_Code='MP-IV'  and tspl_Journal_master.Source_Doc_No=xx.Doc_No  )"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -24345,9 +24346,9 @@ Recreate:
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24366,7 +24367,7 @@ Recreate:
             "where not exists (select 1   from tspl_Journal_master where Source_Code='MP-DE'  and tspl_Journal_master.Source_Doc_No=xx.Doc_No  )"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -24420,9 +24421,9 @@ Recreate:
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24473,7 +24474,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork ESTIMATE", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork ESTIMATE", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -24498,9 +24499,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24537,7 +24538,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Update Control Account 'N' for GL Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Update Control Account 'N' for GL Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Account_code"))
@@ -24556,9 +24557,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24576,7 +24577,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Update Control Account 'Y' for Gl Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Update Control Account 'Y' for Gl Accounts  " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Account_code"))
@@ -24595,9 +24596,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24663,7 +24664,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted MCC Material Farmer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted MCC Material Farmer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
@@ -24680,9 +24681,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24737,7 +24738,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork ESTIMATE", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " Jobwork ESTIMATE", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -24763,9 +24764,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24822,7 +24823,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Inventory of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Inventory of " + clsCommon.myCstr(dt.Rows.Count) + " TR", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Doc_No"))
@@ -24846,9 +24847,9 @@ Recreate:
                     clsCommon.ProgressBarPercentHide()
                 End If
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -24908,7 +24909,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Dairy Shipment/Sale " + clsCommon.myCstr(dt.Rows.Count), Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDispatchDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DispatchDocNo"))
@@ -24929,9 +24930,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -24985,7 +24986,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Inventory of " + clsCommon.myCstr(dt.Rows.Count) + " MCC Material Sale Farmer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Inventory of " + clsCommon.myCstr(dt.Rows.Count) + " MCC Material Sale Farmer", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -25010,9 +25011,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -25062,7 +25063,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Acknowledgement Entry", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Acknowledgement Entry", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
@@ -25082,9 +25083,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -25098,7 +25099,7 @@ Recreate:
         Dim qry As String = "select * from Temp_DSSale_Return where DocumentNo not in (select DocumentNo from Temp_DSSale_Return_Done)"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim strErro As String = ""
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -25156,9 +25157,9 @@ Recreate:
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -25246,7 +25247,7 @@ Recreate:
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Acknowledgement Entry", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Acknowledgement Entry", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
@@ -25265,9 +25266,9 @@ Recreate:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -25318,7 +25319,7 @@ LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.CUST_CODE=TSPL_CUST
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Leakage Replacement", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Leakage Replacement", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
@@ -25337,9 +25338,9 @@ LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.CUST_CODE=TSPL_CUST
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -25404,7 +25405,7 @@ where tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete Booking of " + clsCommon.myCstr(dt.Rows.Count) + " Booking.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete Booking of " + clsCommon.myCstr(dt.Rows.Count) + " Booking.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
@@ -25422,9 +25423,9 @@ where tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.
 
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -25471,7 +25472,7 @@ where Prog_Code='MCC-DISP'"
                 Dim qry As String = "select * from TEMP_CREATED_TANKER_DISPATCH_PROVISION_JE where Doc_No not in (select Doc_No from TEMP_CREATED_TANKER_DISPATCH_PROVISION_JE_DONE)"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of Tanker Dispatch Provision " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow("Recreate Journal Entry of Tanker Dispatch Provision " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         Dim strErro As String = ""
                         Try
                             clsCommon.ProgressBarPercentShow()
@@ -25514,9 +25515,9 @@ where Prog_Code='MCC-DISP'"
                             clsCommon.ProgressBarPercentHide()
                         End Try
                         If clsCommon.myLen(strErro) > 0 Then
-                            common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                         Else
-                            common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                         End If
                     End If
                 End If
@@ -25573,7 +25574,7 @@ where Prog_Code='MCC-DISP'"
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strErro As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Multiple Deduction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Delete [ " + clsCommon.myCstr(dt.Rows.Count) + " ] Posted Multiple Deduction", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     clsCommon.ProgressBarPercentShow()
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         Dim strDocNo As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
@@ -25591,9 +25592,9 @@ where Prog_Code='MCC-DISP'"
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
@@ -25679,7 +25680,7 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
             Dim qry As String = "select * from TEMP_CREATED_ASSET_SCRAP where DocumentNo not in (select DocumentNo from TEMP_CREATED_ASSET_SCRAP_DONE)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate AR Invoice/Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate AR Invoice/Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -25725,9 +25726,9 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -25850,7 +25851,7 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
                 clsDBFuncationality.ExecuteNonQuery(qryDisableCons, trans)
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -25988,7 +25989,7 @@ where ISNULL( TSPL_SD_SALE_INVOICE_HEAD.Status,0)=1"
             Dim qry As String = "select * from Temp_RCDFCF_Sale where DocumentNo not in (select DocumentNo from Temp_RCDFCF_Sale_Done)"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     Dim strErro As String = ""
                     Try
                         clsCommon.ProgressBarPercentShow()
@@ -26035,9 +26036,9 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD
                         clsCommon.ProgressBarPercentHide()
                     End Try
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
@@ -26285,7 +26286,7 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
         'If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
-        '    common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+        '    clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
         '    'gvData.DataSource = Nothing
         'End If
         Dim qry As String = ""
@@ -26564,7 +26565,7 @@ and TSPL_SD_SALE_INVOICE_HEAD.IRN_No is null"
 
             End If
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Are you sure to Cancel no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Are you sure to Cancel no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     clsCommon.ProgressBarShow()
                     Try
@@ -26636,7 +26637,7 @@ And TSPL_SD_SALE_INVOICE_HEAD.IRN_No Is null"
 
             End If
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Are you sure to Cancel no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Are you sure to Cancel no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     clsCommon.ProgressBarShow()
                     Try
@@ -26711,7 +26712,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             Dim arr As ArrayList = Nothing
             arr = clsCommon.ShowMultipleSelectForm("CancelDairySales", Qry, "Shipment_No", "", Nothing, Nothing)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                If common.clsCommon.MyMessageBoxShow("Are you sure to Update no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow("Are you sure to Update no of [" + clsCommon.myCstr(arr.Count) + "] Records?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     Try
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         clsCommon.ProgressBarShow()
@@ -27026,6 +27027,33 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
         Return True
 
     End Function
+
+    Private Sub RadButton313_Click(sender As Object, e As EventArgs) Handles RadButton313.Click
+        Try
+            If clsCommon.MyMessageBoxShow(Me, "Delete BMC Milk Collection of [" + clsCommon.GetPrintDate(txtBmcMilkCollectionDate.value, "dd/MMM/yyyy") + "]", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Try
+                    Dim qry As String = " delete from TSPL_MILK_COLLECTION_MCC_DETAIL where  Document_No in ( select Document_No from TSPL_MILK_COLLECTION_MCC where convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(txtBmcMilkCollectionDate.Value, "dd/MMM/yyyy") + "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = " delete from TSPL_MILK_COLLECTION_MCC where convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(txtBmcMilkCollectionDate.Value, "dd/MMM/yyyy") + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    trans.Commit()
+                    clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
+                Catch ex As Exception
+                    trans.Rollback()
+                    If ex.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint") Then
+                        Throw New Exception("Record is in Used")
+                    Else
+                        Throw New Exception(ex.Message)
+                    End If
+                End Try
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 Public Class clsDCDetail
 #Region "Varibales"
