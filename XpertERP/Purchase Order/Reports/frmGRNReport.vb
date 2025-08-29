@@ -182,6 +182,7 @@ Public Class FrmGRNReport
 				(case when  TSPL_NIR_QC.Status='1'then 'Posted' when TSPL_NIR_QC.Status='0' then  'Unposted'end) AS [NIR Status],
 				TSPL_NIR_QC.QC_Remarks as [NIR QC Remark]
                 ,convert(varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as [Chemical QC Date],TSPL_QC_CHECK_HEAD.Document_Code as [Chemical QC No]
+                ,zxv.*
                 ,TSPL_QC_CHECK_HEAD.QC_Status AS [Chemical QC Result]
                 ,(case when TSPL_QC_CHECK_HEAD.Posted=1 then 'Posted' when TSPL_QC_CHECK_HEAD.Posted=0 then 'UnPosted' end) as [Chemical QC Status]
                 ,(case when TSPL_QC_CHECK_HEAD.Approved_For_SRN=1 then 'Approved' when TSPL_QC_CHECK_HEAD.Approved_For_SRN=0 then 'UnApproved' end) as [Chemical QC Approved Status]
@@ -218,6 +219,49 @@ Public Class FrmGRNReport
                 left outer join TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_NO =TSPL_SRN_HEAD.SRN_NO
                 AND TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
                 left outer join tspl_item_master ON tspl_item_master.item_code=TSPL_GRN_DETAIL.ITEM_CODE
+
+                left outer join ( SELECT 
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 1 THEN TSPL_GRN_HEAD.GRN_No END) AS GRN_No1,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 1 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName1,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 1 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData1,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 2 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName2,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 2 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData2,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 3 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName3,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 3 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData3,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 4 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName4,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 4 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData4,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 5 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName5,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 5 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData5,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 6 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName6,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 6 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData6,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 7 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName7,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 7 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData7,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 8 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName8,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 8 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData8,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 9 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName9,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 9 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData9,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 10 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName10,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 10 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData10,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 11 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName11,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 11 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData11,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 12 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName12,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 12 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData12,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 13 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName13,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 13 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData13,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 14 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName14,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 14 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData14,
+	            MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 15 THEN TSPL_QC_LOG_SHEET_MASTER.AliasName END) AS AliasName15,
+                MAX(CASE WHEN TSPL_QC_CHECK_SRN_DETAIL.Line_No = 15 THEN TSPL_QC_CHECK_SRN_DETAIL.InputData END) AS InputData15
+                FROM TSPL_QC_CHECK_SRN_DETAIL
+                LEFT OUTER JOIN TSPL_QC_LOG_SHEET_MASTER 
+                       ON TSPL_QC_LOG_SHEET_MASTER.Code = TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code
+                LEFT OUTER JOIN TSPL_MRN_HEAD
+                       ON TSPL_MRN_HEAD.MRN_No = TSPL_QC_CHECK_SRN_DETAIL.MRN_No
+                LEFT OUTER JOIN TSPL_GRN_HEAD
+                       ON TSPL_GRN_HEAD.GRN_No = TSPL_MRN_HEAD.Against_GRN
+                WHERE 2 = 2
+                GROUP BY TSPL_QC_CHECK_SRN_DETAIL.MRN_No )zxv on zxv.GRN_No1=TSPL_GRN_HEAD.GRN_No
+
                 where 1=1 "
                 If txtPoNo.arrValueMember IsNot Nothing AndAlso txtPoNo.arrValueMember.Count > 0 Then
                     qry += " and TSPL_GRN_HEAD.GRN_No in (" + clsCommon.GetMulcallString(txtPoNo.arrValueMember) + ") " + Environment.NewLine

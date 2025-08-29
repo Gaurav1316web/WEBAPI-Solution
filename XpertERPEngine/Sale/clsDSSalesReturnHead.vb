@@ -143,6 +143,7 @@ Public Class clsDSSalesReturnHead
     Public Salesman_Code As String = Nothing
     Public Salesman_Name As String = Nothing
     Public Arr As List(Of clsDSSalesReturnDetail) = Nothing
+    Public Booth_Arr As List(Of clsDSSalesReturnBookingDetail) = Nothing
 
     Public Form_ID As String = ""
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
@@ -933,9 +934,11 @@ from
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
             End If
 
-            Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" & obj.Document_Code & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            Dim strDocNo As String = ""
+            qry = "delete from TSPL_SD_SALE_RETURN_BOOKING_DETAIL where Document_Code='" & obj.Document_Code & "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            'Dim strDocNo As String = ""
             If isNewEntry Then
                 If obj.Is_Cancelled = 1 Then
                     'If obj.Trans_type = "PS" And obj.Screen_Type = "DS" Then
@@ -1124,6 +1127,10 @@ from
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_RETURN_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsDSSalesReturnDetail.SaveData(obj.Document_Code, obj.Document_Date, Arr, obj.Trans_type, trans)
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, trans)) = 1 Then
+                isSaved = isSaved AndAlso clsDSSalesReturnBookingDetail.SaveData(obj.Document_Code, obj.Booth_Arr, trans)
+
+            End If
             isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
             '''' to save item weight unit
             qry = "update TSPL_SD_SALE_RETURN_DETAIL set Weight_UOM= (select Weight_UOM from TSPL_ITEM_MASTER where Item_Code=TSPL_SD_SALE_RETURN_DETAIL.Item_Code)  where Document_Code='" + obj.Document_Code + "'"
@@ -1595,6 +1602,27 @@ from
                 Next
             End If
 
+            qry = " select TSPL_SD_SALE_RETURN_Booking_DETAIL.Document_Code,TSPL_SD_SALE_RETURN_Booking_DETAIL.Booth_Code,TSPL_Customer_Master.Customer_Name as Booth_Name,TSPL_SD_SALE_RETURN_Booking_DETAIL.item_Code,TSPL_ITEM_MASTER.Short_Description as Item_Name,TSPL_SD_SALE_RETURN_Booking_DETAIL.Unit_Code,TSPL_SD_SALE_RETURN_Booking_DETAIL.Return_Qty from TSPL_SD_SALE_RETURN_Booking_DETAIL
+ left join TSPL_Customer_Master on TSPL_Customer_Master.Cust_Code=TSPL_SD_SALE_RETURN_Booking_DETAIL.Booth_Code
+ left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_RETURN_Booking_DETAIL.item_Code
+ where TSPL_SD_SALE_RETURN_Booking_DETAIL.Document_Code='" & obj.Document_Code & "'"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj.Booth_Arr = New List(Of clsDSSalesReturnBookingDetail)
+                Dim objBoothTr As clsDSSalesReturnBookingDetail
+                For Each dr As DataRow In dt.Rows
+                    objBoothTr = New clsDSSalesReturnBookingDetail
+                    objBoothTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                    objBoothTr.Booth_Code = clsCommon.myCstr(dr("Booth_Code"))
+                    objBoothTr.Booth_Name = clsCommon.myCstr(dr("Booth_Name"))
+                    objBoothTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                    objBoothTr.Item_Name = clsCommon.myCstr(dr("Item_Name"))
+                    objBoothTr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
+                    objBoothTr.Return_Qty = clsCommon.myCstr(dr("Return_Qty"))
+                    obj.Booth_Arr.Add(objBoothTr)
+                Next
+
+            End If
         End If
 
         Return obj
@@ -2695,10 +2723,12 @@ where TSPL_SD_SALE_RETURN_HEAD.Document_Code = '" & strDocNo & "'"
                 End If
                 clsSerializeInvenotry.DeleteData("Sale Return", strCode, trans)
                 clsBatchInventory.DeleteData(Trans_type_Str, strCode, trans)
-                Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + strCode + "'"
+                Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" & strCode & "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                qry = "delete from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" + strCode + "'"
+                qry = "delete from TSPL_SD_SALE_RETURN_BOOKING_DETAIL where Document_Code='" & strCode & "'"
+                isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SALE_RETURN_HEAD where Document_Code='" & strCode & "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
 
@@ -3217,3 +3247,43 @@ Public Class clsDSSalesReturnDetail
     End Function
 End Class
 
+Public Class clsDSSalesReturnBookingDetail
+#Region "Variables"
+    Public Document_Code As String = ""
+    Public Booth_Code As String = ""
+    Public Booth_Name As String = ""
+    Public Item_Code As String = ""
+    Public Item_Name As String = ""
+    Public Unit_Code As String = ""
+    Public Return_Qty As Double = 0
+
+#End Region
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsDSSalesReturnBookingDetail), ByVal trans As SqlTransaction) As Boolean
+        Try
+            If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+                For Each obj As clsDSSalesReturnBookingDetail In Arr
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                    clsCommon.AddColumnsForChange(coll, "Booth_Code", obj.Booth_Code)
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
+                    clsCommon.AddColumnsForChange(coll, "Return_Qty", obj.Return_Qty)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    'Public Shared Function GetData(ByVal strSRNCode As String, ByVal trans As SqlTransaction) As clsDSSalesReturnBookingDetail
+    '    Dim obj As List(Of clsDSSalesReturnBookingDetail)
+    '    Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+    '        " select TSPL_SD_SALE_RETURN_DETAIL.Item_Code as ICode,TSPL_SD_SALE_RETURN_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_RETURN_DETAIL left outer join TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.Document_Code=TSPL_SD_SALE_RETURN_DETAIL.Document_Code where TSPL_SD_SALE_RETURN_DETAIL.Status=0 and TSPL_SD_SALE_RETURN_HEAD.Status=1 and TSPL_SD_SALE_RETURN_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_RETURN_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_RETURN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_RETURN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_RETURN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " &
+    '        " union all " &
+    '        " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " &
+    '        " )Final "
+    '    Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+    'End Function
+End Class
