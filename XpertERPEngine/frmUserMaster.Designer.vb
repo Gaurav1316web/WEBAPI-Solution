@@ -23,13 +23,13 @@ Partial Class FrmUserMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblUserCode = New common.Controls.MyLabel()
         Me.lblUserType = New common.Controls.MyLabel()
         Me.lbl1 = New common.Controls.MyLabel()
@@ -54,6 +54,8 @@ Partial Class FrmUserMaster
         Me.rmImportZone = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImportCustomerCategory = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.TxtMultiBank = New common.UserControls.txtMultiSelectFinder()
+        Me.lblBank = New common.Controls.MyLabel()
         Me.lblSubLocation = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.txtSubLocation = New common.UserControls.txtFinder()
@@ -131,17 +133,16 @@ Partial Class FrmUserMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.lblLength = New common.Controls.MyLabel()
         Me.GBRoute = New System.Windows.Forms.GroupBox()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
-        Me.lblLength = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCustomer = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvUser = New common.UserControls.MyRadGridView()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.lblBank = New common.Controls.MyLabel()
-        Me.TxtMultiBank = New common.UserControls.txtMultiSelectFinder()
         CType(Me.lblUserCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUserType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,6 +158,7 @@ Partial Class FrmUserMaster
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.lblBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSSO, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -208,10 +210,8 @@ Partial Class FrmUserMaster
         CType(Me.txtUserName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSarasPro, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.btnSarasPro.SuspendLayout()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSarasOrder, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.btnSarasOrder.SuspendLayout()
         CType(Me.lblEmployeeCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtEmployeeName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmployeeName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -221,8 +221,11 @@ Partial Class FrmUserMaster
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        Me.GBRoute.SuspendLayout()
+        CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadScrollablePanel1.PanelContainer.SuspendLayout()
+        Me.RadScrollablePanel1.SuspendLayout()
         CType(Me.lblLength, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GBRoute.SuspendLayout()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -231,7 +234,6 @@ Partial Class FrmUserMaster
         CType(Me.gvUser.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -304,7 +306,7 @@ Partial Class FrmUserMaster
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(5, 10)
+        Me.btnSave.Location = New System.Drawing.Point(5, -6)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(68, 23)
         Me.btnSave.TabIndex = 0
@@ -314,7 +316,7 @@ Partial Class FrmUserMaster
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(73, 10)
+        Me.btnDelete.Location = New System.Drawing.Point(73, -6)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(68, 23)
         Me.btnDelete.TabIndex = 1
@@ -324,7 +326,7 @@ Partial Class FrmUserMaster
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(648, 10)
+        Me.btnClose.Location = New System.Drawing.Point(832, -6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 23)
         Me.btnClose.TabIndex = 2
@@ -346,16 +348,16 @@ Partial Class FrmUserMaster
         Me.ddlUserType.IsSourceFromTable = False
         Me.ddlUserType.IsSourceFromValueList = False
         Me.ddlUserType.IsUnique = False
-        RadListDataItem6.Text = "Level1"
-        RadListDataItem7.Text = "Level2"
-        RadListDataItem8.Text = "Level3"
-        RadListDataItem9.Text = "Level4"
-        RadListDataItem10.Text = "Level5"
-        Me.ddlUserType.Items.Add(RadListDataItem6)
-        Me.ddlUserType.Items.Add(RadListDataItem7)
-        Me.ddlUserType.Items.Add(RadListDataItem8)
-        Me.ddlUserType.Items.Add(RadListDataItem9)
-        Me.ddlUserType.Items.Add(RadListDataItem10)
+        RadListDataItem1.Text = "Level1"
+        RadListDataItem2.Text = "Level2"
+        RadListDataItem3.Text = "Level3"
+        RadListDataItem4.Text = "Level4"
+        RadListDataItem5.Text = "Level5"
+        Me.ddlUserType.Items.Add(RadListDataItem1)
+        Me.ddlUserType.Items.Add(RadListDataItem2)
+        Me.ddlUserType.Items.Add(RadListDataItem3)
+        Me.ddlUserType.Items.Add(RadListDataItem4)
+        Me.ddlUserType.Items.Add(RadListDataItem5)
         Me.ddlUserType.Location = New System.Drawing.Point(192, 154)
         Me.ddlUserType.MendatroryField = False
         Me.ddlUserType.MyLinkLable1 = Nothing
@@ -409,7 +411,7 @@ Partial Class FrmUserMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.munuExport})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(732, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(916, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'munuExport
@@ -529,6 +531,29 @@ Partial Class FrmUserMaster
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(601, 502)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'TxtMultiBank
+        '
+        Me.TxtMultiBank.arrDispalyMember = Nothing
+        Me.TxtMultiBank.arrValueMember = Nothing
+        Me.TxtMultiBank.Location = New System.Drawing.Point(104, 377)
+        Me.TxtMultiBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiBank.MyLinkLable1 = Nothing
+        Me.TxtMultiBank.MyLinkLable2 = Nothing
+        Me.TxtMultiBank.MyNullText = "All"
+        Me.TxtMultiBank.Name = "TxtMultiBank"
+        Me.TxtMultiBank.Size = New System.Drawing.Size(470, 19)
+        Me.TxtMultiBank.TabIndex = 408
+        '
+        'lblBank
+        '
+        Me.lblBank.FieldName = Nothing
+        Me.lblBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBank.Location = New System.Drawing.Point(18, 377)
+        Me.lblBank.Name = "lblBank"
+        Me.lblBank.Size = New System.Drawing.Size(32, 16)
+        Me.lblBank.TabIndex = 407
+        Me.lblBank.Text = "Bank"
         '
         'lblSubLocation
         '
@@ -1396,9 +1421,8 @@ Partial Class FrmUserMaster
         'btnSarasPro
         '
         Me.btnSarasPro.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSarasPro.Controls.Add(Me.txtProSaras)
         Me.btnSarasPro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSarasPro.Location = New System.Drawing.Point(484, 10)
+        Me.btnSarasPro.Location = New System.Drawing.Point(484, -6)
         Me.btnSarasPro.Name = "btnSarasPro"
         Me.btnSarasPro.Size = New System.Drawing.Size(108, 23)
         Me.btnSarasPro.TabIndex = 408
@@ -1408,7 +1432,7 @@ Partial Class FrmUserMaster
         '
         Me.txtProSaras.arrDispalyMember = Nothing
         Me.txtProSaras.arrValueMember = Nothing
-        Me.txtProSaras.Location = New System.Drawing.Point(21, 1)
+        Me.txtProSaras.Location = New System.Drawing.Point(107, 618)
         Me.txtProSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtProSaras.MyLinkLable1 = Me.MyLabel16
         Me.txtProSaras.MyLinkLable2 = Nothing
@@ -1431,9 +1455,8 @@ Partial Class FrmUserMaster
         'btnSarasOrder
         '
         Me.btnSarasOrder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSarasOrder.Controls.Add(Me.txtOrderSaras)
         Me.btnSarasOrder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSarasOrder.Location = New System.Drawing.Point(361, 10)
+        Me.btnSarasOrder.Location = New System.Drawing.Point(361, -6)
         Me.btnSarasOrder.Name = "btnSarasOrder"
         Me.btnSarasOrder.Size = New System.Drawing.Size(117, 23)
         Me.btnSarasOrder.TabIndex = 407
@@ -1443,7 +1466,7 @@ Partial Class FrmUserMaster
         '
         Me.txtOrderSaras.arrDispalyMember = Nothing
         Me.txtOrderSaras.arrValueMember = Nothing
-        Me.txtOrderSaras.Location = New System.Drawing.Point(26, 1)
+        Me.txtOrderSaras.Location = New System.Drawing.Point(26, 618)
         Me.txtOrderSaras.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrderSaras.MyLinkLable1 = Me.MyLabel16
         Me.txtOrderSaras.MyLinkLable2 = Nothing
@@ -1633,8 +1656,8 @@ Partial Class FrmUserMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(732, 690)
-        Me.SplitContainer1.SplitterDistance = 645
+        Me.SplitContainer1.Size = New System.Drawing.Size(916, 453)
+        Me.SplitContainer1.SplitterDistance = 424
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -1646,20 +1669,49 @@ Partial Class FrmUserMaster
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(732, 645)
+        Me.RadPageView1.Size = New System.Drawing.Size(916, 424)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.Controls.Add(Me.GBRoute)
-        Me.RadPageViewPage1.Controls.Add(Me.lblLength)
+        Me.RadPageViewPage1.Controls.Add(Me.RadScrollablePanel1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(711, 597)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(895, 376)
         Me.RadPageViewPage1.Text = "General"
+        '
+        'RadScrollablePanel1
+        '
+        Me.RadScrollablePanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadScrollablePanel1.Location = New System.Drawing.Point(0, 0)
+        Me.RadScrollablePanel1.Name = "RadScrollablePanel1"
+        '
+        'RadScrollablePanel1.PanelContainer
+        '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtProSaras)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtOrderSaras)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox1)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.lblLength)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GBRoute)
+        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(876, 374)
+        Me.RadScrollablePanel1.Size = New System.Drawing.Size(895, 376)
+        Me.RadScrollablePanel1.TabIndex = 17
+        '
+        'lblLength
+        '
+        Me.lblLength.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.lblLength.FieldName = Nothing
+        Me.lblLength.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblLength.Location = New System.Drawing.Point(18, 550)
+        Me.lblLength.Name = "lblLength"
+        Me.lblLength.Size = New System.Drawing.Size(471, 46)
+        Me.lblLength.TabIndex = 15
+        Me.lblLength.Text = "<html><p>Important Instruction</p><p>Password Length maximun 8 characters.</p><p>" &
+    "( Including Special Characters, Numeric, Upper case Alphabet and Lower case Alph" &
+    "abet )</p></html>"
+        Me.lblLength.Visible = False
         '
         'GBRoute
         '
@@ -1683,20 +1735,6 @@ Partial Class FrmUserMaster
         Me.txtRoute.Name = "txtRoute"
         Me.txtRoute.Size = New System.Drawing.Size(472, 19)
         Me.txtRoute.TabIndex = 429
-        '
-        'lblLength
-        '
-        Me.lblLength.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.lblLength.FieldName = Nothing
-        Me.lblLength.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblLength.Location = New System.Drawing.Point(18, 539)
-        Me.lblLength.Name = "lblLength"
-        Me.lblLength.Size = New System.Drawing.Size(471, 46)
-        Me.lblLength.TabIndex = 15
-        Me.lblLength.Text = "<html><p>Important Instruction</p><p>Password Length maximun 8 characters.</p><p>" &
-    "( Including Special Characters, Numeric, Upper case Alphabet and Lower case Alph" &
-    "abet )</p></html>"
-        Me.lblLength.Visible = False
         '
         'RadPageViewPage2
         '
@@ -1722,7 +1760,7 @@ Partial Class FrmUserMaster
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCustomer.MyExportFilePath = ""
         Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
@@ -1758,7 +1796,7 @@ Partial Class FrmUserMaster
         Me.gvUser.MasterTemplate.AllowDeleteRow = False
         Me.gvUser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUser.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvUser.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvUser.MyExportFilePath = ""
         Me.gvUser.MyStopExport = False
         Me.gvUser.Name = "gvUser"
@@ -1773,7 +1811,7 @@ Partial Class FrmUserMaster
         'btnGetHistory
         '
         Me.btnGetHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGetHistory.Location = New System.Drawing.Point(275, 10)
+        Me.btnGetHistory.Location = New System.Drawing.Point(275, -6)
         Me.btnGetHistory.Name = "btnGetHistory"
         Me.btnGetHistory.Size = New System.Drawing.Size(80, 23)
         Me.btnGetHistory.TabIndex = 17
@@ -1783,40 +1821,17 @@ Partial Class FrmUserMaster
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(141, 10)
+        Me.RadButton1.Location = New System.Drawing.Point(141, -6)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(134, 23)
         Me.RadButton1.TabIndex = 3
         Me.RadButton1.Text = "Add Biometric Login"
         '
-        'lblBank
-        '
-        Me.lblBank.FieldName = Nothing
-        Me.lblBank.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBank.Location = New System.Drawing.Point(18, 377)
-        Me.lblBank.Name = "lblBank"
-        Me.lblBank.Size = New System.Drawing.Size(32, 16)
-        Me.lblBank.TabIndex = 407
-        Me.lblBank.Text = "Bank"
-        '
-        'TxtMultiBank
-        '
-        Me.TxtMultiBank.arrDispalyMember = Nothing
-        Me.TxtMultiBank.arrValueMember = Nothing
-        Me.TxtMultiBank.Location = New System.Drawing.Point(104, 377)
-        Me.TxtMultiBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiBank.MyLinkLable1 = Nothing
-        Me.TxtMultiBank.MyLinkLable2 = Nothing
-        Me.TxtMultiBank.MyNullText = "All"
-        Me.TxtMultiBank.Name = "TxtMultiBank"
-        Me.TxtMultiBank.Size = New System.Drawing.Size(470, 19)
-        Me.TxtMultiBank.TabIndex = 408
-        '
         'FrmUserMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(732, 710)
+        Me.ClientSize = New System.Drawing.Size(916, 473)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.fndEmployeeCode)
         Me.Controls.Add(Me.RadMenu1)
@@ -1854,6 +1869,7 @@ Partial Class FrmUserMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.lblBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSSO, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1907,10 +1923,8 @@ Partial Class FrmUserMaster
         CType(Me.txtUserName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSarasPro, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.btnSarasPro.ResumeLayout(False)
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSarasOrder, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.btnSarasOrder.ResumeLayout(False)
         CType(Me.lblEmployeeCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtEmployeeName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEmployeeName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1920,10 +1934,13 @@ Partial Class FrmUserMaster
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout()
+        Me.RadScrollablePanel1.PanelContainer.ResumeLayout(False)
+        Me.RadScrollablePanel1.PanelContainer.PerformLayout()
+        CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadScrollablePanel1.ResumeLayout(False)
+        CType(Me.lblLength, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GBRoute.ResumeLayout(False)
         Me.GBRoute.PerformLayout()
-        CType(Me.lblLength, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCustomer, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1932,7 +1949,6 @@ Partial Class FrmUserMaster
         CType(Me.gvUser, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2052,5 +2068,6 @@ Partial Class FrmUserMaster
     Friend WithEvents txtProSaras As UserControls.txtMultiSelectFinder
     Friend WithEvents lblBank As Controls.MyLabel
     Friend WithEvents TxtMultiBank As UserControls.txtMultiSelectFinder
+    Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
 End Class
 

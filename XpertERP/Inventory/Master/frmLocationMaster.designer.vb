@@ -74,6 +74,7 @@ Partial Class frmLocationMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.Details = New Telerik.WinControls.UI.RadPageViewPage()
         Me.radgroupbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkSaleLocation = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsEinvoice = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIsProduction = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtPhone2 = New common.Controls.MyTextBox()
@@ -330,7 +331,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.chkSaleLocation = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rdbbtnNA = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -345,6 +346,7 @@ Partial Class frmLocationMaster
         Me.Details.SuspendLayout()
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.radgroupbox.SuspendLayout()
+        CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsProduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -631,7 +633,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbbtnNA, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -835,6 +837,7 @@ Partial Class frmLocationMaster
         'radgroupbox
         '
         Me.radgroupbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.radgroupbox.Controls.Add(Me.rdbbtnNA)
         Me.radgroupbox.Controls.Add(Me.chkSaleLocation)
         Me.radgroupbox.Controls.Add(Me.chkIsEinvoice)
         Me.radgroupbox.Controls.Add(Me.chkIsProduction)
@@ -939,6 +942,15 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Size = New System.Drawing.Size(876, 542)
         Me.radgroupbox.TabIndex = 0
         Me.radgroupbox.Text = "Details"
+        '
+        'chkSaleLocation
+        '
+        Me.chkSaleLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSaleLocation.Location = New System.Drawing.Point(678, 264)
+        Me.chkSaleLocation.Name = "chkSaleLocation"
+        Me.chkSaleLocation.Size = New System.Drawing.Size(89, 16)
+        Me.chkSaleLocation.TabIndex = 1394
+        Me.chkSaleLocation.Text = "Sale Location"
         '
         'chkIsEinvoice
         '
@@ -5232,14 +5244,13 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
-        'chkSaleLocation
+        'rdbbtnNA
         '
-        Me.chkSaleLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSaleLocation.Location = New System.Drawing.Point(678, 264)
-        Me.chkSaleLocation.Name = "chkSaleLocation"
-        Me.chkSaleLocation.Size = New System.Drawing.Size(89, 16)
-        Me.chkSaleLocation.TabIndex = 1394
-        Me.chkSaleLocation.Text = "Sale Location"
+        Me.rdbbtnNA.Location = New System.Drawing.Point(343, 395)
+        Me.rdbbtnNA.Name = "rdbbtnNA"
+        Me.rdbbtnNA.Size = New System.Drawing.Size(36, 18)
+        Me.rdbbtnNA.TabIndex = 1400
+        Me.rdbbtnNA.Text = "NA"
         '
         'frmLocationMaster
         '
@@ -5271,6 +5282,7 @@ Partial Class frmLocationMaster
         CType(Me.radgroupbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radgroupbox.ResumeLayout(False)
         Me.radgroupbox.PerformLayout()
+        CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsEinvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsProduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5573,7 +5585,7 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSaleLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbbtnNA, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5859,5 +5871,6 @@ Partial Class frmLocationMaster
     Friend WithEvents chkIsProduction As RadCheckBox
     Friend WithEvents chkIsEinvoice As RadCheckBox
     Friend WithEvents chkSaleLocation As RadCheckBox
+    Friend WithEvents rdbbtnNA As RadRadioButton
 End Class
 

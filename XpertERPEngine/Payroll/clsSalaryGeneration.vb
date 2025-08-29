@@ -5356,7 +5356,7 @@ where TSPL_DA_ARREAR_HEADER.Pay_Period='" + Pay_Period_Code + "' )DAArrear on DA
         Dim MaxAmt As String = "Select PAY_HEAD_CODE,MAX_AMOUNT from TSPL_EMPLOYEE_SALARY_PAYHEADS 
                                 left outer join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  =TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE  
                                 where TSPL_EMPLOYEE_SALARY.EMP_CODE In " & strEmps & " and APPLICABLE_FROM=(
-                                SELECT MAX(APPLICABLE_FROM) FROM TSPL_EMPLOYEE_SALARY WHERE EMP_CODE = TSPL_EMPLOYEE_SALARY.EMP_CODE) order by LINE_NO"
+                                SELECT MAX(APPLICABLE_FROM) FROM TSPL_EMPLOYEE_SALARY WHERE EMP_CODE = TSPL_EMPLOYEE_SALARY.EMP_CODE and TSPL_EMPLOYEE_SALARY.EMP_CODE In " & strEmps & ") order by LINE_NO"
         Dim dtMax As DataTable = clsDBFuncationality.GetDataTable(MaxAmt, trans)
 
         For Each drSeq As DataRow In dtSeq.Rows
