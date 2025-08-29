@@ -22,10 +22,11 @@ Partial Class frmSaleReturnDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -57,8 +58,6 @@ Partial Class frmSaleReturnDairy
         Me.txtGENo = New common.Controls.MyTextBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadLabel13 = New common.Controls.MyLabel()
-        Me.txtGRNo = New common.Controls.MyTextBox()
         Me.RadLabel28 = New common.Controls.MyLabel()
         Me.txtDept = New common.UserControls.txtFinder()
         Me.lblDept = New common.Controls.MyLabel()
@@ -205,6 +204,10 @@ Partial Class frmSaleReturnDairy
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvBooth = New common.UserControls.MyRadGridView()
+        Me.RadLabel13 = New common.Controls.MyLabel()
+        Me.txtGRNo = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -239,8 +242,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gv1.SuspendLayout()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDept, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -370,6 +371,11 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.gvBooth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvBooth.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -409,6 +415,7 @@ Partial Class frmSaleReturnDairy
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Controls.Add(Me.pvpCustomFields)
@@ -925,7 +932,7 @@ Partial Class frmSaleReturnDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -936,42 +943,6 @@ Partial Class frmSaleReturnDairy
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
-        '
-        'RadLabel13
-        '
-        Me.RadLabel13.FieldName = Nothing
-        Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel13.Location = New System.Drawing.Point(737, 23)
-        Me.RadLabel13.Name = "RadLabel13"
-        Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
-        Me.RadLabel13.TabIndex = 34
-        Me.RadLabel13.Text = "GR No"
-        Me.RadLabel13.Visible = False
-        '
-        'txtGRNo
-        '
-        Me.txtGRNo.CalculationExpression = Nothing
-        Me.txtGRNo.FieldCode = Nothing
-        Me.txtGRNo.FieldDesc = Nothing
-        Me.txtGRNo.FieldMaxLength = 0
-        Me.txtGRNo.FieldName = Nothing
-        Me.txtGRNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGRNo.isCalculatedField = False
-        Me.txtGRNo.IsSourceFromTable = False
-        Me.txtGRNo.IsSourceFromValueList = False
-        Me.txtGRNo.IsUnique = False
-        Me.txtGRNo.Location = New System.Drawing.Point(815, 22)
-        Me.txtGRNo.MaxLength = 50
-        Me.txtGRNo.MendatroryField = False
-        Me.txtGRNo.MyLinkLable1 = Me.RadLabel13
-        Me.txtGRNo.MyLinkLable2 = Nothing
-        Me.txtGRNo.Name = "txtGRNo"
-        Me.txtGRNo.ReferenceFieldDesc = Nothing
-        Me.txtGRNo.ReferenceFieldName = Nothing
-        Me.txtGRNo.ReferenceTableName = Nothing
-        Me.txtGRNo.Size = New System.Drawing.Size(338, 18)
-        Me.txtGRNo.TabIndex = 16
-        Me.txtGRNo.Visible = False
         '
         'RadLabel28
         '
@@ -2271,7 +2242,7 @@ Partial Class frmSaleReturnDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2325,7 +2296,7 @@ Partial Class frmSaleReturnDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -3055,9 +3026,81 @@ Partial Class frmSaleReturnDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
+        WindowsSettings2.EnableRoundedCorners = Nothing
+        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.gvBooth)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(78.0!, 26.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1197, 353)
+        Me.RadPageViewPage5.Text = "Booth Detail"
+        '
+        'gvBooth
+        '
+        Me.gvBooth.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvBooth.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvBooth.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvBooth.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvBooth.ForeColor = System.Drawing.Color.Black
+        Me.gvBooth.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvBooth.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvBooth.MasterTemplate.AllowDeleteRow = False
+        Me.gvBooth.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvBooth.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvBooth.MyExportFilePath = ""
+        Me.gvBooth.MyStopExport = False
+        Me.gvBooth.Name = "gvBooth"
+        Me.gvBooth.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvBooth.ShowGroupPanel = False
+        Me.gvBooth.ShowHeaderCellButtons = True
+        Me.gvBooth.Size = New System.Drawing.Size(1197, 353)
+        Me.gvBooth.TabIndex = 1
+        Me.gvBooth.TabStop = False
+        Me.gvBooth.VarID = ""
+        '
+        'RadLabel13
+        '
+        Me.RadLabel13.FieldName = Nothing
+        Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel13.Location = New System.Drawing.Point(709, 14)
+        Me.RadLabel13.Name = "RadLabel13"
+        Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
+        Me.RadLabel13.TabIndex = 36
+        Me.RadLabel13.Text = "GR No"
+        Me.RadLabel13.Visible = False
+        '
+        'txtGRNo
+        '
+        Me.txtGRNo.CalculationExpression = Nothing
+        Me.txtGRNo.FieldCode = Nothing
+        Me.txtGRNo.FieldDesc = Nothing
+        Me.txtGRNo.FieldMaxLength = 0
+        Me.txtGRNo.FieldName = Nothing
+        Me.txtGRNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGRNo.isCalculatedField = False
+        Me.txtGRNo.IsSourceFromTable = False
+        Me.txtGRNo.IsSourceFromValueList = False
+        Me.txtGRNo.IsUnique = False
+        Me.txtGRNo.Location = New System.Drawing.Point(787, 13)
+        Me.txtGRNo.MaxLength = 50
+        Me.txtGRNo.MendatroryField = False
+        Me.txtGRNo.MyLinkLable1 = Me.RadLabel13
+        Me.txtGRNo.MyLinkLable2 = Nothing
+        Me.txtGRNo.Name = "txtGRNo"
+        Me.txtGRNo.ReferenceFieldDesc = Nothing
+        Me.txtGRNo.ReferenceFieldName = Nothing
+        Me.txtGRNo.ReferenceTableName = Nothing
+        Me.txtGRNo.Size = New System.Drawing.Size(338, 18)
+        Me.txtGRNo.TabIndex = 35
+        Me.txtGRNo.Visible = False
         '
         'frmSaleReturnDairy
         '
@@ -3115,8 +3158,6 @@ Partial Class frmSaleReturnDairy
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gv1.ResumeLayout(False)
         Me.gv1.PerformLayout()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDept, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3253,6 +3294,11 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
+        CType(Me.gvBooth.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvBooth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3287,7 +3333,6 @@ Partial Class frmSaleReturnDairy
     Friend WithEvents txtTermCode As common.UserControls.txtFinder
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtGENo As common.Controls.MyTextBox
-    Friend WithEvents txtGRNo As common.Controls.MyTextBox
     Friend WithEvents txtCarrier As common.Controls.MyTextBox
     Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnAddCost As Telerik.WinControls.UI.RadButton
@@ -3339,7 +3384,6 @@ Partial Class frmSaleReturnDairy
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents RadLabel12 As common.Controls.MyLabel
     Friend WithEvents RadLabel21 As common.Controls.MyLabel
-    Friend WithEvents RadLabel13 As common.Controls.MyLabel
     Friend WithEvents RadLabel8 As common.Controls.MyLabel
     Friend WithEvents RadLabel5 As common.Controls.MyLabel
     Friend WithEvents RadLabel20 As common.Controls.MyLabel
@@ -3437,5 +3481,9 @@ Partial Class frmSaleReturnDairy
     Friend WithEvents MyLabel60 As common.Controls.MyLabel
     Friend WithEvents txtSubLocation As common.UserControls.txtFinder
     Friend WithEvents btnCancel As RadButton
+    Friend WithEvents RadLabel13 As common.Controls.MyLabel
+    Friend WithEvents txtGRNo As common.Controls.MyTextBox
+    Friend WithEvents RadPageViewPage5 As RadPageViewPage
+    Friend WithEvents gvBooth As common.UserControls.MyRadGridView
 End Class
 
