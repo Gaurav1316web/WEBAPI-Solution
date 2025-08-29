@@ -175,7 +175,7 @@ Public Class clsMRNHead
 
         End If
         Dim frmCRV As New frmCrystalReportViewer()
-            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
 
             Dim qry As String = "select TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode,  TSPL_COMPANY_MASTER.Comp_Name ,TSPL_MRN_HEAD.MRN_No, CONVERT(varchar(15),TSPL_MRN_HEAD.MRN_Date,103) as MRN_Date,CONVERT(varchar(100),TSPL_MRN_HEAD.MRN_Date,108) as MRN_Time,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.GRNo,TSPL_MRN_HEAD.GENo, CONVERT(varchar(11), TSPL_MRN_HEAD.GEDate,103) AS GEDate, " &
                     " Indent_No= STUFF((select distinct ','+' '+TSPL_PURCHASE_ORDER_DETAIL.Requisition_Id  from TSPL_PURCHASE_ORDER_DETAIL WHERE TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_MRN_DETAIL.PO_ID  FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'),1,1,'') , TSPL_MRN_HEAD.VehicleNo,TSPL_MRN_HEAD.Remarks ,TSPL_MRN_DETAIL.Item_Code,TSPL_MRN_DETAIL.Item_Desc,TSPL_MRN_DETAIL.Unit_code,TSPL_MRN_DETAIL.MRN_Qty,TSPL_MRN_DETAIL.Reject_Qty,TSPL_MRN_DETAIL.Short_Qty " &
@@ -187,113 +187,113 @@ Public Class clsMRNHead
                     " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code " &
                     " where  TSPL_MRN_HEAD.MRN_No='" + StrDocNo + "'  ORDER BY TSPL_MRN_DETAIL.Line_No "
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dt.Rows.Count > 0 Then
-                    frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRNCustom", "MRN Report", strDate)
-                End If
-            ElseIf ((clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GHO") = CompairStringResult.Equal) Then
-                Dim QryShowStatus As String = ""
-                Dim IsMRNReportQtyWise As Boolean = False
-                IsMRNReportQtyWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SRNReportQuantityWise, clsFixedParameterCode.SRNReportQuantityWise, Nothing)) = 1, True, False)
-                Dim ShowStatusForPurchase As Double = clsDBFuncationality.getSingleValue("SELECT Description  FROM TSPL_FIXED_PARAMETER  WHERE Code ='ShowStatusForPurchase' And Type ='ShowStatusForPurchase'")
-                If clsCommon.CompairString(clsCommon.myCstr(ShowStatusForPurchase), "1") = CompairStringResult.Equal Then
-                    QryShowStatus = " ,(case when TSPL_MRN_HEAD.status =1 then 'Approved' else 'Pending' end) as Status "
-                Else
-                    QryShowStatus = ""
-                End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRNCustom", "MRN Report", strDate)
+            End If
+        ElseIf ((clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GHO") = CompairStringResult.Equal) Then
+            Dim QryShowStatus As String = ""
+            Dim IsMRNReportQtyWise As Boolean = False
+            IsMRNReportQtyWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SRNReportQuantityWise, clsFixedParameterCode.SRNReportQuantityWise, Nothing)) = 1, True, False)
+            Dim ShowStatusForPurchase As Double = clsDBFuncationality.getSingleValue("SELECT Description  FROM TSPL_FIXED_PARAMETER  WHERE Code ='ShowStatusForPurchase' And Type ='ShowStatusForPurchase'")
+            If clsCommon.CompairString(clsCommon.myCstr(ShowStatusForPurchase), "1") = CompairStringResult.Equal Then
+                QryShowStatus = " ,(case when TSPL_MRN_HEAD.status =1 then 'Approved' else 'Pending' end) as Status "
+            Else
+                QryShowStatus = ""
+            End If
 
-                Dim strquery As String = "SELECT TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode, TSPL_MRN_DETAIL.short_Qty, Location_Code,'' as CHA_Date,TSPL_MRN_DETAIL.Specification as Det_Specification,TSPL_MRN_DETAIL.Remarks  as DetRemarks ,TSPL_VENDOR_MASTER.CST as vndr_cst,TSPL_VENDOR_MASTER.Tin_No as vndr_tin,TSPL_LOCATION_MASTER.CST_No as location_cst,TSPL_MRN_HEAD.Ship_To_Location,TSPL_SHIP_TO_LOCATION.Ship_To_Desc,(TSPL_SHIP_TO_LOCATION.Add1+' '+TSPL_SHIP_TO_LOCATION.add2+' '+TSPL_SHIP_TO_LOCATION.add3) as ship_addr,TSPL_SHIP_TO_LOCATION.City_Code as ship_city,TSPL_SHIP_TO_LOCATION.State as ship_state,TSPL_MRN_DETAIL.MRP,Location_Desc  as Location_Company ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end +case when LEN(isnull(TSPL_LOCATION_MASTER.add4,''))>0 then '- '+isnull(TSPL_LOCATION_MASTER.add4,'') else ' ' end   as company_address,TSPL_LOCATION_MASTER.City_Code as TSPL_LOCATION_MASTER_City_Code ,TSPL_LOCATION_MASTER.State as TSPL_LOCATION_MASTER_state ,TSPL_LOCATION_MASTER.Country as TSPL_LOCATION_MASTER_country, TSPL_VENDOR_MASTER.add1 +case when len(TSPL_VENDOR_MASTER.add2)>0 then ', '+TSPL_VENDOR_MASTER.add2 else '' end +case when LEN(isnull(TSPL_VENDOR_MASTER.Add3,''))>0 then ', '+isnull(TSPL_VENDOR_MASTER.Add3,'') else ' ' end   as vendor_address, TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end+case when LEN(isnull(TSPL_LOCATION_MASTER.Add4,''))>0 then '- '+isnull(TSPL_LOCATION_MASTER.Add4,'') else ' ' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Location_Desc,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Location_Desc,'') else ' ' end    as address1,TSPL_LOCATION_MASTER .TIN_No ,( case when TSPL_LOCATION_MASTER.Phone2 <> '' then TSPL_LOCATION_MASTER.Phone1 +','+TSPL_LOCATION_MASTER.Phone2 else TSPL_LOCATION_MASTER.Phone1 end) as Location_Phn, TSPL_MRN_HEAD.Description,TSPL_MRN_HEAD.Comments,user_master1.user_name as Created_By,user_master2.user_name as Modify_By, TSPL_MRN_HEAD.MRN_NO as SRN_No, TSPL_MRN_HEAD.MRN_Date as SRN_Date,TSPL_VENDOR_MASTER.Vendor_Name, TSPL_VENDOR_MASTER.Tin_No as Vendor_Tin_No, TSPL_VENDOR_MASTER.Phone1 as Vendor_Contact, (case when len(against_grn)>0 then (select GRN_Date  from TSPL_GRN_HEAD where TSPL_GRN_HEAD.GRN_No =against_Grn) else MRN_Date end ) as Challan_Date, TSPL_MRN_HEAD.Ref_No  " &
-                        " as Challan_No, TSPL_MRN_HEAD.Invoice_No as Inv_No, convert(varchar,TSPL_MRN_HEAD.Invoice_Date,103) as Inv_Date, TSPL_MRN_HEAD.GRNo,TSPL_MRN_HEAD.Amount_Less_Discount ,TSPL_MRN_HEAD.GENo,TSPL_MRN_HEAD.MRN_Total_Amt as SRN_Total_Amt, " &
-                        " convert(varchar,TSPL_MRN_HEAD.GEDate,103) as GEDate, TSPL_MRN_HEAD.VehicleNo,TSPL_MRN_HEAD.MRN_NO, TSPL_MRN_HEAD.Carrier,TSPL_MRN_HEAD.Remarks,0 as Landed_Cost_Rate,0 as Landed_Cost_Amount , TSPL_MRN_DETAIL.Item_Code,'' as UOM_WEIGHT,0 as UOM_WEIGHT_VALUE,TSPL_MRN_DETAIL.Row_Type,TSPL_MRN_DETAIL.Amt_Less_Discount," &
-                        " TSPL_MRN_DETAIL.Item_Cost as basicRate,TSPL_MRN_DETAIL.Item_Net_Amt as BasicTotal,0 as UCTR," &
-                        " 0 as uctax,TSPL_MRN_DETAIL.Item_Desc,TSPL_MRN_DETAIL.Unit_code,TSPL_MRN_DETAIL.MRN_Qty as SRN_Qty,TSPL_MRN_DETAIL.Reject_Qty as Rejected_Qty,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.MRN_Total_Amt AS SRN_Total_Amt,TSPL_MRN_DETAIL.ITEM_COST," &
-                        " TSPL_VENDOR_MASTER.Add1 as venAdd1, TSPL_VENDOR_MASTER.Add2 as vanadd2, TSPL_VENDOR_MASTER.Add3 as venadd3, " &
-                        " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_MRN_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name," &
-                        " isnull (TSPL_MRN_HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (TSPL_MRN_HEAD.tax3_amt,0) as txt3amt," &
-                        " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_MRN_HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name," &
-                        " isnull (TSPL_MRN_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_MRN_HEAD.tax6_amt,0) as txt6amt " &
-                        " ,tax7.Tax_Code_Desc as tax7name,isnull (TSPL_MRN_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name," &
-                        " isnull (TSPL_MRN_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (TSPL_MRN_HEAD.tax9_amt,0) as txt9amt," &
-                        " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_MRN_HEAD.tax10_amt,0) as txt10amt, TSPL_COMPANY_MASTER.Comp_Name as compname, " &
-                        " TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_MRN_DETAIL.MRN_Qty AS SRN_Qty," &
-                        " case when tax1.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax1_amt else null end as Tax1Recoverable," &
-                        " case when tax2.Tax_Recoverable='Y' then TSPL_MRN_HEAD.TAX2_Amt else null end as Tax2Recoverable, " &
-                        " case when tax3.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax3_amt else null end as Tax3Recoverable, " &
-                        " case when tax4.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax4_amt else null end as Tax4Recoverable, " &
-                        " case when tax5.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax5_amt else null end as Tax5Recoverable, " &
-                        " case when tax6.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax6_amt else null end as Tax6Recoverable," &
-                        " case when tax7.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax7_amt else null end as Tax7Recoverable, " &
-                        " case when tax8.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax8_amt else null end as Tax8Recoverable, " &
-                        " case when tax9.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax9_amt else null end as Tax9Recoverable," &
-                        " case when tax10.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax10_amt else null end as Tax10Recoverable, " &
-                        " TSPL_MRN_HEAD.TAX1,TSPL_MRN_HEAD.TAX2,TSPL_MRN_HEAD.TAX3,TSPL_MRN_HEAD.TAX4,TSPL_MRN_HEAD.TAX5,TSPL_MRN_HEAD.tax6," &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX1_Rate ,0),103)+'%' as txt1Rate," &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX2_Rate   ,0),103)+'%' as txt2Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX3_Rate  ,0),103)+'%' as txt3Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX4_Rate  ,0),103)+'%' as txt4Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX5_Rate  ,0),103)+'%' as txt5Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX6_Rate  ,0),103)+'%' as txt6Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX7_Rate  ,0),103)+'%' as txt7Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX8_Rate  ,0),103)+'%' as txt8Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX9_Rate  ,0),103)+'%' as txt9Rate, " &
-                        " convert(varchar,isnull (TSPL_MRN_HEAD.TAX10_Rate  ,0),103)+'%' as txt10Rate," &
-                        " TSPL_MRN_DETAIL.Amt_Less_Discount as Value,(select SUM(reject_qty) from TSPL_MRN_DETAIL where Mrn_no=TSPL_MRN_HEAD.MRN_NO) as Rej_qty, (select SUM(TSPL_GRN_DETAIL.GRN_Qty) from TSPL_MRN_DETAIL left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL .GRN_No=TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where MRN_No =TSPL_MRN_HEAD.MRN_NO and TSPL_GRN_HEAD.IsCancel=0 )as MrnTotQty, (select SUM(MRN_qty) from TSPL_MRN_DETAIL where Mrn_no=TSPL_MRN_HEAD.MRN_NO) as SRNQtyTotal, (select case when COUNT(xxx.PI_No)>1 then Min(xxx.PI_No)+ ' *' else Min(xxx.PI_No)end as PINO from" &
-                        " ( select TSPL_PI_DETAIL.PI_No from TSPL_PI_DETAIL  where  TSPL_PI_DETAIL.MRN_Id= TSPL_MRN_HEAD.MRN_NO " &
-                        " GROUP by TSPL_PI_DETAIL.PI_No)xxx) as PInvNo  ,    " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name1 as Add1Name,TSPL_MRN_HEAD.Add_Charge_Amt1 as Add1 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name2 as Add2Name,TSPL_MRN_HEAD.Add_Charge_Amt2 as Add2 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name3 as Add3Name,TSPL_MRN_HEAD.Add_Charge_Amt3 as Add3 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name4 as Add4Name,TSPL_MRN_HEAD.Add_Charge_Amt4 as Add4 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name5 as Add5Name,TSPL_MRN_HEAD.Add_Charge_Amt5 as Add5 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name6 as Add6Name,TSPL_MRN_HEAD.Add_Charge_Amt6 as Add6 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name7 as Add7Name,TSPL_MRN_HEAD.Add_Charge_Amt7 as Add7 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name8 as Add8Name,TSPL_MRN_HEAD.Add_Charge_Amt8 as Add8 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name9 as Add9Name,TSPL_MRN_HEAD.Add_Charge_Amt9 as Add9 , " &
-                        " TSPL_MRN_HEAD.Add_Charge_Name10 as Add10Name, " &
-                        " TSPL_MRN_HEAD.Add_Charge_Amt10 as Add10,TSPL_MRN_HEAD.Against_RGP_No AS Against_RGP,TSPL_MRN_DETAIL .Specification ,TSPL_MRN_HEAD.Against_Requisition ,0 AS PO_Qty,0 AS GRN_Qty,TSPL_MRN_DETAIL.MRN_Qty,TSPL_MRN_DETAIL.PO_id,TSPL_MRN_DETAIL.Requisition_Id AS Req_No,TSPL_MRN_HEAD.Against_GRN,'' AS Form_38, "
+            Dim strquery As String = "SELECT TSPL_ITEM_MASTER.HSN_Code,tspl_state_master_for_location_state.GST_STATE_Code as LOC_GST_State_Code, TSPL_LOCATION_MASTER.GSTNO as Loc_GstInNo ,TSPL_VENDOR_MASTER.GSTFinalNo AS Vendor_GSTIN_NO,TSPL_STATE_MASTER.GST_STATE_Code AS Vendor_GST_StateCode, TSPL_MRN_DETAIL.short_Qty, Location_Code,'' as CHA_Date,TSPL_MRN_DETAIL.Specification as Det_Specification,TSPL_MRN_DETAIL.Remarks  as DetRemarks ,TSPL_VENDOR_MASTER.CST as vndr_cst,TSPL_VENDOR_MASTER.Tin_No as vndr_tin,TSPL_LOCATION_MASTER.CST_No as location_cst,TSPL_MRN_HEAD.Ship_To_Location,TSPL_SHIP_TO_LOCATION.Ship_To_Desc,(TSPL_SHIP_TO_LOCATION.Add1+' '+TSPL_SHIP_TO_LOCATION.add2+' '+TSPL_SHIP_TO_LOCATION.add3) as ship_addr,TSPL_SHIP_TO_LOCATION.City_Code as ship_city,TSPL_SHIP_TO_LOCATION.State as ship_state,TSPL_MRN_DETAIL.MRP,Location_Desc  as Location_Company ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end +case when LEN(isnull(TSPL_LOCATION_MASTER.add4,''))>0 then '- '+isnull(TSPL_LOCATION_MASTER.add4,'') else ' ' end   as company_address,TSPL_LOCATION_MASTER.City_Code as TSPL_LOCATION_MASTER_City_Code ,TSPL_LOCATION_MASTER.State as TSPL_LOCATION_MASTER_state ,TSPL_LOCATION_MASTER.Country as TSPL_LOCATION_MASTER_country, TSPL_VENDOR_MASTER.add1 +case when len(TSPL_VENDOR_MASTER.add2)>0 then ', '+TSPL_VENDOR_MASTER.add2 else '' end +case when LEN(isnull(TSPL_VENDOR_MASTER.Add3,''))>0 then ', '+isnull(TSPL_VENDOR_MASTER.Add3,'') else ' ' end   as vendor_address, TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end+case when LEN(isnull(TSPL_LOCATION_MASTER.Add4,''))>0 then '- '+isnull(TSPL_LOCATION_MASTER.Add4,'') else ' ' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Location_Desc,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Location_Desc,'') else ' ' end    as address1,TSPL_LOCATION_MASTER .TIN_No ,( case when TSPL_LOCATION_MASTER.Phone2 <> '' then TSPL_LOCATION_MASTER.Phone1 +','+TSPL_LOCATION_MASTER.Phone2 else TSPL_LOCATION_MASTER.Phone1 end) as Location_Phn, TSPL_MRN_HEAD.Description,TSPL_MRN_HEAD.Comments,user_master1.user_name as Created_By,user_master2.user_name as Modify_By, TSPL_MRN_HEAD.MRN_NO as SRN_No, TSPL_MRN_HEAD.MRN_Date as SRN_Date,TSPL_VENDOR_MASTER.Vendor_Name, TSPL_VENDOR_MASTER.Tin_No as Vendor_Tin_No, TSPL_VENDOR_MASTER.Phone1 as Vendor_Contact, (case when len(against_grn)>0 then (select GRN_Date  from TSPL_GRN_HEAD where TSPL_GRN_HEAD.GRN_No =against_Grn) else MRN_Date end ) as Challan_Date, TSPL_MRN_HEAD.Ref_No  " &
+                    " as Challan_No, TSPL_MRN_HEAD.Invoice_No as Inv_No, convert(varchar,TSPL_MRN_HEAD.Invoice_Date,103) as Inv_Date, TSPL_MRN_HEAD.GRNo,TSPL_MRN_HEAD.Amount_Less_Discount ,TSPL_MRN_HEAD.GENo,TSPL_MRN_HEAD.MRN_Total_Amt as SRN_Total_Amt, " &
+                    " convert(varchar,TSPL_MRN_HEAD.GEDate,103) as GEDate, TSPL_MRN_HEAD.VehicleNo,TSPL_MRN_HEAD.MRN_NO, TSPL_MRN_HEAD.Carrier,TSPL_MRN_HEAD.Remarks,0 as Landed_Cost_Rate,0 as Landed_Cost_Amount , TSPL_MRN_DETAIL.Item_Code,'' as UOM_WEIGHT,0 as UOM_WEIGHT_VALUE,TSPL_MRN_DETAIL.Row_Type,TSPL_MRN_DETAIL.Amt_Less_Discount," &
+                    " TSPL_MRN_DETAIL.Item_Cost as basicRate,TSPL_MRN_DETAIL.Item_Net_Amt as BasicTotal,0 as UCTR," &
+                    " 0 as uctax,TSPL_MRN_DETAIL.Item_Desc,TSPL_MRN_DETAIL.Unit_code,TSPL_MRN_DETAIL.MRN_Qty as SRN_Qty,TSPL_MRN_DETAIL.Reject_Qty as Rejected_Qty,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.MRN_Total_Amt AS SRN_Total_Amt,TSPL_MRN_DETAIL.ITEM_COST," &
+                    " TSPL_VENDOR_MASTER.Add1 as venAdd1, TSPL_VENDOR_MASTER.Add2 as vanadd2, TSPL_VENDOR_MASTER.Add3 as venadd3, " &
+                    " tax1.Tax_Code_Desc as tax1name,isnull (TSPL_MRN_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name," &
+                    " isnull (TSPL_MRN_HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (TSPL_MRN_HEAD.tax3_amt,0) as txt3amt," &
+                    " tax4.Tax_Code_Desc as tax4name,isnull (TSPL_MRN_HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name," &
+                    " isnull (TSPL_MRN_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_MRN_HEAD.tax6_amt,0) as txt6amt " &
+                    " ,tax7.Tax_Code_Desc as tax7name,isnull (TSPL_MRN_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name," &
+                    " isnull (TSPL_MRN_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (TSPL_MRN_HEAD.tax9_amt,0) as txt9amt," &
+                    " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_MRN_HEAD.tax10_amt,0) as txt10amt, TSPL_COMPANY_MASTER.Comp_Name as compname, " &
+                    " TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_MRN_DETAIL.MRN_Qty AS SRN_Qty," &
+                    " case when tax1.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax1_amt else null end as Tax1Recoverable," &
+                    " case when tax2.Tax_Recoverable='Y' then TSPL_MRN_HEAD.TAX2_Amt else null end as Tax2Recoverable, " &
+                    " case when tax3.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax3_amt else null end as Tax3Recoverable, " &
+                    " case when tax4.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax4_amt else null end as Tax4Recoverable, " &
+                    " case when tax5.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax5_amt else null end as Tax5Recoverable, " &
+                    " case when tax6.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax6_amt else null end as Tax6Recoverable," &
+                    " case when tax7.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax7_amt else null end as Tax7Recoverable, " &
+                    " case when tax8.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax8_amt else null end as Tax8Recoverable, " &
+                    " case when tax9.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax9_amt else null end as Tax9Recoverable," &
+                    " case when tax10.Tax_Recoverable='Y' then TSPL_MRN_HEAD.tax10_amt else null end as Tax10Recoverable, " &
+                    " TSPL_MRN_HEAD.TAX1,TSPL_MRN_HEAD.TAX2,TSPL_MRN_HEAD.TAX3,TSPL_MRN_HEAD.TAX4,TSPL_MRN_HEAD.TAX5,TSPL_MRN_HEAD.tax6," &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX1_Rate ,0),103)+'%' as txt1Rate," &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX2_Rate   ,0),103)+'%' as txt2Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX3_Rate  ,0),103)+'%' as txt3Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX4_Rate  ,0),103)+'%' as txt4Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX5_Rate  ,0),103)+'%' as txt5Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX6_Rate  ,0),103)+'%' as txt6Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX7_Rate  ,0),103)+'%' as txt7Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX8_Rate  ,0),103)+'%' as txt8Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX9_Rate  ,0),103)+'%' as txt9Rate, " &
+                    " convert(varchar,isnull (TSPL_MRN_HEAD.TAX10_Rate  ,0),103)+'%' as txt10Rate," &
+                    " TSPL_MRN_DETAIL.Amt_Less_Discount as Value,(select SUM(reject_qty) from TSPL_MRN_DETAIL where Mrn_no=TSPL_MRN_HEAD.MRN_NO) as Rej_qty, (select SUM(TSPL_GRN_DETAIL.GRN_Qty) from TSPL_MRN_DETAIL left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL .GRN_No=TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where MRN_No =TSPL_MRN_HEAD.MRN_NO and TSPL_GRN_HEAD.IsCancel=0 )as MrnTotQty, (select SUM(MRN_qty) from TSPL_MRN_DETAIL where Mrn_no=TSPL_MRN_HEAD.MRN_NO) as SRNQtyTotal, (select case when COUNT(xxx.PI_No)>1 then Min(xxx.PI_No)+ ' *' else Min(xxx.PI_No)end as PINO from" &
+                    " ( select TSPL_PI_DETAIL.PI_No from TSPL_PI_DETAIL  where  TSPL_PI_DETAIL.MRN_Id= TSPL_MRN_HEAD.MRN_NO " &
+                    " GROUP by TSPL_PI_DETAIL.PI_No)xxx) as PInvNo  ,    " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name1 as Add1Name,TSPL_MRN_HEAD.Add_Charge_Amt1 as Add1 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name2 as Add2Name,TSPL_MRN_HEAD.Add_Charge_Amt2 as Add2 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name3 as Add3Name,TSPL_MRN_HEAD.Add_Charge_Amt3 as Add3 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name4 as Add4Name,TSPL_MRN_HEAD.Add_Charge_Amt4 as Add4 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name5 as Add5Name,TSPL_MRN_HEAD.Add_Charge_Amt5 as Add5 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name6 as Add6Name,TSPL_MRN_HEAD.Add_Charge_Amt6 as Add6 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name7 as Add7Name,TSPL_MRN_HEAD.Add_Charge_Amt7 as Add7 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name8 as Add8Name,TSPL_MRN_HEAD.Add_Charge_Amt8 as Add8 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name9 as Add9Name,TSPL_MRN_HEAD.Add_Charge_Amt9 as Add9 , " &
+                    " TSPL_MRN_HEAD.Add_Charge_Name10 as Add10Name, " &
+                    " TSPL_MRN_HEAD.Add_Charge_Amt10 as Add10,TSPL_MRN_HEAD.Against_RGP_No AS Against_RGP,TSPL_MRN_DETAIL .Specification ,TSPL_MRN_HEAD.Against_Requisition ,0 AS PO_Qty,0 AS GRN_Qty,TSPL_MRN_DETAIL.MRN_Qty,TSPL_MRN_DETAIL.PO_id,TSPL_MRN_DETAIL.Requisition_Id AS Req_No,TSPL_MRN_HEAD.Against_GRN,'' AS Form_38, "
 
-                strquery += " TSPL_MRN_HEAD.Against_PO "
-                strquery += " " & QryShowStatus & " "
-                strquery += " FROM  TSPL_MRN_DETAIL INNER JOIN TSPL_MRN_HEAD ON TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_HEAD.MRN_NO " &
-                        " INNER JOIN TSPL_COMPANY_MASTER ON TSPL_MRN_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code  " &
-                        " INNER JOIN TSPL_VENDOR_MASTER ON TSPL_MRN_HEAD.Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code " &
-                        " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_MRN_HEAD.tax1  " &
-                        " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_MRN_HEAD.tax2 " &
-                        " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_MRN_HEAD .TAX3 " &
-                        " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_MRN_HEAD .tax4 " &
-                        " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_MRN_HEAD .tax5 " &
-                        " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_MRN_HEAD .TAX6  " &
-                        " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_MRN_HEAD .TAX7  " &
-                        " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_MRN_HEAD .TAX8 " &
-                        " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_MRN_HEAD .TAX9 " &
-                        " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_MRN_HEAD .TAX10  " &
-                        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=TSPL_MRN_HEAD.Bill_To_Location  " &
-                        " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_MRN_HEAD.Ship_To_Location " &
-                        " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_MRN_DETAIL.Item_Code " &
-                        " left outer join tspl_state_master as tspl_state_master_for_location_state on  " &
-                        " tspl_state_master_for_location_state.state_code=tspl_location_master.state " &
-                        " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code " &
-                        " left outer join tspl_user_master as user_master1 on user_master1.user_code=TSPL_MRN_HEAD.Created_By " &
-                        " left outer join tspl_user_master as user_master2 on user_master2.user_code=TSPL_MRN_HEAD.Modify_By  " &
-                        " where 2=2  and TSPL_MRN_HEAD.MRN_NO in ('" + clsCommon.myCstr(StrDocNo) + "')  "
+            strquery += " TSPL_MRN_HEAD.Against_PO "
+            strquery += " " & QryShowStatus & " "
+            strquery += " FROM  TSPL_MRN_DETAIL INNER JOIN TSPL_MRN_HEAD ON TSPL_MRN_DETAIL.MRN_No = TSPL_MRN_HEAD.MRN_NO " &
+                    " INNER JOIN TSPL_COMPANY_MASTER ON TSPL_MRN_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code  " &
+                    " INNER JOIN TSPL_VENDOR_MASTER ON TSPL_MRN_HEAD.Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code " &
+                    " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_MRN_HEAD.tax1  " &
+                    " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_MRN_HEAD.tax2 " &
+                    " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_MRN_HEAD .TAX3 " &
+                    " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_MRN_HEAD .tax4 " &
+                    " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_MRN_HEAD .tax5 " &
+                    " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_MRN_HEAD .TAX6  " &
+                    " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_MRN_HEAD .TAX7  " &
+                    " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_MRN_HEAD .TAX8 " &
+                    " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_MRN_HEAD .TAX9 " &
+                    " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_MRN_HEAD .TAX10  " &
+                    " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=TSPL_MRN_HEAD.Bill_To_Location  " &
+                    " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_MRN_HEAD.Ship_To_Location " &
+                    " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code= TSPL_MRN_DETAIL.Item_Code " &
+                    " left outer join tspl_state_master as tspl_state_master_for_location_state on  " &
+                    " tspl_state_master_for_location_state.state_code=tspl_location_master.state " &
+                    " left outer join TSPL_STATE_MASTER on TSPL_VENDOR_MASTER.State_Code= TSPL_STATE_MASTER.State_Code " &
+                    " left outer join tspl_user_master as user_master1 on user_master1.user_code=TSPL_MRN_HEAD.Created_By " &
+                    " left outer join tspl_user_master as user_master2 on user_master2.user_code=TSPL_MRN_HEAD.Modify_By  " &
+                    " where 2=2  and TSPL_MRN_HEAD.MRN_NO in ('" + clsCommon.myCstr(StrDocNo) + "')  "
 
-                strquery = strquery + " order by TSPL_MRN_DETAIL.line_no"
+            strquery = strquery + " order by TSPL_MRN_DETAIL.line_no"
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("MRN No not found to Print")
-                Else
-                    clsSRNHead.SetItemWiseTax(dt, StrDocNo)
-                    If IsMRNReportQtyWise Then
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow("MRN No not found to Print")
+            Else
+                clsSRNHead.SetItemWiseTax(dt, StrDocNo)
+                If IsMRNReportQtyWise Then
                     frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "MRNReportThroughReportQtyWise", "Material Receipt Report", strDate, "rptCompanyAddress.rpt")
                 Else
                     frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "MRNReportThroughReport-G", "Material Receipt Report", strDate)
                 End If
-                End If
-            Else
-                If clsCommon.myLen(StrDocNo) <= 0 AndAlso clsCommon.myLen(StrDocNo) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("MRN No not found to Print")
-                End If
+            End If
+        Else
+            If clsCommon.myLen(StrDocNo) <= 0 AndAlso clsCommon.myLen(StrDocNo) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("MRN No not found to Print")
+            End If
             'Dim qry As String = "select  max(Location_Code) as Location_Code,max(Location_Desc) as Location_Desc, max(Location_Add1) as Location_Add1 , max(Location_Add2) as Location_Add2, max(Location_Add3) as Location_Add3 , max(Location_Add4) as Location_Add4, max(Location_City_Code) as Location_City_Code, max(Location_State) as Location_State , max(Location_Pin_Code) as Location_Pin_Code, max(Location_Country) as Location_Country, max(Location_Telphone) as Location_Telphone, max(Location_Email) as Location_Email, max(Loc_Short_Name) as Loc_Short_Name, max(Location_IsMainPlant) as Location_IsMainPlant, max(Comp_Code) as Comp_Code, max(Comp_Name) as Comp_Name,
             'max(Comp_Add1) as Comp_Add1, max(Comp_Add2) as Comp_Add2 , max(Comp_Add3) as Comp_Add3 , max(Comp_City_Code) as Comp_City_Code, max(Comp_Email) as Comp_Email , max(Comp_Pincode) as Comp_Pincode , max(Comp_State) as Comp_State , max(Comp_Tin_No) as Comp_Tin_No,  max(Comp_GSTReg_No) as Comp_GSTReg_No, max(Comp_CINNo) as Comp_CINNo, max(Comp_Phone1) as Comp_Phone1 , max(Comp_Phone2) as Comp_Phone2 ,  MRN_No,MAX(MRN_Date) as MRN_Date,MAX(Vendor_Name) as Vendor_Name,MAX(GRNo) as GRNo,MAX(GENo) as GENo,MAX(GEDate) as GEDate,Item_Code,MAX(Item_Desc) as Item_Desc,MAX(VehicleNo) as VehicleNo, SUM(ISNULL( FCS,0)) as FCS, SUM(isnull(FBS,0))as FBS, SUM(ISNULL( FSH,0)) as FSH, SUM(ISNULL( ECS,0)) as ECS, SUM(ISNULL( EBS,0)) as EBS, SUM(Leak_Qty) as HF,SUM(Burst_Qty) as Burst,SUM(Short_Qty) as Short,MAX(Remarks) as Remarks from( " &
             '" select  TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc , TSPL_LOCATION_MASTER.Add1 as Location_Add1, TSPL_LOCATION_MASTER.Add2 as Location_Add2 , TSPL_LOCATION_MASTER.Add3 as Location_Add3 , TSPL_LOCATION_MASTER.Add4 as Location_Add4 , TSPL_LOCATION_MASTER.City_Code as Location_City_Code , TSPL_LOCATION_MASTER.State as Location_State , TSPL_LOCATION_MASTER.Pin_Code as Location_Pin_Code , TSPL_LOCATION_MASTER.Country as Location_Country , TSPL_LOCATION_MASTER.Telphone as Location_Telphone, TSPL_LOCATION_MASTER.Email as Location_Email, TSPL_LOCATION_MASTER.Loc_Short_Name as Loc_Short_Name , TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,
@@ -389,18 +389,18 @@ Public Class clsMRNHead
                 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MRN_HEAD.Comp_Code
                 where TSPL_MRN_DETAIL.MRN_No='" + StrDocNo + "' ORDER BY TSPL_MRN_DETAIL.Line_No"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                If dt.Rows.Count > 0 Then
-                    frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRNReportNew", "MRN Report")
-                Else
-                    clsCommon.MyMessageBoxShow("Data Not Found To Print")
-                End If
-
+            If dt.Rows.Count > 0 Then
+                frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dt, "rptMRNReportNew", "MRN Report")
+            Else
+                clsCommon.MyMessageBoxShow("Data Not Found To Print")
             End If
-            frmCRV = Nothing
-            'Catch ex As Exception
-            '    common.clsCommon.MyMessageBoxShow(Me, ex.Message)
-            'End Try
-            Return True
+
+        End If
+        frmCRV = Nothing
+        'Catch ex As Exception
+        '    common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        'End Try
+        Return True
 
     End Function
 
@@ -1323,6 +1323,18 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
     End Function
 
     Public Shared Function MRNCancel(ByVal Form_Id As String, ByVal Doc_No As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            MRNCancel(Form_Id, Doc_No, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function MRNCancel(ByVal Form_Id As String, ByVal Doc_No As String, ByVal trans As SqlTransaction) As Boolean
         'Dim iscancel As Boolean = True
         'Dim qry As String = ""
         'qry = "update TSPL_MRN_HEAD SET TSPL_MRN_HEAD.IsCancel=1 where TSPL_MRN_HEAD.MRN_No='" + strMRNNo + "'"
@@ -1334,7 +1346,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
         'End If
         ''''''''''''''''''''''''''''
         Dim qry As String = ""
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         Try
             Dim obj As clsMRNHead = clsMRNHead.GetData(Doc_No, NavigatorType.Current, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Material Received Note", IIf(clsCommon.myLen(obj.Ship_To_Location) <= 0, obj.Bill_To_Location, obj.Ship_To_Location), obj.MRN_Date, trans)
@@ -1353,13 +1365,13 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
 
             qry = "delete from TSPL_MRN_HEAD where MRN_NO='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            trans.Commit()
+            'trans.Commit()
             '' release objects 
             obj = Nothing
             qry = Nothing
 
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

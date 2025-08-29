@@ -37,11 +37,22 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             Return False
         End If
     End Function
+
     Public Shared Function CancelData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Entry No not found to Delete")
         End If
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Dim obj As clsPOWeighment = clsPOWeighment.GetData(strCode, NavigatorType.Current, trans)
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select weighment_code, TSPL_GRN_HEAD.Bill_To_Location from TSPL_PO_WEIGHTMENT_HEAD 
@@ -93,11 +104,9 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             qry = "delete from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-
-
-            trans.Commit()
+            'trans.Commit()
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -133,7 +142,7 @@ select Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD where Weighment_Code='" + cls
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Weighment_Date", clsCommon.GetPrintDate(obj.Weighment_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Against_GRN_No", obj.Against_GRN_No)
-            clsCommon.AddColumnsForChange(coll, "Gross_Weight", obj.Gross_Weight)  '
+            clsCommon.AddColumnsForChange(coll, "Gross_Weight", obj.Gross_Weight)
             clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment", IIf(obj.Is_Auto_Weighment, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))

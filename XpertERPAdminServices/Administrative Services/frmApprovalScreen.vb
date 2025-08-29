@@ -25,41 +25,44 @@ Public Class frmApprovalScreen
 #End Region
     ''UDL/10/05/18-000160 by balwinder on 21/05/2017.
     Private Sub frmApprovalScreen_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim OpenWorkFlowInERP As Boolean = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.WorkApprovalFlowInERP, clsFixedParameterCode.WorkApprovalFlowInERP, Nothing) = "1", True, False))
-        If Not OpenWorkFlowInERP Then
-            Throw New Exception("Unauthorized access of Work flow of Approval.")
-            Me.Close()
-        End If
-        SettingCapex = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = 1)
-        If SettingCapex Then
-            MyLabel39.Visible = True
-            ddl_category.Visible = True
-        Else
-            MyLabel39.Visible = False
-            ddl_category.Visible = False
-        End If
+        Try
+            Dim OpenWorkFlowInERP As Boolean = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.WorkApprovalFlowInERP, clsFixedParameterCode.WorkApprovalFlowInERP, Nothing) = "1", True, False))
+            If Not OpenWorkFlowInERP Then
+                Throw New Exception("Unauthorized access of Work flow of Approval.")
+                Me.Close()
+            End If
+            SettingCapex = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = 1)
+            If SettingCapex Then
+                MyLabel39.Visible = True
+                ddl_category.Visible = True
+            Else
+                MyLabel39.Visible = False
+                ddl_category.Visible = False
+            End If
 
-        SetUserMgmtNew()
-        LoadBlankGrid()
-        LoadApprovalType()
+            SetUserMgmtNew()
+            LoadBlankGrid()
+            LoadApprovalType()
 
-        LoadModuleType()
-        LoadTrnsListOfSelectedModeule()
-        Reset()
-        LoadCategory()
-        txtLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            LoadModuleType()
+            LoadTrnsListOfSelectedModeule()
+            Reset()
+            LoadCategory()
+            txtLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" & objCommonVar.CurrentUserCode & "' "))
 
-        If clsCommon.myLen(ModuleName) > 0 Then
-            cboModule.SelectedValue = ModuleName
-            cboTransaction.SelectedValue = Transaction
-        End If
+            If clsCommon.myLen(ModuleName) > 0 Then
+                cboModule.SelectedValue = ModuleName
+                cboTransaction.SelectedValue = Transaction
+            End If
 
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C for close window.")
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for save record.")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D for delete record.")
-        ButtonToolTip.SetToolTip(btnReset, "Press Alt+N for reset window.")
-        ButtonToolTip.SetToolTip(RadButton1, "Increase Level")
-
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C for close window.")
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for save record.")
+            ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D for delete record.")
+            ButtonToolTip.SetToolTip(btnReset, "Press Alt+N for reset window.")
+            ButtonToolTip.SetToolTip(RadButton1, "Increase Level")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub LoadBlankGrid()
@@ -181,7 +184,7 @@ Public Class frmApprovalScreen
             dr("Name") = "Amount Based"
             dt.Rows.Add(dr)
         End If
-      
+
 
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "BOOK-DS") = CompairStringResult.Equal Then
             dr = dt.NewRow()
@@ -277,13 +280,12 @@ Public Class frmApprovalScreen
 
     Public Sub LoadModuleType()
         isInsideLoadData = True
-        Dim qry As String = "select Program_Code as Code,case when len(isnull(Re_Name,''))>0 then Re_Name else Program_Name end  as Name from TSPL_PROGRAM_MASTER " + Environment.NewLine +
-            " inner join TSPL_MODULE_PERMISSION on TSPL_MODULE_PERMISSION.Module_Name=TSPL_PROGRAM_MASTER.Program_Code " + Environment.NewLine +
-            " where Type='M' and Program_Code in ('" + clsUserMgtCode.ModuleSalesNew + "','" + clsUserMgtCode.ModuleProductSale + "','" + clsUserMgtCode.ModuleSaleDairy +
-            "','" + clsUserMgtCode.ModuleCSASale + "','" + clsUserMgtCode.ModuleFreshSale + "','" + clsUserMgtCode.ModuleBulkSale + "','" + clsUserMgtCode.ModuleMerchantTradeSale +
-            "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "','" + clsUserMgtCode.ModuleProductionDairy + "','" + clsUserMgtCode.ModuleJobWorkOutWard + "','" + clsUserMgtCode.ModulePurchase + "','" +
-            clsUserMgtCode.ModuleReceivable + "','" + clsUserMgtCode.ModulePayable + "','" + clsUserMgtCode.ModuleMaterial +
-           "') order by SNo"
+        Dim qry As String = "select Program_Code as Code,case when len(isnull(Re_Name,''))>0 then Re_Name else Program_Name end  as Name from TSPL_PROGRAM_MASTER " & Environment.NewLine &
+            " inner join TSPL_MODULE_PERMISSION on TSPL_MODULE_PERMISSION.Module_Name=TSPL_PROGRAM_MASTER.Program_Code " & Environment.NewLine &
+            " where Type='M' and Program_Code in ('" & clsUserMgtCode.ModuleSalesNew & "','" & clsUserMgtCode.ModuleProductSale & "','" & clsUserMgtCode.ModuleSaleDairy &
+            "','" & clsUserMgtCode.ModuleCSASale & "','" & clsUserMgtCode.ModuleFreshSale & "','" & clsUserMgtCode.ModuleBulkSale & "','" & clsUserMgtCode.ModuleMerchantTradeSale &
+            "','" & clsUserMgtCode.ModuleMCCMilkProcurement & "','" & clsUserMgtCode.ModuleProductionDairy & "','" & clsUserMgtCode.ModuleJobWorkOutWard & "','" & clsUserMgtCode.ModulePurchase & "','" &
+            clsUserMgtCode.ModuleReceivable & "','" & clsUserMgtCode.ModulePayable & "','" & clsUserMgtCode.ModuleMaterial & "','" & clsUserMgtCode.ModuleQualityControl & "') order by SNo"
 
         cboModule.DataSource = clsDBFuncationality.GetDataTable(qry)
         cboModule.ValueMember = "Code"
@@ -301,37 +303,37 @@ Public Class frmApprovalScreen
         Dim dt As New DataTable
         Try
             Dim qry As String
-            Dim whrCls As String = " and Program_Code in ('PO-ODR','PO-REQ','PO-INV','SALN-SO','SALE-ORDER','SALN-SP','DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material', 'DBT-NEFT-UPL', 'VSP-Item','Pay-Pro','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','CSA-DO-TRN','SALE-RET-PS','RETRUN-DS','STORE-REQ','AP-INVOICE','PYMT-NEW','AR-INVOICE','RECEIPT-E','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.frmMilkJobWorkTransferOther + "','" + clsUserMgtCode.frmDCSDEmandBooking + "')"
-            If Not clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleSaleDairy) = CompairStringResult.Equal Then ''std. sales
+            Dim whrCls As String = " and Program_Code in ('PO-ODR','PO-REQ','PO-INV','SALN-SO','SALE-ORDER','SALN-SP','DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material', 'DBT-NEFT-UPL', 'VSP-Item','Pay-Pro','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','CSA-DO-TRN','SALE-RET-PS','RETRUN-DS','STORE-REQ','AP-INVOICE','PYMT-NEW','AR-INVOICE','RECEIPT-E','" & clsUserMgtCode.Transfer & "','" & clsUserMgtCode.frmMilkJobWorkTransferOther & "','" & clsUserMgtCode.frmDCSDEmandBooking & "','" & clsUserMgtCode.NIRQC & "')"
+            If  clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleSaleDairy) <> CompairStringResult.Equal Then ''std. sales
                 If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleProductionDairy) = CompairStringResult.Equal Then
                     qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Bulk Transaction')) " + whrCls + " "
+                                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Bulk Transaction')) " & whrCls & " "
 
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleMCCMilkProcurement) = CompairStringResult.Equal Then
                     qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('MCC Transaction')) " + whrCls + " "
+                                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('MCC Transaction')) " & whrCls & " "
                 Else
                     qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                            "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Transaction')) " + whrCls + " "
+                            "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Transaction')) " & whrCls & " "
                 End If
             Else
                 qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                    "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Fresh Sale')) " + whrCls + "  " &
+                    "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Fresh Sale')) " & whrCls & "  " &
                 "union all " &
                 "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Bulk Sale')) " + whrCls + " " &
+                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Bulk Sale')) " & whrCls & " " &
                 "union all " &
                 "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Product Sale','Product postdaturn')) " + whrCls + " " &
+                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Product Sale','Product postdaturn')) " & whrCls & " " &
                 "union all " &
                 "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Export Sale')) " + whrCls + " " &
+                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Export Sale')) " & whrCls & " " &
                 "union all " &
                 "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('CSA Sale')) " + whrCls + " " &
+                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('CSA Sale')) " & whrCls & " " &
                 "union all " &
                 "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
-                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Transaction')) " + whrCls + " "
+                "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" & clsCommon.myCstr(cboModule.SelectedValue) & "' and Program_Name in ('Transaction')) " & whrCls & " "
             End If
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -357,7 +359,7 @@ Public Class frmApprovalScreen
 
     Private Sub frmApprovalScreen_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         Try
-            If e.Alt And e.KeyCode = Keys.C Then
+            If e.Alt AndAlso e.KeyCode = Keys.C Then
                 closeForm()
             ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
                 btnSave.PerformClick()
@@ -428,8 +430,8 @@ Public Class frmApprovalScreen
                 cboTransaction.SelectedValue = obj.Arr(0).Trans_Code
                 txtLevelNo.Text = obj.Arr(0).Level
                 cboApprovalType.SelectedValue = obj.Arr(0).Approval_Type
-                ChkAutoPost.Checked = IIf(obj.Arr(0).Auto_Post = True, True, False)
-                chk_isdepartmentwise.Checked = IIf(obj.Arr(0).Is_DepartmentWise = True, True, False)
+                ChkAutoPost.Checked = IIf(obj.Arr(0).Auto_Post, True, False)
+                chk_isdepartmentwise.Checked = IIf(obj.Arr(0).Is_DepartmentWise, True, False)
                 chkAllLevelApprovalRequired.Checked = obj.Arr(0).All_Level_Approval_Required
                 txtLocation.Value = obj.Arr(0).Loc_Code
                 ddl_category.SelectedValue = obj.Arr(0).Capex_Category
@@ -439,7 +441,7 @@ Public Class frmApprovalScreen
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_UserCode).Value = obj1.User_Code
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_UserName).Value = obj1.User_Name
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_Department).Value = obj1.Department_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_DepartmentName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description as Name from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_Code ='" + obj1.Department_Code + "'", Nothing)) ''UDL/22/05/19-000298 by balwinder on 22/05/2019
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_DepartmentName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description as Name from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_Code ='" & obj1.Department_Code & "'", Nothing)) ''UDL/22/05/19-000298 by balwinder on 22/05/2019
                     If clsCommon.CompairString(cboApprovalType.SelectedValue, "Qty") = CompairStringResult.Equal Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmount_Qty).Value = obj1.Qty_Limit
                     ElseIf clsCommon.CompairString(cboApprovalType.SelectedValue, "Amount") = CompairStringResult.Equal Then
@@ -457,8 +459,8 @@ Public Class frmApprovalScreen
             Else
                 If clsCommon.myCdbl(txtLevelNo.Text) > 0 Then
                     If clsCommon.myLen(cboApprovalType.SelectedValue) > 0 AndAlso clsCommon.CompairString(cboApprovalType.SelectedValue, "Amount") = CompairStringResult.Equal Then
-                        gv1.Columns(colAmount_Qty_Type).HeaderText = cboApprovalType.SelectedValue + " Type"
-                        gv1.Columns(colAmount_Qty).HeaderText = cboApprovalType.SelectedValue + " Limit"
+                        gv1.Columns(colAmount_Qty_Type).HeaderText = cboApprovalType.SelectedValue & " Type"
+                        gv1.Columns(colAmount_Qty).HeaderText = cboApprovalType.SelectedValue & " Limit"
                     End If
 
                     gv1.Rows.Clear()
@@ -517,7 +519,7 @@ Public Class frmApprovalScreen
             Else
                 Errorcontrol.ResetError(txtLevelNo)
             End If
-            
+
             CheckPOAndIndent()
             Dim arr As New List(Of String)
             Dim user_Code As String = Nothing
@@ -542,7 +544,7 @@ Public Class frmApprovalScreen
 
                 If no_of_level > 0 Then
                     If chk_isdepartmentwise.Checked Then
-                        user_Code = user_Code + "-" + Department
+                        user_Code = user_Code & "-" & Department
                     End If
 
                     If Not arr.Contains(user_Code) Then
@@ -550,33 +552,33 @@ Public Class frmApprovalScreen
                     Else
                         gv1.CurrentRow = gv1.Rows(grow.Index)
                         gv1.CurrentColumn = gv1.Columns(colLevel_UserCode)
-                        Throw New Exception("Duplicate user " + IIf(chk_isdepartmentwise.Checked, "-Department", "") + " mapped at row no. " + clsCommon.myCstr(grow.Index + 1) + ".")
+                        Throw New Exception("Duplicate user " & IIf(chk_isdepartmentwise.Checked, "-Department", "") & " mapped at row no. " & clsCommon.myCstr(grow.Index + 1) & ".")
                     End If
 
                     If chk_isdepartmentwise.Checked Then
                         If clsCommon.myLen(Department) <= 0 Then
                             gv1.CurrentRow = gv1.Rows(grow.Index)
                             gv1.CurrentColumn = gv1.Columns(colLevel_Department)
-                            Throw New Exception("Fill Department at row no. " + clsCommon.myCstr(grow.Index + 1) + ".")
+                            Throw New Exception("Fill Department at row no. " & clsCommon.myCstr(grow.Index + 1) & ".")
                         End If
                     End If
 
                     If clsCommon.CompairString(clsCommon.myCstr(cboApprovalType.SelectedValue), "Amount") = CompairStringResult.Equal AndAlso clsCommon.myLen(app_type) <= 0 AndAlso amount < 0 Then
                         gv1.CurrentRow = gv1.Rows(grow.Index)
                         gv1.CurrentColumn = gv1.Columns(colAmount_Qty)
-                        Throw New Exception("Fill " + clsCommon.myCstr(cboApprovalType.SelectedValue) + " limit at row no. " + clsCommon.myCstr(grow.Index + 1) + ".")
+                        Throw New Exception("Fill " & clsCommon.myCstr(cboApprovalType.SelectedValue) & " limit at row no. " & clsCommon.myCstr(grow.Index + 1) & ".")
                     End If
 
                     If clsCommon.CompairString(clsCommon.myCstr(cboApprovalType.SelectedValue), "Amount") = CompairStringResult.Equal AndAlso clsCommon.myLen(app_type) > 0 AndAlso amount < 0 Then ''UDL/29/04/19-000293 by balwinder on 09/05/2019
                         gv1.CurrentRow = gv1.Rows(grow.Index)
                         gv1.CurrentColumn = gv1.Columns(colAmount_Qty)
-                        Throw New Exception("Fill " + clsCommon.myCstr(cboApprovalType.SelectedValue) + " limit at row no. " + clsCommon.myCstr(grow.Index + 1) + ".")
+                        Throw New Exception("Fill " & clsCommon.myCstr(cboApprovalType.SelectedValue) & " limit at row no. " & clsCommon.myCstr(grow.Index + 1) & ".")
                     End If
 
                     If clsCommon.CompairString(clsCommon.myCstr(cboApprovalType.SelectedValue), "Amount") = CompairStringResult.Equal AndAlso clsCommon.myLen(app_type) <= 0 AndAlso amount > 0 Then
                         gv1.CurrentRow = gv1.Rows(grow.Index)
                         gv1.CurrentColumn = gv1.Columns(colAmount_Qty_Type)
-                        Throw New Exception("Select " + clsCommon.myCstr(cboApprovalType.SelectedValue) + " type at row no. " + clsCommon.myCstr(grow.Index + 1) + ".")
+                        Throw New Exception("Select " & clsCommon.myCstr(cboApprovalType.SelectedValue) & " type at row no. " & clsCommon.myCstr(grow.Index + 1) & ".")
                     End If
                 End If
             Next
@@ -596,7 +598,7 @@ Public Class frmApprovalScreen
     End Function
 
     Private Sub CheckPOAndIndent()
-        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
                 txtLocation.Focus()
                 txtLocation.Select()
@@ -625,14 +627,17 @@ Public Class frmApprovalScreen
             obj.Arr = New List(Of clsApprovalScreen)
 
             If Not AllowToSave() Then
+#Disable Warning
                 Exit Sub
+#Enable Warning
             End If
 
-            If MyBase.isModifyonPasswordFlag Then
-                If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmApprovalLevelScreen, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                Else
-                    Return
-                End If
+            If MyBase.isModifyonPasswordFlag AndAlso Not clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmApprovalLevelScreen, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                'If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmApprovalLevelScreen, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                'Else
+                '    Return
+                'End If
+                Return
             End If
 
             For Each grow As GridViewRowInfo In gv1.Rows
@@ -702,15 +707,17 @@ Public Class frmApprovalScreen
                 Errorcontrol.ResetError(cboTransaction)
             End If
             CheckPOAndIndent()
-            If Not clsCommon.MyMessageBoxShow(Me, "Are you sure,want to delete setting.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure,want to delete setting.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) <> System.Windows.Forms.DialogResult.Yes Then
+#Disable Warning
                 Exit Sub
+#Enable Warning
             End If
 
             If clsApprovalScreen.DeleteData(clsCommon.myCstr(cboModule.SelectedValue), clsCommon.myCstr(cboTransaction.SelectedValue), txtLocation.Value, clsCommon.myCstr(ddl_category.SelectedValue)) Then
                 myMessages.delete()
                 Reset()
             End If
-            
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -725,7 +732,7 @@ Public Class frmApprovalScreen
             If clsCommon.myLen(MyBase.Form_ID) > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
                 obj = CType(obj.GetData(Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
-                If Not obj Is Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
+                If obj IsNot Nothing AndAlso obj.GridColumns >= gv1.ColumnCount Then
                     Dim ii As Integer
                     For ii = 0 To gv1.Columns.Count - 1 Step ii + 1
                         gv1.Columns(ii).IsVisible = False
@@ -772,7 +779,10 @@ Public Class frmApprovalScreen
                 cboModule.Focus()
                 cboModule.Select()
                 Errorcontrol.SetError(cboModule, "Select module.")
-                Throw New Exception("Module code can not left blank.")
+                clsCommon.MyMessageBoxShow(Me, "Module code can not left blank.", Me.Text)
+#Disable Warning
+                Exit Sub
+#Enable Warning
             Else
                 Errorcontrol.ResetError(cboModule)
             End If
@@ -781,7 +791,10 @@ Public Class frmApprovalScreen
                 cboTransaction.Focus()
                 cboTransaction.Select()
                 Errorcontrol.SetError(cboTransaction, "Select transaction.")
-                Throw New Exception("Transaction code can not left blank.")
+                clsCommon.MyMessageBoxShow(Me, "Transaction code can not left blank.", Me.Text)
+#Disable Warning
+                Exit Sub
+#Enable Warning
             Else
                 Errorcontrol.ResetError(cboTransaction)
             End If
@@ -794,16 +807,16 @@ Public Class frmApprovalScreen
 
     Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
         Try
-            If Not isInsideLoadData Then
-                If e.RowIndex >= 0 Then
-                    If (e.Column Is gv1.Columns(colAmount_Qty) OrElse e.Column Is gv1.Columns(colAmount_Qty_Type)) AndAlso clsCommon.CompairString(cboApprovalType.SelectedValue, "Amount") = CompairStringResult.Equal Then
-                        gv1.CurrentRow.Cells(colAmount_Qty).ReadOnly = False
-                        gv1.CurrentRow.Cells(colAmount_Qty_Type).ReadOnly = False
-                    Else
-                        gv1.CurrentRow.Cells(colAmount_Qty).ReadOnly = True
-                        gv1.CurrentRow.Cells(colAmount_Qty_Type).ReadOnly = True
-                    End If
+            If Not isInsideLoadData AndAlso e.RowIndex >= 0 Then
+                'If e.RowIndex >= 0 Then
+                If (e.Column Is gv1.Columns(colAmount_Qty) OrElse e.Column Is gv1.Columns(colAmount_Qty_Type)) AndAlso clsCommon.CompairString(cboApprovalType.SelectedValue, "Amount") = CompairStringResult.Equal Then
+                    gv1.CurrentRow.Cells(colAmount_Qty).ReadOnly = False
+                    gv1.CurrentRow.Cells(colAmount_Qty_Type).ReadOnly = False
+                Else
+                    gv1.CurrentRow.Cells(colAmount_Qty).ReadOnly = True
+                    gv1.CurrentRow.Cells(colAmount_Qty_Type).ReadOnly = True
                 End If
+                'End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -812,23 +825,22 @@ Public Class frmApprovalScreen
 
     Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
-            If Not isInsideLoadData Then
-                If Not isCellValueChanged Then
-                    If e.Column Is gv1.Columns(colLevel_UserCode) Then
-                        If e.RowIndex >= 0 Then  'Ticket No- UDL/31/05/18-000179
-                            isCellValueChanged = True
-                            OpenUserCode(False)
-                            isCellValueChanged = False
-                        End If
-                    ElseIf e.Column Is gv1.Columns(colLevel_Department) Then
-                        If e.RowIndex >= 0 Then  'Ticket No- UDL/31/05/18-000179
-                            isCellValueChanged = True
-                            OpenDepartment(False)
-                            isCellValueChanged = False
-                        End If
+            If Not isInsideLoadData AndAlso Not isCellValueChanged Then
+                'If Not isCellValueChanged Then
+                If e.Column Is gv1.Columns(colLevel_UserCode) Then
+                    If e.RowIndex >= 0 Then  'Ticket No- UDL/31/05/18-000179
+                        isCellValueChanged = True
+                        OpenUserCode(False)
+                        isCellValueChanged = False
                     End If
-
+                ElseIf e.Column Is gv1.Columns(colLevel_Department) Then
+                    If e.RowIndex >= 0 Then  'Ticket No- UDL/31/05/18-000179
+                        isCellValueChanged = True
+                        OpenDepartment(False)
+                        isCellValueChanged = False
+                    End If
                 End If
+                'End If
             End If
         Catch ex As Exception
             isCellValueChanged = False
@@ -842,7 +854,7 @@ Public Class frmApprovalScreen
         Dim arr1 As New ArrayList()
         Dim intRow As Integer = gv1.CurrentRow.Index
 
-        Dim xUser() As String = Nothing
+        Dim xUser As String() = Nothing
         If clsCommon.myLen(gv1.CurrentRow.Cells(colLevel_UserCode).Value) > 0 Then
             xUser = clsCommon.myCstr(gv1.CurrentRow.Cells(colLevel_UserCode).Value).Replace("'", "").Split(",")
 
@@ -859,13 +871,13 @@ Public Class frmApprovalScreen
             For ii As Integer = 0 To arr1.Count - 1
                 If ii = 0 Then
                     gv1.Rows(intRow).Cells(colLevel_UserCode).Value = clsCommon.myCstr(arr1(ii))
-                    gv1.Rows(intRow).Cells(colLevel_UserName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select user_name from tspl_user_master where user_code ='" + clsCommon.myCstr(arr1(ii)) + "'"))
+                    gv1.Rows(intRow).Cells(colLevel_UserName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select user_name from tspl_user_master where user_code ='" & clsCommon.myCstr(arr1(ii)) & "'"))
                 Else
                     gv1.Rows.AddNew()
 
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLevelNo).Value = clsCommon.myCdbl(gv1.Rows(intRow).Cells(colLevelNo).Value)
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_UserCode).Value = clsCommon.myCstr(arr1(ii))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_UserName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select user_name from tspl_user_master where user_code ='" + clsCommon.myCstr(arr1(ii)) + "'"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLevel_UserName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select user_name from tspl_user_master where user_code ='" & clsCommon.myCstr(arr1(ii)) & "'"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colAmount_Qty).Value = Nothing
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colAmount_Qty_Type).Value = ""
 
@@ -879,19 +891,19 @@ Public Class frmApprovalScreen
             gv1.CurrentRow.Cells(colLevel_UserCode).Value = ""
             gv1.CurrentRow.Cells(colLevel_UserName).Value = ""
         End If
-        
+
     End Sub
 
     Private Sub OpenDepartment(ByVal isButtonClicked As Boolean)
         Dim qry As String = "select Segment_code as Code,Description as Name from TSPL_GL_SEGMENT_CODE"
         gv1.CurrentRow.Cells(colLevel_Department).Value = clsCommon.ShowSelectForm("NLVLDPTFND", qry, "Code", " Seg_No=3", clsCommon.myCstr(gv1.CurrentRow.Cells(colLevel_Department).Value), "Code", isButtonClicked)
-        gv1.CurrentRow.Cells(colLevel_DepartmentName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description as Name from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colLevel_Department).Value) + "'", Nothing))
+        gv1.CurrentRow.Cells(colLevel_DepartmentName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description as Name from TSPL_GL_SEGMENT_CODE where Seg_No=3 and Segment_Code ='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colLevel_Department).Value) & "'", Nothing))
     End Sub
 
     Private Sub gv1_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         Try
             If gv1.RowCount > 0 Then
-                Dim intCurrRow As Integer = gv1.CurrentRow.Index
+                'Dim intCurrRow As Integer = gv1.CurrentRow.Index
                 'If gv1.CurrentRow.Index > 0 Then
                 '    gv1.CurrentRow.Cells(colLevelNo).Value = clsCommon.myCdbl(clsCommon.myCdbl(gv1.Rows(intCurrRow - 1).Cells(colLevelNo).Value) + 1)
                 'Else
@@ -928,14 +940,14 @@ Public Class frmApprovalScreen
 
     Private Sub cboTransaction_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboTransaction.SelectedIndexChanged
         If Not isInsideLoadData Then
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "SALN-SP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "M-Material") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "PO-INV") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "DEL-ORD-PS") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "SALN-SP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "M-Material") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "PO-INV") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "DEL-ORD-PS") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
                 chk_isdepartmentwise.Visible = True
                 chk_isdepartmentwise.Checked = False
             Else
                 chk_isdepartmentwise.Visible = False
                 chk_isdepartmentwise.Checked = False
             End If
-            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
+            If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
                 Panel1.Visible = True
             Else
                 Panel1.Visible = False
@@ -951,14 +963,18 @@ Public Class frmApprovalScreen
     End Sub
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
-        Dim query As String = "select TSPL_APPROVAL_LEVEL_SCREEN.Module_Code as Module,TSPL_APPROVAL_LEVEL_SCREEN.TRANS_Code as [Transaction],TSPL_APPROVAL_LEVEL_SCREEN.Loc_Code as Location"
-        If SettingCapex Then
-            query += ",TSPL_APPROVAL_LEVEL_SCREEN.Capex_Category as [Category]"
-        End If
-        query += ",TSPL_APPROVAL_LEVEL_SCREEN.LEVEL as [NoOfLevel],case when Auto_Post=1 then 'Y' else 'N' end as [AutoPost],case when All_Level_Approval_Required =1 then 'Y' else 'N' end as [AllLevelApprovalRequired],TSPL_APPROVAL_LEVEL_SCREEN.No_Of_Level as [UserLevel],TSPL_APPROVAL_LEVEL_SCREEN.User_Code as [User],case when TSPL_APPROVAL_LEVEL_SCREEN.Is_DepartmentWise=1 then 'Y' else 'N' end as [DepartmentWise],TSPL_APPROVAL_LEVEL_SCREEN.Department_Code as [Department],TSPL_APPROVAL_LEVEL_SCREEN.Approval_Type as [ApprovalType],TSPL_APPROVAL_LEVEL_SCREEN.Amount_Limit as [Amount]," + Environment.NewLine + _
-        "case when Amount_Qty_Type='Less' then '<' when Amount_Qty_Type='Greater' then '>' when Amount_Qty_Type='LessEqual' then '<=' when Amount_Qty_Type='GreaterEqual' then '>=' when Amount_Qty_Type='Equal' then '=' else '' end  [AmountType]" + Environment.NewLine + _
+        Try
+            Dim query As String = "select TSPL_APPROVAL_LEVEL_SCREEN.Module_Code as Module,TSPL_APPROVAL_LEVEL_SCREEN.TRANS_Code as [Transaction],TSPL_APPROVAL_LEVEL_SCREEN.Loc_Code as Location"
+            If SettingCapex Then
+                query += ",TSPL_APPROVAL_LEVEL_SCREEN.Capex_Category as [Category]"
+            End If
+            query += ",TSPL_APPROVAL_LEVEL_SCREEN.LEVEL as [NoOfLevel],case when Auto_Post=1 then 'Y' else 'N' end as [AutoPost],case when All_Level_Approval_Required =1 then 'Y' else 'N' end as [AllLevelApprovalRequired],TSPL_APPROVAL_LEVEL_SCREEN.No_Of_Level as [UserLevel],TSPL_APPROVAL_LEVEL_SCREEN.User_Code as [User],case when TSPL_APPROVAL_LEVEL_SCREEN.Is_DepartmentWise=1 then 'Y' else 'N' end as [DepartmentWise],TSPL_APPROVAL_LEVEL_SCREEN.Department_Code as [Department],TSPL_APPROVAL_LEVEL_SCREEN.Approval_Type as [ApprovalType],TSPL_APPROVAL_LEVEL_SCREEN.Amount_Limit as [Amount]," & Environment.NewLine &
+        "case when Amount_Qty_Type='Less' then '<' when Amount_Qty_Type='Greater' then '>' when Amount_Qty_Type='LessEqual' then '<=' when Amount_Qty_Type='GreaterEqual' then '>=' when Amount_Qty_Type='Equal' then '=' else '' end  [AmountType]" & Environment.NewLine &
         " from TSPL_APPROVAL_LEVEL_SCREEN"
-        transportSql.ExporttoExcel(query, Me)
+            transportSql.ExporttoExcel(query, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
@@ -988,22 +1004,22 @@ Public Class frmApprovalScreen
                         cboModule.SelectedIndex = -1
                         cboModule.SelectedValue = obj.Module_Code
                         If cboModule.SelectedIndex < 0 Then
-                            Throw New Exception("Invalid Module code " + obj.Module_Code)
+                            Throw New Exception("Invalid Module code " & obj.Module_Code)
                         End If
                         LoadTrnsListOfSelectedModeule()
                         cboTransaction.SelectedIndex = -1
                         cboTransaction.SelectedValue = obj.Transaction_Code
                         If cboTransaction.SelectedIndex < 0 Then
-                            Throw New Exception("Invalid Transaction code " + obj.Transaction_Code)
+                            Throw New Exception("Invalid Transaction code " & obj.Transaction_Code)
                         End If
                         obj.Location_Code = clsCommon.myCstr(dgv.Rows(ii).Cells("Location").Value)
                         If clsCommon.CompairString(obj.Transaction_Code, clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
                             If clsCommon.myLen(obj.Location_Code) <= 0 Then
                                 Throw New Exception("Please Provide Location Code")
                             End If
-                            obj.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code  from TSPL_LOCATION_MASTER where Location_Code='" + obj.Location_Code + "'"))
+                            obj.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code  from TSPL_LOCATION_MASTER where Location_Code='" & obj.Location_Code & "'"))
                             If clsCommon.myLen(obj.Location_Code) <= 0 Then
-                                Throw New Exception("Invalid Location Code " + clsCommon.myCstr(dgv.Rows(ii).Cells("Location").Value))
+                                Throw New Exception("Invalid Location Code " & clsCommon.myCstr(dgv.Rows(ii).Cells("Location").Value))
                             End If
                             If SettingCapex Then
                                 obj.Category_Code = clsCommon.myCstr(dgv.Rows(ii).Cells("Category").Value)
@@ -1013,20 +1029,20 @@ Public Class frmApprovalScreen
                                 ddl_category.SelectedIndex = -1
                                 ddl_category.SelectedValue = obj.Category_Code
                                 If ddl_category.SelectedIndex < 0 Then
-                                    Throw New Exception("Invalid category " + obj.Category_Code)
+                                    Throw New Exception("Invalid category " & obj.Category_Code)
                                 End If
                             End If
                         Else
                             obj.Location_Code = ""
                         End If
-                        Dim strMerge As String = clsCommon.myCstr(obj.Module_Code + obj.Transaction_Code + obj.Location_Code + obj.Category_Code).ToUpper()
+                        Dim strMerge As String = clsCommon.myCstr(obj.Module_Code & obj.Transaction_Code & obj.Location_Code & obj.Category_Code).ToUpper()
                         If Not arrTemp.Contains(strMerge) Then
                             arrTemp.Add(strMerge)
                             arr.Add(obj)
                         End If
                     Next
                 Catch ex As Exception
-                    Throw New Exception("Error at Line No " + clsCommon.myCstr(lineNo + 2) + Environment.NewLine + ex.Message)
+                    Throw New Exception("Error at Line No " & clsCommon.myCstr(lineNo + 2) & Environment.NewLine & ex.Message)
                 End Try
                 If arr Is Nothing OrElse arr.Count <= 0 Then
                     Throw New Exception("No valid row found to import")
@@ -1077,9 +1093,9 @@ Public Class frmApprovalScreen
                                 If clsCommon.myLen(objAP.User_Code) <= 0 Then
                                     Throw New Exception("Please provide user code")
                                 End If
-                                objAP.User_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select User_Code from tspl_user_master where User_Code='" + objAP.User_Code + "'", trans))
+                                objAP.User_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select User_Code from tspl_user_master where User_Code='" & objAP.User_Code & "'", trans))
                                 If clsCommon.myLen(objAP.User_Code) <= 0 Then
-                                    Throw New Exception("Invalid user code " + clsCommon.myCstr(dgv.Rows(ii).Cells("User").Value))
+                                    Throw New Exception("Invalid user code " & clsCommon.myCstr(dgv.Rows(ii).Cells("User").Value))
                                 End If
                                 If clsCommon.CompairString(objAP.Trans_Code, "SALN-SP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objAP.Trans_Code, "M-Material") = CompairStringResult.Equal OrElse clsCommon.CompairString(objAP.Trans_Code, clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal OrElse clsCommon.CompairString(objAP.Trans_Code, clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal OrElse clsCommon.CompairString(objAP.Trans_Code, clsUserMgtCode.mbtnPurchaseRequistion) OrElse clsCommon.CompairString(objAP.Trans_Code, "PO-INV") = CompairStringResult.Equal OrElse clsCommon.CompairString(objAP.Trans_Code, "DEL-ORD-PS") = CompairStringResult.Equal Then
                                     objAP.Is_DepartmentWise = (clsCommon.CompairString(clsCommon.myCstr(dgv.Rows(ii).Cells("DepartmentWise").Value), "Y") = CompairStringResult.Equal)
@@ -1088,9 +1104,9 @@ Public Class frmApprovalScreen
                                         If clsCommon.myLen(objAP.Department_Code) <= 0 Then
                                             Throw New Exception("Please provide Department code")
                                         End If
-                                        objAP.Department_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_CODE from tspl_department_master where DEPARTMENT_CODE='" + objAP.Department_Code + "'", trans))
+                                        objAP.Department_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEPARTMENT_CODE from tspl_department_master where DEPARTMENT_CODE='" & objAP.Department_Code & "'", trans))
                                         If clsCommon.myLen(objAP.Department_Code) <= 0 Then
-                                            Throw New Exception("Invalid Department " + clsCommon.myCstr(dgv.Rows(ii).Cells("Department").Value))
+                                            Throw New Exception("Invalid Department " & clsCommon.myCstr(dgv.Rows(ii).Cells("Department").Value))
                                         End If
                                     End If
                                 Else
@@ -1101,23 +1117,23 @@ Public Class frmApprovalScreen
                                     If Not clsCommon.CompairString(objAP.Approval_Type, "Amount") = CompairStringResult.Equal Then
                                         If clsCommon.CompairString(objAP.Approval_Type, "CrLmt") = CompairStringResult.Equal Then
                                             If Not (clsCommon.CompairString(obj.Transaction_Code, "BOOK-DS") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "CSA-DO-TRN") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "DEL-NOTE-FS") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "DEL-ORD-PS") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "DISPATCH-BS") = CompairStringResult.Equal) Then
-                                                Throw New Exception("Invalid ApprovalType" + objAP.Approval_Type)
+                                                Throw New Exception("Invalid ApprovalType" & objAP.Approval_Type)
                                             End If
                                         ElseIf clsCommon.CompairString(objAP.Approval_Type, "Rate") = CompairStringResult.Equal Then
                                             If Not (clsCommon.CompairString(obj.Transaction_Code, "CSA-INV-TRN") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "M-Material") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "M-SRN-B") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Transaction_Code, "VSP-Item") = CompairStringResult.Equal) Then
-                                                Throw New Exception("Invalid ApprovalType" + objAP.Approval_Type)
+                                                Throw New Exception("Invalid ApprovalType" & objAP.Approval_Type)
                                             End If
                                         ElseIf clsCommon.CompairString(objAP.Approval_Type, "IncAmt") = CompairStringResult.Equal Then
                                             If Not (clsCommon.CompairString(obj.Transaction_Code, "LC-CREATION") = CompairStringResult.Equal) Then
-                                                Throw New Exception("Invalid ApprovalType" + objAP.Approval_Type)
+                                                Throw New Exception("Invalid ApprovalType" & objAP.Approval_Type)
                                             End If
                                         ElseIf clsCommon.CompairString(objAP.Approval_Type, "Other") = CompairStringResult.Equal Then
                                             If Not (clsCommon.CompairString(obj.Transaction_Code, "M-RECEIPT") = CompairStringResult.Equal) Then
-                                                Throw New Exception("Invalid ApprovalType" + objAP.Approval_Type)
+                                                Throw New Exception("Invalid ApprovalType" & objAP.Approval_Type)
                                             End If
                                         ElseIf clsCommon.CompairString(objAP.Approval_Type, "ARcpt") = CompairStringResult.Equal Then
                                             If Not (clsCommon.CompairString(obj.Transaction_Code, "SHIPMENT-PS") = CompairStringResult.Equal) Then
-                                                Throw New Exception("Invalid ApprovalType" + objAP.Approval_Type)
+                                                Throw New Exception("Invalid ApprovalType" & objAP.Approval_Type)
                                             End If
                                         End If
                                     End If
@@ -1134,7 +1150,7 @@ Public Class frmApprovalScreen
                                         ElseIf clsCommon.CompairString(objAP.Amount_Qty_Type, "=") = CompairStringResult.Equal Then
                                             objAP.Amount_Qty_Type = "Equal"
                                         Else
-                                            Throw New Exception("Wrong symbol " + objAP.Amount_Qty_Type + ".[<,>,<=,>=,=]")
+                                            Throw New Exception("Wrong symbol " & objAP.Amount_Qty_Type & ".[<,>,<=,>=,=]")
                                         End If
                                     End If
                                 End If
@@ -1150,40 +1166,40 @@ Public Class frmApprovalScreen
                         Next
                         clsApprovalScreen.SaveData(objAprrovalMain, trans)
 
-                        Dim strTemp As String = "Module-" + obj.Module_Code + ",Transaction-" + obj.Transaction_Code
+                        Dim strTemp As String = "Module-" & obj.Module_Code & ",Transaction-" & obj.Transaction_Code
                         If clsCommon.myLen(obj.Location_Code) > 0 Then
-                            strTemp += ",Location- " + obj.Location_Code
+                            strTemp += ",Location- " & obj.Location_Code
                         End If
                         If clsCommon.myLen(obj.Category_Code) > 0 Then
-                            strTemp += " ,Category- " + obj.Category_Code
+                            strTemp += " ,Category- " & obj.Category_Code
                         End If
 
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQry("LEVEL", obj), trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
-                            Throw New Exception("NoOfLevel Should be same for " + strTemp)
+                            Throw New Exception("NoOfLevel Should be same for " & strTemp)
                         End If
                         dt = clsDBFuncationality.GetDataTable(GetQry("Approval_Type", obj), trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
-                            Throw New Exception("ApprovalType Should be same for " + strTemp)
+                            Throw New Exception("ApprovalType Should be same for " & strTemp)
                         End If
                         dt = clsDBFuncationality.GetDataTable(GetQry("Auto_Post", obj), trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
-                            Throw New Exception("AutoPost Should be same for " + strTemp)
+                            Throw New Exception("AutoPost Should be same for " & strTemp)
                         End If
                         dt = clsDBFuncationality.GetDataTable(GetQry("Is_DepartmentWise", obj), trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
-                            Throw New Exception("DepartmentWise Should be same for " + strTemp)
+                            Throw New Exception("DepartmentWise Should be same for " & strTemp)
                         End If
                         dt = clsDBFuncationality.GetDataTable(GetQry("All_Level_Approval_Required", obj), trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 1 Then
-                            Throw New Exception("AllLevelApprovalRequired Should be same for " + strTemp)
+                            Throw New Exception("AllLevelApprovalRequired Should be same for " & strTemp)
                         End If
                     Next
                     trans.Commit()
                     clsCommon.MyMessageBoxShow(Me, "Data imported successfully.", Me.Text)
                 Catch ex As Exception
                     trans.Rollback()
-                    Throw New Exception("Error at Line No " + clsCommon.myCstr(lineNo + 2) + Environment.NewLine + ex.Message)
+                    Throw New Exception("Error at Line No " & clsCommon.myCstr(lineNo + 2) & Environment.NewLine & ex.Message)
                 End Try
             End If
         Catch ex As Exception
@@ -1195,14 +1211,14 @@ Public Class frmApprovalScreen
     End Sub
 
     Function GetQry(ByVal strColumn As String, ByVal obj As clsTempMTLC) As String
-        Dim qry As String = "select " + strColumn + " from TSPL_APPROVAL_LEVEL_SCREEN where Module_Code='" + obj.Module_Code + "' and TRANS_Code='" + obj.Transaction_Code + "'  "
+        Dim qry As String = "select " & strColumn & " from TSPL_APPROVAL_LEVEL_SCREEN where Module_Code='" & obj.Module_Code & "' and TRANS_Code='" & obj.Transaction_Code & "'  "
         If clsCommon.myLen(obj.Location_Code) > 0 Then
-            qry += " and Loc_Code='" + obj.Location_Code + "'"
+            qry += " and Loc_Code='" & obj.Location_Code & "'"
         End If
         If clsCommon.myLen(obj.Category_Code) > 0 Then
-            qry += " and Capex_Category='" + obj.Category_Code + "'"
+            qry += " and Capex_Category='" & obj.Category_Code & "'"
         End If
-        qry += "group by " + strColumn + ""
+        qry += "group by " & strColumn & ""
         Return qry
     End Function
 
@@ -1220,12 +1236,17 @@ Public Class frmApprovalScreen
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
-        If clsCommon.myLen(clsCommon.myCstr(cboModule.SelectedValue)) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Document No")
-            Exit Sub
-        End If
-        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(cboModule.SelectedValue), "Module_Code", "TSPL_APPROVAL_LEVEL_SCREEN")
-
+        Try
+            If clsCommon.myLen(clsCommon.myCstr(cboModule.SelectedValue)) <= 0 Then
+                clsCommon.MyMessageBoxShow("Select Document No")
+#Disable Warning
+                Exit Sub
+#Enable Warning
+            End If
+            clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(cboModule.SelectedValue), "Module_Code", "TSPL_APPROVAL_LEVEL_SCREEN")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 

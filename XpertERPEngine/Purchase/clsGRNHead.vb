@@ -1825,6 +1825,17 @@ Public Class clsGRNHead
         End If
     End Function
     Public Shared Function GRNCancel(ByVal Form_Id As String, ByVal Doc_No As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            GRNCancel(Form_Id, Doc_No, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GRNCancel(ByVal Form_Id As String, ByVal Doc_No As String, ByVal trans As SqlTransaction) As Boolean
         'Dim iscancel As Boolean = True
         'Dim qry As String = ""
 
@@ -1837,7 +1848,7 @@ Public Class clsGRNHead
         'End If
         '''''''''''''''''''''''''''
         Dim qry As String = ""
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         Try
             Dim obj As clsGRNHead = clsGRNHead.GetData(Doc_No, NavigatorType.Current, trans)
 
@@ -1852,8 +1863,8 @@ Public Class clsGRNHead
             '' cancel custom field data
             clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, Doc_No, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)
             '' delete data from original table
-            
-                clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
+
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GRN_No), "TSPL_GRN_HEAD", "GRN_No", "TSPL_GRN_DETAIL", "GRN_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
             qry = "   delete from tspl_mrn_detail where Grn_id = '" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = " delete from TSPL_MRN_HEAD where Against_grn = '" & Doc_No & "'"
@@ -1866,13 +1877,13 @@ Public Class clsGRNHead
 
             qry = "delete from TSPL_GRN_HEAD where GRN_NO='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            trans.Commit()
+            'trans.Commit()
             '' release objects 
             obj = Nothing
             qry = Nothing
 
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

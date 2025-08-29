@@ -5151,11 +5151,20 @@ TSPL_MILK_COLLECTION_MCC
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
         Next
+
         Gv1.Columns("DCSCode").IsVisible = False
         Gv1.Columns("CompName").IsVisible = False
         Gv1.Columns("User_Name").IsVisible = False
         Gv1.Columns("fromDate").IsVisible = False
         Gv1.Columns("Todate").IsVisible = False
+        Gv1.Columns("Alias").IsVisible = False
+        If chkAliasNameYDS.Checked Then
+            Gv1.Columns("DCS Code").IsVisible = False
+            Gv1.Columns("VSP_CODE").IsVisible = False
+        Else
+            Gv1.Columns("DCS Code").IsVisible = True
+            Gv1.Columns("VSP_CODE").IsVisible = True
+        End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 

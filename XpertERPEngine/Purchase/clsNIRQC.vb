@@ -120,7 +120,8 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         End Try
         Return True
     End Function
-    Public Shared Function CancelData(ByVal Doc_No As String) As Boolean
+
+    Public Shared Function CancelData(ByVal strFormId As String, ByVal Doc_No As String, ByVal strGRN As String, ByVal isCancelGRN As Boolean) As Boolean
         Dim qry As String
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim obj As clsNIRQC = clsNIRQC.GetData(Doc_No, NavigatorType.Current, trans)
@@ -134,9 +135,25 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_No), "TSPL_NIR_QC", "Document_No", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
-            qry = "delete from TSPL_NIR_QC where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_NIR_QC where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            If isCancelGRN Then
+                If clsCommon.myLen(obj.MRN_No) > 0 Then
+                    clsMRNHead.MRNCancel(strFormId, obj.MRN_No, trans)
+                End If
+
+                qry = Nothing
+                qry = "Select Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No='" & strGRN & "'"
+                Dim WeighmentCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                If clsCommon.myLen(WeighmentCode) > 0 Then
+                    clsPOWeighment.CancelData(WeighmentCode, trans)
+                End If
+
+                If clsCommon.myLen(strGRN) > 0 Then
+                    clsGRNHead.GRNCancel(strFormId, strGRN, trans)
+                End If
+            End If
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -144,15 +161,25 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         End Try
         Return True
     End Function
-    Public Shared Function PostData(ByVal strDocNo As String) As Boolean
+    Public Shared Function postdata(ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Return PostData(strDocNo, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function PostData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim obj As clsNIRQC = clsNIRQC.GetData(strDocNo, NavigatorType.Current, trans)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" & obj.Document_No & "' ", trans)
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.NIRQC, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
 
@@ -160,20 +187,21 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                 Throw New Exception("No Data found to Post")
             End If
             If (obj.Status = ERPTransactionStatus.Approved) Then
-                Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
+                Throw New Exception("Already Post on :" & clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
+
             If obj.QC_Status = 1 Then
                 CreateSRN(obj, trans)
             End If
-            Dim qry As String = "Update TSPL_NIR_QC set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_No='" + strDocNo + "'"
+            Dim qry As String = "Update TSPL_NIR_QC set Status=1, Posted_Date='" & strPostDate & "',Posted_By='" & objCommonVar.CurrentUserCode & "'  where Document_No='" & strDocNo & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_NIR_QC", "Document_No", trans)
 
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Bill_To_Location from TSPL_MRN_HEAD left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No where Document_No= '" + obj.Document_No + "' ", trans)
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.NIRQC, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), obj.Document_Date, trans)
-            trans.Commit()
+            'trans.Commit()
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
