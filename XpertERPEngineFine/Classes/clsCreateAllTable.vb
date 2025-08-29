@@ -34012,6 +34012,14 @@ LL")
             coll.Add("price_with_tax", "decimal(18,6) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SALE_RETURN_HEAD(DOCUMENT_CODE)")
+            coll.Add("Booth_Code", "varchar(12) NULL")
+            coll.Add("Item_Code", "varchar(12) NULL")
+            coll.Add("Unit_Code", "varchar(12) NULL")
+            coll.Add("Return_Qty", "decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_Booking_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
+
             Try
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column Item_Cost decimal(18,6) ")
                 clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SALE_RETURN_DETAIL alter column TAX1_Base_Amt decimal(18,6) ")

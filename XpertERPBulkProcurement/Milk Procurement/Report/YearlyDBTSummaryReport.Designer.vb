@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class YearlyDBTSummaryReport
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,18 +20,17 @@ Partial Class YearlyDBTSummaryReport
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rblHold = New System.Windows.Forms.RadioButton()
-        Me.rblCappingHold = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rblHold = New System.Windows.Forms.RadioButton()
         Me.rdbAll = New System.Windows.Forms.RadioButton()
+        Me.rblCappingHold = New System.Windows.Forms.RadioButton()
         Me.rdbValid = New System.Windows.Forms.RadioButton()
         Me.rdbInValid = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -50,8 +49,6 @@ Partial Class YearlyDBTSummaryReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,7 +105,6 @@ Partial Class YearlyDBTSummaryReport
         '
         'RadPanel1
         '
-        Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -117,50 +113,30 @@ Partial Class YearlyDBTSummaryReport
         Me.RadPanel1.Size = New System.Drawing.Size(779, 364)
         Me.RadPanel1.TabIndex = 15
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rblHold)
-        Me.RadGroupBox2.Controls.Add(Me.rblCappingHold)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(17, 112)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(304, 27)
-        Me.RadGroupBox2.TabIndex = 448
-        '
-        'rblHold
-        '
-        Me.rblHold.AutoSize = True
-        Me.rblHold.Location = New System.Drawing.Point(9, 3)
-        Me.rblHold.Name = "rblHold"
-        Me.rblHold.Size = New System.Drawing.Size(50, 17)
-        Me.rblHold.TabIndex = 440
-        Me.rblHold.Text = "Hold"
-        Me.rblHold.UseVisualStyleBackColor = True
-        '
-        'rblCappingHold
-        '
-        Me.rblCappingHold.AutoSize = True
-        Me.rblCappingHold.Location = New System.Drawing.Point(83, 3)
-        Me.rblCappingHold.Name = "rblCappingHold"
-        Me.rblCappingHold.Size = New System.Drawing.Size(97, 17)
-        Me.rblCappingHold.TabIndex = 441
-        Me.rblCappingHold.Text = "Capping Hold"
-        Me.rblCappingHold.UseVisualStyleBackColor = True
-        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rblHold)
         Me.RadGroupBox1.Controls.Add(Me.rdbAll)
+        Me.RadGroupBox1.Controls.Add(Me.rblCappingHold)
         Me.RadGroupBox1.Controls.Add(Me.rdbValid)
         Me.RadGroupBox1.Controls.Add(Me.rdbInValid)
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(17, 79)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(304, 27)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(408, 27)
         Me.RadGroupBox1.TabIndex = 447
+        '
+        'rblHold
+        '
+        Me.rblHold.AutoSize = True
+        Me.rblHold.Location = New System.Drawing.Point(227, 5)
+        Me.rblHold.Name = "rblHold"
+        Me.rblHold.Size = New System.Drawing.Size(50, 17)
+        Me.rblHold.TabIndex = 440
+        Me.rblHold.Text = "Hold"
+        Me.rblHold.UseVisualStyleBackColor = True
         '
         'rdbAll
         '
@@ -174,10 +150,20 @@ Partial Class YearlyDBTSummaryReport
         Me.rdbAll.Text = "All"
         Me.rdbAll.UseVisualStyleBackColor = True
         '
+        'rblCappingHold
+        '
+        Me.rblCappingHold.AutoSize = True
+        Me.rblCappingHold.Location = New System.Drawing.Point(300, 5)
+        Me.rblCappingHold.Name = "rblCappingHold"
+        Me.rblCappingHold.Size = New System.Drawing.Size(97, 17)
+        Me.rblCappingHold.TabIndex = 441
+        Me.rblCappingHold.Text = "Capping Hold"
+        Me.rblCappingHold.UseVisualStyleBackColor = True
+        '
         'rdbValid
         '
         Me.rdbValid.AutoSize = True
-        Me.rdbValid.Location = New System.Drawing.Point(80, 5)
+        Me.rdbValid.Location = New System.Drawing.Point(70, 5)
         Me.rdbValid.Name = "rdbValid"
         Me.rdbValid.Size = New System.Drawing.Size(50, 17)
         Me.rdbValid.TabIndex = 438
@@ -187,7 +173,7 @@ Partial Class YearlyDBTSummaryReport
         'rdbInValid
         '
         Me.rdbInValid.AutoSize = True
-        Me.rdbInValid.Location = New System.Drawing.Point(154, 5)
+        Me.rdbInValid.Location = New System.Drawing.Point(148, 5)
         Me.rdbInValid.Name = "rdbInValid"
         Me.rdbInValid.Size = New System.Drawing.Size(60, 17)
         Me.rdbInValid.TabIndex = 437
@@ -308,7 +294,7 @@ Partial Class YearlyDBTSummaryReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -346,9 +332,6 @@ Partial Class YearlyDBTSummaryReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -386,5 +369,4 @@ Partial Class YearlyDBTSummaryReport
     Friend WithEvents rdbInValid As RadioButton
     Friend WithEvents rblHold As RadioButton
     Friend WithEvents rblCappingHold As RadioButton
-    Friend WithEvents RadGroupBox2 As RadGroupBox
 End Class

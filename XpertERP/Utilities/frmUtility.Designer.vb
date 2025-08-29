@@ -461,6 +461,10 @@ Partial Class FrmUtility
         Me.txtHyperTerminal = New common.Controls.MyTextBox()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel6 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.GroupBox115 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel73 = New common.Controls.MyLabel()
+        Me.txtBmcMilkCollectionDate = New common.Controls.MyDateTimePicker()
+        Me.RadButton313 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton310 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox44 = New System.Windows.Forms.GroupBox()
         Me.RadButton113 = New Telerik.WinControls.UI.RadButton()
@@ -1250,6 +1254,10 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel6.PanelContainer.SuspendLayout
         Me.RadScrollablePanel6.SuspendLayout
+        Me.GroupBox115.SuspendLayout
+        CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtBmcMilkCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton313, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton310, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox44.SuspendLayout
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1978,7 +1986,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -6168,6 +6176,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel6.PanelContainer
         '
+        Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.GroupBox115)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.RadButton310)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.GroupBox44)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.TxtMultiSelectFinder20)
@@ -6208,6 +6217,65 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1074, 386)
         Me.RadScrollablePanel6.Size = New System.Drawing.Size(1093, 405)
         Me.RadScrollablePanel6.TabIndex = 388
+        '
+        'GroupBox115
+        '
+        Me.GroupBox115.Controls.Add(Me.MyLabel73)
+        Me.GroupBox115.Controls.Add(Me.txtBmcMilkCollectionDate)
+        Me.GroupBox115.Controls.Add(Me.RadButton313)
+        Me.GroupBox115.Location = New System.Drawing.Point(0, 577)
+        Me.GroupBox115.Name = "GroupBox115"
+        Me.GroupBox115.Size = New System.Drawing.Size(202, 49)
+        Me.GroupBox115.TabIndex = 387
+        Me.GroupBox115.TabStop = False
+        Me.GroupBox115.Text = "Delete MCC Milk Collection"
+        '
+        'MyLabel73
+        '
+        Me.MyLabel73.FieldName = Nothing
+        Me.MyLabel73.Location = New System.Drawing.Point(4, 20)
+        Me.MyLabel73.Name = "MyLabel73"
+        Me.MyLabel73.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel73.TabIndex = 60
+        Me.MyLabel73.Text = "Date"
+        '
+        'txtBmcMilkCollectionDate
+        '
+        Me.txtBmcMilkCollectionDate.CalculationExpression = Nothing
+        Me.txtBmcMilkCollectionDate.CustomFormat = "dd/MMM/yyyy"
+        Me.txtBmcMilkCollectionDate.FieldCode = Nothing
+        Me.txtBmcMilkCollectionDate.FieldDesc = Nothing
+        Me.txtBmcMilkCollectionDate.FieldMaxLength = 0
+        Me.txtBmcMilkCollectionDate.FieldName = Nothing
+        Me.txtBmcMilkCollectionDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBmcMilkCollectionDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtBmcMilkCollectionDate.isCalculatedField = False
+        Me.txtBmcMilkCollectionDate.IsSourceFromTable = False
+        Me.txtBmcMilkCollectionDate.IsSourceFromValueList = False
+        Me.txtBmcMilkCollectionDate.IsUnique = False
+        Me.txtBmcMilkCollectionDate.Location = New System.Drawing.Point(40, 19)
+        Me.txtBmcMilkCollectionDate.MendatroryField = False
+        Me.txtBmcMilkCollectionDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBmcMilkCollectionDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtBmcMilkCollectionDate.MyLinkLable2 = Nothing
+        Me.txtBmcMilkCollectionDate.Name = "txtBmcMilkCollectionDate"
+        Me.txtBmcMilkCollectionDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBmcMilkCollectionDate.ReferenceFieldDesc = Nothing
+        Me.txtBmcMilkCollectionDate.ReferenceFieldName = Nothing
+        Me.txtBmcMilkCollectionDate.ReferenceTableName = Nothing
+        Me.txtBmcMilkCollectionDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtBmcMilkCollectionDate.TabIndex = 59
+        Me.txtBmcMilkCollectionDate.TabStop = False
+        Me.txtBmcMilkCollectionDate.Text = "13/Jun/2011"
+        Me.txtBmcMilkCollectionDate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
+        '
+        'RadButton313
+        '
+        Me.RadButton313.Location = New System.Drawing.Point(132, 19)
+        Me.RadButton313.Name = "RadButton313"
+        Me.RadButton313.Size = New System.Drawing.Size(64, 18)
+        Me.RadButton313.TabIndex = 13
+        Me.RadButton313.Text = "Delete"
         '
         'RadButton310
         '
@@ -10692,6 +10760,11 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel6.ResumeLayout(False)
+        Me.GroupBox115.ResumeLayout(False)
+        Me.GroupBox115.PerformLayout
+        CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtBmcMilkCollectionDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton313, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton310, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox44.ResumeLayout(False)
         CType(Me.RadButton113, System.ComponentModel.ISupportInitialize).EndInit
@@ -11828,5 +11901,9 @@ Partial Class FrmUtility
     Friend WithEvents btnCreateCrateEntry As RadButton
     Friend WithEvents lblFromGPDate As common.Controls.MyLabel
     Friend WithEvents txtFromGPDate As common.Controls.MyDateTimePicker
+    Friend WithEvents GroupBox115 As GroupBox
+    Friend WithEvents MyLabel73 As common.Controls.MyLabel
+    Friend WithEvents txtBmcMilkCollectionDate As common.Controls.MyDateTimePicker
+    Friend WithEvents RadButton313 As RadButton
 End Class
 
