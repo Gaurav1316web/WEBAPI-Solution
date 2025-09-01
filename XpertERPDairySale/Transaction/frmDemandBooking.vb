@@ -1007,7 +1007,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 AndAlso clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
                     'If clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
-                    Throw New Exception("Document in used by [" & Curr_User & "]")
+                    Throw New Exception("Document in used by [" & clsCommon.myCstr(dt1.Rows(0)("Curr_User")) & "]")
                     'End If
                 End If
                 qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=1,Curr_User='" & objCommonVar.CurrentUser & "' where Document_No='" & txtDocNo.Value & "' "
@@ -3479,7 +3479,7 @@ left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 AndAlso (clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1) Then
                     'If clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
-                    Throw New Exception("Document in used by [" & Curr_User & "]")
+                    Throw New Exception("Document in used by [" & clsCommon.myCstr(dt1.Rows(0)("Curr_User")) & "]")
                     'End If
                 End If
                 StrQry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=1,Curr_User='" & objCommonVar.CurrentUser & "' where Document_No='" & txtDocNo.Value & "' "
