@@ -53,7 +53,9 @@ Public Class frmPriceChartPlanMasterJPR
         cboDockCollectionMilkType.DisplayMember = "Name"
         cboDockCollectionMilkType.SelectedValue = "M"
         cboDockCollectionMilkType.Enabled = (objCommonVar.SepratePriceChartForCow OrElse objCommonVar.DisplayTypeInMilkReceipt)
-
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            chkApplySNFDeductionPerWise.Visible = True
+        End If
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -84,7 +86,7 @@ Public Class frmPriceChartPlanMasterJPR
         btnPost.Enabled = True
         btnsave.Enabled = True
         cboDockCollectionMilkType.SelectedValue = "M"
-
+        chkApplySNFDeductionPerWise.Checked = False
         'chkSNFZeroAfterMax.Checked = False
         'chkFATZeroAfterMax.Checked = False
         loadBlankGrid(gvFATDed)
@@ -138,7 +140,7 @@ Public Class frmPriceChartPlanMasterJPR
                 obj.Price_Chart_FAT_Per = txtFatPer.Value
                 obj.Price_Chart_SNF_Per = txtSnfPer.Value
                 obj.Price_Chart_Rate = txtRate.Value
-
+                obj.Apply_SNF_Ded_On_Per = chkApplySNFDeductionPerWise.Checked
 
                 obj.Shift = clsCommon.myCstr(CboShift.SelectedValue)
                 obj.Dock_Collection_Milk_Type = clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue)
@@ -242,6 +244,7 @@ Public Class frmPriceChartPlanMasterJPR
                 CboShift.SelectedValue = obj.Shift
                 cboDockCollectionMilkType.SelectedValue = obj.Dock_Collection_Milk_Type
                 txtStdFATRate.Value = obj.TSDDCS_Rate
+                chkApplySNFDeductionPerWise.Checked = obj.Apply_SNF_Ded_On_Per
                 If obj.arrTSDDCS IsNot Nothing AndAlso obj.arrTSDDCS.Count > 0 Then
                     For Each objTSDDCS As clsPriceChartPlanningTSDDCF In obj.arrTSDDCS
                         gvFATDed.Rows.AddNew()
@@ -399,39 +402,46 @@ Public Class frmPriceChartPlanMasterJPR
                         dblSNFPer = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colApplySNF).Value)
                     End If
                 End If
+
                 If dblSNFPer < clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colSNFFrom).Value) Then
                     dclRate = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colBelowSNFRate).Value)
                 Else
                     dclRate = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colRatePer).Value)
+                    dclReturnMilkValue = ((dclRate * dblFATPer) / 100)
+                    dclReturnMilkValue += clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colFixedRate).Value)
+
+                    If Not chkApplySNFDeductionPerWise.Checked Then
+                        Dim arrSNFDed As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colSNFFrom).Tag, Dictionary(Of Decimal, Decimal))
+                        If arrSNFDed IsNot Nothing AndAlso arrSNFDed.Count > 0 Then
+                            If arrSNFDed.ContainsKey(dblSNFPer) Then
+                                dclReturnMilkValue += arrSNFDed.Item(dblSNFPer)
+                            End If
+                        End If
+                    End If
                 End If
-
-                dclReturnMilkValue = ((dclRate * dblFATPer) / 100)
-                dclReturnMilkValue += clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colFixedRate).Value)
-
                 Dim arrFATDed As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colFATFrom).Tag, Dictionary(Of Decimal, Decimal))
                 If arrFATDed IsNot Nothing AndAlso arrFATDed.Count > 0 Then
                     If arrFATDed.ContainsKey(dblFATPer) Then
                         dclReturnMilkValue += arrFATDed.Item(dblFATPer)
                     End If
                 End If
-
-                Dim arrSNFDed As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colSNFFrom).Tag, Dictionary(Of Decimal, Decimal))
-                If arrSNFDed IsNot Nothing AndAlso arrSNFDed.Count > 0 Then
-                    If arrSNFDed.ContainsKey(dblSNFPer) Then
-                        dclReturnMilkValue += arrSNFDed.Item(dblSNFPer)
+                If chkApplySNFDeductionPerWise.Checked Then
+                    Dim arrSNFDed As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colSNFFrom).Tag, Dictionary(Of Decimal, Decimal))
+                    If arrSNFDed IsNot Nothing AndAlso arrSNFDed.Count > 0 Then
+                        If arrSNFDed.ContainsKey(dblSNFPer) Then
+                            dclReturnMilkValue += (dclReturnMilkValue * ((100 - arrSNFDed.Item(dblSNFPer)) / 100))
+                        End If
                     End If
                 End If
-
                 dclDedPer = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colDeductionPer).Value)
+                dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
                 Exit For
             End If
         Next
         dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
-        dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
         If dclReturnMilkValue < 0 Then
             dclReturnMilkValue = 0
         End If
-
         Return dclReturnMilkValue
     End Function
 

@@ -579,6 +579,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.33", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.34", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.RoutePartyWisePriceList, "Route and PartyWise Price List", "1.06.03.38", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSaleReportCustomerWise, "Sales Report Customer Wise", "1.06.03.41", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -1216,6 +1217,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
 
         InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 

@@ -469,8 +469,12 @@ Public Class FrmApprovalAlert_Child
                 Throw New Exception("Document should be approved for post.")
             End If
             If clsCommon.myCdbl(obj.Max_App_Level) = clsCommon.myCdbl(txtCurrentLevel.Text) Then
-                If clsApprovalAlert_Child.Postdata(obj) Then
+                If clsCommon.CompairString(obj.Status, "Approved") = CompairStringResult.Equal AndAlso clsApprovalAlert_Child.Postdata(obj) Then
                     myMessages.post()
+                Else
+                    If clsApprovalAlert_Child.Rejectdata(obj) Then
+                        myMessages.post()
+                    End If
                 End If
             Else
                 Throw New Exception("You are not authorized.")
