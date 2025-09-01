@@ -1127,7 +1127,7 @@ from
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_RETURN_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsDSSalesReturnDetail.SaveData(obj.Document_Code, obj.Document_Date, Arr, obj.Trans_type, trans)
-            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, trans)) = 1 Then
+            If obj.Booth_Arr IsNot Nothing AndAlso obj.Booth_Arr.Count > 0 Then
                 isSaved = isSaved AndAlso clsDSSalesReturnBookingDetail.SaveData(obj.Document_Code, obj.Booth_Arr, trans)
 
             End If
