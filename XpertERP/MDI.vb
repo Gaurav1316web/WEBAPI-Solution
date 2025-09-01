@@ -10227,6 +10227,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptSalesReport
                         frm = New rptSalesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSaleReportCustomerWise
+                        frm = New rptSaleReportCustomerWise
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailMaterialManagement
                         frm = New rptAuditTrailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
