@@ -1003,14 +1003,14 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             Dim qry As String = ""
 
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                qry = "select IsPosting,IsUpdating,Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" & txtDocNo.Value & "'"
+                qry = "select IsPosting,IsUpdating,Posted,Curr_User from TSPL_DEMAND_BOOKING_MASTER where Document_No='" & txtDocNo.Value & "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 AndAlso clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
                     'If clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
-                    Throw New Exception("Document in used by another user.")
+                    Throw New Exception("Document in used by [" & Curr_User & "]")
                     'End If
                 End If
-                qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=1 where Document_No='" & txtDocNo.Value & "' "
+                qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=1,Curr_User='" & objCommonVar.CurrentUser & "' where Document_No='" & txtDocNo.Value & "' "
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
             Dim lstCustItem As New List(Of clsDemandCustItem)
@@ -1203,7 +1203,7 @@ And TSPL_ITEM_UOM_DETAIL.Default_UOM = 1"
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         Finally
-            Dim qry As String = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=0 where Document_No='" + txtDocNo.Value + "' "
+            Dim qry As String = "Update TSPL_DEMAND_BOOKING_MASTER set IsUpdating=0,Curr_User= null where Document_No='" & txtDocNo.Value & "' "
             clsDBFuncationality.ExecuteNonQuery(qry)
         End Try
         Return False
@@ -3464,6 +3464,7 @@ left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL
             SaveData(True)
         End If
         PostData()
+
     End Sub
     Sub PostData()
         Dim msg As String = Nothing
@@ -3474,14 +3475,14 @@ left outer join tspl_transport_master on tspl_transport_master.Transport_Id=TSPL
         Try
             Dim StrQry As String = ""
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                StrQry = "select IsPosting,IsUpdating,Posted from TSPL_DEMAND_BOOKING_MASTER where Document_No='" & txtDocNo.Value & "'"
+                StrQry = "select IsPosting,IsUpdating,Posted,Curr_User from TSPL_DEMAND_BOOKING_MASTER where Document_No='" & txtDocNo.Value & "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
                 If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 AndAlso (clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1) Then
                     'If clsCommon.myCdbl(dt1.Rows(0)("IsPosting")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("IsUpdating")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Posted")) = 1 Then
-                    Throw New Exception("Document in use by another user.")
+                    Throw New Exception("Document in used by [" & Curr_User & "]")
                     'End If
                 End If
-                StrQry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=1 where Document_No='" & txtDocNo.Value & "' "
+                StrQry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=1,Curr_User='" & objCommonVar.CurrentUser & "' where Document_No='" & txtDocNo.Value & "' "
                 clsDBFuncationality.ExecuteNonQuery(StrQry)
             End If
 
@@ -3550,7 +3551,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
-            qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=0 where Document_No='" + txtDocNo.Value + "' "
+
+            qry = "Update TSPL_DEMAND_BOOKING_MASTER set IsPosting=0,Curr_User= null where Document_No='" & txtDocNo.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
             msg = Nothing
             qry = Nothing
