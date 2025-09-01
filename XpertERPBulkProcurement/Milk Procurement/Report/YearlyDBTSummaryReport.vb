@@ -233,6 +233,8 @@ where TSPL_DBT_CAPING_DETAIL.Capping_Status='0' AND  convert(date,TSPL_DCS_MP_IN
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             gv1.Columns("Document_Date").IsVisible = False
+            gv1.Columns("rn").IsVisible = False
+
             'gv1.Columns("UOM").IsVisible = False
         Next
         Dim summaryRowItemB As New GridViewSummaryRowItem()
