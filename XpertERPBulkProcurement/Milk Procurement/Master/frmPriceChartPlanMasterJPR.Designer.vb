@@ -22,11 +22,12 @@ Partial Class frmPriceChartPlanMasterJPR
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkApplySNFDeductionPerWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtStdFATRate = New common.MyNumBox()
@@ -83,6 +84,7 @@ Partial Class frmPriceChartPlanMasterJPR
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkApplySNFDeductionPerWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtStdFATRate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -178,6 +180,7 @@ Partial Class frmPriceChartPlanMasterJPR
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkApplySNFDeductionPerWise)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtStdFATRate)
@@ -200,6 +203,16 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(654, 344)
         Me.RadPageViewPage1.Text = "Detail"
+        '
+        'chkApplySNFDeductionPerWise
+        '
+        Me.chkApplySNFDeductionPerWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkApplySNFDeductionPerWise.Location = New System.Drawing.Point(446, 72)
+        Me.chkApplySNFDeductionPerWise.Name = "chkApplySNFDeductionPerWise"
+        Me.chkApplySNFDeductionPerWise.Size = New System.Drawing.Size(168, 16)
+        Me.chkApplySNFDeductionPerWise.TabIndex = 1033
+        Me.chkApplySNFDeductionPerWise.Text = "Apply SNF Deduction % wise"
+        Me.chkApplySNFDeductionPerWise.Visible = False
         '
         'MyLabel2
         '
@@ -246,7 +259,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtStdFATRate.TabIndex = 1030
         Me.txtStdFATRate.Text = "0"
         Me.txtStdFATRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStdFATRate.Value = 0R
+        Me.txtStdFATRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'RadButton1
         '
@@ -307,12 +320,14 @@ Partial Class frmPriceChartPlanMasterJPR
         '
         Me.gvFATDed.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFATDed.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFATDed.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFATDed.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvFATDed.MyExportFilePath = ""
         Me.gvFATDed.MyStopExport = False
         Me.gvFATDed.Name = "gvFATDed"
         Me.gvFATDed.ShowHeaderCellButtons = True
         Me.gvFATDed.Size = New System.Drawing.Size(649, 168)
         Me.gvFATDed.TabIndex = 97
+        Me.gvFATDed.VarID = ""
         '
         'CboShift
         '
@@ -467,7 +482,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtFatPer.TabIndex = 2
         Me.txtFatPer.Text = "0"
         Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatPer.Value = 0R
+        Me.txtFatPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel4
         '
@@ -506,7 +521,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtSnfPer.TabIndex = 5
         Me.txtSnfPer.Text = "0"
         Me.txtSnfPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSnfPer.Value = 0R
+        Me.txtSnfPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel3
         '
@@ -554,7 +569,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtFatRatio.TabIndex = 1
         Me.txtFatRatio.Text = "0"
         Me.txtFatRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatRatio.Value = 0R
+        Me.txtFatRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtRate
         '
@@ -582,7 +597,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtRate.TabIndex = 3
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0R
+        Me.txtRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtSNFRatio
         '
@@ -610,7 +625,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtSNFRatio.TabIndex = 4
         Me.txtSNFRatio.Text = "0"
         Me.txtSNFRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFRatio.Value = 0R
+        Me.txtSNFRatio.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel12
         '
@@ -738,12 +753,14 @@ Partial Class frmPriceChartPlanMasterJPR
         '
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MyExportFilePath = ""
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(654, 311)
         Me.gv.TabIndex = 0
+        Me.gv.VarID = ""
         '
         'Panel1
         '
@@ -832,7 +849,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtSearchRate.TabIndex = 20
         Me.txtSearchRate.Text = "0"
         Me.txtSearchRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchRate.Value = 0R
+        Me.txtSearchRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel21
         '
@@ -882,7 +899,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtSearchSNF.TabIndex = 21
         Me.txtSearchSNF.Text = "0"
         Me.txtSearchSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchSNF.Value = 0R
+        Me.txtSearchSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel17
         '
@@ -919,7 +936,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtSearchFAT.TabIndex = 20
         Me.txtSearchFAT.Text = "0"
         Me.txtSearchFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchFAT.Value = 0R
+        Me.txtSearchFAT.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel18
         '
@@ -994,6 +1011,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkApplySNFDeductionPerWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtStdFATRate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1108,4 +1126,5 @@ Partial Class frmPriceChartPlanMasterJPR
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtStdFATRate As common.MyNumBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents chkApplySNFDeductionPerWise As RadCheckBox
 End Class

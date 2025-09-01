@@ -1317,6 +1317,7 @@ Public Class clsCreateAllTable
             coll.Add("UCDF_SNF_Ded_Below", "decimal(18,1) null")
             coll.Add("UCDF_SNF_Ded_Rate", "decimal(18,2) null")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING", coll)
+            coll.Add("Apply_SNF_Ded_On_Per", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_PRICE_CHART_PLANNING", coll, "", True, False, "", "", "", True)
 
             coll = New Dictionary(Of String, String)()
