@@ -185,6 +185,7 @@ Public Class frmNIRQC
     End Sub
     Sub funDelete()
         Try
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
             If (myMessages.deleteConfirm()) Then
                 If (clsNIRQC.DeleteData(txtCode.Value)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
@@ -194,7 +195,6 @@ Public Class frmNIRQC
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
-
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
