@@ -122,8 +122,19 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
     End Function
 
     Public Shared Function CancelData(ByVal strFormId As String, ByVal Doc_No As String, ByVal strGRN As String, ByVal isCancelGRN As Boolean) As Boolean
-        Dim qry As String
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(strFormId, Doc_No, strGRN, isCancelGRN, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function CancelData(ByVal strFormId As String, ByVal Doc_No As String, ByVal strGRN As String, ByVal isCancelGRN As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String
         Dim obj As clsNIRQC = clsNIRQC.GetData(Doc_No, NavigatorType.Current, trans)
         Try
             If Not (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
@@ -139,13 +150,17 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             If isCancelGRN Then
+                If clsCommon.myLen(strGRN) <= 0 Then
+                    strGRN = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Against_GRN from TSPL_MRN_HEAD Where MRN_No='" & obj.MRN_No & "'", trans))
+                End If
+                qry = Nothing
+                qry = "Select Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No='" & strGRN & "'"
+                Dim WeighmentCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+
                 If clsCommon.myLen(obj.MRN_No) > 0 Then
                     clsMRNHead.MRNCancel(strFormId, obj.MRN_No, trans)
                 End If
 
-                qry = Nothing
-                qry = "Select Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where Against_GRN_No='" & strGRN & "'"
-                Dim WeighmentCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
                 If clsCommon.myLen(WeighmentCode) > 0 Then
                     clsPOWeighment.CancelData(WeighmentCode, trans)
                 End If
@@ -154,9 +169,9 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                     clsGRNHead.GRNCancel(strFormId, strGRN, trans)
                 End If
             End If
-            trans.Commit()
+            'trans.Commit()
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

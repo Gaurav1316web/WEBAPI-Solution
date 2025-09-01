@@ -812,7 +812,7 @@ Public Class clsApply_Approval
             Dim Status As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             ''if approved then message send and if rejected then no message throw,because in rejection case from higher authtority document is reopend for modification.
             If clsCommon.CompairString(Status, "Rejected") <> CompairStringResult.Equal Then
-                qry = "select count(*) as totalCOunt from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " & _
+                qry = "select count(*) as totalCOunt from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " &
                  "where trans_code='" + Form_Id + "' and document_code='" + Doc_Code + "' and isnull(Is_Posted,0) =0 and is_reverse=0 "
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                     Throw New Exception("Invalid action,Document pending for approval." + Environment.NewLine + "[goto--> Approval Alert]")
@@ -1063,7 +1063,10 @@ Public Class clsApprovalAlert_Child
                 ''if auto post setting on and document is approved by higher level authorizer then document post.
                 If obj.Auto_Post AndAlso clsCommon.CompairString(obj.Status, "Approved") = CompairStringResult.Equal AndAlso obj.No_Of_Level = obj.Max_App_Level Then
                     Postdata(obj, trans)
+                ElseIf obj.Auto_Post AndAlso clsCommon.CompairString(obj.Status, "Rejected") = CompairStringResult.Equal AndAlso obj.No_Of_Level = obj.Max_App_Level Then
+                    Rejectdata(obj, trans)
                 End If
+
             End If
 
             Return True
@@ -1078,13 +1081,12 @@ Public Class clsApprovalAlert_Child
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Postdata(obj, trans)
-
             trans.Commit()
-            Return True
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
 
     Public Shared Function Postdata(ByVal obj As clsApprovalAlert_Child, ByVal trans As SqlTransaction) As Boolean
@@ -1153,6 +1155,41 @@ Public Class clsApprovalAlert_Child
                         isSaved = isSaved AndAlso clsPaymentProcessHead.ProcessData(obj.Document_Code, "", True, trans)
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
                         isSaved = isSaved AndAlso clsNIRQC.PostData(obj.Document_Code, trans)
+                    End If
+
+                    If isSaved Then ''if higher authorizer do approval then at post document status posted on approval table
+                        Dim qry As String = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_posted=1,SendBack=0 where trans_code='" & obj.Trans_Code & "' and document_code='" & obj.Document_Code & "' and is_reverse=0 "
+                        isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End If
+                End If ''end level cond.
+
+            End If ''end obj cond.
+
+            Return isSaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    Public Shared Function Rejectdata(ByVal obj As clsApprovalAlert_Child) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Rejectdata(obj, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function Rejectdata(ByVal obj As clsApprovalAlert_Child, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim isSaved As Boolean = True
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0 Then
+                If obj.No_Of_Level = obj.Max_App_Level Then ''only higher authorized user can post data
+                    If clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsNIRQC.CancelData(Nothing, obj.Document_Code, Nothing, True, trans)
                     End If
 
                     If isSaved Then ''if higher authorizer do approval then at post document status posted on approval table

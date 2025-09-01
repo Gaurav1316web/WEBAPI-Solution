@@ -154,13 +154,15 @@ Public Class frmNIRQC
                 obj.QC_Status = clsCommon.myCDecimal(cboVisualQCStatus.SelectedValue)
                 If (obj.SaveData(obj, isNewEntry)) Then
                     LoadData(obj.Document_No, NavigatorType.Current)
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        clsApply_Approval.CheckApprovalRequired(clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), Nothing, Me.Form_ID, txtCode.Value, txtDate.Value, Nothing, txtRemarks.Text, clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt")), 0, Nothing, Nothing, 0, False)
+                    If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            clsApply_Approval.CheckApprovalRequired(clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), Nothing, Me.Form_ID, txtCode.Value, txtDate.Value, Nothing, txtRemarks.Text, clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt")), 0, Nothing, Nothing, 0, False)
+                        End If
                     End If
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                    End If
                 End If
-            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -429,7 +431,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
                                     Reason = frm.strRmks
                                 End If
                             End If
-                            If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), Nothing, False) Then
+                            If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), IIf(clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") = CompairStringResult.Equal, True, False), False) Then
 
                                 'If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value)) Then
                                 ' saveCancelLog(Reason, "Cancel", Nothing)
