@@ -1084,10 +1084,19 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
         If dtDCS IsNot Nothing AndAlso dtDCS.Rows.Count > 0 Then
             For Each drDCS As DataRow In dtDCS.Rows
                 If clsCommon.myCdbl(drDCS("isOwnBMC")) = 0 Then
-                    'If clsCommon.MyMessageBoxShow(Me, "OwnBmc Data is not Punched for [" + clsCommon.myCstr(dtDCS.Rows(0)("Document_No")) + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
-                    'End If
                 Else
+                    Dim isThereOnlyOneRowOfOwnDCS As Boolean = False
+                    Dim ROIncreaseAfter As Integer = 6
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        ROIncreaseAfter = 5
+                        isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, trans)) = 1)
+                        If isThereOnlyOneRowOfOwnDCS Then
+                            qry = "select count(1) as cnt from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + strDocNo + "'"
+                            isThereOnlyOneRowOfOwnDCS = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+                        End If
+                    End If
+
                     If Math.Abs(clsCommon.myCdbl(drDCS("DiffFATKG"))) > 0 OrElse Math.Abs(clsCommon.myCdbl(drDCS("DiffSNFKG"))) > 0 Then
                         qry = "select xx.*,TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type from
 (select PK_Id,Qty,FATKG,SNFKG,Shift,TSPL_MILK_REJECT_TYPE.Code as Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No as DCSDocNo  
@@ -1114,8 +1123,19 @@ order by  xx.Shift desc,xx.Qty "
                                 If FATKG < 0 OrElse SNFKG < 0 Then
                                     Continue For
                                 End If
-                                Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
-                                Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                'Dim FAT As Decimal = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 1, MidpointRounding.AwayFromZero)
+                                'Dim SNF As Decimal = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, MidpointRounding.AwayFromZero)
+                                Dim FAT As Decimal = 0
+                                Dim SNF As Decimal = 0
+                                If isThereOnlyOneRowOfOwnDCS Then
+                                    FAT = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 2, MidpointRounding.ToEven)
+                                    SNF = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), (settSNFDecimalPlace + 1), MidpointRounding.ToEven)
+                                End If
+
+                                FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
+                                SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
+
+
                                 If settMaxFATPerLimit > 0 Then
                                     If FAT > settMaxFATPerLimit Then
                                         FAT = settMaxFATPerLimit

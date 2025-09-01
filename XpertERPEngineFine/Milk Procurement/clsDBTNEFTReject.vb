@@ -179,7 +179,7 @@ left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_
 left outer join TSPL_DBT_NEFT_DETAIL on TSPL_DBT_NEFT_DETAIL.PK_Id=TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR
 left outer join  (select Against_MP_Incentive_TR,max(TSPL_DBT_NEFT.Created_Date) as NEFTCreated_Date from TSPL_DBT_NEFT_DETAIL 
 left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
-group by Against_MP_Incentive_TR) as TabLatestNEFT on TabLatestNEFT.Against_MP_Incentive_TR=TSPL_DBT_NEFT_DETAIL.PK_Id
+group by Against_MP_Incentive_TR) as TabLatestNEFT on TabLatestNEFT.Against_MP_Incentive_TR=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code='" + obj.Document_Code + "' and TabLatestNEFT.NEFTCreated_Date>TSPL_DBT_NEFT_REJECT.Created_Date"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
