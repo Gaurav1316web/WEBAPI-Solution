@@ -8384,6 +8384,7 @@ Public Class clsCreateAllTable
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
             coll.Add("NoCrateIssue", "integer  NULL")
+            coll.Add("Curr_User", "Varchar(30) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date", True)
             Try
                 qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Demand_UniqueID'"
