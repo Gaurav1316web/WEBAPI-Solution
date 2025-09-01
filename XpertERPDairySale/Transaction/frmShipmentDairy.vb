@@ -10547,7 +10547,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 gv1.CurrentColumn = gv1.Columns(ColCommParty)
                 isCellValueChangedOpen = False
             End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F11 Then
             If RadPageViewPage7.Item.Visibility = ElementVisibility.Visible Then
                 RadPageViewPage7.Item.Visibility = ElementVisibility.Collapsed
             Else
@@ -14778,8 +14778,12 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
             '    Throw New Exception("Code is empty")
             'End If
+            Dim isEinvoiceCancelled As Boolean = False
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                isEinvoiceCancelled = True
             End If
             Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & txtInvoiceNo.Text & "' "))
             If clsCommon.myLen(strSaleReturnNo) > 0 Then
@@ -14794,7 +14798,8 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because Dairy GAte Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
             End If
-            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceNo.Text + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then

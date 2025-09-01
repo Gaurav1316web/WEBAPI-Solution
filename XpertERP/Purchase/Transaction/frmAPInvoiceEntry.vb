@@ -5314,7 +5314,7 @@ Public Class FrmAPInvoiceEntry
         repoACCode.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoACCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoACCode.Width = 150
-        repoACCode.ReadOnly = True
+        repoACCode.ReadOnly = False
         gvAC.MasterTemplate.Columns.Add(repoACCode)
 
         Dim repoACName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -5331,7 +5331,7 @@ Public Class FrmAPInvoiceEntry
         repoACAmt.Name = colAChgAmount
         repoACAmt.Width = 100
         repoACAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoACAmt.ReadOnly = True
+        repoACAmt.ReadOnly = False
         gvAC.MasterTemplate.Columns.Add(repoACAmt)
 
         gvAC.AllowAddNewRow = False

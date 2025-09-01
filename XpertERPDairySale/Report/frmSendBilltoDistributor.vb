@@ -226,7 +226,7 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
 TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],tspl_Route_Master.Route_Desc As [Route Desc],TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code As [Location Code],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate 
 FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
 left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
-Where TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' "
+Where 2=2 "
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103) "
             Else
@@ -248,7 +248,7 @@ Where TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y' "
             strQry = "SELECT  TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode As [GP Code],convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) As [GP Date],convert(varchar(10),TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103) As [Supply Date],TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType As [Shift Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],tspl_Route_Master.Route_Desc As [Route Desc],TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code As [Location Code] 
 FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
 left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
-where TSPL_DAIRYSALE_GATEPASS_MASTER.Post='Y'   And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103)"
+where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103)"
             strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
             If txtMultGatePass.arrValueMember IsNot Nothing AndAlso txtMultGatePass.arrValueMember.Count > 0 Then
                 strQry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode in (" & clsCommon.GetMulcallString(txtMultGatePass.arrValueMember) & ")"

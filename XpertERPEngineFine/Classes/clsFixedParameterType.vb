@@ -1351,7 +1351,6 @@ Public Class clsFixedParameterType
     Public Const ApplyBoothWiseScheme = "Apply Booth Wise Scheme"
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
-    Public Const ApplyBoothWiseReturn = "Apply Booth Wise Return"
 End Class
 Public Class clsFixedParameterCode
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
@@ -1865,6 +1864,7 @@ Public Class clsFixedParameterCode
     Public Const EMP01 As String = "EMP01"
     Public Const SIRevers As String = "SIRevers"
     Public Const SIReversAndCreate As String = "SIReversAndCreate"
+    Public Const AllowBoothWiseReturn As String = "AllowBoothWiseReturn"
     Public Const SICrateEntry As String = "SICrateEntry"
     Public Const ShuffleDemand As String = "ShuffleDemand"
     Public Const ItemAllowDecimal As String = "ItemAllowDecimal"
@@ -2854,7 +2854,6 @@ Public Class clsFixedParameterCode
     Public Const ApplyBoothWiseScheme = "Apply Booth Wise Scheme"
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
-    Public Const ApplyBoothWiseReturn = "Apply Booth Wise Return"
 
 End Class
 Public Class clsFixedParameter
@@ -3444,6 +3443,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ServiceDealer, clsFixedParameterCode.ServiceDealer, "Employee Type", "Employee Type")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIR, clsFixedParameterCode.SIRevers, "salereverse", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SIReversAndCreate, "b12sec2", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.AllowBoothWiseReturn, "BoothWiseReturn@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SICrateEntry, "CrateEntry@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ShuffleDemand, "ShuffleDemand@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ItemAllowDecimal, "AllowDecimal@123", "")
@@ -4529,7 +4529,6 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OfflineDCSMilkCollectionExeVersion, clsFixedParameterCode.OfflineDCSMilkCollectionExeVersion, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, "0", "0:Off, 1:On;")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6405,6 +6404,5 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmSaleReturndairy, clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, EnumControlType.CheckBox)
     End Sub
 End Class
