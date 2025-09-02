@@ -336,15 +336,15 @@ where TSPL_MRN_DETAIL.MRN_No='" & txtMRNNo.Value & "' and TSPL_MRN_HEAD.Status=1
         End Try
     End Sub
     Sub PostData()
-        Try
-            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
-            If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
-                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
-                LoadData(txtCode.Value, NavigatorType.Current)
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
+        'Try
+        '    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
+        '    If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
+        '        clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
+        '        LoadData(txtCode.Value, NavigatorType.Current)
+        '    End If
+        'Catch ex As Exception
+        '    Throw New Exception(ex.Message)
+        'End Try
     End Sub
 
 
