@@ -128,7 +128,7 @@ TSPL_SD_SHIPMENT_HEAD.Route_No As [Route No],case when TSPL_SD_SHIPMENT_HEAD.Shi
 CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.supply_date, 103) AS [Supply Date], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as [Customer Name],TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code],TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount
 from TSPL_SD_SHIPMENT_HEAD 
 Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
-left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code where TSPL_SD_SHIPMENT_HEAD.Status=1 and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' "
+left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code where TSPL_SD_SHIPMENT_HEAD.Status=1 and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null"
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.supply_date,103) = Convert(Date,'" & txtDate2.Value & "',103) "
             Else
@@ -226,7 +226,7 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
 TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],tspl_Route_Master.Route_Desc As [Route Desc],TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code As [Location Code],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate 
 FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
 left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
-Where 2=2 "
+Where 2=2 And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103) "
             Else
