@@ -60,6 +60,8 @@ Public Class frmSendBilltoDistributor
             If Not chkResendBill.Checked Then
                 strQry += " And File_Info Is Null "
             End If
+            strQry += " And Convert(Date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)=Convert(Date,'" & txtDate1.Value & "',103)"
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Integer = 0
