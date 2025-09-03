@@ -509,6 +509,7 @@ Public Class clsDocType
     Public Const frmDairySaleInvoice As String = "Dairy Sale Invoice"
     Public Const frmDairySaleReturn As String = "Dairy Sale Return"
     Public Const FrmDairyGatePass As String = "Dairy GatePass"
+    Public Const FrmDairyGatePassAPI As String = "Dairy GatePass API"
     Public Const frmCustomerComplain As String = "Customer Complain"
     Public Const frmTranspoterDeductionEntry As String = "TranspoterDedEntry"
     Public Const FrmMCCScrapGatePass As String = "Mcc/Scrap GatePass"
@@ -1235,6 +1236,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmDCSDemandBooking, "", False, True)
             InsertDefaultValue(clsDocType.frmDairySaleGatePass, "", False, True)
             InsertDefaultValue(clsDocType.FrmDairyGatePass, "", False, False)
+            InsertDefaultValue(clsDocType.FrmDairyGatePassAPI, "", False, False)
             InsertDefaultValue(clsDocType.frmCustomerComplain, "", False, False)
             InsertDefaultValue(clsDocType.frmTranspoterDeductionEntry, "", False, False)
             InsertDefaultValue(clsDocType.frmLeakedSaleReturn, "", False, True)

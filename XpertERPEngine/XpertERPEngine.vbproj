@@ -599,6 +599,12 @@
     <Compile Include="UserControl\ucCustomFields.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControl\ucDCSBalance.Designer.vb">
+      <DependentUpon>ucDCSBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucDCSBalance.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UserControl\UcMilkPendingSRN.Designer.vb">
       <DependentUpon>UcMilkPendingSRN.vb</DependentUpon>
     </Compile>
@@ -1446,6 +1452,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\ucCustomFields.resx">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucDCSBalance.resx">
+      <DependentUpon>ucDCSBalance.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\UcMilkPendingSRN.resx">
       <DependentUpon>UcMilkPendingSRN.vb</DependentUpon>

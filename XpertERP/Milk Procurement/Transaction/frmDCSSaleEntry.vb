@@ -3081,6 +3081,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
         BlankAllControls()
         fndProject.Enabled = True
         lblProject.Enabled = True
+        setDCSBalance()
         LoadBlankGrid()
         LoadBlankGridAC()
         isNewEntry = True
@@ -4053,6 +4054,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     LblVlc_Code.Tag = Nothing
                     LblVlc_Name.Text = ""
                 End If
+                setDCSBalance()
                 If (clsCommon.myLen(obj.Add_Charge_Code1) > 0) Then
                     gvAC.Rows.AddNew()
                     gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = obj.Add_Charge_Code1
@@ -4924,6 +4926,7 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
             '    Exit Sub
             'End If
         End If
+        setDCSBalance()
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
@@ -7179,4 +7182,12 @@ left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_CUSTO
         End If
         Return qry
     End Function
+    Sub setDCSBalance()
+        UcDCSBalance1.DCSCode = clsCommon.myCstr(LblVlc_Code.Tag)
+        UcDCSBalance1.DCSName = clsCommon.myCstr(LblVlc_Name.Text)
+        UcDCSBalance1.VendorCode = txtVendorNo.Value
+        UcDCSBalance1.DCSUploaderCode = LblVlc_Code.Text
+        UcDCSBalance1.TransDate = txtDate.Value
+        UcDCSBalance1.RefreshData()
+    End Sub
 End Class

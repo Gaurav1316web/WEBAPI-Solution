@@ -71,6 +71,12 @@ Partial Class FrmUtility
         Me.Label1 = New System.Windows.Forms.Label()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.GroupBox116 = New System.Windows.Forms.GroupBox()
+        Me.rbtnCashToCredit = New System.Windows.Forms.RadioButton()
+        Me.MyLabel72 = New common.Controls.MyLabel()
+        Me.rbtnCreditToCash = New System.Windows.Forms.RadioButton()
+        Me.txtCreditCashDCSSaleDoc = New common.UserControls.txtMultiSelectFinder()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.RadButton312 = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox114 = New System.Windows.Forms.GroupBox()
         Me.MyLabel71 = New common.Controls.MyLabel()
@@ -864,6 +870,9 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel1.PanelContainer.SuspendLayout
         Me.RadScrollablePanel1.SuspendLayout
+        Me.GroupBox116.SuspendLayout
+        CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton312, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox114.SuspendLayout
         CType(Me.MyLabel71, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1986,7 +1995,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2028,6 +2037,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox116)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton312)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox114)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton357)
@@ -2085,6 +2095,72 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 405)
         Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 407)
         Me.RadScrollablePanel1.TabIndex = 627
+        '
+        'GroupBox116
+        '
+        Me.GroupBox116.Controls.Add(Me.rbtnCashToCredit)
+        Me.GroupBox116.Controls.Add(Me.MyLabel72)
+        Me.GroupBox116.Controls.Add(Me.rbtnCreditToCash)
+        Me.GroupBox116.Controls.Add(Me.txtCreditCashDCSSaleDoc)
+        Me.GroupBox116.Controls.Add(Me.btnGo)
+        Me.GroupBox116.Location = New System.Drawing.Point(665, 577)
+        Me.GroupBox116.Name = "GroupBox116"
+        Me.GroupBox116.Size = New System.Drawing.Size(381, 86)
+        Me.GroupBox116.TabIndex = 1575
+        Me.GroupBox116.TabStop = False
+        '
+        'rbtnCashToCredit
+        '
+        Me.rbtnCashToCredit.AutoSize = True
+        Me.rbtnCashToCredit.Location = New System.Drawing.Point(129, 12)
+        Me.rbtnCashToCredit.Name = "rbtnCashToCredit"
+        Me.rbtnCashToCredit.Size = New System.Drawing.Size(102, 17)
+        Me.rbtnCashToCredit.TabIndex = 1577
+        Me.rbtnCashToCredit.Text = "Cash To Credit "
+        Me.rbtnCashToCredit.UseVisualStyleBackColor = True
+        '
+        'MyLabel72
+        '
+        Me.MyLabel72.FieldName = Nothing
+        Me.MyLabel72.Location = New System.Drawing.Point(9, 32)
+        Me.MyLabel72.Name = "MyLabel72"
+        Me.MyLabel72.Size = New System.Drawing.Size(77, 18)
+        Me.MyLabel72.TabIndex = 55
+        Me.MyLabel72.Text = "Document No"
+        '
+        'rbtnCreditToCash
+        '
+        Me.rbtnCreditToCash.AutoSize = True
+        Me.rbtnCreditToCash.Checked = True
+        Me.rbtnCreditToCash.Location = New System.Drawing.Point(10, 11)
+        Me.rbtnCreditToCash.Name = "rbtnCreditToCash"
+        Me.rbtnCreditToCash.Size = New System.Drawing.Size(99, 17)
+        Me.rbtnCreditToCash.TabIndex = 1576
+        Me.rbtnCreditToCash.TabStop = True
+        Me.rbtnCreditToCash.Text = "Credit To Cash"
+        Me.rbtnCreditToCash.UseVisualStyleBackColor = True
+        '
+        'txtCreditCashDCSSaleDoc
+        '
+        Me.txtCreditCashDCSSaleDoc.arrDispalyMember = Nothing
+        Me.txtCreditCashDCSSaleDoc.arrValueMember = Nothing
+        Me.txtCreditCashDCSSaleDoc.Location = New System.Drawing.Point(103, 33)
+        Me.txtCreditCashDCSSaleDoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCreditCashDCSSaleDoc.MyLinkLable1 = Me.MyLabel72
+        Me.txtCreditCashDCSSaleDoc.MyLinkLable2 = Nothing
+        Me.txtCreditCashDCSSaleDoc.MyNullText = "Please Select"
+        Me.txtCreditCashDCSSaleDoc.Name = "txtCreditCashDCSSaleDoc"
+        Me.txtCreditCashDCSSaleDoc.Size = New System.Drawing.Size(226, 19)
+        Me.txtCreditCashDCSSaleDoc.TabIndex = 54
+        '
+        'btnGo
+        '
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(103, 53)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(226, 22)
+        Me.btnGo.TabIndex = 17
+        Me.btnGo.Text = ">>>"
         '
         'RadButton312
         '
@@ -2296,7 +2372,7 @@ Partial Class FrmUtility
         '
         'RadButton234
         '
-        Me.RadButton234.Location = New System.Drawing.Point(7, 583)
+        Me.RadButton234.Location = New System.Drawing.Point(7, 669)
         Me.RadButton234.Name = "RadButton234"
         Me.RadButton234.Size = New System.Drawing.Size(1023, 24)
         Me.RadButton234.TabIndex = 72
@@ -10355,6 +10431,10 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel1.ResumeLayout(False)
+        Me.GroupBox116.ResumeLayout(False)
+        Me.GroupBox116.PerformLayout
+        CType(Me.MyLabel72, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton312, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox114.ResumeLayout(False)
         Me.GroupBox114.PerformLayout
@@ -11905,5 +11985,11 @@ Partial Class FrmUtility
     Friend WithEvents MyLabel73 As common.Controls.MyLabel
     Friend WithEvents txtBmcMilkCollectionDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadButton313 As RadButton
+    Friend WithEvents GroupBox116 As GroupBox
+    Friend WithEvents MyLabel72 As common.Controls.MyLabel
+    Friend WithEvents txtCreditCashDCSSaleDoc As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents rbtnCashToCredit As RadioButton
+    Friend WithEvents rbtnCreditToCash As RadioButton
 End Class
 

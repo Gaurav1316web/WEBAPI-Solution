@@ -1809,6 +1809,66 @@ Public Class clsMCCMaterialSale
         Return Nothing
     End Function
 
+    Public Function MultipleRecieptEntryOfDCSSaleFromUtility(ByVal strCode As String, ByVal trans As SqlTransaction) As String
+        Try
+            Dim objDCSSale As clsMCCMaterialSale = GetData(strCode, NavigatorType.Current, trans)
+            Dim dblReceiptAmt As Double = (objDCSSale.Total_Amt - objDCSSale.TotalSubsidyAmt)
+            If dblReceiptAmt > 0 Then
+                Dim obj As New clsRcptEntryHeader()
+                obj.Entry_Desc = "Shipment No - " + objDCSSale.Document_Code + " for Cash Memo No - " & objDCSSale.Document_Code & "  "
+                obj.Receipt_Date = clsCommon.GetPrintDate(objDCSSale.Document_Date, "dd/MMM/yyyy")
+                obj.Receipt_Post_Date = clsCommon.GetPrintDate(objDCSSale.Document_Date, "dd/MMM/yyyy")
+                obj.Bank_Code = clsCommon.myCstr(objDCSSale.Bank_Code)
+
+                obj.Receipt_Type = "R"
+                obj.Payment_Code = clsCommon.myCstr(objDCSSale.Payment_Terms)
+                obj.Cheque_No = ""
+                obj.Cheque_Date = Nothing
+                obj.Cust_Code = clsCommon.myCstr(objDCSSale.Customer_Code)
+                obj.Receipt_Amount = dblReceiptAmt
+                obj.Balance_Amt = dblReceiptAmt
+                obj.UnApply_Amt = dblReceiptAmt
+                obj.Apply_By = ""
+                obj.Apply_To = ""
+                obj.IsSalesmanType = "N"
+                obj.Salesman_Code = ""
+                obj.Salesman_Name = ""
+                obj.SecurityDeposit = "N"
+
+                obj.ArrTr = New List(Of clsReceiptDettail)
+
+                Dim objTr As New clsReceiptDettail()
+                objTr.Apply = "Y"
+                objTr.Receipt_Type = "I"
+                objTr.TagType = "C"
+                objTr.Document_No = objDCSSale.Document_Code
+                If clsCommon.myLen(objDCSSale.Document_Code) > 0 Then
+                    objTr.Document_Date = objDCSSale.Document_Date
+                End If
+                objTr.Original_Amt = dblReceiptAmt
+                objTr.Pending_Balance = dblReceiptAmt
+                objTr.Applied_Amount = dblReceiptAmt
+                objTr.Adjustment_No = ""
+                objTr.Comment = objDCSSale.Remarks
+                obj.ArrTr.Add(objTr)
+
+                If obj.SaveData(obj, True, trans) Then
+                    clsRcptEntryHeader.funRcptPost(obj.Receipt_No, trans, "MReceivable", objDCSSale.Bill_To_Location, True)
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No ='" & obj.Receipt_No & "' where Document_Code='" + objDCSSale.Document_Code + "'", trans)
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Is_CashSale ='Y' where Document_Code='" + objDCSSale.Document_Code + "'", trans)
+                End If
+                '---------------------------------------------------------------------------
+                Return obj.Receipt_No
+            Else
+                Throw New Exception("Receipt can't be created.Invoice amount is zero.")
+
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Nothing
+    End Function
     Public Shared Function CreateJournalEntry(ByVal strCode As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoForRecreatedOnly As String = Nothing)
         Dim RecoControlACC As String = ""
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
