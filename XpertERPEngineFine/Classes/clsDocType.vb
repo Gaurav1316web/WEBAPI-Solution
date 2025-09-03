@@ -463,8 +463,10 @@ Public Class clsDocType
     Public Const frmInvoiceFreshSale As String = "Fresh Invoice"
     Public Const frmSaleReturnGateEntry As String = "Sale Return Gate Entry"
     Public Const frmCreateReceived As String = "Fresh Crate Received"
+    Public Const frmCreateReceivedAPI As String = "Fresh Crate Received API"
     Public Const frmCreateOut As String = "Fresh Crate Out"
     Public Const frmCanReceived As String = "Can Received"
+    Public Const frmCanReceivedAPI As String = "Can Received API"
     Public Const FrmInvoiceCrateLinerDetail As String = "Invoice Crate Liner Detail"
 
     Public Const MilkGateEntry As String = "Milk Gate Entry"
@@ -511,7 +513,6 @@ Public Class clsDocType
     Public Const frmDairySaleInvoice As String = "Dairy Sale Invoice"
     Public Const frmDairySaleReturn As String = "Dairy Sale Return"
     Public Const FrmDairyGatePass As String = "Dairy GatePass"
-    Public Const FrmDairyGatePassAPI As String = "Dairy GatePass API"
     Public Const frmCustomerComplain As String = "Customer Complain"
     Public Const frmTranspoterDeductionEntry As String = "TranspoterDedEntry"
     Public Const FrmMCCScrapGatePass As String = "Mcc/Scrap GatePass"
