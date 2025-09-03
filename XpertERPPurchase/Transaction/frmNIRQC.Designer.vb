@@ -637,6 +637,7 @@ Partial Class frmNIRQC
         Me.btnPost.Size = New System.Drawing.Size(69, 23)
         Me.btnPost.TabIndex = 3
         Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
         '
         'btnSave
         '

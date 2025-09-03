@@ -698,7 +698,7 @@ Public Class clsApply_Approval
                             chkcunter += 1
                         End If
 
-                        If chkcunter = 1 AndAlso msg = 0 And documentCounter = 0 Then
+                        If chkcunter = 1 AndAlso msg = 0 AndAlso documentCounter = 0 Then
                             If Not clsCommon.MyMessageBoxShow("Want to send document for approval?", "Attention", Windows.Forms.MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                                 str = ""
                                 documentsendforApprovalScreenfromQuickBookEntry = False
@@ -1185,10 +1185,13 @@ Public Class clsApprovalAlert_Child
 
     Public Shared Function Rejectdata(ByVal obj As clsApprovalAlert_Child, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim strQry As String = Nothing
             Dim isSaved As Boolean = True
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0 Then
                 If obj.No_Of_Level = obj.Max_App_Level Then ''only higher authorized user can post data
                     If clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
+                        strQry = "Update TSPL_NIR_QC Set Status=1, QC_Status=2,QC_Remarks='" & obj.Approval_Remark & "',Modify_By='" & objCommonVar.CurrentUserCode & "',Modify_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "',Posted_By='" & objCommonVar.CurrentUserCode & "',Posted_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' Where Document_No='" & obj.Document_Code & "'"
+                        clsDBFuncationality.ExecuteNonQuery(strQry, trans)
                         isSaved = isSaved AndAlso clsNIRQC.CancelData(Nothing, obj.Document_Code, Nothing, True, trans)
                     End If
 

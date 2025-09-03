@@ -10025,11 +10025,15 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
 
     Function CancelData() As Boolean
         Try
+            Dim isEinvoiceCancelled As Boolean = False
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                isEinvoiceCancelled = True
             End If
 
             Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where Against_Sale_Return_No='" & txtDocNo.Value & "') "))
@@ -10037,7 +10041,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                 Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
             End If
 
-            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from TSPL_SD_SALE_RETURN_HEAD where  document_code = '" + txtDocNo.Value + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then

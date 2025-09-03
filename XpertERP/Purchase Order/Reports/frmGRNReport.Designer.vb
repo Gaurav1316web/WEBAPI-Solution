@@ -22,7 +22,7 @@ Partial Class FrmGRNReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgVendor = New common.MyCheckBoxGrid()
@@ -66,6 +66,7 @@ Partial Class FrmGRNReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkCancelRejected = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -106,6 +107,7 @@ Partial Class FrmGRNReport
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkCancelRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -332,6 +334,7 @@ Partial Class FrmGRNReport
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.RadGroupBox1.Controls.Add(Me.chkCancelRejected)
         Me.RadGroupBox1.Controls.Add(Me.chkTrackingReport)
         Me.RadGroupBox1.Controls.Add(Me.lblVendor)
         Me.RadGroupBox1.Controls.Add(Me.txtVendor)
@@ -357,7 +360,7 @@ Partial Class FrmGRNReport
         'chkTrackingReport
         '
         Me.chkTrackingReport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkTrackingReport.Location = New System.Drawing.Point(334, 12)
+        Me.chkTrackingReport.Location = New System.Drawing.Point(306, 12)
         Me.chkTrackingReport.Name = "chkTrackingReport"
         Me.chkTrackingReport.Size = New System.Drawing.Size(101, 16)
         Me.chkTrackingReport.TabIndex = 1466
@@ -561,7 +564,8 @@ Partial Class FrmGRNReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
@@ -624,6 +628,15 @@ Partial Class FrmGRNReport
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
+        'chkCancelRejected
+        '
+        Me.chkCancelRejected.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkCancelRejected.Location = New System.Drawing.Point(413, 12)
+        Me.chkCancelRejected.Name = "chkCancelRejected"
+        Me.chkCancelRejected.Size = New System.Drawing.Size(156, 16)
+        Me.chkCancelRejected.TabIndex = 1467
+        Me.chkCancelRejected.Text = "Cancelled/Rejected Report"
+        '
         'FrmGRNReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -682,6 +695,7 @@ Partial Class FrmGRNReport
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRefresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkCancelRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -730,5 +744,6 @@ Partial Class FrmGRNReport
     Friend WithEvents rmSaveLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmDeleteLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents chkTrackingReport As RadCheckBox
+    Friend WithEvents chkCancelRejected As RadCheckBox
 End Class
 

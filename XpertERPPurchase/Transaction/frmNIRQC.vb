@@ -34,6 +34,7 @@ Public Class frmNIRQC
             SetUserMgmtNew()
             LoadQCStatus()
             AddNew()
+            txtDate.Value = clsCommon.GETSERVERDATE()
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
             ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
             ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
@@ -86,7 +87,8 @@ Public Class frmNIRQC
         btnPrint.Visible = True
         btnDelete.Enabled = False
         btnPost.Enabled = False
-        txtDate.Text = clsCommon.GETSERVERDATE()
+        btnPost.Visible = False
+        'txtDate.Value = clsCommon.GETSERVERDATE()
         BlankAllControls()
     End Sub
     Sub BlankAllControls()
@@ -154,15 +156,15 @@ Public Class frmNIRQC
                 obj.QC_Status = clsCommon.myCDecimal(cboVisualQCStatus.SelectedValue)
                 If (obj.SaveData(obj, isNewEntry)) Then
                     LoadData(obj.Document_No, NavigatorType.Current)
-                    If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            clsApply_Approval.CheckApprovalRequired(clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), Nothing, Me.Form_ID, txtCode.Value, txtDate.Value, Nothing, txtRemarks.Text, clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt")), 0, Nothing, Nothing, 0, False)
-                        End If
+                    'If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        clsApply_Approval.CheckApprovalRequired(clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), Nothing, Me.Form_ID, txtCode.Value, txtDate.Value, Nothing, txtRemarks.Text, clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt")), 0, Nothing, Nothing, 0, False)
                     End If
+                    'End If
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                    End If
                 End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -334,15 +336,15 @@ where TSPL_MRN_DETAIL.MRN_No='" & txtMRNNo.Value & "' and TSPL_MRN_HEAD.Status=1
         End Try
     End Sub
     Sub PostData()
-        Try
-            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
-            If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
-                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
-                LoadData(txtCode.Value, NavigatorType.Current)
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
+        'Try
+        '    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
+        '    If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
+        '        clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
+        '        LoadData(txtCode.Value, NavigatorType.Current)
+        '    End If
+        'Catch ex As Exception
+        '    Throw New Exception(ex.Message)
+        'End Try
     End Sub
 
 

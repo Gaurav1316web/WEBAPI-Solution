@@ -463,6 +463,7 @@ Public Class clsDocType
     Public Const frmInvoiceFreshSale As String = "Fresh Invoice"
     Public Const frmSaleReturnGateEntry As String = "Sale Return Gate Entry"
     Public Const frmCreateReceived As String = "Fresh Crate Received"
+    Public Const frmCreateOut As String = "Fresh Crate Out"
     Public Const frmCanReceived As String = "Can Received"
     Public Const FrmInvoiceCrateLinerDetail As String = "Invoice Crate Liner Detail"
 
@@ -485,6 +486,7 @@ Public Class clsDocType
     Public Const frmDeliveryOrderPSForExempted As String = "PS Delivery Order Exempted"
     Public Const frmSalesOrderProductSale As String = "Sale Order Product Sale"
     Public Const frmShipmentProductSale As String = "Shipment Product Sale"
+    Public Const frmCustomerTender As String = "Customer Tender"
     Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
@@ -1151,6 +1153,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.DeliveryNoteFreshSale, "", False, True)
             InsertDefaultValue(clsDocType.DispatchNoteFreshSale, "", False, True)
             InsertDefaultValue(clsDocType.frmCreateReceived, "", False, True)
+            InsertDefaultValue(clsDocType.frmCreateOut, "", False, True)
             InsertDefaultValue(clsDocType.frmCanReceived, "", False, True)
             InsertDefaultValue(clsDocType.GatePassEntrySale, "", False, True)
             InsertDefaultValue(clsDocType.MCCGateEntry, "", False, True)
@@ -1590,6 +1593,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
             InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.BoothRouteMapping, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
