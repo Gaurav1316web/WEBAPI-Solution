@@ -66,6 +66,8 @@ Public Class FrmBulkRoutMaster
         txtScheduleTimeM.Value = clsCommon.GETSERVERDATE()
         txtScheduleTimeE.Value = txtScheduleTimeM.Value
         LoadBlankGrid()
+        txtZone.Value = ""
+        lblZone.Text = ""
     End Sub
 
 
@@ -96,15 +98,15 @@ Public Class FrmBulkRoutMaster
                             Throw New Exception("Route Code length greater then 30.")
                         End If
                         obj.ROUTE_NAME = clsCommon.myCstr(grow.Cells("Route Name").Value)
-                        obj.Distance = clsCommon.myCdbl(grow.Cells("Distance").Value)
-                        obj.Rate = clsCommon.myCdbl(grow.Cells("Rate").Value)
+                        obj.Distance = clsCommon.myCDecimal(grow.Cells("Distance").Value)
+                        obj.Rate = clsCommon.myCDecimal(grow.Cells("Rate").Value)
                         If String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Weight").Value)) = True Then
                             Throw New Exception("Invalid Weight " + clsCommon.myCstr(grow.Cells("Weight").Value))
                         End If
                         If IsNumeric(grow.Cells("Weight").Value) = False Then
                             Throw New Exception("Invalid Weight " + clsCommon.myCstr(grow.Cells("Weight").Value))
                         End If
-                        obj.Weight = clsCommon.myCdbl(grow.Cells("Weight").Value)
+                        obj.Weight = clsCommon.myCDecimal(grow.Cells("Weight").Value)
 
                         If obj.Distance <= 0 Then
                             Throw New Exception("Invalid Distance " + clsCommon.myCstr(obj.Distance))
@@ -116,7 +118,7 @@ Public Class FrmBulkRoutMaster
                             Throw New Exception("Invalid Weight " + clsCommon.myCstr(grow.Cells("Weight").Value))
                         End If
 
-                        obj.Amount = obj.Distance * obj.Rate 'clsCommon.myCdbl(grow.Cells("Amount").Value)
+                        obj.Amount = obj.Distance * obj.Rate 'clsCommon.myCDecimal(grow.Cells("Amount").Value)
                         If obj.Amount <= 0 Then
                             Throw New Exception("Invalid Amount " + clsCommon.myCstr(obj.Amount))
                         End If
@@ -218,6 +220,8 @@ Public Class FrmBulkRoutMaster
                     sno += 1
                 Next
             End If
+            txtZone.Value = obj.Zone_Code
+            lblZone.Text = ClsZoneMaster.GetName(obj.Zone_Code)
         End If
     End Sub
     'ROUTE_NAME as [Route Name],Distance,Rate,Amount 
@@ -232,28 +236,28 @@ Public Class FrmBulkRoutMaster
                 obj.ROUTE_NO = txtRouteNo.Value
                 obj.ROUTE_NAME = txtRouteName.Text
                 obj.ROUTE_NAME_HINDI = txtRouteNameHindi.Text
-                obj.Distance = txtDistance.Text
-                obj.Rate = txtRate.Text
+                obj.Distance = txtDistance.Value
+                obj.Rate = txtRate.Value
 
                 ' Ticket No : BHA/31/07/18-000204 - Weight Feild add 
-                obj.Weight = txtWeight.Text
+                obj.Weight = txtWeight.Value
                 Dim strDistance As Double = 0
                 Dim strRate As Double = 0
                 If txtDistance.Text = "" Then
                     strDistance = 0
                 Else
-                    strDistance = txtDistance.Text
+                    strDistance = txtDistance.Value
                 End If
                 If txtRate.Text = "" Then
                     strRate = 0
                 Else
-                    strRate = txtRate.Text
+                    strRate = txtRate.Value
                 End If
-                obj.Amount = clsCommon.myCdbl(strDistance) * clsCommon.myCdbl(strRate)
+                obj.Amount = clsCommon.myCDecimal(strDistance) * clsCommon.myCDecimal(strRate)
                 obj.TollAmount = txtTollAmount.Value
                 obj.Location_Code = txtToLocationCode.Value
-                obj.IsContractor = IIf(chkForContractor.Checked = True, 1, 0)
-                obj.IsDefault = IIf(chkDefault.Checked = True, 1, 0)
+                obj.IsContractor = IIf(chkForContractor.Checked, 1, 0)
+                obj.IsDefault = IIf(chkDefault.Checked, 1, 0)
                 obj.Tanker_No = txtTankerNo.Value
                 obj.arrMCC = txtMCC.arrValueMember
                 obj.CuttOff_Time = txtcuttofftime.Value
@@ -273,6 +277,7 @@ Public Class FrmBulkRoutMaster
                         obj.Arr.Add(objTr)
                     End If
                 Next
+                obj.Zone_Code = txtZone.Value
                 If (clsBulkRoutMaster.SaveData(obj)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     LoadData(obj.ROUTE_NO, NavigatorType.Current)
@@ -351,7 +356,7 @@ Public Class FrmBulkRoutMaster
 
     Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
         Dim str As String = "select count(*) from TSPL_BULK_ROUTE_MASTER where ROUTE_NO ='" + txtRouteNo.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        Dim no As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtRouteNo.MyReadOnly = False
         Else
@@ -616,5 +621,14 @@ Public Class FrmBulkRoutMaster
                 gv1.CurrentRow = gv1.Rows(gv1.Rows.Count - 2)
             End If
         End If
+    End Sub
+
+    Private Sub txtZone__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtZone._MYValidating
+        Try
+            txtZone.Value = ClsZoneMaster.getFinder("", txtZone.Value, isButtonClicked)
+            lblZone.Text = ClsZoneMaster.GetName(txtZone.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
