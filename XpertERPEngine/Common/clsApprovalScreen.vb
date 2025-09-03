@@ -1190,7 +1190,7 @@ Public Class clsApprovalAlert_Child
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0 Then
                 If obj.No_Of_Level = obj.Max_App_Level Then ''only higher authorized user can post data
                     If clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
-                        strQry = "Update TSPL_NIR_QC Set QC_Status=2,Modify_By='" & objCommonVar.CurrentUserCode & "',Modify_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' Where Document_No='" & obj.Document_Code & "'"
+                        strQry = "Update TSPL_NIR_QC Set Status=1, QC_Status=2,QC_Remarks='" & obj.Approval_Remark & "',Modify_By='" & objCommonVar.CurrentUserCode & "',Modify_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "',Posted_By='" & objCommonVar.CurrentUserCode & "',Posted_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' Where Document_No='" & obj.Document_Code & "'"
                         clsDBFuncationality.ExecuteNonQuery(strQry, trans)
                         isSaved = isSaved AndAlso clsNIRQC.CancelData(Nothing, obj.Document_Code, Nothing, True, trans)
                     End If
