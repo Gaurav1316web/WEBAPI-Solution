@@ -2488,8 +2488,34 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VisualReportSale, "Visual Report Sale", "1.36.04.02", clsUserMgtCode.SubModuleVisualSaleReport, 37)
 
 
+        '' Dairy Product Sale
+        InsertDefaultValue(clsUserMgtCode.ModuleProductSaleDairy, "Product Dairy Sales", "1.37", clsUserMgtCode.ExpertERP, "M", 23)
 
+        '' Dairy Product Sale ==> Setup
+        InsertDefaultValue(clsUserMgtCode.SubModuleProductSaleDairySetUp, "Setup", "1.37.01", clsUserMgtCode.ModuleProductSaleDairy, "SM", 24)
 
+        ''Dairy Product Sale ==> Transcation
+        InsertDefaultValue(clsUserMgtCode.SubModuleProductSaleDairyTransaction, "Transcation", "1.37.02", clsUserMgtCode.ModuleProductSaleDairy, "SM", 26)
+
+        '' Dairy Product Sale ==> Report
+        InsertDefaultValue(clsUserMgtCode.SubModuleProductSaleDairyReport, "Report", "1.37.03", clsUserMgtCode.ModuleProductSaleDairy, "SM", 30)
+
+        '' End of Dairy Product Sale
+
+        '' Dairy APS Sale
+        InsertDefaultValue(clsUserMgtCode.ModuleAPSSaleDairy, "APS Dairy Sales", "1.38", clsUserMgtCode.ExpertERP, "M", 23)
+
+        '' Dairy APS Sale ==> Setup
+        InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairySetUp, "Setup", "1.38.01", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 24)
+        InsertDefaultValue(clsUserMgtCode.frmCustomerTender, "Customer Tender", "1.38.01.01", clsUserMgtCode.SubModuleAPSSaleDairySetUp, 27)
+        ''Dairy APS Sale ==> Transcation
+        InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "Transcation", "1.38.02", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 26)
+        InsertDefaultValue(clsUserMgtCode.FrmSalesOrder, "Sales Order", "1.38.02.01", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+
+        '' Dairy APS Sale ==> Report
+        InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyReport, "Report", "1.38.03", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 30)
+
+        '' End of Dairy Product Sale
         '===============================
         ' '' setup
 

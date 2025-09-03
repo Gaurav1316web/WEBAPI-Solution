@@ -38,7 +38,7 @@ Public Class clsCrateReceivedHead
     Public Function SaveData(ByVal obj As clsCrateReceivedHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            SaveData(obj, isNewEntry, trans)
+            SaveData(obj, isNewEntry, False, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -47,7 +47,7 @@ Public Class clsCrateReceivedHead
         Return True
     End Function
     ' Ticket No : TEC/18/06/19-000541 By Prabhakar
-    Public Function SaveData(ByVal obj As clsCrateReceivedHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Function SaveData(ByVal obj As clsCrateReceivedHead, ByVal isNewEntry As Boolean, ByVal fromGatePass As Boolean, ByVal trans As SqlTransaction) As Boolean
         'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Fresh Sale", "Fresh Crate Received", obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmCanReceived, obj.Location_Code, clsCommon.myCDate(obj.Document_Date), trans)
 
@@ -62,8 +62,11 @@ Public Class clsCrateReceivedHead
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Dim strDocNo As String = ""
         If isNewEntry Then
-            If clsCommon.CompairString(obj.Trans_Type, "Can") = CompairStringResult.Equal Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCanReceived, "", obj.Location_Code)
+            'If clsCommon.CompairString(obj.Trans_Type, "Can") = CompairStringResult.Equal Then
+            '    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCanReceived, "", obj.Location_Code)
+            'Else
+            If fromGatePass Then
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCreateOut, "", obj.Location_Code)
             Else
                 obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCreateReceived, "", obj.Location_Code)
             End If
@@ -129,7 +132,7 @@ Public Class clsCrateReceivedHead
                 Else
                     Throw New Exception("Please Create Item as Can Type. ")
                 End If
-            Else              
+            Else
                 If obj.TotalCrateQty > 0 Then
                     strCrateItem = clsDBFuncationality.getSingleValue("select top 1 Item_Code from TSPL_ITEM_MASTER where isnull(CRATE,0)=1", trans)
                     If clsCommon.myLen(strCrateItem) > 0 Then

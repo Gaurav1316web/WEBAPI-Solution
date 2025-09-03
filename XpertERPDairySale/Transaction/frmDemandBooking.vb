@@ -10,6 +10,7 @@ Public Class frmDemandBooking
 #Region "Variables"
     Dim PrintOnlyPostedDocument As Boolean = False
     Dim isIndent As Boolean = False
+    Dim ApplyItemUOMOnDemand As Boolean = False
     Dim GVTruckSheet As MyRadGridView
     Dim gvFullMode As Boolean = False
     Dim SeprateMorningEveningSequence As Boolean = False
@@ -131,6 +132,7 @@ Public Class frmDemandBooking
             ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
             ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
             SeprateMorningEveningSequence = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, Nothing)) = 1, True, False)
+            ApplyItemUOMOnDemand = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, Nothing)) = 1, True, False)
             CrateHisTable()
             AddNew()
             SetUserMgmtNew()
@@ -3318,7 +3320,9 @@ where TSPL_ITEM_CAPACITY_LIMIT_head.From_Date<='" & clsCommon.GetPrintDate(txtDa
             If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
                 setRouteVehicleCityDetail()
             End If
-            SetRouteColumns()
+            If ApplyItemUOMOnDemand Then
+                SetRouteColumns()
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
