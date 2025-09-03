@@ -917,6 +917,7 @@ Public Class FrmDispatchBulkSale
         repoACAmt.ReadOnly = False
         gvAC.MasterTemplate.Columns.Add(repoACAmt)
 
+        gvAC.Rows.AddNew()
         gvAC.AllowAddNewRow = False
         gvAC.ShowGroupPanel = False
         gvAC.AllowColumnReorder = True
@@ -949,7 +950,6 @@ Public Class FrmDispatchBulkSale
         LoadBlankGridTax()
         LoadBlankGridSiloDetails()
         LoadBlankGridAC()
-        gvAC.Rows.AddNew()
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
         txtinsuranceno.Text = ""
@@ -2102,7 +2102,6 @@ Public Class FrmDispatchBulkSale
         Dim dt As DataTable = Nothing
         Dim obj As ClsDispatchBulkSale = Nothing
         Try
-            LoadBlankGridAC()
             obj = ClsDispatchBulkSale.GetData(strCode, arrLoc, NavTyep)
             If ApplyMultiChamber Then
                 gv1.Rows.Clear()
@@ -2419,6 +2418,7 @@ Public Class FrmDispatchBulkSale
                     gv1.DataSource = Nothing
                 End If
 
+                LoadBlankGridAC()
                 If (clsCommon.myLen(obj.Add_Charge_Code1) > 0) Then
                     gvAC.Rows.AddNew()
                     gvAC.Rows(gvAC.Rows.Count - 1).Cells(colAChgCode).Value = obj.Add_Charge_Code1

@@ -179,7 +179,7 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
     Public Shared Function postdata(ByVal strDocNo As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            Return PostData(strDocNo, trans)
+            PostData(strDocNo, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
