@@ -30,20 +30,24 @@ Partial Class rptDailyStatementReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbDetail = New common.Controls.MyRadioButton()
+        Me.rdbSummary = New common.Controls.MyRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnProduct = New common.Controls.MyRadioButton()
         Me.rbtnMilkType = New common.Controls.MyRadioButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDisRouteWise = New common.Controls.MyRadioButton()
         Me.rbtnDistributorWise = New common.Controls.MyRadioButton()
         Me.rbtnRouteWise = New common.Controls.MyRadioButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnDetail = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSummary = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnDisRouteWise = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -53,6 +57,10 @@ Partial Class rptDailyStatementReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rbtnProduct, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,12 +69,13 @@ Partial Class rptDailyStatementReport
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbtnDisRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDisRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,6 +118,7 @@ Partial Class rptDailyStatementReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -138,6 +148,7 @@ Partial Class rptDailyStatementReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Controls.Add(Me.txtDate)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
@@ -147,6 +158,42 @@ Partial Class rptDailyStatementReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(671, 343)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rdbDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rdbSummary)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(10, 126)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(194, 36)
+        Me.RadGroupBox2.TabIndex = 444
+        Me.RadGroupBox2.Visible = False
+        '
+        'rdbDetail
+        '
+        Me.rdbDetail.Location = New System.Drawing.Point(88, 9)
+        Me.rdbDetail.MyLinkLable1 = Nothing
+        Me.rdbDetail.MyLinkLable2 = Nothing
+        Me.rdbDetail.Name = "rdbDetail"
+        Me.rdbDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rdbDetail.TabIndex = 394
+        Me.rdbDetail.TabStop = False
+        Me.rdbDetail.Text = "Detail"
+        '
+        'rdbSummary
+        '
+        Me.rdbSummary.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbSummary.Location = New System.Drawing.Point(5, 9)
+        Me.rdbSummary.MyLinkLable1 = Nothing
+        Me.rdbSummary.MyLinkLable2 = Nothing
+        Me.rdbSummary.Name = "rdbSummary"
+        Me.rdbSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rdbSummary.TabIndex = 393
+        Me.rdbSummary.Text = "Summary"
+        Me.rdbSummary.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox1
         '
@@ -235,6 +282,17 @@ Partial Class rptDailyStatementReport
         Me.RadGroupBox3.Size = New System.Drawing.Size(349, 36)
         Me.RadGroupBox3.TabIndex = 441
         '
+        'rbtnDisRouteWise
+        '
+        Me.rbtnDisRouteWise.Location = New System.Drawing.Point(207, 9)
+        Me.rbtnDisRouteWise.MyLinkLable1 = Nothing
+        Me.rbtnDisRouteWise.MyLinkLable2 = Nothing
+        Me.rbtnDisRouteWise.Name = "rbtnDisRouteWise"
+        Me.rbtnDisRouteWise.Size = New System.Drawing.Size(134, 18)
+        Me.rbtnDisRouteWise.TabIndex = 395
+        Me.rbtnDisRouteWise.TabStop = False
+        Me.rbtnDisRouteWise.Text = "Distributor Route Wise"
+        '
         'rbtnDistributorWise
         '
         Me.rbtnDistributorWise.Location = New System.Drawing.Point(88, 9)
@@ -258,11 +316,22 @@ Partial Class rptDailyStatementReport
         Me.rbtnRouteWise.Text = "Route Wise"
         Me.rbtnRouteWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(20, 15)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 155
+        Me.btnGo.Text = ">>"
+        Me.btnGo.Visible = False
+        '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnDetail, Me.btnSummary})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(7, 15)
+        Me.RadSplitButton1.Location = New System.Drawing.Point(99, 15)
         Me.RadSplitButton1.Name = "RadSplitButton1"
         Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
         Me.RadSplitButton1.TabIndex = 154
@@ -294,22 +363,11 @@ Partial Class rptDailyStatementReport
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(112, 15)
+        Me.btnReset.Location = New System.Drawing.Point(204, 15)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
-        '
-        'rbtnDisRouteWise
-        '
-        Me.rbtnDisRouteWise.Location = New System.Drawing.Point(207, 9)
-        Me.rbtnDisRouteWise.MyLinkLable1 = Nothing
-        Me.rbtnDisRouteWise.MyLinkLable2 = Nothing
-        Me.rbtnDisRouteWise.Name = "rbtnDisRouteWise"
-        Me.rbtnDisRouteWise.Size = New System.Drawing.Size(134, 18)
-        Me.rbtnDisRouteWise.TabIndex = 395
-        Me.rbtnDisRouteWise.TabStop = False
-        Me.rbtnDisRouteWise.Text = "Distributor Route Wise"
         '
         'rptDailyStatementReport
         '
@@ -334,6 +392,11 @@ Partial Class rptDailyStatementReport
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -344,12 +407,13 @@ Partial Class rptDailyStatementReport
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbtnDisRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDisRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -377,5 +441,9 @@ Partial Class rptDailyStatementReport
     Friend WithEvents rbtnProduct As common.Controls.MyRadioButton
     Friend WithEvents rbtnMilkType As common.Controls.MyRadioButton
     Friend WithEvents rbtnDisRouteWise As common.Controls.MyRadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rdbDetail As common.Controls.MyRadioButton
+    Friend WithEvents rdbSummary As common.Controls.MyRadioButton
+    Friend WithEvents btnGo As RadButton
 End Class
 
