@@ -23,10 +23,14 @@ Partial Class YearlyBillReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDeduction = New common.Controls.MyRadioButton()
+        Me.rbtnAddition = New common.Controls.MyRadioButton()
+        Me.rbtnAll = New common.Controls.MyRadioButton()
         Me.txtMultBMC = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -54,22 +58,24 @@ Partial Class YearlyBillReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnMccWiseExcle = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnAll = New common.Controls.MyRadioButton()
-        Me.rbtnAddition = New common.Controls.MyRadioButton()
-        Me.rbtnDeduction = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView2.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,15 +103,11 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage5.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMccWiseExcle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +124,7 @@ Partial Class YearlyBillReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnMccWiseExcle)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -161,6 +164,53 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(779, 361)
         Me.RadPageViewPage4.Text = "Filters"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDeduction)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnAddition)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnAll)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(372, 99)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(404, 35)
+        Me.RadGroupBox2.TabIndex = 1509
+        '
+        'rbtnDeduction
+        '
+        Me.rbtnDeduction.Location = New System.Drawing.Point(183, 8)
+        Me.rbtnDeduction.MyLinkLable1 = Nothing
+        Me.rbtnDeduction.MyLinkLable2 = Nothing
+        Me.rbtnDeduction.Name = "rbtnDeduction"
+        Me.rbtnDeduction.Size = New System.Drawing.Size(72, 18)
+        Me.rbtnDeduction.TabIndex = 4
+        Me.rbtnDeduction.TabStop = False
+        Me.rbtnDeduction.Text = "Deduction"
+        '
+        'rbtnAddition
+        '
+        Me.rbtnAddition.Location = New System.Drawing.Point(102, 8)
+        Me.rbtnAddition.MyLinkLable1 = Nothing
+        Me.rbtnAddition.MyLinkLable2 = Nothing
+        Me.rbtnAddition.Name = "rbtnAddition"
+        Me.rbtnAddition.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnAddition.TabIndex = 3
+        Me.rbtnAddition.TabStop = False
+        Me.rbtnAddition.Text = "Addition"
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnAll.Location = New System.Drawing.Point(15, 8)
+        Me.rbtnAll.MyLinkLable1 = Nothing
+        Me.rbtnAll.MyLinkLable2 = Nothing
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
+        Me.rbtnAll.TabIndex = 2
+        Me.rbtnAll.TabStop = False
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'txtMultBMC
         '
@@ -483,7 +533,7 @@ Partial Class YearlyBillReport
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -492,6 +542,16 @@ Partial Class YearlyBillReport
         Me.gv1.Size = New System.Drawing.Size(779, 361)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
+        '
+        'btnMccWiseExcle
+        '
+        Me.btnMccWiseExcle.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnMccWiseExcle.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMccWiseExcle.Location = New System.Drawing.Point(261, 8)
+        Me.btnMccWiseExcle.Name = "btnMccWiseExcle"
+        Me.btnMccWiseExcle.Size = New System.Drawing.Size(125, 22)
+        Me.btnMccWiseExcle.TabIndex = 163
+        Me.btnMccWiseExcle.Text = "Mcc Wise Excle"
         '
         'btnExport
         '
@@ -545,53 +605,6 @@ Partial Class YearlyBillReport
         Me.btnReset.TabIndex = 160
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtnDeduction)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnAddition)
-        Me.RadGroupBox2.Controls.Add(Me.rbtnAll)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(372, 99)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(404, 35)
-        Me.RadGroupBox2.TabIndex = 1509
-        '
-        'rbtnAll
-        '
-        Me.rbtnAll.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnAll.Location = New System.Drawing.Point(15, 8)
-        Me.rbtnAll.MyLinkLable1 = Nothing
-        Me.rbtnAll.MyLinkLable2 = Nothing
-        Me.rbtnAll.Name = "rbtnAll"
-        Me.rbtnAll.Size = New System.Drawing.Size(33, 18)
-        Me.rbtnAll.TabIndex = 2
-        Me.rbtnAll.TabStop = False
-        Me.rbtnAll.Text = "All"
-        Me.rbtnAll.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnAddition
-        '
-        Me.rbtnAddition.Location = New System.Drawing.Point(102, 8)
-        Me.rbtnAddition.MyLinkLable1 = Nothing
-        Me.rbtnAddition.MyLinkLable2 = Nothing
-        Me.rbtnAddition.Name = "rbtnAddition"
-        Me.rbtnAddition.Size = New System.Drawing.Size(63, 18)
-        Me.rbtnAddition.TabIndex = 3
-        Me.rbtnAddition.TabStop = False
-        Me.rbtnAddition.Text = "Addition"
-        '
-        'rbtnDeduction
-        '
-        Me.rbtnDeduction.Location = New System.Drawing.Point(183, 8)
-        Me.rbtnDeduction.MyLinkLable1 = Nothing
-        Me.rbtnDeduction.MyLinkLable2 = Nothing
-        Me.rbtnDeduction.Name = "rbtnDeduction"
-        Me.rbtnDeduction.Size = New System.Drawing.Size(72, 18)
-        Me.rbtnDeduction.TabIndex = 4
-        Me.rbtnDeduction.TabStop = False
-        Me.rbtnDeduction.Text = "Deduction"
-        '
         'YearlyBillReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -611,6 +624,12 @@ Partial Class YearlyBillReport
         Me.RadPageView2.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
@@ -641,16 +660,11 @@ Partial Class YearlyBillReport
         Me.RadPageViewPage5.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMccWiseExcle, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rbtnAll, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -696,4 +710,5 @@ Partial Class YearlyBillReport
     Friend WithEvents rbtnDeduction As common.Controls.MyRadioButton
     Friend WithEvents rbtnAddition As common.Controls.MyRadioButton
     Friend WithEvents rbtnAll As common.Controls.MyRadioButton
+    Friend WithEvents btnMccWiseExcle As RadButton
 End Class
