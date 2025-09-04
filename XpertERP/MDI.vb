@@ -9667,6 +9667,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmMultipleInvoice
                         frm = New frmMultipleInvoice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCommissionTPTCalculation
+                        frm = New frmCommissionTPTCalculation
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmItemProjection
                     '    frm = New FrmItemProjection
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
