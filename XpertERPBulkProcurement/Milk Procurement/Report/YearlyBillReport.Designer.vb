@@ -552,7 +552,6 @@ Partial Class YearlyBillReport
         Me.btnMccWiseExcle.Size = New System.Drawing.Size(125, 22)
         Me.btnMccWiseExcle.TabIndex = 163
         Me.btnMccWiseExcle.Text = "Mcc Wise Excle"
-        Me.btnMccWiseExcle.Visible = False
         '
         'btnExport
         '
