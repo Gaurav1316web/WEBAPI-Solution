@@ -181,6 +181,24 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="APS Sale\Master\FrmAmendment.Designer.vb">
+      <DependentUpon>FrmAmendment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Master\FrmAmendment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="APS Sale\Master\frmCustomerTender.Designer.vb">
+      <DependentUpon>frmCustomerTender.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Master\frmCustomerTender.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrder.Designer.vb">
+      <DependentUpon>FrmSalesOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Export Sale\DuplicateForm\frmPendingQuotation.Designer.vb">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </Compile>
@@ -1183,6 +1201,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="APS Sale\Master\FrmAmendment.resx">
+      <DependentUpon>FrmAmendment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Master\frmCustomerTender.resx">
+      <DependentUpon>frmCustomerTender.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrder.resx">
+      <DependentUpon>FrmSalesOrder.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingQuotation.resx">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </EmbeddedResource>
@@ -1727,6 +1754,15 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="APS Sale\Report\" />
+    <Folder Include="Fresh Sale\Master\" />
+    <Folder Include="Fresh Sale\Report\" />
+    <Folder Include="Fresh Sale\Transaction\" />
+    <Folder Include="Product Sale\Master\" />
+    <Folder Include="Product Sale\Report\" />
+    <Folder Include="Product Sale\Transaction\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

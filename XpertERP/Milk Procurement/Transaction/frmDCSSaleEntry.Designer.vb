@@ -33,6 +33,10 @@ Partial Class frmDCSSaleEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcDCSBalance1 = New XpertERPEngine.ucDCSBalance()
+        Me.chkExcludeKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtNoOfInsallment = New common.MyNumBox()
         Me.lblBankCode = New common.Controls.MyLabel()
         Me.txtBankCode = New common.UserControls.txtFinder()
         Me.lblTPTVendor = New common.Controls.MyLabel()
@@ -207,15 +211,15 @@ Partial Class frmDCSSaleEntry
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.txtNoOfInsallment = New common.MyNumBox()
-        Me.chkExcludeKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNoOfInsallment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -374,9 +378,6 @@ Partial Class frmDCSSaleEntry
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtNoOfInsallment, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -407,8 +408,8 @@ Partial Class frmDCSSaleEntry
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtGEDate)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1282, 465)
-        Me.SplitContainer1.SplitterDistance = 433
+        Me.SplitContainer1.Size = New System.Drawing.Size(1282, 495)
+        Me.SplitContainer1.SplitterDistance = 463
         Me.SplitContainer1.TabIndex = 1
         '
         'RadPageView1
@@ -423,7 +424,7 @@ Partial Class frmDCSSaleEntry
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1282, 433)
+        Me.RadPageView1.Size = New System.Drawing.Size(1282, 463)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -431,6 +432,7 @@ Partial Class frmDCSSaleEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.UcDCSBalance1)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMandi)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
         Me.RadPageViewPage1.Controls.Add(Me.txtNoOfInsallment)
@@ -509,8 +511,72 @@ Partial Class frmDCSSaleEntry
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(95.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 387)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 417)
         Me.RadPageViewPage1.Text = "DCS Sale Entry"
+        '
+        'UcDCSBalance1
+        '
+        Me.UcDCSBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UcDCSBalance1.DCSCode = ""
+        Me.UcDCSBalance1.DCSName = ""
+        Me.UcDCSBalance1.DCSUploaderCode = ""
+        Me.UcDCSBalance1.Location = New System.Drawing.Point(718, 337)
+        Me.UcDCSBalance1.MaximumSize = New System.Drawing.Size(273, 80)
+        Me.UcDCSBalance1.MinimumSize = New System.Drawing.Size(273, 80)
+        Me.UcDCSBalance1.Name = "UcDCSBalance1"
+        Me.UcDCSBalance1.Size = New System.Drawing.Size(273, 80)
+        Me.UcDCSBalance1.TabIndex = 322
+        Me.UcDCSBalance1.TotalCredit = 0R
+        Me.UcDCSBalance1.TotalOS = 0R
+        Me.UcDCSBalance1.TransDate = New Date(CType(0, Long))
+        Me.UcDCSBalance1.UnBilledAmt = 0R
+        Me.UcDCSBalance1.VendorCode = ""
+        '
+        'chkExcludeKKFMandi
+        '
+        Me.chkExcludeKKFMandi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExcludeKKFMandi.Location = New System.Drawing.Point(1051, 111)
+        Me.chkExcludeKKFMandi.Name = "chkExcludeKKFMandi"
+        Me.chkExcludeKKFMandi.Size = New System.Drawing.Size(130, 16)
+        Me.chkExcludeKKFMandi.TabIndex = 137
+        Me.chkExcludeKKFMandi.Text = "Exclude KKF && Mandi"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(901, 161)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(67, 16)
+        Me.MyLabel8.TabIndex = 321
+        Me.MyLabel8.Text = "No of Instal."
+        '
+        'txtNoOfInsallment
+        '
+        Me.txtNoOfInsallment.BackColor = System.Drawing.Color.White
+        Me.txtNoOfInsallment.CalculationExpression = Nothing
+        Me.txtNoOfInsallment.DecimalPlaces = 0
+        Me.txtNoOfInsallment.FieldCode = Nothing
+        Me.txtNoOfInsallment.FieldDesc = Nothing
+        Me.txtNoOfInsallment.FieldMaxLength = 0
+        Me.txtNoOfInsallment.FieldName = Nothing
+        Me.txtNoOfInsallment.isCalculatedField = False
+        Me.txtNoOfInsallment.IsSourceFromTable = False
+        Me.txtNoOfInsallment.IsSourceFromValueList = False
+        Me.txtNoOfInsallment.IsUnique = False
+        Me.txtNoOfInsallment.Location = New System.Drawing.Point(979, 159)
+        Me.txtNoOfInsallment.MendatroryField = False
+        Me.txtNoOfInsallment.MyLinkLable1 = Nothing
+        Me.txtNoOfInsallment.MyLinkLable2 = Nothing
+        Me.txtNoOfInsallment.Name = "txtNoOfInsallment"
+        Me.txtNoOfInsallment.ReferenceFieldDesc = Nothing
+        Me.txtNoOfInsallment.ReferenceFieldName = Nothing
+        Me.txtNoOfInsallment.ReferenceTableName = Nothing
+        Me.txtNoOfInsallment.Size = New System.Drawing.Size(107, 20)
+        Me.txtNoOfInsallment.TabIndex = 320
+        Me.txtNoOfInsallment.Text = "0"
+        Me.txtNoOfInsallment.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtNoOfInsallment.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblBankCode
         '
@@ -940,7 +1006,7 @@ Partial Class frmDCSSaleEntry
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(938, 307)
+        Me.RadLabel12.Location = New System.Drawing.Point(938, 319)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -1276,7 +1342,7 @@ Partial Class frmDCSSaleEntry
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1024, 371)
+        Me.MyLabel5.Location = New System.Drawing.Point(1024, 401)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(235, 16)
         Me.MyLabel5.TabIndex = 56
@@ -1290,7 +1356,7 @@ Partial Class frmDCSSaleEntry
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 317)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 338)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1321,7 +1387,7 @@ Partial Class frmDCSSaleEntry
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(-1, 374)
+        Me.MyLabel2.Location = New System.Drawing.Point(-1, 404)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -1502,7 +1568,7 @@ Partial Class frmDCSSaleEntry
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 181)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1346, 139)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1346, 149)
         Me.RadGroupBox2.TabIndex = 40
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1527,7 +1593,7 @@ Partial Class frmDCSSaleEntry
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1326, 109)
+        Me.gv1.Size = New System.Drawing.Size(1326, 119)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -2947,7 +3013,7 @@ Partial Class frmDCSSaleEntry
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1282, 465)
+        Me.Panel1.Size = New System.Drawing.Size(1282, 495)
         Me.Panel1.TabIndex = 4
         '
         'RadMenuItem2
@@ -2989,57 +3055,11 @@ Partial Class frmDCSSaleEntry
         Me.RadMenu1.Size = New System.Drawing.Size(1282, 20)
         Me.RadMenu1.TabIndex = 3
         '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(901, 161)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(67, 16)
-        Me.MyLabel8.TabIndex = 321
-        Me.MyLabel8.Text = "No of Instal."
-        '
-        'txtNoOfInsallment
-        '
-        Me.txtNoOfInsallment.BackColor = System.Drawing.Color.White
-        Me.txtNoOfInsallment.CalculationExpression = Nothing
-        Me.txtNoOfInsallment.DecimalPlaces = 0
-        Me.txtNoOfInsallment.FieldCode = Nothing
-        Me.txtNoOfInsallment.FieldDesc = Nothing
-        Me.txtNoOfInsallment.FieldMaxLength = 0
-        Me.txtNoOfInsallment.FieldName = Nothing
-        Me.txtNoOfInsallment.isCalculatedField = False
-        Me.txtNoOfInsallment.IsSourceFromTable = False
-        Me.txtNoOfInsallment.IsSourceFromValueList = False
-        Me.txtNoOfInsallment.IsUnique = False
-        Me.txtNoOfInsallment.Location = New System.Drawing.Point(979, 159)
-        Me.txtNoOfInsallment.MendatroryField = False
-        Me.txtNoOfInsallment.MyLinkLable1 = Nothing
-        Me.txtNoOfInsallment.MyLinkLable2 = Nothing
-        Me.txtNoOfInsallment.Name = "txtNoOfInsallment"
-        Me.txtNoOfInsallment.ReferenceFieldDesc = Nothing
-        Me.txtNoOfInsallment.ReferenceFieldName = Nothing
-        Me.txtNoOfInsallment.ReferenceTableName = Nothing
-        Me.txtNoOfInsallment.Size = New System.Drawing.Size(107, 20)
-        Me.txtNoOfInsallment.TabIndex = 320
-        Me.txtNoOfInsallment.Text = "0"
-        Me.txtNoOfInsallment.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfInsallment.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'chkExcludeKKFMandi
-        '
-        Me.chkExcludeKKFMandi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExcludeKKFMandi.Location = New System.Drawing.Point(1051, 111)
-        Me.chkExcludeKKFMandi.Name = "chkExcludeKKFMandi"
-        Me.chkExcludeKKFMandi.Size = New System.Drawing.Size(130, 16)
-        Me.chkExcludeKKFMandi.TabIndex = 137
-        Me.chkExcludeKKFMandi.Text = "Exclude KKF && Mandi"
-        '
         'frmDCSSaleEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1282, 485)
+        Me.ClientSize = New System.Drawing.Size(1282, 515)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -3057,6 +3077,9 @@ Partial Class frmDCSSaleEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNoOfInsallment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTPTVendor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3225,9 +3248,6 @@ Partial Class frmDCSSaleEntry
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtNoOfInsallment, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkExcludeKKFMandi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3413,5 +3433,6 @@ Partial Class frmDCSSaleEntry
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents txtNoOfInsallment As common.MyNumBox
     Friend WithEvents chkExcludeKKFMandi As RadCheckBox
+    Friend WithEvents UcDCSBalance1 As ucDCSBalance
 End Class
 

@@ -237,7 +237,7 @@ Public Class clsDairyGatePassEntry
             If (clsCommon.myLen(objTr.OutQty) > 0) Then
                 obj.Arr.Add(objTr)
             End If
-            obj.SaveData(obj, isNewEntry, trans)
+            obj.SaveData(obj, isNewEntry, True, trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

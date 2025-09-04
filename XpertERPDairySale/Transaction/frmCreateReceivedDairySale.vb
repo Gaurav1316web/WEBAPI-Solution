@@ -2267,7 +2267,7 @@ Public Class frmCreateReceivedDairySale
                     If (clsCommon.myLen(objTr.OutQty) > 0 OrElse clsCommon.myLen(objTr.CANOutQty) > 0) Then
                         obj.Arr.Add(objTr)
                     End If
-                    obj.SaveData(obj, True, trans)
+                    obj.SaveData(obj, True, False, trans)
                 Next
                 clsCommon.ProgressBarHide()
                 trans.Commit()
@@ -2860,7 +2860,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                             If clsCommon.myLen(objTr.CrateQtyRecd) > 0 Then
                                 obj.Arr.Add(objTr)
                             End If
-                            obj.SaveData(obj, True, trans)
+                            obj.SaveData(obj, True, False, trans)
                         Next
                         clsCommon.ProgressBarPercentHide()
                         trans.Commit()

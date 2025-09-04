@@ -15,6 +15,7 @@ Public Class clsBulkRoutMaster
     Public ROUTE_NAME_HINDI As String = Nothing
     Public Tanker_No As String = Nothing
     Public arrMCC As ArrayList
+    Public Zone_Code As String = Nothing
     Public CuttOff_Time As DateTime
     Public Schedule_Time_Morning As DateTime?
     Public Schedule_Time_Evening As DateTime?
@@ -41,8 +42,8 @@ Public Class clsBulkRoutMaster
         Dim qry1 As String = "Delete from TSPL_BULK_ROUTE_MASTER_MCC where ROUTE_NO='" & obj.ROUTE_NO & "' "
         clsDBFuncationality.ExecuteNonQuery(qry1, trans)
 
-        Dim qry2 As String = "Delete from TSPL_BULK_ROUTE_MASTER_LOCATION where BULK_ROUTE_No='" & obj.ROUTE_NO & "' "
-        clsDBFuncationality.ExecuteNonQuery(qry2, trans)
+        qry1 = "Delete from TSPL_BULK_ROUTE_MASTER_LOCATION where BULK_ROUTE_No='" & obj.ROUTE_NO & "' "
+        clsDBFuncationality.ExecuteNonQuery(qry1, trans)
 
         qry1 = clsDBFuncationality.getSingleValue("Select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" & obj.ROUTE_NO & "' ", trans)
         If clsCommon.myLen(qry1) > 0 Then
@@ -51,7 +52,7 @@ Public Class clsBulkRoutMaster
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "ROUTE_NAME", obj.ROUTE_NAME)
-
+            clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code, True)
             clsCommon.AddColumnsForChange(coll, "ROUTE_NAME_HINDI", obj.ROUTE_NAME_HINDI, True, True)
             clsCommon.AddColumnsForChange(coll, "Distance", obj.Distance)
             clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
@@ -86,7 +87,6 @@ Public Class clsBulkRoutMaster
 
             clsBulkRoutMasterMCC.SaveData(obj.ROUTE_NO, obj.arrMCC, trans)
             clsBulkRoutdetail.SaveData(obj.ROUTE_NO, obj.Arr, trans)
-
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.ROUTE_NO, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", "TSPL_BULK_ROUTE_MASTER_MCC", "ROUTE_NO", trans)
 
             trans.Commit()
@@ -129,7 +129,7 @@ Public Class clsBulkRoutMaster
             obj.TollAmount = clsCommon.myCdbl(dt.Rows(0)("TollAmount"))
             obj.IsContractor = clsCommon.myCdbl(dt.Rows(0)("IsContractor"))
             obj.IsDefault = clsCommon.myCdbl(dt.Rows(0)("IsDefault"))
-
+            obj.Zone_Code = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
             obj.arrMCC = clsBulkRoutMasterMCC.GetData(obj.ROUTE_NO)
             obj.CuttOff_Time = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt")
             If dt.Rows(0)("Schedule_Time_Morning") IsNot DBNull.Value Then
@@ -142,7 +142,6 @@ Public Class clsBulkRoutMaster
                 obj.Schedule_Time = clsCommon.myCDate(dt.Rows(0)("Schedule_Time"))
             End If
             obj.Arr = clsBulkRoutdetail.GetData(obj.ROUTE_NO, Nothing)
-
         End If
         Return obj
     End Function
@@ -152,13 +151,23 @@ Public Class clsBulkRoutMaster
     End Function
 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim qry As String = ""
         Try
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", Nothing)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_BULK_ROUTE_MASTER", "ROUTE_NO", trans)
+
+            qry = "Delete from TSPL_BULK_ROUTE_MASTER_MCC where ROUTE_NO='" & strCode & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "Delete from TSPL_BULK_ROUTE_MASTER_LOCATION where BULK_ROUTE_No='" & strCode & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "Delete from TSPL_BULK_ROUTE_MASTER where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            trans.Commit()
         Catch err As Exception
+            trans.Rollback()
             Throw New Exception(err.Message)
         End Try
         Return True
@@ -260,3 +269,5 @@ Public Class clsBulkRoutdetail
         Return arr
     End Function
 End Class
+
+

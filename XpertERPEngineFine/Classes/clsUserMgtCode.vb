@@ -193,7 +193,15 @@ Public Class clsUserMgtCode
     ''=================== Dairy Sales start here
 
     Public Const ModuleSaleDairy As String = "MSaleDairy"
+    Public Const ModuleProductSaleDairy As String = "MPSaleDairy"
+    Public Const ModuleAPSSaleDairy As String = "MASaleDairy"
     Public Const SubModuleSaleDairySetUp As String = "SMSDairyM"
+    Public Const SubModuleProductSaleDairySetUp As String = "SMSDairyPM"
+    Public Const SubModuleAPSSaleDairySetUp As String = "SMSDairyAM"
+    Public Const SubModuleProductSaleDairyTransaction As String = "SMSDairyPT"
+    Public Const SubModuleAPSSaleDairyTransaction As String = "SMSDairyAT"
+    Public Const SubModuleProductSaleDairyReport As String = "SMSDairyPR"
+    Public Const SubModuleAPSSaleDairyReport As String = "SMSDairyAR"
 
 
     ' ADDED BY KUNAL TICKET : BM00000009674
@@ -217,6 +225,8 @@ Public Class clsUserMgtCode
     Public Const frmbookingdairy As String = "BOOK-DS"
     'Public Const frmbookingdairyFreshSale As String = "BOOK-DS_FSH"
     Public Const frmGenerateBookingFreshSale As String = "GEN_BOO_FS"
+    Public Const frmCustomerTender As String = "CUST-TEND"
+    Public Const FrmSalesOrder As String = "SALES-ORD"
     'Public Const frmAdvanceForCD As String = "ADV_For_CD"
     'Public Const frmAcknowledgeMentOfGRN As String = "ACK_OF_GRN"
     Public Const frmDairyBookingUploader As String = "DA_BOK_UPL"
