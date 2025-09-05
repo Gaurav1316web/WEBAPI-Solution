@@ -3,6 +3,7 @@ Public Class rptDailyStatementReport
     Private Sub rptDailyStatementReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         funreset()
         txtDate.Value = clsCommon.GETSERVERDATE()
+        RadPageViewPage2.Visible = False
     End Sub
     Sub funreset()
         EnableDisableControls(True)
@@ -341,10 +342,15 @@ Public Class rptDailyStatementReport
             Dim DemBookCombine As String = Nothing
             Dim DemBookitemNames2 As String = Nothing
             Dim DemBookTotal_Qty As String = Nothing
-            'Dim itemNames2 As String = Nothing
-            'Dim Total_Qty As String = Nothing
-            'Dim Total_Bag As String = Nothing
-            'If rbtnMilkType.IsChecked Then
+            Dim SummaryQry As String = Nothing
+            Dim dtSummary As New DataTable()
+            Dim ItemSummary As String = Nothing
+            Dim SummaryShort_Desc As String = Nothing
+            Dim SumitemNames2 As String = Nothing
+            Dim SumTotal_Qty As String = Nothing
+            Dim SummaryCombine As String = Nothing
+
+
             DemandBooking = " Select DISTINCT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,Item_Desc,Short_Description from TSPL_DEMAND_BOOKING_DETAIL
                                 left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                                 left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
@@ -376,39 +382,7 @@ Public Class rptDailyStatementReport
                         End If
                     Next
                 End If
-            'ElseIf rbtnProduct.IsChecked Then
-            'DemandBooking = " Select DISTINCT TSPL_DEMAND_BOOKING_DETAIL.Item_Code,Item_Desc,Short_Description from TSPL_DEMAND_BOOKING_DETAIL
-            '                    left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-            '                    left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-            '                    where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date) = CONVERT(DATE, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "', 103) and Is_Ambient=1"
 
-            '    dtDemBook = clsDBFuncationality.GetDataTable(DemandBooking)
-            '    If dtDemBook.Rows.Count > 0 Then
-            '        For i As Integer = 0 To dtDemBook.Rows.Count - 1
-            '            If i = 0 Then
-            '                ItemDemBook += "[" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "] "
-            '                DemBookShort_desc += "[" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + "] "
-            '                DemBookitemNames2 += " Sum(IsNull([" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + "]"
-            '                DemBookTotal_Qty += "Sum(ISNULL([" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "],0))"
-            '                DemBookCombine += " Sum(IsNull([" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + " Qty]" &
-            '                  " ,Sum(IsNull([" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + " Amt]"
-
-            '            Else
-            '                ItemDemBook += ", [" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "] "
-            '                DemBookShort_desc += ", [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + "] "
-            '                DemBookitemNames2 += ", Sum(IsNull([" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + " Qty]"
-            '                DemBookTotal_Qty += "+" + "Sum(ISNULL([" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "],0))"
-            '                DemBookCombine += ", Sum(IsNull([" + clsCommon.myCstr(dtDemBook.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + " Qty]" &
-            '                  ", Sum(IsNull([" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtDemBook.Rows(i)("Short_Description")) + " Amt]"
-
-            '            End If
-            '        Next
-            '    End If
-            ''End If
-
-
-
-            'If rbtnMilkType.IsChecked Then
             ItemList = " Select DISTINCT TSPL_SD_SHIPMENT_DETAIL.Item_Code,Item_Desc,Short_Description from TSPL_SD_SHIPMENT_DETAIL
                                  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
                                  left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
@@ -440,34 +414,8 @@ Public Class rptDailyStatementReport
                         End If
                     Next
                 End If
-            ' ElseIf rbtnProduct.IsChecked Then
-            'ItemList = " Select DISTINCT TSPL_SD_SHIPMENT_DETAIL.Item_Code,Item_Desc,Short_Description from TSPL_SD_SHIPMENT_DETAIL
-            '                     left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
-            '                     left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-            '                     where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date) = CONVERT(DATE, '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "', 103) and Is_Ambient=1 "
-            '    dtItem = clsDBFuncationality.GetDataTable(ItemList)
-            '    If dtItem.Rows.Count > 0 Then
-            '        For i As Integer = 0 To dtItem.Rows.Count - 1
-            '            If i = 0 Then
-            '                IemNameQty += "[" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "] "
-            '                short_desc += "[" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + "] "
-            '                itemNames2 += " sum(IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + "]"
-            '                Total_Qty += "sum(ISNULL([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0))"
-            '                IemNameBag += ", IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0) As [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + " Qty]" &
-            '                  ", IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + "],0) As [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + " Amt]"
 
-            '            Else
-            '                IemNameQty += ", [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "] "
-            '                short_desc += ", [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + "] "
-            '                itemNames2 += ", sum(IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + " Qty]"
-            '                Total_Qty += "+" + "sum(ISNULL([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0))"
-            '                IemNameBag += ", IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0) As [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + " Qty]" &
-            '                  ", IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + "],0) As [" + clsCommon.myCstr(dtItem.Rows(i)("Short_Description")) + " Amt]"
 
-            '            End If
-            '        Next
-            '    End If
-            ''End If
 
             If rdbDetail.IsChecked Then
 
@@ -722,16 +670,16 @@ Public Class rptDailyStatementReport
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    'Gv1.DataSource = Nothing
-                    'Gv1.GroupDescriptors.Clear()
-                    'Gv1.SummaryRowsBottom.Clear()
-                    'Gv1.DataSource = dt
-                    ''gv1.Columns("TransType").IsVisible = False
-                    ''gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
-                    'RadPageView1.SelectedPage = RadPageViewPage2
-                    'Gv1.BestFitColumns()
-                    'FormatGrid()
-                    'EnableDisableControls(False)
+                    Gv1.DataSource = Nothing
+                    Gv1.GroupDescriptors.Clear()
+                    Gv1.SummaryRowsBottom.Clear()
+                    Gv1.DataSource = dt
+                    'gv1.Columns("TransType").IsVisible = False
+                    'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Gv1.BestFitColumns()
+                    FormatGrid()
+                    EnableDisableControls(False)
                     'ReStoreGridLayout()
                 Else
                     clsCommon.MyMessageBoxShow("No data found to display.", "Sales Customer Wise Report")
@@ -768,15 +716,15 @@ Public Class rptDailyStatementReport
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    'Gv1.DataSource = Nothing
-                    'Gv1.GroupDescriptors.Clear()
-                    'Gv1.SummaryRowsBottom.Clear()
-                    'Gv1.DataSource = dt
-                    ''gv1.Columns("TransType").IsVisible = False
-                    ''gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
-                    'RadPageView1.SelectedPage = RadPageViewPage2
-                    'Gv1.BestFitColumns()
-                    'FormatGrid()
+                    Gv1.DataSource = Nothing
+                    Gv1.GroupDescriptors.Clear()
+                    Gv1.SummaryRowsBottom.Clear()
+                    Gv1.DataSource = dt
+                    'gv1.Columns("TransType").IsVisible = False
+                    'gv1.Columns("PROD_ENTRY_CODE").IsVisible = False
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Gv1.BestFitColumns()
+                    FormatGrid()
                     EnableDisableControls(False)
                     'ReStoreGridLayout()
                 Else
@@ -790,19 +738,19 @@ Public Class rptDailyStatementReport
         End Try
     End Sub
 
-    'Sub FormatGrid()
-    '    Gv1.TableElement.TableHeaderHeight = 40
-    '    Gv1.MasterTemplate.ShowRowHeaderColumn = False
-    '    For ii As Integer = 0 To Gv1.Columns.Count - 1
-    '        Gv1.Columns(ii).ReadOnly = True
-    '        Gv1.Columns(ii).IsVisible = True
-    '        Gv1.Columns(ii).FormatString = "{0:n2}"
-    '    Next
-    '    Dim summaryRowItem As New GridViewSummaryRowItem()
-    '    For ii As Integer = 1 To Gv1.Columns.Count - 1
-    '        summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
-    '    Next
-    '    Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-    '    Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
-    'End Sub
+    Sub FormatGrid()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+            Gv1.Columns(ii).FormatString = "{0:n2}"
+        Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 1 To Gv1.Columns.Count - 1
+            summaryRowItem.Add(New GridViewSummaryItem(Gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        Next
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+    End Sub
 End Class

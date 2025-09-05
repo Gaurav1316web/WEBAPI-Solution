@@ -22,6 +22,7 @@ Partial Class rptDailyStatementReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -42,6 +43,8 @@ Partial Class rptDailyStatementReport
         Me.rbtnDisRouteWise = New common.Controls.MyRadioButton()
         Me.rbtnDistributorWise = New common.Controls.MyRadioButton()
         Me.rbtnRouteWise = New common.Controls.MyRadioButton()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnDetail = New Telerik.WinControls.UI.RadMenuItem()
@@ -72,6 +75,9 @@ Partial Class rptDailyStatementReport
         CType(Me.rbtnDisRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -129,6 +135,7 @@ Partial Class rptDailyStatementReport
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -316,6 +323,40 @@ Partial Class rptDailyStatementReport
         Me.rbtnRouteWise.Text = "Route Wise"
         Me.rbtnRouteWise.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.Gv1)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(671, 343)
+        Me.RadPageViewPage2.Text = "Report"
+        '
+        'Gv1
+        '
+        Me.Gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv1.ForeColor = System.Drawing.Color.Black
+        Me.Gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
+        Me.Gv1.MyStopExport = False
+        Me.Gv1.Name = "Gv1"
+        Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv1.ShowHeaderCellButtons = True
+        Me.Gv1.Size = New System.Drawing.Size(671, 343)
+        Me.Gv1.TabIndex = 1
+        Me.Gv1.VarID = ""
+        '
         'btnGo
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -410,6 +451,9 @@ Partial Class rptDailyStatementReport
         CType(Me.rbtnDisRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDistributorWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -445,5 +489,7 @@ Partial Class rptDailyStatementReport
     Friend WithEvents rdbDetail As common.Controls.MyRadioButton
     Friend WithEvents rdbSummary As common.Controls.MyRadioButton
     Friend WithEvents btnGo As RadButton
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
 End Class
 

@@ -22,6 +22,7 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -64,6 +65,8 @@ Partial Class frmVendorBankAdvice
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Gv2 = New common.UserControls.MyRadGridView()
         Me.btnBankSummary = New Telerik.WinControls.UI.RadButton()
         Me.btnExportBankWise = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintSWM = New Telerik.WinControls.UI.RadButton()
@@ -110,6 +113,9 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -174,10 +180,11 @@ Partial Class frmVendorBankAdvice
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(815, 344)
         Me.RadPageView1.TabIndex = 11
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -674,7 +681,7 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(794, 278)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(794, 296)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -692,14 +699,49 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(794, 278)
+        Me.Gv1.Size = New System.Drawing.Size(794, 296)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.Gv2)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(794, 296)
+        Me.RadPageViewPage3.Text = "OneDayStop"
+        '
+        'Gv2
+        '
+        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv2.ForeColor = System.Drawing.Color.Black
+        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv2.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.Gv2.MasterTemplate.AllowAddNewRow = False
+        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv2.MyExportFilePath = ""
+        Me.Gv2.MyStopExport = False
+        Me.Gv2.Name = "Gv2"
+        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv2.ShowHeaderCellButtons = True
+        Me.Gv2.Size = New System.Drawing.Size(794, 296)
+        Me.Gv2.TabIndex = 1
+        Me.Gv2.VarID = ""
         '
         'btnBankSummary
         '
@@ -844,6 +886,9 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBankSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportBankWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).EndInit()
@@ -908,5 +953,7 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents btnBankSummary As RadButton
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents txtDCS As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents RadPageViewPage3 As RadPageViewPage
+    Friend WithEvents Gv2 As common.UserControls.MyRadGridView
 End Class
 
