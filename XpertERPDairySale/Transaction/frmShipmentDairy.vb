@@ -364,6 +364,7 @@ Public Class frmShipmentDairy
     Public DtExcel As DataTable
     Dim Item_TaxType As Integer = 0
     Public ShowPrintDisAmt As Boolean = False
+    Public MergeTCAmtofCreditCust As Boolean = False
     Public IncreaseCrateQtyOnFiftyPercent As Boolean = False
     Public AllowSeperateSchemeItemOnPrint As Boolean = False
     Dim CreateFreshInvoiceOnDispatchSave As Integer = 0
@@ -757,6 +758,7 @@ Public Class frmShipmentDairy
         ApplyBoothWiseScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, Nothing)) = 1, True, False)
         ApplyMonthEndDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, Nothing)) = 1, True, False)
         AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
+        MergeTCAmtofCreditCust = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -8002,10 +8004,23 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Next
                 End If
 
-
+                Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" & ParentDocNo & "' where Document_Code='" & ParentDocNo & "'"
+                clsDBFuncationality.ExecuteNonQuery(strupdate, trans)
+                Dim qry1 As String = ""
+                If MergeTCAmtofCreditCust Then
+                    'qry1 = "select sum(Transporter_Commission_TotalAmt) as TCAmt from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "'"
+                    qry1 = "select sum(Transporter_Commission_Amt) as TCAmt from TSPL_SD_SHIPMENT_DETAIL where DOCUMENT_CODE in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "')"
+                    Dim tcAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry1, trans))
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Document_Code='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0 where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Against_Shipment_No='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                End If
                 trans.Commit()
-                Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
-                clsDBFuncationality.ExecuteNonQuery(strupdate)
                 If Not IsAutoClose Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(ParentDocNo, NavigatorType.Current)

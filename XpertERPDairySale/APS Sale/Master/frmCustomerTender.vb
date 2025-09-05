@@ -200,9 +200,10 @@ from TSPL_CUSTOMER_TENDER "
             Dim obj As New clsCustomerTender()
             obj = clsCustomerTender.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
-                isNewEntry = False
+
                 LoadBlankGrid()
                 AddNew()
+                isNewEntry = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -211,7 +212,6 @@ from TSPL_CUSTOMER_TENDER "
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
-                    btnSave.Text = "Update"
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
                 End If
