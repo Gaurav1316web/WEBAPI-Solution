@@ -276,6 +276,7 @@
     <Compile Include="Classes\clsPayrollSetting.vb" />
     <Compile Include="Classes\clsPFRulesMaster.vb" />
     <Compile Include="Classes\ClsProblemType.vb" />
+    <Compile Include="Classes\clsProductDemandSheet.vb" />
     <Compile Include="Classes\clsPTSlab.vb" />
     <Compile Include="Classes\clsRCDFRateControl.vb" />
     <Compile Include="Classes\ClsReimbursementTypeMaster.vb" />

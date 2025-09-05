@@ -1139,6 +1139,12 @@
     <Compile Include="Transaction\FrmProductDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmProductQuickDemandBooking.Designer.vb">
+      <DependentUpon>FrmProductQuickDemandBooking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmProductQuickDemandBooking.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmQuickDemand.Designer.vb">
       <DependentUpon>frmQuickDemand.vb</DependentUpon>
     </Compile>
@@ -1694,6 +1700,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmProductDispatch.resx">
       <DependentUpon>FrmProductDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmProductQuickDemandBooking.resx">
+      <DependentUpon>FrmProductQuickDemandBooking.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmQuickDemand.resx">
       <DependentUpon>frmQuickDemand.vb</DependentUpon>
