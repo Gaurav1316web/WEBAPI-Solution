@@ -1042,6 +1042,15 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns("To_Date").IsVisible = False
             gv1.Columns("Area_Location_Code").IsVisible = False
             gv1.Columns("Location_Desc").IsVisible = False
+            gv1.Columns("Mcc").IsVisible = False
+            gv1.Columns("MCC_NAME").IsVisible = False
+            gv1.Columns("VSP_CODE").IsVisible = False
+
+            gv1.Columns("DCSCode").IsVisible = False
+            gv1.Columns("VSP_NAME").IsVisible = False
+            gv1.Columns("AliasName").IsVisible = False
+            gv1.Columns("Registered_PDCS_CLUSTER").IsVisible = False
+            gv1.Columns("Gender").IsVisible = False
 
             gv1.Columns("SweetQty").IsVisible = True
             gv1.Columns("SweetQty").HeaderText = "Good"
@@ -1658,6 +1667,8 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             Dim DescName2 As String = Nothing
             Dim DescName3 As String = Nothing
             Dim DescName4 As String = Nothing
+            Dim DescName5 As String = Nothing
+
             PPDocNo = " Select Doc_No from TSPL_PAYMENT_PROCESS_HEAD where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date ,103)>=convert(date,'" & fromDate.Value & "',103) 
                         And convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date ,103)<=convert(date,'" & ToDate.Value & "',103) "
             Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(PPDocNo)
@@ -1771,6 +1782,8 @@ where "
                             DescName1 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
                             DescName3 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
                             DescName4 += " SUM([A]) AS [A],Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName5 += " 0 AS [A],0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+
                             'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
                         Else
                             J = +i
@@ -1780,6 +1793,8 @@ where "
                             DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
                             DescName3 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
                             DescName4 += " ,Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName5 += " ,0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+
                             'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
                             'DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + J"]"
 
@@ -1982,12 +1997,41 @@ CAST(sum(FATkg) AS decimal(18,2)) AS FATkg,CAST(sum(snfkg) AS decimal(18,2)) AS 
 CASE WHEN SUM(ISNULL(SweetQty,0) + ISNULL(SourQty,0) + ISNULL(CurdQty,0)) = 0 THEN 0
 									ELSE CAST(SUM(FATkg) * 100.0 / SUM(ISNULL(SweetQty,0) + ISNULL(SourQty,0) + ISNULL(CurdQty,0)) AS DECIMAL(18,2)) END AS AvgFat,
 SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,sum(Payable_Amount)Payable_Amount,
-                            SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & " 
-                            from BaseData Group By MCC Order By MCC ,To_Date "
+                            SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,
+SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & " 
+                            from BaseData Group By MCC 
+union all
+
+                            Select  Max(MCC_Name) as  Date_Range,'' As To_Date,'' As From_Date, ''  As Area_Location_Code,
+                            '' As Location_Desc,MCC As MCC,Max(MCC_Name) As MCC_Name,'' As VSP_CODE,'' As DCSCode, '' VSP_NAME,'' As AliasName,
+                            '' As Registered_PDCS_CLUSTER,'' As Gender,null as SweetQty,null as SourQty,null as CurdQty,
+                             null AS FATkg,null AS snfkg,
+	                          null AS AvgSNF,null AS AvgFat,null as Milk_Qty,null as Milk_Amount,null as Payable_Amount,
+                            null as Head_Load_Amount,null as Deduction_Amount,null as Credit_Note_Amount," & DescName5 & " 
+                            from BaseData Group By MCC Order By MCC ,To_Date 
+ 
+
+"
 
 
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+                ' Clone the structure of dt1 to dt2 (same columns, no rows)
+                Dim dt2 As DataTable = dt.Clone()
+
+                For Each row As DataRow In dt.Rows
+                    If row("Date_Range").ToString().Contains("Total of") Then
+                        'dt2.add
+                        dt2.ImportRow(row)
+                    End If
+                Next
+
+                For Each row As DataRow In dt2.Rows
+                    dt.ImportRow(row)
+                Next
+                'grand total of total
+
+
                 gv1.DataSource = Nothing
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
