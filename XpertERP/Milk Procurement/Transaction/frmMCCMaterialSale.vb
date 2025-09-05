@@ -472,6 +472,7 @@ Public Class frmMCCMaterialSale
         chkOnHold.Checked = False
         txtVendorNo.Value = ""
         lblVendorName.Text = ""
+        setDCSBalance()
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()
         dtpInvoice.Value = clsCommon.GETSERVERDATE()
@@ -4363,6 +4364,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     LblVlc_Code.Tag = Nothing
                     LblVlc_Name.Text = ""
                 End If
+                setDCSBalance()
                 If (clsCommon.myLen(obj.TAX1) > 0) Then
                     gv2.Rows.AddNew()
                     gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX1
@@ -5834,6 +5836,7 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_SD_SH
             End If
         End If
         SetTermDetails()
+        setDCSBalance()
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
@@ -9335,5 +9338,13 @@ a:          End If
             Tran.Rollback()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Sub setDCSBalance()
+        UcDCSBalance1.DCSCode = clsCommon.myCstr(LblVlc_Code.Tag)
+        UcDCSBalance1.DCSName = clsCommon.myCstr(LblVlc_Name.Text)
+        UcDCSBalance1.VendorCode = txtVendorNo.Value
+        UcDCSBalance1.DCSUploaderCode = LblVlc_Code.Text
+        UcDCSBalance1.TransDate = txtDate.Value
+        UcDCSBalance1.RefreshData()
     End Sub
 End Class

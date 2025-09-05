@@ -15,6 +15,7 @@ Public Class frmSendBilltoDistributor
             txtDate1.Value = clsCommon.GETSERVERDATE()
             txtDate2.Value = txtDate1.Value
             txtDate3.Value = txtDate1.Value
+            chkResendBill.Checked = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -29,7 +30,10 @@ Public Class frmSendBilltoDistributor
         Try
             strQry = Nothing
             strQry = "select TSPL_DEMAND_BOOKING_MASTER.Document_No as [Document No],convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as Document_Date,TSPL_DEMAND_BOOKING_MASTER.ShiftType As [Shift Type],TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer as [Individual Cust] from TSPL_DEMAND_BOOKING_MASTER where Posted=1 "
-            strQry += " And File_Info Is Null"
+            strQry += " And TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            If Not chkResendBill.Checked Then
+                strQry += " And File_Info Is Null"
+            End If
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And Convert(Date,Document_Date,103)=Convert(Date,'" & txtDate1.Value & "',103)"
             Else
@@ -49,10 +53,15 @@ Public Class frmSendBilltoDistributor
         Try
             strQry = Nothing
             strQry = "select Document_No As [Document Code],CONVERT(VARCHAR(10), Document_Date, 103) As [Document Date],ShiftType As [Shift],Route_No As [Route No], ItemType As [Item Type],IsIndividualCustomer As [Is Individual Customer] from TSPL_DEMAND_BOOKING_MASTER Where Posted=1 "
+            strQry += " And TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
             If txtMultDoc.arrValueMember IsNot Nothing AndAlso txtMultDoc.arrValueMember.Count > 0 Then
                 strQry += " and Document_No In (" & clsCommon.GetMulcallString(txtMultDoc.arrValueMember) & ")"
             End If
-            strQry += " And File_Info Is Null "
+            If Not chkResendBill.Checked Then
+                strQry += " And File_Info Is Null "
+            End If
+            strQry += " And Convert(Date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)=Convert(Date,'" & txtDate1.Value & "',103)"
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Integer = 0
@@ -86,7 +95,7 @@ Public Class frmSendBilltoDistributor
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
-            If clsCommon.myLen(fileInfo) > 0 Then
+            If clsCommon.myLen(fileInfo) > 0 AndAlso Not chkResendBill.Checked Then
 #Disable Warning
                 Exit Sub
 #Enable Warning
@@ -110,6 +119,7 @@ Public Class frmSendBilltoDistributor
     Private Sub btnResetDemand_Click(sender As Object, e As EventArgs) Handles btnResetDemand.Click
         Try
             txtMultDoc.arrValueMember = Nothing
+            chkResendBill.Checked = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -128,7 +138,10 @@ TSPL_SD_SHIPMENT_HEAD.Route_No As [Route No],case when TSPL_SD_SHIPMENT_HEAD.Shi
 CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.supply_date, 103) AS [Supply Date], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as [Customer Name],TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code],TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount
 from TSPL_SD_SHIPMENT_HEAD 
 Left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code 
-left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code where TSPL_SD_SHIPMENT_HEAD.Status=1 and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null"
+left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code where TSPL_SD_SHIPMENT_HEAD.Status=1 and  TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS', 'PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' "
+            If Not chkResendBill.Checked Then
+                strQry += " and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null"
+            End If
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.supply_date,103) = Convert(Date,'" & txtDate2.Value & "',103) "
             Else
@@ -154,7 +167,9 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
             If txtMultInvoice.arrValueMember IsNot Nothing AndAlso txtMultInvoice.arrValueMember.Count > 0 Then
                 strQry += " and TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No in (" & clsCommon.GetMulcallString(txtMultInvoice.arrValueMember) & ")"
             End If
-            strQry += " and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null " 'and TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO2 is null "
+            If Not chkResendBill.Checked Then
+                strQry += " and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null " 'and TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO2 is null "
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Integer = 0
@@ -186,7 +201,7 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
-            If clsCommon.myLen(fileInfo) > 0 Then
+            If clsCommon.myLen(fileInfo) > 0 AndAlso Not chkResendBill.Checked Then
 #Disable Warning
                 Exit Sub
 #Enable Warning
@@ -210,6 +225,7 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
     Private Sub btnResetInvoice_Click(sender As Object, e As EventArgs) Handles btnResetInvoice.Click
         Try
             txtMultInvoice.arrValueMember = Nothing
+            chkResendBill.Checked = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -226,7 +242,10 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
 TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No As [Route No],tspl_Route_Master.Route_Desc As [Route Desc],TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type as [Item Type],TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code As [Location Code],TSPL_DAIRYSALE_GATEPASS_MASTER.Loading_Slip As [Loading Slip],TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate 
 FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
 left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
-Where 2=2 And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
+Where 2=2 "
+            If Not chkResendBill.Checked Then
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
+            End If
             If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103) "
             Else
@@ -249,7 +268,9 @@ Where 2=2 And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
 FROM  TSPL_DAIRYSALE_GATEPASS_MASTER 
 left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No
 where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103)"
-            strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
+            If Not chkResendBill.Checked Then
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
+            End If
             If txtMultGatePass.arrValueMember IsNot Nothing AndAlso txtMultGatePass.arrValueMember.Count > 0 Then
                 strQry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode in (" & clsCommon.GetMulcallString(txtMultGatePass.arrValueMember) & ")"
             End If
@@ -284,7 +305,7 @@ where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
-            If clsCommon.myLen(fileInfo) > 0 Then
+            If clsCommon.myLen(fileInfo) > 0 AndAlso Not chkResendBill.Checked Then
 #Disable Warning
                 Exit Sub
 #Enable Warning
@@ -308,6 +329,7 @@ where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date
     Private Sub btnResetGatePass_Click(sender As Object, e As EventArgs) Handles btnResetGatePass.Click
         Try
             txtMultGatePass.arrValueMember = Nothing
+            chkResendBill.Checked = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

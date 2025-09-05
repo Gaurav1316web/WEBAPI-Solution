@@ -528,7 +528,7 @@ Public Class frmTender
             If IsMainPlant = 0 Then
                 If clsCommon.myCDecimal(cboTenderType.SelectedValue) = 0 Then
                     cboTenderType.Focus()
-                    Throw New Exception("You are not authorized to Save/Post " + cboTenderType.SelectedText + " type RAL")
+                    Throw New Exception("You are not authorized to Save/Post [ " + cboTenderType.Text + " ] type RAL")
                 End If
             End If
         Catch ex As Exception

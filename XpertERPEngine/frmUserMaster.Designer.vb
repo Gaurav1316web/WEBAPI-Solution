@@ -306,7 +306,7 @@ Partial Class FrmUserMaster
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(5, -6)
+        Me.btnSave.Location = New System.Drawing.Point(5, 1)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(68, 23)
         Me.btnSave.TabIndex = 0
@@ -316,7 +316,7 @@ Partial Class FrmUserMaster
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(73, -6)
+        Me.btnDelete.Location = New System.Drawing.Point(73, 1)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(68, 23)
         Me.btnDelete.TabIndex = 1
@@ -326,7 +326,7 @@ Partial Class FrmUserMaster
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(832, -6)
+        Me.btnClose.Location = New System.Drawing.Point(837, 1)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 23)
         Me.btnClose.TabIndex = 2
@@ -1422,7 +1422,7 @@ Partial Class FrmUserMaster
         '
         Me.btnSarasPro.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSarasPro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSarasPro.Location = New System.Drawing.Point(484, -6)
+        Me.btnSarasPro.Location = New System.Drawing.Point(484, 1)
         Me.btnSarasPro.Name = "btnSarasPro"
         Me.btnSarasPro.Size = New System.Drawing.Size(108, 23)
         Me.btnSarasPro.TabIndex = 408
@@ -1456,7 +1456,7 @@ Partial Class FrmUserMaster
         '
         Me.btnSarasOrder.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSarasOrder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSarasOrder.Location = New System.Drawing.Point(361, -6)
+        Me.btnSarasOrder.Location = New System.Drawing.Point(361, 1)
         Me.btnSarasOrder.Name = "btnSarasOrder"
         Me.btnSarasOrder.Size = New System.Drawing.Size(117, 23)
         Me.btnSarasOrder.TabIndex = 407
@@ -1811,7 +1811,7 @@ Partial Class FrmUserMaster
         'btnGetHistory
         '
         Me.btnGetHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGetHistory.Location = New System.Drawing.Point(275, -6)
+        Me.btnGetHistory.Location = New System.Drawing.Point(275, 1)
         Me.btnGetHistory.Name = "btnGetHistory"
         Me.btnGetHistory.Size = New System.Drawing.Size(80, 23)
         Me.btnGetHistory.TabIndex = 17
@@ -1821,7 +1821,7 @@ Partial Class FrmUserMaster
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(141, -6)
+        Me.RadButton1.Location = New System.Drawing.Point(141, 1)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(134, 23)
         Me.RadButton1.TabIndex = 3

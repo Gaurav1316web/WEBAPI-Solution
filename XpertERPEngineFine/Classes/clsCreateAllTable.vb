@@ -14124,6 +14124,7 @@ Public Class clsCreateAllTable
             coll.Add("Schedule_Time_Morning", "datetime NULL")
             coll.Add("Schedule_Time_Evening", "datetime NULL")
             coll.Add("Schedule_Time", "datetime NULL")
+            coll.Add("Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
             'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULK_ROUTE_MASTER", coll, "", True, False, "", "", "", True)
             coll = New Dictionary(Of String, String)()

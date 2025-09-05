@@ -46,6 +46,7 @@ Partial Class frmSendBilltoDistributor
         Me.btnSendGatePass = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.chkResendBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -72,6 +73,7 @@ Partial Class frmSendBilltoDistributor
         CType(Me.btnSendGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -95,6 +97,7 @@ Partial Class frmSendBilltoDistributor
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.chkResendBill)
         Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.Panel1.Controls.Add(Me.RadGroupBox3)
@@ -393,6 +396,15 @@ Partial Class frmSendBilltoDistributor
         Me.btnClose.TabIndex = 10
         Me.btnClose.Text = "Close"
         '
+        'chkResendBill
+        '
+        Me.chkResendBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkResendBill.Location = New System.Drawing.Point(390, 38)
+        Me.chkResendBill.Name = "chkResendBill"
+        Me.chkResendBill.Size = New System.Drawing.Size(77, 16)
+        Me.chkResendBill.TabIndex = 1468
+        Me.chkResendBill.Text = "Resend Bill"
+        '
         'frmSendBilltoDistributor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -409,6 +421,7 @@ Partial Class frmSendBilltoDistributor
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -434,6 +447,7 @@ Partial Class frmSendBilltoDistributor
         CType(Me.btnSendGatePass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -463,4 +477,5 @@ Partial Class frmSendBilltoDistributor
     Friend WithEvents txtDate2 As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtDate3 As common.Controls.MyDateTimePicker
+    Friend WithEvents chkResendBill As RadCheckBox
 End Class
