@@ -1782,7 +1782,7 @@ where "
                             DescName1 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
                             DescName3 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
                             DescName4 += " SUM([A]) AS [A],Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
-                            DescName5 += " null AS [A],null as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName5 += " 0 AS [A],0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
 
                             'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
                         Else
@@ -1793,7 +1793,7 @@ where "
                             DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
                             DescName3 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
                             DescName4 += " ,Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
-                            DescName4 += " ,null as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName5 += " ,0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
 
                             'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
                             'DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + J"]"
@@ -1999,8 +1999,16 @@ CASE WHEN SUM(ISNULL(SweetQty,0) + ISNULL(SourQty,0) + ISNULL(CurdQty,0)) = 0 TH
 SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,sum(Payable_Amount)Payable_Amount,
                             SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,
 SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & " 
-                            from BaseData Group By MCC Order By MCC ,To_Date 
+                            from BaseData Group By MCC 
+union all
 
+                            Select  Max(MCC_Name) as  Date_Range,'' As To_Date,'' As From_Date, ''  As Area_Location_Code,
+                            '' As Location_Desc,MCC As MCC,Max(MCC_Name) As MCC_Name,'' As VSP_CODE,'' As DCSCode, '' VSP_NAME,'' As AliasName,
+                            '' As Registered_PDCS_CLUSTER,'' As Gender,null as SweetQty,null as SourQty,null as CurdQty,
+                             null AS FATkg,null AS snfkg,
+	                          null AS AvgSNF,null AS AvgFat,null as Milk_Qty,null as Milk_Amount,null as Payable_Amount,
+                            null as Head_Load_Amount,null as Deduction_Amount,null as Credit_Note_Amount," & DescName5 & " 
+                            from BaseData Group By MCC Order By MCC ,To_Date 
  
 
 "
