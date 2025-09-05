@@ -1353,6 +1353,7 @@ Public Class clsFixedParameterType
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
     Public Const ApplyItemUOMOnDemand = "Apply Item UOM On Demand"
+    Public Const MergeTCAmtofCreditCust = "Merge Transpoter Commission Amt of CreditCust"
 End Class
 Public Class clsFixedParameterCode
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -2859,6 +2860,8 @@ Public Class clsFixedParameterCode
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
     Public Const ApplyItemUOMOnDemand = "Apply Item UOM On Demand"
+    Public Const MergeTCAmtofCreditCust = "Merge Transpoter Commission Amt of CreditCust"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4536,6 +4539,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.OfflineDCSMilkCollectionExeVersion, clsFixedParameterCode.OfflineDCSMilkCollectionExeVersion, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6412,6 +6416,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, EnumControlType.CheckBox)
     End Sub
 End Class
