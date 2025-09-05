@@ -101,7 +101,7 @@ TSPL_MP_INCENTIVE_ENTRY_head.From_Date,TSPL_MP_INCENTIVE_ENTRY_head.To_Date,
     MAX(xxx.[MP Bank]) AS [MP Bank],
     MAX(xxx.[Bank Account]) AS [Bank Account],
     MAX(xxx.[IFSC]) AS [IFSC],
-    SUM(xxx.Quantity) AS Quantity,            
+    max(xxx.Quantity) AS Quantity,            
     MIN(xxx.From_Date) AS From_Date,           
     MAX(xxx.To_Date) AS To_Date
 from
