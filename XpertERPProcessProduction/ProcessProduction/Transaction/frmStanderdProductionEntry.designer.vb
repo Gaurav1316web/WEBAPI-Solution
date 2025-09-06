@@ -28,6 +28,8 @@ Partial Class frmStanderdProductionEntry
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtGRN = New common.UserControls.txtMultiSelectFinder()
+        Me.LblVLC = New common.Controls.MyLabel()
         Me.chkReporcess = New common.Controls.MyCheckBox()
         Me.grpReprocess = New System.Windows.Forms.GroupBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -54,7 +56,6 @@ Partial Class frmStanderdProductionEntry
         Me.txtConsmLocOther = New common.UserControls.txtFinder()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtBatchNo = New common.Controls.MyTextBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.lblBatchNo = New common.Controls.MyLabel()
         Me.lblReceiptCode = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
@@ -63,6 +64,7 @@ Partial Class frmStanderdProductionEntry
         Me.dtpDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtComment = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.lblBatchDate = New common.Controls.MyLabel()
         Me.dtpBatchDate = New common.Controls.MyDateTimePicker()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -103,6 +105,7 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkReporcess, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpReprocess.SuspendLayout()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -123,7 +126,6 @@ Partial Class frmStanderdProductionEntry
         CType(Me.lblConsmLocOtherDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiptCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,6 +134,7 @@ Partial Class frmStanderdProductionEntry
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBatchDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpBatchDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -203,13 +206,14 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtGRN)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.LblVLC)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkReporcess)
         Me.SplitContainer2.Panel1.Controls.Add(Me.grpReprocess)
         Me.SplitContainer2.Panel1.Controls.Add(Me.CboShift)
@@ -240,8 +244,31 @@ Partial Class frmStanderdProductionEntry
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Size = New System.Drawing.Size(1036, 462)
-        Me.SplitContainer2.SplitterDistance = 146
+        Me.SplitContainer2.SplitterDistance = 167
         Me.SplitContainer2.TabIndex = 2
+        '
+        'txtGRN
+        '
+        Me.txtGRN.arrDispalyMember = Nothing
+        Me.txtGRN.arrValueMember = Nothing
+        Me.txtGRN.Location = New System.Drawing.Point(101, 137)
+        Me.txtGRN.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGRN.MyLinkLable1 = Me.LblVLC
+        Me.txtGRN.MyLinkLable2 = Nothing
+        Me.txtGRN.MyNullText = "Please select..."
+        Me.txtGRN.Name = "txtGRN"
+        Me.txtGRN.Size = New System.Drawing.Size(482, 20)
+        Me.txtGRN.TabIndex = 1522
+        '
+        'LblVLC
+        '
+        Me.LblVLC.FieldName = Nothing
+        Me.LblVLC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVLC.Location = New System.Drawing.Point(13, 138)
+        Me.LblVLC.Name = "LblVLC"
+        Me.LblVLC.Size = New System.Drawing.Size(47, 18)
+        Me.LblVLC.TabIndex = 1523
+        Me.LblVLC.Text = "GRN No"
         '
         'chkReporcess
         '
@@ -316,7 +343,7 @@ Partial Class frmStanderdProductionEntry
         Me.txtReprocessQty.TabIndex = 20
         Me.txtReprocessQty.Text = "0"
         Me.txtReprocessQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtReprocessQty.Value = 0R
+        Me.txtReprocessQty.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtReprocessItem
         '
@@ -428,7 +455,7 @@ Partial Class frmStanderdProductionEntry
         Me.CboShift.IsSourceFromTable = False
         Me.CboShift.IsSourceFromValueList = False
         Me.CboShift.IsUnique = False
-        Me.CboShift.Location = New System.Drawing.Point(504, 30)
+        Me.CboShift.Location = New System.Drawing.Point(504, 29)
         Me.CboShift.MendatroryField = True
         Me.CboShift.MyLinkLable1 = Me.MyLabel4
         Me.CboShift.MyLinkLable2 = Nothing
@@ -443,7 +470,7 @@ Partial Class frmStanderdProductionEntry
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(469, 32)
+        Me.MyLabel4.Location = New System.Drawing.Point(469, 31)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel4.TabIndex = 333
@@ -461,7 +488,7 @@ Partial Class frmStanderdProductionEntry
         Me.Panel1.Controls.Add(Me.lblConsmLocMilkDesc)
         Me.Panel1.Location = New System.Drawing.Point(939, 9)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(86, 46)
+        Me.Panel1.Size = New System.Drawing.Size(86, 107)
         Me.Panel1.TabIndex = 331
         Me.Panel1.Visible = False
         '
@@ -588,7 +615,7 @@ Partial Class frmStanderdProductionEntry
         Me.lblConsmLocOtherDesc.BorderVisible = True
         Me.lblConsmLocOtherDesc.FieldName = Nothing
         Me.lblConsmLocOtherDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblConsmLocOtherDesc.Location = New System.Drawing.Point(269, 75)
+        Me.lblConsmLocOtherDesc.Location = New System.Drawing.Point(269, 72)
         Me.lblConsmLocOtherDesc.Name = "lblConsmLocOtherDesc"
         Me.lblConsmLocOtherDesc.Size = New System.Drawing.Size(314, 20)
         Me.lblConsmLocOtherDesc.TabIndex = 63
@@ -604,7 +631,7 @@ Partial Class frmStanderdProductionEntry
         Me.txtConsmLocOther.IsSourceFromTable = False
         Me.txtConsmLocOther.IsSourceFromValueList = False
         Me.txtConsmLocOther.IsUnique = False
-        Me.txtConsmLocOther.Location = New System.Drawing.Point(101, 76)
+        Me.txtConsmLocOther.Location = New System.Drawing.Point(101, 73)
         Me.txtConsmLocOther.MendatroryField = True
         Me.txtConsmLocOther.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtConsmLocOther.MyLinkLable1 = Me.MyLabel5
@@ -623,7 +650,7 @@ Partial Class frmStanderdProductionEntry
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(13, 77)
+        Me.MyLabel5.Location = New System.Drawing.Point(13, 74)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(76, 16)
         Me.MyLabel5.TabIndex = 64
@@ -643,10 +670,10 @@ Partial Class frmStanderdProductionEntry
         Me.txtBatchNo.IsSourceFromTable = False
         Me.txtBatchNo.IsSourceFromValueList = False
         Me.txtBatchNo.IsUnique = False
-        Me.txtBatchNo.Location = New System.Drawing.Point(101, 99)
+        Me.txtBatchNo.Location = New System.Drawing.Point(101, 95)
         Me.txtBatchNo.MaxLength = 200
         Me.txtBatchNo.MendatroryField = False
-        Me.txtBatchNo.MyLinkLable1 = Me.RadLabel2
+        Me.txtBatchNo.MyLinkLable1 = Me.lblBatchNo
         Me.txtBatchNo.MyLinkLable2 = Nothing
         Me.txtBatchNo.Name = "txtBatchNo"
         Me.txtBatchNo.ReferenceFieldDesc = Nothing
@@ -655,22 +682,12 @@ Partial Class frmStanderdProductionEntry
         Me.txtBatchNo.Size = New System.Drawing.Size(167, 18)
         Me.txtBatchNo.TabIndex = 28
         '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(13, 122)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(55, 16)
-        Me.RadLabel2.TabIndex = 10
-        Me.RadLabel2.Text = "Comment"
-        '
         'lblBatchNo
         '
         Me.lblBatchNo.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.lblBatchNo.FieldName = Nothing
         Me.lblBatchNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBatchNo.Location = New System.Drawing.Point(13, 100)
+        Me.lblBatchNo.Location = New System.Drawing.Point(13, 96)
         Me.lblBatchNo.Name = "lblBatchNo"
         Me.lblBatchNo.Size = New System.Drawing.Size(53, 16)
         Me.lblBatchNo.TabIndex = 17
@@ -708,7 +725,7 @@ Partial Class frmStanderdProductionEntry
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(101, 31)
+        Me.txtDesc.Location = New System.Drawing.Point(101, 30)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel5
@@ -724,7 +741,7 @@ Partial Class frmStanderdProductionEntry
         '
         Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel5.Location = New System.Drawing.Point(13, 32)
+        Me.RadLabel5.Location = New System.Drawing.Point(13, 31)
         Me.RadLabel5.Name = "RadLabel5"
         Me.RadLabel5.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel5.TabIndex = 11
@@ -782,7 +799,7 @@ Partial Class frmStanderdProductionEntry
         Me.txtComment.IsSourceFromTable = False
         Me.txtComment.IsSourceFromValueList = False
         Me.txtComment.IsUnique = False
-        Me.txtComment.Location = New System.Drawing.Point(101, 121)
+        Me.txtComment.Location = New System.Drawing.Point(101, 116)
         Me.txtComment.MaxLength = 200
         Me.txtComment.MendatroryField = False
         Me.txtComment.MyLinkLable1 = Me.RadLabel2
@@ -794,11 +811,21 @@ Partial Class frmStanderdProductionEntry
         Me.txtComment.Size = New System.Drawing.Size(482, 18)
         Me.txtComment.TabIndex = 8
         '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(13, 117)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(55, 16)
+        Me.RadLabel2.TabIndex = 10
+        Me.RadLabel2.Text = "Comment"
+        '
         'lblBatchDate
         '
         Me.lblBatchDate.FieldName = Nothing
         Me.lblBatchDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBatchDate.Location = New System.Drawing.Point(269, 100)
+        Me.lblBatchDate.Location = New System.Drawing.Point(272, 96)
         Me.lblBatchDate.Name = "lblBatchDate"
         Me.lblBatchDate.Size = New System.Drawing.Size(62, 16)
         Me.lblBatchDate.TabIndex = 16
@@ -818,7 +845,7 @@ Partial Class frmStanderdProductionEntry
         Me.dtpBatchDate.IsSourceFromTable = False
         Me.dtpBatchDate.IsSourceFromValueList = False
         Me.dtpBatchDate.IsUnique = False
-        Me.dtpBatchDate.Location = New System.Drawing.Point(337, 99)
+        Me.dtpBatchDate.Location = New System.Drawing.Point(339, 95)
         Me.dtpBatchDate.MendatroryField = False
         Me.dtpBatchDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpBatchDate.MyLinkLable1 = Me.lblBatchDate
@@ -840,7 +867,7 @@ Partial Class frmStanderdProductionEntry
         Me.lblLocation.BorderVisible = True
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(269, 52)
+        Me.lblLocation.Location = New System.Drawing.Point(269, 50)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(314, 20)
         Me.lblLocation.TabIndex = 14
@@ -882,7 +909,7 @@ Partial Class frmStanderdProductionEntry
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(101, 53)
+        Me.txtLocation.Location = New System.Drawing.Point(101, 51)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.RadLabel6
@@ -901,7 +928,7 @@ Partial Class frmStanderdProductionEntry
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(13, 54)
+        Me.RadLabel6.Location = New System.Drawing.Point(13, 52)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel6.TabIndex = 15
@@ -918,14 +945,14 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageBatchProduction
-        Me.RadPageView1.Size = New System.Drawing.Size(1036, 312)
+        Me.RadPageView1.SelectedPage = Me.pageConsumption
+        Me.RadPageView1.Size = New System.Drawing.Size(1036, 291)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Consumption"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Consumption"
         '
         'pageBatchProduction
         '
@@ -934,7 +961,7 @@ Partial Class frmStanderdProductionEntry
         Me.pageBatchProduction.ItemSize = New System.Drawing.SizeF(70.0!, 26.0!)
         Me.pageBatchProduction.Location = New System.Drawing.Point(10, 35)
         Me.pageBatchProduction.Name = "pageBatchProduction"
-        Me.pageBatchProduction.Size = New System.Drawing.Size(1015, 266)
+        Me.pageBatchProduction.Size = New System.Drawing.Size(1015, 245)
         Me.pageBatchProduction.Text = "Production"
         '
         'RadGroupBox2
@@ -947,7 +974,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1015, 266)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1015, 245)
         Me.RadGroupBox2.TabIndex = 9
         Me.RadGroupBox2.Text = "Received Item Details"
         '
@@ -967,12 +994,13 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBatch.MyExportFilePath = ""
         Me.gvBatch.MyStopExport = False
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
         Me.gvBatch.ShowHeaderCellButtons = True
-        Me.gvBatch.Size = New System.Drawing.Size(995, 236)
+        Me.gvBatch.Size = New System.Drawing.Size(995, 215)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
         Me.gvBatch.VarID = ""
@@ -983,7 +1011,7 @@ Partial Class frmStanderdProductionEntry
         Me.pageConsumption.ItemSize = New System.Drawing.SizeF(83.0!, 26.0!)
         Me.pageConsumption.Location = New System.Drawing.Point(10, 35)
         Me.pageConsumption.Name = "pageConsumption"
-        Me.pageConsumption.Size = New System.Drawing.Size(1015, 266)
+        Me.pageConsumption.Size = New System.Drawing.Size(1015, 245)
         Me.pageConsumption.Text = "Consumption"
         '
         'RadGroupBox1
@@ -996,7 +1024,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1015, 266)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1015, 245)
         Me.RadGroupBox1.TabIndex = 10
         Me.RadGroupBox1.Text = "Consumption Item Details"
         '
@@ -1017,12 +1045,13 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvConsumption.MyExportFilePath = ""
         Me.gvConsumption.MyStopExport = False
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvConsumption.ShowGroupPanel = False
         Me.gvConsumption.ShowHeaderCellButtons = True
-        Me.gvConsumption.Size = New System.Drawing.Size(995, 236)
+        Me.gvConsumption.Size = New System.Drawing.Size(995, 215)
         Me.gvConsumption.TabIndex = 0
         Me.gvConsumption.TabStop = False
         Me.gvConsumption.VarID = ""
@@ -1053,6 +1082,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvGunny.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvGunny.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvGunny.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvGunny.MyExportFilePath = ""
         Me.gvGunny.MyStopExport = False
         Me.gvGunny.Name = "gvGunny"
         Me.gvGunny.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1103,6 +1133,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvProductionCost.MyExportFilePath = ""
         Me.gvProductionCost.MyStopExport = False
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1260,6 +1291,7 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkReporcess, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpReprocess.ResumeLayout(False)
         Me.grpReprocess.PerformLayout()
@@ -1282,7 +1314,6 @@ Partial Class frmStanderdProductionEntry
         CType(Me.lblConsmLocOtherDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiptCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1291,6 +1322,7 @@ Partial Class frmStanderdProductionEntry
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBatchDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpBatchDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1402,5 +1434,7 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents rbtnReprocessStock As common.Controls.MyRadioButton
     Friend WithEvents rbtnReprocessProuctionEnty As common.Controls.MyRadioButton
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtGRN As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents LblVLC As common.Controls.MyLabel
 End Class
 
