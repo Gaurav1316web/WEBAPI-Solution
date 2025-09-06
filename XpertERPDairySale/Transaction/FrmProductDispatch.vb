@@ -959,7 +959,7 @@ Public Class FrmProductDispatch
         txtGEDate.Value = txtDate.Value
         txtDept.Value = ""
         lblDept.Text = ""
-        cboItemType.SelectedIndex = 2
+        'cboItemType.SelectedIndex = 2
         cboItemType.Enabled = True
         txtBillToLocation.Enabled = True
         txtReqNo.Value = ""
@@ -14675,10 +14675,13 @@ order by  TSPL_Product_Demand_Booking_Detail.TR_Code "
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Bulk_UOM
 
                             Else
+                                LoadBlankGrid(trans)
+                                LoadBlankGridAC(trans)
+                                LoadBlankGridTax(trans)
                                 Throw New Exception("Please Map Bulk UOM for item [" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value) & "]")
                             End If
                             Dim BulkUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Bulk_UOM=1 ", trans))
-                            Dim ItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value) & "' ", trans))
+                            Dim ItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(myDictionary(strKey).UOM) & "' ", trans))
                             If BulkUOMConvFactor > 0 AndAlso ItemConvFactor > 0 Then
                                 Dim DispatchQty As Decimal = clsCommon.myCDecimal(myDictionary(strKey).Qty) * ItemConvFactor
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BulkUOMConvFactor)
