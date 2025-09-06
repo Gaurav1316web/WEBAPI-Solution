@@ -23,13 +23,13 @@ Public Class FrmProductQuickDemandBooking
     Const colCrate As String = "colCrate"
 #End Region
     Public Sub SetUserMgmtNew()
-        'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
+        MyBase.SetUserMgmt(clsUserMgtCode.frmProductQuickDemand)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
             Me.Close()
             Exit Sub
         End If
-        'btnSave.Visible = MyBase.isModifyFlag
+        btnSave.Visible = MyBase.isModifyFlag
         'btnExport.Visible = MyBase.isExport
         ''btnPost.Visible = MyBase.isPostFlag
         'If MyBase.isExport = True Then
