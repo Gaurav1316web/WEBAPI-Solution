@@ -30,12 +30,13 @@ Public Class clsStanderdProductionEntry
     Public ArrConsm As New List(Of clsStanderdProductionEntryConsumption)
     Public ArrConsmCost As New List(Of clsStanderdProductionEntryConsumptionCost)
     Public ArrGunny As New List(Of clsStanderdProductionEntryGunnyBag)
-
+    Public ArrGRN As New ArrayList
 
     Public Reprocess As Integer
     Public Reprocess_Production_Entry As String
     Public Reprocess_Item_Code As String
     Public Reprocess_H_Qty As Decimal
+
 
 
 #End Region
@@ -221,13 +222,13 @@ left JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.RECEIVED_BY=T2.EMP_CODE left JOIN TSPL_L
             Else
                 obj.Posting_Date = Nothing
             End If
+
+            obj.ArrBatchItem = clsStanderdProductionEntryDetail.GetProductionEntryDetail(strCode, trans)
+            obj.ArrConsm = clsStanderdProductionEntryConsumption.GetConsumption(strCode, trans)
+            obj.ArrConsmCost = clsStanderdProductionEntryConsumptionCost.GetConsumptionCost(strCode, trans)
+            obj.ArrGunny = clsStanderdProductionEntryGunnyBag.GetData(strCode, trans)
+            obj.ArrGRN = clsStanderdProductionEntryGRN.GetData(strCode, trans)
         End If
-
-        obj.ArrBatchItem = clsStanderdProductionEntryDetail.GetProductionEntryDetail(strCode, trans)
-        obj.ArrConsm = clsStanderdProductionEntryConsumption.GetConsumption(strCode, trans)
-        obj.ArrConsmCost = clsStanderdProductionEntryConsumptionCost.GetConsumptionCost(strCode, trans)
-        obj.ArrGunny = clsStanderdProductionEntryGunnyBag.GetData(strCode, trans)
-
         Return obj
     End Function
 
@@ -266,6 +267,9 @@ left JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.RECEIVED_BY=T2.EMP_CODE left JOIN TSPL_L
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_SPP_GUNNY_BAG_WITHOUT_BATCH where PROD_ENTRY_CODE='" & obj.PROD_ENTRY_CODE & "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_SPP_PRODUCTION_ENTRY_GRN where PROD_ENTRY_CODE='" & obj.PROD_ENTRY_CODE & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -315,6 +319,8 @@ left JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.RECEIVED_BY=T2.EMP_CODE left JOIN TSPL_L
             isSaved = isSaved AndAlso clsStanderdProductionEntryConsumption.SaveConsumption(obj.PROD_ENTRY_CODE, obj.PROD_DATE, obj.ArrConsm, trans)
             isSaved = isSaved AndAlso clsStanderdProductionEntryConsumptionCost.SaveConsumptionCost(obj.PROD_ENTRY_CODE, obj.ArrConsmCost, trans)
             isSaved = isSaved AndAlso clsStanderdProductionEntryGunnyBag.SaveData(obj.PROD_ENTRY_CODE, obj.ArrGunny, trans)
+            isSaved = isSaved AndAlso clsStanderdProductionEntryGRN.SaveData(obj.PROD_ENTRY_CODE, obj.ArrGRN, trans)
+
             isSaved = isSaved AndAlso HistoryData(obj.PROD_ENTRY_CODE, trans)
             trans.Commit()
 
@@ -2153,6 +2159,38 @@ Public Class clsBOMRecursiveitems
         Return isFound
     End Function
 
+
+
+End Class
+
+
+Public Class clsStanderdProductionEntryGRN
+#Region "Variables"
+#End Region
+    Public Shared Function SaveData(ByVal ReceiptCode As String, ByVal arr As ArrayList, ByVal trans As SqlTransaction) As Boolean
+        If arr IsNot Nothing AndAlso arr.Count > 0 Then
+            For Each str As String In arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "PROD_ENTRY_CODE", ReceiptCode)
+                clsCommon.AddColumnsForChange(coll, "GRN_No", str)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SPP_PRODUCTION_ENTRY_GRN", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal ReceiptCode As String, ByVal trans As SqlTransaction) As ArrayList
+        Dim Arr As ArrayList = Nothing
+        Dim qry As String = "select GRN_No from TSPL_SPP_PRODUCTION_ENTRY_GRN  where PROD_ENTRY_CODE='" & ReceiptCode & "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Arr = New ArrayList()
+            For Each dr As DataRow In dt.Rows
+                Arr.Add(dr("GRN_No"))
+            Next
+        End If
+        Return Arr
+    End Function
 
 
 End Class

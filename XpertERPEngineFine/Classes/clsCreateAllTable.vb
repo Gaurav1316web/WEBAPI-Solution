@@ -56947,6 +56947,14 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Process_Loss_Per", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", coll, "", True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("PROD_ENTRY_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
+            coll.Add("GRN_No", "Varchar(30) NOT NULL REFERENCES TSPL_GRN_HEAD(GRN_No)")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_GRN", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
+
+
             coll = New Dictionary(Of String, String)()
             coll.Add("PROD_ENTRY_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_SPP_PRODUCTION_ENTRY(PROD_ENTRY_CODE)")
             coll.Add("BOM_CODE", "Varchar(30) NOT NULL REFERENCES TSPL_MF_BOM_HEAD(BOM_CODE)")

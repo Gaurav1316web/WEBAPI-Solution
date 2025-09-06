@@ -3679,8 +3679,11 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strMCCMaterial += "cast(Additional_Charge as numeric(18,2))+ Amount as  Amount,[Discount Per] as [Discount %],  (coalesce( [Discount Amount],0)-coalesce([Scheme Amount],0))  as [Discount Amount],[Scheme Amount],cast(Additional_Charge as numeric(18,2))+ [Amount Less Discount]  as [Amount Less Discount]" + strPivotForFinalOuterQuery + " " + strPivotForFinalOuterPercentQuery + ", "
             strMCCMaterial += "  case  when [trans type] in  ('Fresh Sale','Fresh Sale Return')  then  [Amount Less Discount] + coalesce( [Scheme Amount],0)+cast(Additional_Charge as numeric(18,2))   else ([Total Amount]-[Total Tax Amount]) end as [Sale Amount], " &
             " case  when [trans type] in ('Fresh Sale','Fresh Sale Return') then  [Amount Less Discount]+cast(Additional_Charge as numeric(18,2))  else ([Total Amount]-[Total Tax Amount]+MANDI_TAX_AMT) end  as [Sale Amount GST] ,  "
-            strMCCMaterial += "[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount],TotalSubsidyAmt as Subsidy,[Gross Amount] as Gross, " &
-            " [AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], "
+            strMCCMaterial += "[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount] "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                strMCCMaterial += ",TotalSubsidyAmt as Subsidy, [Gross Amount] as Gross "
+            End If
+            strMCCMaterial += ",[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], "
             ''richa TEC/18/09/18-000326
             strMCCMaterial += " case when [trans type] in ('CSA Transfer','CSA Transfer Return') " &
             "then (case when coalesce(item.GSOC_Acct,'')<>'' then  left( item.GSOC_Acct, Len( item.GSOC_Acct)-3)+  TSPL_LOCATION_MASTER.Loc_Segment_Code else '' end)  " &
