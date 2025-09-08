@@ -1072,7 +1072,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns("Head_Load_Amount").IsVisible = True
             gv1.Columns("Head_Load_Amount").HeaderText = "Head Load"
         Next
-        gv1.AutoSizeRows = True
+        gv1.AutoSizeRows = False
         gv1.BestFitColumns()
         gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
