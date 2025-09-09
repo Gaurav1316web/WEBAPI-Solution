@@ -9624,12 +9624,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmGenerateBookingFreshSale
                         frm = New FrmGenerateFreshBooking
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.frmCustomerTender
-                    '    frm = New frmCustomerTender
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FrmSalesOrder
-                    '    frm = New FrmSalesOrder
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCustomerTender
+                        frm = New frmCustomerTender
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSalesOrder
+                        frm = New FrmSalesOrder
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmAdvanceForCD
                     '    frm = New frmCustomerAdvanceAgainstBooking
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

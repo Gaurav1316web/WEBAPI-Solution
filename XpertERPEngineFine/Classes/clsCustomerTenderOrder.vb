@@ -320,7 +320,9 @@ Public Class clsCustomerTenderOrderDetail
     Public Item_Code As String = ""
     Public Unit_Code As String = ""
     Public Item_Rate As Double = 0
+    Public Item_Base_Amt As Double = 0
     Public Qty As Double = 0
+    Public Item_Type As String = ""
     Public TAX1 As String = ""
     Public TAX1_Base_Amt As Double = 0
     Public TAX1_Rate As Double = 0

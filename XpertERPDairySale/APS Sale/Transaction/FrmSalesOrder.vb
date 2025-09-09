@@ -8,6 +8,7 @@ Public Class FrmSalesOrder
     Dim GSTStatus As Boolean = False
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
     Const colLineNo As String = "colLineNo"
+    Const colRowType As String = "colRowType"
     Const colICode As String = "colICode"
     Const colIName As String = "colIName"
     Const colUOM As String = "colUOM"
@@ -83,6 +84,20 @@ Public Class FrmSalesOrder
 
         AddNew()
     End Sub
+    Private Function GetItemType() As DataTable
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = clsItemRowType.RowTypeItem
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = clsItemRowType.RowTypeMisc
+        dt.Rows.Add(dr)
+
+        Return dt
+    End Function
     Private Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -95,6 +110,17 @@ Public Class FrmSalesOrder
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoLineNo)
+        Dim repoRowType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
+        repoRowType.FormatString = ""
+        repoRowType.HeaderText = "Row Type"
+        repoRowType.Name = colRowType
+        repoRowType.Width = 50
+        repoRowType.ReadOnly = False
+        repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        repoRowType.DataSource = GetItemType()
+        repoRowType.ValueMember = "Code"
+        repoRowType.DisplayMember = "Code"
+        gv1.MasterTemplate.Columns.Add(repoRowType)
         Dim repoICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoICode.FormatString = ""
         repoICode.HeaderText = "Item Code"
@@ -645,6 +671,13 @@ Public Class FrmSalesOrder
         gv2.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv2.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
+    Sub ItemDescRaadonly(ByVal isButtonClick As Boolean)
+        If clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value) <> "Item" Then
+            gv1.CurrentRow.Cells(colIName).ReadOnly = False
+        Else
+            gv1.CurrentRow.Cells(colIName).ReadOnly = True
+        End If
+    End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
     End Sub
@@ -682,7 +715,7 @@ from TSPL_CUSTOMER_TENDER_ORDER "
             Dim qry As String = "select Document_Code as Code,From_Date as [From Date],To_Date as [To Date],Location_Code as [Location] from TSPL_CUSTOMER_TENDER"
             Dim Whrcls As String = " status=1"
             txtRALNo.Value = clsCommon.ShowSelectForm("Sale-Ordralfnd", qry, "Code", Whrcls, txtRALNo.Value, "Code", isButtonClicked)
-            'lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & txtLocation.Value & "'"))
+            lblRalNoDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER where Document_Code='" & txtRALNo.Value & "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -815,10 +848,12 @@ left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_T
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_Code", "varchar(30) NOT NULL REFERENCES TSPL_CUSTOMER_TENDER_ORDER(Document_Code)")
-        coll.Add("Item_Code", "Varchar(50) not null references TSPL_Item_MASTER(Item_Code)")
+        coll.Add("Item_Code", "Varchar(50) not null")
         coll.Add("Unit_Code", "Varchar(50) not null")
         coll.Add("Qty", "decimal(18,2) null")
         coll.Add("Item_Rate", "decimal(18,2) null")
+        coll.Add("Item_Base_Amt", "decimal(18,2) null")
+        coll.Add("Item_Type", "varchar(12) NULL")
         coll.Add("TAX1", "varchar(12) NULL")
         coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
         coll.Add("TAX1_Rate", "decimal(18, 4) NULL")
@@ -861,6 +896,8 @@ left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_T
         coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
         coll.Add("Total_Tax_Amt", "decimal(18, 2) NULL")
         coll.Add("Total_Amt", "decimal(18,2) null")
+        coll.Add("Inclusive_Tax", "decimal(18,2) null")
+        coll.Add("Inclusive_TPT", "decimal(18,2) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", coll, "", True, False, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "", True)
     End Sub
     Private Sub LoadGrid(ByVal strCode As String, ByVal strCustCode As String)
@@ -1474,6 +1511,76 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
             isCellValueChangedOpen = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub gv1_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gv1.DoubleClick
+        Try
+            If gv1.CurrentColumn Is gv1.Columns(colTotalTaxAmt) AndAlso rbtnTaxCalAutomatic.IsChecked AndAlso clsCommon.CompairString(gv1.CurrentRow.Cells(colRowType).Value, "Misc") = CompairStringResult.Equal Then
+                Dim frm As New FrmPOItemTaxDetails()
+                frm.strLineNo = clsCommon.myCstr(gv1.CurrentRow.Cells(colLineNo).Value)
+                frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+                frm.dblTotTax = clsCommon.myCdbl(gv1.CurrentRow.Cells(colTotalTaxAmt).Value)
+                ''New Column for location wise
+                frm.strTaxGroup = txtTaxGroup.Value
+                frm.strTransLocation = txtLocation.Value
+                frm.strTaxType = "P"
+                frm.strVendorCustomerCode = txtCustomerCode.Value
+
+                frm.PurchaseModulePickFixTaxRate = True
+                frm.IsTaxableItem = clsCommon.myCBool(gv1.CurrentRow.Cells(colInclusiveTPT).Value)
+
+                If clsCommon.myLen(frm.strItemCode) > 0 Then
+                    frm.ArrIn = New List(Of clsTempItemTaxDetails)
+                    For ii As Integer = 1 To 10
+                        Dim strii As String = clsCommon.myCstr(ii)
+                        Dim obj As New clsTempItemTaxDetails()
+                        obj.AuthorityCode = clsCommon.myCstr(gv1.CurrentRow.Cells("COLTAX" & strii).Value)
+                        If clsCommon.myLen(obj.AuthorityCode) > 0 Then
+                            obj.AuthorityName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Tax_Code_Desc from TSPL_TAX_MASTER WHERE Tax_Code='" & obj.AuthorityCode & "'"))
+                            obj.Rate = clsCommon.myCdbl(gv1.CurrentRow.Cells("colTax" & strii & "_Rate").Value)
+                            obj.BaseAmt = clsCommon.myCdbl(gv1.CurrentRow.Cells("colTax" & strii & "_BaseAmt").Value)
+                            obj.TaxAmt = clsCommon.myCdbl(gv1.CurrentRow.Cells("colTax" & strii & "_Amt"))
+                            'obj.isSurTax = clsCommon.myCBool(gv1.CurrentRow.Cells("ISSURTAX" + strii).Value)
+                            'obj.SurTax = clsCommon.myCstr(gv1.CurrentRow.Cells("SURTAXCODE" + strii).Value)
+                            'obj.IsTaxable = clsCommon.myCBool(gv1.CurrentRow.Cells("ISTAXABLE" + strii).Value)
+                            'obj.TaxOnBaseAmount = clsCommon.myCBool(gv1.CurrentRow.Cells("colTaxOnBaseAmt" + strii).Value)
+                            frm.ArrIn.Add(obj)
+                        End If
+                    Next
+
+                    frm.ShowDialog()
+                    If frm.ArrOut IsNot Nothing AndAlso frm.ArrOut.Count > 0 Then
+                        BlankTaxDetails(gv1.CurrentRow.Index)
+                        For ii As Integer = 0 To frm.ArrOut.Count - 1
+                            Dim strii As String = clsCommon.myCstr(ii + 1)
+                            gv1.CurrentRow.Cells("COLTAX" & strii).Value = frm.ArrOut(ii).AuthorityCode
+                            gv1.CurrentRow.Cells("colTax" & strii & "_Rate").Value = frm.ArrOut(ii).Rate
+                            gv1.CurrentRow.Cells("colTax" & strii & "_BaseAmt").Value = frm.ArrOut(ii).BaseAmt
+                            gv1.CurrentRow.Cells("colTax" & strii & "_Amt").Value = frm.ArrOut(ii).TaxAmt
+                            'gv1.CurrentRow.Cells("ISSURTAX" + strii).Value = frm.ArrOut(ii).isSurTax
+                            'gv1.CurrentRow.Cells("SURTAXCODE" + strii).Value = frm.ArrOut(ii).SurTax
+                            'gv1.CurrentRow.Cells("ISTAXABLE" + strii).Value = frm.ArrOut(ii).IsTaxable
+                            'gv1.CurrentRow.Cells("colTaxOnBaseAmt" + strii).Value = frm.ArrOut(ii).TaxOnBaseAmount
+                        Next
+                        gv1.CurrentRow.Cells(colTotalTaxAmt).Value = frm.dblTotTax
+                        'UpdateCurrentRow(gv1.CurrentRow.Index)
+                        'UpdateAllTotals()
+                    End If
+                End If
+                'End If
+
+
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub UpdateCurrentRow(ByVal intRow As Integer)
+
+    End Sub
+    Private Sub UpdateAllTotals()
+
     End Sub
 
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click

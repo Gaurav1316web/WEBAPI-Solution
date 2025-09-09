@@ -87,6 +87,7 @@ Public Class frmCustomerTender
         txtToDate.Value = txtDate.Value
         txtTotalQty.Text = 0
         txtTolerance.Text = 0
+        txtRemark.Text = ""
         chkTaxInclusive.Checked = False
         chkTPTInclude.Checked = False
         isNewEntry = True
@@ -109,7 +110,7 @@ Public Class frmCustomerTender
         coll.Add("Total_Qty", "decimal(18,2) Not null")
         coll.Add("Tolerance", "decimal(18,2) null")
         coll.Add("Inclusive_Tax", "Integer not null default 0")
-        coll.Add("Inclusive_TPT", "Integer not null default 0")
+        coll.Add("Remarks", "Varchar(200) null")
         coll.Add("Status", "integer not null default 0")
         coll.Add("Created_By", "varchar(12) NOT NULL")
         coll.Add("Created_Date", "Datetime NOT NULL")
@@ -230,6 +231,7 @@ from TSPL_CUSTOMER_TENDER "
                 txtTolerance.Text = obj.Tolerance
                 chkTaxInclusive.Checked = IIf(obj.Inclusive_Tax = 1, True, False)
                 chkTPTInclude.Checked = IIf(obj.Inclusive_TPT = 1, True, False)
+                txtRemark.Text = obj.Remarks
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsCustomerTenderDetail In obj.Arr
@@ -324,6 +326,7 @@ from TSPL_CUSTOMER_TENDER "
                 obj.Tolerance = txtTolerance.Text
                 obj.Inclusive_Tax = IIf(chkTaxInclusive.Checked, 1, 0)
                 obj.Inclusive_TPT = IIf(chkTPTInclude.Checked, 1, 0)
+                obj.Remarks = txtRemark.Text
                 obj.Arr = GetTRData()
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)

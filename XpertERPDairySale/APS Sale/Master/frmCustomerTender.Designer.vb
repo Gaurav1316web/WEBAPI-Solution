@@ -22,7 +22,7 @@ Partial Class frmCustomerTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -62,6 +62,8 @@ Partial Class frmCustomerTender
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.txtRemark = New common.Controls.MyTextBox()
+        Me.lblRemark = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -97,6 +99,8 @@ Partial Class frmCustomerTender
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -166,6 +170,8 @@ Partial Class frmCustomerTender
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemark)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRemark)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtTolerance)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtTotalQty)
@@ -197,14 +203,14 @@ Partial Class frmCustomerTender
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(885, 392)
-        Me.SplitContainer2.SplitterDistance = 108
+        Me.SplitContainer2.SplitterDistance = 123
         Me.SplitContainer2.TabIndex = 0
         '
         'btnGo
         '
         Me.btnGo.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(793, 74)
+        Me.btnGo.Location = New System.Drawing.Point(567, 94)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(80, 22)
         Me.btnGo.TabIndex = 1445
@@ -631,14 +637,14 @@ Partial Class frmCustomerTender
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(885, 280)
+        Me.gv1.Size = New System.Drawing.Size(885, 265)
         Me.gv1.TabIndex = 1
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -693,6 +699,38 @@ Partial Class frmCustomerTender
         Me.btnSave.TabIndex = 4
         Me.btnSave.Text = "Save"
         '
+        'txtRemark
+        '
+        Me.txtRemark.CalculationExpression = Nothing
+        Me.txtRemark.FieldCode = Nothing
+        Me.txtRemark.FieldDesc = Nothing
+        Me.txtRemark.FieldMaxLength = 0
+        Me.txtRemark.FieldName = Nothing
+        Me.txtRemark.isCalculatedField = False
+        Me.txtRemark.IsSourceFromTable = False
+        Me.txtRemark.IsSourceFromValueList = False
+        Me.txtRemark.IsUnique = False
+        Me.txtRemark.Location = New System.Drawing.Point(108, 96)
+        Me.txtRemark.MendatroryField = False
+        Me.txtRemark.MyLinkLable1 = Me.lblRemark
+        Me.txtRemark.MyLinkLable2 = Nothing
+        Me.txtRemark.Name = "txtRemark"
+        Me.txtRemark.ReferenceFieldDesc = Nothing
+        Me.txtRemark.ReferenceFieldName = Nothing
+        Me.txtRemark.ReferenceTableName = Nothing
+        Me.txtRemark.Size = New System.Drawing.Size(432, 20)
+        Me.txtRemark.TabIndex = 1586
+        '
+        'lblRemark
+        '
+        Me.lblRemark.FieldName = Nothing
+        Me.lblRemark.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRemark.Location = New System.Drawing.Point(12, 96)
+        Me.lblRemark.Name = "lblRemark"
+        Me.lblRemark.Size = New System.Drawing.Size(46, 16)
+        Me.lblRemark.TabIndex = 1585
+        Me.lblRemark.Text = "Remark"
+        '
         'frmCustomerTender
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -742,6 +780,8 @@ Partial Class frmCustomerTender
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRemark, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -787,4 +827,6 @@ Partial Class frmCustomerTender
     Friend WithEvents txtTolerance As common.MyNumBox
     Friend WithEvents txtTotalQty As common.MyNumBox
     Friend WithEvents btnGo As RadButton
+    Friend WithEvents txtRemark As common.Controls.MyTextBox
+    Friend WithEvents lblRemark As common.Controls.MyLabel
 End Class

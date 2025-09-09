@@ -164,8 +164,8 @@ Partial Class FrmSalesOrder
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
@@ -819,9 +819,9 @@ Partial Class FrmSalesOrder
         Me.lblTPTCommission.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTPTCommission.Location = New System.Drawing.Point(20, 66)
         Me.lblTPTCommission.Name = "lblTPTCommission"
-        Me.lblTPTCommission.Size = New System.Drawing.Size(124, 16)
+        Me.lblTPTCommission.Size = New System.Drawing.Size(134, 16)
         Me.lblTPTCommission.TabIndex = 1593
-        Me.lblTPTCommission.Text = "TPT Commission Amt"
+        Me.lblTPTCommission.Text = "+ TPT Commission Amt"
         '
         'txtTPTCommission
         '
@@ -841,9 +841,9 @@ Partial Class FrmSalesOrder
         Me.lblTaxAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTaxAmt.Location = New System.Drawing.Point(20, 44)
         Me.lblTaxAmt.Name = "lblTaxAmt"
-        Me.lblTaxAmt.Size = New System.Drawing.Size(51, 16)
+        Me.lblTaxAmt.Size = New System.Drawing.Size(61, 16)
         Me.lblTaxAmt.TabIndex = 1591
-        Me.lblTaxAmt.Text = "Tax Amt"
+        Me.lblTaxAmt.Text = "+ Tax Amt"
         '
         'txtTaxAmt
         '
