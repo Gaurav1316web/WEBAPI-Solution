@@ -3199,13 +3199,13 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTI
             If arrItem.Count <= 0 Then
                 Throw New Exception("No  item found to select GRN")
             End If
-            Dim qry As String = "select TSPL_GRN_HEAD.GRN_No as [GRNNo],TSPL_GRN_HEAD.GRN_Date as [GRNDate],TSPL_GRN_HEAD.VehicleNo,TSPL_GRN_HEAD.[Invoice/Challan_No] as [ChallanNo],TSPL_GRN_HEAD.Invoice_Date as [ChallanDate],TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as RAL
+            Dim qry As String = "select TSPL_GRN_HEAD.GRN_No as [GRNNo],TSPL_GRN_HEAD.GRN_Date as [GRNDate],TSPL_GRN_HEAD.LR_No,TSPL_GRN_HEAD.LR_Date,TSPL_GRN_HEAD.VehicleNo,TSPL_GRN_HEAD.[Invoice/Challan_No] as [ChallanNo],TSPL_GRN_HEAD.Invoice_Date as [ChallanDate],TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as RAL
 from TSPL_GRN_DETAIL
 left outer join  TSPL_GRN_HEAD  on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
 inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
 left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
 where TSPL_ITEM_MASTER.Is_Auto_Weighment=1 and TSPL_GRN_DETAIL.Item_Code in (" + clsCommon.GetMulcallString(arrItem) + ")"
-            txtGRN.arrValueMember = clsCommon.ShowMultipleSelectForm("GRNDate", True, "grn@ProEn", qry, "GRNNo", "", txtGRN.arrValueMember, Nothing)
+            txtGRN.arrValueMember = clsCommon.ShowMultipleSelectForm("grn@ProEn", qry, "GRNNo", "", txtGRN.arrValueMember, Nothing) ''"GRNDate", True,
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
