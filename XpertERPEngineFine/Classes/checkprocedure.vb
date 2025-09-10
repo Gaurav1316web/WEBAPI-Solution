@@ -2391,8 +2391,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMultipleInvoice, "Multiple Invoice", "1.36.02.35", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCommissionTPTCalculation, "Commission/TPT Calculation", "1.36.02.36", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmProductQuickDemand, "Product Quick Demand", "1.36.02.37", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
-
-        InsertDefaultValue(clsUserMgtCode.frmCustomerPenalty, "Customer Penalty", "1.36.02.36", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCustomerPenalty, "Customer Penalty", "1.36.02.38", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 
