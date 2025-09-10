@@ -244,6 +244,7 @@ Public Class clsUserMgtCode
     Public Const frmPerformaInvoiceDairy As String = "Prof_Inv-D"
     Public Const frmDairyFreshDispatchMultiple As String = "FS_DIS-M"
     Public Const frmMultipleInvoice As String = "FS_Inv-M"
+    Public Const frmCustomerPenalty As String = "CUST-PNLTY"
     'Public Const frmItemProjection As String = "ITEM_PROJTN"
     '===========================Added by preeti Gupta[14/03/2018]==================
     Public Const frmsaleReturnGateEntryFS As String = "SR-GE-FS"
