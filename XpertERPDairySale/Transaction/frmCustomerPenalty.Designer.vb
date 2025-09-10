@@ -22,7 +22,7 @@ Partial Class frmCustomerPenalty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -46,6 +46,8 @@ Partial Class frmCustomerPenalty
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.lblTotalPenalty = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -54,8 +56,6 @@ Partial Class frmCustomerPenalty
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.lblTotalPenalty = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -80,6 +80,8 @@ Partial Class frmCustomerPenalty
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,8 +90,6 @@ Partial Class frmCustomerPenalty
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -131,7 +131,7 @@ Partial Class frmCustomerPenalty
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -225,7 +225,7 @@ Partial Class frmCustomerPenalty
         Me.txtToDate.Location = New System.Drawing.Point(247, 28)
         Me.txtToDate.MendatroryField = True
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtToDate.MyLinkLable1 = Me.MyLabel5
         Me.txtToDate.MyLinkLable2 = Nothing
         Me.txtToDate.Name = "txtToDate"
         Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -333,7 +333,7 @@ Partial Class frmCustomerPenalty
         Me.txtFromDate.Location = New System.Drawing.Point(97, 28)
         Me.txtFromDate.MendatroryField = True
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtFromDate.MyLinkLable1 = Me.MyLabel6
         Me.txtFromDate.MyLinkLable2 = Nothing
         Me.txtFromDate.Name = "txtFromDate"
         Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -374,7 +374,7 @@ Partial Class frmCustomerPenalty
         Me.txtDistributor.Location = New System.Drawing.Point(97, 2)
         Me.txtDistributor.MendatroryField = True
         Me.txtDistributor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDistributor.MyLinkLable1 = Nothing
+        Me.txtDistributor.MyLinkLable1 = Me.lblDistributor
         Me.txtDistributor.MyLinkLable2 = Nothing
         Me.txtDistributor.MyReadOnly = False
         Me.txtDistributor.MyShowMasterFormButton = False
@@ -500,6 +500,31 @@ Partial Class frmCustomerPenalty
         Me.MyLabel3.TabIndex = 24
         Me.MyLabel3.Text = "Remarks"
         '
+        'lblTotalPenalty
+        '
+        Me.lblTotalPenalty.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalPenalty.AutoSize = False
+        Me.lblTotalPenalty.BorderVisible = True
+        Me.lblTotalPenalty.FieldName = Nothing
+        Me.lblTotalPenalty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalPenalty.Location = New System.Drawing.Point(611, 6)
+        Me.lblTotalPenalty.Name = "lblTotalPenalty"
+        Me.lblTotalPenalty.Size = New System.Drawing.Size(152, 18)
+        Me.lblTotalPenalty.TabIndex = 1097
+        Me.lblTotalPenalty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotalPenalty.TextWrap = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(522, 6)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel1.TabIndex = 6
+        Me.MyLabel1.Text = "Total Penalty"
+        '
         'RadLabel12
         '
         Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -581,31 +606,6 @@ Partial Class frmCustomerPenalty
         Me.RadMenu1.Size = New System.Drawing.Size(766, 20)
         Me.RadMenu1.TabIndex = 0
         '
-        'MyLabel1
-        '
-        Me.MyLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(522, 6)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(72, 16)
-        Me.MyLabel1.TabIndex = 6
-        Me.MyLabel1.Text = "Total Penalty"
-        '
-        'lblTotalPenalty
-        '
-        Me.lblTotalPenalty.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblTotalPenalty.AutoSize = False
-        Me.lblTotalPenalty.BorderVisible = True
-        Me.lblTotalPenalty.FieldName = Nothing
-        Me.lblTotalPenalty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalPenalty.Location = New System.Drawing.Point(611, 6)
-        Me.lblTotalPenalty.Name = "lblTotalPenalty"
-        Me.lblTotalPenalty.Size = New System.Drawing.Size(152, 18)
-        Me.lblTotalPenalty.TabIndex = 1097
-        Me.lblTotalPenalty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.lblTotalPenalty.TextWrap = False
-        '
         'frmCustomerPenalty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -646,6 +646,8 @@ Partial Class frmCustomerPenalty
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalPenalty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -654,8 +656,6 @@ Partial Class frmCustomerPenalty
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalPenalty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
