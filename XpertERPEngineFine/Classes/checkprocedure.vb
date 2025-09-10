@@ -1795,6 +1795,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.rptTankerDispatchWidthDeduction, "Tanker Dispatch With Deduction", "1.17.03.38", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptVSPIncentiveRegister, "VSP Incentive Register", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DCSDeductionBalanceReport, "DCS Deduction Balance Amount", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '===sanjeet(21/11/2016)====================
 
@@ -2513,6 +2514,7 @@ Public Class ProgramCodeNew
         ''Dairy APS Sale ==> Transcation
         InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "Transcation", "1.38.02", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.FrmSalesOrder, "Sales Order", "1.38.02.01", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.FrmSalesOrderDispatch, "Sales Order Dispatch", "1.38.02.02", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
         '' Dairy APS Sale ==> Report
         InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyReport, "Report", "1.38.03", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 30)

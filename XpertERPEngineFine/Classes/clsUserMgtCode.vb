@@ -10,6 +10,8 @@ Public Class clsUserMgtCode
     Public Const frmDCSWiseHoldPayments As String = "DCS-WS-PYNT"
     Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
+    Public Const DCSDeductionBalanceReport As String = "DCS_D_B_R"
+
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
@@ -228,6 +230,7 @@ Public Class clsUserMgtCode
     Public Const frmGenerateBookingFreshSale As String = "GEN_BOO_FS"
     Public Const frmCustomerTender As String = "CUST-TEND"
     Public Const FrmSalesOrder As String = "SALES-ORD"
+    Public Const FrmSalesOrderDispatch As String = "SAL-ORD_DIS"
     'Public Const frmAdvanceForCD As String = "ADV_For_CD"
     'Public Const frmAcknowledgeMentOfGRN As String = "ACK_OF_GRN"
     Public Const frmDairyBookingUploader As String = "DA_BOK_UPL"
