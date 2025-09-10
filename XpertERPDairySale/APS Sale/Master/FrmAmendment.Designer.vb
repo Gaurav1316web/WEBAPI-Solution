@@ -167,6 +167,7 @@ Partial Class FrmAmendment
         '
         '
         Me.RootElement.ApplyShapeToControl = True
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Customer Tender Amendment"
         CType(Me.txtTotalQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQty, System.ComponentModel.ISupportInitialize).EndInit()
