@@ -12,6 +12,7 @@ Public Class clsCustomerTender
     Public Tolerance As Double = 0
     Public Inclusive_Tax As Integer = 0
     Public Inclusive_TPT As Integer = 0
+    Public Remarks As String = ""
     Public Status As Integer = 0
     Public Posted_Date As DateTime = Nothing
     Public Arr As List(Of clsCustomerTenderDetail) = Nothing
@@ -42,6 +43,7 @@ Public Class clsCustomerTender
             clsCommon.AddColumnsForChange(coll, "Tolerance", obj.Tolerance)
             clsCommon.AddColumnsForChange(coll, "Inclusive_Tax", obj.Inclusive_Tax)
             clsCommon.AddColumnsForChange(coll, "Inclusive_TPT", obj.Inclusive_TPT)
+            clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -67,7 +69,7 @@ Public Class clsCustomerTender
         Dim obj As clsCustomerTender = Nothing
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Document_Code,Document_Date,From_Date,To_Date,Location_Code,Item_Code,Customer_Group,Total_Qty,Tolerance,Inclusive_Tax,Inclusive_TPT,Status,Posted_Date from TSPL_CUSTOMER_TENDER  where 2=2"
+            Dim strQry As String = "select Document_Code,Document_Date,From_Date,To_Date,Location_Code,Item_Code,Customer_Group,Total_Qty,Tolerance,Inclusive_Tax,Inclusive_TPT,Status,Posted_Date,Remarks from TSPL_CUSTOMER_TENDER  where 2=2"
             Select Case NavType
                 Case NavigatorType.First
                     strQry += " and TSPL_CUSTOMER_TENDER.Document_Code = (select MIN(Document_Code) from TSPL_CUSTOMER_TENDER where 1=1 " & Whrcls & "  )"
@@ -94,6 +96,7 @@ Public Class clsCustomerTender
                 obj.Tolerance = clsCommon.myCdbl(dt.Rows(0)("Tolerance"))
                 obj.Inclusive_Tax = clsCommon.myCdbl(dt.Rows(0)("Inclusive_Tax"))
                 obj.Inclusive_TPT = clsCommon.myCdbl(dt.Rows(0)("Inclusive_TPT"))
+                obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
                 obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))

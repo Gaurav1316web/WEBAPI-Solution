@@ -245,6 +245,7 @@
     <Compile Include="Classes\ClsCallType.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsCustomerTender.vb" />
+    <Compile Include="Classes\clsCustomerTenderOrder.vb" />
     <Compile Include="Classes\clsDAArrear.vb" />
     <Compile Include="Classes\clsDailyDemand.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
@@ -275,6 +276,7 @@
     <Compile Include="Classes\clsPayrollSetting.vb" />
     <Compile Include="Classes\clsPFRulesMaster.vb" />
     <Compile Include="Classes\ClsProblemType.vb" />
+    <Compile Include="Classes\clsProductDemandSheet.vb" />
     <Compile Include="Classes\clsPTSlab.vb" />
     <Compile Include="Classes\clsRCDFRateControl.vb" />
     <Compile Include="Classes\ClsReimbursementTypeMaster.vb" />

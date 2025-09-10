@@ -905,6 +905,12 @@
     <Compile Include="Transaction\FrmCashIndentBookingMobApp.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmCommissionTPTCalculation.Designer.vb">
+      <DependentUpon>frmCommissionTPTCalculation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCommissionTPTCalculation.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmCreateReceivedCustomerDairySale.Designer.vb">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>
     </Compile>
@@ -1149,6 +1155,12 @@
       <DependentUpon>FrmProductDispatch.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\FrmProductDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\FrmProductQuickDemandBooking.Designer.vb">
+      <DependentUpon>FrmProductQuickDemandBooking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmProductQuickDemandBooking.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\frmQuickDemand.Designer.vb">
@@ -1590,6 +1602,9 @@
     <EmbeddedResource Include="Transaction\FrmCashIndentBookingMobApp.resx">
       <DependentUpon>FrmCashIndentBookingMobApp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmCommissionTPTCalculation.resx">
+      <DependentUpon>frmCommissionTPTCalculation.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCreateReceivedCustomerDairySale.resx">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>
     </EmbeddedResource>
@@ -1706,6 +1721,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\FrmProductDispatch.resx">
       <DependentUpon>FrmProductDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmProductQuickDemandBooking.resx">
+      <DependentUpon>FrmProductQuickDemandBooking.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmQuickDemand.resx">
       <DependentUpon>frmQuickDemand.vb</DependentUpon>

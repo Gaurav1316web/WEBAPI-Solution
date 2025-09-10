@@ -22,7 +22,42 @@ Public Class ClsNotification
 
 
 #End Region
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim Qry As String = "select Status from TSPL_NOTIFICATIONS where Document_No='" + strCode + "'"
+            If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select * from TSPL_NOTIFICATIONS where Document_No='" + strCode + "'", trans)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairy, clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            'End If
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(dt.Rows(0)("Document_No")), "TSPL_NOTIFICATIONS", "Document_No", trans)
 
+                Qry = "Update TSPL_NOTIFICATIONS set Status = 0 where Document_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            End If
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_NOTIFICATIONS", "Document_No", trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Function SaveData(ByVal obj As ClsNotification, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try

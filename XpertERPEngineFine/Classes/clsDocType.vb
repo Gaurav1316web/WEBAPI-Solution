@@ -490,6 +490,7 @@ Public Class clsDocType
     Public Const frmSalesOrderProductSale As String = "Sale Order Product Sale"
     Public Const frmShipmentProductSale As String = "Shipment Product Sale"
     Public Const frmCustomerTender As String = "Customer Tender"
+    Public Const frmCustomerTenderOrder As String = "Customer Tender Order"
     Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
@@ -1598,6 +1599,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
             InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.BoothRouteMapping, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
