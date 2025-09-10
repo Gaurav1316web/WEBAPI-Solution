@@ -10068,9 +10068,9 @@ Public Class MDI
                         frm = New frmMonthlyProgressReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case clsUserMgtCode.DCSDeductionBalanceReport
-                        frm = New DCSDeductionBalanceReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.DCSDeductionBalanceReport
+                    '    frm = New DCSDeductionBalanceReport
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptSuspanceDCSReport
                         frm = New rptSuspanceDCSReport
