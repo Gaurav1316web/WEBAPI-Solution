@@ -243,6 +243,7 @@
     <Compile Include="Classes\clsAllStoreProcedure.vb" />
     <Compile Include="Classes\clsBullRating.vb" />
     <Compile Include="Classes\ClsCallType.vb" />
+    <Compile Include="Classes\clsCommissionTPTCalculation.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsCustomerTender.vb" />
     <Compile Include="Classes\clsCustomerTenderOrder.vb" />
