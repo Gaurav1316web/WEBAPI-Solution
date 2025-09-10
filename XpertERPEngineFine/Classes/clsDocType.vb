@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const frmCommissionTPTCalculation As String = "Commission/TPT Calculation"
     Public Const DCSDispatch As String = "DCS Dispatch"
     Public Const DCSInvoice As String = "DCS Invoice"
     Public Const DCSSaleEntry As String = "DCS Sale Entry"
