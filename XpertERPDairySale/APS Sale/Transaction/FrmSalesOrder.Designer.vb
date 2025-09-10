@@ -22,8 +22,8 @@ Partial Class FrmSalesOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -64,21 +64,24 @@ Partial Class FrmSalesOrder
         Me.RadLabel11 = New common.Controls.MyLabel()
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblTPTCommission = New common.Controls.MyLabel()
-        Me.txtTPTCommission = New common.Controls.MyLabel()
         Me.lblTaxAmt = New common.Controls.MyLabel()
         Me.txtTaxAmt = New common.Controls.MyLabel()
         Me.lblDocAmtWithoutTax = New common.Controls.MyLabel()
         Me.txtDocAmtWithoutTax = New common.Controls.MyLabel()
         Me.lblDocamt = New common.Controls.MyLabel()
         Me.txtDocAmt = New common.Controls.MyLabel()
-        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.gbQtySummary = New System.Windows.Forms.GroupBox()
+        Me.lblbalQty = New common.Controls.MyLabel()
+        Me.lblTenderQty = New common.Controls.MyLabel()
+        Me.txtTenderQty = New common.Controls.MyLabel()
+        Me.txtBalQty = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -121,20 +124,23 @@ Partial Class FrmSalesOrder
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
         Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.lblTPTCommission, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTPTCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTaxAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocAmtWithoutTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocAmtWithoutTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocamt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage5.SuspendLayout()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbQtySummary.SuspendLayout()
+        CType(Me.lblbalQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTenderQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTenderQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBalQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -156,7 +162,7 @@ Partial Class FrmSalesOrder
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(786, 500)
+        Me.SplitContainer1.Size = New System.Drawing.Size(867, 500)
         Me.SplitContainer1.SplitterDistance = 465
         Me.SplitContainer1.TabIndex = 0
         '
@@ -171,7 +177,7 @@ Partial Class FrmSalesOrder
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(786, 465)
+        Me.RadPageView1.Size = New System.Drawing.Size(867, 465)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -186,7 +192,7 @@ Partial Class FrmSalesOrder
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(765, 419)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(846, 419)
         Me.RadPageViewPage1.Text = "Booking Order"
         '
         'SplitContainer2
@@ -199,6 +205,7 @@ Partial Class FrmSalesOrder
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.gbQtySummary)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemark)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblRemark)
         Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
@@ -227,7 +234,7 @@ Partial Class FrmSalesOrder
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(765, 419)
+        Me.SplitContainer2.Size = New System.Drawing.Size(846, 419)
         Me.SplitContainer2.SplitterDistance = 141
         Me.SplitContainer2.TabIndex = 1576
         '
@@ -628,14 +635,14 @@ Partial Class FrmSalesOrder
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(765, 274)
+        Me.gv1.Size = New System.Drawing.Size(846, 274)
         Me.gv1.TabIndex = 18
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -786,7 +793,7 @@ Partial Class FrmSalesOrder
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -797,10 +804,26 @@ Partial Class FrmSalesOrder
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
         '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.UcAttachment1)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(775, 369)
+        Me.RadPageViewPage5.Text = "Attachment"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(775, 369)
+        Me.UcAttachment1.TabIndex = 1
+        Me.UcAttachment1.TabStop = False
+        '
         'RadPageViewPage3
         '
-        Me.RadPageViewPage3.Controls.Add(Me.lblTPTCommission)
-        Me.RadPageViewPage3.Controls.Add(Me.txtTPTCommission)
         Me.RadPageViewPage3.Controls.Add(Me.lblTaxAmt)
         Me.RadPageViewPage3.Controls.Add(Me.txtTaxAmt)
         Me.RadPageViewPage3.Controls.Add(Me.lblDocAmtWithoutTax)
@@ -813,33 +836,11 @@ Partial Class FrmSalesOrder
         Me.RadPageViewPage3.Size = New System.Drawing.Size(765, 419)
         Me.RadPageViewPage3.Text = "Total"
         '
-        'lblTPTCommission
-        '
-        Me.lblTPTCommission.FieldName = Nothing
-        Me.lblTPTCommission.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTPTCommission.Location = New System.Drawing.Point(20, 66)
-        Me.lblTPTCommission.Name = "lblTPTCommission"
-        Me.lblTPTCommission.Size = New System.Drawing.Size(134, 16)
-        Me.lblTPTCommission.TabIndex = 1593
-        Me.lblTPTCommission.Text = "+ TPT Commission Amt"
-        '
-        'txtTPTCommission
-        '
-        Me.txtTPTCommission.AutoSize = False
-        Me.txtTPTCommission.BorderVisible = True
-        Me.txtTPTCommission.FieldName = Nothing
-        Me.txtTPTCommission.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTPTCommission.Location = New System.Drawing.Point(198, 66)
-        Me.txtTPTCommission.Name = "txtTPTCommission"
-        Me.txtTPTCommission.Size = New System.Drawing.Size(104, 20)
-        Me.txtTPTCommission.TabIndex = 1594
-        Me.txtTPTCommission.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'lblTaxAmt
         '
         Me.lblTaxAmt.FieldName = Nothing
         Me.lblTaxAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTaxAmt.Location = New System.Drawing.Point(20, 44)
+        Me.lblTaxAmt.Location = New System.Drawing.Point(20, 46)
         Me.lblTaxAmt.Name = "lblTaxAmt"
         Me.lblTaxAmt.Size = New System.Drawing.Size(61, 16)
         Me.lblTaxAmt.TabIndex = 1591
@@ -873,7 +874,7 @@ Partial Class FrmSalesOrder
         Me.txtDocAmtWithoutTax.BorderVisible = True
         Me.txtDocAmtWithoutTax.FieldName = Nothing
         Me.txtDocAmtWithoutTax.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDocAmtWithoutTax.Location = New System.Drawing.Point(198, 22)
+        Me.txtDocAmtWithoutTax.Location = New System.Drawing.Point(198, 20)
         Me.txtDocAmtWithoutTax.Name = "txtDocAmtWithoutTax"
         Me.txtDocAmtWithoutTax.Size = New System.Drawing.Size(104, 20)
         Me.txtDocAmtWithoutTax.TabIndex = 1590
@@ -883,7 +884,7 @@ Partial Class FrmSalesOrder
         '
         Me.lblDocamt.FieldName = Nothing
         Me.lblDocamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocamt.Location = New System.Drawing.Point(20, 88)
+        Me.lblDocamt.Location = New System.Drawing.Point(20, 70)
         Me.lblDocamt.Name = "lblDocamt"
         Me.lblDocamt.Size = New System.Drawing.Size(108, 16)
         Me.lblDocamt.TabIndex = 1587
@@ -895,35 +896,17 @@ Partial Class FrmSalesOrder
         Me.txtDocAmt.BorderVisible = True
         Me.txtDocAmt.FieldName = Nothing
         Me.txtDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDocAmt.Location = New System.Drawing.Point(198, 88)
+        Me.txtDocAmt.Location = New System.Drawing.Point(198, 68)
         Me.txtDocAmt.Name = "txtDocAmt"
         Me.txtDocAmt.Size = New System.Drawing.Size(104, 20)
         Me.txtDocAmt.TabIndex = 1588
         Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
-        'RadPageViewPage5
-        '
-        Me.RadPageViewPage5.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(775, 369)
-        Me.RadPageViewPage5.Text = "Attachment"
-        '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(775, 369)
-        Me.UcAttachment1.TabIndex = 1
-        Me.UcAttachment1.TabStop = False
-        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(703, 4)
+        Me.btnClose.Location = New System.Drawing.Point(784, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(71, 22)
         Me.btnClose.TabIndex = 11
@@ -959,11 +942,68 @@ Partial Class FrmSalesOrder
         Me.btnSave.TabIndex = 3
         Me.btnSave.Text = "Save"
         '
+        'gbQtySummary
+        '
+        Me.gbQtySummary.Controls.Add(Me.txtBalQty)
+        Me.gbQtySummary.Controls.Add(Me.txtTenderQty)
+        Me.gbQtySummary.Controls.Add(Me.lblbalQty)
+        Me.gbQtySummary.Controls.Add(Me.lblTenderQty)
+        Me.gbQtySummary.Location = New System.Drawing.Point(639, 30)
+        Me.gbQtySummary.Name = "gbQtySummary"
+        Me.gbQtySummary.Size = New System.Drawing.Size(162, 82)
+        Me.gbQtySummary.TabIndex = 1586
+        Me.gbQtySummary.TabStop = False
+        Me.gbQtySummary.Text = "Qty Summary"
+        '
+        'lblbalQty
+        '
+        Me.lblbalQty.FieldName = Nothing
+        Me.lblbalQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblbalQty.Location = New System.Drawing.Point(6, 44)
+        Me.lblbalQty.Name = "lblbalQty"
+        Me.lblbalQty.Size = New System.Drawing.Size(68, 16)
+        Me.lblbalQty.TabIndex = 1580
+        Me.lblbalQty.Text = "Balance Qty"
+        '
+        'lblTenderQty
+        '
+        Me.lblTenderQty.FieldName = Nothing
+        Me.lblTenderQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTenderQty.Location = New System.Drawing.Point(6, 22)
+        Me.lblTenderQty.Name = "lblTenderQty"
+        Me.lblTenderQty.Size = New System.Drawing.Size(63, 16)
+        Me.lblTenderQty.TabIndex = 1579
+        Me.lblTenderQty.Text = "Tender Qty"
+        '
+        'txtTenderQty
+        '
+        Me.txtTenderQty.AutoSize = False
+        Me.txtTenderQty.BorderVisible = True
+        Me.txtTenderQty.FieldName = Nothing
+        Me.txtTenderQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTenderQty.Location = New System.Drawing.Point(76, 22)
+        Me.txtTenderQty.Name = "txtTenderQty"
+        Me.txtTenderQty.Size = New System.Drawing.Size(79, 20)
+        Me.txtTenderQty.TabIndex = 1587
+        Me.txtTenderQty.TextWrap = False
+        '
+        'txtBalQty
+        '
+        Me.txtBalQty.AutoSize = False
+        Me.txtBalQty.BorderVisible = True
+        Me.txtBalQty.FieldName = Nothing
+        Me.txtBalQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBalQty.Location = New System.Drawing.Point(76, 44)
+        Me.txtBalQty.Name = "txtBalQty"
+        Me.txtBalQty.Size = New System.Drawing.Size(79, 20)
+        Me.txtBalQty.TabIndex = 1588
+        Me.txtBalQty.TextWrap = False
+        '
         'FrmSalesOrder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(786, 500)
+        Me.ClientSize = New System.Drawing.Size(867, 500)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FrmSalesOrder"
         '
@@ -1017,21 +1057,25 @@ Partial Class FrmSalesOrder
         CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
-        CType(Me.lblTPTCommission, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTPTCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTaxAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocAmtWithoutTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocAmtWithoutTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocamt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage5.ResumeLayout(False)
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbQtySummary.ResumeLayout(False)
+        Me.gbQtySummary.PerformLayout()
+        CType(Me.lblbalQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTenderQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTenderQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBalQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1084,12 +1128,15 @@ Partial Class FrmSalesOrder
     Friend WithEvents RadLabel11 As common.Controls.MyLabel
     Friend WithEvents lblTaxGrpName As common.Controls.MyLabel
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
-    Friend WithEvents lblTPTCommission As common.Controls.MyLabel
-    Friend WithEvents txtTPTCommission As common.Controls.MyLabel
     Friend WithEvents lblTaxAmt As common.Controls.MyLabel
     Friend WithEvents txtTaxAmt As common.Controls.MyLabel
     Friend WithEvents lblDocAmtWithoutTax As common.Controls.MyLabel
     Friend WithEvents txtDocAmtWithoutTax As common.Controls.MyLabel
     Friend WithEvents lblDocamt As common.Controls.MyLabel
     Friend WithEvents txtDocAmt As common.Controls.MyLabel
+    Friend WithEvents gbQtySummary As GroupBox
+    Friend WithEvents txtBalQty As common.Controls.MyLabel
+    Friend WithEvents txtTenderQty As common.Controls.MyLabel
+    Friend WithEvents lblbalQty As common.Controls.MyLabel
+    Friend WithEvents lblTenderQty As common.Controls.MyLabel
 End Class

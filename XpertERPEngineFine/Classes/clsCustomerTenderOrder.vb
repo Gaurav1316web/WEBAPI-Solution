@@ -55,7 +55,6 @@ Public Class clsCustomerTenderOrder
     Public Tax_Calculation_Type As EnumTaxCalucationType
     Public Doc_Amt_Without_Tax As Double = 0
     Public Tax_Amt As Double = 0
-    Public TPT_Commission As Double = 0
     Public Document_Amt As Double = 0
     Public Remarks As String = ""
     Public Status As Integer = 0
@@ -128,7 +127,6 @@ Public Class clsCustomerTenderOrder
             clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
             clsCommon.AddColumnsForChange(coll, "Doc_Amt_Without_Tax", obj.Doc_Amt_Without_Tax)
             clsCommon.AddColumnsForChange(coll, "Tax_Amt", obj.Tax_Amt)
-            clsCommon.AddColumnsForChange(coll, "TPT_Commission", obj.TPT_Commission)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Document_Amt", obj.Document_Amt)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -157,7 +155,7 @@ Public Class clsCustomerTenderOrder
         Try
             Dim Whrcls As String = ""
             Dim strQry As String = "select Document_Code,Document_Date,RAL_No,Cust_Code,Location_Code,Sub_Location,Ref_No,Ref_Date,Document_Amt,Remarks,Status,Posted_Date " &
-                ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Tax6,Tax6_Rate,Tax6_Base_Amt,Tax6_Amt,Tax7,Tax7_Rate,Tax7_Base_Amt,Tax7_Amt,Tax8,Tax8_Rate,Tax8_Base_Amt,Tax8_Amt,Tax9,Tax9_Rate,Tax9_Base_Amt,Tax9_Amt,Tax10,Tax10_Rate,Tax10_Base_Amt,Tax10_Amt,Doc_Amt_Without_Tax,Tax_Amt,TPT_Commission  " &
+                ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Tax6,Tax6_Rate,Tax6_Base_Amt,Tax6_Amt,Tax7,Tax7_Rate,Tax7_Base_Amt,Tax7_Amt,Tax8,Tax8_Rate,Tax8_Base_Amt,Tax8_Amt,Tax9,Tax9_Rate,Tax9_Base_Amt,Tax9_Amt,Tax10,Tax10_Rate,Tax10_Base_Amt,Tax10_Amt,Doc_Amt_Without_Tax,Tax_Amt  " &
                 " From TSPL_CUSTOMER_TENDER_ORDER  where 2=2"
             Select Case NavType
                 Case NavigatorType.First
@@ -228,7 +226,6 @@ Public Class clsCustomerTenderOrder
                 obj.TAX10_Amt = clsCommon.myCdbl(dt.Rows(0)("Tax10_Amt"))
                 obj.Doc_Amt_Without_Tax = clsCommon.myCdbl(dt.Rows(0)("Doc_Amt_Without_Tax"))
                 obj.Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Tax_Amt"))
-                obj.TPT_Commission = clsCommon.myCdbl(dt.Rows(0)("TPT_Commission"))
                 obj.Document_Amt = clsCommon.myCdbl(dt.Rows(0)("Document_Amt"))
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
                 obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
@@ -317,10 +314,12 @@ End Class
 Public Class clsCustomerTenderOrderDetail
 #Region "Variables"
     Public Document_Code As String = ""
+    Public RowType As String = ""
     Public Item_Code As String = ""
     Public Unit_Code As String = ""
+    Public Tender_Rate As Double = 0
     Public Item_Rate As Double = 0
-    Public Item_Base_Amt As Double = 0
+    Public Item_Amt As Double = 0
     Public Qty As Double = 0
     Public Item_Type As String = ""
     Public TAX1 As String = ""
@@ -372,10 +371,13 @@ Public Class clsCustomerTenderOrderDetail
                 For Each obj As clsCustomerTenderOrderDetail In Arr
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
+                    clsCommon.AddColumnsForChange(coll, "RowType", obj.RowType)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
                     clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Tender_Rate", obj.Tender_Rate)
                     clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Item_Rate)
+                    clsCommon.AddColumnsForChange(coll, "Item_Amt", obj.Item_Amt)
                     clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1, True)
                     clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt, True)
                     clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate, True)
@@ -439,10 +441,13 @@ Public Class clsCustomerTenderOrderDetail
                 For Each dr As DataRow In dt.Rows
                     objTr = New clsCustomerTenderOrderDetail
                     objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
+                    objTr.RowType = clsCommon.myCstr(dr("RowType"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                     objTr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
                     objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+                    objTr.Tender_Rate = clsCommon.myCdbl(dr("Tender_Rate"))
                     objTr.Item_Rate = clsCommon.myCdbl(dr("Item_Rate"))
+                    objTr.Item_Amt = clsCommon.myCdbl(dr("Item_Amt"))
                     objTr.TAX1 = clsCommon.myCdbl(dr("TAX1"))
                     objTr.TAX1_Base_Amt = clsCommon.myCdbl(dr("TAX1_Base_Amt"))
                     objTr.TAX1_Rate = clsCommon.myCdbl(dr("TAX1_Rate"))
