@@ -22,7 +22,7 @@ Partial Class rptNewSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -57,7 +57,6 @@ Partial Class rptNewSalesReport
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -160,7 +159,6 @@ Partial Class rptNewSalesReport
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
@@ -544,7 +542,7 @@ Partial Class rptNewSalesReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -552,14 +550,6 @@ Partial Class rptNewSalesReport
         Me.gv1.Size = New System.Drawing.Size(671, 343)
         Me.gv1.TabIndex = 2
         Me.gv1.VarID = ""
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(115.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(671, 343)
-        Me.RadPageViewPage3.Text = "RadPageViewPage3"
         '
         'RadSplitButton1
         '
@@ -711,7 +701,6 @@ Partial Class rptNewSalesReport
     Friend WithEvents chkExcludeGhee As RadCheckBox
     Friend WithEvents rbtnRouteSummary As common.Controls.MyRadioButton
     Friend WithEvents rbtnProductSale As common.Controls.MyRadioButton
-    Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents rbtnRouteAndCustomer As common.Controls.MyRadioButton
     Friend WithEvents grpShift As RadGroupBox
     Friend WithEvents rbtnMorning As common.Controls.MyRadioButton

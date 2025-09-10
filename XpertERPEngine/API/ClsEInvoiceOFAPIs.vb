@@ -444,7 +444,7 @@ Public Class ClsEInvoiceOFAPIs
                     qry = "Select * from TSPL_EInvoiceHeader_Info where Comp_Code='" & strCompCode & "' and RequiredFor ='GenerateAuthToken_IRN' and VendorName='CLEARTAX' and Location_Code='" & strLocation & "'"
                 End If
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                If dt IsNot Nothing AndAlso dt.Rows.Count >> 0 Then
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     httpRequest = CType(WebRequest.Create(clsCommon.myCstr(dt.Rows(0)("Url"))), HttpWebRequest)
                     httpRequest.ContentType = "application/json"
                     If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "MASTERGST") = CompairStringResult.Equal Then

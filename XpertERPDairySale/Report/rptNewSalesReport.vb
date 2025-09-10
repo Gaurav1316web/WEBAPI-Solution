@@ -472,7 +472,7 @@ left Outer join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MA
 from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Document_Date,Shift_Type"
 
                 FinalQuery = "Select ROW_NUMBER() OVER (ORDER BY (Select 1)) As SNo ,* from ("
-                FinalQuery += " Select  Max(GrpColumnName)OUTLET, " & qry1 & "  from ((" & strBase & " ))xxx" & Environment.NewLine & ""
+                FinalQuery += " Select  Max(GrpColumnName)OUTLET, " & qry1 & ",max(Credit_Customer) as OrderColumn  from (" & strBase & " ) xxx" & Environment.NewLine & ""
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
                 End If
@@ -481,14 +481,14 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
                 End If
                 FinalQuery += " group by Credit_Customer,RouteCustCode, Document_Date, Shift_Type "
                 FinalQuery += " Union All "
-                FinalQuery += " Select  'Total Demand' As OUTLET," & qry1 & "  from ((" & strBase & " ))xxx" & Environment.NewLine & ""
+                FinalQuery += " Select  'Total Demand' As OUTLET," & qry1 & ",'Z' as OrderColumn  from (" & strBase & " ) xxx" & Environment.NewLine & ""
                 If dtFreshItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(LTR_QTY)  For Fresh_Item In (" & FreshItemsName & ") ) As pivot_fresh "
                 End If
                 If dtProductItem.Rows.Count > 0 Then
                     FinalQuery += " PIVOT (SUM(KG_QTY)   For Product_Item In (" & ProductIemsName & ") ) As  pivot_Product "
                 End If
-                FinalQuery += ")qwerty"
+                FinalQuery += ") qwerty order by OrderColumn,OUTLET"
 
 
 
@@ -642,12 +642,14 @@ from (" + qry + strShift + ")x group by Credit_Customer,GrpColumn,Item_Code,Docu
             Next
             gv1.ShowGroupPanel = False
             If rbtnRouteAndCustomer.IsChecked Then
+
                 gv1.Columns("SNo").HeaderText = "S.No"
                 gv1.Columns("SNo").IsVisible = False
                 gv1.Columns("Amount").HeaderText = "Amount"
                 gv1.Columns("Receipt_Amount").IsVisible = False
                 gv1.Columns("Bal").IsVisible = False
                 gv1.Columns("Total").IsVisible = False
+                gv1.Columns("OrderColumn").IsVisible = False
                 'gv1.Columns("Total Qty").IsVisible = False
                 'gv1.Columns("Total Milk Qty").IsVisible = False
                 'gv1.Columns("Milk Avg").IsVisible = False

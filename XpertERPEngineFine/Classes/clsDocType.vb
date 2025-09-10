@@ -413,6 +413,7 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const MultipleShareAllotment As String = "Multiple Share Allotment"
+    Public Const CustomerPenalty As String = "Customer Penalty"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const BullInsurance As String = "Bull Insurance"
@@ -490,6 +491,7 @@ Public Class clsDocType
     Public Const frmSalesOrderProductSale As String = "Sale Order Product Sale"
     Public Const frmShipmentProductSale As String = "Shipment Product Sale"
     Public Const frmCustomerTender As String = "Customer Tender"
+    Public Const frmCustomerTenderOrder As String = "Customer Tender Order"
     Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
@@ -1473,6 +1475,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MilkCollectionDCSMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCSMulipleMerge, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCS, "", False, False, False)
+            InsertDefaultValue(clsDocType.CustomerPenalty, "", False, False, False)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.PDCS, False, False, True)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.Registered, False, False, True)
             InsertDefaultValue(clsDocType.PTMMASTER, "", False, False, True)
@@ -1597,6 +1600,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
             InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.BoothRouteMapping, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)

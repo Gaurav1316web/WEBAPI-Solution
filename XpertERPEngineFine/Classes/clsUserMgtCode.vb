@@ -245,6 +245,7 @@ Public Class clsUserMgtCode
     Public Const frmPerformaInvoiceDairy As String = "Prof_Inv-D"
     Public Const frmDairyFreshDispatchMultiple As String = "FS_DIS-M"
     Public Const frmMultipleInvoice As String = "FS_Inv-M"
+    Public Const frmCustomerPenalty As String = "CUST-PNLTY"
     'Public Const frmItemProjection As String = "ITEM_PROJTN"
     '===========================Added by preeti Gupta[14/03/2018]==================
     Public Const frmsaleReturnGateEntryFS As String = "SR-GE-FS"
@@ -2756,6 +2757,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmQuickDemand As String = "QUICK-DEM"
+    Public Const frmProductQuickDemand As String = "PRD-QUK-DEM"
     Public Const frmLeakedSaleReturn As String = "LEK-SAL-RTN"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"

@@ -1042,6 +1042,15 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns("To_Date").IsVisible = False
             gv1.Columns("Area_Location_Code").IsVisible = False
             gv1.Columns("Location_Desc").IsVisible = False
+            gv1.Columns("Mcc").IsVisible = False
+            gv1.Columns("MCC_NAME").IsVisible = False
+            gv1.Columns("VSP_CODE").IsVisible = False
+
+            gv1.Columns("DCSCode").IsVisible = False
+            gv1.Columns("VSP_NAME").IsVisible = False
+            gv1.Columns("AliasName").IsVisible = False
+            gv1.Columns("Registered_PDCS_CLUSTER").IsVisible = False
+            gv1.Columns("Gender").IsVisible = False
 
             gv1.Columns("SweetQty").IsVisible = True
             gv1.Columns("SweetQty").HeaderText = "Good"
@@ -1063,7 +1072,7 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             gv1.Columns("Head_Load_Amount").IsVisible = True
             gv1.Columns("Head_Load_Amount").HeaderText = "Head Load"
         Next
-        gv1.AutoSizeRows = True
+        gv1.AutoSizeRows = False
         gv1.BestFitColumns()
         gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
@@ -1658,6 +1667,8 @@ FROM BaseData GROUP BY Month_Number ORDER BY Month_Number, Date_Range "
             Dim DescName2 As String = Nothing
             Dim DescName3 As String = Nothing
             Dim DescName4 As String = Nothing
+            Dim DescName5 As String = Nothing
+
             PPDocNo = " Select Doc_No from TSPL_PAYMENT_PROCESS_HEAD where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date ,103)>=convert(date,'" & fromDate.Value & "',103) 
                         And convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date ,103)<=convert(date,'" & ToDate.Value & "',103) "
             Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(PPDocNo)
@@ -1768,18 +1779,31 @@ where "
                             Description += "[A]," + "[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "] "
                             DescName += "0 as [A]," + " 0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
                             DescName2 += " isnull ([A], 0)  as [A], IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                            DescName1 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                            DescName3 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+
+                            'DescName1 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+                            DescName1 += " sum( ([A]))  as [A] ,Sum(([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "])) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+
+                            'DescName3 += " sum(isnull ([A], 0))  as [A] ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+                            DescName3 += " sum( ([A]))  as [A] ,Sum(([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "])) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+
                             DescName4 += " SUM([A]) AS [A],Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName5 += " null AS [A],null as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+
                             'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
                         Else
                             J = +i
                             Description += ", [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "] "
                             DescName += ",  0 as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
                             DescName2 += " , IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                            DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
-                            DescName3 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+                            ' DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+                            DescName1 += " ,Sum(([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "])) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "]"
+
+                            ' DescName3 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+                            DescName3 += " ,Sum(([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Code")) + "])) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]"
+
                             DescName4 += " ,Sum([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "]) as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+                            DescName5 += " ,null as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "] "
+
                             'DescName4 += " SUM([A]) AS [A],Sum[" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] as [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + clsCommon.myCstr(J) + "] "
                             'DescName1 += " ,Sum(IsNull([" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + "],0)) As [" + clsCommon.myCstr(dtDesc.Rows(i)("Ded_Desc")) + J"]"
 
@@ -1982,12 +2006,101 @@ CAST(sum(FATkg) AS decimal(18,2)) AS FATkg,CAST(sum(snfkg) AS decimal(18,2)) AS 
 CASE WHEN SUM(ISNULL(SweetQty,0) + ISNULL(SourQty,0) + ISNULL(CurdQty,0)) = 0 THEN 0
 									ELSE CAST(SUM(FATkg) * 100.0 / SUM(ISNULL(SweetQty,0) + ISNULL(SourQty,0) + ISNULL(CurdQty,0)) AS DECIMAL(18,2)) END AS AvgFat,
 SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,sum(Payable_Amount)Payable_Amount,
-                            SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & " 
-                            from BaseData Group By MCC Order By MCC ,To_Date "
+                            SUM(Head_Load_Amount)Head_Load_Amount,SUM(Deduction_Amount)Deduction_Amount,
+SUM(Credit_Note_Amount)Credit_Note_Amount," & DescName4 & " 
+                            from BaseData Group By MCC 
+union all
+
+                            Select  Max(MCC_Name) as  Date_Range,'' As To_Date,'' As From_Date, ''  As Area_Location_Code,
+                            '' As Location_Desc,MCC As MCC,Max(MCC_Name) As MCC_Name,'' As VSP_CODE,'' As DCSCode, '' VSP_NAME,'' As AliasName,
+                            '' As Registered_PDCS_CLUSTER,'' As Gender,CAST(NULL AS INT) as SweetQty,CAST(NULL AS INT) as SourQty,CAST(NULL AS INT) as CurdQty,
+                             CAST(NULL AS INT) AS FATkg,CAST(NULL AS INT) AS snfkg,
+	                          CAST(NULL AS INT) AS AvgSNF,CAST(NULL AS INT) AS AvgFat,CAST(NULL AS INT) as Milk_Qty,CAST(NULL AS INT) as Milk_Amount,CAST(NULL AS INT) as Payable_Amount,
+                            CAST(NULL AS INT) as Head_Load_Amount,CAST(NULL AS INT) as Deduction_Amount,CAST(NULL AS INT) as Credit_Note_Amount," & DescName5 & " 
+                            from BaseData Group By MCC Order By MCC ,To_Date 
+ 
+
+"
 
 
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
+                ' Clone the structure of dt1 to dt2 (same columns, no rows)
+                Dim dt2 As DataTable = dt.Clone()
+
+                For Each row As DataRow In dt.Rows
+                    If row("Date_Range").ToString().Contains("Total of") Then
+                        'dt2.add
+                        dt2.ImportRow(row)
+                    End If
+                Next
+
+                For Each row As DataRow In dt2.Rows
+                    dt.ImportRow(row)
+                Next
+                'grand total of total
+                Dim grandTotalRow As DataRow = dt.NewRow()
+
+                ' Optional: Set identifier in "Date_Range" or first column
+                grandTotalRow("Date_Range") = "Grand Total"
+
+                ' Variables to hold sums needed for AvgFat and AvgSNF
+                Dim totalFatkg As Decimal = 0
+                Dim totalSnfkg As Decimal = 0
+                Dim totalSweetQty As Decimal = 0
+                Dim totalSourQty As Decimal = 0
+                Dim totalCurdQty As Decimal = 0
+
+                ' Sum all numeric columns from dt2
+                For Each col As DataColumn In dt2.Columns
+
+                    If col.ColumnName = "AvgFat" OrElse col.ColumnName = "AvgSNF" Then
+                        ' Skip computed columns
+                        Continue For
+                    End If
+
+                    If col.DataType Is GetType(Integer) OrElse
+       col.DataType Is GetType(Decimal) OrElse
+       col.DataType Is GetType(Double) Then
+
+                        Dim total As Double = 0
+
+                        For Each row As DataRow In dt2.Rows
+                            If Not IsDBNull(row(col)) Then
+                                total += Convert.ToDouble(row(col))
+                            End If
+                        Next
+
+                        grandTotalRow(col.ColumnName) = total
+                        ' Save values needed for AvgFat and AvgSNF
+                        Select Case col.ColumnName
+                            Case "FATkg"
+                                totalFatkg = total
+                            Case "snfkg"
+                                totalSnfkg = total
+                            Case "SweetQty"
+                                totalSweetQty = total
+                            Case "SourQty"
+                                totalSourQty = total
+                            Case "CurdQty"
+                                totalCurdQty = total
+                        End Select
+                    End If
+                Next
+
+                ' Calculate AvgFat
+                Dim denominator As Decimal = totalSweetQty + totalSourQty + totalCurdQty
+                If denominator = 0 Then
+                    grandTotalRow("AvgFat") = 0
+                    grandTotalRow("AvgSNF") = 0
+                Else
+                    grandTotalRow("AvgFat") = Math.Round(totalFatkg * 100 / denominator, 2)
+                    grandTotalRow("AvgSNF") = Math.Round(totalSnfkg * 100 / denominator, 2)
+                End If
+
+                dt.Rows.Add(grandTotalRow)
+
+
                 gv1.DataSource = Nothing
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
@@ -2007,11 +2120,7 @@ SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,sum(Payable_Amount)Payable_Amo
                     EnableDisableControls(False)
                     If clsCommon.MyMessageBoxShow(Me, "Do you want to export the data to Excel?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
 
-                        'Dim result As DialogResult = MessageBox.Show("Do you want to export the data to Excel?",
-                        '                             "Export to Excel",
-                        '                             MessageBoxButtons.YesNo,
-                        '                             MessageBoxIcon.Question)
-                        ' If result = DialogResult.Yes Then
+
                         If gv1.Rows.Count > 0 Then
                             Dim arrHeader As List(Of String) = New List(Of String)()
                             arrHeader.Add("Print Date (" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy hh:mm:ss tt") + ")")
@@ -2019,14 +2128,14 @@ SUM(Milk_Qty)Milk_Qty,SUM(Milk_Amount)Milk_Amount,sum(Payable_Amount)Payable_Amo
                             arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.YearlyBillReport & "'"))
                             arrHeader.Add("Date Range : " & clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "  To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy"))
 
-                            If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
-                                arrHeader.Add("Distrutor Code : " & txtMultBMC.arrDispalyMember(0))
-                            End If
+                            'If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                            '    arrHeader.Add("Distrutor Code : " & txtMultBMC.arrDispalyMember(0))
+                            'End If
 
-                            If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
-                                arrHeader.Add("Area : " & txtDCS.arrDispalyMember(0))
+                            'If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
+                            '    arrHeader.Add("Area : " & txtDCS.arrDispalyMember(0))
 
-                            End If
+                            'End If
                             ' transportSql.applyExportTemplate(gv2, PageSetupReport_ID)
                             'clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text, True)
                             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
