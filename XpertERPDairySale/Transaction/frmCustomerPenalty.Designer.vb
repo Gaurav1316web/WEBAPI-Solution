@@ -31,7 +31,6 @@ Partial Class frmCustomerPenalty
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblDistributorName = New common.Controls.MyLabel()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.RadLabel4 = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtPenaltyPer = New common.MyNumBox()
         Me.lblPenaltyPer = New common.Controls.MyLabel()
@@ -41,6 +40,7 @@ Partial Class frmCustomerPenalty
         Me.txtDistributor = New common.UserControls.txtFinder()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtDocumentDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblStatus = New common.usLock()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
@@ -68,7 +68,6 @@ Partial Class frmCustomerPenalty
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPenaltyPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPenaltyPer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,6 +76,7 @@ Partial Class frmCustomerPenalty
         CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -162,7 +162,7 @@ Partial Class frmCustomerPenalty
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.btnReset.Location = New System.Drawing.Point(522, 75)
+        Me.btnReset.Location = New System.Drawing.Point(522, 48)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(100, 19)
         Me.btnReset.TabIndex = 1096
@@ -241,16 +241,6 @@ Partial Class frmCustomerPenalty
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "13/06/2011"
         Me.txtToDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'RadLabel4
-        '
-        Me.RadLabel4.FieldName = Nothing
-        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(384, 22)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 1573
-        Me.RadLabel4.Text = "Date"
         '
         'MyLabel5
         '
@@ -389,7 +379,7 @@ Partial Class frmCustomerPenalty
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.btnGo.Location = New System.Drawing.Point(522, 49)
+        Me.btnGo.Location = New System.Drawing.Point(522, 75)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(100, 19)
         Me.btnGo.TabIndex = 52
@@ -428,6 +418,16 @@ Partial Class frmCustomerPenalty
         Me.txtDocumentDate.TabStop = False
         Me.txtDocumentDate.Text = "13/06/2011"
         Me.txtDocumentDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(384, 22)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 1573
+        Me.RadLabel4.Text = "Date"
         '
         'RadLabel1
         '
@@ -634,7 +634,6 @@ Partial Class frmCustomerPenalty
         Me.RadGroupBox1.PerformLayout()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPenaltyPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPenaltyPer, System.ComponentModel.ISupportInitialize).EndInit()
@@ -643,6 +642,7 @@ Partial Class frmCustomerPenalty
         CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
