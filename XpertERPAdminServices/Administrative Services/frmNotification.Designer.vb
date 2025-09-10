@@ -431,7 +431,7 @@ Partial Class frmNotification
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(419, 6)
+        Me.btnReverse.Location = New System.Drawing.Point(419, 5)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(69, 22)
         Me.btnReverse.TabIndex = 161
@@ -452,7 +452,7 @@ Partial Class frmNotification
         Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
         Me.btnImport.Location = New System.Drawing.Point(231, 5)
         Me.btnImport.Name = "btnImport"
-        Me.btnImport.Size = New System.Drawing.Size(110, 22)
+        Me.btnImport.Size = New System.Drawing.Size(69, 22)
         Me.btnImport.TabIndex = 159
         Me.btnImport.Text = "Import/Export"
         Me.btnImport.Visible = False
