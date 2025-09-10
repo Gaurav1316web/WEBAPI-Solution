@@ -1503,7 +1503,7 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                     For Each objTr As clsCustomerTenderOrderDetail In obj.Arr
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = sl
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.RowType
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.RowType
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Short_Description from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(objTr.Item_Code) & "' ")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objTr.Unit_Code
