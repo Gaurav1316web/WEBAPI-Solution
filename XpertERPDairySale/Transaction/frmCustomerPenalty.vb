@@ -499,8 +499,7 @@ Public Class frmCustomerPenalty
                 Next
                 EnableDisableControls(False)
             Else
-                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-                Exit Sub
+                Throw New Exception("No Data Found")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
