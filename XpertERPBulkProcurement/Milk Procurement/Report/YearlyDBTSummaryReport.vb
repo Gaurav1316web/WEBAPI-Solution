@@ -286,7 +286,10 @@ group by TSPL_MP_INCENTIVE_ENTRY_detail.mp_code
                 Next
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.EnableFiltering = True
-                SetGridFormat1()
+                If rblCappingHold.Checked Then
+                Else
+                    SetGridFormat1()
+                End If
                 '  SetGridFormationOFGV1Collection()
                 ' View()
                 gv1.BestFitColumns()

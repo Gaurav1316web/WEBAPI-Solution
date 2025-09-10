@@ -22,6 +22,7 @@ Public Class frmCustomerPenalty
     Dim j As Integer = 0
     Dim obj As New clsCustomerPenalty()
     Dim objtr As New clsCustomerPenaltyDetail()
+    Dim dblTotalPenalty As Decimal = 0
 #End Region
 
     Private Sub frmCustomerPenalty_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -35,48 +36,6 @@ Public Class frmCustomerPenalty
             LoadData(clsCommon.myCstr(txtDocumentNo.Value), NavigatorType.Current)
         End If
 
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_No", "varchar(30) Not NULL Primary Key")
-        coll.Add("Document_date", "DateTime Not NULL")
-        coll.Add("Cust_Code", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
-        coll.Add("From_Date", "Date Not NULL")
-        coll.Add("To_Date", "Date Not NULL")
-        coll.Add("Penalty_Per", "Decimal(18,2) NULL ")
-        coll.Add("Remarks", "varchar(200) Null")
-        coll.Add("Status", "int not null default 0")
-        coll.Add("Created_By", "varchar(12)  Not NULL")
-        coll.Add("Created_Date", "DateTime  Not NULL")
-        coll.Add("Modified_By", "varchar(12)  Not NULL")
-        coll.Add("Modified_Date", "datetime  Not NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_PENALTY", coll, "", True, False, Nothing, Nothing, Nothing, False)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "Integer Not NULL identity primary key")
-        coll.Add("Document_No", "VARCHAR(30) Not NULL REFERENCES TSPL_CUSTOMER_PENALTY(Document_No)")
-        coll.Add("Invoice_Date", "Date null")
-        coll.Add("Sale_Amt", "Decimal(18,2) NULL")
-        coll.Add("Deposit_Amt", "Decimal(18,2) NULL")
-        coll.Add("Curr_Balance_Amt", "Decimal(18,2) NULL")
-        coll.Add("Balance_Amt", "Decimal(18,2) NULL")
-        coll.Add("Penalty", "Decimal(18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_PENALTY_DETAIL", coll, Nothing, True, False, "TSPL_CUSTOMER_PENALTY", "Document_No", "")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "Integer Not NULL identity (1,1) primary key")
-        coll.Add("Ref_PK_ID", "integer not NULL references TSPL_CUSTOMER_PENALTY_DETAIL (PK_Id) ")
-        coll.Add("Document_No", "VARCHAR(30) Not NULL REFERENCES TSPL_CUSTOMER_PENALTY(Document_No)")
-        coll.Add("Invoice_No", "Varchar(30) null References TSPL_SD_SALE_INVOICE_HEAD(Document_Code)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_PENALTY_INVOICE", coll, "unique (Invoice_No)", True, False, "TSPL_CUSTOMER_PENALTY", "Document_No", "")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "Integer Not NULL identity (1,1) primary key")
-        coll.Add("Ref_PK_ID", "integer not NULL references TSPL_CUSTOMER_PENALTY_DETAIL (PK_Id) ")
-        coll.Add("Document_No", "VARCHAR(30) Not NULL REFERENCES TSPL_CUSTOMER_PENALTY(Document_No)")
-        coll.Add("Receipt_No", "Varchar(30) null References TSPL_RECEIPT_HEADER(Receipt_No)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_PENALTY_RECEIPT", coll, "unique (Receipt_No)", True, False, "TSPL_CUSTOMER_PENALTY", "Document_No", "")
     End Sub
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
@@ -216,6 +175,7 @@ Public Class frmCustomerPenalty
                 obj.To_Date = clsCommon.myCDate(txtToDate.Value)
                 obj.Cust_Code = txtDistributor.Value
                 obj.Remarks = txtRemarks.Text
+                obj.Total_Penalty = Math.Round(clsCommon.myCdbl(lblTotalPenalty.Text), 2)
                 obj.Arr = New List(Of clsCustomerPenaltyDetail)
 
                 For Each grow As GridViewRowInfo In Gv1.Rows
@@ -246,8 +206,10 @@ Public Class frmCustomerPenalty
     Private Sub Addnew()
         isNewEntry = True
         txtDocumentNo.Value = ""
+        dblTotalPenalty = 0
         txtDistributor.Value = ""
         lblDistributorName.Text = ""
+        lblTotalPenalty.Text = ""
         btnSave.Enabled = True
         btnPost.Enabled = True
         txtFromDate.Value = clsCommon.GETSERVERDATE()
@@ -300,11 +262,16 @@ Public Class frmCustomerPenalty
     End Sub
 
     Private Sub txtDocumentNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, isButtonClicked As System.Boolean) Handles txtDocumentNo._MYValidating
-        If clsCommon.myLen(txtDocumentNo) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Document No can't be blank", Me.Text)
-        End If
-        txtDocumentNo.Value = obj.getFinder(txtDocumentNo.Value, isButtonClicked)
-        LoadData(txtDocumentNo.Value, NavigatorType.Current)
+        Try
+            If clsCommon.myLen(txtDocumentNo) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Document No can't be blank", Me.Text)
+            End If
+            obj = New clsCustomerPenalty()
+            txtDocumentNo.Value = obj.getFinder(txtDocumentNo.Value, isButtonClicked)
+            LoadData(txtDocumentNo.Value, NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtDocumentNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocumentNo._MYNavigator
@@ -326,7 +293,7 @@ Public Class frmCustomerPenalty
         Try
             btnSave.Enabled = True
             btnPost.Enabled = True
-            LoadBlankGrid()
+            Addnew()
             obj = New clsCustomerPenalty()
             obj = obj.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0) Then
@@ -334,6 +301,7 @@ Public Class frmCustomerPenalty
                 isNewEntry = False
                 btnSave.Text = "Update"
                 EnableDisableControls(False)
+                Addnew()
                 If obj.Status = 1 Then
                     lblStatus.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
@@ -350,6 +318,7 @@ Public Class frmCustomerPenalty
                 txtFromDate.Value = obj.From_Date
                 txtToDate.Value = obj.To_Date
                 txtPenaltyPer.Value = obj.Penalty_Per
+                lblTotalPenalty.Text = obj.Total_Penalty
                 txtRemarks.Text = obj.Remarks
                 txtDistributor.Value = obj.Cust_Code
                 lblDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtDistributor.Value + "' "))
@@ -518,6 +487,8 @@ Public Class frmCustomerPenalty
                 Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblCurrBalance_Amt
             End If
             Gv1.Rows(IntRowNo).Cells(colPenalty).Value = (Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value * txtPenaltyPer.Value) / (100 * days)
+            dblTotalPenalty += Gv1.Rows(IntRowNo).Cells(colPenalty).Value
+            lblTotalPenalty.Text = Math.Round(clsCommon.myCdbl(dblTotalPenalty), 2)
         End If
     End Sub
 
@@ -644,7 +615,7 @@ Public Class frmCustomerPenalty
     Sub OpenInvoiceDetails()
         Dim frm As frmCustomerPenaltyInvoiceDetails = New frmCustomerPenaltyInvoiceDetails()
         frm.arr = TryCast(Gv1.CurrentRow.Cells(colSaleAmount).Tag, List(Of clsCustomerPenaltyInvoiceDetail))
-        If frm.arr.Count > 0 Then
+        If frm.arr IsNot Nothing Then
             frm.ShowDialog()
             If Not frm.isCancelButtonClicked Then
                 Gv1.CurrentRow.Cells(colSaleAmount).Tag = frm.arr
@@ -656,7 +627,7 @@ Public Class frmCustomerPenalty
     Sub OpenReceiptDetails()
         Dim frm As frmCustomerPenaltyReceiptDetails = New frmCustomerPenaltyReceiptDetails()
         frm.arr = TryCast(Gv1.CurrentRow.Cells(colDepositAmount).Tag, List(Of clsCustomerPenaltyReceiptDetail))
-        If frm.arr.Count > 0 Then
+        If frm.arr IsNot Nothing Then
             frm.ShowDialog()
             If Not frm.isCancelButtonClicked Then
                 Gv1.CurrentRow.Cells(colDepositAmount).Tag = frm.arr

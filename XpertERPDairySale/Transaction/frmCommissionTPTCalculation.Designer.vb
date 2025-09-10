@@ -22,24 +22,23 @@ Partial Class frmCommissionTPTCalculation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtRemarks = New System.Windows.Forms.TextBox()
-        Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.UsLock1 = New common.usLock()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.txtRemarks = New System.Windows.Forms.TextBox()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtDistributorCode = New common.UserControls.txtFinder()
         Me.lblDistributorName = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
-        Me.txtAdvance = New common.MyNumBox()
+        Me.txtCorTPTRate = New common.MyNumBox()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -51,33 +50,31 @@ Partial Class frmCommissionTPTCalculation
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCorTPTRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,14 +83,15 @@ Partial Class frmCommissionTPTCalculation
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
-        Me.SplitContainer2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,7 +104,7 @@ Partial Class frmCommissionTPTCalculation
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.SplitContainer2)
         '
         'SplitContainer1.Panel2
         '
@@ -119,34 +117,64 @@ Partial Class frmCommissionTPTCalculation
         Me.SplitContainer1.SplitterDistance = 454
         Me.SplitContainer1.TabIndex = 0
         '
-        'RadPageView1
+        'SplitContainer2
         '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 454)
-        Me.RadPageView1.TabIndex = 0
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'RadPageViewPage1
+        'SplitContainer2.Panel1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(100.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 406)
-        Me.RadPageViewPage1.Text = "Commission/TPT"
+        Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnReset)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel4)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox2)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
         '
-        'txtRemarks
+        'SplitContainer2.Panel2
         '
-        Me.txtRemarks.Location = New System.Drawing.Point(89, 146)
-        Me.txtRemarks.Multiline = True
-        Me.txtRemarks.Name = "txtRemarks"
-        Me.txtRemarks.Size = New System.Drawing.Size(628, 38)
-        Me.txtRemarks.TabIndex = 422
+        Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox1)
+        Me.SplitContainer2.Size = New System.Drawing.Size(800, 454)
+        Me.SplitContainer2.SplitterDistance = 189
+        Me.SplitContainer2.TabIndex = 426
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(501, 6)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(100, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 426
+        '
+        'btnReset
+        '
+        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(398, 98)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(69, 25)
+        Me.btnReset.TabIndex = 424
+        Me.btnReset.Text = "Reset"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(8, 157)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel6.TabIndex = 421
+        Me.MyLabel6.Text = "Remarks"
         '
         'txtDate
         '
@@ -172,45 +200,29 @@ Partial Class frmCommissionTPTCalculation
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(98, 18)
+        Me.txtDate.Size = New System.Drawing.Size(80, 18)
         Me.txtDate.TabIndex = 140
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'RadGroupBox1
+        'btnGo
         '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.gv1)
-        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox1.HeaderText = "Details"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(779, 213)
-        Me.RadGroupBox1.TabIndex = 138
-        Me.RadGroupBox1.Text = "Details"
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(398, 126)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(69, 25)
+        Me.btnGo.TabIndex = 423
+        Me.btnGo.Text = ">>>"
         '
-        'gv1
+        'txtRemarks
         '
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Location = New System.Drawing.Point(2, 18)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
-        Me.gv1.Name = "gv1"
-        Me.gv1.Size = New System.Drawing.Size(775, 193)
-        Me.gv1.TabIndex = 0
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(8, 148)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(51, 16)
-        Me.MyLabel6.TabIndex = 421
-        Me.MyLabel6.Text = "Remarks"
+        Me.txtRemarks.Location = New System.Drawing.Point(113, 160)
+        Me.txtRemarks.Multiline = True
+        Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.Size = New System.Drawing.Size(354, 28)
+        Me.txtRemarks.TabIndex = 422
         '
         'RadLabel4
         '
@@ -225,13 +237,12 @@ Partial Class frmCommissionTPTCalculation
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.btnReset)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel7)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel1)
-        Me.RadGroupBox2.Controls.Add(Me.btnGo)
         Me.RadGroupBox2.Controls.Add(Me.txtDistributorCode)
         Me.RadGroupBox2.Controls.Add(Me.lblDistributorName)
         Me.RadGroupBox2.Controls.Add(Me.RadLabel2)
-        Me.RadGroupBox2.Controls.Add(Me.txtAdvance)
+        Me.RadGroupBox2.Controls.Add(Me.txtCorTPTRate)
         Me.RadGroupBox2.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel5)
         Me.RadGroupBox2.Controls.Add(Me.txtToDate)
@@ -243,18 +254,18 @@ Partial Class frmCommissionTPTCalculation
         Me.RadGroupBox2.HeaderText = ""
         Me.RadGroupBox2.Location = New System.Drawing.Point(6, 30)
         Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(711, 110)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(390, 127)
         Me.RadGroupBox2.TabIndex = 425
         '
-        'btnReset
+        'MyLabel7
         '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(429, 87)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(67, 20)
-        Me.btnReset.TabIndex = 424
-        Me.btnReset.Text = "Reset"
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(4, 86)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(91, 16)
+        Me.MyLabel7.TabIndex = 425
+        Me.MyLabel7.Text = "Distributor Name"
         '
         'MyLabel1
         '
@@ -265,16 +276,6 @@ Partial Class frmCommissionTPTCalculation
         Me.MyLabel1.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel1.TabIndex = 142
         Me.MyLabel1.Text = "From Date"
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(359, 87)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(67, 20)
-        Me.btnGo.TabIndex = 423
-        Me.btnGo.Text = ">>>"
         '
         'txtDistributorCode
         '
@@ -287,7 +288,7 @@ Partial Class frmCommissionTPTCalculation
         Me.txtDistributorCode.IsSourceFromTable = False
         Me.txtDistributorCode.IsSourceFromValueList = False
         Me.txtDistributorCode.IsUnique = False
-        Me.txtDistributorCode.Location = New System.Drawing.Point(85, 66)
+        Me.txtDistributorCode.Location = New System.Drawing.Point(107, 66)
         Me.txtDistributorCode.MendatroryField = True
         Me.txtDistributorCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDistributorCode.MyLinkLable1 = Nothing
@@ -298,7 +299,7 @@ Partial Class frmCommissionTPTCalculation
         Me.txtDistributorCode.ReferenceFieldDesc = Nothing
         Me.txtDistributorCode.ReferenceFieldName = Nothing
         Me.txtDistributorCode.ReferenceTableName = Nothing
-        Me.txtDistributorCode.Size = New System.Drawing.Size(268, 18)
+        Me.txtDistributorCode.Size = New System.Drawing.Size(267, 18)
         Me.txtDistributorCode.TabIndex = 133
         Me.txtDistributorCode.Value = ""
         '
@@ -308,9 +309,9 @@ Partial Class frmCommissionTPTCalculation
         Me.lblDistributorName.BorderVisible = True
         Me.lblDistributorName.FieldName = Nothing
         Me.lblDistributorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDistributorName.Location = New System.Drawing.Point(359, 66)
+        Me.lblDistributorName.Location = New System.Drawing.Point(107, 86)
         Me.lblDistributorName.Name = "lblDistributorName"
-        Me.lblDistributorName.Size = New System.Drawing.Size(333, 18)
+        Me.lblDistributorName.Size = New System.Drawing.Size(267, 18)
         Me.lblDistributorName.TabIndex = 134
         Me.lblDistributorName.TextWrap = False
         '
@@ -324,32 +325,32 @@ Partial Class frmCommissionTPTCalculation
         Me.RadLabel2.TabIndex = 137
         Me.RadLabel2.Text = "Distributor"
         '
-        'txtAdvance
+        'txtCorTPTRate
         '
-        Me.txtAdvance.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtAdvance.CalculationExpression = Nothing
-        Me.txtAdvance.DecimalPlaces = 0
-        Me.txtAdvance.FieldCode = Nothing
-        Me.txtAdvance.FieldDesc = Nothing
-        Me.txtAdvance.FieldMaxLength = 0
-        Me.txtAdvance.FieldName = Nothing
-        Me.txtAdvance.isCalculatedField = False
-        Me.txtAdvance.IsSourceFromTable = False
-        Me.txtAdvance.IsSourceFromValueList = False
-        Me.txtAdvance.IsUnique = False
-        Me.txtAdvance.Location = New System.Drawing.Point(146, 86)
-        Me.txtAdvance.MendatroryField = False
-        Me.txtAdvance.MyLinkLable1 = Nothing
-        Me.txtAdvance.MyLinkLable2 = Nothing
-        Me.txtAdvance.Name = "txtAdvance"
-        Me.txtAdvance.ReferenceFieldDesc = Nothing
-        Me.txtAdvance.ReferenceFieldName = Nothing
-        Me.txtAdvance.ReferenceTableName = Nothing
-        Me.txtAdvance.Size = New System.Drawing.Size(207, 20)
-        Me.txtAdvance.TabIndex = 420
-        Me.txtAdvance.Text = "0"
-        Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        Me.txtCorTPTRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtCorTPTRate.CalculationExpression = Nothing
+        Me.txtCorTPTRate.DecimalPlaces = 0
+        Me.txtCorTPTRate.FieldCode = Nothing
+        Me.txtCorTPTRate.FieldDesc = Nothing
+        Me.txtCorTPTRate.FieldMaxLength = 0
+        Me.txtCorTPTRate.FieldName = Nothing
+        Me.txtCorTPTRate.isCalculatedField = False
+        Me.txtCorTPTRate.IsSourceFromTable = False
+        Me.txtCorTPTRate.IsSourceFromValueList = False
+        Me.txtCorTPTRate.IsUnique = False
+        Me.txtCorTPTRate.Location = New System.Drawing.Point(107, 102)
+        Me.txtCorTPTRate.MendatroryField = False
+        Me.txtCorTPTRate.MyLinkLable1 = Nothing
+        Me.txtCorTPTRate.MyLinkLable2 = Nothing
+        Me.txtCorTPTRate.Name = "txtCorTPTRate"
+        Me.txtCorTPTRate.ReferenceFieldDesc = Nothing
+        Me.txtCorTPTRate.ReferenceFieldName = Nothing
+        Me.txtCorTPTRate.ReferenceTableName = Nothing
+        Me.txtCorTPTRate.Size = New System.Drawing.Size(99, 20)
+        Me.txtCorTPTRate.TabIndex = 420
+        Me.txtCorTPTRate.Text = "0"
+        Me.txtCorTPTRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCorTPTRate.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtFromDate
         '
@@ -365,7 +366,7 @@ Partial Class frmCommissionTPTCalculation
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(86, 4)
+        Me.txtFromDate.Location = New System.Drawing.Point(107, 4)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -375,7 +376,7 @@ Partial Class frmCommissionTPTCalculation
         Me.txtFromDate.ReferenceFieldDesc = Nothing
         Me.txtFromDate.ReferenceFieldName = Nothing
         Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(98, 18)
+        Me.txtFromDate.Size = New System.Drawing.Size(85, 18)
         Me.txtFromDate.TabIndex = 139
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "13/06/2011"
@@ -385,11 +386,11 @@ Partial Class frmCommissionTPTCalculation
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(4, 88)
+        Me.MyLabel5.Location = New System.Drawing.Point(0, 103)
         Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(120, 16)
+        Me.MyLabel5.Size = New System.Drawing.Size(94, 16)
         Me.MyLabel5.TabIndex = 419
-        Me.MyLabel5.Text = "Commission/TPT Rate"
+        Me.MyLabel5.Text = "Comm./TPT Rate"
         '
         'txtToDate
         '
@@ -405,7 +406,7 @@ Partial Class frmCommissionTPTCalculation
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(233, 4)
+        Me.txtToDate.Location = New System.Drawing.Point(222, 4)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -415,7 +416,7 @@ Partial Class frmCommissionTPTCalculation
         Me.txtToDate.ReferenceFieldDesc = Nothing
         Me.txtToDate.ReferenceFieldName = Nothing
         Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(98, 18)
+        Me.txtToDate.Size = New System.Drawing.Size(85, 18)
         Me.txtToDate.TabIndex = 141
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "13/06/2011"
@@ -425,7 +426,7 @@ Partial Class frmCommissionTPTCalculation
         '
         Me.txtMultItems.arrDispalyMember = Nothing
         Me.txtMultItems.arrValueMember = Nothing
-        Me.txtMultItems.Location = New System.Drawing.Point(86, 45)
+        Me.txtMultItems.Location = New System.Drawing.Point(107, 45)
         Me.txtMultItems.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultItems.MyLinkLable1 = Nothing
         Me.txtMultItems.MyLinkLable2 = Nothing
@@ -438,7 +439,7 @@ Partial Class frmCommissionTPTCalculation
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(195, 5)
+        Me.MyLabel2.Location = New System.Drawing.Point(198, 5)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(19, 16)
         Me.MyLabel2.TabIndex = 143
@@ -468,7 +469,7 @@ Partial Class frmCommissionTPTCalculation
         '
         Me.txtMultRoute.arrDispalyMember = Nothing
         Me.txtMultRoute.arrValueMember = Nothing
-        Me.txtMultRoute.Location = New System.Drawing.Point(86, 24)
+        Me.txtMultRoute.Location = New System.Drawing.Point(107, 24)
         Me.txtMultRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultRoute.MyLinkLable1 = Nothing
         Me.txtMultRoute.MyLinkLable2 = Nothing
@@ -492,7 +493,7 @@ Partial Class frmCommissionTPTCalculation
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(340, 6)
+        Me.btnAddNew.Location = New System.Drawing.Point(360, 6)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 132
@@ -500,7 +501,7 @@ Partial Class frmCommissionTPTCalculation
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(93, 6)
+        Me.txtDocNo.Location = New System.Drawing.Point(113, 6)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -513,6 +514,30 @@ Partial Class frmCommissionTPTCalculation
         Me.txtDocNo.TabIndex = 130
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.gv1)
+        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadGroupBox1.HeaderText = "Details"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(800, 261)
+        Me.RadGroupBox1.TabIndex = 138
+        Me.RadGroupBox1.Text = "Details"
+        '
+        'gv1
+        '
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.Name = "gv1"
+        Me.gv1.Size = New System.Drawing.Size(796, 241)
+        Me.gv1.TabIndex = 0
         '
         'btnClose
         '
@@ -533,7 +558,6 @@ Partial Class frmCommissionTPTCalculation
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 7
         Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
         '
         'btnDelete
         '
@@ -565,32 +589,6 @@ Partial Class frmCommissionTPTCalculation
         Me.btnSave.TabIndex = 4
         Me.btnSave.Text = "Save"
         '
-        'SplitContainer2
-        '
-        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer2.Panel1
-        '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDate)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel4)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
-        '
-        'SplitContainer2.Panel2
-        '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(779, 406)
-        Me.SplitContainer2.SplitterDistance = 189
-        Me.SplitContainer2.TabIndex = 426
-        '
         'frmCommissionTPTCalculation
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -606,25 +604,23 @@ Partial Class frmCommissionTPTCalculation
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.PerformLayout()
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAdvance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCorTPTRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -633,23 +629,21 @@ Partial Class frmCommissionTPTCalculation
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel1.PerformLayout()
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
-        Me.SplitContainer2.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents RadPageView1 As RadPageView
-    Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
     Friend WithEvents lblDistributorName As common.Controls.MyLabel
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
@@ -674,11 +668,13 @@ Partial Class frmCommissionTPTCalculation
     Friend WithEvents txtMultItems As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents txtAdvance As common.MyNumBox
+    Friend WithEvents txtCorTPTRate As common.MyNumBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtRemarks As TextBox
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents SplitContainer2 As SplitContainer
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
 End Class
