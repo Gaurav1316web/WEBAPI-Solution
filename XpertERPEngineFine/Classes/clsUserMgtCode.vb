@@ -10,6 +10,8 @@ Public Class clsUserMgtCode
     Public Const frmDCSWiseHoldPayments As String = "DCS-WS-PYNT"
     Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
+    Public Const DCSDeductionBalanceReport As String = "DCS_D_B_R"
+
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
