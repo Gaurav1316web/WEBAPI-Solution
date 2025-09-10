@@ -209,7 +209,7 @@ Public Class frmCustomerPenalty
         dblTotalPenalty = 0
         txtDistributor.Value = ""
         lblDistributorName.Text = ""
-        lblTotalPenalty.Text = ""
+        lblTotalPenalty.Text = "0"
         btnSave.Enabled = True
         btnPost.Enabled = True
         txtFromDate.Value = clsCommon.GETSERVERDATE()
