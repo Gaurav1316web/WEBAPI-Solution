@@ -9674,6 +9674,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmCommissionTPTCalculation
                         frm = New frmCommissionTPTCalculation
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCustomerPenalty
+                        frm = New frmCustomerPenalty
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCommissionTPTCalculation
+                        frm = New frmCommissionTPTCalculation
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmItemProjection
                     '    frm = New FrmItemProjection
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

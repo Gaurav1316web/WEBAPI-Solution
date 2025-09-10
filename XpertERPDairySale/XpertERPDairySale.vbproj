@@ -941,6 +941,24 @@
     <Compile Include="Transaction\frmCustomerIncetiveEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmCustomerPenalty.Designer.vb">
+      <DependentUpon>frmCustomerPenalty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenalty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyInvoiceDetails.Designer.vb">
+      <DependentUpon>frmCustomerPenaltyInvoiceDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyInvoiceDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyReceiptDetails.Designer.vb">
+      <DependentUpon>frmCustomerPenaltyReceiptDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyReceiptDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmDairyBookingCustomer.Designer.vb">
       <DependentUpon>frmDairyBookingCustomer.vb</DependentUpon>
     </Compile>
@@ -1601,6 +1619,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCustomerIncetiveEntry.resx">
       <DependentUpon>frmCustomerIncetiveEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmCustomerPenalty.resx">
+      <DependentUpon>frmCustomerPenalty.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDairyBookingCustomer.resx">
       <DependentUpon>frmDairyBookingCustomer.vb</DependentUpon>

@@ -412,6 +412,7 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const MultipleShareAllotment As String = "Multiple Share Allotment"
+    Public Const CustomerPenalty As String = "Customer Penalty"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const BullInsurance As String = "Bull Insurance"
@@ -1473,6 +1474,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MilkCollectionDCSMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCSMulipleMerge, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCS, "", False, False, False)
+            InsertDefaultValue(clsDocType.CustomerPenalty, "", False, False, False)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.PDCS, False, False, True)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.Registered, False, False, True)
             InsertDefaultValue(clsDocType.PTMMASTER, "", False, False, True)

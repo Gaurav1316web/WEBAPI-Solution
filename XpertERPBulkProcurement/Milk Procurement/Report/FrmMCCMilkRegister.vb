@@ -4446,7 +4446,7 @@ Case When xxx.RejectType='CURD' Then xxx.SNF_KG Else 0 End AS [Curd SNF(KG)]  fr
                         strDate = "Null as Date"
                     End If
                     BaseQry2 += " union all "
-                    BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , " & strDate & " , '' as Shift " & str & ",Null As [Alias Name] ,SUM([Sweet Cans]) As [Sweet Cans], sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],SUM([Sour Cans]) As [Sour Cans],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
+                    BaseQry2 += "select 2 as SNo ,'Total' as [Milk Type] , " & strDate & " , '' as Shift " & str & ",Null As [Alias Name] ,SUM(ISNULL([Sweet Cans],0)) As [Sweet Cans], sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],SUM([Sour Cans]) As [Sour Cans],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], 
                sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,SUM([Curd Cans]) As [Curd Cans], sum ([Milk Weight Curd(KG)]) as [Milk Weight Curd(KG)] , sum([No Of Cans]) as [No Of Cans] , sum([Milk Weight Sweet(KG)] ) + sum([Milk Weight Sour(KG)] ) + sum ([Milk Weight Curd(KG)]) as TotalQty ,sum([Sweet FAT(KG)] )+ sum([Sour FAT(KG)])  as [Total FAT] , sum([Sweet SNF(KG)] ) + sum([Sour SNF(KG)]) as [Total SNF]  From "
 
                     BaseQry2 += "( select [Milk Type]+'M' as [Milk Type], XXXFinal.date as Date , '' as Shift " & XXXFinal & ",MAX([Alias Name])[Alias Name],SUM([Sweet Cans]) As [Sweet Cans], sum([Milk Weight Sweet(KG)] ) as [Milk Weight Sweet(KG)],sum([Sweet FAT(KG)] ) as [Sweet FAT(KG)] ,sum([Sweet SNF(KG)] ) as [Sweet SNF(KG)],SUM([Sour Cans]) As [Sour Cans],sum([Milk Weight Sour(KG)] ) as [Milk Weight Sour(KG)],  sum([Sour FAT(KG)]) as [Sour FAT(KG)], sum([Sour SNF(KG)]) as [Sour SNF(KG)] ,
@@ -4562,7 +4562,74 @@ Case When xxx.RejectType='CURD' Then xxx.SNF_KG Else 0 End AS [Curd SNF(KG)]  fr
                     ElseIf rbtnShiftWiseTotal.Checked Then
                         dt.Rows.Add("Grand Total", dtGrandTotal.Rows(0)("Morning Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Morning SweetFAT"), dtGrandTotal.Rows(0)("Morning Sweet SNF"), dtGrandTotal.Rows(0)("Morning Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Morning Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Morning Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Morning Sour FAT"), dtGrandTotal.Rows(0)("Morning Sour SNF"), dtGrandTotal.Rows(0)("Morning Sour FAT(KG)"), dtGrandTotal.Rows(0)("Morning Sour SNF(KG)"), dtGrandTotal.Rows(0)("Morning Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Evening SweetFAT"), dtGrandTotal.Rows(0)("Evening Sweet SNF"), dtGrandTotal.Rows(0)("Evening Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Evening Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Evening Sour FAT"), dtGrandTotal.Rows(0)("Evening Sour SNF"), dtGrandTotal.Rows(0)("Evening Sour FAT(KG)"), dtGrandTotal.Rows(0)("Evening Sour SNF(KG)"), dtGrandTotal.Rows(0)("Evening Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("Morning No Of Cans"), dtGrandTotal.Rows(0)("Evening No Of Cans"))
                     Else
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
+                        Dim dt2 As DataTable = dt.Clone()
+
+                        For Each row As DataRow In dt.Rows
+                            If row("Milk Type").ToString().Contains("Total") Then
+                                'dt2.add
+                                dt2.ImportRow(row)
+                            End If
+                        Next
+                        Dim grandTotalRow As DataRow = dt.NewRow()
+                        grandTotalRow("Milk Type") = "Grand Total"
+                        Dim totalsweetFatkg As Decimal = 0
+                        Dim totalsweetSnfkg As Decimal = 0
+                        Dim totalSourFATkg As Decimal = 0
+                        Dim totalSourSnfkg As Decimal = 0
+                        Dim totalSweetQty As Decimal = 0
+                        Dim totalSourQty As Decimal = 0
+                        Dim totalSweeetQty As Decimal = 0
+                        Dim totalCurdQty As Decimal = 0
+                        ' Sum all numeric columns from dt2
+                        For Each col As DataColumn In dt2.Columns
+
+                            'If col.ColumnName = "AvgFat" OrElse col.ColumnName = "AvgSNF" Then
+                            '    ' Skip computed columns
+                            '    Continue For
+                            'End If
+
+                            If col.DataType Is GetType(Integer) OrElse
+       col.DataType Is GetType(Decimal) OrElse
+       col.DataType Is GetType(Double) Then
+
+                                Dim total As Double = 0
+
+                                For Each row As DataRow In dt2.Rows
+                                    If Not IsDBNull(row(col)) Then
+                                        total += Convert.ToDouble(row(col))
+                                    End If
+                                Next
+                                grandTotalRow(col.ColumnName) = total
+                                Select Case col.ColumnName
+                                    Case "Sweet FAT(KG)"
+                                        totalsweetFatkg = total
+                                    Case "Sweet SNF(KG)"
+                                        totalsweetSnfkg = total
+                                    Case "Sour FAT(KG)"
+                                        totalSourFATkg = total
+                                    Case "Sour SNF(KG)"
+                                        totalSourSnfkg = total
+                                    Case "Milk Weight Sweet(KG)"
+                                        totalSweeetQty = total
+                                    Case "Milk Weight Sour(KG)"
+                                        totalSourQty = total
+                                    Case "Milk Weight Curd(KG)"
+                                        totalCurdQty = total
+                                End Select
+                            End If
+                        Next
+                        Dim denominator As Decimal = totalSweeetQty + totalSourQty + totalCurdQty
+                        If denominator = 0 Then
+                            grandTotalRow("FAT(%)") = 0
+                            grandTotalRow("SNF(%)") = 0
+                        Else
+                            grandTotalRow("FAT(%)") = Math.Round((totalsweetFatkg + totalSourFATkg) * 100 / denominator, 2)
+                            grandTotalRow("SNF(%)") = Math.Round((totalsweetSnfkg + totalSourSnfkg) * 100 / denominator, 2)
+                        End If
+
+                        dt.Rows.Add(grandTotalRow)
+
+                        'dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "Grand Total", dtGrandTotal.Rows(0)("Milk Weight Sweet(KG)"), dtGrandTotal.Rows(0)("Sweet FAT(KG)"), dtGrandTotal.Rows(0)("Sweet SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Sour(KG)"), dtGrandTotal.Rows(0)("Sour FAT(KG)"), dtGrandTotal.Rows(0)("Sour SNF(KG)"), dtGrandTotal.Rows(0)("Milk Weight Curd(KG)"), dtGrandTotal.Rows(0)("No Of Cans"), dtGrandTotal.Rows(0)("TotalQty"), dtGrandTotal.Rows(0)("FAT(%)"), dtGrandTotal.Rows(0)("SNF(%)"), DBNull.Value, DBNull.Value)
                     End If
                 End If
 
