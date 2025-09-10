@@ -11,6 +11,7 @@ Public Class clsCustomerPenalty
     Public To_Date As Date? = Nothing
     Public Remarks As String = Nothing
     Public Status As Integer = 0
+    Public Total_Penalty As Decimal = 0
     Public Arr As List(Of clsCustomerPenaltyDetail) = Nothing
     Public ArrInvoiceDetails As List(Of clsCustomerPenaltyInvoiceDetail) = Nothing
     Public ArrReceiptDetails As List(Of clsCustomerPenaltyReceiptDetail) = Nothing
@@ -41,6 +42,7 @@ Public Class clsCustomerPenalty
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Penalty_Per", obj.Penalty_Per)
+            clsCommon.AddColumnsForChange(coll, "Total_Penalty", obj.Total_Penalty)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -94,6 +96,7 @@ Public Class clsCustomerPenalty
             obj.Document_date = clsCommon.myCDate(dt.Rows(0)("Document_date"))
             obj.Cust_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Code"))
             obj.Penalty_Per = clsCommon.myCdbl(dt.Rows(0)("Penalty_Per"))
+            obj.Total_Penalty = clsCommon.myCdbl(dt.Rows(0)("Total_Penalty"))
             obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
@@ -110,7 +113,7 @@ Public Class clsCustomerPenalty
 
     Public Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_No as DocumentNo ,convert(varchar(12),Document_date,103) as DocumentDate,convert(varchar,From_Date,103) as [From Date],convert(varchar,To_Date,103) as [To Date],Penalty_Per as [Penalty Per],case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_CUSTOMER_PENALTY"
+        Dim sql As String = "select Document_No as DocumentNo ,convert(varchar(12),Document_date,103) as DocumentDate,convert(varchar,From_Date,103) as [From Date],convert(varchar,To_Date,103) as [To Date],Penalty_Per as [Penalty Per],Total_Penalty as [Total Penalty],case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_CUSTOMER_PENALTY"
         str = clsCommon.ShowSelectForm("CustPnlty", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
         Return str
     End Function
