@@ -210,7 +210,7 @@ where 1=1 "
                        ON TSPL_MILK_COLLECTION_DCS.Document_No = FilteredDetails.Document_No                
                         left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.vlc_code=TSPL_MILK_COLLECTION_DCS_DETAIL.vlc_code
                         left Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-                        where FilteredDetails.Against_Milk_Collection_MCC_Detail IN (" + StrAgainst_Milk_Collection_MCC_Detail + ") order by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader"
+                        where FilteredDetails.Against_Milk_Collection_MCC_Detail IN (" + StrAgainst_Milk_Collection_MCC_Detail + ") order by PK_Id"
                         dtDCSDetail = clsDBFuncationality.GetDataTable(qry)
 
                         qry = "SELECT TSPL_MILK_COLLECTION_DCS.Document_Date,
