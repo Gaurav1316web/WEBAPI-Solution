@@ -31,7 +31,9 @@ Public Class clsCustomerPenalty
     Public Function SaveData(ByVal obj As clsCustomerPenalty, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_CUSTOMER_PENALTY_INVOICE where Document_No='" + obj.Document_No + "'"
+            Dim qry As String = "delete from TSPL_CUSTOMER_PENALTY_RECEIPT where Document_No='" + obj.Document_No + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_CUSTOMER_PENALTY_INVOICE where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_CUSTOMER_PENALTY_DETAIL where Document_No='" + obj.Document_No + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

@@ -22,7 +22,7 @@ Public Class frmCustomerPenalty
     Dim j As Integer = 0
     Dim obj As New clsCustomerPenalty()
     Dim objtr As New clsCustomerPenaltyDetail()
-    Dim dblTotalPenalty As Decimal = 0
+
 #End Region
 
     Private Sub frmCustomerPenalty_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -206,7 +206,6 @@ Public Class frmCustomerPenalty
     Private Sub Addnew()
         isNewEntry = True
         txtDocumentNo.Value = ""
-        dblTotalPenalty = 0
         txtDistributor.Value = ""
         lblDistributorName.Text = ""
         lblTotalPenalty.Text = "0"
@@ -297,11 +296,11 @@ Public Class frmCustomerPenalty
             obj = New clsCustomerPenalty()
             obj = obj.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0) Then
+                Addnew()
                 isLoadData = True
                 isNewEntry = False
                 btnSave.Text = "Update"
                 EnableDisableControls(False)
-                Addnew()
                 If obj.Status = 1 Then
                     lblStatus.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
@@ -366,13 +365,13 @@ Public Class frmCustomerPenalty
             If frm.isPasswordCorrect Then
                 btnReverseUnpost.Visible = True
             End If
-            Dim frmCustPenaltyInvoice = New frmCustomerPenaltyInvoiceDetails()
-            If isLoadData Then
-                frmCustPenaltyInvoice.arr = obj.ArrInvoiceDetails
-            Else
-                frmCustPenaltyInvoice.arr = objtr.ArrInvoiceAllDetails
-            End If
-            frmCustPenaltyInvoice.ShowDialog()
+            'Dim frmCustPenaltyInvoice = New frmCustomerPenaltyInvoiceDetails()
+            'If isLoadData Then
+            '    frmCustPenaltyInvoice.arr = obj.ArrInvoiceDetails
+            'Else
+            '    frmCustPenaltyInvoice.arr = objtr.ArrInvoiceAllDetails
+            'End If
+            'frmCustPenaltyInvoice.ShowDialog()
         End If
     End Sub
 
@@ -466,6 +465,7 @@ Public Class frmCustomerPenalty
                     UpdateCurrentRow(ii)
                     Gv1.Rows.AddNew()
                 Next
+                UpdateTotal()
                 EnableDisableControls(False)
             Else
                 Throw New Exception("No Data Found")
@@ -487,11 +487,15 @@ Public Class frmCustomerPenalty
                 Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblCurrBalance_Amt
             End If
             Gv1.Rows(IntRowNo).Cells(colPenalty).Value = (Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value * txtPenaltyPer.Value) / (100 * days)
-            dblTotalPenalty += Gv1.Rows(IntRowNo).Cells(colPenalty).Value
-            lblTotalPenalty.Text = Math.Round(clsCommon.myCdbl(dblTotalPenalty), 2)
         End If
     End Sub
-
+    Sub UpdateTotal()
+        Dim dblTotalPenalty As Decimal = 0
+        For ii As Integer = 0 To Gv1.Rows.Count - 1
+            dblTotalPenalty = dblTotalPenalty + clsCommon.myCdbl(Gv1.Rows(ii).Cells(colPenalty).Value)
+        Next
+        lblTotalPenalty.Text = Math.Round(clsCommon.myCdbl(dblTotalPenalty), 2)
+    End Sub
     'Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
     '    clsCommon.MyExportToExcelGrid("", Gv1, Nothing, Me.Text)
     '    clsCommon.MyMessageBoxShow(Me, "Exported Successfully", Me.Text)
@@ -650,6 +654,7 @@ Public Class frmCustomerPenalty
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         EnableDisableControls(True)
         LoadBlankGrid()
+        lblTotalPenalty.Text = "0"
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
