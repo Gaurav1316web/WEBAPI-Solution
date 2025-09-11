@@ -22,12 +22,17 @@ Partial Class FrmSalesOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.gbQtySummary = New System.Windows.Forms.GroupBox()
+        Me.txtBalQty = New common.Controls.MyLabel()
+        Me.txtTenderQty = New common.Controls.MyLabel()
+        Me.lblbalQty = New common.Controls.MyLabel()
+        Me.lblTenderQty = New common.Controls.MyLabel()
         Me.txtRemark = New common.Controls.MyTextBox()
         Me.lblRemark = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -77,11 +82,6 @@ Partial Class FrmSalesOrder
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.gbQtySummary = New System.Windows.Forms.GroupBox()
-        Me.lblbalQty = New common.Controls.MyLabel()
-        Me.lblTenderQty = New common.Controls.MyLabel()
-        Me.txtTenderQty = New common.Controls.MyLabel()
-        Me.txtBalQty = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -91,6 +91,11 @@ Partial Class FrmSalesOrder
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        Me.gbQtySummary.SuspendLayout()
+        CType(Me.txtBalQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTenderQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblbalQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTenderQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRefDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -136,11 +141,6 @@ Partial Class FrmSalesOrder
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbQtySummary.SuspendLayout()
-        CType(Me.lblbalQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTenderQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTenderQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBalQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -237,6 +237,67 @@ Partial Class FrmSalesOrder
         Me.SplitContainer2.Size = New System.Drawing.Size(846, 419)
         Me.SplitContainer2.SplitterDistance = 141
         Me.SplitContainer2.TabIndex = 1576
+        '
+        'gbQtySummary
+        '
+        Me.gbQtySummary.Controls.Add(Me.txtBalQty)
+        Me.gbQtySummary.Controls.Add(Me.txtTenderQty)
+        Me.gbQtySummary.Controls.Add(Me.lblbalQty)
+        Me.gbQtySummary.Controls.Add(Me.lblTenderQty)
+        Me.gbQtySummary.Location = New System.Drawing.Point(639, 30)
+        Me.gbQtySummary.Name = "gbQtySummary"
+        Me.gbQtySummary.Size = New System.Drawing.Size(162, 82)
+        Me.gbQtySummary.TabIndex = 1586
+        Me.gbQtySummary.TabStop = False
+        Me.gbQtySummary.Text = "Qty Summary"
+        '
+        'txtBalQty
+        '
+        Me.txtBalQty.AutoSize = False
+        Me.txtBalQty.BorderVisible = True
+        Me.txtBalQty.FieldName = Nothing
+        Me.txtBalQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBalQty.Location = New System.Drawing.Point(76, 44)
+        Me.txtBalQty.Name = "txtBalQty"
+        Me.txtBalQty.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtBalQty.Size = New System.Drawing.Size(79, 20)
+        Me.txtBalQty.TabIndex = 1588
+        Me.txtBalQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.txtBalQty.TextWrap = False
+        '
+        'txtTenderQty
+        '
+        Me.txtTenderQty.AutoSize = False
+        Me.txtTenderQty.BorderVisible = True
+        Me.txtTenderQty.FieldName = Nothing
+        Me.txtTenderQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTenderQty.Location = New System.Drawing.Point(76, 22)
+        Me.txtTenderQty.Name = "txtTenderQty"
+        Me.txtTenderQty.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.txtTenderQty.Size = New System.Drawing.Size(79, 20)
+        Me.txtTenderQty.TabIndex = 1587
+        Me.txtTenderQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.txtTenderQty.TextWrap = False
+        '
+        'lblbalQty
+        '
+        Me.lblbalQty.FieldName = Nothing
+        Me.lblbalQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblbalQty.Location = New System.Drawing.Point(6, 44)
+        Me.lblbalQty.Name = "lblbalQty"
+        Me.lblbalQty.Size = New System.Drawing.Size(68, 16)
+        Me.lblbalQty.TabIndex = 1580
+        Me.lblbalQty.Text = "Balance Qty"
+        '
+        'lblTenderQty
+        '
+        Me.lblTenderQty.FieldName = Nothing
+        Me.lblTenderQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTenderQty.Location = New System.Drawing.Point(6, 22)
+        Me.lblTenderQty.Name = "lblTenderQty"
+        Me.lblTenderQty.Size = New System.Drawing.Size(63, 16)
+        Me.lblTenderQty.TabIndex = 1579
+        Me.lblTenderQty.Text = "Tender Qty"
         '
         'txtRemark
         '
@@ -635,7 +696,7 @@ Partial Class FrmSalesOrder
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -793,7 +854,7 @@ Partial Class FrmSalesOrder
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -942,63 +1003,6 @@ Partial Class FrmSalesOrder
         Me.btnSave.TabIndex = 3
         Me.btnSave.Text = "Save"
         '
-        'gbQtySummary
-        '
-        Me.gbQtySummary.Controls.Add(Me.txtBalQty)
-        Me.gbQtySummary.Controls.Add(Me.txtTenderQty)
-        Me.gbQtySummary.Controls.Add(Me.lblbalQty)
-        Me.gbQtySummary.Controls.Add(Me.lblTenderQty)
-        Me.gbQtySummary.Location = New System.Drawing.Point(639, 30)
-        Me.gbQtySummary.Name = "gbQtySummary"
-        Me.gbQtySummary.Size = New System.Drawing.Size(162, 82)
-        Me.gbQtySummary.TabIndex = 1586
-        Me.gbQtySummary.TabStop = False
-        Me.gbQtySummary.Text = "Qty Summary"
-        '
-        'lblbalQty
-        '
-        Me.lblbalQty.FieldName = Nothing
-        Me.lblbalQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblbalQty.Location = New System.Drawing.Point(6, 44)
-        Me.lblbalQty.Name = "lblbalQty"
-        Me.lblbalQty.Size = New System.Drawing.Size(68, 16)
-        Me.lblbalQty.TabIndex = 1580
-        Me.lblbalQty.Text = "Balance Qty"
-        '
-        'lblTenderQty
-        '
-        Me.lblTenderQty.FieldName = Nothing
-        Me.lblTenderQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTenderQty.Location = New System.Drawing.Point(6, 22)
-        Me.lblTenderQty.Name = "lblTenderQty"
-        Me.lblTenderQty.Size = New System.Drawing.Size(63, 16)
-        Me.lblTenderQty.TabIndex = 1579
-        Me.lblTenderQty.Text = "Tender Qty"
-        '
-        'txtTenderQty
-        '
-        Me.txtTenderQty.AutoSize = False
-        Me.txtTenderQty.BorderVisible = True
-        Me.txtTenderQty.FieldName = Nothing
-        Me.txtTenderQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTenderQty.Location = New System.Drawing.Point(76, 22)
-        Me.txtTenderQty.Name = "txtTenderQty"
-        Me.txtTenderQty.Size = New System.Drawing.Size(79, 20)
-        Me.txtTenderQty.TabIndex = 1587
-        Me.txtTenderQty.TextWrap = False
-        '
-        'txtBalQty
-        '
-        Me.txtBalQty.AutoSize = False
-        Me.txtBalQty.BorderVisible = True
-        Me.txtBalQty.FieldName = Nothing
-        Me.txtBalQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBalQty.Location = New System.Drawing.Point(76, 44)
-        Me.txtBalQty.Name = "txtBalQty"
-        Me.txtBalQty.Size = New System.Drawing.Size(79, 20)
-        Me.txtBalQty.TabIndex = 1588
-        Me.txtBalQty.TextWrap = False
-        '
         'FrmSalesOrder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1022,6 +1026,12 @@ Partial Class FrmSalesOrder
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        Me.gbQtySummary.ResumeLayout(False)
+        Me.gbQtySummary.PerformLayout()
+        CType(Me.txtBalQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTenderQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblbalQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTenderQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRemark, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRefDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1070,12 +1080,6 @@ Partial Class FrmSalesOrder
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbQtySummary.ResumeLayout(False)
-        Me.gbQtySummary.PerformLayout()
-        CType(Me.lblbalQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTenderQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTenderQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBalQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

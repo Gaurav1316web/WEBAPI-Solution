@@ -1246,6 +1246,9 @@
     <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrder.resx">
       <DependentUpon>FrmSalesOrder.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrderDispatch.resx">
+      <DependentUpon>FrmSalesOrderDispatch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingQuotation.resx">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </EmbeddedResource>

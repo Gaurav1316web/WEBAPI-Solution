@@ -6814,6 +6814,20 @@ WHERE TSPL_ITEM_MASTER.Print_Sequence is not null and TSPL_ITEM_MASTER.Active=1
                     End If
                 Next
             End If
+            If dtProduct.Rows.Count > 0 Then
+                For i As Integer = 0 To dtProduct.Rows.Count - 1
+                    sbProductIemName.Append("Sum(IsNull([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)) As [" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "]" & ",")
+                    sbProductItemNameMax.Append(" max(IsNull([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)) As [" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "]" & ",")
+                    If i = 0 Then
+                        sbitemNamesProduct.Append("ISNULL([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)")
+                        sbProductIemsName.Append("[" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "] ")
+                    Else
+                        sbitemNamesProduct.Append("+" & "ISNULL([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)")
+
+                        sbProductIemsName.Append(", [" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "] ")
+                    End If
+                Next
+            End If
             itemName2 = sbitemName2.ToString()
             itemName1 = sbitemName1.ToString()
             itemNames1 = sbitemNames1.ToString()
@@ -6830,20 +6844,7 @@ WHERE TSPL_ITEM_MASTER.Print_Sequence is not null and TSPL_ITEM_MASTER.Active=1
             itemNamesProduct = sbitemNamesProduct.ToString()
             FreshItemNameMax = sbFreshItemNameMax.ToString()
             ProductItemNameMax = sbProductItemNameMax.ToString()
-            If dtProduct.Rows.Count > 0 Then
-                For i As Integer = 0 To dtProduct.Rows.Count - 1
-                    sbProductIemName.Append("Sum(IsNull([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)) As [" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "]" & ",")
-                    sbProductItemNameMax.Append(" max(IsNull([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)) As [" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "]" & ",")
-                    If i = 0 Then
-                        sbitemNamesProduct.Append("ISNULL([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)")
-                        sbProductIemsName.Append("[" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "] ")
-                    Else
-                        sbitemNamesProduct.Append("+" & "ISNULL([" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "],0)")
 
-                        sbProductIemsName.Append(", [" & clsCommon.myCstr(dtProduct.Rows(i)("Product_Item")) & "] ")
-                    End If
-                Next
-            End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 qry = "Select Convert(Varchar,ROW_NUMBER() Over (Order By (Select 1))) As [SR.],max(Customer_Name)OUTLET,max(Display_Seq)as Display_Seq, " & itemName1 & ",sum(ItemNetAmount) as Amount from (select XXFinal.Cust_Code as Cust_Code,max(XXFinal.Customer_Name) as Customer_Name,max(XXFinal.Display_Seq) as Display_Seq, max(XXFinal.Short_Description) as Short_Description,
 sum(XXFinal.Qty) as Qty,sum(XXFinal.ItemNetAmount) as ItemNetAmount,sum(LTR_QTY)LTR_QTY,sum(KG_QTY)KG_QTY,max(Fresh_Item)Fresh_Item,max(Product_Item)Product_Item
