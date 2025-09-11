@@ -255,7 +255,7 @@ Public Class frmCustomerGroup
         Try
 
             If fndCustomerGroupCode.Value <> "" Then
-                ds = connectSql.RunSQLReturnDS("select cust_group_desc,tax_group,cust_account,Terms_Code, Shelf_Life,ShowGroupOnReport,PONOMandatory,Default_VSP,VSP_Price_Code_Credit,VSP_Price_Code_Cash from tspl_Customer_Group_Master where cust_group_code='" + fndCustomerGroupCode.Value + "'")
+                ds = connectSql.RunSQLReturnDS("select cust_group_desc,tax_group,cust_account,Terms_Code, Shelf_Life,ShowGroupOnReport,PONOMandatory,Default_VSP,VSP_Price_Code_Credit,VSP_Price_Code_Cash,IsGoverment from tspl_Customer_Group_Master where cust_group_code='" + fndCustomerGroupCode.Value + "'")
                 Dim dr As DataRow = ds.Tables(0).Rows(0)
                 txtCustomerGroupDesc.Text = dr(0).ToString().Trim()
                 fndTaxGroup.Value = dr(1).ToString().Trim()
@@ -277,6 +277,11 @@ Public Class frmCustomerGroup
                     chkDefaultVSP.Checked = False
                 Else
                     chkDefaultVSP.Checked = True
+                End If
+                If clsCommon.CompairString(clsCommon.myCstr(dr("IsGoverment").ToString().Trim()), "0") = CompairStringResult.Equal Then
+                    chkGov.Checked = False
+                Else
+                    chkGov.Checked = True
                 End If
 
                 txtVSPPriceCodeCredit.Value = clsCommon.myCstr(dr("VSP_Price_Code_Credit"))
@@ -391,6 +396,7 @@ Public Class frmCustomerGroup
 ,Default_VSP=" & IIf(chkDefaultVSP.Checked = True, 1, 0) & "
 ,VSP_Price_Code_Credit='" & IIf(chkDefaultVSP.Checked, txtVSPPriceCodeCredit.Value, "") & "'
 ,VSP_Price_Code_Cash='" & IIf(chkDefaultVSP.Checked, txtVSPPriceCodeCash.Value, "") & "'
+,IsGoverment='" & IIf(chkGov.Checked, 1, 0) & "'
 where Cust_Group_Code ='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'"
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
     End Sub

@@ -74,6 +74,7 @@ Partial Class frmCustomerGroup
         Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkGov = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCustomerGroupDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -112,6 +113,7 @@ Partial Class frmCustomerGroup
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkGov, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,7 +156,7 @@ Partial Class frmCustomerGroup
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(629, 7)
+        Me.btnClose.Location = New System.Drawing.Point(744, 7)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 11
@@ -322,7 +324,7 @@ Partial Class frmCustomerGroup
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(700, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(815, 20)
         Me.RadMenu1.TabIndex = 32
         '
         'btnSave
@@ -664,7 +666,7 @@ Partial Class frmCustomerGroup
         Me.TxtShfLife.TabIndex = 7
         Me.TxtShfLife.Text = "0"
         Me.TxtShfLife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtShfLife.Value = 0R
+        Me.TxtShfLife.Value = New Decimal(New Integer() {0, 0, 0, 0})
         Me.TxtShfLife.Visible = False
         '
         'RadPageView1
@@ -675,12 +677,13 @@ Partial Class frmCustomerGroup
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(700, 367)
+        Me.RadPageView1.Size = New System.Drawing.Size(815, 367)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkGov)
         Me.RadPageViewPage1.Controls.Add(Me.rgbVSP)
         Me.RadPageViewPage1.Controls.Add(Me.lblCustomerGroup)
         Me.RadPageViewPage1.Controls.Add(Me.lblTaxGroup)
@@ -704,7 +707,7 @@ Partial Class frmCustomerGroup
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(679, 319)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(794, 319)
         Me.RadPageViewPage1.Text = "Group Details"
         '
         'rgbVSP
@@ -822,7 +825,7 @@ Partial Class frmCustomerGroup
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(700, 410)
+        Me.SplitContainer1.Size = New System.Drawing.Size(815, 410)
         Me.SplitContainer1.SplitterDistance = 367
         Me.SplitContainer1.TabIndex = 33
         '
@@ -836,11 +839,19 @@ Partial Class frmCustomerGroup
         Me.btnHistory.TabIndex = 12
         Me.btnHistory.Text = "History"
         '
+        'chkGov
+        '
+        Me.chkGov.Location = New System.Drawing.Point(685, 108)
+        Me.chkGov.Name = "chkGov"
+        Me.chkGov.Size = New System.Drawing.Size(46, 18)
+        Me.chkGov.TabIndex = 313
+        Me.chkGov.Text = "Govt."
+        '
         'frmCustomerGroup
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(700, 430)
+        Me.ClientSize = New System.Drawing.Size(815, 430)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmCustomerGroup"
@@ -890,6 +901,7 @@ Partial Class frmCustomerGroup
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkGov, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -945,5 +957,6 @@ Partial Class frmCustomerGroup
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtVSPPriceCodeCredit As common.UserControls.txtFinder
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents chkGov As RadCheckBox
 End Class
 

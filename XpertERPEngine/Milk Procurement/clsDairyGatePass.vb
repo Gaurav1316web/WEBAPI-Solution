@@ -190,7 +190,7 @@ Public Class clsDairyGatePassEntry
             End If
             obj.TotalCrateQty = objGp.TotalCrate
             'obj.Document_No = txtDocNo.Value
-            obj.Document_Date = objGp.GPDate
+            obj.Document_Date = objGp.Supply_Date
             obj.Invoice_Date = objGp.Supply_Date
             obj.Location_Code = objGp.Location_Code
             obj.Comments = ""

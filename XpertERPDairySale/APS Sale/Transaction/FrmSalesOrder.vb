@@ -81,7 +81,7 @@ Public Class FrmSalesOrder
         SetUserMgmtNew()
         CreateTable()
         UcAttachment1.Form_ID = MyBase.Form_ID
-        UcAttachment1.MandatoryPDFFileAny = True
+        UcAttachment1.MandatoryPDFFileAny = False
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
 
         AddNew()
@@ -116,7 +116,7 @@ Public Class FrmSalesOrder
         repoRowType.FormatString = ""
         repoRowType.HeaderText = "Row Type"
         repoRowType.Name = colRowType
-        repoRowType.Width = 50
+        repoRowType.Width = 100
         repoRowType.ReadOnly = False
         repoRowType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         repoRowType.DataSource = GetItemType()
@@ -153,7 +153,7 @@ Public Class FrmSalesOrder
         repoUOM.FormatString = ""
         repoUOM.HeaderText = "Unit Code"
         repoUOM.Name = colUOM
-        repoUOM.Width = 100
+        repoUOM.Width = 50
         repoUOM.ReadOnly = True
         repoUOM.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoUOM)
@@ -171,7 +171,7 @@ Public Class FrmSalesOrder
         repoRate.FormatString = "{0:n2}"
         repoRate.HeaderText = "Item Rate"
         repoRate.Name = colRate
-        repoRate.Width = 50
+        repoRate.Width = 80
         repoRate.Minimum = 0
         repoRate.ReadOnly = True
         repoRate.IsVisible = True
@@ -181,7 +181,7 @@ Public Class FrmSalesOrder
         repoAmt.FormatString = "{0:n2}"
         repoAmt.HeaderText = "Item Amt"
         repoAmt.Name = colItemAmt
-        repoAmt.Width = 50
+        repoAmt.Width = 100
         repoAmt.Minimum = 0
         repoAmt.ShowUpDownButtons = False
         repoAmt.ReadOnly = False
@@ -572,7 +572,7 @@ Public Class FrmSalesOrder
         repoTotalTaxAmt.FormatString = "{0:n2}"
         repoTotalTaxAmt.HeaderText = "Total Tax Amt"
         repoTotalTaxAmt.Name = colTotalTaxAmt
-        repoTotalTaxAmt.Width = 50
+        repoTotalTaxAmt.Width = 150
         repoTotalTaxAmt.Minimum = 0
         repoTotalTaxAmt.ReadOnly = True
         repoTotalTaxAmt.IsVisible = True
@@ -583,7 +583,7 @@ Public Class FrmSalesOrder
         repoTotalAmt.FormatString = "{0:n2}"
         repoTotalAmt.HeaderText = "Total Amt"
         repoTotalAmt.Name = colTotalAmt
-        repoTotalAmt.Width = 50
+        repoTotalAmt.Width = 150
         repoTotalAmt.Minimum = 0
         repoTotalAmt.ReadOnly = True
         repoTotalAmt.IsVisible = True
@@ -617,7 +617,7 @@ Public Class FrmSalesOrder
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
-        gv1.BestFitColumns()
+
     End Sub
     Private Sub AddNew()
         isNewEntry = True
@@ -1274,6 +1274,8 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                 objTr.Tax10_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTax10_Amt).Value)
                 objTr.Total_Tax_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalTaxAmt).Value)
                 objTr.Total_Amt = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotalAmt).Value)
+                objTr.Inclusive_Tax = clsCommon.myCdbl(gv1.Rows(ii).Cells(colInclusiveTax).Value)
+                objTr.Inclusive_TPT = clsCommon.myCdbl(gv1.Rows(ii).Cells(colInclusiveTPT).Value)
                 If clsCommon.myLen(objTr.Item_Code) > 0 Then
                     Arr.Add(objTr)
                 End If
@@ -1553,6 +1555,8 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10_Amt).Value = objTr.Tax10_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalTaxAmt).Value = objTr.Total_Tax_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAmt).Value = objTr.Total_Amt
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colInclusiveTax).Value = objTr.Inclusive_Tax
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colInclusiveTPT).Value = objTr.Inclusive_TPT
                         sl += 1
                     Next
                 End If

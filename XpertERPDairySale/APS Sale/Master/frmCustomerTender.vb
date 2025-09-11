@@ -54,8 +54,9 @@ Public Class frmCustomerTender
         repoRatePerLtr.FormatString = "{0:n2}"
         repoRatePerLtr.HeaderText = "Rate Per Ltr"
         repoRatePerLtr.Name = colRatePerLtr
-        repoRatePerLtr.Width = 50
+        repoRatePerLtr.Width = 100
         repoRatePerLtr.Minimum = 0
+        repoRatePerLtr.ShowUpDownButtons = False
         repoRatePerLtr.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRatePerLtr)
         gv1.AllowAddNewRow = False

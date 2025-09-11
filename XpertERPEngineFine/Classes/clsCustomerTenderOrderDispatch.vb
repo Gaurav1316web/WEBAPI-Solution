@@ -1,15 +1,14 @@
 ﻿Imports System.Data.SqlClient
 
-Public Class clsCustomerTenderOrder
+Public Class clsCustomerTenderOrderDispatch
 #Region "Variables"
     Public Document_Code As String = ""
     Public Document_Date As DateTime = Nothing
-    Public RAL_No As String = Nothing
+    Public Sale_OrderNo As String = Nothing
     Public Cust_Code As String = Nothing
     Public Location_Code As String = Nothing
     Public Sub_Location As String = Nothing
-    Public Ref_No As String = Nothing
-    Public Ref_Date As DateTime = Nothing
+    Public IsReplacement As Integer = 0
     Public Tax_Group As String = Nothing
     Public TaxGroupName As String = Nothing
     Public TAX1 As String = Nothing
@@ -59,9 +58,9 @@ Public Class clsCustomerTenderOrder
     Public Remarks As String = ""
     Public Status As Integer = 0
     Public Posted_Date As DateTime = Nothing
-    Public Arr As List(Of clsCustomerTenderOrderDetail) = Nothing
+    Public Arr As List(Of clsCustomerTenderOrderDispatchDetail) = Nothing
 #End Region
-    Public Function SaveData(ByVal obj As clsCustomerTenderOrder, ByVal isNewEntry As Boolean) As Boolean
+    Public Function SaveData(ByVal obj As clsCustomerTenderOrderDispatch, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, trans)
@@ -72,18 +71,17 @@ Public Class clsCustomerTenderOrder
         End Try
         Return True
     End Function
-    Public Shared Function SaveData(ByVal obj As clsCustomerTenderOrder, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal obj As clsCustomerTenderOrderDispatch, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim qry As String = "delete from TSPL_CUSTOMER_TENDER_ORDER_DETAIL where Document_Code='" & obj.Document_Code & "'"
+            Dim qry As String = "delete from TSPL_CUSTOMER_TENDER_ORDER_DISPATCH_DETAIL where Document_Code='" & obj.Document_Code & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "RAL_No", obj.RAL_No)
+            clsCommon.AddColumnsForChange(coll, "Sale_OrderNo", obj.Sale_OrderNo)
             clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             clsCommon.AddColumnsForChange(coll, "Sub_Location", obj.Sub_Location, True)
-            clsCommon.AddColumnsForChange(coll, "Ref_No", obj.Ref_No)
-            clsCommon.AddColumnsForChange(coll, "Ref_Date", clsCommon.GetPrintDate(obj.Ref_Date, "dd/MMM/yyyy"), True)
+            clsCommon.AddColumnsForChange(coll, "IsReplacement", obj.IsReplacement)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
             clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
             clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
@@ -132,56 +130,53 @@ Public Class clsCustomerTenderOrder
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
-                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCustomerTenderOrder, "", obj.Location_Code)
+                obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCustomerTenderOrderDis, "", obj.Location_Code)
                 If clsCommon.myLen(obj.Document_Code) <= 0 Then
                     Throw New Exception("Error in Code Generation")
                 End If
                 clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_TENDER_ORDER", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "tspl_Customer_Tender_Order_Dispatch", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_TENDER_ORDER", OMInsertOrUpdate.Update, "Document_Code='" & clsCommon.myCstr(obj.Document_Code) & "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "tspl_Customer_Tender_Order_Dispatch", OMInsertOrUpdate.Update, "Document_Code='" & clsCommon.myCstr(obj.Document_Code) & "'", trans)
             End If
-            clsCustomerTenderOrderDetail.SaveData(obj.Document_Code, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", "Document_Code", trans)
+            clsCustomerTenderOrderDispatchDetail.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "tspl_Customer_Tender_Order_Dispatch", "Document_Code", "tspl_Customer_Tender_Order_Dispatch_DETAIL", "Document_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsCustomerTenderOrder
-        Dim obj As clsCustomerTenderOrder = Nothing
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsCustomerTenderOrderDispatch
+        Dim obj As clsCustomerTenderOrderDispatch = Nothing
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Document_Code,Document_Date,RAL_No,Cust_Code,Location_Code,Sub_Location,Ref_No,Ref_Date,Document_Amt,Remarks,Status,Posted_Date " &
+            Dim strQry As String = "select Document_Code,Document_Date,Sale_OrderNo,IsReplacement,Cust_Code,Location_Code,Sub_Location,Document_Amt,Remarks,Status,Posted_Date " &
                 ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Tax6,Tax6_Rate,Tax6_Base_Amt,Tax6_Amt,Tax7,Tax7_Rate,Tax7_Base_Amt,Tax7_Amt,Tax8,Tax8_Rate,Tax8_Base_Amt,Tax8_Amt,Tax9,Tax9_Rate,Tax9_Base_Amt,Tax9_Amt,Tax10,Tax10_Rate,Tax10_Base_Amt,Tax10_Amt,Doc_Amt_Without_Tax,Tax_Amt  " &
-                " From TSPL_CUSTOMER_TENDER_ORDER  where 2=2"
+                " From tspl_Customer_Tender_Order_Dispatch  where 2=2"
             Select Case NavType
                 Case NavigatorType.First
-                    strQry += " and TSPL_CUSTOMER_TENDER_ORDER.Document_Code = (select MIN(Document_Code) from TSPL_CUSTOMER_TENDER_ORDER where 1=1 " & Whrcls & "  )"
+                    strQry += " and tspl_Customer_Tender_Order_Dispatch.Document_Code = (select MIN(Document_Code) from tspl_Customer_Tender_Order_Dispatch where 1=1 " & Whrcls & "  )"
                 Case NavigatorType.Last
-                    strQry += " and TSPL_CUSTOMER_TENDER_ORDER.Document_Code = (select Max(Document_Code) from TSPL_CUSTOMER_TENDER_ORDER where 1=1 " & Whrcls & "  )"
+                    strQry += " and tspl_Customer_Tender_Order_Dispatch.Document_Code = (select Max(Document_Code) from tspl_Customer_Tender_Order_Dispatch where 1=1 " & Whrcls & "  )"
                 Case NavigatorType.Next
-                    strQry += " and TSPL_CUSTOMER_TENDER_ORDER.Document_Code = (select Min(Document_Code) from TSPL_CUSTOMER_TENDER_ORDER where Document_Code>'" & clsCommon.myCstr(strCode) & "' " & Whrcls & "   )"
+                    strQry += " and tspl_Customer_Tender_Order_Dispatch.Document_Code = (select Min(Document_Code) from tspl_Customer_Tender_Order_Dispatch where Document_Code>'" & clsCommon.myCstr(strCode) & "' " & Whrcls & "   )"
                 Case NavigatorType.Previous
-                    strQry += " and TSPL_CUSTOMER_TENDER_ORDER.Document_Code = (select Max(Document_Code) from TSPL_CUSTOMER_TENDER_ORDER where Document_Code<'" & clsCommon.myCstr(strCode) & "' " & Whrcls & "  )"
+                    strQry += " and tspl_Customer_Tender_Order_Dispatch.Document_Code = (select Max(Document_Code) from tspl_Customer_Tender_Order_Dispatch where Document_Code<'" & clsCommon.myCstr(strCode) & "' " & Whrcls & "  )"
                 Case NavigatorType.Current
-                    strQry += " and TSPL_CUSTOMER_TENDER_ORDER.Document_Code = '" & clsCommon.myCstr(strCode) & "'  " & Whrcls & " "
+                    strQry += " and tspl_Customer_Tender_Order_Dispatch.Document_Code = '" & clsCommon.myCstr(strCode) & "'  " & Whrcls & " "
             End Select
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                obj = New clsCustomerTenderOrder()
+                obj = New clsCustomerTenderOrderDispatch()
                 obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
                 obj.Document_Date = clsCommon.GetPrintDate(dt.Rows(0)("Document_Date"), "dd/MMM/yyyy")
-                obj.RAL_No = clsCommon.myCstr(dt.Rows(0)("RAL_No"))
+                obj.Sale_OrderNo = clsCommon.myCstr(dt.Rows(0)("Sale_OrderNo"))
                 obj.Cust_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Code"))
                 obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
                 obj.Sub_Location = clsCommon.myCstr(dt.Rows(0)("Sub_Location"))
-                obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
-                If dt.Rows(0)("Ref_Date") IsNot DBNull.Value Then
-                    obj.Ref_Date = clsCommon.GetPrintDate(dt.Rows(0)("Ref_Date"), "dd/MMM/yyyy")
-                End If
+                obj.IsReplacement = clsCommon.myCdbl(dt.Rows(0)("IsReplacement"))
                 obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
                 obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
                 obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
@@ -232,7 +227,7 @@ Public Class clsCustomerTenderOrder
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
                 End If
-                obj.Arr = clsCustomerTenderOrderDetail.GetData(obj.Document_Code, trans)
+                obj.Arr = clsCustomerTenderOrderDispatchDetail.GetData(obj.Document_Code, trans)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -255,19 +250,21 @@ Public Class clsCustomerTenderOrder
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Post")
             End If
-            Dim obj As clsCustomerTenderOrder = clsCustomerTenderOrder.GetData(strCode, NavigatorType.Current, trans)
+            Dim obj As clsCustomerTenderOrderDispatch = clsCustomerTenderOrderDispatch.GetData(strCode, NavigatorType.Current, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Code : " & strCode & " not found to Post")
             End If
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" & obj.Posted_Date)
             End If
+
+
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_TENDER_ORDER", OMInsertOrUpdate.Update, "Document_Code='" & clsCommon.myCstr(obj.Document_Code) & "'", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.UpdateDataTable(coll, "tspl_Customer_Tender_Order_Dispatch", OMInsertOrUpdate.Update, "Document_Code='" & clsCommon.myCstr(obj.Document_Code) & "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_Customer_Tender_Order_Dispatch", "Document_Code", "tspl_Customer_Tender_Order_Dispatch_DETAIL", "Document_Code", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -293,17 +290,17 @@ Public Class clsCustomerTenderOrder
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
-            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", "Document_Code", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "tspl_Customer_Tender_Order_Dispatch", "Document_Code", "tspl_Customer_Tender_Order_Dispatch_Detail", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_Customer_Tender_Order_Dispatch", "Document_Code", "tspl_Customer_Tender_Order_Dispatch_Detail", "Document_Code", trans)
             Dim isPosted As Integer = 0
-            isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_CUSTOMER_TENDER_ORDER where Document_Code = '" & strCode & "' and Status=1", trans)
+            isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM tspl_Customer_Tender_Order_Dispatch where Document_Code = '" & strCode & "' and Status=1", trans)
             If (isPosted = 1) Then
                 Throw New Exception("Already Posted on :" & obj.Posted_Date)
             End If
             Dim qry As String
-            qry = "delete from TSPL_CUSTOMER_TENDER_ORDER_DETAIL where Document_Code ='" & strCode & "'"
+            qry = "delete from tspl_Customer_Tender_Order_Dispatch_DETAIL where Document_Code ='" & strCode & "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_CUSTOMER_TENDER_ORDER where Document_Code ='" & strCode & "'"
+            qry = "delete from tspl_Customer_Tender_Order_Dispatch where Document_Code ='" & strCode & "'"
             isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -311,7 +308,7 @@ Public Class clsCustomerTenderOrder
         Return isSaved
     End Function
 End Class
-Public Class clsCustomerTenderOrderDetail
+Public Class clsCustomerTenderOrderDispatchDetail
 #Region "Variables"
     Public Document_Code As String = ""
     Public RowType As String = ""
@@ -367,10 +364,10 @@ Public Class clsCustomerTenderOrderDetail
     Public Inclusive_Tax As Double = 0
     Public Inclusive_TPT As Double = 0
 #End Region
-    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsCustomerTenderOrderDetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsCustomerTenderOrderDispatchDetail), ByVal trans As SqlTransaction) As Boolean
         Try
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-                For Each obj As clsCustomerTenderOrderDetail In Arr
+                For Each obj As clsCustomerTenderOrderDispatchDetail In Arr
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
                     clsCommon.AddColumnsForChange(coll, "RowType", obj.RowType)
@@ -424,7 +421,7 @@ Public Class clsCustomerTenderOrderDetail
                     clsCommon.AddColumnsForChange(coll, "Total_Amt", obj.Total_Amt, True)
                     clsCommon.AddColumnsForChange(coll, "Inclusive_Tax", obj.Inclusive_Tax, True)
                     clsCommon.AddColumnsForChange(coll, "Inclusive_TPT", obj.Inclusive_TPT, True)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_TENDER_ORDER_Dispatch_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
         Catch ex As Exception
@@ -432,18 +429,18 @@ Public Class clsCustomerTenderOrderDetail
         End Try
         Return True
     End Function
-    Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsCustomerTenderOrderDetail)
-        Dim arr As List(Of clsCustomerTenderOrderDetail) = Nothing
+    Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsCustomerTenderOrderDispatchDetail)
+        Dim arr As List(Of clsCustomerTenderOrderDispatchDetail) = Nothing
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select * from TSPL_CUSTOMER_TENDER_ORDER_DETAIL where Document_Code='" & strCode & "'"
+            Dim strQry As String = "select * from TSPL_CUSTOMER_TENDER_ORDER_Dispatch_DETAIL where Document_Code='" & strCode & "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                arr = New List(Of clsCustomerTenderOrderDetail)
-                Dim objTr As clsCustomerTenderOrderDetail
+                arr = New List(Of clsCustomerTenderOrderDispatchDetail)
+                Dim objTr As clsCustomerTenderOrderDispatchDetail
                 For Each dr As DataRow In dt.Rows
-                    objTr = New clsCustomerTenderOrderDetail
+                    objTr = New clsCustomerTenderOrderDispatchDetail
                     objTr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
                     objTr.RowType = clsCommon.myCstr(dr("RowType"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
