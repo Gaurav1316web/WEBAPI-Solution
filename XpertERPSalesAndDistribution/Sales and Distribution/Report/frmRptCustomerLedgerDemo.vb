@@ -563,7 +563,7 @@ Public Class FrmRptCustomerLedgerDemo
                     End If
                     strQry += " ) XXX left outer join TSPL_CUSTOMER_MASTER as Parent_Master on Parent_Master.Cust_Code=XXX.ParentCode GROUP BY ACode"
                     If chkDateWise.Checked Then
-                        strQry += " ,convert(date,DocDate ,103)"
+                        strQry += " ,DocDate "
                     End If
                     ''richa ERO/23/12/19-001161
                     If chkMonthWise.Checked Then
