@@ -191,7 +191,7 @@ Public Class FrmMilkProcurementSocietySummary
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim qry As String = ""
-            qry = " Select *,(Good_Milk+Good_FailMilk+Sour_Milk+Curd_Milk)Total_Milk,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' As FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' As ToDate, from (Select [VSP Code],max([Vlc Uploader Code])DCS_Code,max([VSP Name])DCS_Name,max(MCC)MCC_Code,max([MCC Name])MCC_Name ,
+            qry = " Select *,(Good_Milk+Good_FailMilk+Sour_Milk+Curd_Milk)Total_Milk,'" + clsCommon.GetPrintDate(txtFromDate.Value) + "' As FromDate,'" + clsCommon.GetPrintDate(txtToDate.Value) + "' As ToDate from (Select [VSP Code],max([Vlc Uploader Code])DCS_Code,max([VSP Name])DCS_Name,max(MCC)MCC_Code,max([MCC Name])MCC_Name ,
                     SUM(CASE WHEN RejectType = 'SWEET' THEN ISNULL([Milk Weight],0) ELSE 0 END) - SUM(ISNULL([Good FailMilk],0)) AS Good_Milk,
                     SUM([Good FailMilk]) AS Good_FailMilk,
                     SUM(CASE WHEN RejectType = 'SOUR'  THEN ISNULL([Milk Weight],0) ELSE 0 END) AS Sour_Milk,

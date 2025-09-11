@@ -105,7 +105,7 @@ Public Class rptSaleReportCustomerWise
             End If
             ''-- ===== Sale Invoice =====   -- ===== Scrap Invoice =====
             qry = "  WITH BaseData AS (
-                    SELECT  ((ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty, 
+                    SELECT  TSPL_SD_SALE_INVOICE_HEAD.Document_Date,((ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty, 
                     ((ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOMBAG.Conversion_Factor) AS Qty_Bag,
                     TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name
                     FROM TSPL_SD_SALE_INVOICE_DETAIL 
@@ -125,7 +125,7 @@ Public Class rptSaleReportCustomerWise
 
             qry += " UNION ALL
   
-                    SELECT ((ISNULL(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty, 
+                    SELECT TSPL_SCRAPINVOICE_HEAD.shipment_Date,((ISNULL(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty, 
                     ((ISNULL(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOMBAG.Conversion_Factor) AS Qty_Bag,
                     TSPL_SCRAPINVOICE_HEAD.Loc_Code AS Bill_To_Location,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SCRAPINVOICE_HEAD.Cust_Code AS Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name
                     FROM TSPL_SCRAPINVOICE_DETAIL 
