@@ -31,9 +31,11 @@ Public Class clsCustomerPenalty
     Public Function SaveData(ByVal obj As clsCustomerPenalty, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_CUSTOMER_PENALTY_INVOICE where Document_No='" + obj.Document_No + "'"
+            Dim qry As String = "delete from TSPL_CUSTOMER_PENALTY_RECEIPT where Document_No='" & obj.Document_No & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_CUSTOMER_PENALTY_DETAIL where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_CUSTOMER_PENALTY_INVOICE where Document_No='" & obj.Document_No & "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_CUSTOMER_PENALTY_DETAIL where Document_No='" & obj.Document_No & "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -57,7 +59,7 @@ Public Class clsCustomerPenalty
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_PENALTY", OMInsertOrUpdate.Insert, "", trans)
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_PENALTY", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_PENALTY.Document_No='" + obj.Document_No + "'", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_PENALTY", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_PENALTY.Document_No='" & obj.Document_No & "'", trans)
             End If
             Dim objDetail As New clsCustomerPenaltyDetail()
             isSaved = isSaved AndAlso objDetail.SaveData(obj.Document_No, obj.Arr, trans)
@@ -78,15 +80,15 @@ Public Class clsCustomerPenalty
         Dim qry As String = "select * from TSPL_CUSTOMER_PENALTY where 2=2 "
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_CUSTOMER_PENALTY.Document_No = (select MIN(Document_No) from TSPL_CUSTOMER_PENALTY)"
+                qry &= " and TSPL_CUSTOMER_PENALTY.Document_No = (select MIN(Document_No) from TSPL_CUSTOMER_PENALTY)"
             Case NavigatorType.Last
-                qry += " and TSPL_CUSTOMER_PENALTY.Document_No = (select Max(Document_No) from TSPL_CUSTOMER_PENALTY)"
+                qry &= " and TSPL_CUSTOMER_PENALTY.Document_No = (select Max(Document_No) from TSPL_CUSTOMER_PENALTY)"
             Case NavigatorType.Next
-                qry += " and TSPL_CUSTOMER_PENALTY.Document_No = (select Min(Document_No) from TSPL_CUSTOMER_PENALTY where Document_No >'" + strCode + "')"
+                qry &= " and TSPL_CUSTOMER_PENALTY.Document_No = (select Min(Document_No) from TSPL_CUSTOMER_PENALTY where Document_No >'" & strCode & "')"
             Case NavigatorType.Previous
-                qry += " and TSPL_CUSTOMER_PENALTY.Document_No = (select Max(Document_No) from TSPL_CUSTOMER_PENALTY where Document_No <'" + strCode + "')"
+                qry &= " and TSPL_CUSTOMER_PENALTY.Document_No = (select Max(Document_No) from TSPL_CUSTOMER_PENALTY where Document_No <'" & strCode & "')"
             Case NavigatorType.Current
-                qry += " and TSPL_CUSTOMER_PENALTY.Document_No = '" + strCode + "'"
+                qry &= " and TSPL_CUSTOMER_PENALTY.Document_No = '" & strCode & "'"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -146,7 +148,7 @@ Public Class clsCustomerPenalty
                 Throw New Exception("Already Posted")
             End If
 
-            clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_PENALTY set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_No='" & obj.Document_No & "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_PENALTY set Status= 1, Posted_By = '" & objCommonVar.CurrentUserCode & "',Posted_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") & "'  where Document_No='" & obj.Document_No & "'", trans)
 
         Catch ex As Exception
 
@@ -192,7 +194,7 @@ Public Class clsCustomerPenalty
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_PENALTY", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_PENALTY", OMInsertOrUpdate.Update, "Document_No='" & obj.Document_No & "'", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -225,15 +227,15 @@ Public Class clsCustomerPenalty
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = Nothing
-            qry = "delete from TSPL_CUSTOMER_PENALTY_RECEIPT where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_CUSTOMER_PENALTY_RECEIPT where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_CUSTOMER_PENALTY_INVOICE where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_CUSTOMER_PENALTY_INVOICE where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            qry = "delete from TSPL_CUSTOMER_PENALTY_DETAIL where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_CUSTOMER_PENALTY_DETAIL where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_CUSTOMER_PENALTY where Document_No='" + obj.Document_No + "'"
+            qry = "delete from TSPL_CUSTOMER_PENALTY where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         Catch ex As Exception
@@ -285,7 +287,7 @@ Public Class clsCustomerPenaltyDetail
     Public Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsCustomerPenaltyDetail)
         Dim arr As List(Of clsCustomerPenaltyDetail) = Nothing
         Dim qry As String = "select TSPL_CUSTOMER_PENALTY_DETAIL.* 
-         from TSPL_CUSTOMER_PENALTY_DETAIL  where  TSPL_CUSTOMER_PENALTY_DETAIL.Document_No = '" + strCode + "' order by Document_No,PK_ID "
+         from TSPL_CUSTOMER_PENALTY_DETAIL  where  TSPL_CUSTOMER_PENALTY_DETAIL.Document_No = '" & strCode & "' order by Document_No,PK_ID "
         Dim PK_ID As Integer = 0
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -336,12 +338,12 @@ Public Class clsCustomerPenaltyInvoiceDetail
         Dim arr As List(Of clsCustomerPenaltyInvoiceDetail) = Nothing
 
         Dim qry As String = "select TSPL_CUSTOMER_PENALTY_INVOICE.Ref_PK_ID,TSPL_CUSTOMER_PENALTY_INVOICE.Invoice_No,tspl_sd_sale_invoice_head.Total_Amt as Invoice_Amt from TSPL_CUSTOMER_PENALTY_INVOICE  
-        inner join TSPL_CUSTOMER_PENALTY_DETAIL on TSPL_CUSTOMER_PENALTY_DETAIL.PK_Id = TSPL_CUSTOMER_PENALTY_INVOICE.Ref_PK_ID left outer join tspl_sd_sale_invoice_head on tspl_sd_sale_invoice_head.Document_Code=TSPL_CUSTOMER_PENALTY_INVOICE.Invoice_No   where  TSPL_CUSTOMER_PENALTY_INVOICE.Document_No = '" + strCode + "' "
+        inner join TSPL_CUSTOMER_PENALTY_DETAIL on TSPL_CUSTOMER_PENALTY_DETAIL.PK_Id = TSPL_CUSTOMER_PENALTY_INVOICE.Ref_PK_ID left outer join tspl_sd_sale_invoice_head on tspl_sd_sale_invoice_head.Document_Code=TSPL_CUSTOMER_PENALTY_INVOICE.Invoice_No   where  TSPL_CUSTOMER_PENALTY_INVOICE.Document_No = '" & strCode & "' "
 
         If Not LoadAllData Then
-            qry += " and Ref_PK_ID = " + clsCommon.myCstr(Ref_PK_ID) + " "
+            qry &= " and Ref_PK_ID = " & clsCommon.myCstr(Ref_PK_ID) & " "
         End If
-        qry += " order by TSPL_CUSTOMER_PENALTY_DETAIL.Document_No, TSPL_CUSTOMER_PENALTY_DETAIL.PK_ID "
+        qry &= " order by TSPL_CUSTOMER_PENALTY_DETAIL.Document_No, TSPL_CUSTOMER_PENALTY_DETAIL.PK_ID "
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -384,12 +386,12 @@ Public Class clsCustomerPenaltyReceiptDetail
         Dim arr As List(Of clsCustomerPenaltyReceiptDetail) = Nothing
 
         Dim qry As String = "select TSPL_CUSTOMER_PENALTY_RECEIPT.Ref_PK_ID,TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Amount from TSPL_CUSTOMER_PENALTY_RECEIPT  
-        inner join TSPL_CUSTOMER_PENALTY_DETAIL on TSPL_CUSTOMER_PENALTY_DETAIL.PK_Id = TSPL_CUSTOMER_PENALTY_RECEIPT.Ref_PK_ID left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No    where  TSPL_CUSTOMER_PENALTY_RECEIPT.Document_No = '" + strCode + "' "
+        inner join TSPL_CUSTOMER_PENALTY_DETAIL on TSPL_CUSTOMER_PENALTY_DETAIL.PK_Id = TSPL_CUSTOMER_PENALTY_RECEIPT.Ref_PK_ID left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No    where  TSPL_CUSTOMER_PENALTY_RECEIPT.Document_No = '" & strCode & "' "
 
         If Not LoadAllData Then
-            qry += " and Ref_PK_ID = " + clsCommon.myCstr(Ref_PK_ID) + " "
+            qry &= " and Ref_PK_ID = " & clsCommon.myCstr(Ref_PK_ID) & " "
         End If
-        qry += " order by TSPL_CUSTOMER_PENALTY_DETAIL.Document_No, TSPL_CUSTOMER_PENALTY_DETAIL.PK_ID "
+        qry &= " order by TSPL_CUSTOMER_PENALTY_DETAIL.Document_No, TSPL_CUSTOMER_PENALTY_DETAIL.PK_ID "
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

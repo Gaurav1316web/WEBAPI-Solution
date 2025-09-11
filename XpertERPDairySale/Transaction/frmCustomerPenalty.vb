@@ -22,7 +22,7 @@ Public Class frmCustomerPenalty
     Dim j As Integer = 0
     Dim obj As New clsCustomerPenalty()
     Dim objtr As New clsCustomerPenaltyDetail()
-    Dim dblTotalPenalty As Decimal = 0
+
 #End Region
 
     Private Sub frmCustomerPenalty_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -136,7 +136,7 @@ Public Class frmCustomerPenalty
             obj = CType(obj.GetData(MyBase.Form_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
             If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
                 Dim ii As Integer
-                For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
+                For ii = 0 To Gv1.Columns.Count - 1 Step ii & 1
                     Gv1.Columns(ii).IsVisible = False
                     Gv1.Columns(ii).VisibleInColumnChooser = True
                 Next
@@ -183,10 +183,10 @@ Public Class frmCustomerPenalty
                         Dim objTr As New clsCustomerPenaltyDetail()
                         objTr.Invoice_Date = clsCommon.myCDate(grow.Cells(colDate).Value)
                         objTr.Sale_Amt = clsCommon.myCDecimal((grow.Cells(colSaleAmount).Value))
-                    objTr.Deposit_Amt = clsCommon.myCDecimal((grow.Cells(colDepositAmount).Value))
-                    objTr.Curr_Balance_Amt = clsCommon.myCDecimal((grow.Cells(colCurrBalanceAmount).Value))
-                    objTr.Balance_Amt = clsCommon.myCDecimal((grow.Cells(colBalanceAmt).Value))
-                    objTr.Penalty = clsCommon.myCDecimal((grow.Cells(colPenalty).Value))
+                        objTr.Deposit_Amt = clsCommon.myCDecimal((grow.Cells(colDepositAmount).Value))
+                        objTr.Curr_Balance_Amt = clsCommon.myCDecimal((grow.Cells(colCurrBalanceAmount).Value))
+                        objTr.Balance_Amt = clsCommon.myCDecimal((grow.Cells(colBalanceAmt).Value))
+                        objTr.Penalty = clsCommon.myCDecimal((grow.Cells(colPenalty).Value))
 
                         objTr.ArrInvoiceAllDetails = TryCast(grow.Cells(colSaleAmount).Tag, List(Of clsCustomerPenaltyInvoiceDetail))
                         objTr.ArrReceiptAllDetails = TryCast(grow.Cells(colDepositAmount).Tag, List(Of clsCustomerPenaltyReceiptDetail))
@@ -206,7 +206,6 @@ Public Class frmCustomerPenalty
     Private Sub Addnew()
         isNewEntry = True
         txtDocumentNo.Value = ""
-        dblTotalPenalty = 0
         txtDistributor.Value = ""
         lblDistributorName.Text = ""
         lblTotalPenalty.Text = "0"
@@ -238,7 +237,7 @@ Public Class frmCustomerPenalty
             If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
                 Throw New Exception("No document found to post")
             End If
-            If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocumentNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" & txtDocumentNo.Value & "]" & Environment.NewLine & "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 obj.PostData(MyBase.Form_ID, txtDocumentNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
@@ -276,7 +275,7 @@ Public Class frmCustomerPenalty
 
     Private Sub txtDocumentNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocumentNo._MYNavigator
         Try
-            Dim qry As String = "select count(*) from TSPL_CUSTOMER_PENALTY where Document_No='" + txtDocumentNo.Value + "' "
+            Dim qry As String = "select count(*) from TSPL_CUSTOMER_PENALTY where Document_No='" & txtDocumentNo.Value & "' "
             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If count = 0 Then
                 txtDocumentNo.MyReadOnly = False
@@ -297,11 +296,11 @@ Public Class frmCustomerPenalty
             obj = New clsCustomerPenalty()
             obj = obj.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0) Then
+                Addnew()
                 isLoadData = True
                 isNewEntry = False
                 btnSave.Text = "Update"
                 EnableDisableControls(False)
-                Addnew()
                 If obj.Status = 1 Then
                     lblStatus.Status = ERPTransactionStatus.Approved
                     btnDelete.Enabled = False
@@ -321,7 +320,7 @@ Public Class frmCustomerPenalty
                 lblTotalPenalty.Text = obj.Total_Penalty
                 txtRemarks.Text = obj.Remarks
                 txtDistributor.Value = obj.Cust_Code
-                lblDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtDistributor.Value + "' "))
+                lblDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtDistributor.Value & "' "))
                 If (obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0) Then
                     For Each objtr As clsCustomerPenaltyDetail In obj.Arr
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = Gv1.Rows.Count
@@ -366,19 +365,20 @@ Public Class frmCustomerPenalty
             If frm.isPasswordCorrect Then
                 btnReverseUnpost.Visible = True
             End If
-            Dim frmCustPenaltyInvoice = New frmCustomerPenaltyInvoiceDetails()
-            If isLoadData Then
-                frmCustPenaltyInvoice.arr = obj.ArrInvoiceDetails
-            Else
-                frmCustPenaltyInvoice.arr = objtr.ArrInvoiceAllDetails
-            End If
-            frmCustPenaltyInvoice.ShowDialog()
+            'Dim frmCustPenaltyInvoice = New frmCustomerPenaltyInvoiceDetails()
+            'If isLoadData Then
+            '    frmCustPenaltyInvoice.arr = obj.ArrInvoiceDetails
+            'Else
+            '    frmCustPenaltyInvoice.arr = objtr.ArrInvoiceAllDetails
+            'End If
+            'frmCustPenaltyInvoice.ShowDialog()
         End If
     End Sub
 
     Private Sub btnReverseUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverseUnpost.Click
         Try
-            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            obj = New clsCustomerPenalty()
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" & Environment.NewLine & "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If obj.ReverseAndUnpost(txtDocumentNo.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
@@ -409,22 +409,22 @@ Public Class frmCustomerPenalty
             Dim Finalqry As String = ""
 
             Dim Invoiceqry As String = " select Document_Code,max(InvoiceDate ) as InvoiceDate ,sum(Sale_Amt*RI) as Sale_Amt,0 as Deposit_Amt from ( select tspl_sd_sale_invoice_head.Document_Code, convert(date,tspl_sd_sale_invoice_head.Document_Date,103) as InvoiceDate ,tspl_sd_sale_invoice_head.Total_Amt AS Sale_Amt ,1 as RI,1 as chk from tspl_sd_sale_invoice_head 
-            where  tspl_sd_sale_invoice_head.status=1 and  tspl_sd_sale_invoice_head.Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and  tspl_sd_sale_invoice_head.Document_Date < = '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  and tspl_sd_sale_invoice_head.Customer_Code = '" + txtDistributor.Value + "'  
+            where  tspl_sd_sale_invoice_head.status=1 and  tspl_sd_sale_invoice_head.Document_Date >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' and  tspl_sd_sale_invoice_head.Document_Date < = '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "'  and tspl_sd_sale_invoice_head.Customer_Code = '" & txtDistributor.Value & "'  
             union all
             select TSPL_CUSTOMER_PENALTY_INVOICE.Invoice_No,null as InvoiceDate ,tspl_sd_sale_invoice_head.Total_Amt as Sale_Amt,-1 as RI,0 as chk from TSPL_CUSTOMER_PENALTY_INVOICE  left outer join tspl_sd_sale_invoice_head on tspl_sd_sale_invoice_head.Document_Code=TSPL_CUSTOMER_PENALTY_INVOICE.Invoice_No 
-            where tspl_sd_sale_invoice_head.Customer_Code = '" + txtDistributor.Value + "'  and TSPL_CUSTOMER_PENALTY_INVOICE.Document_No not in ('" + txtDocumentNo.Value + "') ) xx group by Document_Code having sum(chk)>0 and sum(Sale_Amt*ri)>0 "
+            where tspl_sd_sale_invoice_head.Customer_Code = '" & txtDistributor.Value & "'  and TSPL_CUSTOMER_PENALTY_INVOICE.Document_No not in ('" & txtDocumentNo.Value & "') ) xx group by Document_Code having sum(chk)>0 and sum(Sale_Amt*ri)>0 "
 
             Dim dtInvoice As DataTable = clsDBFuncationality.GetDataTable(Invoiceqry)
 
             Dim Receiptqry As String = " select Document_Code,max(InvoiceDate ) as InvoiceDate ,0 as Sale_Amt,sum(Deposit_Amt*RI) as Deposit_Amt from ( select TSPL_RECEIPT_HEADER.Receipt_No as Document_Code, convert(date,Receipt_Date,103) as InvoiceDate, Receipt_Amount as Deposit_Amt,1 as RI ,1 as chk from TSPL_RECEIPT_HEADER 
-            where Posted='Y' and  Receipt_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and  Receipt_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+            where Posted='Y' and  Receipt_Date >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' and  Receipt_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' 
             union all 
             select TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No as Document_Code,null as InvoiceDate ,Receipt_Amount as Deposit_Amt,-1 as RI,0 as chk from TSPL_CUSTOMER_PENALTY_RECEIPT left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No 
-            where TSPL_RECEIPT_HEADER.Cust_Code = 'D050'  and TSPL_CUSTOMER_PENALTY_RECEIPT.Document_No not in ('" + txtDocumentNo.Value + "')  ) xx group by Document_Code having sum(chk)>0 and sum(Deposit_Amt*RI)>0 "
+            where TSPL_RECEIPT_HEADER.Cust_Code = 'D050'  and TSPL_CUSTOMER_PENALTY_RECEIPT.Document_No not in ('" & txtDocumentNo.Value & "')  ) xx group by Document_Code having sum(chk)>0 and sum(Deposit_Amt*RI)>0 "
             Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(Receiptqry)
 
             Finalqry = " select ROW_NUMBER( ) over( order by InvoiceDate) as SNo,InvoiceDate,sum(Sale_Amt) as Sale_Amt,sum(Deposit_Amt) as Deposit_Amt,sum(Sale_Amt-Deposit_Amt) as Curr_Bal_Amt from (
-             " + Invoiceqry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Receiptqry + " )  xx group by InvoiceDate  order by InvoiceDate  "
+             " & Invoiceqry & " " & Environment.NewLine & " union all " & Environment.NewLine & " " & Receiptqry & " )  xx group by InvoiceDate  order by InvoiceDate  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Finalqry)
 
             If dt.Rows.Count > 0 Then
@@ -436,7 +436,7 @@ Public Class frmCustomerPenalty
                     Dim Used_Amt As Decimal = 0
                     obj.ArrInvoiceDetails = New List(Of clsCustomerPenaltyInvoiceDetail)
                     obj.ArrReceiptDetails = New List(Of clsCustomerPenaltyReceiptDetail)
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = ii + 1
+                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = ii & 1
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDate).Value = dt.Rows(ii)("InvoiceDate")
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSaleAmount).Value = dt.Rows(ii)("Sale_Amt")
                     Dim InvoiceDate As DateTime = clsCommon.myCDate(dt.Rows(ii)("InvoiceDate"))
@@ -466,6 +466,7 @@ Public Class frmCustomerPenalty
                     UpdateCurrentRow(ii)
                     Gv1.Rows.AddNew()
                 Next
+                UpdateTotal()
                 EnableDisableControls(False)
             Else
                 Throw New Exception("No Data Found")
@@ -478,7 +479,7 @@ Public Class frmCustomerPenalty
 
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
         Dim dblCurrBalance_Amt As Double = 0
-        Dim days As Integer = (New DateTime(txtFromDate.Value.Year() + 1, 1, 1) - New DateTime(txtFromDate.Value.Year, 1, 1)).Days
+        Dim days As Integer = (New DateTime(txtFromDate.Value.Year() & 1, 1, 1) - New DateTime(txtFromDate.Value.Year, 1, 1)).Days
         If clsCommon.myLen(clsCommon.myCDate(Gv1.Rows(IntRowNo).Cells(colDate).Value)) > 0 Then
             dblCurrBalance_Amt = Gv1.Rows(IntRowNo).Cells(colCurrBalanceAmount).Value
             If IntRowNo > 0 Then
@@ -487,11 +488,15 @@ Public Class frmCustomerPenalty
                 Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblCurrBalance_Amt
             End If
             Gv1.Rows(IntRowNo).Cells(colPenalty).Value = (Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value * txtPenaltyPer.Value) / (100 * days)
-            dblTotalPenalty += Gv1.Rows(IntRowNo).Cells(colPenalty).Value
-            lblTotalPenalty.Text = Math.Round(clsCommon.myCdbl(dblTotalPenalty), 2)
         End If
     End Sub
-
+    Sub UpdateTotal()
+        Dim dblTotalPenalty As Decimal = 0
+        For ii As Integer = 0 To Gv1.Rows.Count - 1
+            dblTotalPenalty = dblTotalPenalty + clsCommon.myCdbl(Gv1.Rows(ii).Cells(colPenalty).Value)
+        Next
+        lblTotalPenalty.Text = Math.Round(clsCommon.myCdbl(dblTotalPenalty), 2)
+    End Sub
     'Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
     '    clsCommon.MyExportToExcelGrid("", Gv1, Nothing, Me.Text)
     '    clsCommon.MyMessageBoxShow(Me, "Exported Successfully", Me.Text)
@@ -513,11 +518,11 @@ Public Class frmCustomerPenalty
     '                    clsCommon.ProgressBarPercentShow()
     '                    For ii As Integer = 0 To gvImport.Rows.Count - 1
     '                        Try
-    '                            clsCommon.ProgressBarPercentUpdate(ii + 1, gvImport.Rows.Count, "Validating Data...")
+    '                            clsCommon.ProgressBarPercentUpdate(ii & 1, gvImport.Rows.Count, "Validating Data...")
     '                            If clsCommon.myLen(clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)) <= 0 Then
     '                                Throw New Exception("DCS Code can't be blank !")
     '                            End If
-    '                            strDCSCode = clsDBFuncationality.getSingleValue("Select VLC_Code_VLC_Uploader FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) + "' ")
+    '                            strDCSCode = clsDBFuncationality.getSingleValue("Select VLC_Code_VLC_Uploader FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "' ")
     '                            If clsCommon.myLen(strDCSCode) <= 0 Then
     '                                Throw New Exception("DCS Uploader Code cannot exist in DCS Master")
     '                            End If
@@ -541,7 +546,7 @@ Public Class frmCustomerPenalty
     '                        ff.dt = dtError
     '                        ff.ShowDialog()
     '                    ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
-    '                        Dim qry As String = "Valid Row [" + clsCommon.myCstr(arr.Count) + "] Do You want to Proceed"
+    '                        Dim qry As String = "Valid Row [" & clsCommon.myCstr(arr.Count) & "] Do You want to Proceed"
 
     '                        If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
     '                            clsCommon.ProgressBarPercentShow()
@@ -549,9 +554,9 @@ Public Class frmCustomerPenalty
 
     '                                If clsCommon.myLen(gvImport.Rows(ii).Cells("DCS Code").Value) > 0 Then
 
-    '                                    clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
+    '                                    clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index & 1) * 100 / (gvImport.Rows.Count & 1), "Importing  : " & (gvImport.Rows(ii).Index & 1) & "/" & gvImport.Rows.Count & "")
     '                                    Try
-    '                                        Gv1.Rows(ii).Cells(colSNo).Value = ii + 1
+    '                                        Gv1.Rows(ii).Cells(colSNo).Value = ii & 1
     '                                        Gv1.Rows(ii).Cells(colDCSUploaderNo).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)
     '                                        Gv1.Rows(ii).Cells(colDCSName).Value = clsDBFuncationality.getSingleValue("Select VLC_NAME FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
     '                                        Gv1.Rows(ii).Cells(colVendorCode).Value = clsDBFuncationality.getSingleValue("Select VSP_CODE FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
@@ -642,7 +647,7 @@ Public Class frmCustomerPenalty
         Try
             Dim qry As String = " select Cust_Code AS Code,Customer_Name as Name from TSPL_CUSTOMER_MASTER "
             txtDistributor.Value = clsCommon.ShowSelectForm("CustPnltDis", qry, "Code", " IsDistributor='Y' ", txtDistributor.Value, "Code", isButtonClicked)
-            lblDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtDistributor.Value + "' "))
+            lblDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtDistributor.Value & "' "))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -650,13 +655,14 @@ Public Class frmCustomerPenalty
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         EnableDisableControls(True)
         LoadBlankGrid()
+        lblTotalPenalty.Text = "0"
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Dim qry As String = " select  '" + objCommonVar.CurrentUser + "' as User_Code, ROW_NUMBER( ) over( order by TSPL_CUSTOMER_PENALTY.Document_date) as SNo,TSPL_COMPANY_MASTER.Comp_Name,convert(varchar,TSPL_CUSTOMER_PENALTY_detail.Invoice_Date,103) as Invoice_Date,TSPL_CUSTOMER_PENALTY_detail.Sale_Amt,TSPL_CUSTOMER_PENALTY_detail.Deposit_Amt,TSPL_CUSTOMER_PENALTY_detail.Curr_Balance_Amt,TSPL_CUSTOMER_PENALTY_detail.Balance_Amt,TSPL_CUSTOMER_PENALTY_detail.Penalty,convert(varchar,TSPL_CUSTOMER_PENALTY.Document_date,103) as Document_date,TSPL_CUSTOMER_PENALTY.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
+        Dim qry As String = " select  '" & objCommonVar.CurrentUser & "' as User_Code, ROW_NUMBER( ) over( order by TSPL_CUSTOMER_PENALTY.Document_date) as SNo,TSPL_COMPANY_MASTER.Comp_Name,convert(varchar,TSPL_CUSTOMER_PENALTY_detail.Invoice_Date,103) as Invoice_Date,TSPL_CUSTOMER_PENALTY_detail.Sale_Amt,TSPL_CUSTOMER_PENALTY_detail.Deposit_Amt,TSPL_CUSTOMER_PENALTY_detail.Curr_Balance_Amt,TSPL_CUSTOMER_PENALTY_detail.Balance_Amt,TSPL_CUSTOMER_PENALTY_detail.Penalty,convert(varchar,TSPL_CUSTOMER_PENALTY.Document_date,103) as Document_date,TSPL_CUSTOMER_PENALTY.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
         convert(varchar,TSPL_CUSTOMER_PENALTY.From_Date,103) as From_Date,convert(varchar,TSPL_CUSTOMER_PENALTY.To_Date,103) as To_Date,TSPL_CUSTOMER_PENALTY.Penalty_Per from  TSPL_CUSTOMER_PENALTY_detail
         left join TSPL_CUSTOMER_PENALTY on TSPL_CUSTOMER_PENALTY.Document_No = TSPL_CUSTOMER_PENALTY_detail.Document_No left join TSPL_COMPANY_MASTER on 1=1 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code = TSPL_CUSTOMER_PENALTY.Cust_Code
-        where TSPL_CUSTOMER_PENALTY.Document_No='" + txtDocumentNo.Value + "'"
+        where TSPL_CUSTOMER_PENALTY.Document_No='" & txtDocumentNo.Value & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt.Rows.Count > 0 Then
             Dim frmCRV As New frmCrystalReportViewer()

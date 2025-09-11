@@ -72,6 +72,8 @@ Public Class rptSaleReportCustomerWise
             Dim itemNames2 As String = Nothing
             Dim Total_Qty As String = Nothing
             Dim Total_Bag As String = Nothing
+            Dim QtyName As String = Nothing
+            Dim BagName As String = Nothing
 
 
             If dtItem.Rows.Count > 0 Then
@@ -84,6 +86,8 @@ Public Class rptSaleReportCustomerWise
                                       " ,IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + "],0) As [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Bag]"
                         Total_Qty += " (IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0))"
                         Total_Bag += " (IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + "],0))"
+                        QtyName += " Sum([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Qty]) as [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Qty]" &
+                                    " ,Sum([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Bag]) as [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Bag] "
                     Else
                         IemNameQty += ", [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "] "
                         IemNameBag += ", [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + "] "
@@ -94,6 +98,8 @@ Public Class rptSaleReportCustomerWise
 
                         Total_Qty += " + " + " (IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Code")) + "],0))"
                         Total_Bag += " + " + " (IsNull([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + "],0))"
+                        QtyName += " ,Sum([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Qty]) as [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Qty]" &
+                                    " ,Sum([" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Bag]) as [" + clsCommon.myCstr(dtItem.Rows(i)("Item_Desc")) + " Bag] "
                     End If
                 Next
             End If
@@ -137,7 +143,9 @@ Public Class rptSaleReportCustomerWise
             If txtCustomer.arrValueMember IsNot Nothing Then
                 qry += " and TSPL_SCRAPINVOICE_HEAD.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
             End If
-            qry += " )
+            qry += " ),
+
+					 pivoted as (
                     SELECT  Customer_Code as [Customer Code], Customer_Name as [Customer Name], " & itemNames2 & ", " & Total_Qty & " as Total_Qty, " & Total_Bag & " as Total_Bag -- list all Item_Codes
                     FROM BaseData
                     PIVOT
@@ -145,8 +153,9 @@ Public Class rptSaleReportCustomerWise
                     ) AS P
                     PIVOT
                     ( SUM(Qty_Bag) FOR Item_Desc IN (" & IemNameBag & ") -- replace with your real Item_Codes
-                    ) AS P
-"
+                    ) AS P2 )
+                    SELECT [Customer Code],max([Customer Name]) as [Customer Name]," & QtyName & " , SUM(Total_Qty) AS Total_Qty,SUM(Total_Bag) AS Total_Bag
+                    FROM Pivoted GROUP BY [Customer Code] ORDER BY [Customer Code];"
 
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
