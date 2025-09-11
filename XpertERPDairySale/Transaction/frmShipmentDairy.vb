@@ -14329,13 +14329,13 @@ left join TSPL_VENDOR_MASTER on TSPL_SD_SHIPMENT_HEAD.Transport_Id=TSPL_VENDOR_M
 --left outer join TSPL_TRANSPORT_MASTER  on  TSPL_TRANSPORT_MASTER.Transport_Id = TSPL_VEHICLE_MASTER.Transport_Id
 where TSPL_SD_SHIPMENT_HEAD.Document_Code='" + txtDocNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Status=1"
                 Else
-                    Qry = "Select * from (select 1 As CopyType,"
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                Qry = "Select * from (select 1 As CopyType,"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         Qry += " TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2, "
                     Else
-                        Qry += " TSPL_COMPANY_MASTER.Phone2 As Comp_Phone2, TSPL_COMPANY_MASTER.Add3 As Comp_Add3,TSPL_COMPANY_MASTER.Add2 As Comp_Add2,
+                    Qry += " TSPL_COMPANY_MASTER.Phone2 As Comp_Phone2, TSPL_COMPANY_MASTER.Add3 As Comp_Add3,TSPL_COMPANY_MASTER.Add2 As Comp_Add2,supply_date,
 "
-                    End If
+                End If
                     Qry += " InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
@@ -14354,8 +14354,9 @@ TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_Sta
                         TSPL_COMPANY_MASTER.Email As Comp_Email,TSPL_COMPANY_MASTER.Pincode As Comp_Pincode,TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1,
                         TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No"
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                        Qry += ",TSPL_SD_SHIPMENT_HEAD.supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1 "
-                    End If
+                    Qry += ",supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1 "
+
+                End If
                     Qry += " from  TSPL_SD_SHIPMENT_HEAD
                         Left Outer Join TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
                         Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
