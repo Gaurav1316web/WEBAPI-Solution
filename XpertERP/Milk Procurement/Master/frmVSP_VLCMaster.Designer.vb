@@ -678,7 +678,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage2
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1078, 444)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -782,7 +782,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtShiftCowLimit.TabIndex = 1458
         Me.txtShiftCowLimit.Text = "0"
         Me.txtShiftCowLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtShiftCowLimit.Value = 0R
+        Me.txtShiftCowLimit.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblMCCName
         '
@@ -1131,7 +1131,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtLoyaltyPer.TabIndex = 388
         Me.txtLoyaltyPer.Text = "0"
         Me.txtLoyaltyPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLoyaltyPer.Value = 0R
+        Me.txtLoyaltyPer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel43
         '
@@ -3184,7 +3184,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtTIPBuffalo.TabIndex = 111
         Me.txtTIPBuffalo.Text = "0"
         Me.txtTIPBuffalo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTIPBuffalo.Value = 0R
+        Me.txtTIPBuffalo.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel51
         '
@@ -3222,7 +3222,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtTIPMix.TabIndex = 114
         Me.txtTIPMix.Text = "0"
         Me.txtTIPMix.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTIPMix.Value = 0R
+        Me.txtTIPMix.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel49
         '
@@ -3259,7 +3259,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtTIPCow.TabIndex = 116
         Me.txtTIPCow.Text = "0"
         Me.txtTIPCow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTIPCow.Value = 0R
+        Me.txtTIPCow.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'MyLabel46
         '
@@ -3473,7 +3473,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtGSTStateCode.TabIndex = 307
         Me.txtGSTStateCode.Text = "0"
         Me.txtGSTStateCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGSTStateCode.Value = 0R
+        Me.txtGSTStateCode.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblCopy
         '
@@ -4785,7 +4785,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtCreditLimitBasedOnMilkReceipt.TabIndex = 414
         Me.TxtCreditLimitBasedOnMilkReceipt.Text = "0"
         Me.TxtCreditLimitBasedOnMilkReceipt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCreditLimitBasedOnMilkReceipt.Value = 0R
+        Me.TxtCreditLimitBasedOnMilkReceipt.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtvndrtype
         '
@@ -4916,7 +4916,7 @@ Partial Class frmVSP_VLCMaster
         Me.numCorrectionSNF.TabIndex = 410
         Me.numCorrectionSNF.Text = "0"
         Me.numCorrectionSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.numCorrectionSNF.Value = 0R
+        Me.numCorrectionSNF.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'txtcountrycode
         '
@@ -4970,7 +4970,7 @@ Partial Class frmVSP_VLCMaster
         Me.numCorrectionFat.TabIndex = 409
         Me.numCorrectionFat.Text = "0"
         Me.numCorrectionFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.numCorrectionFat.Value = 0R
+        Me.numCorrectionFat.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'TxtPinCode
         '
@@ -5168,6 +5168,7 @@ Partial Class frmVSP_VLCMaster
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True

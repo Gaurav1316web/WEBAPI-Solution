@@ -251,6 +251,7 @@ left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collec
                          TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date from ( select GetRateCode.*,( SELECT top 1 TSPL_OWN_BMC_GAIN_LOSS_RATE.Code FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 and TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 and CONVERT(date, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date, 103) <= CONVERT(date, GetRateCode.Document_Date, 103) order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc ) as GainLossCode from ( SELECT max(XXXFinal.Reject_Type)Reject_Type,max(XXXFinal.Reject_Recovery_Per)Reject_Recovery_Per,XXXFinal.Document_No, MAX(XXXFinal.Document_Date) AS Document_Date, MAX(XXXFinal.Route_Code) AS Route_Code, MAX(XXXFinal.ROUTE_NAME) AS ROUTE_NAME, MAX(XXXFinal.Tanker_No) AS Tanker_No, MAX(XXXFinal.Vehicle_No) AS Vehicle_No, MAX(Entered_Qty) AS Entered_Qty, ((MAX(Entered_FATKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS Entered_FAT, ((MAX(Entered_SNFKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS Entered_SNF, MAX(Entered_FATKg) AS Entered_FATKg, MAX(Entered_SNFKg) AS Entered_SNFKg, SUM(XXXFinal.MCC_Qty) AS MCC_Qty, ROUND(((SUM(MCC_FATKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS MCC_FAT, ROUND(((SUM(MCC_SNFKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS MCC_SNF, SUM(MCC_FATKG) AS MCC_FATKG, SUM(MCC_SNFKG) AS MCC_SNFKG, SUM(DCS_Qty) AS DCS_Qty, ROUND(((SUM(DCS_FATKG) / NULLIF(SUM(DCS_Qty), 0)) * 100), 3, 0) AS DCS_FAT, ROUND(((SUM(DCS_SNFKG) / NULLIF(SUM(DCS_Qty), 0)) * 100), 3, 0) AS DCS_SNF, SUM(DCS_FATKG) AS DCS_FATKG, SUM(DCS_SNFKG) AS DCS_SNFKG, SUM(Diff_Qty) AS Diff_Qty, MAX(DCS_FAT) - ROUND(((SUM(MCC_FATKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS Diff_FAT, MAX(DCS_SNF) - ROUND(((SUM(MCC_SNFKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS Diff_SNF, SUM(Diff_FATKG) AS Diff_FATKG, SUM(Diff_SNFKG) AS Diff_SNFKG, SUM(XXXFinal.MCC_Qty)- MAX(Entered_Qty) AS DiffMCCVsEntered_Qty, ROUND(((SUM(MCC_FATKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0)- ((MAX(Entered_FATKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS DiffMCCVsEntered_FAT, ROUND(((SUM(MCC_SNFKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0)- ((MAX(Entered_SNFKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS DiffMCCVsEntered_SNF, SUM(MCC_FATKG)-MAX(Entered_FATKg) AS DiffMCCVsEntered_FATKG, SUM(MCC_SNFKG)-MAX(Entered_SNFKg) AS DiffMCCVsEntered_SNFKG from ( " & qry & " ) XXXFinal group by XXXFinal.Document_No )GetRateCode )GetAllGainLossRate left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=GetAllGainLossRate.GainLossCode  "
                     If (rbtnTranpoterGainLoss.Checked) Then
                         qry = "select  XXGetAllRecords.Document_No,XXGetAllRecords.Document_Date,XXGetAllRecords.Route_Code,XXGetAllRecords.ROUTE_NAME,XXGetAllRecords.Tanker_No,XXGetAllRecords.Vehicle_No,
+                              XXGetAllRecords.Reject_Type as Reject_Types,XXGetAllRecords.Reject_Recovery_Per as Reject_Recovery_Pers,
                         XXGetAllRecords.Entered_Qty,XXGetAllRecords.Entered_FATKg,XXGetAllRecords.Entered_SNFKg,
                         XXGetAllRecords.MCC_Qty,XXGetAllRecords.MCC_FATKG,XXGetAllRecords.MCC_SNFKG,
                         XXGetAllRecords.DiffMCCVsEntered_Qty,
@@ -343,26 +344,26 @@ left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collec
                          ORDER  BY Tanker_No asc "
                 ElseIf rbtnRouteWise.Checked Then
                     BaseQry = "( SELECT ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
-                          max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG FROM   (
+                          max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG, MAX(Reject_Type + '(' + CAST(Reject_Recovery_Per AS VARCHAR) + '%)') AS RejectInfo FROM   (
 						  SELECT Trip_No, tspl_bulk_route_master.ROUTE_NO,tspl_bulk_route_master.ROUTE_NAME, ISNULL(qty,0) as entered_qty , FATKG as entered_fatkg, SNFKG as entered_snfkg,
                           tspl_milk_collection_mcc_detail.document_no, tspl_milk_collection_mcc.document_date
                           AS Document_Date, Isnull(tspl_milk_collection_mcc.Entered_Qty, 0) AS MCC_Qty, Isnull(fat, 0) AS MCC_FAT, ISNULL(SNF, 0) AS MCC_SNF, ISNULL(tspl_milk_collection_mcc.Entered_FATKg, 0) AS MCC_FATKG, 
-                          ISNULL(tspl_milk_collection_mcc.Entered_SNFKg, 0) AS MCC_SNFKG  FROM   tspl_milk_collection_mcc_detail
+                          ISNULL(tspl_milk_collection_mcc.Entered_SNFKg, 0) AS MCC_SNFKG,tspl_milk_collection_mcc.Reject_Type,tspl_milk_collection_mcc.Reject_Recovery_Per  FROM   tspl_milk_collection_mcc_detail
                           LEFT OUTER JOIN tspl_milk_collection_mcc ON tspl_milk_collection_mcc.document_no = tspl_milk_collection_mcc_detail.document_no 
                           LEFT OUTER JOIN tspl_mcc_master ON tspl_mcc_master.mcc_code = tspl_milk_collection_mcc_detail.mcc_code 
                           LEFT OUTER JOIN tspl_bulk_route_master ON tspl_bulk_route_master.route_no = tspl_milk_collection_mcc.route_code
                            WHERE  CONVERT(DATE, tspl_milk_collection_mcc.document_date, 103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") & "',103) AND CONVERT (DATE, tspl_milk_collection_mcc.document_date, 103)
                          <= CONVERT (DATE, '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") & "',103) ) xyz GROUP  BY ROUTE_NO, Document_Date,Trip_No)"
-                    qry = "select * from ( SELECT 1 AS 'S.No.',  CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                    qry = "select * from ( SELECT 1 AS 'S.No.',  CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,MAX(RejectInfo) AS RejectInfo,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
                           sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
                           Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM
                         " & BaseQry & " XXXFinal GROUP  BY  ROUTE_NO , Document_Date"
                     qry += "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
-                    qry += " SELECT 2 AS 'S.No.', 'Total' AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                    qry += " SELECT 2 AS 'S.No.', 'Total' AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,'' as RejectInfo,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
                           sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
                           Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM " & BaseQry & " XXXFinal GROUP  BY  ROUTE_NO "
                     qry += "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
-                    qry += " SELECT 3 AS 'S.No.', '' AS Date , 'Grand Total' as ROUTE_NO, '' as ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                    qry += " SELECT 3 AS 'S.No.', '' AS Date , 'Grand Total' as ROUTE_NO, '' as ROUTE_NAME,'' as RejectInfo,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
                           sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
                           Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM " & BaseQry & " XXXFinal  )xx "
                     qry += "ORDER  BY ROUTE_NO ,[S.No.], Date "
@@ -1019,6 +1020,10 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 Gv1.Columns("Loss_SNF_Rate").IsVisible = False
                 Gv1.Columns("Start_Date").HeaderText = "Start Date"
                 Gv1.Columns("Start_Date").IsVisible = False
+                Gv1.Columns("Reject_Types").HeaderText = "Reject Type"
+                Gv1.Columns("Reject_Types").IsVisible = False
+                Gv1.Columns("Reject_Recovery_Pers").HeaderText = "Reject Recovery"
+                Gv1.Columns("Reject_Recovery_Pers").IsVisible = False
             End If
             If Not rdbTankerWise.Checked AndAlso Not rbtnBMCTankerCollection.Checked AndAlso Not rbtnRouteWise.Checked AndAlso Not rbtnAliasName.Checked Then
                 Gv1.Columns("Document_No").HeaderText = "Document No"
@@ -1029,8 +1034,8 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             End If
             If Not rbtnBMCTankerCollection.Checked AndAlso Not rbtnRouteWise.Checked AndAlso Not rbtnAliasName.Checked Then
                 Gv1.Columns("Tanker_No").HeaderText = "Tanker No"
-                Gv1.Columns("Reject_Types").HeaderText = "Reject Type"
-                Gv1.Columns("Reject_Recovery_Pers").HeaderText = "Reject Recovery"
+                ' Gv1.Columns("Reject_Types").HeaderText = "Reject Type"
+                ' Gv1.Columns("Reject_Recovery_Pers").HeaderText = "Reject Recovery"
             End If
             If rdbDetails.Checked Then
                 Gv1.Columns("MCC_Code").HeaderText = "MCC Code"
@@ -1458,10 +1463,12 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("ROUTE_NAME").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Tanker_No").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Vehicle_No").Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Reject_Types").Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Reject_Recovery_Pers").Name)
+                'view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Reject_Types").Name)
+                'view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Reject_Recovery_Pers").Name)
             End If
             If rbtnTranpoterGainLoss.Checked OrElse rbtnTranspoterGainlossSummary.Checked Then
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Reject_Types").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Reject_Recovery_Pers").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("GainLoss_Code").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Loss_FAT_Rate").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Loss_SNF_Rate").Name)
@@ -1655,6 +1662,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Date").Name)
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("ROUTE_NO").Name)
                 view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("ROUTE_NAME").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("RejectInfo").Name)
                 view.ColumnGroups.Add(New GridViewColumnGroup("As per Tanker Receipt as Dairy Dock"))
                 view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_Qty").Name)
@@ -2507,14 +2515,14 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
             qry = "  SELECT '" & clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") & "' As [FromDate],'" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") & "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,
                           max(Comp_Name)Comp_Name,max(add1)add1,max(Add2)Add2,max(Add3)Add3,CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
                           sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
-                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF 
+                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF,max(RejectInfo)RejectInfo 
 						  FROM
                           ( SELECT max(Comp_Name)Comp_Name,max(Add1)Add1,max(Add2)Add2,max(Add3)Add3,ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
-                          max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG FROM 
+                          max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG,MAX(Reject_Type + '(' + CAST(Reject_Recovery_Per AS VARCHAR) + '%)') AS RejectInfo FROM 
 						  (SELECT Tspl_Company_Master.Comp_Name,Tspl_Company_Master.Add1,Tspl_Company_Master.Add2,Tspl_Company_Master.Add3,Trip_No, tspl_bulk_route_master.ROUTE_NO,tspl_bulk_route_master.ROUTE_NAME, ISNULL(qty,0) as entered_qty , FATKG as entered_fatkg, SNFKG as entered_snfkg,
                           tspl_milk_collection_mcc_detail.document_no, tspl_milk_collection_mcc.document_date
                           AS Document_Date, Isnull(tspl_milk_collection_mcc.Entered_Qty, 0) AS MCC_Qty, Isnull(fat, 0) AS MCC_FAT, ISNULL(SNF, 0) AS MCC_SNF, ISNULL(tspl_milk_collection_mcc.Entered_FATKg, 0) AS MCC_FATKG, 
-                          ISNULL(tspl_milk_collection_mcc.Entered_SNFKg, 0) AS MCC_SNFKG  FROM   tspl_milk_collection_mcc_detail
+                          ISNULL(tspl_milk_collection_mcc.Entered_SNFKg, 0) AS MCC_SNFKG ,tspl_milk_collection_mcc.Reject_Type,tspl_milk_collection_mcc.Reject_Recovery_Per FROM   tspl_milk_collection_mcc_detail
                           LEFT OUTER JOIN tspl_milk_collection_mcc ON tspl_milk_collection_mcc.document_no = tspl_milk_collection_mcc_detail.document_no 
                           LEFT OUTER JOIN tspl_mcc_master ON tspl_mcc_master.mcc_code = tspl_milk_collection_mcc_detail.mcc_code 
                           LEFT OUTER JOIN tspl_bulk_route_master ON tspl_bulk_route_master.route_no = tspl_milk_collection_mcc.route_code

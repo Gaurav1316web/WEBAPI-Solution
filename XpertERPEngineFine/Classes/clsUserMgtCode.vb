@@ -1,5 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmCommissionTPTCalculation As String = "CMN-TPT-CLN"
     Public Const frmSendBilltoDistributor As String = "SND-BLL-DST"
     Public Const frmIBPReport As String = "IBP-RPT"
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
@@ -9,6 +10,8 @@ Public Class clsUserMgtCode
     Public Const frmDCSWiseHoldPayments As String = "DCS-WS-PYNT"
     Public Const rptBoothWiseBillReport As String = "BOOTH-WI-BI"
     Public Const rptFarmerSaleRegister As String = "FAR-SAL-REG"
+    ' Public Const DCSDeductionBalanceReport As String = "DCS_D_B_R"
+
     Public Const frmGatepassDetailReport As String = "GTP-DTL-RPT"
     Public Const frmChangePasswordScreen As String = "CHNG-PASS"
     Public Const rptEmployeeDeductionMasterReport As String = "EMP-DED-RPT"
@@ -193,7 +196,15 @@ Public Class clsUserMgtCode
     ''=================== Dairy Sales start here
 
     Public Const ModuleSaleDairy As String = "MSaleDairy"
+    Public Const ModuleProductSaleDairy As String = "MPSaleDairy"
+    Public Const ModuleAPSSaleDairy As String = "MASaleDairy"
     Public Const SubModuleSaleDairySetUp As String = "SMSDairyM"
+    Public Const SubModuleProductSaleDairySetUp As String = "SMSDairyPM"
+    Public Const SubModuleAPSSaleDairySetUp As String = "SMSDairyAM"
+    Public Const SubModuleProductSaleDairyTransaction As String = "SMSDairyPT"
+    Public Const SubModuleAPSSaleDairyTransaction As String = "SMSDairyAT"
+    Public Const SubModuleProductSaleDairyReport As String = "SMSDairyPR"
+    Public Const SubModuleAPSSaleDairyReport As String = "SMSDairyAR"
 
 
     ' ADDED BY KUNAL TICKET : BM00000009674
@@ -217,6 +228,9 @@ Public Class clsUserMgtCode
     Public Const frmbookingdairy As String = "BOOK-DS"
     'Public Const frmbookingdairyFreshSale As String = "BOOK-DS_FSH"
     Public Const frmGenerateBookingFreshSale As String = "GEN_BOO_FS"
+    Public Const frmCustomerTender As String = "CUST-TEND"
+    Public Const FrmSalesOrder As String = "SALES-ORD"
+    Public Const FrmSalesOrderDispatch As String = "SAL-ORD_DIS"
     'Public Const frmAdvanceForCD As String = "ADV_For_CD"
     'Public Const frmAcknowledgeMentOfGRN As String = "ACK_OF_GRN"
     Public Const frmDairyBookingUploader As String = "DA_BOK_UPL"
@@ -234,6 +248,7 @@ Public Class clsUserMgtCode
     Public Const frmPerformaInvoiceDairy As String = "Prof_Inv-D"
     Public Const frmDairyFreshDispatchMultiple As String = "FS_DIS-M"
     Public Const frmMultipleInvoice As String = "FS_Inv-M"
+    Public Const frmCustomerPenalty As String = "CUST-PNLTY"
     'Public Const frmItemProjection As String = "ITEM_PROJTN"
     '===========================Added by preeti Gupta[14/03/2018]==================
     Public Const frmsaleReturnGateEntryFS As String = "SR-GE-FS"
@@ -2666,6 +2681,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailGeneralLedger As String = "ADIT_GENLEG"
     Public Const AuditTrailSaleAndDistribution As String = "ADIT_SALDBU"
     Public Const rptSalesReport As String = "SALE-RPT"
+    Public Const rptSaleReportCustomerWise As String = "SALE-CW-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"
     Public Const AuditTrailPurchase As String = "ADIT_PURCH"
     Public Const AuditTrailTaxDeductedAtSource As String = "ADIT_TAXSC"
@@ -2744,6 +2760,7 @@ Public Class clsUserMgtCode
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmQuickDemand As String = "QUICK-DEM"
+    Public Const frmProductQuickDemand As String = "PRD-QUK-DEM"
     Public Const frmLeakedSaleReturn As String = "LEK-SAL-RTN"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
     Public Const frmBoothDispatch As String = "BOO-TH-DIS"

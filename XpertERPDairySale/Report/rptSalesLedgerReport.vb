@@ -114,7 +114,12 @@ Public Class rptSalesLedgerReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         GetReportID()
-        LoadData()
+        If rbtnCustomer.IsChecked AndAlso rbtnDispatch.IsChecked AndAlso rbtnSummary.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            LoadDataUDP()
+        Else
+            LoadData()
+        End If
+        'LoadData()
     End Sub
 
     Sub GetReportID()
@@ -176,6 +181,347 @@ Public Class rptSalesLedgerReport
         RadGroupBox1.Enabled = val
     End Sub
 
+    Private Sub LoadDataUDP()
+        Try
+            'If rbtnDetail.IsChecked Then
+            '    If rbtnZone.IsChecked Then
+            '        If txtZone.arrValueMember Is Nothing Then
+            '            clsCommon.MyMessageBoxShow(Me, "You must select at least one Zone with Detail option", Me.Text)
+            '            Exit Sub
+            '        Else
+            '            If txtZone.arrValueMember.Count = 1 Then
+            '                txtRoute.arrValueMember = Nothing
+            '                txtCustomer.arrValueMember = Nothing
+            '            ElseIf txtZone.arrValueMember.Count > 1 Then
+            '                clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Zone at a time with Detail option", Me.Text)
+            '                Exit Sub
+            '            End If
+            '        End If
+
+            '    ElseIf rbtnRoute.IsChecked Then
+            '        If txtRoute.arrValueMember Is Nothing Then
+            '            clsCommon.MyMessageBoxShow(Me, "You must select at least one Route with Detail option", Me.Text)
+            '            Exit Sub
+            '        Else
+            '            If txtRoute.arrValueMember.Count = 1 Then
+            '                txtZone.arrValueMember = Nothing
+            '                txtCustomer.arrValueMember = Nothing
+            '            ElseIf txtRoute.arrValueMember.Count > 1 Then
+            '                clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Route at a time with Detail option", Me.Text)
+            '                Exit Sub
+            '            End If
+            '        End If
+
+            '    ElseIf rbtnCustomer.IsChecked Then
+            '        If txtCustomer.arrValueMember Is Nothing Then
+            '            clsCommon.MyMessageBoxShow(Me, "You must select at least one Customer with Detail option", Me.Text)
+            '            Exit Sub
+            '        Else
+            '            If txtCustomer.arrValueMember.Count = 1 Then
+            '                txtZone.arrValueMember = Nothing
+            '                txtRoute.arrValueMember = Nothing
+            '            ElseIf txtCustomer.arrValueMember.Count > 1 Then
+            '                clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Customer at a time with Detail option", Me.Text)
+            '                Exit Sub
+            '            End If
+            '        End If
+            '    End If
+            'End If
+
+            Dim qry As String = ""
+            Dim whrcls As String = ""
+            Dim strShift As String = ""
+            Dim whrclsShift As String = ""
+            If rbtnMorning.IsChecked Then
+                If rbtnDemand.IsChecked Then
+                    whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Morning' "
+                ElseIf rbtnDispatch.IsChecked Then
+                    whrclsShift = " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'AM' "
+                End If
+                strShift = " 'M' "
+            ElseIf rbtnEvening.IsChecked Then
+                If rbtnDemand.IsChecked Then
+                    whrclsShift = " and TSPL_DEMAND_BOOKING_MASTER.ShiftType  = 'Evening' "
+                ElseIf rbtnDispatch.IsChecked Then
+                    whrclsShift = " and TSPL_SD_SHIPMENT_HEAD.Shift_Type  = 'PM' "
+                End If
+                strShift = " 'E' "
+            ElseIf rbtnBothShift.IsChecked Then
+                strShift = "'' "
+            End If
+
+            If rbtnMilkType.IsChecked Then
+                whrcls += " and TSPL_ITEM_MASTER.Is_FreshItem = 1  "
+            ElseIf rbtnProductType.IsChecked Then
+                whrcls += " and TSPL_ITEM_MASTER.Is_Ambient = 1 "
+            End If
+
+            If txtRoute.arrValueMember IsNot Nothing Then
+                If rbtnDemand.IsChecked Then
+                    whrcls += "  And TSPL_DEMAND_BOOKING_MASTER.Route_No In (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                ElseIf rbtnDispatch.IsChecked Then
+                    If chkDCSSale.Checked Then
+                        whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ",'')"
+                    Else
+                        whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
+                    End If
+                End If
+            End If
+
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                If rbtnDemand.IsChecked Then
+                    whrcls += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                ElseIf rbtnDispatch.IsChecked Then
+                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+                End If
+            End If
+            If txtZone.arrValueMember IsNot Nothing Then
+                whrcls += " and TSPL_CUSTOMER_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ")"
+            End If
+            If rbtnDispatch.IsChecked Then
+                If chkDCSSale.Checked = False Then
+                    whrcls += " and TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <>'MCC'"
+                End If
+            End If
+
+            If rbtnDispatch.IsChecked Then
+                qry = "SELECT max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
+            FROM TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+            left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+            where  TSPL_SD_SALE_INVOICE_HEAD.Status = 1 AND convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >=Convert(date,'" & txtFromDate.Value & "',103) 
+            and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103) " & whrcls & " " & whrclsShift & ""
+            ElseIf rbtnDemand.IsChecked Then
+                qry = " SELECT  max(TSPL_ITEM_MASTER.Short_Description)Short_Description,max(TSPL_ITEM_MASTER.Short_Description) + 'Amt' as Item_Description,max(TSPL_ITEM_MASTER.Sku_Seq)Sku_Seq
+            FROM TSPL_DEMAND_BOOKING_DETAIL  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+            where  TSPL_DEMAND_BOOKING_MASTER.Posted = 1 and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= Convert(date,'" & txtFromDate.Value & "',103)   and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= Convert(date,'" & txtToDate.Value & "',103)  " & whrcls & " " & whrclsShift & ""
+            End If
+            qry += " group by TSPL_ITEM_MASTER.Item_Code ORDER BY Sku_Seq "
+
+            Dim itemName2 As String = Nothing
+            Dim itemName1 As String = Nothing
+            Dim itemNames1 As String = Nothing
+            Dim itemNames2 As String = Nothing
+            Dim itemNamesQty As String = Nothing
+            Dim itemNamesAmt As String = Nothing
+            Dim itemNameNULL As String = Nothing
+            Dim itemNameNULLAmt As String = Nothing
+            Dim itemName7 As String = Nothing
+            Dim itemName8 As String = Nothing
+            Dim itemName89 As String = Nothing
+            Dim itemName899 As String = Nothing
+            Dim FinalItemNamesQty As String = Nothing
+            Dim FinalItemNamesAmt As String = Nothing
+            Dim dtitemName As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            If dtitemName.Rows.Count > 0 Then
+                For i As Integer = 0 To dtitemName.Rows.Count - 1
+                    'itemName1 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]" + ","
+                    'itemName2 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]" + ","
+                    'FinalItemNamesQty += "SUM(XXFINAL.[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]" + ","
+                    'FinalItemNamesAmt += "SUM(XXFINAL.[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]" + ","
+
+                    If i = 0 Then
+                        itemNamesQty += "SUM([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        itemNamesAmt += "SUM([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]"
+                        itemName7 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        itemName8 += "Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]"
+                        'itemNamesAmt += " Sum(ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
+                        itemName89 += " Sum(ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
+                        itemName899 += " Sum(ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
+                        itemNames1 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
+                        itemNames2 += "[" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "] "
+                        itemNameNULL += " NULL AS [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
+                        itemNameNULLAmt += " NULL AS [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1] "
+                    Else
+                        itemNamesQty += ", SUM([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        itemNamesAmt += ", SUM([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]"
+                        itemName7 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "]"
+                        itemName8 += ", Sum(IsNull([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)) As [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1]"
+                        itemName89 += "+" + " ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "],0)"
+                        itemName899 += "+" + " ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
+                        'itemNamesAmt += "+" + "ISNULL([" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "],0)"
+                        itemNames1 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
+                        itemNames2 += ", [" + clsCommon.myCstr(dtitemName.Rows(i)("Item_Description")) + "] "
+                        itemNameNULL += ", NULL AS [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "] "
+                        itemNameNULLAmt += ", NULL AS [" + clsCommon.myCstr(dtitemName.Rows(i)("Short_Description")) + "1] "
+
+                    End If
+                Next
+            End If
+
+            qry = " WITH ItemDetails AS (
+    SELECT TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_ITEM_MASTER.Item_Code,TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description AS [Zone Name],TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
+        TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt AS Amount,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
+        TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty AS CRATE,
+        ISNULL((TSPL_SD_SALE_INVOICE_DETAIL.Qty * ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor, 1)) / ISNULL(report_uom.Conversion_Factor, 1), 0) AS Report_UOM_Qty
+    FROM TSPL_SD_SALE_INVOICE_DETAIL 
+    LEFT JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+    LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD  ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+    LEFT JOIN TSPL_SD_SHIPMENT_HEAD  ON TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+    LEFT JOIN TSPL_CUSTOMER_MASTER  ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+    LEFT JOIN TSPL_ZONE_MASTER  ON TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
+    LEFT JOIN TSPL_ROUTE_MASTER  ON TSPL_ROUTE_MASTER.Route_No = TSPL_SD_SALE_INVOICE_HEAD.Route_No
+    LEFT JOIN TSPL_ITEM_UOM_DETAIL  ON TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code AND TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+    LEFT JOIN ( SELECT item_code, uom_code, conversion_factor, UOM_Description FROM TSPL_ITEM_UOM_DETAIL
+        WHERE Report_UOM = 1 ) report_uom ON TSPL_SD_SALE_INVOICE_DETAIL.Item_Code = report_uom.item_code
+    WHERE TSPL_SD_SALE_INVOICE_HEAD.Status = 1 " & whrcls & " " & whrclsShift & "
+    And  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  
+    and   convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103)),
+		ReceiptSummary AS (
+			SELECT TSPL_RECEIPT_HEADER.Cust_Code,SUM(TSPL_RECEIPT_HEADER.Receipt_Amount) AS Receipt_Amount
+    FROM TSPL_RECEIPT_HEADER 
+    LEFT JOIN TSPL_CUSTOMER_MASTER  ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code
+    WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' AND TSPL_CUSTOMER_MASTER.IsDistributor = 'Y' GROUP BY TSPL_RECEIPT_HEADER.Cust_Code),
+
+AggregatedData AS (
+    SELECT MAX(ItemDetails.Credit_Customer)Credit_Customer,ItemDetails.Item_Code,ItemDetails.Cust_Code,max(ItemDetails.Zone_Code)Zone_Code,max(ItemDetails.[Zone Name])[Zone Name],max(ItemDetails.Customer_Name)Customer_Name, max(ItemDetails.Route_No)Route_No,max(ItemDetails.Route_Desc)Route_Desc,SUM(ItemDetails.CRATE) AS Crate,
+        SUM(ItemDetails.Report_UOM_Qty) AS Report_UOM_Qty,MAX(ItemDetails.Short_Description) AS Short_Description,
+        MAX(ItemDetails.Item_Description) AS Item_Description,MAX(ReceiptSummary.Receipt_Amount) AS Receipt_Amount,
+        SUM(ItemDetails.Amount) AS Amount
+    FROM ItemDetails 
+    LEFT JOIN ReceiptSummary  ON ReceiptSummary.Cust_Code = ItemDetails.Cust_Code
+    GROUP BY ItemDetails.Cust_Code, ItemDetails.Item_Code
+),
+
+PivotReportUOM AS (
+    SELECT Credit_Customer,Cust_Code,Item_Code,Zone_Code,[Zone Name],Customer_Name,Route_No,Route_Desc,Crate,Report_UOM_Qty,Short_Description,Item_Description,
+        Amount,Receipt_Amount
+    FROM AggregatedData
+),
+PivotedData AS (
+    SELECT MAX(Credit_Customer)Credit_Customer,Cust_Code,MAX(Zone_Code) AS Zone_Code,MAX([Zone Name]) AS [Zone Name],MAX(Customer_Name) AS Customer_Name,MAX(Route_No) AS Route_No,
+        MAX(Route_Desc) AS Route_Desc," & itemName7 & "," & itemName89 & ") AS [Total Qty],
+        " & itemName8 & "," & itemName899 & " )AS [Total Amt],
+        MAX(Receipt_Amount) AS [Deposit Amt]
+    FROM (
+        SELECT * FROM PivotReportUOM
+    ) src
+    PIVOT (
+        SUM(Report_UOM_Qty) FOR Short_Description IN (" & itemNames1 & ")
+    ) AS p1
+    PIVOT (
+        SUM(Amount) FOR Item_Description IN (" & itemNames2 & ")
+    ) AS p2
+    GROUP BY Cust_Code
+)
+
+Select * from (Select  SortOrder,MAX(Credit_Customer)Credit_Customer,Cust_Code,MAX(Zone_Code) AS Zone_Code,MAX([Zone Name]) AS [Zone Name],MAX(Customer_Name) AS Customer_Name,MAX(Route_No) AS Route_No,
+       MAX(Route_Desc) AS Route_Desc," & itemNamesQty & ",sum(ISNULL([Total Qty],0)) as [Total Qty],
+	   " & itemNamesAmt & ",sum(ISNULL([Total Amt],0)) as [Total Amt],
+       MAX([Deposit Amt]) AS [Deposit Amt] 
+from (
+SELECT *,1 AS SortOrder 
+FROM PivotedData where Credit_Customer='Y'
+
+union all
+
+Select  NULL AS Credit_Customer,'Department' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+       " & itemNameNULL & " ,NULL AS [Total Qty]," & itemNameNULLAmt & " ,NULL AS [Total Amt],NULL AS [Deposit Amt],0 AS SortOrder
+		FROM PivotedData 
+
+		UNION ALL
+
+		
+Select  NULL AS Credit_Customer,'Total' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+        " & itemNamesQty & ",Sum([Total Qty]) AS [Total Qty]," & itemNamesAmt & ",Sum([Total Amt]) AS [Total Amt],Sum([Deposit Amt]) AS [Deposit Amt],2 AS SortOrder
+		FROM PivotedData  where Credit_Customer='Y'
+UNION ALL 
+
+		Select  NULL AS Credit_Customer,'Agent' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+        " & itemNameNULL & " ,NULL AS [Total Qty]," & itemNameNULLAmt & " ,NULL AS [Total Amt],NULL AS [Deposit Amt],3 AS SortOrder
+		FROM PivotedData 
+		UNION ALL 
+		Select  *,4 as Sortorder from 
+		 PivotedData where Credit_Customer='N'
+		 union all
+		 Select  NULL AS Credit_Customer,'Agent Total' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+         " & itemNamesQty & ",Sum([Total Qty]) AS [Total Qty]," & itemNamesAmt & ",Sum([Total Amt]) AS [Total Amt],Sum([Deposit Amt]) AS [Deposit Amt],5 AS SortOrder
+		FROM PivotedData  where Credit_Customer='N'
+
+		)yy	group by yy.Cust_Code,yy.SortOrder)yy
+--ORDER BY Cust_Code; "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            Dim Credit_qry As String = "Select Credit_Customer from TSPL_CUSTOMER_MASTER WHERE Cust_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "
+
+            Dim creditdt As DataTable = clsDBFuncationality.GetDataTable(Credit_qry)
+
+            ' Now check if the result contains both "Y" and "N"
+            Dim hasY As Boolean = creditdt.AsEnumerable().Any(Function(row) row.Field(Of String)("Credit_Customer").ToUpper() = "Y")
+            Dim hasN As Boolean = creditdt.AsEnumerable().Any(Function(row) row.Field(Of String)("Credit_Customer").ToUpper() = "N")
+
+            If hasY AndAlso hasN Then
+                ' Contains both Y and N → no change
+                ' You can just keep the original dt
+            ElseIf hasY AndAlso Not hasN Then
+                ' Contains only Y → remove agent rows from dt
+                For i As Integer = dt.Rows.Count - 1 To 0 Step -1
+                    Dim custCode As String = dt.Rows(i)("cust_code").ToString().ToLower()
+                    If custCode.Contains("agent total") OrElse custCode.Contains("agent") Then
+                        dt.Rows.RemoveAt(i)
+                    End If
+                Next
+                dt.AcceptChanges()
+            End If
+
+            ' Now dt is modified if needed, proceed with further processing
+
+            gv1.DataSource = Nothing
+            gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.GroupDescriptors.Clear()
+                gv1.MasterView.Refresh()
+                gv1.GroupDescriptors.Clear()
+                gv1.EnableFiltering = True
+                gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                If dt.Rows.Count > 0 Then
+                    gv1.DataSource = dt
+                    'If rbtnDetail.IsChecked Then
+                    '    If rbtnDispatch.IsChecked Then
+                    '        Dim InvoiceBtn As New GridViewCommandColumn()
+                    '        InvoiceBtn.FormatString = ""
+                    '        InvoiceBtn.UseDefaultText = True
+                    '        InvoiceBtn.DefaultText = "Click to Show Invoice No"
+                    '        InvoiceBtn.HeaderText = "InvoiceNo"
+                    '        InvoiceBtn.Name = "InvoiceNo"
+                    '        InvoiceBtn.FieldName = "InvoiceNo"
+                    '        InvoiceBtn.Width = 80
+                    '        InvoiceBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    '        gv1.MasterTemplate.Columns.Insert(9, InvoiceBtn)
+                    '    End If
+                    'End If
+
+                    gv1.BestFitColumns()
+                'View()
+                SetGridFormationUDP()
+                'ReStoreGridLayout()
+                gv1.MasterTemplate.AutoExpandGroups = True
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    gv1.BestFitColumns()
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+                    Exit Sub
+
+                End If
+            'gv1.BestFitColumns()
+            'View()
+            'SetGridFormation()
+            'ReStoreGridLayout()
+            'gv1.MasterTemplate.AutoExpandGroups = True
+            'RadPageView1.SelectedPage = RadPageViewPage2
+            'gv1.BestFitColumns()
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
+            '    Exit Sub
+
+            'End If
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Private Sub LoadData()
         Try
             If rbtnDetail.IsChecked Then
@@ -509,6 +855,19 @@ left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=TSPL_DEMA
         End Try
     End Sub
 
+    Sub SetGridFormationUDP()
+        gv1.TableElement.TableHeaderHeight = 40
+        gv1.MasterTemplate.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+            gv1.Columns(ii).FormatString = "{0:n2}"
+        Next
+
+        gv1.Columns("SortOrder").IsVisible = False
+        gv1.Columns("Credit_Customer").IsVisible = False
+
+    End Sub
     Sub SetGridFormation()
         gv1.TableElement.TableHeaderHeight = 40
         gv1.MasterTemplate.ShowRowHeaderColumn = True

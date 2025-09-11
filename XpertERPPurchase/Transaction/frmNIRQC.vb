@@ -1,6 +1,7 @@
 ﻿Imports common
 Imports System.Data.SqlClient
 Imports System
+Imports System.Text
 
 Public Class frmNIRQC
     Inherits FrmMainTranScreen
@@ -29,19 +30,24 @@ Public Class frmNIRQC
         RadButton1.Visible = False
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        LoadQCStatus()
-        AddNew()
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New ")
-        ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for Post ")
-        ButtonToolTip.SetToolTip(CancelBtn, "Press Alt+L for Cancel ")
-        If clsCommon.myLen(Me.Tag) > 0 Then
-            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-        End If
-        CancelBtn.Enabled = False
+        Try
+            SetUserMgmtNew()
+            LoadQCStatus()
+            AddNew()
+            txtDate.Value = clsCommon.GETSERVERDATE()
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+            ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
+            ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+            ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New ")
+            ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for Post ")
+            ButtonToolTip.SetToolTip(CancelBtn, "Press Alt+L for Cancel ")
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+            End If
+            CancelBtn.Enabled = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Sub LoadQCStatus()
         Dim dt As New DataTable()
@@ -59,6 +65,11 @@ Public Class frmNIRQC
         dr("Name") = "OK"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "2"
+        dr("Name") = "Not OK"
+        dt.Rows.Add(dr)
+
 
 
         cboVisualQCStatus.DataSource = dt
@@ -66,7 +77,6 @@ Public Class frmNIRQC
         cboVisualQCStatus.DisplayMember = "Name"
     End Sub
     Sub AddNew()
-
         RadButton1.Visible = False
         isNewEntry = True
         txtCode.Value = Nothing
@@ -77,7 +87,8 @@ Public Class frmNIRQC
         btnPrint.Visible = True
         btnDelete.Enabled = False
         btnPost.Enabled = False
-        txtDate.Text = clsCommon.GETSERVERDATE()
+        btnPost.Visible = False
+        'txtDate.Value = clsCommon.GETSERVERDATE()
         BlankAllControls()
     End Sub
     Sub BlankAllControls()
@@ -144,8 +155,14 @@ Public Class frmNIRQC
                 obj.QC_Remarks = txtRemarks.Text
                 obj.QC_Status = clsCommon.myCDecimal(cboVisualQCStatus.SelectedValue)
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
+                    'If clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") <> CompairStringResult.Equal Then
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        clsApply_Approval.CheckApprovalRequired(clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), Nothing, Me.Form_ID, txtCode.Value, txtDate.Value, Nothing, txtRemarks.Text, clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt")), 0, Nothing, Nothing, 0, False)
+                    End If
+                    'End If
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -172,6 +189,7 @@ Public Class frmNIRQC
     End Sub
     Sub funDelete()
         Try
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
             If (myMessages.deleteConfirm()) Then
                 If (clsNIRQC.DeleteData(txtCode.Value)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
@@ -181,7 +199,6 @@ Public Class frmNIRQC
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
-
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
@@ -259,9 +276,9 @@ and not exists(select 1 from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAI
         txtMRNNo.Value = clsCommon.ShowSelectForm("NICQCMRNFnd", qry, "MRN_No", whrcls, txtMRNNo.Value, "", isButtonClicked)
         LoadMRNData()
     End Sub
-    Private Sub LoadMRNData()
-        BlankMRNFields()
-        Dim qry As String = "select TSPL_GRN_HEAd.VisualQCStatusSecond,TSPL_GRN_HEAd.VisualQCStatus,TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MRN_HEAD.VehicleNo
+
+    Function ReturnMRNDataQry() As String
+        Dim qry As String = "select TSPL_GRN_HEAd.VisualQCStatusSecond,TSPL_GRN_HEAd.VisualQCStatus,TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MRN_HEAD.VehicleNo,TSPL_MRN_HEAD.MRN_Total_Amt
 from TSPL_MRN_DETAIL
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code 
 left outer join TSPL_MRN_HEAD  on TSPL_MRN_HEAD.MRN_No=TSPL_MRN_DETAIL.MRN_No
@@ -269,9 +286,13 @@ left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
 left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_HEAD.Against_GRN
 left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_HEAD.Bill_To_Location
-where TSPL_MRN_DETAIL.MRN_No='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=1 and TSPL_MRN_HEAD.NIR_QC=1 and TSPL_ITEM_MASTER.NIR_QC=1"
+where TSPL_MRN_DETAIL.MRN_No='" & txtMRNNo.Value & "' and TSPL_MRN_HEAD.Status=1 and TSPL_MRN_HEAD.NIR_QC=1 and TSPL_ITEM_MASTER.NIR_QC=1"
+        Return qry
+    End Function
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+    Private Sub LoadMRNData()
+        BlankMRNFields()
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(ReturnMRNDataQry())
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim QC1 As Integer = clsCommon.myCdbl(dt.Rows(0)("VisualQCStatus"))
             Dim QC2 As Integer = clsCommon.myCdbl(dt.Rows(0)("VisualQCStatusSecond"))
@@ -298,20 +319,35 @@ where TSPL_MRN_DETAIL.MRN_No='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=1
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
-        PostData()
-    End Sub
-    Sub PostData()
         Try
-            If (myMessages.postConfirm()) Then
-                If (clsNIRQC.PostData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
-                    LoadData(txtCode.Value, NavigatorType.Current)
+            If clsCommon.CompairString(cboVisualQCStatus.SelectedValue, "2") = CompairStringResult.Equal Then
+                If clsCommon.MyMessageBoxShow("NIR QC Status : " & clsCommon.myCstr(cboVisualQCStatus.SelectedItem) & Environment.NewLine & "Do you want to cancel the NIRQC with GRN ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), lblGRNNo.Text, True) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                        AddNew()
+                    End If
                 End If
+            Else
+                PostData()
             End If
+
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Sub PostData()
+        'Try
+        '    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
+        '    If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
+        '        clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
+        '        LoadData(txtCode.Value, NavigatorType.Current)
+        '    End If
+        'Catch ex As Exception
+        '    Throw New Exception(ex.Message)
+        'End Try
+    End Sub
+
+
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
@@ -329,7 +365,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=1
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim sqlqry As String = "Select case when TSPL_MRN_HEAD.Status=1 then 'OK' else 'Not OK' end as QC_Status,
+            Dim sqlqry As String = "Select Case When TSPL_MRN_HEAD.Status=1 Then 'OK' else 'Not OK' end as QC_Status,
 TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MRN_HEAD.VehicleNo,TSPL_NIR_QC.Document_No,TSPL_NIR_QC.QC_Remarks,TSPL_NIR_QC.MRN_No,TSPL_NIR_QC.Document_Date
 From TSPL_MRN_DETAIL
 Left join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAIL.MRN_No
@@ -397,7 +433,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
                                     Reason = frm.strRmks
                                 End If
                             End If
-                            If clsNIRQC.CancelData(clsCommon.myCstr(txtCode.Value)) Then
+                            If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), IIf(clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") = CompairStringResult.Equal, True, False), False) Then
 
                                 'If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value)) Then
                                 ' saveCancelLog(Reason, "Cancel", Nothing)

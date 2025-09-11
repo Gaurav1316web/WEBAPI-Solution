@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const frmCommissionTPTCalculation As String = "Commission/TPT Calculation"
     Public Const DCSDispatch As String = "DCS Dispatch"
     Public Const DCSInvoice As String = "DCS Invoice"
     Public Const DCSSaleEntry As String = "DCS Sale Entry"
@@ -412,6 +413,7 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const MultipleShareAllotment As String = "Multiple Share Allotment"
+    Public Const CustomerPenalty As String = "Customer Penalty"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const BullInsurance As String = "Bull Insurance"
@@ -463,7 +465,10 @@ Public Class clsDocType
     Public Const frmInvoiceFreshSale As String = "Fresh Invoice"
     Public Const frmSaleReturnGateEntry As String = "Sale Return Gate Entry"
     Public Const frmCreateReceived As String = "Fresh Crate Received"
+    Public Const frmCreateReceivedAPI As String = "Fresh Crate Received API"
+    Public Const frmCreateOut As String = "Fresh Crate Out"
     Public Const frmCanReceived As String = "Can Received"
+    Public Const frmCanReceivedAPI As String = "Can Received API"
     Public Const FrmInvoiceCrateLinerDetail As String = "Invoice Crate Liner Detail"
 
     Public Const MilkGateEntry As String = "Milk Gate Entry"
@@ -485,6 +490,9 @@ Public Class clsDocType
     Public Const frmDeliveryOrderPSForExempted As String = "PS Delivery Order Exempted"
     Public Const frmSalesOrderProductSale As String = "Sale Order Product Sale"
     Public Const frmShipmentProductSale As String = "Shipment Product Sale"
+    Public Const frmCustomerTender As String = "Customer Tender"
+    Public Const frmCustomerTenderOrder As String = "Customer Tender Order"
+    Public Const frmCustomerTenderOrderDis As String = "Customer Tender Order Dispatch"
     Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
@@ -1150,7 +1158,10 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.DeliveryNoteFreshSale, "", False, True)
             InsertDefaultValue(clsDocType.DispatchNoteFreshSale, "", False, True)
             InsertDefaultValue(clsDocType.frmCreateReceived, "", False, True)
+            InsertDefaultValue(clsDocType.frmCreateReceivedAPI, "", False, True)
+            InsertDefaultValue(clsDocType.frmCreateOut, "", False, True)
             InsertDefaultValue(clsDocType.frmCanReceived, "", False, True)
+            InsertDefaultValue(clsDocType.frmCanReceivedAPI, "", False, True)
             InsertDefaultValue(clsDocType.GatePassEntrySale, "", False, True)
             InsertDefaultValue(clsDocType.MCCGateEntry, "", False, True)
             InsertDefaultValue(clsDocType.MCCWeighment, "", False, True)
@@ -1465,6 +1476,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.MilkCollectionDCSMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCSMulipleMerge, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCS, "", False, False, False)
+            InsertDefaultValue(clsDocType.CustomerPenalty, "", False, False, False)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.PDCS, False, False, True)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.Registered, False, False, True)
             InsertDefaultValue(clsDocType.PTMMASTER, "", False, False, True)
@@ -1588,6 +1600,9 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderOrderDis, "", False, False, True)
             InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.BoothRouteMapping, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)

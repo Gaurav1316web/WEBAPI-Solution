@@ -364,6 +364,7 @@ Public Class frmShipmentDairy
     Public DtExcel As DataTable
     Dim Item_TaxType As Integer = 0
     Public ShowPrintDisAmt As Boolean = False
+    Public MergeTCAmtofCreditCust As Boolean = False
     Public IncreaseCrateQtyOnFiftyPercent As Boolean = False
     Public AllowSeperateSchemeItemOnPrint As Boolean = False
     Dim CreateFreshInvoiceOnDispatchSave As Integer = 0
@@ -757,6 +758,7 @@ Public Class frmShipmentDairy
         ApplyBoothWiseScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, Nothing)) = 1, True, False)
         ApplyMonthEndDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, Nothing)) = 1, True, False)
         AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
+        MergeTCAmtofCreditCust = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -8002,10 +8004,23 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     Next
                 End If
 
-
+                Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" & ParentDocNo & "' where Document_Code='" & ParentDocNo & "'"
+                clsDBFuncationality.ExecuteNonQuery(strupdate, trans)
+                Dim qry1 As String = ""
+                If MergeTCAmtofCreditCust Then
+                    'qry1 = "select sum(Transporter_Commission_TotalAmt) as TCAmt from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "'"
+                    qry1 = "select sum(Transporter_Commission_Amt) as TCAmt from TSPL_SD_SHIPMENT_DETAIL where DOCUMENT_CODE in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "')"
+                    Dim tcAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry1, trans))
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Document_Code='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SHIPMENT_HEAD set Transporter_Commission_TotalAmt=0 where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt='" & clsCommon.myCstr(tcAmt) & "' where Against_Shipment_No='" & ParentDocNo & "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                    qry1 = "update TSPL_SD_SALE_INVOICE_HEAD set Transporter_Commission_TotalAmt=0 where Against_Shipment_No in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" & ParentDocNo & "' and Document_Code not in('" & ParentDocNo & "'))"
+                    clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                End If
                 trans.Commit()
-                Dim strupdate As String = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + ParentDocNo + "' where Document_Code='" + ParentDocNo + "'"
-                clsDBFuncationality.ExecuteNonQuery(strupdate)
                 If Not IsAutoClose Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(ParentDocNo, NavigatorType.Current)
@@ -10547,7 +10562,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
                 gv1.CurrentColumn = gv1.Columns(ColCommParty)
                 isCellValueChangedOpen = False
             End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F11 Then
             If RadPageViewPage7.Item.Visibility = ElementVisibility.Visible Then
                 RadPageViewPage7.Item.Visibility = ElementVisibility.Collapsed
             Else
@@ -14314,13 +14329,13 @@ left join TSPL_VENDOR_MASTER on TSPL_SD_SHIPMENT_HEAD.Transport_Id=TSPL_VENDOR_M
 --left outer join TSPL_TRANSPORT_MASTER  on  TSPL_TRANSPORT_MASTER.Transport_Id = TSPL_VEHICLE_MASTER.Transport_Id
 where TSPL_SD_SHIPMENT_HEAD.Document_Code='" + txtDocNo.Value + "' and TSPL_SD_SHIPMENT_HEAD.Status=1"
                 Else
-                    Qry = "Select * from (select 1 As CopyType,"
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                Qry = "Select * from (select 1 As CopyType,"
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         Qry += " TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2, "
                     Else
-                        Qry += " TSPL_COMPANY_MASTER.Phone2 As Comp_Phone2, TSPL_COMPANY_MASTER.Add3 As Comp_Add3,TSPL_COMPANY_MASTER.Add2 As Comp_Add2,
+                    Qry += " TSPL_COMPANY_MASTER.Phone2 As Comp_Phone2, TSPL_COMPANY_MASTER.Add3 As Comp_Add3,TSPL_COMPANY_MASTER.Add2 As Comp_Add2,supply_date,
 "
-                    End If
+                End If
                     Qry += " InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
@@ -14339,8 +14354,9 @@ TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_Sta
                         TSPL_COMPANY_MASTER.Email As Comp_Email,TSPL_COMPANY_MASTER.Pincode As Comp_Pincode,TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1,
                         TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No"
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-                        Qry += ",TSPL_SD_SHIPMENT_HEAD.supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1 "
-                    End If
+                    Qry += ",supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1 "
+
+                End If
                     Qry += " from  TSPL_SD_SHIPMENT_HEAD
                         Left Outer Join TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
                         Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
@@ -14778,8 +14794,12 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
             '    Throw New Exception("Code is empty")
             'End If
+            Dim isEinvoiceCancelled As Boolean = False
             If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                isEinvoiceCancelled = True
             End If
             Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & txtInvoiceNo.Text & "' "))
             If clsCommon.myLen(strSaleReturnNo) > 0 Then
@@ -14794,7 +14814,8 @@ On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Ite
             If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because Dairy GAte Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
             End If
-            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtInvoiceNo.Text + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then

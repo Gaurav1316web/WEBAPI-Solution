@@ -93,12 +93,12 @@ Public Class clsApprovalScreen
         Try
             obj.Arr = New List(Of clsApprovalScreen)
 
-            Dim qry As String = "select TSPL_APPROVAL_LEVEL_SCREEN.*,tspl_user_master.user_name from TSPL_APPROVAL_LEVEL_SCREEN left outer join tspl_user_master on tspl_user_master.user_code=TSPL_APPROVAL_LEVEL_SCREEN.user_code where TSPL_APPROVAL_LEVEL_SCREEN.comp_code='" + objCommonVar.CurrentCompanyCode + "' and TSPL_APPROVAL_LEVEL_SCREEN.module_code='" + Module_Code + "' and TSPL_APPROVAL_LEVEL_SCREEN.trans_code='" + Screen_Code + "'"
+            Dim qry As String = "select TSPL_APPROVAL_LEVEL_SCREEN.*,tspl_user_master.user_name from TSPL_APPROVAL_LEVEL_SCREEN left outer join tspl_user_master on tspl_user_master.user_code=TSPL_APPROVAL_LEVEL_SCREEN.user_code where TSPL_APPROVAL_LEVEL_SCREEN.comp_code='" & objCommonVar.CurrentCompanyCode & "' and TSPL_APPROVAL_LEVEL_SCREEN.module_code='" & Module_Code & "' and TSPL_APPROVAL_LEVEL_SCREEN.trans_code='" & Screen_Code & "'"
             If clsCommon.myLen(strLocCode) > 0 Then
-                qry += " and Loc_Code='" + strLocCode + "'"
+                qry += " and Loc_Code='" & strLocCode & "'"
             End If
             If clsCommon.myLen(strCaptex) > 0 Then
-                qry += " and Capex_Category='" + strCaptex + "'"
+                qry += " and Capex_Category='" & strCaptex & "'"
             End If
             dt = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -488,7 +488,7 @@ Public Class clsApply_Approval
             Else
                 qry = "select count(*) as totalCOunt,(select (case when isnull(status,'')='' then min(no_of_level) else 0 end) as app_level from " &
                                   "TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL as trans_app where trans_app.trans_code=TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL.trans_code " &
-                                  "and trans_app.document_code=TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL.document_code group by trans_app.status,trans_app.TRANS_Code,trans_app.Document_Code) as app_level from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " &
+                                  "and trans_app.document_code=TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL.document_code group by trans_app.status,trans_app.TRANS_Code,trans_app.Document_Code Having  (case when isnull(status,'')='' then min(no_of_level) else 0 end)<>0) as app_level from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " &
                                   "where trans_code='" + Form_Id + "' and document_code='" + Doc_Code + "' and is_reverse=0  "
                 If Doc_Date IsNot Nothing AndAlso IsDate(Doc_Date) Then
                     qry += " and document_date='" + clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") + "'"
@@ -698,7 +698,7 @@ Public Class clsApply_Approval
                             chkcunter += 1
                         End If
 
-                        If chkcunter = 1 AndAlso msg = 0 And documentCounter = 0 Then
+                        If chkcunter = 1 AndAlso msg = 0 AndAlso documentCounter = 0 Then
                             If Not clsCommon.MyMessageBoxShow("Want to send document for approval?", "Attention", Windows.Forms.MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                                 str = ""
                                 documentsendforApprovalScreenfromQuickBookEntry = False
@@ -812,7 +812,7 @@ Public Class clsApply_Approval
             Dim Status As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             ''if approved then message send and if rejected then no message throw,because in rejection case from higher authtority document is reopend for modification.
             If clsCommon.CompairString(Status, "Rejected") <> CompairStringResult.Equal Then
-                qry = "select count(*) as totalCOunt from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " & _
+                qry = "select count(*) as totalCOunt from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL " &
                  "where trans_code='" + Form_Id + "' and document_code='" + Doc_Code + "' and isnull(Is_Posted,0) =0 and is_reverse=0 "
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                     Throw New Exception("Invalid action,Document pending for approval." + Environment.NewLine + "[goto--> Approval Alert]")
@@ -1042,15 +1042,15 @@ Public Class clsApprovalAlert_Child
                 clsCommon.AddColumnsForChange(coll, "SendBack", "0")
                 clsCommon.AddColumnsForChange(coll, "modified_date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
 
-                whrcls = " trans_code='" + obj.Trans_Code + "' and document_code='" + obj.Document_Code + "' and no_of_level='" + clsCommon.myCstr(obj.No_Of_Level) + "' and user_code='" + obj.User_Code + "' and is_reverse=0 and Status<>'Amend' "
+                whrcls = " trans_code='" & obj.Trans_Code & "' and document_code='" & obj.Document_Code & "' and no_of_level='" & clsCommon.myCstr(obj.No_Of_Level) & "' and user_code='" & obj.User_Code & "' and is_reverse=0 and Status<>'Amend' "
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL", OMInsertOrUpdate.Update, whrcls, trans)
 
 
                 If clsCommon.CompairString(obj.Status, "Rejected") = CompairStringResult.Equal Then
-                    Dim qry As String = "select all_level_approval from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where " + whrcls
+                    Dim qry As String = "select all_level_approval from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where " & whrcls
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1 Then
-                        qry = "delete  FROM TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL WHERE trans_code='" + obj.Trans_Code + "' and document_code='" + obj.Document_Code + "' and no_of_level>'" + clsCommon.myCstr(obj.No_Of_Level) + "'"
+                        qry = "delete  FROM TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL WHERE trans_code='" & obj.Trans_Code & "' and document_code='" & obj.Document_Code & "' and no_of_level>'" & clsCommon.myCstr(obj.No_Of_Level) & "'"
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
                 End If
@@ -1063,7 +1063,10 @@ Public Class clsApprovalAlert_Child
                 ''if auto post setting on and document is approved by higher level authorizer then document post.
                 If obj.Auto_Post AndAlso clsCommon.CompairString(obj.Status, "Approved") = CompairStringResult.Equal AndAlso obj.No_Of_Level = obj.Max_App_Level Then
                     Postdata(obj, trans)
+                ElseIf obj.Auto_Post AndAlso clsCommon.CompairString(obj.Status, "Rejected") = CompairStringResult.Equal AndAlso obj.No_Of_Level = obj.Max_App_Level Then
+                    Rejectdata(obj, trans)
                 End If
+
             End If
 
             Return True
@@ -1078,13 +1081,12 @@ Public Class clsApprovalAlert_Child
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             Postdata(obj, trans)
-
             trans.Commit()
-            Return True
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
 
     Public Shared Function Postdata(ByVal obj As clsApprovalAlert_Child, ByVal trans As SqlTransaction) As Boolean
@@ -1096,7 +1098,7 @@ Public Class clsApprovalAlert_Child
                         isSaved = isSaved AndAlso clsRequistionHead.PostData(obj.Document_Code, trans)
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal Then
                         Dim objPO As New clsPurchaseOrderHead
-                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(1) as cc from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where Status='Amend' and TRANS_Code='" + obj.Trans_Code + "'  and Document_Code='" + obj.Document_Code + "'", trans)) > 0 Then
+                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(1) as cc from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where Status='Amend' and TRANS_Code='" & obj.Trans_Code & "'  and Document_Code='" & obj.Document_Code & "'", trans)) > 0 Then
                             isSaved = isSaved AndAlso objPO.PostData(clsUserMgtCode.mbtnPurchaseOrder, obj.Document_Code, "", False, False, trans)
                         Else
                             isSaved = isSaved AndAlso objPO.PostData(clsUserMgtCode.mbtnPurchaseOrder, obj.Document_Code, "", True, False, trans)
@@ -1151,10 +1153,50 @@ Public Class clsApprovalAlert_Child
                         isSaved = isSaved AndAlso clsDBTNEFT.PostData(obj.Document_Code, "", trans)
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmPaymentProcess) = CompairStringResult.Equal Then
                         isSaved = isSaved AndAlso clsPaymentProcessHead.ProcessData(obj.Document_Code, "", True, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsNIRQC.PostData(obj.Document_Code, trans)
                     End If
 
                     If isSaved Then ''if higher authorizer do approval then at post document status posted on approval table
-                        Dim qry As String = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_posted=1,SendBack=0 where trans_code='" + obj.Trans_Code + "' and document_code='" + obj.Document_Code + "' and is_reverse=0 "
+                        Dim qry As String = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_posted=1,SendBack=0 where trans_code='" & obj.Trans_Code & "' and document_code='" & obj.Document_Code & "' and is_reverse=0 "
+                        isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    End If
+                End If ''end level cond.
+
+            End If ''end obj cond.
+
+            Return isSaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    Public Shared Function Rejectdata(ByVal obj As clsApprovalAlert_Child) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Rejectdata(obj, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function Rejectdata(ByVal obj As clsApprovalAlert_Child, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim strQry As String = Nothing
+            Dim isSaved As Boolean = True
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0 Then
+                If obj.No_Of_Level = obj.Max_App_Level Then ''only higher authorized user can post data
+                    If clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
+                        strQry = "Update TSPL_NIR_QC Set Status=1, QC_Status=2,QC_Remarks='" & obj.Approval_Remark & "',Modify_By='" & objCommonVar.CurrentUserCode & "',Modify_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "',Posted_By='" & objCommonVar.CurrentUserCode & "',Posted_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") & "' Where Document_No='" & obj.Document_Code & "'"
+                        clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                        isSaved = isSaved AndAlso clsNIRQC.CancelData(Nothing, obj.Document_Code, Nothing, True, trans)
+                    End If
+
+                    If isSaved Then ''if higher authorizer do approval then at post document status posted on approval table
+                        Dim qry As String = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_posted=1,SendBack=0 where trans_code='" & obj.Trans_Code & "' and document_code='" & obj.Document_Code & "' and is_reverse=0 "
                         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
                 End If ''end level cond.

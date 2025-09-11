@@ -579,6 +579,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDCSSaleRegister, "DCS Sale Register", "1.06.03.33", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.34", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.RoutePartyWisePriceList, "Route and PartyWise Price List", "1.06.03.38", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSaleReportCustomerWise, "Sales Report Customer Wise", "1.06.03.41", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -1216,6 +1217,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
 
         InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -1793,6 +1795,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.rptTankerDispatchWidthDeduction, "Tanker Dispatch With Deduction", "1.17.03.38", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptVSPIncentiveRegister, "VSP Incentive Register", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        'InsertDefaultValue(clsUserMgtCode.DCSDeductionBalanceReport, "DCS Deduction Balance Amount", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '===sanjeet(21/11/2016)====================
 
@@ -2387,7 +2390,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, "Quick Demand", "1.36.02.33", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmLeakedSaleReturn, "Leaked Sale Return", "1.36.02.34", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMultipleInvoice, "Multiple Invoice", "1.36.02.35", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.frmCommissionTPTCalculation, "Commission/TPT Calculation", "1.36.02.36", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmProductQuickDemand, "Product Quick Demand", "1.36.02.37", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCustomerPenalty, "Customer Penalty", "1.36.02.38", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 
@@ -2486,8 +2491,35 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VisualReportSale, "Visual Report Sale", "1.36.04.02", clsUserMgtCode.SubModuleVisualSaleReport, 37)
 
 
+        '' Dairy Product Sale
+        InsertDefaultValue(clsUserMgtCode.ModuleProductSaleDairy, "Product Dairy Sales", "1.37", clsUserMgtCode.ExpertERP, "M", 23)
 
+        '' Dairy Product Sale ==> Setup
+        InsertDefaultValue(clsUserMgtCode.SubModuleProductSaleDairySetUp, "Setup", "1.37.01", clsUserMgtCode.ModuleProductSaleDairy, "SM", 24)
 
+        ''Dairy Product Sale ==> Transcation
+        InsertDefaultValue(clsUserMgtCode.SubModuleProductSaleDairyTransaction, "Transcation", "1.37.02", clsUserMgtCode.ModuleProductSaleDairy, "SM", 26)
+
+        '' Dairy Product Sale ==> Report
+        InsertDefaultValue(clsUserMgtCode.SubModuleProductSaleDairyReport, "Report", "1.37.03", clsUserMgtCode.ModuleProductSaleDairy, "SM", 30)
+
+        '' End of Dairy Product Sale
+
+        '' Dairy APS Sale
+        InsertDefaultValue(clsUserMgtCode.ModuleAPSSaleDairy, "APS Dairy Sales", "1.38", clsUserMgtCode.ExpertERP, "M", 23)
+
+        '' Dairy APS Sale ==> Setup
+        InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairySetUp, "Setup", "1.38.01", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 24)
+        InsertDefaultValue(clsUserMgtCode.frmCustomerTender, "Customer Tender", "1.38.01.01", clsUserMgtCode.SubModuleAPSSaleDairySetUp, 27)
+        ''Dairy APS Sale ==> Transcation
+        InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "Transcation", "1.38.02", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 26)
+        InsertDefaultValue(clsUserMgtCode.FrmSalesOrder, "Sales Order", "1.38.02.01", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.FrmSalesOrderDispatch, "Sales Order Dispatch", "1.38.02.02", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+
+        '' Dairy APS Sale ==> Report
+        InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyReport, "Report", "1.38.03", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 30)
+
+        '' End of Dairy Product Sale
         '===============================
         ' '' setup
 

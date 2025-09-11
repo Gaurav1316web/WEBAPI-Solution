@@ -56,6 +56,8 @@ Public Class clsPriceChartPlanning
     Public arrTSDDCS As List(Of clsPriceChartPlanningTSDDCF)
 
     Public arrException As List(Of clsPriceChartPlanningException)
+
+    Public Apply_SNF_Ded_On_Per As Boolean
 #End Region
 
     Public Shared Function SaveData(obj As clsPriceChartPlanning, ByVal IsNewEntry As Boolean) As Boolean
@@ -120,7 +122,7 @@ Public Class clsPriceChartPlanning
 
             clsCommon.AddColumnsForChange(coll, "UCDF_SNF_Ded_Below", obj.UCDF_SNF_Ded_Below)
             clsCommon.AddColumnsForChange(coll, "UCDF_SNF_Ded_Rate", obj.UCDF_SNF_Ded_Rate)
-
+            clsCommon.AddColumnsForChange(coll, "Apply_SNF_Ded_On_Per", IIf(obj.Apply_SNF_Ded_On_Per, 1, 0))
             If IsNewEntry Then
                 'qry = "select max(Planning_Code) as Planning_Code from TSPL_PRICE_CHART_PLANNING "
                 'obj.Planning_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
@@ -245,6 +247,8 @@ Public Class clsPriceChartPlanning
 
                 obj.UCDF_SNF_Ded_Below = clsCommon.myCDecimal(dt.Rows(0)("UCDF_SNF_Ded_Below"))
                 obj.UCDF_SNF_Ded_Rate = clsCommon.myCDecimal(dt.Rows(0)("UCDF_SNF_Ded_Rate"))
+
+                obj.Apply_SNF_Ded_On_Per = (clsCommon.myCDecimal(dt.Rows(0)("Apply_SNF_Ded_On_Per")) = 1)
 
                 obj.arrMCC = clsPriceChartPlanningMCC.GetData(obj.Planning_Code)
                 obj.arrVLC = clsPriceChartPlanningVLC.GetData(obj.Planning_Code)

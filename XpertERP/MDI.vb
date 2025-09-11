@@ -9591,6 +9591,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmQuickDemand
                         frm = New frmQuickDemand()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmProductQuickDemand
+                        frm = New FrmProductQuickDemandBooking()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmLeakedSaleReturn
                         frm = New frmLeakedSaleReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9619,6 +9623,15 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmGenerateBookingFreshSale
                         frm = New FrmGenerateFreshBooking
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCustomerTender
+                        frm = New frmCustomerTender
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSalesOrder
+                        frm = New FrmSalesOrder
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSalesOrderDispatch
+                        frm = New FrmSalesOrderDispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmAdvanceForCD
                     '    frm = New frmCustomerAdvanceAgainstBooking
@@ -9660,6 +9673,15 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmMultipleInvoice
                         frm = New frmMultipleInvoice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCommissionTPTCalculation
+                        frm = New frmCommissionTPTCalculation
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCustomerPenalty
+                        frm = New frmCustomerPenalty
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCommissionTPTCalculation
+                        frm = New frmCommissionTPTCalculation
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmItemProjection
                     '    frm = New FrmItemProjection
@@ -10048,6 +10070,11 @@ Public Class MDI
                     Case clsUserMgtCode.MonthlyProgressReport
                         frm = New frmMonthlyProgressReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    'Case clsUserMgtCode.DCSDeductionBalanceReport
+                    '    frm = New DCSDeductionBalanceReport
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSuspanceDCSReport
                         frm = New rptSuspanceDCSReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -10226,6 +10253,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptSalesReport
                         frm = New rptSalesReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSaleReportCustomerWise
+                        frm = New rptSaleReportCustomerWise
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailMaterialManagement
                         frm = New rptAuditTrailReport

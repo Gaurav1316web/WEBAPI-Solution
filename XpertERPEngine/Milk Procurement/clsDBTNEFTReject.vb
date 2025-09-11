@@ -27,12 +27,12 @@ Public Class clsDBTNEFTReject
             clsCommon.AddColumnsForChange(coll, "Against_DBT_NEFT", obj.Against_DBT_NEFT)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
                 obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.DBTNEFTReject, "", "")
                 clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT_REJECT", OMInsertOrUpdate.Insert, "", trans)
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT_REJECT", OMInsertOrUpdate.Update, "TSPL_DBT_NEFT_REJECT.Document_Code='" + obj.Document_Code + "'", trans)
@@ -150,6 +150,49 @@ Public Class clsDBTNEFTReject
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsDBTNEFTReject = clsDBTNEFTReject.GetData(strCode, NavigatorType.Current, trans)
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                Throw New Exception("Transaction should be Approved to reverse.")
+            End If
+            Dim qry As String = "select TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR,TabLatestNEFT.NEFTCreated_Date,TSPL_DBT_NEFT_REJECT.Created_Date as  RejectCreateDate
+from TSPL_DBT_NEFT_REJECT_DETAIL 
+left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code
+left outer join TSPL_DBT_NEFT_DETAIL on TSPL_DBT_NEFT_DETAIL.PK_Id=TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR
+left outer join  (select Against_MP_Incentive_TR,max(TSPL_DBT_NEFT.Created_Date) as NEFTCreated_Date from TSPL_DBT_NEFT_DETAIL 
+left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
+group by Against_MP_Incentive_TR) as TabLatestNEFT on TabLatestNEFT.Against_MP_Incentive_TR=TSPL_DBT_NEFT_DETAIL.PK_Id
+where TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code='" + obj.Document_Code + "' and TabLatestNEFT.NEFTCreated_Date>TSPL_DBT_NEFT_REJECT.Created_Date"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("DBT NEFT Uploader is already Created of above rejection.")
+            End If
+
+
+            qry = "Update TSPL_DBT_NEFT_REJECT set Status=0, Posted_Date=null,Posted_By=null where Document_Code='" + obj.Document_Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT_REJECT", "Document_Code", "TSPL_DBT_NEFT_REJECT_DETAIL", "Document_Code", trans)
+
+
+        Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True

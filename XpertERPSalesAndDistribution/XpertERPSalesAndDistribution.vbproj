@@ -1803,6 +1803,12 @@
     <Compile Include="Sales and Distribution\Report\rptSaleAccountSummary.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Report\rptSaleReportCustomerWise.Designer.vb">
+      <DependentUpon>rptSaleReportCustomerWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptSaleReportCustomerWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.Designer.vb">
       <DependentUpon>RptTransfer_IncompleteReport.vb</DependentUpon>
     </Compile>
@@ -2691,6 +2697,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\rptSaleAccountSummary.resx">
       <DependentUpon>rptSaleAccountSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptSaleReportCustomerWise.resx">
+      <DependentUpon>rptSaleReportCustomerWise.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.resx">
       <DependentUpon>RptTransfer_IncompleteReport.vb</DependentUpon>

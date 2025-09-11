@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const PickcompanyBankCodeFromPaymentProcess As String = "pick company BankCode From Payment Process"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
     Public Const MaxSNFPerLimitforReport As String = "Max SNF Per Limit for Report"
@@ -372,6 +373,7 @@ Public Class clsFixedParameterType
     Public Const OpenAvailorEmptyStckLocationOn_Standardization As String = "Open Avail./Empty Location on Standardization"
     Public Const BOM_Amend_Pswd As String = "Amendment Password for BOM"
     Public Const ProductionFATSNF_KG_Unit As String = "ProductionFATSNF_KG_Unit"
+    Public Const RemoveGridFatSnfValidation As String = "Remove Grid Fat Snf Validation"
     Public Const ChangeRateAT_CSA_Return As String = "Rate Change At CSA Transfer Return"
     Public Const VehicleCapacityUnit As String = "VehicleCapacityUnit"
     Public Const StopGLEntryForConsignmentAtCSATransfer As String = "Stop GL Consignment at CSA Transfer"
@@ -1351,9 +1353,12 @@ Public Class clsFixedParameterType
     Public Const ApplyBoothWiseScheme = "Apply Booth Wise Scheme"
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
-    Public Const ApplyBoothWiseReturn = "Apply Booth Wise Return"
+    Public Const ApplyItemUOMOnDemand = "Apply Item UOM On Demand"
+    Public Const MergeTCAmtofCreditCust = "Merge Transpoter Commission Amt of CreditCust"
+    Public Const ConvertIntoBulkUOM = "Convert into Bulk UOM"
 End Class
 Public Class clsFixedParameterCode
+    Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
@@ -1797,6 +1802,7 @@ Public Class clsFixedParameterCode
     Public Const OpenAvailorEmptyStckLocationOn_Standardization As String = "Open Avail./Empty Location on Standardization"
     Public Const BOM_Amend_Pswd As String = "Amendment Password for BOM"
     Public Const ProductionFATSNF_KG_Unit As String = "ProductionFATSNF_KG_Unit"
+    Public Const RemoveGridFatSnfValidation As String = "Remove Grid Fat Snf Validation"
     Public Const ChangeRateAT_CSA_Return As String = "Rate Change At CSA Transfer Return"
     Public Const VehicleCapacityUnit As String = "VehicleCapacityUnit"
     Public Const StopGLEntryForConsignmentAtCSATransfer As String = "Stop GL Consignment at CSA Transfer"
@@ -1865,6 +1871,8 @@ Public Class clsFixedParameterCode
     Public Const EMP01 As String = "EMP01"
     Public Const SIRevers As String = "SIRevers"
     Public Const SIReversAndCreate As String = "SIReversAndCreate"
+    Public Const CustomerTenderAmendment As String = "CustomerTenderAmendment"
+    Public Const AllowBoothWiseReturn As String = "AllowBoothWiseReturn"
     Public Const SICrateEntry As String = "SICrateEntry"
     Public Const ShuffleDemand As String = "ShuffleDemand"
     Public Const ItemAllowDecimal As String = "ItemAllowDecimal"
@@ -2854,7 +2862,9 @@ Public Class clsFixedParameterCode
     Public Const ApplyBoothWiseScheme = "Apply Booth Wise Scheme"
     Public Const OfflineDCSMilkCollectionExeVersion = "Offline DCS Milk Collection Exe Version"
     Public Const ApplyMonthEndDispatch = "Apply Month End Dispatch"
-    Public Const ApplyBoothWiseReturn = "Apply Booth Wise Return"
+    Public Const ApplyItemUOMOnDemand = "Apply Item UOM On Demand"
+    Public Const MergeTCAmtofCreditCust = "Merge Transpoter Commission Amt of CreditCust"
+    Public Const ConvertIntoBulkUOM = "Convert into Bulk UOM"
 
 End Class
 Public Class clsFixedParameter
@@ -2934,6 +2944,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, "0", "0:OFF,1:ON;Pick company BankCode From Payment Process")
         InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, "3.2", "MaxFatPerLimitForReport")
@@ -3337,6 +3348,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.WorkApprovalFlowInERP, clsFixedParameterCode.WorkApprovalFlowInERP, "0", "0-OFF;1-On then Work approval flow start in ERP.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BOM_Amend_Pswd, clsFixedParameterCode.BOM_Amend_Pswd, "Tecxpert2015", "Set password for BOM amendment.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionFATSNF_KG_Unit, clsFixedParameterCode.ProductionFATSNF_KG_Unit, "Kg", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RemoveGridFatSnfValidation, clsFixedParameterCode.RemoveGridFatSnfValidation, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeRateAT_CSA_Return, clsFixedParameterCode.ChangeRateAT_CSA_Return, "0", "0-OFF;1-On for allow rate change at csa sale return screen.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleCapacityUnit, clsFixedParameterCode.VehicleCapacityUnit, "MT", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopGLEntryForConsignmentAtCSATransfer, clsFixedParameterCode.StopGLEntryForConsignmentAtCSATransfer, "0", "0-Off;1-On for stop debit consignment entry at CSA Transfer")
@@ -3444,6 +3456,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ServiceDealer, clsFixedParameterCode.ServiceDealer, "Employee Type", "Employee Type")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIR, clsFixedParameterCode.SIRevers, "salereverse", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SIReversAndCreate, "b12sec2", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.CustomerTenderAmendment, "Amendment@123", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.AllowBoothWiseReturn, "BoothWiseReturn@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SICrateEntry, "CrateEntry@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ShuffleDemand, "ShuffleDemand@123", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.ItemAllowDecimal, "AllowDecimal@123", "")
@@ -4529,7 +4543,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowAndSaveCrystalReportActionType, clsFixedParameterCode.ShowAndSaveCrystalReportActionType, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OfflineDCSMilkCollectionExeVersion, clsFixedParameterCode.OfflineDCSMilkCollectionExeVersion, "", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, "0", "0:Off, 1:On;")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -4559,6 +4575,7 @@ Public Class clsFixedParameterProgramMapping
     End Function
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, clsFixedParameterType.MaxFATPerLimitforReport, clsFixedParameterCode.MaxFATPerLimitforReport, EnumControlType.TextBox)
@@ -5597,6 +5614,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmSectionStageMapping, clsFixedParameterType.AllowToSkipStageQLLogSheetInProd, clsFixedParameterCode.AllowToSkipStageQLLogSheetInProd, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialDairy, clsFixedParameterType.ProductionFATSNF_KG_Unit, clsFixedParameterCode.ProductionFATSNF_KG_Unit, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialDairy, clsFixedParameterType.RemoveGridFatSnfValidation, clsFixedParameterCode.RemoveGridFatSnfValidation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProductionPlanningDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmProductionPlanningDairy, clsFixedParameterType.IsConsiderOutTypeDocForBalance, clsFixedParameterCode.IsConsiderOutTypeDocForBalance, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionIssueEntry, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
@@ -6404,7 +6422,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMPouch, clsFixedParameterCode.QuickDemandUOMPouch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, clsFixedParameterType.QuickDemandUOMLtr, clsFixedParameterCode.QuickDemandUOMLtr, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmSaleReturndairy, clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, EnumControlType.CheckBox)
     End Sub
 End Class

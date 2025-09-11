@@ -801,6 +801,13 @@ Public Class frmCustomer
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             pnlParentCust.Visible = True
         End If
+        If EnableProductSaleForJPR Then
+            rmiExportProductR.Visibility = ElementVisibility.Visible
+            rmiImportProductR.Visibility = ElementVisibility.Visible
+        Else
+            rmiExportProductR.Visibility = ElementVisibility.Collapsed
+            rmiImportProductR.Visibility = ElementVisibility.Collapsed
+        End If
     End Sub
     Sub LoadType()
         Dim dt As New DataTable()
@@ -6212,6 +6219,106 @@ Public Class frmCustomer
             chkInActive.Enabled = True
 
         End If
+    End Sub
+
+    Private Sub rmiExportProductR_Click(sender As Object, e As EventArgs) Handles rmiExportProductR.Click
+        Try
+            Dim qry As String = "select cust_Code as [Customer Code],P_Route_No as P_RouteNo,I_Route_No as I_RouteNo from TSPL_CUSTOMER_MASTER"
+
+            ListImpExpColumnsMandatory = New List(Of String)({"Customer Code"})
+            ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
+            transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "ProductRoute")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiImportProductR_Click(sender As Object, e As EventArgs) Handles rmiImportProductR.Click
+        Try
+            Dim dtError As New DataTable
+            dtError.Columns.Add("RowNo", GetType(Integer))
+            dtError.Columns.Add("Error", GetType(String))
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "Customer Code", "P_RouteNo", "I_RouteNo") Then
+                clsCommon.ProgressBarPercentShow()
+                Try
+                    Dim i As Integer = 1
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Validating Customer's & Route's " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
+                        Try
+                            Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
+                            Dim strP_Route As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("P_RouteNo").Value) + "'"))
+                            Dim strI_Route As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("I_RouteNo").Value) + "'"))
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Customer Code").Value))) Then
+                                Throw New Exception(" Empty Customer Code at Line No.[" + clsCommon.myCstr(i) + "]")
+                            ElseIf clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Customer Code").Value)) <> CompairStringResult.Equal Then
+                                Throw New Exception("Invalid Customer Code:[" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "] at Line No.[" + clsCommon.myCstr(i) + "]")
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("P_RouteNo").Value))) Then
+                                Throw New Exception(" Empty P_RouteNo Code at Line No.[" + clsCommon.myCstr(i) + "]")
+                            ElseIf clsCommon.CompairString(strP_Route, clsCommon.myCstr(grow.Cells("P_RouteNo").Value)) <> CompairStringResult.Equal Then
+                                Throw New Exception("Invalid P_RouteNo:[" + clsCommon.myCstr(grow.Cells("P_RouteNo").Value) + "] at Line No.[" + clsCommon.myCstr(i) + "]")
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("I_RouteNo").Value))) Then
+                                Throw New Exception(" Empty I_RouteNo Code at Line No.[" + clsCommon.myCstr(i) + "]")
+                            ElseIf clsCommon.CompairString(strI_Route, clsCommon.myCstr(grow.Cells("I_RouteNo").Value)) <> CompairStringResult.Equal Then
+                                Throw New Exception("Invalid I_RouteNo:[" + clsCommon.myCstr(grow.Cells("I_RouteNo").Value) + "] at Line No.[" + clsCommon.myCstr(i) + "]")
+                            End If
+                            'If  Then
+
+
+                            '    'Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set P_Route_No='" + clsCommon.myCstr(grow.Cells("P_RouteNo").Value) + "',I_Route_No='" + clsCommon.myCstr(grow.Cells("I_RouteNo").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
+                            '    'clsDBFuncationality.ExecuteNonQuery(StrQry)
+                            'End If
+
+
+                        Catch ex As Exception
+                            Dim dr As DataRow = dtError.NewRow()
+                            dr("RowNo") = i
+                            dr("Error") = ex.Message
+                            dtError.Rows.Add(dr)
+                        End Try
+
+                        i += 1
+                    Next
+                    clsCommon.ProgressBarPercentHide()
+                    If dtError.Rows.Count > 0 Then
+                        Dim ff As New FrmFreeGrid
+                        ff.ReportID = "Product_Route_Mapping"
+                        ff.Text = "Product_Route_Mapping_Errors"
+                        ff.dt = dtError
+                        ff.ShowDialog()
+                    Else
+
+                        If clsCommon.MyMessageBoxShow(Me, "Validation completed successfully. Do you want to continue with import?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                            i = 1
+                            clsCommon.ProgressBarPercentShow()
+                            For Each grow As GridViewRowInfo In gv.Rows
+                                clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Validating Customer's & Route's " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
+                                Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set P_Route_No='" + clsCommon.myCstr(grow.Cells("P_RouteNo").Value) + "',I_Route_No='" + clsCommon.myCstr(grow.Cells("I_RouteNo").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
+                                clsDBFuncationality.ExecuteNonQuery(StrQry)
+                                i += 1
+                            Next
+                            clsCommon.ProgressBarPercentHide()
+                            clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed", Me.Text)
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "Data Transfer Failed", Me.Text)
+                        End If
+                    End If
+
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

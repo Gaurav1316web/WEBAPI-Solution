@@ -181,6 +181,30 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="APS Sale\Master\FrmAmendment.Designer.vb">
+      <DependentUpon>FrmAmendment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Master\FrmAmendment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="APS Sale\Master\frmCustomerTender.Designer.vb">
+      <DependentUpon>frmCustomerTender.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Master\frmCustomerTender.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrder.Designer.vb">
+      <DependentUpon>FrmSalesOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrderDispatch.Designer.vb">
+      <DependentUpon>FrmSalesOrderDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrderDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Export Sale\DuplicateForm\frmPendingQuotation.Designer.vb">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </Compile>
@@ -887,6 +911,12 @@
     <Compile Include="Transaction\FrmCashIndentBookingMobApp.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmCommissionTPTCalculation.Designer.vb">
+      <DependentUpon>frmCommissionTPTCalculation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCommissionTPTCalculation.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmCreateReceivedCustomerDairySale.Designer.vb">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>
     </Compile>
@@ -915,6 +945,24 @@
       <DependentUpon>frmCustomerIncetiveEntry.vb</DependentUpon>
     </Compile>
     <Compile Include="Transaction\frmCustomerIncetiveEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenalty.Designer.vb">
+      <DependentUpon>frmCustomerPenalty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenalty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyInvoiceDetails.Designer.vb">
+      <DependentUpon>frmCustomerPenaltyInvoiceDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyInvoiceDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyReceiptDetails.Designer.vb">
+      <DependentUpon>frmCustomerPenaltyReceiptDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCustomerPenaltyReceiptDetails.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Transaction\frmDairyBookingCustomer.Designer.vb">
@@ -1115,6 +1163,12 @@
     <Compile Include="Transaction\FrmProductDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\FrmProductQuickDemandBooking.Designer.vb">
+      <DependentUpon>FrmProductQuickDemandBooking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\FrmProductQuickDemandBooking.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmQuickDemand.Designer.vb">
       <DependentUpon>frmQuickDemand.vb</DependentUpon>
     </Compile>
@@ -1183,6 +1237,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="APS Sale\Master\FrmAmendment.resx">
+      <DependentUpon>FrmAmendment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Master\frmCustomerTender.resx">
+      <DependentUpon>frmCustomerTender.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrder.resx">
+      <DependentUpon>FrmSalesOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrderDispatch.resx">
+      <DependentUpon>FrmSalesOrderDispatch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingQuotation.resx">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </EmbeddedResource>
@@ -1545,6 +1611,9 @@
     <EmbeddedResource Include="Transaction\FrmCashIndentBookingMobApp.resx">
       <DependentUpon>FrmCashIndentBookingMobApp.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmCommissionTPTCalculation.resx">
+      <DependentUpon>frmCommissionTPTCalculation.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCreateReceivedCustomerDairySale.resx">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>
     </EmbeddedResource>
@@ -1559,6 +1628,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmCustomerIncetiveEntry.resx">
       <DependentUpon>frmCustomerIncetiveEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmCustomerPenalty.resx">
+      <DependentUpon>frmCustomerPenalty.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDairyBookingCustomer.resx">
       <DependentUpon>frmDairyBookingCustomer.vb</DependentUpon>
@@ -1659,6 +1731,9 @@
     <EmbeddedResource Include="Transaction\FrmProductDispatch.resx">
       <DependentUpon>FrmProductDispatch.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\FrmProductQuickDemandBooking.resx">
+      <DependentUpon>FrmProductQuickDemandBooking.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmQuickDemand.resx">
       <DependentUpon>frmQuickDemand.vb</DependentUpon>
     </EmbeddedResource>
@@ -1727,6 +1802,15 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="APS Sale\Report\" />
+    <Folder Include="Fresh Sale\Master\" />
+    <Folder Include="Fresh Sale\Report\" />
+    <Folder Include="Fresh Sale\Transaction\" />
+    <Folder Include="Product Sale\Master\" />
+    <Folder Include="Product Sale\Report\" />
+    <Folder Include="Product Sale\Transaction\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -436,7 +436,6 @@
     <Compile Include="Milk Procurement\clsBMCTransporterBill.vb" />
     <Compile Include="Milk Procurement\clsCapping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
-    <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />
     <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
@@ -598,6 +597,12 @@
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>
     <Compile Include="UserControl\ucCustomFields.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucDCSBalance.Designer.vb">
+      <DependentUpon>ucDCSBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucDCSBalance.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControl\UcMilkPendingSRN.Designer.vb">
@@ -1447,6 +1452,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\ucCustomFields.resx">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucDCSBalance.resx">
+      <DependentUpon>ucDCSBalance.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\UcMilkPendingSRN.resx">
       <DependentUpon>UcMilkPendingSRN.vb</DependentUpon>

@@ -1654,7 +1654,7 @@ Public Class FrmUserMaster
     Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
         '=======Update By preeti Gupta Against Ticket No[BM00000008831]
         'sql = "select User_Code,User_Name,Password,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code from TSPL_USER_MASTER "
-        sql = "select User_Code,User_Name,Default_Location as [Default Location],Department_Head as [Department Head],InActive,InActive_Date , User_APP_Type as [App User Type] , Vendor_Code as [Vendor],Sub_location as [Sub Location] from TSPL_USER_MASTER "
+        sql = "select User_Code,User_Name,Default_Location as [Default Location],Department_Head as [Department Head],InActive,InActive_Date , User_APP_Type as [App User Type] , Vendor_Code as [Vendor],Sub_location as [Sub Location],Entry_UOM AS [Entry UOM],USER_APP_SALE_TYPE AS [USER APP SALE TYPE] from TSPL_USER_MASTER "
         ListImpExpColumnsMandatory = New List(Of String)({"User_Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"User_Code"})
         transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
@@ -1662,7 +1662,7 @@ Public Class FrmUserMaster
     Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
         Dim gv As New UserControls.MyRadGridView
         Me.Controls.Add(gv)
-        If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date", "App User Type", "Vendor", "Sub Location") Then  ' "Zone Code"
+        If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date", "App User Type", "Vendor", "Sub Location", "Entry UOM", "USER APP SALE TYPE") Then  ' "Zone Code"
             Dim trans As SqlTransaction = Nothing
 
             Try
@@ -1723,6 +1723,8 @@ Public Class FrmUserMaster
                     '    End If
                     'End If
                     'Dim SubLoaction As String = clsCommon.myCstr(grow.Cells("Sub_location").Value)
+                    Dim strEntryuom As String = clsCommon.myCstr(grow.Cells("Entry uom").Value)
+                    Dim struserappsaletype As String = clsCommon.myCstr(grow.Cells("user app sale type").Value)
 
                     Dim strSubLocation As String = clsCommon.myCstr(grow.Cells("Sub Location").Value)
                     'If clsCommon.myLen(strSubLocation) > 0 Then
@@ -1773,6 +1775,8 @@ Public Class FrmUserMaster
                     '    clsCommon.AddColumnsForChange(colll, "Zone_Code", strZoneCode, True)
                     'End If
                     clsCommon.AddColumnsForChange(colll, "User_APP_Type", grow.Cells("App User Type").Value.ToString())
+
+
                     clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString(), True)
                     If clsCommon.myLen(grow.Cells("Cust_Code")) > 0 Then
                         clsCommon.AddColumnsForChange(colll, "Cust_Code", grow.Cells("Cust_Code").Value.ToString())
@@ -1781,7 +1785,8 @@ Public Class FrmUserMaster
                         clsCommon.AddColumnsForChange(colll, "Login_Type", grow.Cells("Login_Type").Value.ToString())
                     End If
                     clsCommon.AddColumnsForChange(coll, "Sub_location", strSubLocation)
-
+                    clsCommon.AddColumnsForChange(colll, "Entry_UOM", strEntryuom)
+                    clsCommon.AddColumnsForChange(colll, "USER_APP_SALE_TYPE", struserappsaletype)
                     clsCommonFunctionality.UpdateDataTable(colll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     'sanjay
 

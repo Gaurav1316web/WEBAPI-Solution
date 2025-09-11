@@ -207,8 +207,8 @@ Public Class frmNotification
                         objtr.Login_Type = "F"
                     ElseIf arrUserType(i).Contains("RP") OrElse arrUserType(i).Contains("R") Then
                         objtr.Login_Type = "R"
-                    ElseIf arrUserType(i).Contains("VSP") OrElse arrUserType(i).Contains("VSP") Then
-                        objtr.Login_Type = "VSP"
+                    ElseIf arrUserType(i).Contains("VSP") Then
+                        objtr.Login_Type = "V"
                     ElseIf arrUserType(i).Contains("Zone") OrElse arrUserType(i).Contains("Z") Then
                         objtr.Login_Type = "Z"
                     ElseIf arrUserType(i).Contains("SuperUser") OrElse arrUserType(i).Contains("SuperUser") Then
@@ -383,6 +383,66 @@ WHERE
             clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Document_No", "TSPL_NOTIFICATIONS", "TSPL_NOTIFICATIONS_USER_TYPE")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select a document before reversing.", Me.Text)
+                Exit Sub
+            Else
+                If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    '' REASON FOR DELETE 
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Reverse"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                    If ClsNotification.ReverseAndUnpost(txtCode.Value) Then
+                        saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                        common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
+                        LoadData(txtCode.Value, NavigatorType.Current)
+                    End If
+                End If
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtCode.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
+
+    Private Sub frmNotification_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Try
+            If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverse.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
         End Try
     End Sub
 End Class

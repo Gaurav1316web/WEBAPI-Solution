@@ -148,9 +148,12 @@ Public Class FrmGRNReport
             '" left outer join (select PurchaseOrder_No,Item_Code,Unit_code,sum(PurchaseOrder_Qty) as PurchaseOrder_Qty from TSPL_PURCHASE_ORDER_DETAIL group by PurchaseOrder_No,Item_Code,Unit_code) as TSPL_PURCHASE_ORDER_DETAIL on TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No = TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No " & _
             ' " and detail.Item_Code=TSPL_PURCHASE_ORDER_DETAIL.Item_Code  " & _
             ' " where 2=2 and detail.Row_Type='Item' "
-            If chkTrackingReport.Checked = True Then
-                qry = "select ROW_NUMBER() OVER(ORDER BY convert(varchar, TSPL_GRN_HEAD.GRN_Date,103),TSPL_GRN_HEAD.GRN_NO ASC) as SNo
-                ,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]
+            If chkTrackingReport.Checked Then
+
+                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.* from ("
+
+                If Not chkCancelRejected.Checked Then
+                    qry += "select convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]
                 ,TSPL_GRN_HEAD.VehicleNo as [Vehicle No],TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tender No]
                 ,TSPL_GRN_HEAD.bill_to_location as [Location Code],tspl_location_master.Location_Desc AS [Location Name]
                 ,TSPL_GRN_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name]
@@ -178,12 +181,12 @@ Public Class FrmGRNReport
 				,(case when TSPL_PO_WEIGHTMENT_HEAD.Status=1 then 'Posted' when TSPL_PO_WEIGHTMENT_HEAD.Status=0 then 'UnPosted' end) as [Weighment Status]
                 ,convert(varchar, TSPL_MRN_HEAD.MRN_Date,103) as [MRN Date],TSPL_MRN_HEAD.MRN_No as [MRN No]
 	            ,TSPL_NIR_QC.Document_No as [NIR QC No],TSPL_NIR_QC.Document_Date as [NIR QC Date],
-				(case when TSPL_NIR_QC.QC_Status='1'then 'Ok' when TSPL_NIR_QC.QC_Status='0'  then'Not Ok' end)  as [NIR QC Status],
+				(case when TSPL_NIR_QC.QC_Status='1'then 'Ok' when TSPL_NIR_QC.QC_Status='2'  then'Not Ok' end)  as [NIR QC Status],
 				(case when  TSPL_NIR_QC.Status='1'then 'Posted' when TSPL_NIR_QC.Status='0' then  'Unposted'end) AS [NIR Status],
 				TSPL_NIR_QC.QC_Remarks as [NIR QC Remark]
                 ,convert(varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as [Chemical QC Date],TSPL_QC_CHECK_HEAD.Document_Code as [Chemical QC No]
-                ,zxv.*
-                ,TSPL_QC_CHECK_HEAD.QC_Status AS [Chemical QC Result]
+                ,AliasName1,InputData1,AliasName2,InputData2,AliasName3,InputData3,AliasName4,InputData4,AliasName5,InputData5,AliasName6,InputData6,AliasName7,InputData7,AliasName8,InputData8,AliasName9,
+InputData9,AliasName10,InputData10,AliasName11,InputData11,AliasName12,InputData12,AliasName13,InputData13,AliasName14,InputData14,AliasName15,InputData15,TSPL_QC_CHECK_HEAD.QC_Status AS [Chemical QC Result]
                 ,(case when TSPL_QC_CHECK_HEAD.Posted=1 then 'Posted' when TSPL_QC_CHECK_HEAD.Posted=0 then 'UnPosted' end) as [Chemical QC Status]
                 ,(case when TSPL_QC_CHECK_HEAD.Approved_For_SRN=1 then 'Approved' when TSPL_QC_CHECK_HEAD.Approved_For_SRN=0 then 'UnApproved' end) as [Chemical QC Approved Status]
                 ,convert(varchar, TSPL_SRN_HEAD.SRN_Date,103) as [SRN Date],TSPL_SRN_HEAD.SRN_No as [SRN No]
@@ -263,42 +266,136 @@ Public Class FrmGRNReport
                 GROUP BY TSPL_QC_CHECK_SRN_DETAIL.MRN_No )zxv on zxv.GRN_No1=TSPL_GRN_HEAD.GRN_No
 
                 where 1=1 "
+                    If txtPoNo.arrValueMember IsNot Nothing AndAlso txtPoNo.arrValueMember.Count > 0 Then
+                        qry += " and TSPL_GRN_HEAD.GRN_No in (" & clsCommon.GetMulcallString(txtPoNo.arrValueMember) & ") " & Environment.NewLine
+                    End If
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        qry += " and TSPL_GRN_HEAD.Bill_To_Location in (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") " & Environment.NewLine
+                    Else
+                        If objCommonVar.ApplyLocationFilterBasedOnPermission AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                            qry += " and TSPL_GRN_HEAD.Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ")"
+                        End If
+                    End If
+                    If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
+                        qry += "  and TSPL_GRN_HEAD.Vendor_Code   in (" & clsCommon.GetMulcallString(txtVendor.arrValueMember) & ") " & Environment.NewLine
+                    End If
+                    qry += " and TSPL_GRN_HEAD.IsCancel=0 and convert(date,TSPL_GRN_HEAD.GRN_Date,103)>= convert(date,'" & FromDate & "',103) and convert(date,TSPL_GRN_HEAD.GRN_Date,103)<= convert(date,'" & ToDate & "',103)"
+                    'qry += " order by convert(varchar, TSPL_GRN_HEAD.GRN_Date,103),TSPL_GRN_HEAD.GRN_NO"
+
+                    qry += " Union All " & Environment.NewLine
+                End If
+
+                qry += " select convert(varchar, TSPL_GRN_HEAD_Cancel_Data.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD_Cancel_Data.GRN_No as [GRN No]
+                ,TSPL_GRN_HEAD_Cancel_Data.VehicleNo as [Vehicle No],TSPL_PURCHASE_ORDER_HEAD_Cancel_Data.RefTendorNo as [Tender No]
+                ,TSPL_GRN_HEAD_Cancel_Data.bill_to_location as [Location Code],tspl_location_master.Location_Desc AS [Location Name]
+                ,TSPL_GRN_HEAD_Cancel_Data.Vendor_Code as [Vendor Code],TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name]
+                ,TSPL_GRN_DETAIL_Cancel_Data.Item_Code  as [Item Code],tspl_item_master.Item_Desc as [Item Name]
+                ,Cast(TSPL_GRN_DETAIL_Cancel_Data.GRN_Qty as decimal(18,2)) AS [GRN Qty]
+                ,(case when TSPL_GRN_HEAD_Cancel_Data.Status=1 then 'Posted' else 'UnPosted' end) as [GRN Status] 
+                ,convert(varchar, TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDate,103) as [Visual QC Date]
+                ,(case when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=5 then 'Not Applicable' when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus=1 then 'Ok' 
+				when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus='2' then 'Not Ok' when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus='3' then 'Partial Ok'  
+				when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatus='4' then 'On Hold' else 'Pending' end) as [Visual QC Status]
+                ,TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarks as [Visual QC Remarks]
+                ,convert(varchar, TSPL_GRN_HEAD_Cancel_Data.VisualQCUpdatedDateSecond,103) as [Visual QC Date Second]
+
+
+                ,(case when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=5 then 'Not Applicable' when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond=1 then 'Ok' 
+				when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond='2' then 'Not Ok' when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond='3' then 'Partial Ok'  
+				when TSPL_GRN_HEAD_Cancel_Data.VisualQCStatusSecond='4' then 'On Hold' else '' end) as [Visual QC Status Second]
+
+                ,TSPL_GRN_HEAD_Cancel_Data.VisualQCRemarksSecond as [Visual QC Remarks Second]
+                ,convert(varchar, TSPL_PURCHASE_ORDER_HEAD_Cancel_Data.PurchaseOrder_Date,103) as [PO Date],TSPL_PURCHASE_ORDER_HEAD_Cancel_Data.PurchaseOrder_No as [PO No]
+                ,convert(varchar, TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Weighment_Date,103) as [Weighment Date],TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Weighment_Code as [Weighment No]
+                ,TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Gross_Weight as [Weighment Gross Weight],TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Tare_Weight as [Weighment Tare Weight]
+                ,TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Extra_Weight as [Gunny Bag Weight],TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Net_Weight as [Weighment Net Weight]
+                ,TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Type as [Weighment Type]
+				,(case when TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Status=1 then 'Posted' when TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Status=0 then 'UnPosted' end) as [Weighment Status]
+                ,convert(varchar, TSPL_MRN_HEAD_Cancel_Data.MRN_Date,103) as [MRN Date],TSPL_MRN_HEAD_Cancel_Data.MRN_No as [MRN No]
+	            ,TSPL_NIR_QC_Cancel_Data.Document_No as [NIR QC No],TSPL_NIR_QC_Cancel_Data.Document_Date as [NIR QC Date],
+				(case when TSPL_NIR_QC_Cancel_Data.QC_Status='1'then 'Ok' when TSPL_NIR_QC_Cancel_Data.QC_Status='2' then'Not Ok' end)  as [NIR QC Status],
+				(case when  TSPL_NIR_QC_Cancel_Data.Status='1'then 'Posted' when TSPL_NIR_QC_Cancel_Data.Status='0' then  'Unposted'end) AS [NIR Status],
+				TSPL_NIR_QC_Cancel_Data.QC_Remarks as [NIR QC Remark]
+                ,convert(varchar, TSPL_QC_CHECK_HEAD_Cancel_Data.Document_Date,103) as [Chemical QC Date],TSPL_QC_CHECK_HEAD_Cancel_Data.Document_Code as [Chemical QC No]
+                ,Null As AliasName1,Null As InputData1,Null As AliasName2,Null As InputData2,Null As AliasName3,Null As InputData3,Null As AliasName4,Null As InputData4,Null As AliasName5,Null As InputData5,Null As AliasName6,Null As InputData6,Null As AliasName7,Null As InputData7,Null As AliasName8,Null As InputData8,Null As AliasName9,
+Null As InputData9,Null As AliasName10,Null As InputData10,Null As AliasName11,Null As InputData11,Null As AliasName12,Null As InputData12,Null As AliasName13,Null As InputData13,Null As AliasName14,Null As InputData14,Null As AliasName15,Null As InputData15
+                ,Null AS [Chemical QC Result]
+                ,Null as [Chemical QC Status]
+                ,Null as [Chemical QC Approved Status]
+				,Null As [SRN Date]
+                ,Null as [SRN No]
+                ,Null AS [SRN Rate]
+                ,Null AS [SRN Received Qty]
+                ,Null as [SRN Rejected Qty]
+                ,Null as [SRN Accepted Qty]
+                ,Null as [SRN Amount]
+                ,Null as [SRN Tax Amount]
+                ,Null as [SRN Net Amount]
+                ,Null as [SRN Status] 
+                ,Null as [Purchase Invoice Date]
+                ,Null as [Purchase Invoice No]
+                ,Null as [Purchase Invoice Status]
+		    	from TSPL_GRN_DETAIL_Cancel_Data
+                left outer join TSPL_GRN_HEAD_Cancel_Data ON TSPL_GRN_DETAIL_Cancel_Data.GRN_No=TSPL_GRN_HEAD_Cancel_Data.GRN_No
+                left outer join TSPL_PURCHASE_ORDER_HEAD_Cancel_Data ON TSPL_PURCHASE_ORDER_HEAD_Cancel_Data.PurchaseOrder_No=TSPL_GRN_HEAD_Cancel_Data.Against_PO
+                left outer join TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data on TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Against_GRN_No=TSPL_GRN_HEAD_Cancel_Data.GRN_No
+                left outer join TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data on TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Weighment_Code
+                and TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Item_Code=TSPL_GRN_DETAIL_Cancel_Data.item_code
+                left outer join TSPL_MRN_HEAD_Cancel_Data on TSPL_MRN_HEAD_Cancel_Data.Against_GRN=TSPL_GRN_HEAD_Cancel_Data.GRN_No
+                LEFT OUTER JOIN TSPL_NIR_QC_Cancel_Data ON TSPL_NIR_QC_Cancel_Data.MRN_No=TSPL_MRN_HEAD_Cancel_Data.MRN_No  
+                left outer join TSPL_QC_CHECK_HEAD_Cancel_Data on TSPL_QC_CHECK_HEAD_Cancel_Data.Gate_Entry_No=TSPL_GRN_HEAD_Cancel_Data.GRN_No
+                left outer join TSPL_SRN_HEAD_Cancel_Data on TSPL_SRN_HEAD_Cancel_Data.Against_GRN=TSPL_GRN_HEAD_Cancel_Data.GRN_No and TSPL_SRN_HEAD_Cancel_Data.Against_MRN=TSPL_MRN_HEAD_Cancel_Data.MRN_No
+     			left outer join TSPL_PI_DETAIL_Cancel_Data on TSPL_PI_DETAIL_Cancel_Data.SRN_Id=TSPL_SRN_HEAD_Cancel_Data.SRN_No
+				and TSPL_PI_DETAIL_Cancel_Data.Item_Code=TSPL_GRN_DETAIL_Cancel_Data.item_code
+				and TSPL_PO_WEIGHTMENT_DETAIL_Cancel_Data.Item_Code=TSPL_PI_DETAIL_Cancel_Data.item_code
+                and TSPL_PI_DETAIL_Cancel_Data.GRN_ID=TSPL_SRN_HEAD_Cancel_Data.Against_GRN
+				and TSPL_PI_DETAIL_Cancel_Data.MRN_ID=TSPL_SRN_HEAD_Cancel_Data.Against_MRN            
+                left outer join TSPL_PI_HEAD_Cancel_Data on TSPL_PI_HEAD_Cancel_Data.PI_No=TSPL_PI_DETAIL_Cancel_Data.PI_No
+                left outer join tspl_location_master on tspl_location_master.location_code=TSPL_GRN_HEAD_Cancel_Data.bill_to_location
+                left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_GRN_HEAD_Cancel_Data.Vendor_Code
+                left outer join TSPL_SRN_DETAIL_Cancel_Data ON TSPL_SRN_DETAIL_Cancel_Data.SRN_NO =TSPL_SRN_HEAD_Cancel_Data.SRN_NO
+                AND TSPL_SRN_DETAIL_Cancel_Data.Item_Code=TSPL_GRN_DETAIL_Cancel_Data.Item_Code
+                left outer join tspl_item_master ON tspl_item_master.item_code=TSPL_GRN_DETAIL_Cancel_Data.ITEM_CODE
+                where 1=1 "
                 If txtPoNo.arrValueMember IsNot Nothing AndAlso txtPoNo.arrValueMember.Count > 0 Then
-                    qry += " and TSPL_GRN_HEAD.GRN_No in (" + clsCommon.GetMulcallString(txtPoNo.arrValueMember) + ") " + Environment.NewLine
+                    qry += " and TSPL_GRN_HEAD_Cancel_Data.GRN_No in (" & clsCommon.GetMulcallString(txtPoNo.arrValueMember) & ") " & Environment.NewLine
                 End If
                 If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                    qry += " and TSPL_GRN_HEAD.Bill_To_Location in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ") " + Environment.NewLine
+                    qry += " and TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location in (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") " & Environment.NewLine
                 Else
-                    If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                        qry += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+                    If objCommonVar.ApplyLocationFilterBasedOnPermission AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                        qry += " and TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location in (" & objCommonVar.strCurrUserLocations & ")"
                     End If
                 End If
                 If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
-                    qry += "  and TSPL_GRN_HEAD.Vendor_Code   in (" + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ") " + Environment.NewLine
+                    qry += "  and TSPL_GRN_HEAD_Cancel_Data.Vendor_Code   in (" & clsCommon.GetMulcallString(txtVendor.arrValueMember) & ") " & Environment.NewLine
                 End If
-                qry += " and TSPL_GRN_HEAD.IsCancel=0 and convert(date,TSPL_GRN_HEAD.GRN_Date,103)>= convert(date,'" + FromDate + "',103) and convert(date,TSPL_GRN_HEAD.GRN_Date,103)<= convert(date,'" + ToDate + "',103)"
-                qry += " order by convert(varchar, TSPL_GRN_HEAD.GRN_Date,103),TSPL_GRN_HEAD.GRN_NO"
+                'qry += " and TSPL_GRN_HEAD.IsCancel=0 "
+                qry += " and convert(date,TSPL_GRN_HEAD_Cancel_Data.GRN_Date,103)>= convert(date,'" & FromDate & "',103) and convert(date,TSPL_GRN_HEAD_Cancel_Data.GRN_Date,103)<= convert(date,'" & ToDate & "',103)" & Environment.NewLine
+                qry += " )final"
+                qry += " order by convert(varchar, final.[GRN Date],103),final.[GRN No]"
+
             Else
                 qry = "select [PO No],[PO Date],[PO Quantity],[GRN No],[GRN Date],[Vendor Code],[Vendor Name],[Comment],[Item Code],Descripton,Quantity from ( " &
-            " select detail.PO_Id as [PO No],convert(varchar,TSPL_PURCHASE_ORDER.PurchaseOrder_Date,103) as [PO Date],TSPL_PURCHASE_ORDER.PurchaseOrder_Qty as [PO Quantity],head.GRN_No as 'GRN No', convert(varchar,head.GRN_Date,103) as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name', head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton'" &
-            ", detail.GRN_Qty as 'Quantity'" &
-            ", HEAD.Discount_Base as 'Total Amount', HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount',head.Bill_To_Location as 'Location'" &
-            ", tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt  from TSPL_GRN_HEAD as head " &
-            " left outer join (select grn_no,PO_Id,Item_Code,Item_Desc,Row_Type,sum(GRN_Qty) as GRN_Qty from TSPL_GRN_DETAIL group by grn_no,PO_Id,Item_Code,Item_Desc,Row_Type) as detail on head.GRN_No=detail.grn_no " &
-            " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =HEAD.tax1 " &
-            " left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
-            " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=HEAD .TAX3" &
-            " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= HEAD .tax4" &
-            " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=HEAD .tax5 " &
-            " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =HEAD .TAX6 " &
-            " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =HEAD .TAX7 " &
-            " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =HEAD .TAX8 " &
-            " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =HEAD .TAX9" &
-            " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =HEAD .TAX10  " &
-            " left outer join (select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No,Item_Code,Unit_code,sum(PurchaseOrder_Qty) as PurchaseOrder_Qty from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No group by TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No,Item_Code,Unit_code,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date ) as TSPL_PURCHASE_ORDER on " &
-            " detail.Item_Code=TSPL_PURCHASE_ORDER.Item_Code" &
-            " and  detail.PO_Id  =TSPL_PURCHASE_ORDER.PurchaseOrder_No" &
-            " where 2=2 and detail.Row_Type='Item' "
+    " select detail.PO_Id as [PO No],convert(varchar,TSPL_PURCHASE_ORDER.PurchaseOrder_Date,103) as [PO Date],TSPL_PURCHASE_ORDER.PurchaseOrder_Qty as [PO Quantity],head.GRN_No as 'GRN No', convert(varchar,head.GRN_Date,103) as 'GRN Date', head.Vendor_Code as 'Vendor Code', head.Vendor_Name as 'Vendor Name', head.Amount_Less_Discount as 'Amount After Discount',head.Comments as 'Comment', detail.Item_Code as 'Item Code', detail.Item_Desc as 'Descripton'" &
+    ", detail.GRN_Qty as 'Quantity'" &
+    ", HEAD.Discount_Base as 'Total Amount', HEAD.Discount_Amt as 'Discount Amount', HEAD.GRN_Total_Amt as 'Net Amount',head.Bill_To_Location as 'Location'" &
+    ", tax1.Tax_Code_Desc as tax1name,isnull (HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (HEAD.tax10_amt,0) as txt10amt,isnull(HEAD .Total_Tax_Amt,0) as total_tax_amt  from TSPL_GRN_HEAD as head " &
+    " left outer join (select grn_no,PO_Id,Item_Code,Item_Desc,Row_Type,sum(GRN_Qty) as GRN_Qty from TSPL_GRN_DETAIL group by grn_no,PO_Id,Item_Code,Item_Desc,Row_Type) as detail on head.GRN_No=detail.grn_no " &
+    " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =HEAD.tax1 " &
+    " left outer join tspl_tax_master as tax2 on tax2.tax_code = HEAD.tax2 " &
+    " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=HEAD .TAX3" &
+    " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= HEAD .tax4" &
+    " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=HEAD .tax5 " &
+    " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =HEAD .TAX6 " &
+    " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =HEAD .TAX7 " &
+    " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =HEAD .TAX8 " &
+    " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =HEAD .TAX9" &
+    " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =HEAD .TAX10  " &
+    " left outer join (select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No,Item_Code,Unit_code,sum(PurchaseOrder_Qty) as PurchaseOrder_Qty from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No group by TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No,Item_Code,Unit_code,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date ) as TSPL_PURCHASE_ORDER on " &
+    " detail.Item_Code=TSPL_PURCHASE_ORDER.Item_Code" &
+    " and  detail.PO_Id  =TSPL_PURCHASE_ORDER.PurchaseOrder_No" &
+    " where 2=2 and detail.Row_Type='Item' "
 
 
                 'If isGRNNoSelect Then
@@ -332,24 +429,23 @@ Public Class FrmGRNReport
                 qry += " ) aa order by [GRN Date]"
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-
+            If Gv1 IsNot Nothing AndAlso Gv1.Rows.Count > 0 Then
                 Gv1.DataSource = Nothing
                 Gv1.Rows.Clear()
                 Gv1.Columns.Clear()
+                Gv1.Refresh()
+            End If
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Gv1.DataSource = dt
                 Gv1.MasterTemplate.BestFitColumns()
                 Gv1.ReadOnly = True
                 ReStoreGridLayout()
-            End If
-
-            If Gv1.Rows.Count <= 0 Then
+                RadPageView1.SelectedPage = RadPageViewPage2
+            Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-                Exit Sub
             End If
-            RadPageView1.SelectedPage = RadPageViewPage2
         Catch err As Exception
-            MessageBox.Show(err.Message)
+            Throw New Exception(err.Message)
         End Try
     End Sub
 
@@ -523,7 +619,7 @@ Public Class FrmGRNReport
         frmCRV = Nothing
     End Sub
 
-  
+
     Private Sub FrmGRNReport_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt And e.KeyCode = Keys.P AndAlso MyBase.isPrintFlag Then
             PrintData()
@@ -630,7 +726,7 @@ Public Class FrmGRNReport
 
     End Sub
 
- 
+
     Private Sub rmSaveLayout_Click(sender As Object, e As EventArgs) Handles rmSaveLayout.Click
         If clsCommon.myLen(PageSetupReport_ID) > 0 Then
             Gv1.MasterTemplate.FilterDescriptors.Clear()

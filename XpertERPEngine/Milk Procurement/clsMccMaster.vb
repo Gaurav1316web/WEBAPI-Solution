@@ -2329,7 +2329,7 @@ Public Class clsEkoPro
     End Function
 
     Public Shared Function GetLatestPlaningQry(ByVal Doc_Date As Date, ByVal Shift As String, ByVal strMilkType As String) As String
-        Return "select Planning_Code,Price_Chart_Code,Single_Axis_FAT_Per,Single_Axis_SNFDed_FAT_Per,Single_Axis_SNF_Per,Single_Axis_SNFDed_SNF_Per,TSDDCS_Rate
+        Return "select Planning_Code,Price_Chart_Code,Single_Axis_FAT_Per,Single_Axis_SNFDed_FAT_Per,Single_Axis_SNF_Per,Single_Axis_SNFDed_SNF_Per,TSDDCS_Rate,Apply_SNF_Ded_On_Per
  from TSPL_PRICE_CHART_PLANNING where Dock_Collection_Milk_Type='" + strMilkType + "' and Status=1 and  
  ((convert(Date,Planning_Date,103)< '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' or (convert(Date,Planning_Date,103)= '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' and shift>='" & Shift & "')))
   order by Planning_Date desc,Planning_Code desc"
@@ -2640,6 +2640,7 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
         Dim strPriceMasterCode As String = Nothing
         Dim dclReturnMilkValue As Decimal = 0
         Dim dclTSDDCSRate As Decimal = 0
+        Dim ApplySNFDedOnPer As Boolean = False
         Dim qry As String = ""
         Dim dt As DataTable = Nothing
         qry = clsEkoPro.GetLatestPlaningQry(Doc_Date, Shift, "M")
@@ -2648,6 +2649,7 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
             strPlanningCode = clsCommon.myCstr(dt.Rows(0)("Planning_Code"))
             strPriceMasterCode = clsCommon.myCstr(dt.Rows(0)("Price_Chart_Code"))
             dclTSDDCSRate = clsCommon.myCstr(dt.Rows(0)("TSDDCS_Rate"))
+            ApplySNFDedOnPer = (clsCommon.myCDecimal(dt.Rows(0)("Apply_SNF_Ded_On_Per")) = 1)
         End If
         If clsCommon.myLen(strPlanningCode) > 0 Then
             Dim dclRate As Decimal = 0
@@ -2681,13 +2683,15 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
                             dclReturnMilkValue = ((dclRate * dblFATPer) / 100)
                             dclReturnMilkValue += clsCommon.myCDecimal(drSlab("Fixed_Rate"))
 
-
-                            Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
-                            If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
-                                If arrSNF.ContainsKey(OrgSNFPer) Then
-                                    dclReturnMilkValue += arrSNF.Item(OrgSNFPer)
+                            If Not ApplySNFDedOnPer Then
+                                Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
+                                If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
+                                    If arrSNF.ContainsKey(OrgSNFPer) Then
+                                        dclReturnMilkValue += arrSNF.Item(OrgSNFPer)
+                                    End If
                                 End If
                             End If
+
                         End If
 
                         Dim arrFAT As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFFATDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
@@ -2696,6 +2700,16 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
                                 dclReturnMilkValue += arrFAT.Item(OrgFATPer)
                             End If
                         End If
+
+                        If ApplySNFDedOnPer Then
+                            Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
+                            If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
+                                If arrSNF.ContainsKey(OrgSNFPer) Then
+                                    dclReturnMilkValue += (dclReturnMilkValue * ((100 - arrSNF.Item(OrgSNFPer)) / 100))
+                                End If
+                            End If
+                        End If
+
                         dclDedPer = clsCommon.myCDecimal(drSlab("Deduction_Per"))
                         dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
                         Exit For

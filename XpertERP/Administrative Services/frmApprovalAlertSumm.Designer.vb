@@ -22,6 +22,8 @@ Partial Class FrmApprovalAlertSumm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -84,10 +86,9 @@ Partial Class FrmApprovalAlertSumm
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(817, 487)
         Me.RadPageView1.TabIndex = 26
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -125,11 +126,15 @@ Partial Class FrmApprovalAlertSumm
         Me.gv_Alert.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv_Alert.Location = New System.Drawing.Point(10, 20)
         '
-        'gv_Alert
+        '
         '
         Me.gv_Alert.MasterTemplate.AllowAddNewRow = False
         Me.gv_Alert.MasterTemplate.AllowDeleteRow = False
+        Me.gv_Alert.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Alert.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_Alert.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_Alert.MyExportFilePath = ""
+        Me.gv_Alert.MyStopExport = False
         Me.gv_Alert.Name = "gv_Alert"
         Me.gv_Alert.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_Alert.ShowGroupPanel = False
@@ -137,7 +142,7 @@ Partial Class FrmApprovalAlertSumm
         Me.gv_Alert.Size = New System.Drawing.Size(776, 385)
         Me.gv_Alert.TabIndex = 0
         Me.gv_Alert.TabStop = False
-        Me.gv_Alert.Text = "RadGridView1"
+        Me.gv_Alert.VarID = ""
         '
         'Panel2
         '
@@ -170,8 +175,6 @@ Partial Class FrmApprovalAlertSumm
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Export to Excel"
-        Me.btnExcel.AccessibleName = "Export to Excel"
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Export to Excel"
         '
@@ -226,11 +229,15 @@ Partial Class FrmApprovalAlertSumm
         Me.gv_Doc.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv_Doc.Location = New System.Drawing.Point(10, 20)
         '
-        'gv_Doc
+        '
         '
         Me.gv_Doc.MasterTemplate.AllowAddNewRow = False
         Me.gv_Doc.MasterTemplate.AllowDeleteRow = False
+        Me.gv_Doc.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Doc.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_Doc.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv_Doc.MyExportFilePath = ""
+        Me.gv_Doc.MyStopExport = False
         Me.gv_Doc.Name = "gv_Doc"
         Me.gv_Doc.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_Doc.ShowGroupPanel = False
@@ -238,7 +245,7 @@ Partial Class FrmApprovalAlertSumm
         Me.gv_Doc.Size = New System.Drawing.Size(776, 385)
         Me.gv_Doc.TabIndex = 0
         Me.gv_Doc.TabStop = False
-        Me.gv_Doc.Text = "RadGridView1"
+        Me.gv_Doc.VarID = ""
         '
         'Panel1
         '
@@ -259,6 +266,7 @@ Partial Class FrmApprovalAlertSumm
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
         Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.FieldCode = Nothing
         Me.cboType.FieldDesc = Nothing
@@ -306,15 +314,11 @@ Partial Class FrmApprovalAlertSumm
         '
         'btnExcel_Doc
         '
-        Me.btnExcel_Doc.AccessibleDescription = "Export to Excel"
-        Me.btnExcel_Doc.AccessibleName = "Export to Excel"
         Me.btnExcel_Doc.Name = "btnExcel_Doc"
         Me.btnExcel_Doc.Text = "Export to Excel"
         '
         'btnPDF_Doc
         '
-        Me.btnPDF_Doc.AccessibleDescription = "Export to PDF"
-        Me.btnPDF_Doc.AccessibleName = "Export to PDF"
         Me.btnPDF_Doc.Name = "btnPDF_Doc"
         Me.btnPDF_Doc.Text = "Export to PDF"
         '
@@ -346,15 +350,11 @@ Partial Class FrmApprovalAlertSumm
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -365,7 +365,6 @@ Partial Class FrmApprovalAlertSumm
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(817, 20)
         Me.RadMenu1.TabIndex = 25
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'FrmApprovalAlertSumm
         '

@@ -190,7 +190,7 @@ Public Class clsDairyGatePassEntry
             End If
             obj.TotalCrateQty = objGp.TotalCrate
             'obj.Document_No = txtDocNo.Value
-            obj.Document_Date = objGp.GPDate
+            obj.Document_Date = objGp.Supply_Date
             obj.Invoice_Date = objGp.Supply_Date
             obj.Location_Code = objGp.Location_Code
             obj.Comments = ""
@@ -237,7 +237,7 @@ Public Class clsDairyGatePassEntry
             If (clsCommon.myLen(objTr.OutQty) > 0) Then
                 obj.Arr.Add(objTr)
             End If
-            obj.SaveData(obj, isNewEntry, trans)
+            obj.SaveData(obj, isNewEntry, True, trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

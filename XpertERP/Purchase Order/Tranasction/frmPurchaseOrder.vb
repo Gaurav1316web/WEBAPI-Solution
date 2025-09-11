@@ -10930,15 +10930,20 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
         Try
             isInsideLoadData = True
             LoadBlankGridSchedule()
+            Dim parentSNO As Decimal = 0
             If clsCommon.myCDate(txtScheduleStartDate.Value, "dd/MMM/yyyy") < clsCommon.myCDate(txtDate.Value, "dd/MMM/yyyy") Then
                 Throw New Exception("Schedule start date can't be less than document date !")
             End If
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 Then
+                    Dim BalanceQty As Decimal = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
                     Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
                     Dim ArrSch As List(Of clsItemSchedule) = clsItemSchedule.GetData(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), Nothing)
                     If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
                         For Each obj As clsItemSchedule In ArrSch
+                            If BalanceQty <= obj.Quantity AndAlso parentSNO <> clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value) Then
+                                obj.Qty_Per = 100
+                            End If
                             gvSchedule.Rows.AddNew()
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
@@ -10979,6 +10984,7 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
                             '    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
                             'End If
                             'dtRunningDate = dtRunningDate.AddDays(1)
+                            parentSNO = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
@@ -10988,6 +10994,9 @@ left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TS
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
+                            If BalanceQty <= obj.Quantity Then
+                                Exit For
+                            End If
                         Next
                     End If
                 End If

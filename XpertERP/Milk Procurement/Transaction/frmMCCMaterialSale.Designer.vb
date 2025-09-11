@@ -39,6 +39,7 @@ Partial Class frmMCCMaterialSale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcDCSBalance1 = New XpertERPEngine.ucDCSBalance()
         Me.chkExcludeKKFMandi = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblBankCode = New common.Controls.MyLabel()
         Me.txtBankCode = New common.UserControls.txtFinder()
@@ -181,9 +182,9 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkRateDiffAmt = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkRateDiffRate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.txtRatePer = New common.MyNumBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtRateAmt = New common.MyNumBox()
-        Me.txtRatePer = New common.MyNumBox()
         Me.lblRound_Off = New common.Controls.MyLabel()
         Me.txtRoundOff = New common.Controls.MyLabel()
         Me.MyLabel21 = New common.Controls.MyLabel()
@@ -422,9 +423,9 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.chkRateDiffAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRateDiffRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRatePer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRateAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRatePer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRound_Off, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRoundOff, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -545,8 +546,8 @@ Partial Class frmMCCMaterialSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.txtGEDate)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1292, 493)
-        Me.SplitContainer1.SplitterDistance = 461
+        Me.SplitContainer1.Size = New System.Drawing.Size(1292, 517)
+        Me.SplitContainer1.SplitterDistance = 485
         Me.SplitContainer1.TabIndex = 1
         '
         'RadPageView1
@@ -562,8 +563,8 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
-        Me.RadPageView1.Size = New System.Drawing.Size(1292, 461)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(1292, 485)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -571,6 +572,7 @@ Partial Class frmMCCMaterialSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.UcDCSBalance1)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMandi)
         Me.RadPageViewPage1.Controls.Add(Me.lblBankCode)
         Me.RadPageViewPage1.Controls.Add(Me.txtBankCode)
@@ -664,8 +666,26 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(111.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1271, 415)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1271, 439)
         Me.RadPageViewPage1.Text = "MCC Material Sale"
+        '
+        'UcDCSBalance1
+        '
+        Me.UcDCSBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UcDCSBalance1.DCSCode = ""
+        Me.UcDCSBalance1.DCSName = ""
+        Me.UcDCSBalance1.DCSUploaderCode = ""
+        Me.UcDCSBalance1.Location = New System.Drawing.Point(713, 365)
+        Me.UcDCSBalance1.MaximumSize = New System.Drawing.Size(273, 74)
+        Me.UcDCSBalance1.MinimumSize = New System.Drawing.Size(273, 74)
+        Me.UcDCSBalance1.Name = "UcDCSBalance1"
+        Me.UcDCSBalance1.Size = New System.Drawing.Size(273, 74)
+        Me.UcDCSBalance1.TabIndex = 319
+        Me.UcDCSBalance1.TotalCredit = 0R
+        Me.UcDCSBalance1.TotalOS = 0R
+        Me.UcDCSBalance1.TransDate = New Date(CType(0, Long))
+        Me.UcDCSBalance1.UnBilledAmt = 0R
+        Me.UcDCSBalance1.VendorCode = ""
         '
         'chkExcludeKKFMandi
         '
@@ -1230,7 +1250,7 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(948, 335)
+        Me.RadLabel12.Location = New System.Drawing.Point(948, 350)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -1796,7 +1816,7 @@ Partial Class frmMCCMaterialSale
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1034, 399)
+        Me.MyLabel5.Location = New System.Drawing.Point(1034, 419)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(235, 16)
         Me.MyLabel5.TabIndex = 56
@@ -1810,7 +1830,7 @@ Partial Class frmMCCMaterialSale
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 345)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 367)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1908,7 +1928,7 @@ Partial Class frmMCCMaterialSale
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(-1, 402)
+        Me.MyLabel2.Location = New System.Drawing.Point(-1, 422)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -2086,10 +2106,10 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 207)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 206)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1356, 144)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1356, 155)
         Me.RadGroupBox2.TabIndex = 40
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -2115,7 +2135,7 @@ Partial Class frmMCCMaterialSale
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1336, 114)
+        Me.gv1.Size = New System.Drawing.Size(1336, 125)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -2909,6 +2929,33 @@ Partial Class frmMCCMaterialSale
         Me.chkRateDiffRate.Text = "Rate"
         Me.chkRateDiffRate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
+        'txtRatePer
+        '
+        Me.txtRatePer.BackColor = System.Drawing.Color.White
+        Me.txtRatePer.CalculationExpression = Nothing
+        Me.txtRatePer.DecimalPlaces = 5
+        Me.txtRatePer.FieldCode = Nothing
+        Me.txtRatePer.FieldDesc = Nothing
+        Me.txtRatePer.FieldMaxLength = 0
+        Me.txtRatePer.FieldName = Nothing
+        Me.txtRatePer.isCalculatedField = False
+        Me.txtRatePer.IsSourceFromTable = False
+        Me.txtRatePer.IsSourceFromValueList = False
+        Me.txtRatePer.IsUnique = False
+        Me.txtRatePer.Location = New System.Drawing.Point(217, 271)
+        Me.txtRatePer.MendatroryField = False
+        Me.txtRatePer.MyLinkLable1 = Nothing
+        Me.txtRatePer.MyLinkLable2 = Nothing
+        Me.txtRatePer.Name = "txtRatePer"
+        Me.txtRatePer.ReferenceFieldDesc = Nothing
+        Me.txtRatePer.ReferenceFieldName = Nothing
+        Me.txtRatePer.ReferenceTableName = Nothing
+        Me.txtRatePer.Size = New System.Drawing.Size(39, 20)
+        Me.txtRatePer.TabIndex = 1411
+        Me.txtRatePer.Text = "0"
+        Me.txtRatePer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRatePer.Value = New Decimal(New Integer() {0, 0, 0, 0})
+        '
         'MyLabel15
         '
         Me.MyLabel15.FieldName = Nothing
@@ -2944,33 +2991,6 @@ Partial Class frmMCCMaterialSale
         Me.txtRateAmt.Text = "0"
         Me.txtRateAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtRateAmt.Value = New Decimal(New Integer() {0, 0, 0, 0})
-        '
-        'txtRatePer
-        '
-        Me.txtRatePer.BackColor = System.Drawing.Color.White
-        Me.txtRatePer.CalculationExpression = Nothing
-        Me.txtRatePer.DecimalPlaces = 5
-        Me.txtRatePer.FieldCode = Nothing
-        Me.txtRatePer.FieldDesc = Nothing
-        Me.txtRatePer.FieldMaxLength = 0
-        Me.txtRatePer.FieldName = Nothing
-        Me.txtRatePer.isCalculatedField = False
-        Me.txtRatePer.IsSourceFromTable = False
-        Me.txtRatePer.IsSourceFromValueList = False
-        Me.txtRatePer.IsUnique = False
-        Me.txtRatePer.Location = New System.Drawing.Point(217, 271)
-        Me.txtRatePer.MendatroryField = False
-        Me.txtRatePer.MyLinkLable1 = Nothing
-        Me.txtRatePer.MyLinkLable2 = Nothing
-        Me.txtRatePer.Name = "txtRatePer"
-        Me.txtRatePer.ReferenceFieldDesc = Nothing
-        Me.txtRatePer.ReferenceFieldName = Nothing
-        Me.txtRatePer.ReferenceTableName = Nothing
-        Me.txtRatePer.Size = New System.Drawing.Size(39, 20)
-        Me.txtRatePer.TabIndex = 1411
-        Me.txtRatePer.Text = "0"
-        Me.txtRatePer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRatePer.Value = New Decimal(New Integer() {0, 0, 0, 0})
         '
         'lblRound_Off
         '
@@ -4170,7 +4190,7 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1292, 493)
+        Me.Panel1.Size = New System.Drawing.Size(1292, 517)
         Me.Panel1.TabIndex = 4
         '
         'RadMenuItem2
@@ -4216,7 +4236,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1292, 513)
+        Me.ClientSize = New System.Drawing.Size(1292, 537)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.RadMenu1)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -4379,9 +4399,9 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox4.PerformLayout()
         CType(Me.chkRateDiffAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRateDiffRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRatePer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRateAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRatePer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRound_Off, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRoundOff, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4722,5 +4742,6 @@ Partial Class frmMCCMaterialSale
     Friend WithEvents MyLabel67 As common.Controls.MyLabel
     Friend WithEvents TxtEWayBillUpdateBillNo As common.Controls.MyTextBox
     Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents UcDCSBalance1 As ucDCSBalance
 End Class
 

@@ -8,6 +8,7 @@ Public Class frmBOM
     Inherits FrmMainTranScreen
 
 #Region "Variables"
+    Dim RemoveGridFatSnfValidation As Boolean = False
     Public strBOMCodeForOpen As String = Nothing
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
     Dim N_Level As Boolean = False
@@ -755,6 +756,7 @@ Public Class frmBOM
 
     Private Sub frmBOM_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        RemoveGridFatSnfValidation = clsCommon.myCBool(IIf(clsFixedParameter.GetData(clsFixedParameterType.RemoveGridFatSnfValidation, clsFixedParameterCode.RemoveGridFatSnfValidation, Nothing) = "0", False, True))
         ActivateProductionWithoutBatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ActivateProductionWithoutBatch, clsFixedParameterCode.ActivateProductionWithoutBatch, Nothing))
         DecimalPoint = CInt(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
         ' Ticket No : BHA/03/08/18-000387 By prabhakar for include Rate Per Hours
@@ -1538,15 +1540,16 @@ Public Class frmBOM
             Else
                 Errorcontrol.ResetError(gvBOM)
             End If
+            If RemoveGridFatSnfValidation = False Then
+                Dim dclMainTotFATKg As Decimal = clsBOM.GetFatSNFKG_AfterConversion(txtProducedItem.Value, txtUomCode.Value, txtBuildQty.Value, clsBOM.GetFAT_PERS(txtProducedItem.Value), Nothing)
+                Dim dclMainTotSNFKg As Decimal = clsBOM.GetFatSNFKG_AfterConversion(txtProducedItem.Value, txtUomCode.Value, txtBuildQty.Value, clsBOM.GetSNF_PERS(txtProducedItem.Value), Nothing)
 
-            Dim dclMainTotFATKg As Decimal = clsBOM.GetFatSNFKG_AfterConversion(txtProducedItem.Value, txtUomCode.Value, txtBuildQty.Value, clsBOM.GetFAT_PERS(txtProducedItem.Value), Nothing)
-            Dim dclMainTotSNFKg As Decimal = clsBOM.GetFatSNFKG_AfterConversion(txtProducedItem.Value, txtUomCode.Value, txtBuildQty.Value, clsBOM.GetSNF_PERS(txtProducedItem.Value), Nothing)
-
-            If dclMainTotFATKg > dclDetailTotFATKg Then
-                Throw New Exception("Main Item FAT KG(" + clsCommon.myCstr(dclMainTotFATKg) + ") can't be more than Detail Item FAT KG (" + clsCommon.myCstr(dclDetailTotFATKg) + ")")
-            End If
-            If dclMainTotSNFKg > dclDetailTotSNFKg Then
-                Throw New Exception("Main Item SNF KG(" + clsCommon.myCstr(dclMainTotSNFKg) + ") can't be more than Detail Item SNF KG (" + clsCommon.myCstr(dclDetailTotSNFKg) + ")")
+                If dclMainTotFATKg > dclDetailTotFATKg Then
+                    Throw New Exception("Main Item FAT KG(" + clsCommon.myCstr(dclMainTotFATKg) + ") can't be more than Detail Item FAT KG (" + clsCommon.myCstr(dclDetailTotFATKg) + ")")
+                End If
+                If dclMainTotSNFKg > dclDetailTotSNFKg Then
+                    Throw New Exception("Main Item SNF KG(" + clsCommon.myCstr(dclMainTotSNFKg) + ") can't be more than Detail Item SNF KG (" + clsCommon.myCstr(dclDetailTotSNFKg) + ")")
+                End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

@@ -345,7 +345,7 @@ Public Class frmSaleReturnDairy
         ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
         ApplyCommissionRateWithTax = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommissionRateWithTax, clsFixedParameterCode.ApplyCommissionRateWithTax, Nothing)) = 1, True, False)
         ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
-        ApplyBoothWiseReturn = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, Nothing)) = 1, True, False)
+        'ApplyBoothWiseReturn = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothWiseReturn, clsFixedParameterCode.ApplyBoothWiseReturn, Nothing)) = 1, True, False)
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         crateTable()
         dtpChallan.Value = clsCommon.GETSERVERDATE
@@ -386,11 +386,12 @@ Public Class frmSaleReturnDairy
         ''End of For Custom Fields
 
         '' MultiCurrency
-        If ApplyBoothWiseReturn Then
-            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
-        Else
-            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
-        End If
+        RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+        'If ApplyBoothWiseReturn Then
+        '    RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        'Else
+        '    RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+        'End If
         SetMultiCurrencyVisibility()
         '' End of MultiCurrency
         txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
@@ -4386,6 +4387,11 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
     End Sub
 
     Sub AddNew()
+        If ApplyBoothWiseReturn Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+        End If
         btnInvoiceJE.Visible = False
         BlankAllControls()
         LoadBlankGrid()
@@ -4422,6 +4428,9 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
     Function AllowToSave() As Boolean
         Try
             If ApplyBoothWiseReturn Then
+                If gvBooth Is Nothing OrElse gvBooth.Rows.Count <= 0 Then
+                    Throw New Exception("Please Fill Booth Detail")
+                End If
                 MergeBooth()
             End If
             RefreshReqNo()
@@ -6262,7 +6271,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.T Then
             chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
 
                 'Add Tool tip Task No- TEC/18/05/18-000237
@@ -6287,6 +6296,16 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            End If
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F10 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.AllowBoothWiseReturn
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                ApplyBoothWiseReturn = True
+                clsCommon.MyMessageBoxShow(Me, "Booth Wise Sale Return activated")
+                AddNew()
             End If
         End If
     End Sub
@@ -10006,11 +10025,15 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
 
     Function CancelData() As Boolean
         Try
+            Dim isEinvoiceCancelled As Boolean = False
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Code is empty")
             End If
             If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 Return False
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Is E-invoice Cancelled on GST Portal?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                isEinvoiceCancelled = True
             End If
 
             Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select receipt_no from TSPL_RECEIPT_DETAIL where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where Against_Sale_Return_No='" & txtDocNo.Value & "') "))
@@ -10018,7 +10041,7 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
                 Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AR Invoice.")
             End If
 
-            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal AndAlso Not isEinvoiceCancelled Then
                 Dim EInvoiceCancelTimeValid As Int64 = 0
                 EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from TSPL_SD_SALE_RETURN_HEAD where  document_code = '" + txtDocNo.Value + "'"))
                 If EInvoiceCancelTimeValid >= 24 Then

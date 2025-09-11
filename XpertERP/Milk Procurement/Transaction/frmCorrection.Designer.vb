@@ -53,6 +53,8 @@ Partial Class frmCorrection
         Me.txtVLC = New common.UserControls.txtFinder()
         Me.lblVLC = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel36 = New common.Controls.MyLabel()
+        Me.txtRoute = New common.UserControls.txtFinder()
         Me.RadLabel14 = New common.Controls.MyLabel()
         Me.txtSuspenceRemarks = New common.Controls.MyTextBox()
         Me.chkMarkAsSuspence = New common.Controls.MyCheckBox()
@@ -214,8 +216,6 @@ Partial Class frmCorrection
         Me.MyLabel54 = New common.Controls.MyLabel()
         Me.txtCAPFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel36 = New common.Controls.MyLabel()
-        Me.txtRoute = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -236,6 +236,7 @@ Partial Class frmCorrection
         CType(Me.lblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSuspenceRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMarkAsSuspence, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -394,7 +395,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCAPFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -430,7 +430,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -699,6 +699,43 @@ Partial Class frmCorrection
         Me.RadGroupBox1.Size = New System.Drawing.Size(566, 248)
         Me.RadGroupBox1.TabIndex = 1
         Me.RadGroupBox1.Text = "Correction"
+        '
+        'MyLabel36
+        '
+        Me.MyLabel36.FieldName = Nothing
+        Me.MyLabel36.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel36.Location = New System.Drawing.Point(5, 161)
+        Me.MyLabel36.Name = "MyLabel36"
+        Me.MyLabel36.Size = New System.Drawing.Size(65, 18)
+        Me.MyLabel36.TabIndex = 376
+        Me.MyLabel36.Text = "Route Code"
+        '
+        'txtRoute
+        '
+        Me.txtRoute.CalculationExpression = Nothing
+        Me.txtRoute.FieldCode = Nothing
+        Me.txtRoute.FieldDesc = Nothing
+        Me.txtRoute.FieldMaxLength = 0
+        Me.txtRoute.FieldName = Nothing
+        Me.txtRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtRoute.isCalculatedField = False
+        Me.txtRoute.IsSourceFromTable = False
+        Me.txtRoute.IsSourceFromValueList = False
+        Me.txtRoute.IsUnique = False
+        Me.txtRoute.Location = New System.Drawing.Point(72, 160)
+        Me.txtRoute.MendatroryField = True
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Me.MyLabel36
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyReadOnly = False
+        Me.txtRoute.MyShowMasterFormButton = False
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.ReferenceFieldDesc = Nothing
+        Me.txtRoute.ReferenceFieldName = Nothing
+        Me.txtRoute.ReferenceTableName = Nothing
+        Me.txtRoute.Size = New System.Drawing.Size(272, 21)
+        Me.txtRoute.TabIndex = 375
+        Me.txtRoute.Value = ""
         '
         'RadLabel14
         '
@@ -3164,43 +3201,6 @@ Partial Class frmCorrection
         Me.btnclose.TabIndex = 0
         Me.btnclose.Text = "Close"
         '
-        'MyLabel36
-        '
-        Me.MyLabel36.FieldName = Nothing
-        Me.MyLabel36.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel36.Location = New System.Drawing.Point(5, 161)
-        Me.MyLabel36.Name = "MyLabel36"
-        Me.MyLabel36.Size = New System.Drawing.Size(65, 18)
-        Me.MyLabel36.TabIndex = 376
-        Me.MyLabel36.Text = "Route Code"
-        '
-        'txtRoute
-        '
-        Me.txtRoute.CalculationExpression = Nothing
-        Me.txtRoute.FieldCode = Nothing
-        Me.txtRoute.FieldDesc = Nothing
-        Me.txtRoute.FieldMaxLength = 0
-        Me.txtRoute.FieldName = Nothing
-        Me.txtRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtRoute.isCalculatedField = False
-        Me.txtRoute.IsSourceFromTable = False
-        Me.txtRoute.IsSourceFromValueList = False
-        Me.txtRoute.IsUnique = False
-        Me.txtRoute.Location = New System.Drawing.Point(72, 160)
-        Me.txtRoute.MendatroryField = True
-        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRoute.MyLinkLable1 = Me.MyLabel36
-        Me.txtRoute.MyLinkLable2 = Nothing
-        Me.txtRoute.MyReadOnly = False
-        Me.txtRoute.MyShowMasterFormButton = False
-        Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.ReferenceFieldDesc = Nothing
-        Me.txtRoute.ReferenceFieldName = Nothing
-        Me.txtRoute.ReferenceTableName = Nothing
-        Me.txtRoute.Size = New System.Drawing.Size(272, 21)
-        Me.txtRoute.TabIndex = 375
-        Me.txtRoute.Value = ""
-        '
         'frmCorrection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3235,6 +3235,7 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSuspenceRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMarkAsSuspence, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3402,7 +3403,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCAPFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
