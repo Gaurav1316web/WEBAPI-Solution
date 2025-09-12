@@ -1133,7 +1133,7 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         End Try
     End Sub
 
-    Private Sub gvHold_CellDoubleClick(sender As Object, e As GridViewCellEventArgs)
+    Private Sub gvHold_CellDoubleClick(sender As Object, e As GridViewCellEventArgs)Handles gvHold.CellDoubleClick
         Try
             If gvHold.CurrentRow.Index >= 0 Then
                 HoldUnloadRow(gvHold, gvItem)

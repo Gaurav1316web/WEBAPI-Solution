@@ -442,30 +442,28 @@ Public Class frmRMProcessLoss
                         ,cast(sum(xxx.StockQTYY * RI) as decimal(18,2)) as CLQty,
                         cast(sum(xxx.Avg_Cost * RI  ) as decimal(18,0)) as CLQtyCost
                         from (
-                        select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom,
-					  TSPL_INVENTORY_MOVEMENT.UOM,ConvertedUnit.Conversion_Factor,  ( Stock_Qty*ConvertedUnit.Conversion_Factor/(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.Conversion_Factor else ConvertedUnits.Conversion_Factor end)) as StockQTYY from TSPL_INVENTORY_MOVEMENT
-		              left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and 
-					 isnull(ConvertedUnitP.processLoss_Uom,0)=1
-					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and 
-					 ConvertedUnitS.Stocking_Unit='Y'
-					 					 left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnit on ConvertedUnit.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and ConvertedUnit.UOM_Code=TSPL_INVENTORY_MOVEMENT.Stock_UOM
-										 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
-										   left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
-                    where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                    and TSPL_INVENTORY_MOVEMENT.Item_Code in (  select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE 
-                    from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
-                    left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                    left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
-                    left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
-                    left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                    where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "',103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate((txtTodate.Value), "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1  
-                    UNION 
-                    SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
-                    LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-
-                    WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0) 
-                    )xxx  where Location_Code='" + txtLoc.Value + "' group by xxx.Item_Code,xxx.Location_Code)YYY "
-
+select Avg_Cost,(case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then TSPL_INVENTORY_MOVEMENT.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then TSPL_INVENTORY_MOVEMENT.LIFO_Cost else TSPL_INVENTORY_MOVEMENT.Avg_Cost end end ) as Cost,Basic_Cost,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_INVENTORY_MOVEMENT.Trans_Type,Punching_Date,Location_Code,Stock_UOM,case when TSPL_INVENTORY_MOVEMENT.InOut='I' then 1 else -1 end as RI,(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.UOM_Code else ConvertedUnits.UOM_Code end) as CONuom,TSPL_INVENTORY_MOVEMENT.UOM,ConvertedUnit.Conversion_Factor,( Stock_Qty*ConvertedUnit.Conversion_Factor/(case when ConvertedUnitp.processLoss_Uom=1 then ConvertedUnitp.Conversion_Factor else ConvertedUnits.Conversion_Factor end)) as StockQTYY 
+from TSPL_INVENTORY_MOVEMENT
+left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitP on ConvertedUnitp.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and isnull(ConvertedUnitP.processLoss_Uom,0)=1
+left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnitS on ConvertedUnitS.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and ConvertedUnitS.Stocking_Unit='Y'
+left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUnit on ConvertedUnit.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and ConvertedUnit.UOM_Code=TSPL_INVENTORY_MOVEMENT.Stock_UOM
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
+left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
+                        left outer join TSPL_ADJUSTMENT_HEADER on TSPL_ADJUSTMENT_HEADER.Adjustment_No=TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TSPL_INVENTORY_MOVEMENT.Trans_Type='IC-AD' 
+where  Punching_Date<= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtTodate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+and TSPL_ADJUSTMENT_HEADER.Against_PI_No_Difference is null
+and TSPL_INVENTORY_MOVEMENT.Item_Code in (  select distinct TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE 
+from TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
+left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+left outer join TSPL_MF_BOM_HEAD on TSPL_MF_BOM_HEAD.BOM_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.BOM_CODE
+left outer join TSPL_MF_BOM_DETAIL on TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
+where CONVERT(DATE,PROD_DATE,103)>= convert(date,'" + clsCommon.GetPrintDate((txtFromDate.Value), "dd/MMM/yyyy") + "',103) and  CONVERT(DATE,PROD_DATE,103)<= convert(date,'" + clsCommon.GetPrintDate((txtTodate.Value), "dd/MMM/yyyy") + "',103) and TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE='" + txtLoc.Value + "' and TSPL_ITEM_MASTER.FG_for_CF_PL=1  
+UNION 
+SELECT TSPL_ITEM_MASTER.Item_Code FROM TSPL_ITEM_MASTER 
+LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight>0) 
+)xxx  where Location_Code='" + txtLoc.Value + "' group by xxx.Item_Code,xxx.Location_Code)YYY "
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows

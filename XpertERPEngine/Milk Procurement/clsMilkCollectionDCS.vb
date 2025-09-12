@@ -748,10 +748,14 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No='" + strDocNo + "'
                                             If isThereOnlyOneRowOfOwnDCS Then
                                                 FAT = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 2, MidpointRounding.ToEven)
                                                 SNF = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), (settSNFDecimalPlace + 1), MidpointRounding.ToEven)
+
+                                                FAT = clsCommon.myRoundOFF(FAT, 1, ROIncreaseAfter)
+                                                SNF = clsCommon.myRoundOFF(SNF, settSNFDecimalPlace, ROIncreaseAfter)
+                                            Else
+                                                FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
+                                                SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
                                             End If
 
-                                            FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
-                                            SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
 
                                             FATKG = ((Qty * FAT) / 100)
                                             SNFKG = ((Qty * SNF) / 100)

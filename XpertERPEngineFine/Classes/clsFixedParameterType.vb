@@ -373,6 +373,7 @@ Public Class clsFixedParameterType
     Public Const OpenAvailorEmptyStckLocationOn_Standardization As String = "Open Avail./Empty Location on Standardization"
     Public Const BOM_Amend_Pswd As String = "Amendment Password for BOM"
     Public Const ProductionFATSNF_KG_Unit As String = "ProductionFATSNF_KG_Unit"
+    Public Const RemoveGridFatSnfValidation As String = "Remove Grid Fat Snf Validation"
     Public Const ChangeRateAT_CSA_Return As String = "Rate Change At CSA Transfer Return"
     Public Const VehicleCapacityUnit As String = "VehicleCapacityUnit"
     Public Const StopGLEntryForConsignmentAtCSATransfer As String = "Stop GL Consignment at CSA Transfer"
@@ -1801,6 +1802,7 @@ Public Class clsFixedParameterCode
     Public Const OpenAvailorEmptyStckLocationOn_Standardization As String = "Open Avail./Empty Location on Standardization"
     Public Const BOM_Amend_Pswd As String = "Amendment Password for BOM"
     Public Const ProductionFATSNF_KG_Unit As String = "ProductionFATSNF_KG_Unit"
+    Public Const RemoveGridFatSnfValidation As String = "Remove Grid Fat Snf Validation"
     Public Const ChangeRateAT_CSA_Return As String = "Rate Change At CSA Transfer Return"
     Public Const VehicleCapacityUnit As String = "VehicleCapacityUnit"
     Public Const StopGLEntryForConsignmentAtCSATransfer As String = "Stop GL Consignment at CSA Transfer"
@@ -3346,6 +3348,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.WorkApprovalFlowInERP, clsFixedParameterCode.WorkApprovalFlowInERP, "0", "0-OFF;1-On then Work approval flow start in ERP.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BOM_Amend_Pswd, clsFixedParameterCode.BOM_Amend_Pswd, "Tecxpert2015", "Set password for BOM amendment.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionFATSNF_KG_Unit, clsFixedParameterCode.ProductionFATSNF_KG_Unit, "Kg", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RemoveGridFatSnfValidation, clsFixedParameterCode.RemoveGridFatSnfValidation, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeRateAT_CSA_Return, clsFixedParameterCode.ChangeRateAT_CSA_Return, "0", "0-OFF;1-On for allow rate change at csa sale return screen.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleCapacityUnit, clsFixedParameterCode.VehicleCapacityUnit, "MT", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopGLEntryForConsignmentAtCSATransfer, clsFixedParameterCode.StopGLEntryForConsignmentAtCSATransfer, "0", "0-Off;1-On for stop debit consignment entry at CSA Transfer")
@@ -5611,6 +5614,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmSectionStageMapping, clsFixedParameterType.AllowToSkipStageQLLogSheetInProd, clsFixedParameterCode.AllowToSkipStageQLLogSheetInProd, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialDairy, clsFixedParameterType.ProductionFATSNF_KG_Unit, clsFixedParameterCode.ProductionFATSNF_KG_Unit, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmBillOfMaterialDairy, clsFixedParameterType.RemoveGridFatSnfValidation, clsFixedParameterCode.RemoveGridFatSnfValidation, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProductionPlanningDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmProductionPlanningDairy, clsFixedParameterType.IsConsiderOutTypeDocForBalance, clsFixedParameterCode.IsConsiderOutTypeDocForBalance, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmProcessProductionIssueEntry, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
