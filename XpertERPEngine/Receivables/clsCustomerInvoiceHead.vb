@@ -1598,41 +1598,1063 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
 
         '''''''' For Invoice GL entry 
         If clsCommon.myLen(obj.Against_Sale_No) > 0 Then
-            If ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal)) AndAlso (FormId = "" OrElse FormId = clsUserMgtCode.frmSaleDispatchDairy OrElse FormId = "FreshSaleInvoice" OrElse FormId = "CSA-SALE" OrElse clsCommon.CompairString(FormId, "INVOICE-PS") = CompairStringResult.Equal) _
+                If ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal)) AndAlso (FormId = "" OrElse FormId = clsUserMgtCode.frmSaleDispatchDairy OrElse FormId = clsUserMgtCode.FrmSalesOrderDispatch OrElse FormId = "FreshSaleInvoice" OrElse FormId = "CSA-SALE" OrElse clsCommon.CompairString(FormId, "INVOICE-PS") = CompairStringResult.Equal) _
                 OrElse (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal AndAlso clsCommon.CompairString(FormId, "INVOICE-PS") = CompairStringResult.Equal) Then
 
-                Dim objInv As clsSNInvoiceHead
-                Dim isTaxExcisable As Boolean = False
-                Dim arr As New List(Of String)
-                Dim dblCogsCost As Double
-                Dim strCogsAcct As String
-                Dim strQuery As String = ""
-                Dim dtAllData As DataTable = Nothing
-                objInv = clsSNInvoiceHead.GetData(obj.Against_Sale_No, NavigatorType.Current, "", trans)
-                Dim strReceivedAgaingstPSDO As String = Nothing
-                Dim objBalAdvTaxAmt As clsSOAdvanceAdjustmentKnockOff = Nothing
-                If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True Then
-                    'strReceivedAgaingstPSDO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Delivery_Code_PS  from TSPL_SD_SALE_INVOICE_HEAD left outer join " & _
-                    '"TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code  " & _
-                    '"where TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE='" & obj.Against_Sale_No & "' and Delivery_Code_PS in (select Delivery_Code_PS from TSPL_RECEIPT_HEADER)", trans))
-                    'strQuery = GetAdvanceTaxAmtForPS(strReceivedAgaingstPSDO, obj.Against_Sale_No)
-                    'dtAllData = clsDBFuncationality.GetDataTable(strQuery, trans)
+                    Dim objInv As clsSNInvoiceHead
+                    Dim isTaxExcisable As Boolean = False
+                    Dim arr As New List(Of String)
+                    Dim dblCogsCost As Double
+                    Dim strCogsAcct As String
+                    Dim strQuery As String = ""
+                    Dim dtAllData As DataTable = Nothing
+                    objInv = clsSNInvoiceHead.GetData(obj.Against_Sale_No, NavigatorType.Current, "", trans)
+                    Dim strReceivedAgaingstPSDO As String = Nothing
+                    Dim objBalAdvTaxAmt As clsSOAdvanceAdjustmentKnockOff = Nothing
+                    If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True Then
+                        'strReceivedAgaingstPSDO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Delivery_Code_PS  from TSPL_SD_SALE_INVOICE_HEAD left outer join " & _
+                        '"TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code  " & _
+                        '"where TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE='" & obj.Against_Sale_No & "' and Delivery_Code_PS in (select Delivery_Code_PS from TSPL_RECEIPT_HEADER)", trans))
+                        'strQuery = GetAdvanceTaxAmtForPS(strReceivedAgaingstPSDO, obj.Against_Sale_No)
+                        'dtAllData = clsDBFuncationality.GetDataTable(strQuery, trans)
 
 
 
-                    objBalAdvTaxAmt = clsSOAdvanceAdjustmentKnockOff.GetBalanceAdvanceAmt(obj.Against_Sale_No, trans)
+                        objBalAdvTaxAmt = clsSOAdvanceAdjustmentKnockOff.GetBalanceAdvanceAmt(obj.Against_Sale_No, trans)
 
-                End If
+                    End If
 
                     ''''' GL entry for Tax and retail Invoicefrm
                     '' Updated by richa agarwal add condition in below line invoice type=S----------------- added A for TAx Exempted type,I= inter state
                     If clsCommon.CompairString(objInv.Invoice_Type, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "E") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "R") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "S") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "N") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "A") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "I") = CompairStringResult.Equal Then
 
+                        ''  for tax gl entry start here
+                        Dim objTM As clsTaxMaster
+                        Dim dblExcise As Double = 0
+                        If obj.TAX1_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, trans)
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX1, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX1, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set Tax Net Payable Account of Tax Authority " + obj.TAX1)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX1_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX1_Amt
+
+                                    '' For excisable FOC entry start here on 26/10/2016 for product sale
+                                    If obj.TAX1_ExciseFOCAmt > 0 Then
+                                        Acc1 = {objTM.Tax_Net_Payable, obj.TAX1_ExciseFOCAmt}
+                                        ArryLst.Add(Acc1)
+                                    End If
+                                    '' For excisable FOC entry ends here
+
+
+
+                                End If
+                            End If
+
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX1_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX1)
+                            End If
+
+                            Dim AccInvDR() As String = {obj.TAX1_GLAC, -1 * obj.TAX1_Amt}
+                            ArryLst.Add(AccInvDR)
+                            If obj.TAX1_ExciseFOCAmt > 0 Then
+                                AccInvDR = {obj.TAX1_GLAC, -1 * obj.TAX1_ExciseFOCAmt}
+                                ArryLst.Add(AccInvDR)
+                            End If
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX1_Amt
+                            End If
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX1_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX1, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX1)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX1)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX1_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX1_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX2_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX2, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX2, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX2, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX2)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX2_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX2_Amt
+
+                                    '' For excisable FOC entry start here on 26/10/2016 for product sale
+                                    If obj.TAX2_ExciseFOCAmt > 0 Then
+                                        Acc1 = {objTM.Tax_Net_Payable, obj.TAX2_ExciseFOCAmt}
+                                        ArryLst.Add(Acc1)
+                                        dblExcise += obj.TAX2_ExciseFOCAmt
+                                    End If
+                                    '' For excisable FOC entry ends here
+
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX2_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX2)
+                            End If
+
+                            Dim AccInvDR() As String = {obj.TAX2_GLAC, -1 * obj.TAX2_Amt}
+                            ArryLst.Add(AccInvDR)
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX2_Amt
+                            End If
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX2_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX2, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX2)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX2)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX2_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX2_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX3_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX3, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX3, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX3)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX3_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX3_Amt
+                                    '' For excisable FOC entry start here on 26/10/2016 for product sale
+                                    If obj.TAX3_ExciseFOCAmt > 0 Then
+                                        Acc1 = {objTM.Tax_Net_Payable, obj.TAX3_ExciseFOCAmt}
+                                        ArryLst.Add(Acc1)
+                                        dblExcise += obj.TAX3_ExciseFOCAmt
+                                    End If
+                                    '' For excisable FOC entry ends here
+
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX3_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX3)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX3_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX3_GLAC, -1 * obj.TAX3_Amt}
+                            ArryLst.Add(AccInvDR)
+
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX3_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX3, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX3)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX3)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX3_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX3_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX4_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX4, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX4, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX4, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX4)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX4_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX4_Amt
+                                    '' For excisable FOC entry start here on 26/10/2016 for product sale
+                                    If obj.TAX4_ExciseFOCAmt > 0 Then
+                                        Acc1 = {objTM.Tax_Net_Payable, obj.TAX4_ExciseFOCAmt}
+                                        ArryLst.Add(Acc1)
+                                        dblExcise += obj.TAX4_ExciseFOCAmt
+                                    End If
+                                    '' For excisable FOC entry ends here
+
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX4_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX4)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX4_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX4_GLAC, -1 * obj.TAX4_Amt}
+                            ArryLst.Add(AccInvDR)
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX4_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX4, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX4)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX4)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX4_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX4_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+                        If obj.TAX5_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX5, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX5, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX5, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX5)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX5_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX5_Amt
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX5_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX5)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX5_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX5_GLAC, -1 * obj.TAX5_Amt}
+                            ArryLst.Add(AccInvDR)
+
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX5_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX5, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX5)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX5)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX5_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX5_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX6_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX6, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX6, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX6, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX6)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX6_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX6_Amt
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX6_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX6)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX6_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX6_GLAC, -1 * obj.TAX6_Amt}
+                            ArryLst.Add(AccInvDR)
+
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX6_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX6, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX6)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX6)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX6_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX6_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX7_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX7, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX7, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX7, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX7)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX7_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX7_Amt
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX7_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX7)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX7_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX7_GLAC, -1 * obj.TAX7_Amt}
+                            ArryLst.Add(AccInvDR)
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX7_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX7, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX7)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX7)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX7_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX7_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX8_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX8, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX8, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX8, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX8)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX8_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX8_Amt
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX8_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX8)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX8_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX8_GLAC, -1 * obj.TAX8_Amt}
+                            ArryLst.Add(AccInvDR)
+
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX8_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX8, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX8)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX8)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX8_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX8_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+
+                        If obj.TAX9_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX9, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX9, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX9, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX9)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX9_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX9_Amt
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX9_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX9)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX9_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX9_GLAC, -1 * obj.TAX9_Amt}
+                            ArryLst.Add(AccInvDR)
+
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX9_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX9, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX9)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX9)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX9_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX9_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+                        If obj.TAX10_Amt <> 0 Then
+                            isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX10, trans)
+
+                            ' for excisable tax start here
+                            isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX10, trans)
+                            If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX10, trans)
+                                If objTM IsNot Nothing Then
+                                    If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
+                                        Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX10)
+                                    End If
+                                    objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
+                                    Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX10_Amt}
+                                    ArryLst.Add(Acc1)
+                                    dblExcise += obj.TAX10_Amt
+                                End If
+                            End If
+                            'Excisable tax ends here
+
+                            If clsCommon.myLen(obj.TAX10_GLAC) <= 0 Then
+                                Throw New Exception("GL Acount not found for" + obj.TAX10)
+                            End If
+
+                            If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
+                                dblExcise += obj.TAX10_Amt
+                            End If
+                            Dim AccInvDR() As String = {obj.TAX10_GLAC, -1 * obj.TAX10_Amt}
+                            ArryLst.Add(AccInvDR)
+
+                            If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
+                                If objBalAdvTaxAmt.TAX10_Amt <> 0 Then
+                                    objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX10, trans)
+                                    If objTM IsNot Nothing Then
+                                        If clsCommon.myLen(objTM.DepositControl) <= 0 Then
+                                            Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX10)
+                                        End If
+                                        objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
+                                        If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
+                                            Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX10)
+                                        End If
+                                        objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
+                                        Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX10_Amt}
+                                        ArryLst.Add(Acc2)
+                                        Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX10_Amt}
+                                        ArryLst.Add(Acc3)
+                                    End If
+                                End If
+
+                            End If
+                        End If
+
+
+
+
+
+                        ''  tax gl entry ends here
+                        '' FOR Additional Cost START here
+                        If obj.Add_Charge_Amt1 <> 0 Then
+                            Dim AddCharge_GL_Acc1 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code1, trans)
+                            AddCharge_GL_Acc1 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc1, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc1) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code1 & " Not found")
+                            End If
+
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc1, -1 * obj.Add_Charge_Amt1}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt2 <> 0 Then
+                            Dim AddCharge_GL_Acc2 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code2, trans)
+                            AddCharge_GL_Acc2 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc2, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc2) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code2 & " Not found")
+                            End If
+
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc2, -1 * obj.Add_Charge_Amt2}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt3 <> 0 Then
+                            Dim AddCharge_GL_Acc3 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code3, trans)
+                            AddCharge_GL_Acc3 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc3, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc3) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code3 & " Not found")
+                            End If
+
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc3, -1 * obj.Add_Charge_Amt3}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt4 <> 0 Then
+                            Dim AddCharge_GL_Acc4 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code4, trans)
+                            AddCharge_GL_Acc4 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc4, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc4) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code4 & " Not found")
+                            End If
+
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc4, -1 * obj.Add_Charge_Amt4}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt5 <> 0 Then
+                            Dim AddCharge_GL_Acc5 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code5, trans)
+                            If clsCommon.myLen(AddCharge_GL_Acc5) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code5 & " Not found")
+                            End If
+                            AddCharge_GL_Acc5 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc5, obj.loc_code, True, trans)
+
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc5, -1 * obj.Add_Charge_Amt5}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt6 <> 0 Then
+                            Dim AddCharge_GL_Acc6 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code6, trans)
+                            AddCharge_GL_Acc6 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc6, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc6) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code6 & " Not found")
+                            End If
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc6, -1 * obj.Add_Charge_Amt6}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt7 <> 0 Then
+                            Dim AddCharge_GL_Acc7 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code7, trans)
+                            AddCharge_GL_Acc7 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc7, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc7) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code7 & " Not found")
+                            End If
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc7, -1 * obj.Add_Charge_Amt7}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt8 <> 0 Then
+                            Dim AddCharge_GL_Acc8 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code8, trans)
+                            AddCharge_GL_Acc8 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc8, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc8) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code8 & " Not found")
+                            End If
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc8, -1 * obj.Add_Charge_Amt8}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt9 <> 0 Then
+                            Dim AddCharge_GL_Acc9 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code9, trans)
+                            AddCharge_GL_Acc9 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc9, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc9) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code9 & " Not found")
+                            End If
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc9, -1 * obj.Add_Charge_Amt9}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+                        If obj.Add_Charge_Amt10 <> 0 Then
+                            Dim AddCharge_GL_Acc10 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code10, trans)
+                            AddCharge_GL_Acc10 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc10, obj.loc_code, True, trans)
+
+                            If clsCommon.myLen(AddCharge_GL_Acc10) <= 0 Then
+                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code10 & " Not found")
+                            End If
+                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc10, -1 * obj.Add_Charge_Amt10}
+                            ArryLst.Add(AccAddCostCR)
+                        End If
+
+                        '' Additional cost ends here
+
+                        ''richa agarwal added on 02-jan-2015
+                        If clsCommon.CompairString(objInv.Invoice_Type, "S") <> CompairStringResult.Equal Then
+                            Dim isFirstTime As Boolean = True
+                            For Each objTR As clsCustomerInvoiceDetail In obj.Arr
+                                'Dim dblLedgeerNonRecoverableAmt As Double = clsCustomerInvoiceHead.GetTaxAmt(objTR, trans)
+                                'Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount)}
+                                Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                ArryLst.Add(AccInvDR)
+
+
+                                If FormId = clsUserMgtCode.frmSaleDispatchDairy Then
+                                    'Dim AccInvTaxDR() As String = {objTR.GL_Account_Code, -1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt)}
+                                    'ArryLst.Add(AccInvTaxDR)
+                                End If
+
+                                If isFirstTime AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
+                                    Dim AccExciseDR() As String = {objTR.GL_Account_Code, -1 * dblExcise, "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                    ArryLst.Add(AccExciseDR)
+
+                                End If
+                                isFirstTime = False
+                                ''''''added by priti for discount entry of invoice
+
+                                If objTR.Amount_less_Discount = 0 AndAlso FormId = "FreshSaleInvoice" Then
+                                    Dim AccDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                    ArryLst.Add(AccDiscDR)
+                                End If
+                                If FormId = clsUserMgtCode.frmSaleDispatchDairy AndAlso objTR.Discount > 0 AndAlso objTR.Amount_less_Discount = 0 Then
+                                    Dim AccDDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                    ArryLst.Add(AccDDiscDR)
+
+                                    Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, 1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                    ArryLst.Add(AccDiscTaxDR)
+                                    dblDiscountTaxamt += objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt
+                                End If
+                                If objTR.Distributor_Commission_Amt > 0 Then
+                                    Dim AccDDiscDR() As String = {objTR.Promotional_GL_Account_Code, 1 * (objTR.Distributor_Commission_Amt)}
+                                    ArryLst.Add(AccDDiscDR)
+
+                                    Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Distributor_Commission_Amt)}
+                                    ArryLst.Add(AccDiscTaxDR)
+                                End If
+                                If objTR.Transporter_Commission_Amt > 0 Then
+                                    Dim strLocationt As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                                    Dim strACWithLocationt As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocationt, True, trans)
+
+                                    Dim AccDiscDR() As String = {strACWithLocationt, 1 * (objTR.Transporter_Commission_Amt)}
+                                    ArryLst.Add(AccDiscDR)
+                                    Dim AccDiscTaxDR() As String = {objTR.Transporter_GL_Account_Code, -1 * (objTR.Transporter_Commission_Amt)}
+                                    ArryLst.Add(AccDiscTaxDR)
+                                End If
+                                If objTR.Security_Amt > 0 Then
+                                    Dim strLocations As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                                    Dim strACWithLocations As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocations, True, trans)
+
+                                    Dim AccDiscDR() As String = {strACWithLocations, 1 * (objTR.Security_Amt)}
+                                    ArryLst.Add(AccDiscDR)
+
+                                    Dim AccDiscTaxDR() As String = {objTR.SD_GL_Account_Code, -1 * (objTR.Security_Amt)}
+                                    ArryLst.Add(AccDiscTaxDR)
+                                End If
+
+
+                                ''''''code ends here    
+                            Next
+                            Dim AllowCrateCanPhysicalStock As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, trans))
+                            If AllowCrateCanPhysicalStock = 1 Then
+                                ' DOne by priti BHA/15/06/18-000055
+                                If FormId = clsUserMgtCode.frmSaleDispatchDairy Then
+
+                                    ' FOr Crate
+                                    Dim strCrateItem = ""
+                                    Dim strCrateUOM = ""
+                                    Dim dblCrateRate As Integer = 0
+                                    Dim dblCrateQty As Integer = 0
+                                    Dim strReturnable_ContainerAC As String = ""
+                                    Dim strContainerDepositAC As String = ""
+                                    Dim Acc() As String = Nothing
+                                    Dim Acc1() As String = Nothing
+                                    qry = "select Crate_Item,Crate_ItemUnit,Crate_ItemRate,Crate from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & objInv.Document_Code & "'"
+                                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                        strCrateItem = clsCommon.myCstr(dt.Rows(0)("Crate_Item"))
+                                        strCrateUOM = clsCommon.myCstr(dt.Rows(0)("Crate_ItemUnit"))
+                                        dblCrateRate = clsCommon.myCdbl(dt.Rows(0)("Crate_ItemRate"))
+                                        dblCrateQty = clsCommon.myCdbl(dt.Rows(0)("Crate"))
+                                    End If
+                                    If dblCrateQty > 0 Then
+                                        strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCrateItem, trans))
+                                        If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
+                                            Throw New Exception("Please set Returnable Container Account for item - " + strCrateItem)
+                                        End If
+                                        strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
+                                        Acc = {strReturnable_ContainerAC, -1 * (dblCrateQty * dblCrateRate)}
+                                        ArryLst.Add(Acc)
+                                        strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & objInv.Customer_Code & "'", trans))
+                                        If clsCommon.myLen(strContainerDepositAC) = 0 Then
+                                            Throw New Exception("Please set Container Deposit Account for customer - " + objInv.Customer_Code)
+                                        End If
+                                        strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
+                                        Acc1 = {strContainerDepositAC, (dblCrateQty * dblCrateRate)}
+                                        ArryLst.Add(Acc1)
+                                    End If
+                                    ' FOr Can
+                                    Dim strCanItem = ""
+                                    Dim strCanUOM = ""
+                                    Dim dblCanRate As Integer = 0
+                                    Dim dblCanQty As Integer = 0
+                                    qry = "select Can_Item,Can_ItemUnit,Can_ItemRate,ShippedCAN from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & objInv.Document_Code & "'"
+                                    dt = clsDBFuncationality.GetDataTable(qry, trans)
+                                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                        strCanItem = clsCommon.myCstr(dt.Rows(0)("Can_Item"))
+                                        strCanUOM = clsCommon.myCstr(dt.Rows(0)("Can_ItemUnit"))
+                                        dblCanRate = clsCommon.myCdbl(dt.Rows(0)("Can_ItemRate"))
+                                        dblCanQty = clsCommon.myCdbl(dt.Rows(0)("ShippedCAN"))
+                                    End If
+                                    If dblCanQty > 0 Then
+                                        strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCanItem, trans))
+                                        If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
+                                            Throw New Exception("Please set Returnable Container Account for item " + strCanItem)
+                                        End If
+                                        strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
+                                        Acc = Nothing
+                                        Acc = {strReturnable_ContainerAC, -1 * (dblCanQty * dblCanRate)}
+                                        ArryLst.Add(Acc)
+                                        '====preeti gupta=============
+                                        strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & objInv.Customer_Code & "'", trans))
+                                        If clsCommon.myLen(strContainerDepositAC) = 0 Then
+                                            Throw New Exception("Please set Container Deposit Account for customer - " + objInv.Customer_Code)
+                                        End If
+                                        strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
+                                        '-----------------------------
+                                        Acc1 = Nothing
+                                        Acc1 = {strContainerDepositAC, (dblCanQty * dblCanRate)}
+                                        ArryLst.Add(Acc1)
+                                    End If
+                                End If
+                            End If
+                            Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                            Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
+
+                            ' done by priti SWA/20/08/18-000045 for swadesh to add leakage account in fresh journal entry
+                            Dim dblLeakAmount As Double = 0
+                            Dim LeakageAcct As String = ""
+                            If FormId = "FreshSaleInvoice" Then
+                                If obj.LeakageAmount > 0 Then
+                                    dblLeakAmount = obj.LeakageAmount
+                                    LeakageAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Leakage_Deduction from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + obj.Account_Set + "'", trans))
+                                    LeakageAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(LeakageAcct, strLocation, True, trans)
+                                    If clsCommon.myLen(LeakageAcct) <= 0 Then
+                                        Throw New Exception("Please set Leakage account set of customer account set :" + obj.Account_Set)
+                                    End If
+                                End If
+
+                                Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
+                                ArryLst.Add(AccInvCR)
+
+                                If dblLeakAmount > 0 Then
+                                    AccInvCR = Nothing
+                                    AccInvCR = {LeakageAcct, dblLeakAmount}
+                                    ArryLst.Add(AccInvCR)
+                                End If
+                            Else
+                                Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
+                                ArryLst.Add(AccInvCR)
+
+                                If dblDiscountTaxamt > 0 Then
+                                    AccInvCR = {strACWithLocation, -dblDiscountTaxamt}
+                                    ArryLst.Add(AccInvCR)
+                                End If
+                            End If
+
+
+
+
+
+
+
+                            ' for  rounding off account
+                            If obj.RoundOffAmount <> 0 Then
+                                Dim strACRoundInvCr As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultRoundOffGLAccount, clsFixedParameterCode.DefaultRoundOffGLAccount, trans))
+
+                                If clsCommon.myLen(strACRoundInvCr) <= 0 Then
+                                    Throw New Exception("Please set round off account in Sales Setting")
+                                End If
+
+                                '================Changed By Rohit on Apr 3,2015 .showing Error on Post Dispatch .Because it was searching AccountSegmentof Location not Segment.==============
+                                ' strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, objInv.Bill_To_Location, True, trans)
+
+                                strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, objInv.Bill_To_Location, False, trans)
+                                '==========================================================================================================================================================
+                                Dim AccRoundInvCR() As String = {strACRoundInvCr, -1 * obj.RoundOffAmount}
+                                ArryLst.Add(AccRoundInvCR)
+
+                            End If
+
+                            If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL'And Not IsAllowPurchaseAccounting
+                                Dim SentschemecogsinAnotherAccount As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SentschemecogsinAnotherAccount, clsFixedParameterCode.SentschemecogsinAnotherAccount, trans)) = "1", True, False))
+                                For Each objInvDetail As clsSNInvoiceDetail In objInv.Arr
+                                    Dim strCode As String = objInvDetail.Shipment_Code
+                                    ''richa agarwal need to change control account for scheme item as well as for non scheme item  20 Dec,2018 add ((FormId = clsUserMgtCode.frmSaleDispatchDairy) AndAlso SentschemecogsinAnotherAccount = True) in below condition ERO/20/12/18-000448
+                                    If (FormId <> clsUserMgtCode.frmSaleDispatchDairy) OrElse FormId = clsUserMgtCode.FrmSalesOrderDispatch OrElse ((FormId = clsUserMgtCode.frmSaleDispatchDairy) AndAlso SentschemecogsinAnotherAccount = True) Then
+                                        If Not arr.Contains(strCode) Then
+
+                                            arr.Add(strCode)
+                                            dblCogsCost += clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & objInvDetail.Shipment_Code & "'", trans))
+
+                                            ''richa agarwal need to change control account for scheme item as well as for non scheme item  20 Dec,2018 ERO/20/12/18-000448
+                                            ''''' for cogs entry item wise
+                                            Dim strSql As String = "select isnull(TSPL_INVENTORY_MOVEMENT.Is_Scheme_Item,'N') as Is_Scheme_Item,TSPL_INVENTORY_MOVEMENT.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code " &
+                                        "where Source_Doc_No='" & objInvDetail.Shipment_Code & "'"
+                                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
+                                            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                                For Each dr As DataRow In dt.Rows
+                                                    ''richa agarwal need to change control account for scheme item as well as for non scheme item 20 Dec,2018 ERO/20/12/18-000448
+                                                    If SentschemecogsinAnotherAccount = True Then
+                                                        ''richa agarwal 13 Sep,2019 pick cost of goods scheme account when is sampling check box is on too  ERO/11/09/19-001027
+                                                        If clsCommon.CompairString(dr("Is_Scheme_Item"), "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(issampling,0) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code ='" & objInv.Document_Code & "'", trans)), "1") = CompairStringResult.Equal Then
+                                                            strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Scheme from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
+                                                            If clsCommon.myLen(strCogsAcct) = 0 Then
+                                                                Throw New Exception("Please set Cost Of Goods Scheme Account for first item")
+                                                            End If
+                                                        Else
+                                                            strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
+                                                            If clsCommon.myLen(strCogsAcct) = 0 Then
+                                                                Throw New Exception("Please set Cost Of Goods Account for first item")
+                                                            End If
+                                                        End If
+                                                    Else
+                                                        strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
+                                                        If clsCommon.myLen(strCogsAcct) = 0 Then
+                                                            Throw New Exception("Please set Cost Of Goods Account for first item")
+                                                        End If
+                                                    End If
+                                                    ''-----------------------
+                                                    '=================rohit Done on Nov 11,2014 =====Discussed with Priti Mam and Balwinder Sir==============
+
+                                                    strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
+                                                    Dim Acc1() As String = {strCogsAcct, clsCommon.myCdbl(dr("Cost"))}
+                                                    ArryLst.Add(Acc1)
+                                                Next
+                                            End If
+                                            ''''' cogs entry item wise ends here
+                                        End If
+                                    Else
+
+
+                                        ''''' for cogs entry item wise for Dairy Sale
+                                        qry = "select case when sum(QTy) > 0 then  sum (case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end)/sum(Qty) else 0 end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code " &
+                                    "where Source_Doc_No='" & objInvDetail.Shipment_Code & "'  and " &
+                                    "TSPL_INVENTORY_MOVEMENT.Item_Code='" & objInvDetail.Item_Code & "' and TSPL_INVENTORY_MOVEMENT.UOM='" & objInvDetail.Unit_code & "'"
+                                        Dim dblUnitCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                                        If dblUnitCost > 0 Then
+                                            strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + objInvDetail.Item_Code + "'", trans))
+                                            If clsCommon.myLen(strCogsAcct) = 0 Then
+                                                Throw New Exception("Please set Cost Of Goods Account for first item")
+                                            End If
+                                            '=================rohit Done on Nov 11,2014 =====Discussed with Priti Mam and Balwinder Sir==============
+                                            strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
+                                            Dim dblCost As Double = Math.Round(dblUnitCost * objInvDetail.Qty, 2)
+                                            Dim Acc1() As String = {strCogsAcct, dblCost}
+                                            ArryLst.Add(Acc1)
+                                            dblCogsCost += dblCost
+                                        End If
+                                        ''''' cogs entry item wise ends here
+                                    End If
+
+
+
+                                Next
+
+
+                                Dim strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                      " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
+                       " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.Arr.Item(0).Item_Code.ToString() + "'", trans)
+                                If clsCommon.myLen(strShipmentClearingAC) = 0 Then
+                                    Throw New Exception("Please set Shipment clearing Account for first item")
+                                End If
+                                strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, objInv.Bill_To_Location, trans)
+
+                                'Dim strCogsAcct = clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + objInv.Arr.Item(0).Item_Code.ToString() + "'", trans)
+                                'If clsCommon.myLen(strCogsAcct) = 0 Then
+                                '    Throw New Exception("Please set Cost of Goods Sold Account for first item")
+                                'End If
+                                'strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, objInv.Bill_To_Location, trans)
+
+                                Dim Acc() As String = {strShipmentClearingAC, -1 * dblCogsCost, "", "", "", "", "", "", "H"}
+
+
+                                ArryLst.Add(Acc)
+
+                            End If  '' Done By Pankaj Jha For Skipping Cogs GL
+
+
+                            strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Sale Invoice No " & objInv.Document_Code & " "
+                        Else
+                            ''richa 
+                            ''''' GL entry for Service Invoice start here
+                            For Each objTR As clsCustomerInvoiceDetail In obj.Arr
+                                Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                                ArryLst.Add(AccInvDR)
+                            Next
+                            Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                            Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
+
+                            Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
+                            ArryLst.Add(AccInvCR)
+
+                            strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Service Invoice No " & objInv.Document_Code & " "
+
+                        End If
+
+                    Else
+                        ''''' GL entry for Service Invoice start here
+                        For Each objTR As clsCustomerInvoiceDetail In obj.Arr
+                            Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                            ArryLst.Add(AccInvDR)
+                        Next
+                        Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
+                        Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
+
+                        Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
+                        ArryLst.Add(AccInvCR)
+
+                        strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Service Invoice No " & objInv.Document_Code & " "
+                        If clsCommon.CompairString(FormId, "CSA-SALE") = CompairStringResult.Equal Then
+                            strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For CSA Sale Patti No " & objInv.Document_Code & " "
+                        End If
+                    End If
+                    ''If Credit Note then reverse amount 
+                    If clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal Then
+                        Dim ArryLstNew As ArrayList = New ArrayList()
+                        For Each Str() As String In ArryLst
+                            Dim strNew() As String = {Str(0), -1 * Str(1), If(Str.Length >= 3, Str(2), ""), If(Str.Length >= 4, Str(3), ""), If(Str.Length >= 5, Str(4), ""), If(Str.Length >= 6, Str(5), "")}
+                            ArryLstNew.Add(strNew)
+                        Next
+
+                        ArryLst = New ArrayList
+                        For Each Str() As String In ArryLstNew
+                            Dim strNew() As String = {Str(0), Str(1), If(Str.Length >= 3, Str(2), ""), If(Str.Length >= 4, Str(3), ""), If(Str.Length >= 5, Str(4), ""), If(Str.Length >= 6, Str(5), "")}
+                            ArryLst.Add(strNew)
+                        Next
+
+                    End If
+
+
+                    '' cOGS ENDS HERE
+
+
+                ElseIf ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal)) AndAlso FormId = "BulkSaleInvoice" Then
+                    Dim objInv As ClsInvoiceBulkSale
+                    Dim arr As New List(Of String)
+                    Dim dblCogsCost As Decimal
+                    Dim strCogsAcct As String
+                    objInv = ClsInvoiceBulkSale.GetData(obj.Against_Sale_No, "", NavigatorType.Current, trans)
+                    ''''' GL entry for Tax and retail Invoice
+                    'If clsCommon.CompairString(objInv.Invoice_Type, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "R") = CompairStringResult.Equal Then
+
+
                     ''  for tax gl entry start here
                     Dim objTM As clsTaxMaster
                     Dim dblExcise As Double = 0
+                    Dim isTaxExcisable As Boolean = False
+
                     If obj.TAX1_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX1, trans)
+                        isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, trans)
                         ' for excisable tax start here
                         isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX1, trans)
                         If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
@@ -1652,9 +2674,6 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                                     ArryLst.Add(Acc1)
                                 End If
                                 '' For excisable FOC entry ends here
-
-
-
                             End If
                         End If
 
@@ -1673,30 +2692,11 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                         If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
                             dblExcise += obj.TAX1_Amt
                         End If
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX1_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX1, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX1)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX1)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX1_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX1_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
 
-                        End If
                     End If
 
                     If obj.TAX2_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX2, trans)
+                        isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX2, trans)
 
                         ' for excisable tax start here
                         isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX2, trans)
@@ -1732,30 +2732,11 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                         If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
                             dblExcise += obj.TAX2_Amt
                         End If
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX2_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX2, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX2)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX2)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX2_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX2_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
 
-                        End If
                     End If
 
                     If obj.TAX3_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX3, trans)
+                        isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, trans)
 
                         ' for excisable tax start here
                         isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX3, trans)
@@ -1791,397 +2772,10 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                         Dim AccInvDR() As String = {obj.TAX3_GLAC, -1 * obj.TAX3_Amt}
                         ArryLst.Add(AccInvDR)
 
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX3_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX3, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX3)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX3)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX3_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX3_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
                     End If
+                    ''tax ends here
 
-                    If obj.TAX4_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX4, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX4, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX4, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX4)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX4_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX4_Amt
-                                '' For excisable FOC entry start here on 26/10/2016 for product sale
-                                If obj.TAX4_ExciseFOCAmt > 0 Then
-                                    Acc1 = {objTM.Tax_Net_Payable, obj.TAX4_ExciseFOCAmt}
-                                    ArryLst.Add(Acc1)
-                                    dblExcise += obj.TAX4_ExciseFOCAmt
-                                End If
-                                '' For excisable FOC entry ends here
-
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX4_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX4)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX4_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX4_GLAC, -1 * obj.TAX4_Amt}
-                        ArryLst.Add(AccInvDR)
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX4_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX4, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX4)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX4)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX4_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX4_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-                    If obj.TAX5_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX5, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX5, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX5, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX5)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX5_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX5_Amt
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX5_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX5)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX5_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX5_GLAC, -1 * obj.TAX5_Amt}
-                        ArryLst.Add(AccInvDR)
-
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX5_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX5, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX5)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX5)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX5_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX5_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-
-                    If obj.TAX6_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX6, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX6, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX6, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX6)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX6_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX6_Amt
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX6_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX6)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX6_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX6_GLAC, -1 * obj.TAX6_Amt}
-                        ArryLst.Add(AccInvDR)
-
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX6_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX6, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX6)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX6)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX6_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX6_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-
-                    If obj.TAX7_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX7, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX7, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX7, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX7)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX7_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX7_Amt
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX7_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX7)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX7_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX7_GLAC, -1 * obj.TAX7_Amt}
-                        ArryLst.Add(AccInvDR)
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX7_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX7, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX7)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX7)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX7_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX7_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-
-                    If obj.TAX8_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX8, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX8, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX8, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX8)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX8_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX8_Amt
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX8_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX8)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX8_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX8_GLAC, -1 * obj.TAX8_Amt}
-                        ArryLst.Add(AccInvDR)
-
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX8_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX8, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX8)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX8)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX8_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX8_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-
-
-                    If obj.TAX9_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX9, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX9, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX9, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX9)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX9_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX9_Amt
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX9_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX9)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX9_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX9_GLAC, -1 * obj.TAX9_Amt}
-                        ArryLst.Add(AccInvDR)
-
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX9_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX9, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX9)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX9)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX9_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX9_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-
-                    If obj.TAX10_Amt <> 0 Then
-                        isTaxRecoverable = clsTaxMaster.IsTaxRecoverableAC(obj.TAX10, trans)
-
-                        ' for excisable tax start here
-                        isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX10, trans)
-                        If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                            objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX10, trans)
-                            If objTM IsNot Nothing Then
-                                If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                    Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX10)
-                                End If
-                                objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                                Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX10_Amt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX10_Amt
-                            End If
-                        End If
-                        'Excisable tax ends here
-
-                        If clsCommon.myLen(obj.TAX10_GLAC) <= 0 Then
-                            Throw New Exception("GL Acount not found for" + obj.TAX10)
-                        End If
-
-                        If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                            dblExcise += obj.TAX10_Amt
-                        End If
-                        Dim AccInvDR() As String = {obj.TAX10_GLAC, -1 * obj.TAX10_Amt}
-                        ArryLst.Add(AccInvDR)
-
-                        If clsCommon.CompairString(obj.Trans_Type, "PS") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True AndAlso objBalAdvTaxAmt IsNot Nothing Then
-                            If objBalAdvTaxAmt.TAX10_Amt <> 0 Then
-                                objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX10, trans)
-                                If objTM IsNot Nothing Then
-                                    If clsCommon.myLen(objTM.DepositControl) <= 0 Then
-                                        Throw New Exception("Please set Tax Deposit Control Account of Tax Authority " + obj.TAX10)
-                                    End If
-                                    objTM.DepositControl = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.DepositControl, obj.loc_code, True, trans)
-                                    If clsCommon.myLen(objTM.Tax_Liability_Account) <= 0 Then
-                                        Throw New Exception("Please set Tax Liablity Account of Tax Authority " + obj.TAX10)
-                                    End If
-                                    objTM.Tax_Liability_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Liability_Account, obj.loc_code, True, trans)
-                                    Dim Acc2() As String = {objTM.DepositControl, -1 * objBalAdvTaxAmt.TAX10_Amt}
-                                    ArryLst.Add(Acc2)
-                                    Dim Acc3() As String = {objTM.Tax_Liability_Account, objBalAdvTaxAmt.TAX10_Amt}
-                                    ArryLst.Add(Acc3)
-                                End If
-                            End If
-
-                        End If
-                    End If
-
-
-
-
-
-                    ''  tax gl entry ends here
-                    '' FOR Additional Cost START here
+                    '''' FOR Additional Cost START here
                     If obj.Add_Charge_Amt1 <> 0 Then
                         Dim AddCharge_GL_Acc1 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code1, trans)
                         AddCharge_GL_Acc1 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc1, obj.loc_code, True, trans)
@@ -2276,764 +2870,170 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
                         Dim AccAddCostCR() As String = {AddCharge_GL_Acc9, -1 * obj.Add_Charge_Amt9}
                         ArryLst.Add(AccAddCostCR)
                     End If
-                        If obj.Add_Charge_Amt10 <> 0 Then
-                            Dim AddCharge_GL_Acc10 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code10, trans)
-                            AddCharge_GL_Acc10 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc10, obj.loc_code, True, trans)
+                    If obj.Add_Charge_Amt10 <> 0 Then
+                        Dim AddCharge_GL_Acc10 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code10, trans)
+                        AddCharge_GL_Acc10 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc10, obj.loc_code, True, trans)
 
-                            If clsCommon.myLen(AddCharge_GL_Acc10) <= 0 Then
-                                Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code10 & " Not found")
-                            End If
-                            Dim AccAddCostCR() As String = {AddCharge_GL_Acc10, -1 * obj.Add_Charge_Amt10}
-                            ArryLst.Add(AccAddCostCR)
+                        If clsCommon.myLen(AddCharge_GL_Acc10) <= 0 Then
+                            Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code10 & " Not found")
                         End If
-
-                        '' Additional cost ends here
-
-                        ''richa agarwal added on 02-jan-2015
-                        If clsCommon.CompairString(objInv.Invoice_Type, "S") <> CompairStringResult.Equal Then
-                        Dim isFirstTime As Boolean = True
-                        For Each objTR As clsCustomerInvoiceDetail In obj.Arr
-                            'Dim dblLedgeerNonRecoverableAmt As Double = clsCustomerInvoiceHead.GetTaxAmt(objTR, trans)
-                            'Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount)}
-                            Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                ArryLst.Add(AccInvDR)
-
-
-                                If FormId = clsUserMgtCode.frmSaleDispatchDairy Then
-                                'Dim AccInvTaxDR() As String = {objTR.GL_Account_Code, -1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt)}
-                                'ArryLst.Add(AccInvTaxDR)
-                            End If
-
-                            If isFirstTime AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                                Dim AccExciseDR() As String = {objTR.GL_Account_Code, -1 * dblExcise, "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                ArryLst.Add(AccExciseDR)
-
-                            End If
-                            isFirstTime = False
-                            ''''''added by priti for discount entry of invoice
-
-                            If objTR.Amount_less_Discount = 0 AndAlso FormId = "FreshSaleInvoice" Then
-                                Dim AccDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                ArryLst.Add(AccDiscDR)
-                            End If
-                                If FormId = clsUserMgtCode.frmSaleDispatchDairy AndAlso objTR.Discount > 0 AndAlso objTR.Amount_less_Discount = 0 Then
-                                    Dim AccDDiscDR() As String = {objTR.GL_Account_Code, 1 * (objTR.Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                    ArryLst.Add(AccDDiscDR)
-
-                                    Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, 1 * (objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                                    ArryLst.Add(AccDiscTaxDR)
-                                    dblDiscountTaxamt += objTR.TAX1_Amt + objTR.TAX2_Amt + objTR.TAX3_Amt + objTR.TAX4_Amt + objTR.TAX5_Amt + objTR.TAX6_Amt + objTR.TAX7_Amt
-                                End If
-                                If objTR.Distributor_Commission_Amt > 0 Then
-                                    Dim AccDDiscDR() As String = {objTR.Promotional_GL_Account_Code, 1 * (objTR.Distributor_Commission_Amt)}
-                                    ArryLst.Add(AccDDiscDR)
-
-                                    Dim AccDiscTaxDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Distributor_Commission_Amt)}
-                                    ArryLst.Add(AccDiscTaxDR)
-                                End If
-                                If objTR.Transporter_Commission_Amt > 0 Then
-                                    Dim strLocationt As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-                                    Dim strACWithLocationt As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocationt, True, trans)
-
-                                    Dim AccDiscDR() As String = {strACWithLocationt, 1 * (objTR.Transporter_Commission_Amt)}
-                                    ArryLst.Add(AccDiscDR)
-                                    Dim AccDiscTaxDR() As String = {objTR.Transporter_GL_Account_Code, -1 * (objTR.Transporter_Commission_Amt)}
-                                    ArryLst.Add(AccDiscTaxDR)
-                                End If
-                                If objTR.Security_Amt > 0 Then
-                                    Dim strLocations As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-                                    Dim strACWithLocations As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocations, True, trans)
-
-                                    Dim AccDiscDR() As String = {strACWithLocations, 1 * (objTR.Security_Amt)}
-                                    ArryLst.Add(AccDiscDR)
-
-                                    Dim AccDiscTaxDR() As String = {objTR.SD_GL_Account_Code, -1 * (objTR.Security_Amt)}
-                                    ArryLst.Add(AccDiscTaxDR)
-                                End If
-
-
-                                ''''''code ends here    
-                            Next
-                        Dim AllowCrateCanPhysicalStock As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowCratePhysicalStock, clsFixedParameterCode.AllowCratePhysicalStock, trans))
-                        If AllowCrateCanPhysicalStock = 1 Then
-                            ' DOne by priti BHA/15/06/18-000055
-                            If FormId = clsUserMgtCode.frmSaleDispatchDairy Then
-
-                                ' FOr Crate
-                                Dim strCrateItem = ""
-                                Dim strCrateUOM = ""
-                                Dim dblCrateRate As Integer = 0
-                                Dim dblCrateQty As Integer = 0
-                                Dim strReturnable_ContainerAC As String = ""
-                                Dim strContainerDepositAC As String = ""
-                                Dim Acc() As String = Nothing
-                                Dim Acc1() As String = Nothing
-                                qry = "select Crate_Item,Crate_ItemUnit,Crate_ItemRate,Crate from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & objInv.Document_Code & "'"
-                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                                    strCrateItem = clsCommon.myCstr(dt.Rows(0)("Crate_Item"))
-                                    strCrateUOM = clsCommon.myCstr(dt.Rows(0)("Crate_ItemUnit"))
-                                    dblCrateRate = clsCommon.myCdbl(dt.Rows(0)("Crate_ItemRate"))
-                                    dblCrateQty = clsCommon.myCdbl(dt.Rows(0)("Crate"))
-                                End If
-                                If dblCrateQty > 0 Then
-                                    strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCrateItem, trans))
-                                    If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
-                                        Throw New Exception("Please set Returnable Container Account for item - " + strCrateItem)
-                                    End If
-                                    strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
-                                    Acc = {strReturnable_ContainerAC, -1 * (dblCrateQty * dblCrateRate)}
-                                    ArryLst.Add(Acc)
-                                    strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & objInv.Customer_Code & "'", trans))
-                                    If clsCommon.myLen(strContainerDepositAC) = 0 Then
-                                        Throw New Exception("Please set Container Deposit Account for customer - " + objInv.Customer_Code)
-                                    End If
-                                    strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
-                                    Acc1 = {strContainerDepositAC, (dblCrateQty * dblCrateRate)}
-                                    ArryLst.Add(Acc1)
-                                End If
-                                ' FOr Can
-                                Dim strCanItem = ""
-                                Dim strCanUOM = ""
-                                Dim dblCanRate As Integer = 0
-                                Dim dblCanQty As Integer = 0
-                                qry = "select Can_Item,Can_ItemUnit,Can_ItemRate,ShippedCAN from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & objInv.Document_Code & "'"
-                                dt = clsDBFuncationality.GetDataTable(qry, trans)
-                                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                                    strCanItem = clsCommon.myCstr(dt.Rows(0)("Can_Item"))
-                                    strCanUOM = clsCommon.myCstr(dt.Rows(0)("Can_ItemUnit"))
-                                    dblCanRate = clsCommon.myCdbl(dt.Rows(0)("Can_ItemRate"))
-                                    dblCanQty = clsCommon.myCdbl(dt.Rows(0)("ShippedCAN"))
-                                End If
-                                If dblCanQty > 0 Then
-                                    strReturnable_ContainerAC = clsCommon.myCstr(clsItemMaster.GetReturnableConGLAC(strCanItem, trans))
-                                    If clsCommon.myLen(strReturnable_ContainerAC) = 0 Then
-                                        Throw New Exception("Please set Returnable Container Account for item " + strCanItem)
-                                    End If
-                                    strReturnable_ContainerAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strReturnable_ContainerAC, obj.loc_code, True, trans)
-                                    Acc = Nothing
-                                    Acc = {strReturnable_ContainerAC, -1 * (dblCanQty * dblCanRate)}
-                                    ArryLst.Add(Acc)
-                                    '====preeti gupta=============
-                                    strContainerDepositAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_CUSTOMER_ACCOUNT_SET.Container_Deposit ,'') as Container_Deposit from TSPL_CUSTOMER_ACCOUNT_SET left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Account  =TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account where TSPL_CUSTOMER_MASTER.Cust_Code ='" & objInv.Customer_Code & "'", trans))
-                                    If clsCommon.myLen(strContainerDepositAC) = 0 Then
-                                        Throw New Exception("Please set Container Deposit Account for customer - " + objInv.Customer_Code)
-                                    End If
-                                    strContainerDepositAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strContainerDepositAC, obj.loc_code, True, trans)
-                                    '-----------------------------
-                                    Acc1 = Nothing
-                                    Acc1 = {strContainerDepositAC, (dblCanQty * dblCanRate)}
-                                    ArryLst.Add(Acc1)
-                                End If
-                            End If
-                        End If
-                        Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-                        Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
-
-                        ' done by priti SWA/20/08/18-000045 for swadesh to add leakage account in fresh journal entry
-                        Dim dblLeakAmount As Double = 0
-                        Dim LeakageAcct As String = ""
-                        If FormId = "FreshSaleInvoice" Then
-                            If obj.LeakageAmount > 0 Then
-                                dblLeakAmount = obj.LeakageAmount
-                                LeakageAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Leakage_Deduction from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + obj.Account_Set + "'", trans))
-                                LeakageAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(LeakageAcct, strLocation, True, trans)
-                                If clsCommon.myLen(LeakageAcct) <= 0 Then
-                                    Throw New Exception("Please set Leakage account set of customer account set :" + obj.Account_Set)
-                                End If
-                            End If
-
-                            Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
-                            ArryLst.Add(AccInvCR)
-
-                            If dblLeakAmount > 0 Then
-                                AccInvCR = Nothing
-                                AccInvCR = {LeakageAcct, dblLeakAmount}
-                                ArryLst.Add(AccInvCR)
-                            End If
-                        Else
-                            Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
-                            ArryLst.Add(AccInvCR)
-
-                            If dblDiscountTaxamt > 0 Then
-                                AccInvCR = {strACWithLocation, -dblDiscountTaxamt}
-                                ArryLst.Add(AccInvCR)
-                            End If
-                        End If
-
-
-
-
-
-
-
-                        ' for  rounding off account
-                        If obj.RoundOffAmount <> 0 Then
-                            Dim strACRoundInvCr As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultRoundOffGLAccount, clsFixedParameterCode.DefaultRoundOffGLAccount, trans))
-
-                            If clsCommon.myLen(strACRoundInvCr) <= 0 Then
-                                Throw New Exception("Please set round off account in Sales Setting")
-                            End If
-
-                            '================Changed By Rohit on Apr 3,2015 .showing Error on Post Dispatch .Because it was searching AccountSegmentof Location not Segment.==============
-                            ' strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, objInv.Bill_To_Location, True, trans)
-
-                            strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, objInv.Bill_To_Location, False, trans)
-                            '==========================================================================================================================================================
-                            Dim AccRoundInvCR() As String = {strACRoundInvCr, -1 * obj.RoundOffAmount}
-                            ArryLst.Add(AccRoundInvCR)
-
-                        End If
-
-                        If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL'And Not IsAllowPurchaseAccounting
-                            Dim SentschemecogsinAnotherAccount As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SentschemecogsinAnotherAccount, clsFixedParameterCode.SentschemecogsinAnotherAccount, trans)) = "1", True, False))
-                            For Each objInvDetail As clsSNInvoiceDetail In objInv.Arr
-                                Dim strCode As String = objInvDetail.Shipment_Code
-                                ''richa agarwal need to change control account for scheme item as well as for non scheme item  20 Dec,2018 add ((FormId = clsUserMgtCode.frmSaleDispatchDairy) AndAlso SentschemecogsinAnotherAccount = True) in below condition ERO/20/12/18-000448
-                                If (FormId <> clsUserMgtCode.frmSaleDispatchDairy) Or ((FormId = clsUserMgtCode.frmSaleDispatchDairy) AndAlso SentschemecogsinAnotherAccount = True) Then
-                                    If Not arr.Contains(strCode) Then
-
-                                        arr.Add(strCode)
-                                        dblCogsCost += clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & objInvDetail.Shipment_Code & "'", trans))
-
-                                        ''richa agarwal need to change control account for scheme item as well as for non scheme item  20 Dec,2018 ERO/20/12/18-000448
-                                        ''''' for cogs entry item wise
-                                        Dim strSql As String = "select isnull(TSPL_INVENTORY_MOVEMENT.Is_Scheme_Item,'N') as Is_Scheme_Item,TSPL_INVENTORY_MOVEMENT.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code " &
-                                        "where Source_Doc_No='" & objInvDetail.Shipment_Code & "'"
-                                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
-                                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                                            For Each dr As DataRow In dt.Rows
-                                                ''richa agarwal need to change control account for scheme item as well as for non scheme item 20 Dec,2018 ERO/20/12/18-000448
-                                                If SentschemecogsinAnotherAccount = True Then
-                                                    ''richa agarwal 13 Sep,2019 pick cost of goods scheme account when is sampling check box is on too  ERO/11/09/19-001027
-                                                    If clsCommon.CompairString(dr("Is_Scheme_Item"), "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(issampling,0) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code ='" & objInv.Document_Code & "'", trans)), "1") = CompairStringResult.Equal Then
-                                                        strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Scheme from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
-                                                        If clsCommon.myLen(strCogsAcct) = 0 Then
-                                                            Throw New Exception("Please set Cost Of Goods Scheme Account for first item")
-                                                        End If
-                                                    Else
-                                                        strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
-                                                        If clsCommon.myLen(strCogsAcct) = 0 Then
-                                                            Throw New Exception("Please set Cost Of Goods Account for first item")
-                                                        End If
-                                                    End If
-                                                Else
-                                                    strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
-                                                    If clsCommon.myLen(strCogsAcct) = 0 Then
-                                                        Throw New Exception("Please set Cost Of Goods Account for first item")
-                                                    End If
-                                                End If
-                                                ''-----------------------
-                                                '=================rohit Done on Nov 11,2014 =====Discussed with Priti Mam and Balwinder Sir==============
-
-                                                strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
-                                                Dim Acc1() As String = {strCogsAcct, clsCommon.myCdbl(dr("Cost"))}
-                                                ArryLst.Add(Acc1)
-                                            Next
-                                        End If
-                                        ''''' cogs entry item wise ends here
-                                    End If
-                                Else
-
-
-                                    ''''' for cogs entry item wise for Dairy Sale
-                                    qry = "select case when sum(QTy) > 0 then  sum (case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end)/sum(Qty) else 0 end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code " &
-                                    "where Source_Doc_No='" & objInvDetail.Shipment_Code & "'  and " &
-                                    "TSPL_INVENTORY_MOVEMENT.Item_Code='" & objInvDetail.Item_Code & "' and TSPL_INVENTORY_MOVEMENT.UOM='" & objInvDetail.Unit_code & "'"
-                                    Dim dblUnitCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-                                    If dblUnitCost > 0 Then
-                                        strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + objInvDetail.Item_Code + "'", trans))
-                                        If clsCommon.myLen(strCogsAcct) = 0 Then
-                                            Throw New Exception("Please set Cost Of Goods Account for first item")
-                                        End If
-                                        '=================rohit Done on Nov 11,2014 =====Discussed with Priti Mam and Balwinder Sir==============
-                                        strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
-                                        Dim dblCost As Double = Math.Round(dblUnitCost * objInvDetail.Qty, 2)
-                                        Dim Acc1() As String = {strCogsAcct, dblCost}
-                                        ArryLst.Add(Acc1)
-                                        dblCogsCost += dblCost
-                                    End If
-                                    ''''' cogs entry item wise ends here
-                                End If
-
-
-
-                            Next
-
-
-                            Dim strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
-                      " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
-                       " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.Arr.Item(0).Item_Code.ToString() + "'", trans)
-                            If clsCommon.myLen(strShipmentClearingAC) = 0 Then
-                                Throw New Exception("Please set Shipment clearing Account for first item")
-                            End If
-                            strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, objInv.Bill_To_Location, trans)
-
-                            'Dim strCogsAcct = clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + objInv.Arr.Item(0).Item_Code.ToString() + "'", trans)
-                            'If clsCommon.myLen(strCogsAcct) = 0 Then
-                            '    Throw New Exception("Please set Cost of Goods Sold Account for first item")
-                            'End If
-                            'strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, objInv.Bill_To_Location, trans)
-
-                            Dim Acc() As String = {strShipmentClearingAC, -1 * dblCogsCost, "", "", "", "", "", "", "H"}
-
-
-                            ArryLst.Add(Acc)
-
-                        End If  '' Done By Pankaj Jha For Skipping Cogs GL
-
-
-                        strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Sale Invoice No " & objInv.Document_Code & " "
-                    Else
-                        ''richa 
-                        ''''' GL entry for Service Invoice start here
-                        For Each objTR As clsCustomerInvoiceDetail In obj.Arr
-                            Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-                            ArryLst.Add(AccInvDR)
-                        Next
-                        Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-                        Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
-
-                        Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
-                        ArryLst.Add(AccInvCR)
-
-                        strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Service Invoice No " & objInv.Document_Code & " "
-
+                        Dim AccAddCostCR() As String = {AddCharge_GL_Acc10, -1 * obj.Add_Charge_Amt10}
+                        ArryLst.Add(AccAddCostCR)
                     End If
+                    '' Additional cost ends here
 
-                Else
-                    ''''' GL entry for Service Invoice start here
+                    Dim isFirstTime As Boolean = True
                     For Each objTR As clsCustomerInvoiceDetail In obj.Arr
-                        Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount_less_Discount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+                        'Dim dblLedgeerNonRecoverableAmt As Double = clsCustomerInvoiceHead.GetTaxAmt(objTR, trans)
+                        Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount), "", "", "", "", "", "", objTR.Reco_Control_Account}
+
                         ArryLst.Add(AccInvDR)
+                        isFirstTime = False
                     Next
                     Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
                     Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
 
+                    ''richa agarwal 14/10/2014
+                    'Dim creditamount As Double = 0
+                    'creditamount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select SUM(InvoiceAmount) from TSPL_INVOICE_DETAIL_BULKSALE  where Document_No='" & objInv.Document_No & "'", trans))
+                    ' Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
+                    'Dim AccInvCR() As String = {strACWithLocation, obj.Discount_Base}
+                    'Dim AccInvCR() As String = {strACWithLocation, obj.Discount_Base + obj.RoundOffAmount}
                     Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
                     ArryLst.Add(AccInvCR)
 
-                    strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Service Invoice No " & objInv.Document_Code & " "
-                    If clsCommon.CompairString(FormId, "CSA-SALE") = CompairStringResult.Equal Then
-                        strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For CSA Sale Patti No " & objInv.Document_Code & " "
-                    End If
-                End If
-                ''If Credit Note then reverse amount 
-                If clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal Then
-                    Dim ArryLstNew As ArrayList = New ArrayList()
-                    For Each Str() As String In ArryLst
-                        Dim strNew() As String = {Str(0), -1 * Str(1), If(Str.Length >= 3, Str(2), ""), If(Str.Length >= 4, Str(3), ""), If(Str.Length >= 5, Str(4), ""), If(Str.Length >= 6, Str(5), "")}
-                        ArryLstNew.Add(strNew)
-                    Next
 
-                    ArryLst = New ArrayList
-                    For Each Str() As String In ArryLstNew
-                        Dim strNew() As String = {Str(0), Str(1), If(Str.Length >= 3, Str(2), ""), If(Str.Length >= 4, Str(3), ""), If(Str.Length >= 5, Str(4), ""), If(Str.Length >= 6, Str(5), "")}
-                        ArryLst.Add(strNew)
-                    Next
+                    If obj.RoundOffAmount <> 0 Then
+                        Dim strACRoundInvCr As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultRoundOffGLAccount, clsFixedParameterCode.DefaultRoundOffGLAccount, trans))
 
-                End If
-
-
-                '' cOGS ENDS HERE
-
-
-            ElseIf ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal)) AndAlso FormId = "BulkSaleInvoice" Then
-                Dim objInv As ClsInvoiceBulkSale
-                Dim arr As New List(Of String)
-                Dim dblCogsCost As Decimal
-                Dim strCogsAcct As String
-                objInv = ClsInvoiceBulkSale.GetData(obj.Against_Sale_No, "", NavigatorType.Current, trans)
-                ''''' GL entry for Tax and retail Invoice
-                'If clsCommon.CompairString(objInv.Invoice_Type, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(objInv.Invoice_Type, "R") = CompairStringResult.Equal Then
-
-
-                ''  for tax gl entry start here
-                Dim objTM As clsTaxMaster
-                Dim dblExcise As Double = 0
-                Dim isTaxExcisable As Boolean = False
-
-                If obj.TAX1_Amt <> 0 Then
-                    isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, trans)
-                    ' for excisable tax start here
-                    isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX1, trans)
-                    If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                        objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX1, trans)
-                        If objTM IsNot Nothing Then
-                            If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                Throw New Exception("Please set Tax Net Payable Account of Tax Authority " + obj.TAX1)
-                            End If
-                            objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                            Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX1_Amt}
-                            ArryLst.Add(Acc1)
-                            dblExcise += obj.TAX1_Amt
-
-                            '' For excisable FOC entry start here on 26/10/2016 for product sale
-                            If obj.TAX1_ExciseFOCAmt > 0 Then
-                                Acc1 = {objTM.Tax_Net_Payable, obj.TAX1_ExciseFOCAmt}
-                                ArryLst.Add(Acc1)
-                            End If
-                            '' For excisable FOC entry ends here
+                        If clsCommon.myLen(strACRoundInvCr) <= 0 Then
+                            Throw New Exception("Please set round off account in Sales Setting")
                         End If
+
+                        strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, strLocation, True, trans)
+                        Dim AccRoundInvCR() As String = {strACRoundInvCr, -1 * obj.RoundOffAmount}
+                        ArryLst.Add(AccRoundInvCR)
                     End If
 
-                    'Excisable tax ends here
+                    ''============
 
-                    If clsCommon.myLen(obj.TAX1_GLAC) <= 0 Then
-                        Throw New Exception("GL Acount not found for" + obj.TAX1)
-                    End If
+                    If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL'And Not IsAllowPurchaseAccounting
+                        Dim Costincaseoflossandgain As Decimal = 0
+                        For Each objInvDetail As ClsInvoiceDetailBulkSale In objInv.arrInvoiceDetailBulkSale
+                            Dim strCode As String = objInvDetail.Dispatch_Code
+                            If Not arr.Contains(strCode) Then
+                                arr.Add(strCode)
+                                '' changes by richa agarwal against ticket BM00000006070
+                                ''updation by richa agarwal according to gain or loss amount
+                                Dim dblCogsCosttemp As Decimal = 0
+                                dblCogsCosttemp = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & objInvDetail.Dispatch_Code & "'", trans))
+                                ' dblCogsCost += clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select (sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end)/Qty) * " & objInvDetail.InvoiceQty & " as COst from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & objInvDetail.Dispatch_Code & "'", trans))
+                                dblCogsCost += dblCogsCosttemp
+                                ''''' for cogs entry item wise
+                                Dim strSql As String = String.Empty
+                                If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
+                                    ''richa agarwal 10 Jan,2019
+                                    Dim dblInvoiceQty As Double = 0
+                                    Dim UseKGLitreConversionInBulkSaleAsperCLRCalculation As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseKGLitreConversionInBulkSaleAsperCLRCalculation, clsFixedParameterCode.UseKGLitreConversionInBulkSaleAsperCLRCalculation, trans)) = 1, True, False))
+                                    'If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
+                                    '    dblInvoiceQty = Math.Round(clsCommon.myCdbl(clsItemMaster.GetQtyInLtrFromKgByCLR(clsCommon.myCdbl(objInvDetail.InvoiceQty), clsCommon.myCdbl(objInvDetail.CLR))), 2)
 
-                    Dim AccInvDR() As String = {obj.TAX1_GLAC, -1 * obj.TAX1_Amt}
-                    ArryLst.Add(AccInvDR)
-                    If obj.TAX1_ExciseFOCAmt > 0 Then
-                        AccInvDR = {obj.TAX1_GLAC, -1 * obj.TAX1_ExciseFOCAmt}
-                        ArryLst.Add(AccInvDR)
-                    End If
-                    If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                        dblExcise += obj.TAX1_Amt
-                    End If
-
-                End If
-
-                If obj.TAX2_Amt <> 0 Then
-                    isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX2, trans)
-
-                    ' for excisable tax start here
-                    isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX2, trans)
-                    If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                        objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX2, trans)
-                        If objTM IsNot Nothing Then
-                            If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX2)
-                            End If
-                            objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                            Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX2_Amt}
-                            ArryLst.Add(Acc1)
-                            dblExcise += obj.TAX2_Amt
-
-                            '' For excisable FOC entry start here on 26/10/2016 for product sale
-                            If obj.TAX2_ExciseFOCAmt > 0 Then
-                                Acc1 = {objTM.Tax_Net_Payable, obj.TAX2_ExciseFOCAmt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX2_ExciseFOCAmt
-                            End If
-                            '' For excisable FOC entry ends here
-
-                        End If
-                    End If
-                    'Excisable tax ends here
-
-                    If clsCommon.myLen(obj.TAX2_GLAC) <= 0 Then
-                        Throw New Exception("GL Acount not found for" + obj.TAX2)
-                    End If
-
-                    Dim AccInvDR() As String = {obj.TAX2_GLAC, -1 * obj.TAX2_Amt}
-                    ArryLst.Add(AccInvDR)
-                    If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                        dblExcise += obj.TAX2_Amt
-                    End If
-
-                End If
-
-                If obj.TAX3_Amt <> 0 Then
-                    isTaxRecoverable = clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, trans)
-
-                    ' for excisable tax start here
-                    isTaxExcisable = clsTaxMaster.IsTaxExcisable(obj.TAX3, trans)
-                    If isTaxExcisable AndAlso clsCommon.CompairString(obj.Trans_Type, "CSA") <> CompairStringResult.Equal Then
-                        objTM = clsTaxMaster.GetTaxDetailsForSale(obj.TAX3, trans)
-                        If objTM IsNot Nothing Then
-                            If clsCommon.myLen(objTM.Tax_Net_Payable) <= 0 Then
-                                Throw New Exception("Please set  Tax Net Payable Account of Tax Authority " + obj.TAX3)
-                            End If
-                            objTM.Tax_Net_Payable = clsERPFuncationality.ChangeGLAccountLocationSegment(objTM.Tax_Net_Payable, obj.loc_code, True, trans)
-                            Dim Acc1() As String = {objTM.Tax_Net_Payable, obj.TAX3_Amt}
-                            ArryLst.Add(Acc1)
-                            dblExcise += obj.TAX3_Amt
-                            '' For excisable FOC entry start here on 26/10/2016 for product sale
-                            If obj.TAX3_ExciseFOCAmt > 0 Then
-                                Acc1 = {objTM.Tax_Net_Payable, obj.TAX3_ExciseFOCAmt}
-                                ArryLst.Add(Acc1)
-                                dblExcise += obj.TAX3_ExciseFOCAmt
-                            End If
-                            '' For excisable FOC entry ends here
-
-                        End If
-                    End If
-                    'Excisable tax ends here
-
-                    If clsCommon.myLen(obj.TAX3_GLAC) <= 0 Then
-                        Throw New Exception("GL Acount not found for" + obj.TAX3)
-                    End If
-
-                    If clsCommon.CompairString(obj.Trans_Type, "CSA") = CompairStringResult.Equal Then
-                        dblExcise += obj.TAX3_Amt
-                    End If
-                    Dim AccInvDR() As String = {obj.TAX3_GLAC, -1 * obj.TAX3_Amt}
-                    ArryLst.Add(AccInvDR)
-
-                End If
-                ''tax ends here
-
-                '''' FOR Additional Cost START here
-                If obj.Add_Charge_Amt1 <> 0 Then
-                    Dim AddCharge_GL_Acc1 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code1, trans)
-                    AddCharge_GL_Acc1 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc1, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc1) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code1 & " Not found")
-                    End If
-
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc1, -1 * obj.Add_Charge_Amt1}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt2 <> 0 Then
-                    Dim AddCharge_GL_Acc2 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code2, trans)
-                    AddCharge_GL_Acc2 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc2, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc2) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code2 & " Not found")
-                    End If
-
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc2, -1 * obj.Add_Charge_Amt2}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt3 <> 0 Then
-                    Dim AddCharge_GL_Acc3 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code3, trans)
-                    AddCharge_GL_Acc3 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc3, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc3) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code3 & " Not found")
-                    End If
-
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc3, -1 * obj.Add_Charge_Amt3}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt4 <> 0 Then
-                    Dim AddCharge_GL_Acc4 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code4, trans)
-                    AddCharge_GL_Acc4 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc4, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc4) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code4 & " Not found")
-                    End If
-
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc4, -1 * obj.Add_Charge_Amt4}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt5 <> 0 Then
-                    Dim AddCharge_GL_Acc5 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code5, trans)
-                    If clsCommon.myLen(AddCharge_GL_Acc5) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code5 & " Not found")
-                    End If
-                    AddCharge_GL_Acc5 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc5, obj.loc_code, True, trans)
-
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc5, -1 * obj.Add_Charge_Amt5}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt6 <> 0 Then
-                    Dim AddCharge_GL_Acc6 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code6, trans)
-                    AddCharge_GL_Acc6 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc6, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc6) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code6 & " Not found")
-                    End If
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc6, -1 * obj.Add_Charge_Amt6}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt7 <> 0 Then
-                    Dim AddCharge_GL_Acc7 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code7, trans)
-                    AddCharge_GL_Acc7 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc7, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc7) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code7 & " Not found")
-                    End If
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc7, -1 * obj.Add_Charge_Amt7}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt8 <> 0 Then
-                    Dim AddCharge_GL_Acc8 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code8, trans)
-                    AddCharge_GL_Acc8 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc8, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc8) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code8 & " Not found")
-                    End If
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc8, -1 * obj.Add_Charge_Amt8}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt9 <> 0 Then
-                    Dim AddCharge_GL_Acc9 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code9, trans)
-                    AddCharge_GL_Acc9 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc9, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc9) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code9 & " Not found")
-                    End If
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc9, -1 * obj.Add_Charge_Amt9}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                If obj.Add_Charge_Amt10 <> 0 Then
-                    Dim AddCharge_GL_Acc10 = clsAdditionalCharge.GetAdditonalChACC(obj.Add_Charge_Code10, trans)
-                    AddCharge_GL_Acc10 = clsERPFuncationality.ChangeGLAccountLocationSegment(AddCharge_GL_Acc10, obj.loc_code, True, trans)
-
-                    If clsCommon.myLen(AddCharge_GL_Acc10) <= 0 Then
-                        Throw New Exception("Additional GL Account for " & obj.Add_Charge_Code10 & " Not found")
-                    End If
-                    Dim AccAddCostCR() As String = {AddCharge_GL_Acc10, -1 * obj.Add_Charge_Amt10}
-                    ArryLst.Add(AccAddCostCR)
-                End If
-                '' Additional cost ends here
-
-                Dim isFirstTime As Boolean = True
-                For Each objTR As clsCustomerInvoiceDetail In obj.Arr
-                    'Dim dblLedgeerNonRecoverableAmt As Double = clsCustomerInvoiceHead.GetTaxAmt(objTR, trans)
-                    Dim AccInvDR() As String = {objTR.GL_Account_Code, -1 * (objTR.Amount), "", "", "", "", "", "", objTR.Reco_Control_Account}
-
-                    ArryLst.Add(AccInvDR)
-                    isFirstTime = False
-                Next
-                Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Account_Seg_Code7 from TSPL_GL_ACCOUNTS where Account_Code='" + obj.Arr(0).GL_Account_Code + "'", trans))
-                Dim strACWithLocation As String = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Customer_Control_AC, strLocation, True, trans)
-
-                ''richa agarwal 14/10/2014
-                'Dim creditamount As Double = 0
-                'creditamount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select SUM(InvoiceAmount) from TSPL_INVOICE_DETAIL_BULKSALE  where Document_No='" & objInv.Document_No & "'", trans))
-                ' Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
-                'Dim AccInvCR() As String = {strACWithLocation, obj.Discount_Base}
-                'Dim AccInvCR() As String = {strACWithLocation, obj.Discount_Base + obj.RoundOffAmount}
-                Dim AccInvCR() As String = {strACWithLocation, obj.Document_Total}
-                ArryLst.Add(AccInvCR)
-
-
-                If obj.RoundOffAmount <> 0 Then
-                    Dim strACRoundInvCr As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DefaultRoundOffGLAccount, clsFixedParameterCode.DefaultRoundOffGLAccount, trans))
-
-                    If clsCommon.myLen(strACRoundInvCr) <= 0 Then
-                        Throw New Exception("Please set round off account in Sales Setting")
-                    End If
-
-                    strACRoundInvCr = clsERPFuncationality.ChangeGLAccountLocationSegment(strACRoundInvCr, strLocation, True, trans)
-                    Dim AccRoundInvCR() As String = {strACRoundInvCr, -1 * obj.RoundOffAmount}
-                    ArryLst.Add(AccRoundInvCR)
-                End If
-
-                ''============
-
-                If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL'And Not IsAllowPurchaseAccounting
-                    Dim Costincaseoflossandgain As Decimal = 0
-                    For Each objInvDetail As ClsInvoiceDetailBulkSale In objInv.arrInvoiceDetailBulkSale
-                        Dim strCode As String = objInvDetail.Dispatch_Code
-                        If Not arr.Contains(strCode) Then
-                            arr.Add(strCode)
-                            '' changes by richa agarwal against ticket BM00000006070
-                            ''updation by richa agarwal according to gain or loss amount
-                            Dim dblCogsCosttemp As Decimal = 0
-                            dblCogsCosttemp = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & objInvDetail.Dispatch_Code & "'", trans))
-                            ' dblCogsCost += clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select (sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end)/Qty) * " & objInvDetail.InvoiceQty & " as COst from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Source_Doc_No='" & objInvDetail.Dispatch_Code & "'", trans))
-                            dblCogsCost += dblCogsCosttemp
-                            ''''' for cogs entry item wise
-                            Dim strSql As String = String.Empty
-                            If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
-                                ''richa agarwal 10 Jan,2019
-                                Dim dblInvoiceQty As Double = 0
-                                Dim UseKGLitreConversionInBulkSaleAsperCLRCalculation As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.UseKGLitreConversionInBulkSaleAsperCLRCalculation, clsFixedParameterCode.UseKGLitreConversionInBulkSaleAsperCLRCalculation, trans)) = 1, True, False))
-                                'If UseKGLitreConversionInBulkSaleAsperCLRCalculation = True Then
-                                '    dblInvoiceQty = Math.Round(clsCommon.myCdbl(clsItemMaster.GetQtyInLtrFromKgByCLR(clsCommon.myCdbl(objInvDetail.InvoiceQty), clsCommon.myCdbl(objInvDetail.CLR))), 2)
-
-                                'Else
-                                '    dblInvoiceQty = objInvDetail.InvoiceQty
-                                'End If
-                                ''richa ERO/25/02/19-000499
-                                dblInvoiceQty = IIf(UseKGLitreConversionInBulkSaleAsperCLRCalculation = True, objInvDetail.InvoiceQty_in_Ltr, objInvDetail.InvoiceQty)
-                                ''-----------------------------------end
-                                strSql = "select TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,((case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end)/TSPL_INVENTORY_MOVEMENT_NEW.Qty)* " & dblInvoiceQty & "  as Cost from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code" & _
+                                    'Else
+                                    '    dblInvoiceQty = objInvDetail.InvoiceQty
+                                    'End If
+                                    ''richa ERO/25/02/19-000499
+                                    dblInvoiceQty = IIf(UseKGLitreConversionInBulkSaleAsperCLRCalculation = True, objInvDetail.InvoiceQty_in_Ltr, objInvDetail.InvoiceQty)
+                                    ''-----------------------------------end
+                                    strSql = "select TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,((case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end)/TSPL_INVENTORY_MOVEMENT_NEW.Qty)* " & dblInvoiceQty & "  as Cost from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code" &
                                " where Source_Doc_No='" & objInvDetail.Dispatch_Code & "'"
-                            Else
-                                strSql = "select TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code " & _
+                                Else
+                                    strSql = "select TSPL_INVENTORY_MOVEMENT_NEW.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT_NEW left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code " &
                                 "where Source_Doc_No='" & objInvDetail.Dispatch_Code & "'"
-                            End If
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
-                            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                                For Each dr As DataRow In dt.Rows
-                                    strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
-                                    If clsCommon.myLen(strCogsAcct) = 0 Then
-                                        Throw New Exception("Please set Cost of Goods Sold for first item")
-                                    End If
-                                    ''richa agarwal discussed with Balwinder sir
-                                    'strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, trans)
-                                    strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
-                                    ''----------------------------------
-                                    Dim Acc1() As String = {strCogsAcct, clsCommon.myCdbl(dr("Cost"))}
-
-                                    ArryLst.Add(Acc1)
-
-                                    Costincaseoflossandgain = clsCommon.myCdbl(dr("Cost"))
-                                Next
-                            End If
-                            ''richa agarwal 06/04/2015
-                            If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
-                                ' If dblCogsCost <> Costincaseoflossandgain Then ''richa dblCogsCosttemp <> Costincaseoflossandgain  as per ranjana mam and balwinder sir ERO/10/01/19-000462
-                                If Math.Abs(dblCogsCosttemp - Costincaseoflossandgain) > 0.001 Then
-                                    Dim strGainorLossAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT SA.Gain_Loss_Account  FROM TSPL_ITEM_MASTER AS IM INNER JOIN  TSPL_SALES_ACCOUNTS  AS SA ON IM.Sale_Class_Code  = SA.Sales_Class_Code  INNER JOIN  TSPL_GL_ACCOUNTS AS GLA ON SA.Gain_Loss_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.arrInvoiceDetailBulkSale.Item(0).Item_Code.ToString() + "'", trans))
-                                    If clsCommon.myLen(strGainorLossAC) = 0 Then
-                                        Throw New Exception("Please set Gain/Loss Account for first item")
-                                    End If
-                                    strGainorLossAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strGainorLossAC, obj.loc_code, True, trans)
-
-                                    'Dim Acc2() As String = {strGainorLossAC, 1 * (dblCogsCost - Costincaseoflossandgain)}
-                                    Dim Acc2() As String = {strGainorLossAC, 1 * (dblCogsCosttemp - Costincaseoflossandgain)}
-                                    ArryLst.Add(Acc2)
-
                                 End If
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
+                                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                    For Each dr As DataRow In dt.Rows
+                                        strCogsAcct = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cost_Of_Goods_Sold from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code where Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans))
+                                        If clsCommon.myLen(strCogsAcct) = 0 Then
+                                            Throw New Exception("Please set Cost of Goods Sold for first item")
+                                        End If
+                                        ''richa agarwal discussed with Balwinder sir
+                                        'strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, trans)
+                                        strCogsAcct = clsERPFuncationality.ChangeGLAccountLocationSegment(strCogsAcct, obj.loc_code, True, trans)
+                                        ''----------------------------------
+                                        Dim Acc1() As String = {strCogsAcct, clsCommon.myCdbl(dr("Cost"))}
+
+                                        ArryLst.Add(Acc1)
+
+                                        Costincaseoflossandgain = clsCommon.myCdbl(dr("Cost"))
+                                    Next
+                                End If
+                                ''richa agarwal 06/04/2015
+                                If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
+                                    ' If dblCogsCost <> Costincaseoflossandgain Then ''richa dblCogsCosttemp <> Costincaseoflossandgain  as per ranjana mam and balwinder sir ERO/10/01/19-000462
+                                    If Math.Abs(dblCogsCosttemp - Costincaseoflossandgain) > 0.001 Then
+                                        Dim strGainorLossAC = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT SA.Gain_Loss_Account  FROM TSPL_ITEM_MASTER AS IM INNER JOIN  TSPL_SALES_ACCOUNTS  AS SA ON IM.Sale_Class_Code  = SA.Sales_Class_Code  INNER JOIN  TSPL_GL_ACCOUNTS AS GLA ON SA.Gain_Loss_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.arrInvoiceDetailBulkSale.Item(0).Item_Code.ToString() + "'", trans))
+                                        If clsCommon.myLen(strGainorLossAC) = 0 Then
+                                            Throw New Exception("Please set Gain/Loss Account for first item")
+                                        End If
+                                        strGainorLossAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strGainorLossAC, obj.loc_code, True, trans)
+
+                                        'Dim Acc2() As String = {strGainorLossAC, 1 * (dblCogsCost - Costincaseoflossandgain)}
+                                        Dim Acc2() As String = {strGainorLossAC, 1 * (dblCogsCosttemp - Costincaseoflossandgain)}
+                                        ArryLst.Add(Acc2)
+
+                                    End If
+                                End If
+                                ''------------------
+                                ''''' cogs entry item wise ends here
                             End If
-                            ''------------------
-                            ''''' cogs entry item wise ends here
-                        End If
-                    Next
+                        Next
 
-                    ' ''richa agarwal 23/02/2015
-                    'If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
-                    '    If dblCogsCost <> Costincaseoflossandgain Then
-                    '        Dim strGainorLossAC = clsDBFuncationality.getSingleValue("SELECT SA.Gain_Loss_Account  FROM TSPL_ITEM_MASTER AS IM INNER JOIN  TSPL_SALES_ACCOUNTS  AS SA ON IM.Sale_Class_Code  = SA.Sales_Class_Code  INNER JOIN  TSPL_GL_ACCOUNTS AS GLA ON SA.Gain_Loss_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.arrInvoiceDetailBulkSale.Item(0).Item_Code.ToString() + "'", trans)
-                    '        If clsCommon.myLen(strGainorLossAC) = 0 Then
-                    '            Throw New Exception("Please set Gain/Loss Account for first item")
-                    '        End If
-                    '        strGainorLossAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strGainorLossAC, obj.loc_code, True, trans)
+                        ' ''richa agarwal 23/02/2015
+                        'If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
+                        '    If dblCogsCost <> Costincaseoflossandgain Then
+                        '        Dim strGainorLossAC = clsDBFuncationality.getSingleValue("SELECT SA.Gain_Loss_Account  FROM TSPL_ITEM_MASTER AS IM INNER JOIN  TSPL_SALES_ACCOUNTS  AS SA ON IM.Sale_Class_Code  = SA.Sales_Class_Code  INNER JOIN  TSPL_GL_ACCOUNTS AS GLA ON SA.Gain_Loss_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.arrInvoiceDetailBulkSale.Item(0).Item_Code.ToString() + "'", trans)
+                        '        If clsCommon.myLen(strGainorLossAC) = 0 Then
+                        '            Throw New Exception("Please set Gain/Loss Account for first item")
+                        '        End If
+                        '        strGainorLossAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strGainorLossAC, obj.loc_code, True, trans)
 
-                    '        Dim Acc2() As String = {strGainorLossAC, 1 * (dblCogsCost - Costincaseoflossandgain)}
-                    '        ArryLst.Add(Acc2)
+                        '        Dim Acc2() As String = {strGainorLossAC, 1 * (dblCogsCost - Costincaseoflossandgain)}
+                        '        ArryLst.Add(Acc2)
 
-                    '    End If
-                    'End If
-                    ' ''------------------
+                        '    End If
+                        'End If
+                        ' ''------------------
 
 
-                    Dim strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                        Dim strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                    " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                      " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + objInv.arrInvoiceDetailBulkSale.Item(0).Item_Code.ToString() + "'", trans)
-                    If clsCommon.myLen(strShipmentClearingAC) = 0 Then
-                        Throw New Exception("Please set Shipment clearing Account for first item")
+                        If clsCommon.myLen(strShipmentClearingAC) = 0 Then
+                            Throw New Exception("Please set Shipment clearing Account for first item")
+                        End If
+                        ''richa 13/09/2014 change 
+                        '  strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, objInv.Location_Code, trans)
+                        strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.loc_code, True, trans)
+
+                        Dim Acc() As String = {strShipmentClearingAC, -1 * dblCogsCost, "", "", "", "", "", "", "H"}
+                        ArryLst.Add(Acc)
+
+
+
+                    End If  '' Done By Pankaj Jha For Skipping Cogs GL
+
+                    ''richa agarwal
+                    If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
+                        strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Invoice Bulk Sale No " & objInv.Document_No & " "
+                    Else
+                        strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Invoice Bulk Sale Trade No " & objInv.Document_No & " "
                     End If
-                    ''richa 13/09/2014 change 
-                    '  strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, objInv.Location_Code, trans)
-                    strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.loc_code, True, trans)
 
-                    Dim Acc() As String = {strShipmentClearingAC, -1 * dblCogsCost, "", "", "", "", "", "", "H"}
-                    ArryLst.Add(Acc)
-
-
-
-                End If  '' Done By Pankaj Jha For Skipping Cogs GL
-
-                ''richa agarwal
-                If clsCommon.CompairString(objInv.InvoiceAgainst, "Against Dispatch") = CompairStringResult.Equal Then
-                    strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Invoice Bulk Sale No " & objInv.Document_No & " "
-                Else
-                    strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Invoice Bulk Sale Trade No " & objInv.Document_No & " "
-                End If
-
-                ''=====================
-                'strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Sale Invoice No " & objInv.Document_No & " "
-            ElseIf ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal)) AndAlso FormId = "CanSaleInvoice" Then
-                Dim objInv As ClsCanSaleInvoice
+                    ''=====================
+                    'strRemarks = " AR invoice for customer: " + obj.Customer_Code + " - " + obj.Customer_Name + "  For Sale Invoice No " & objInv.Document_No & " "
+                ElseIf ((clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal)) AndAlso FormId = "CanSaleInvoice" Then
+                    Dim objInv As ClsCanSaleInvoice
                 Dim arr As New List(Of String)
                 Dim dblCogsCost As Double
                 Dim strCogsAcct As String

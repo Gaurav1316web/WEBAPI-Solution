@@ -95,6 +95,7 @@ Public Class clsPSShipmentHead
     Public Document_Code As String = Nothing
     Public Document_Date As DateTime? = Nothing
     Public Customer_Code As String = Nothing
+    Public Against_Cust_Order As String = Nothing
     Public Customer_Name As String = Nothing  'Not a table field
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public On_Hold As Boolean = Nothing
@@ -677,13 +678,19 @@ Public Class clsPSShipmentHead
                         stritemcode = clsCommon.myCstr(obj11.Item_Code)
                     Next
                 End If
-                Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & clsCommon.myCstr(obj.Bill_To_Location) & "' and Item_Category='" & strItemCategory & "' and Item_Code='" & stritemcode & "'", trans))
-                If strcount > 0 Then
-                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
-                    obj.Invoice_Type = "A"
+                If clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal Then
+                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCustomerTenderDispatch, "", obj.Bill_To_Location)
+
                 Else
-                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.Other, obj.Bill_To_Location)
+                    Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & clsCommon.myCstr(obj.Bill_To_Location) & "' and Item_Category='" & strItemCategory & "' and Item_Code='" & stritemcode & "'", trans))
+                    If strcount > 0 Then
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.TaxExempted_ProductInvoice, obj.Bill_To_Location)
+                        obj.Invoice_Type = "A"
+                    Else
+                        obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.Other, obj.Bill_To_Location)
+                    End If
                 End If
+
             End If
             '''' for Invoice Type
             If obj.GSTStatus = False Then
@@ -752,6 +759,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Freight_Distance", obj.Freight_Distance)
             'clsCommon.AddColumnsForChange(coll, "Against_Delivery_Code", obj.Against_Delivery_Code, True)
             clsCommon.AddColumnsForChange(coll, "Against_Booking_No", obj.Against_Booking_No, True)
+            clsCommon.AddColumnsForChange(coll, "Against_Cust_Order", obj.Against_Cust_Order, True)
             'clsCommon.AddColumnsForChange(coll, "Against_Demand_No", obj.Against_Demand_No, True)
             clsCommon.AddColumnsForChange(coll, "isCardSale", obj.isCardSale)
             clsCommon.AddColumnsForChange(coll, "Transporter_Name_Manual", obj.Transporter_Name_Manual)
@@ -1027,6 +1035,9 @@ Public Class clsPSShipmentHead
             End If
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Screen_Type", obj.Screen_Type)
+                If clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal Then
+                    clsCommon.AddColumnsForChange(coll, "ParentDocNo", obj.Document_Code, True)
+                End If
                 If IsDairyModule = False Then
                     clsCommon.AddColumnsForChange(coll, "Trans_Type", "PS")
                 Else
@@ -1314,7 +1325,7 @@ Public Class clsPSShipmentHead
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
-        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi "
+        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi "
 
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
@@ -1533,6 +1544,7 @@ Public Class clsPSShipmentHead
             obj.Comp_Code = clsCommon.myCstr(dt.Rows(0)("Comp_Code"))
             obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
             obj.PROJECT_ID = clsCommon.myCstr(dt.Rows(0)("PROJECT_ID"))
+            obj.Against_Cust_Order = clsCommon.myCstr(dt.Rows(0)("Against_Cust_Order"))
 
             obj.CashCustomer = clsCommon.myCstr(dt.Rows(0)("Cash_Customer"))
 
@@ -1705,7 +1717,7 @@ Public Class clsPSShipmentHead
             "TSPL_SD_SHIPMENT_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_DETAIL.Price_Date, " &
             "TSPL_SD_SHIPMENT_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_DETAIL.Bin_No,TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_DETAIL.OrgRate,  " &
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
-            ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Scheme_Main_Item "
+            ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Scheme_Main_Item "
             qry += " ,TSPL_SD_SHIPMENT_DETAIL.Alternate_UOM,TSPL_SD_SHIPMENT_DETAIL.RATE_UOM,TSPL_BOOKING_MATSER.Document_No," &
                    " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Rate,TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code "
@@ -1744,6 +1756,7 @@ Public Class clsPSShipmentHead
                     objTr.Cash_Scheme_Type = clsCommon.myCstr(dr("Cash_Scheme_Type"))
                     objTr.Cash_Scheme_Pers = clsCommon.myCdbl(dr("Cash_Scheme_Pers"))
                     objTr.Cash_Scheme_Amount = clsCommon.myCdbl(dr("Cash_Scheme_Amount"))
+                    objTr.Against_Cust_Ord_PK_ID = clsCommon.myCdbl(dr("Against_Cust_Ord_PK_ID"))
 
                     objTr.Scheme_Type = clsCommon.myCstr(dr("Scheme_Type"))
                     objTr.Scheme_Qty = clsCommon.myCdbl(dr("Scheme_Qty"))
@@ -2663,6 +2676,7 @@ Public Class clsPSShipmentHead
             obj.Is_Taxable = Taxable
             obj.Trans_type = objShipment.Trans_Type
         End If
+        obj.Screen_Type = objShipment.Screen_Type
         obj.TotalCAN = objShipment.TotalCAN
         obj.IsSampling = objShipment.IsSampling
         obj.ShippedCAN = objShipment.ShippedCAN
@@ -2840,13 +2854,13 @@ Public Class clsPSShipmentHead
         obj.Total_Add_Charge = objShipment.Total_Add_Charge
         obj.Inv_No = objShipment.Inv_No
         If clsCommon.myLen(objShipment.Challan_Date) <= 0 Then
-            obj.Challan_Date = ""
+            obj.Challan_Date = Nothing
         Else
             obj.Challan_Date = clsCommon.GetPrintDate(objShipment.Challan_Date, "dd/MMM/yyyy")
         End If
 
         If clsCommon.myLen(objShipment.Inv_Date) <= 0 Then
-            obj.Inv_Date = ""
+            obj.Inv_Date = Nothing
         Else
             obj.Inv_Date = clsCommon.GetPrintDate(objShipment.Inv_Date, "dd/MMM/yyyy")
         End If
@@ -3450,7 +3464,7 @@ Public Class clsPSShipmentHead
             Dim isSaved As Boolean = True
             Dim str As String = "select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
 
                     isSaved = isSaved AndAlso DeleteData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), trans)
@@ -4091,6 +4105,7 @@ Public Class clsPSShipmentHeadDetail
     Public Total_Tax_Amt As Double = 0
     Public Item_Net_Amt As Double = 0
     Public Status As Integer = 0
+    Public Against_Cust_Ord_PK_ID As Integer = Nothing
     Public MRP As Double = 0
     Public MFG_Date As Date? = Nothing
     Public Batch_No As String = Nothing
@@ -4215,6 +4230,7 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Scheme_Qty", obj.Scheme_Qty)
                 clsCommon.AddColumnsForChange(coll, "Scheme_Type", obj.Scheme_Type)
                 clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code)
+                clsCommon.AddColumnsForChange(coll, "Against_Cust_Ord_PK_ID", obj.Against_Cust_Ord_PK_ID, True)
 
                 clsCommon.AddColumnsForChange(coll, "VS_CashSchemeCode", obj.VS_CashSchemeCode)
                 clsCommon.AddColumnsForChange(coll, "VS_Cash_Amt", obj.VS_Cash_Amt)

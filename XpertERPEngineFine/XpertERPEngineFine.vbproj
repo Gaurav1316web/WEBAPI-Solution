@@ -246,7 +246,6 @@
     <Compile Include="Classes\clsCommissionTPTCalculation.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsCustomerTender.vb" />
-    <Compile Include="Classes\clsCustomerTenderOrderDispatch.vb" />
     <Compile Include="Classes\clsCustomerTenderOrder.vb" />
     <Compile Include="Classes\clsDAArrear.vb" />
     <Compile Include="Classes\clsDailyDemand.vb" />
