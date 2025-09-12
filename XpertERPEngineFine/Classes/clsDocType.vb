@@ -492,7 +492,8 @@ Public Class clsDocType
     Public Const frmShipmentProductSale As String = "Shipment Product Sale"
     Public Const frmCustomerTender As String = "Customer Tender"
     Public Const frmCustomerTenderOrder As String = "Customer Tender Order"
-    Public Const frmCustomerTenderOrderDis As String = "Customer Tender Order Dispatch"
+    Public Const frmCustomerTenderDispatch As String = "Customer Tender Dispatch"
+    Public Const frmCustomerTenderInvoice As String = "Customer Tender Invoice"
     Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
@@ -1602,7 +1603,8 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTender, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
-            InsertDefaultValue(clsDocType.frmCustomerTenderOrderDis, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderDispatch, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderInvoice, "", False, False, True)
             InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.BoothRouteMapping, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)

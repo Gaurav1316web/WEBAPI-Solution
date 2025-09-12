@@ -31388,6 +31388,7 @@ Public Class clsCreateAllTable
             coll.Add("FILE_INFO", "bigint NULL")
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
+            coll.Add("Against_Cust_Order", "Varchar(30) null References TSPL_CUSTOMER_TENDER_Order(DOCUMENT_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
@@ -31593,6 +31594,7 @@ Public Class clsCreateAllTable
             coll.Add("Disc_Unit_Amt", "decimal(18, 2) NULL")
             coll.Add("REF_PK_ID", "integer null references TSPL_DCS_SALE_ENTRY_DETAIL(PK_ID)")
             coll.Add("REF_TPT_PK_ID", "integer null references TSPL_DCS_Transportation_Charges_Detail(PK_ID)")
+            coll.Add("Against_Cust_Ord_PK_ID", "integer null references TSPL_CUSTOMER_TENDER_Order_DETAIL(PK_ID)")
             coll.Add("Trip_No", "integer null ")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "", True)
 
