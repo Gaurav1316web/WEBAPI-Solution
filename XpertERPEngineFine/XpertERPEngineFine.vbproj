@@ -295,6 +295,10 @@
     <Compile Include="Classes\clsWeeklyHolidays.vb" />
     <Compile Include="ClsCardSale.vb" />
     <Compile Include="ClsCatalogMaster.vb" />
+    <Compile Include="clsCustomerComplaintMaster.vb" />
+    <Compile Include="clsEngLogSheet.vb" />
+    <Compile Include="clsEngSection.vb" />
+    <Compile Include="clsSendSMSEmailSetting.vb" />
     <Compile Include="Common\clsCityMaster.vb" />
     <Compile Include="clsLanguage.vb" />
     <Compile Include="clsWorkEstimationHead.vb" />
