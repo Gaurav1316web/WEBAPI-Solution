@@ -386,6 +386,8 @@ Public Class FrmApprovalAlert_Child
                 cboApproval.Focus()
                 cboApproval.Select()
                 Throw New Exception("Select approval status.")
+            ElseIf clsCommon.CompairString(cboApproval.SelectedValue, "Rejected") = CompairStringResult.Equal AndAlso clscommon.CompairString(clsUserMgtCode.NIRQC, ScreenCode) = CompairStringResult.Equal Then
+                Throw New Exception("This functionality is not for you !")
             End If
 
             If (((clsCommon.CompairString(ScreenCode, "PO-REQ") = CompairStringResult.Equal) Or (clsCommon.CompairString(ScreenCode, "PO-ODR") = CompairStringResult.Equal)) AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal AndAlso clsCommon.myCstr(cboApproval.SelectedValue) <> "Rejected") OrElse (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Then
