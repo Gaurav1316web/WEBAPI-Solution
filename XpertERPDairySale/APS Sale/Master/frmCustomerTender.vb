@@ -71,7 +71,7 @@ Public Class frmCustomerTender
     End Sub
     Private Sub frmCustomerTender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        CreateTable()
+        'CreateTable()
         AddNew()
     End Sub
     Private Sub AddNew()

@@ -365,6 +365,8 @@ Public Class frmShipmentDairy
     Dim Item_TaxType As Integer = 0
     Public ShowPrintDisAmt As Boolean = False
     Public MergeTCAmtofCreditCust As Boolean = False
+    Public SubstractDistributorCommissioninItemPrice As Boolean = False
+    Public AddDistributorCommissioninItemPrice As Boolean = False
     Public IncreaseCrateQtyOnFiftyPercent As Boolean = False
     Public AllowSeperateSchemeItemOnPrint As Boolean = False
     Dim CreateFreshInvoiceOnDispatchSave As Integer = 0
@@ -759,6 +761,8 @@ Public Class frmShipmentDairy
         ApplyMonthEndDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyMonthEndDispatch, clsFixedParameterCode.ApplyMonthEndDispatch, Nothing)) = 1, True, False)
         AllowGatePassDemandTripWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, Nothing)) = 1, True, False)
         MergeTCAmtofCreditCust = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, Nothing)) = 1, True, False)
+        AddDistributorCommissioninItemPrice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AddDistributorCommissioninItemPrice, clsFixedParameterCode.AddDistributorCommissioninItemPrice, Nothing)) = 1, True, False)
+        SubstractDistributorCommissioninItemPrice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -6201,6 +6205,13 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                     'gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
                 Else
                     gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                End If
+                GetDCDetails(trans)
+                If AddDistributorCommissioninItemPrice AndAlso gv1.Rows(introw).Cells(ColDCRate).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.Rows(introw).Cells(ColDCRate).Value) >= 0 Then
+                    gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(gv1.Rows(introw).Cells(colRate).Value) + clsCommon.myCdbl(gv1.Rows(introw).Cells(ColDCRate).Value)
+                ElseIf SubstractDistributorCommissioninItemPrice AndAlso gv1.Rows(introw).Cells(ColDCRate).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.Rows(introw).Cells(ColDCRate).Value) >= 0 Then
+                    gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(gv1.Rows(introw).Cells(colRate).Value) - clsCommon.myCdbl(gv1.Rows(introw).Cells(ColDCRate).Value)
+
                 End If
                 'gv1.Rows(introw).Cells(colRate).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
                 gv1.Rows(introw).Cells(colMRP).Value = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Net"))
@@ -11976,18 +11987,29 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 If GSTStatus = False Then
                     strExcise = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'", trans)) = "T", True, False)
                 End If
+                GetDCDetails(trans)
                 Dim dblAlterQty As Double = 0
                 Dim strICode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value)
                 Dim strUnit As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value)
                 Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
-                Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+                Dim dblRate As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+                'If AddDistributorCommissioninItemPrice AndAlso gv1.Rows(IntRowNo).Cells(ColDCRate).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+                '    dblRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) + clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value)
+                'ElseIf SubstractDistributorCommissioninItemPrice AndAlso gv1.Rows(IntRowNo).Cells(ColDCRate).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+                '    dblRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value) - clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value)
+                'Else
+                '    dblRate = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+
+                'End If
+
+
                 Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value)
-                Dim dblBasicRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
-                Dim dblConvF As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
-                Dim dblItemWeight As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
+                'Dim dblBasicRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+                'Dim dblConvF As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colConvF).Value)
+                'Dim dblItemWeight As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemWeight).Value)
                 Dim dblheadDiscamt As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeadDiscamt).Value)
                 Dim wt_unit As String = 0
-                Dim wt_qty As Double = 0
+                'Dim wt_qty As Double = 0
                 Dim Item_Weight As Double = 0
                 Dim TotalItem_Weight As Double = 0
                 Dim TotalItem_WeightMetric As Double = 0
@@ -12016,7 +12038,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblCustDiscPercentage As Double = 0
                 Dim dblApplyCustDisc As Double = 0
                 Dim dblTotCustDisc As Double = 0
-                If clsCommon.myLen(strICode) > 0 And clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0 Then
+                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColFOC).Value) = 0 Then
                     Dim obj_Cash As clsSchemeApplyOnDairy = Nothing
                     obj_Cash = clsSchemeApplyOnDairy.GetPriceSchemeData(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colUnit).Value), clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value), txtVendorNo.Value, Nothing, Nothing, trans)
                     'If clsCommon.myLen(obj_Cash.Schm_Code) = 0 AndAlso clsCommon.myLen(gv1.Rows(IntRowNo).Cells(colUnitALter).Value) > 0 Then
@@ -12049,7 +12071,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 End If
                 ''''' end 
                 FillVolumeSlabCashDisScheme(IntRowNo, trans)
-                GetDCDetails(trans)
+
                 Dim dblTotalDCAmt As Double = 0
                 Dim dblTotalTCAmt As Double = 0
                 Dim dblTotTaxRate As Double = GetCurrentRowTotalTaxRate(IntRowNo)
@@ -12058,7 +12080,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
                 'Dim dblSCAmt As Double = dblAmt * (dblSCRate / 100)
                 'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-                If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+                If gv1.Rows(IntRowNo).Cells(ColDCRate).Value <> Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
                     If Not ApplyCommissionRateWithTax Then
                         gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                     Else
@@ -12073,7 +12095,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
                     dblTotalTCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColTCAmt).Value)
                     If dblTotalDCAmt > 0 Then
-                        If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal Then
                             GetBoothWiseDCDetails(IntRowNo, trans)
                         End If
                         If ApplyCommission Then
