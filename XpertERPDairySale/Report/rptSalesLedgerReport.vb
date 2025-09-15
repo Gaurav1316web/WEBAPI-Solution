@@ -116,6 +116,8 @@ Public Class rptSalesLedgerReport
         GetReportID()
         If rbtnCustomer.IsChecked AndAlso rbtnDispatch.IsChecked AndAlso rbtnSummary.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             LoadDataUDP()
+        ElseIf rbtnCustomer.IsChecked AndAlso rbtnDemand.IsChecked AndAlso rbtnSummary.IsChecked AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            LoadDataUDP()
         Else
             LoadData()
         End If
@@ -183,50 +185,50 @@ Public Class rptSalesLedgerReport
 
     Private Sub LoadDataUDP()
         Try
-            'If rbtnDetail.IsChecked Then
-            '    If rbtnZone.IsChecked Then
-            '        If txtZone.arrValueMember Is Nothing Then
-            '            clsCommon.MyMessageBoxShow(Me, "You must select at least one Zone with Detail option", Me.Text)
-            '            Exit Sub
-            '        Else
-            '            If txtZone.arrValueMember.Count = 1 Then
-            '                txtRoute.arrValueMember = Nothing
-            '                txtCustomer.arrValueMember = Nothing
-            '            ElseIf txtZone.arrValueMember.Count > 1 Then
-            '                clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Zone at a time with Detail option", Me.Text)
-            '                Exit Sub
-            '            End If
-            '        End If
+            If rbtnDetail.IsChecked Then
+                If rbtnZone.IsChecked Then
+                    If txtZone.arrValueMember Is Nothing Then
+                        clsCommon.MyMessageBoxShow(Me, "You must select at least one Zone with Detail option", Me.Text)
+                        Exit Sub
+                    Else
+                        If txtZone.arrValueMember.Count = 1 Then
+                            txtRoute.arrValueMember = Nothing
+                            txtCustomer.arrValueMember = Nothing
+                        ElseIf txtZone.arrValueMember.Count > 1 Then
+                            clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Zone at a time with Detail option", Me.Text)
+                            Exit Sub
+                        End If
+                    End If
 
-            '    ElseIf rbtnRoute.IsChecked Then
-            '        If txtRoute.arrValueMember Is Nothing Then
-            '            clsCommon.MyMessageBoxShow(Me, "You must select at least one Route with Detail option", Me.Text)
-            '            Exit Sub
-            '        Else
-            '            If txtRoute.arrValueMember.Count = 1 Then
-            '                txtZone.arrValueMember = Nothing
-            '                txtCustomer.arrValueMember = Nothing
-            '            ElseIf txtRoute.arrValueMember.Count > 1 Then
-            '                clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Route at a time with Detail option", Me.Text)
-            '                Exit Sub
-            '            End If
-            '        End If
+                ElseIf rbtnRoute.IsChecked Then
+                    If txtRoute.arrValueMember Is Nothing Then
+                        clsCommon.MyMessageBoxShow(Me, "You must select at least one Route with Detail option", Me.Text)
+                        Exit Sub
+                    Else
+                        If txtRoute.arrValueMember.Count = 1 Then
+                            txtZone.arrValueMember = Nothing
+                            txtCustomer.arrValueMember = Nothing
+                        ElseIf txtRoute.arrValueMember.Count > 1 Then
+                            clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Route at a time with Detail option", Me.Text)
+                            Exit Sub
+                        End If
+                    End If
 
-            '    ElseIf rbtnCustomer.IsChecked Then
-            '        If txtCustomer.arrValueMember Is Nothing Then
-            '            clsCommon.MyMessageBoxShow(Me, "You must select at least one Customer with Detail option", Me.Text)
-            '            Exit Sub
-            '        Else
-            '            If txtCustomer.arrValueMember.Count = 1 Then
-            '                txtZone.arrValueMember = Nothing
-            '                txtRoute.arrValueMember = Nothing
-            '            ElseIf txtCustomer.arrValueMember.Count > 1 Then
-            '                clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Customer at a time with Detail option", Me.Text)
-            '                Exit Sub
-            '            End If
-            '        End If
-            '    End If
-            'End If
+                ElseIf rbtnCustomer.IsChecked Then
+                    If txtCustomer.arrValueMember Is Nothing Then
+                        clsCommon.MyMessageBoxShow(Me, "You must select at least one Customer with Detail option", Me.Text)
+                        Exit Sub
+                    Else
+                        If txtCustomer.arrValueMember.Count = 1 Then
+                            txtZone.arrValueMember = Nothing
+                            txtRoute.arrValueMember = Nothing
+                        ElseIf txtCustomer.arrValueMember.Count > 1 Then
+                            clsCommon.MyMessageBoxShow(Me, "You cannot select more than one Customer at a time with Detail option", Me.Text)
+                            Exit Sub
+                        End If
+                    End If
+                End If
+            End If
 
             Dim qry As String = ""
             Dim whrcls As String = ""
@@ -347,9 +349,17 @@ Public Class rptSalesLedgerReport
 
                     End If
                 Next
+            Else
+                gv1.DataSource = Nothing
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.DataSource = Nothing
+                Exit Sub
             End If
 
-            qry = " WITH ItemDetails AS (
+            If rbtnDispatch.IsChecked Then
+                qry = " WITH ItemDetails AS (
     SELECT TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_ITEM_MASTER.Item_Code,TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description AS [Zone Name],TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
         TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt AS Amount,TSPL_ITEM_MASTER.Short_Description,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
         TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty AS CRATE,
@@ -439,8 +449,99 @@ UNION ALL
 		FROM PivotedData  where Credit_Customer='N'
 
 		)yy	group by yy.Cust_Code,yy.SortOrder)yy
---ORDER BY Cust_Code; "
+ORDER BY yy.SortOrder; "
 
+                'DemandWiseQueryAddedHERE
+            Else
+
+                qry = " WITH ItemDetails AS (
+                        Select TSPL_CUSTOMER_MASTER.Credit_Customer,TSPL_ITEM_MASTER.Item_Code, TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description As [Zone Name], TSPL_CUSTOMER_MASTER.Cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name,  TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,  TSPL_ITEM_MASTER.Item_Desc, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount + (case when TSPL_DEMAND_BOOKING_DETAIL.TAX1 = 'TCS' then TAX1_Amt  when TSPL_DEMAND_BOOKING_DETAIL.TAX2 = 'TCS' then TAX2_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX3 = 'TCS' then TAX3_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX4 = 'TCS' then TAX4_Amt
+                        when TSPL_DEMAND_BOOKING_DETAIL.TAX5 = 'TCS' then TAX5_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX6 = 'TCS' then TAX6_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX7 = 'TCS' then TAX7_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX8 = 'TCS' then TAX8_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX9 = 'TCS' then TAX9_Amt when TSPL_DEMAND_BOOKING_DETAIL.TAX10 = 'TCS' then TAX10_Amt else 0 END ) Amount, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,
+         TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Qty As CRATE,isnull((TSPL_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(Report_UOM.Conversion_Factor),0) As Report_UOM_Qty
+         FROM TSPL_DEMAND_BOOKING_DETAIL
+         LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+		 LEFT OUTER JOIN TSPL_DEMAND_BOOKING_MASTER ON TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
+         Left OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+		 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
+		 left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+         left outer join TSPL_ITEM_UOM_DETAIL ON tspl_item_uom_detail.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code and tspl_item_uom_detail.UOM_Code= TSPL_DEMAND_BOOKING_DETAIL.Unit_code  LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where Report_UOM = 1 ) as  Report_UOM ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code = Report_UOM.item_code 
+         where 2 = 2   and TSPL_DEMAND_BOOKING_MASTER.Posted = 1 " & whrcls & " " & whrclsShift & "
+    And  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >= CONVERT(DATE, '" & txtFromDate.Value & "', 103)  
+    and   convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103)),
+		ReceiptSummary AS (
+			SELECT TSPL_RECEIPT_HEADER.Cust_Code,SUM(TSPL_RECEIPT_HEADER.Receipt_Amount) AS Receipt_Amount
+    FROM TSPL_RECEIPT_HEADER 
+    LEFT JOIN TSPL_CUSTOMER_MASTER  ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_RECEIPT_HEADER.Cust_Code
+    WHERE TSPL_RECEIPT_HEADER.Posted = 'Y' AND TSPL_CUSTOMER_MASTER.IsDistributor = 'Y' GROUP BY TSPL_RECEIPT_HEADER.Cust_Code),
+
+AggregatedData AS (
+    SELECT MAX(ItemDetails.Credit_Customer)Credit_Customer,ItemDetails.Item_Code,ItemDetails.Cust_Code,max(ItemDetails.Zone_Code)Zone_Code,max(ItemDetails.[Zone Name])[Zone Name],max(ItemDetails.Customer_Name)Customer_Name, max(ItemDetails.Route_No)Route_No,max(ItemDetails.Route_Desc)Route_Desc,SUM(ItemDetails.CRATE) AS Crate,
+        SUM(ItemDetails.Report_UOM_Qty) AS Report_UOM_Qty,MAX(ItemDetails.Short_Description) AS Short_Description,
+        MAX(ItemDetails.Item_Description) AS Item_Description,MAX(ReceiptSummary.Receipt_Amount) AS Receipt_Amount,
+        SUM(ItemDetails.Amount) AS Amount
+    FROM ItemDetails 
+    LEFT JOIN ReceiptSummary  ON ReceiptSummary.Cust_Code = ItemDetails.Cust_Code
+    GROUP BY ItemDetails.Cust_Code, ItemDetails.Item_Code
+),
+
+PivotReportUOM AS (
+    SELECT Credit_Customer,Cust_Code,Item_Code,Zone_Code,[Zone Name],Customer_Name,Route_No,Route_Desc,Crate,Report_UOM_Qty,Short_Description,Item_Description,
+        Amount,Receipt_Amount
+    FROM AggregatedData
+),
+PivotedData AS (
+    SELECT MAX(Credit_Customer)Credit_Customer,Cust_Code,MAX(Zone_Code) AS Zone_Code,MAX([Zone Name]) AS [Zone Name],MAX(Customer_Name) AS Customer_Name,MAX(Route_No) AS Route_No,
+        MAX(Route_Desc) AS Route_Desc," & itemName7 & "," & itemName89 & ") AS [Total Qty],
+        " & itemName8 & "," & itemName899 & " )AS [Total Amt],
+        MAX(Receipt_Amount) AS [Deposit Amt]
+    FROM (
+        SELECT * FROM PivotReportUOM
+    ) src
+    PIVOT (
+        SUM(Report_UOM_Qty) FOR Short_Description IN (" & itemNames1 & ")
+    ) AS p1
+    PIVOT (
+        SUM(Amount) FOR Item_Description IN (" & itemNames2 & ")
+    ) AS p2
+    GROUP BY Cust_Code
+)
+
+Select * from (Select  SortOrder,MAX(Credit_Customer)Credit_Customer,Cust_Code,MAX(Zone_Code) AS Zone_Code,MAX([Zone Name]) AS [Zone Name],MAX(Customer_Name) AS Customer_Name,MAX(Route_No) AS Route_No,
+       MAX(Route_Desc) AS Route_Desc," & itemNamesQty & ",sum(ISNULL([Total Qty],0)) as [Total Qty],
+	   " & itemNamesAmt & ",sum(ISNULL([Total Amt],0)) as [Total Amt],
+       MAX([Deposit Amt]) AS [Deposit Amt] 
+from (
+SELECT *,1 AS SortOrder 
+FROM PivotedData where Credit_Customer='Y'
+
+union all
+
+Select  NULL AS Credit_Customer,'Department' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+       " & itemNameNULL & " ,NULL AS [Total Qty]," & itemNameNULLAmt & " ,NULL AS [Total Amt],NULL AS [Deposit Amt],0 AS SortOrder
+		FROM PivotedData 
+
+		UNION ALL
+
+		
+Select  NULL AS Credit_Customer,'Total' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+        " & itemNamesQty & ",Sum([Total Qty]) AS [Total Qty]," & itemNamesAmt & ",Sum([Total Amt]) AS [Total Amt],Sum([Deposit Amt]) AS [Deposit Amt],2 AS SortOrder
+		FROM PivotedData  where Credit_Customer='Y'
+UNION ALL 
+
+		Select  NULL AS Credit_Customer,'Agent' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+        " & itemNameNULL & " ,NULL AS [Total Qty]," & itemNameNULLAmt & " ,NULL AS [Total Amt],NULL AS [Deposit Amt],3 AS SortOrder
+		FROM PivotedData 
+		UNION ALL 
+		Select  *,4 as Sortorder from 
+		 PivotedData where Credit_Customer='N'
+		 union all
+		 Select  NULL AS Credit_Customer,'Agent Total' AS Cust_Code,NULL AS Zone_Code,NULL AS [Zone Name],NULL AS Customer_Name,NULL AS Route_No,NULL AS Route_Desc,
+         " & itemNamesQty & ",Sum([Total Qty]) AS [Total Qty]," & itemNamesAmt & ",Sum([Total Amt]) AS [Total Amt],Sum([Deposit Amt]) AS [Deposit Amt],5 AS SortOrder
+		FROM PivotedData  where Credit_Customer='N'
+
+		)yy	group by yy.Cust_Code,yy.SortOrder)yy
+ORDER BY yy.SortOrder; "
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             Dim Credit_qry As String = "Select Credit_Customer from TSPL_CUSTOMER_MASTER WHERE Cust_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ") "

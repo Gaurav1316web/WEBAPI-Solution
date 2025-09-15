@@ -3685,9 +3685,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strMCCMaterial += "  case  when [trans type] in  ('Fresh Sale','Fresh Sale Return')  then  [Amount Less Discount] + coalesce( [Scheme Amount],0)+cast(Additional_Charge as numeric(18,2))   else ([Total Amount]-[Total Tax Amount]) end as [Sale Amount], " &
             " case  when [trans type] in ('Fresh Sale','Fresh Sale Return') then  [Amount Less Discount]+cast(Additional_Charge as numeric(18,2))  else ([Total Amount]-[Total Tax Amount]+MANDI_TAX_AMT) end  as [Sale Amount GST] ,  "
             strMCCMaterial += "[Total Tax Amount], (cast(Additional_Charge as numeric(18,2))+[Total Amount]) as [Total Amount] "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += ",TotalSubsidyAmt as Subsidy, [Gross Amount] as Gross "
-            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            '    strMCCMaterial += ",TotalSubsidyAmt as Subsidy, [Gross Amount] as Gross "
+            'End If
             strMCCMaterial += ",[AR Document No], [AR Document Amt],[AR Document Discount Amt], [AR Amount Before Tax]+ case when (coalesce([Total Tax Amount],0)<>0 or [Scheme Amount]<=0) and [Document No]<>'SRFS-003/15-16/000006' then 0 else coalesce([AR Document Discount Amt],0)  end as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge], "
             ''richa TEC/18/09/18-000326
             strMCCMaterial += " case when [trans type] in ('CSA Transfer','CSA Transfer Return') " &
@@ -3721,9 +3721,9 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " , case when isnull(xx.[Delivery No],'')='' then 0 else (select sum(Receipt_Amount) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Adjustment Amount of the Linked Advance Receipt], "
             End If
             strMCCMaterial += " [LUT No],TCSBaseAmount "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,[Payment Type] as PaymentType,CustomerType,[Shipment Status] "
-            End If
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+            '    strMCCMaterial += " ,[Payment Type] as PaymentType,CustomerType,[Shipment Status] "
+            'End If
             strMCCMaterial += "" & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, " ,Fat_Amt as [Fat Amount],SNF_Amt as [SNF Amount],Standard_Rate as [Standard Rate] ", "") & " "
 
         End If
@@ -4182,7 +4182,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             '' richa UDL/09/08/18-000213 do job work data separately
             Dim strScarpCommonQry As String = ""
             strScarpCommonQry = " select "
-            
+
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
                 strScarpCommonQry += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
@@ -4549,17 +4549,17 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strMCCMaterial += "  select "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
-,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
-                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
-						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
-						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
-						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
-                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
-                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
-	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
-                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
-                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
+                '                strMCCMaterial += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                ',CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
+                '                  ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
+                '						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
+                '						              WHEN TSPL_BOOKING_MATSER.Is_DCS = 1 THEN 'DCS'
+                '						              WHEN TSPL_BOOKING_MATSER.Is_CashSale= 'Y' THEN 'CASH SALE' ELSE 'OTHER' end as CustomerType,
+                '                                    CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                '                                    ELSE TSPL_SD_SALE_INVOICE_HEAD.Gross_Amount END AS Gross_Amount,
+                '	                                CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.Document_Code = LEAD(TSPL_SD_SALE_INVOICE_HEAD.Document_Code) OVER (ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code) THEN 0 
+                '                                    ELSE TSPL_SD_SHIPMENT_HEAD.TotalSubsidyAmt END AS TotalSubsidyAmt,
+                '                                    tspl_vlc_master_Head.VLC_Code_VLC_Uploader AS DCSCODE,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Payment_Terms='' THEN 'CREDIT' ELSE TSPL_SD_SHIPMENT_HEAD.Payment_Terms end as Payment_Terms, "
             End If
 
             strMCCMaterial += " TSPL_Customer_Invoice_Head.Ack_No As [Ack No], TSPL_Customer_Invoice_Head.Ack_Date As [Ack Date],'' as _Type,'' as [Form Type],'Bulk Sale Return' as [Trans Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Location_Code as [Location Code],TSPL_SALE_RETURN_MASTER_BULKSALE.Posted as Status,TSPL_LOCATION_MASTER.Location_Desc as [Location Name] ,'Invoice' as [Invoice Type] ,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_No as [Document No] ,convert(varchar,TSPL_SALE_RETURN_MASTER_BULKSALE.Document_Date,103) as [Document_date],'' as [Narration],'' as Vehicle_Code,'' as Vehicle_No,coalesce(-1 * TSPL_SALE_RETURN_MASTER_BULKSALE.roundoffamount,0) as Additional_Charge, " &

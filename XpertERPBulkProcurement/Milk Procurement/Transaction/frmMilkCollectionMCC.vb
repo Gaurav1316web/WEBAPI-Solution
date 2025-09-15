@@ -78,7 +78,11 @@ Public Class frmMilkCollectionMCC
         btnBlankSheetImportUploder.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnReverse.Visible = False
-
+        If MyBase.isExport = True Then
+            RadGroupBox1.Enabled = True
+        Else
+            RadGroupBox1.Enabled = False
+        End If
         'If btnSave.Visible = True Then
         '    btnBlankSheetImportUploder.Enabled = True
         '    btnBlankSheetUploder.Enabled = True
@@ -2626,28 +2630,37 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
     End Sub
     Private Sub btnMGo_Click(sender As Object, e As EventArgs) Handles btnMGo.Click
         Try
-            Dim Arr As New List(Of clsBMCDCSMobile)
-            For Each lst As clsBMCDCSMobile In clsBMCDCSMobile.GetData(txtMDate.Value)
-                Arr.Add(lst)
-            Next
-            ' Add MCC Truck Sheet Entry
-            If Arr.Count > 0 Then
-                For Each lst As clsBMCDCSMobile In Arr
-                    Dim strQry = "select Document_No from TSPL_MILK_COLLECTION_MCC where Route_Code='" + clsCommon.myCstr(lst.Route_Code) + "' and Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'  and Tanker_No='" + clsCommon.myCstr(lst.Tanker_No) + "' And Trip_No = " + clsCommon.myCstr(lst.Trip_No)
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                        lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
-                        isNewEntry = False
-                    Else
-                        isNewEntry = True
-                    End If
-                    BMCEntry(lst)
-                Next
-                clsCommon.MyMessageBoxShow(Me, "BMC Truck Sheet Data saved successfully", Me.Text)
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select a document.", Me.Text)
+                Exit Sub
             Else
-                Throw New Exception("No Data Found!")
-            End If
+                If common.clsCommon.MyMessageBoxShow(Me,
+    "Do you want to Get BMC BY Mobile Data of  " & clsCommon.GetPrintDate(txtMDate.Value, "dd/MMM/yyyy") & "?" & Environment.NewLine & "",
+    Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
+                End If
+                Dim Arr As New List(Of clsBMCDCSMobile)
+                For Each lst As clsBMCDCSMobile In clsBMCDCSMobile.GetData(txtMDate.Value)
+                    Arr.Add(lst)
+                Next
+                ' Add MCC Truck Sheet Entry
+                If Arr.Count > 0 Then
+                    For Each lst As clsBMCDCSMobile In Arr
+                        Dim strQry = "select Document_No from TSPL_MILK_COLLECTION_MCC where Route_Code='" + clsCommon.myCstr(lst.Route_Code) + "' and Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'  and Tanker_No='" + clsCommon.myCstr(lst.Tanker_No) + "' And Trip_No = " + clsCommon.myCstr(lst.Trip_No)
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                            lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+                            isNewEntry = False
+                        Else
+                            isNewEntry = True
+                        End If
+                        BMCEntry(lst)
+                    Next
+                    clsCommon.MyMessageBoxShow(Me, "BMC Truck Sheet Data saved successfully", Me.Text)
+                Else
+                    Throw New Exception("No Data Found!")
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

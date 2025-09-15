@@ -225,11 +225,11 @@ Public Class frmVendorBankAdvice
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
         Dim Bill_Amt As New GridViewSummaryItem("Bill_Amt", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItemB.Add(Bill_Amt)
-            Dim SavingAmt As New GridViewSummaryItem("SavingAmt", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItemB.Add(SavingAmt)
-            Dim CurrentAmt As New GridViewSummaryItem("CurrentAmt", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItemB.Add(CurrentAmt)
+        summaryRowItemB.Add(Bill_Amt)
+        Dim SavingAmt As New GridViewSummaryItem("SavingAmt", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(SavingAmt)
+        Dim CurrentAmt As New GridViewSummaryItem("CurrentAmt", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(CurrentAmt)
         Gv2.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
         Gv2.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
@@ -401,7 +401,7 @@ Public Class frmVendorBankAdvice
                 '    BaseQry = " select  ROW_NUMBER() over ( order by Bank_Code) as SNO ,max(Bank_Code) as GRPColumn,sum(Payable_Amount) as Payable_Amount ,max(Branch_Name) as Bank_Desc from (" + BaseQry + ") xx group by xx.Bank_Code "
                 'End If
             ElseIf rbtnCompulsory.IsChecked Then
-                    BaseQry = " select max(x.CycleRange)CycleRange,x.GRPColumn,max(x.[Company Bank])[Company Bank],max(x.[Company Bank Account No])[Company Bank Account No],
+                BaseQry = " select max(x.CycleRange)CycleRange,x.GRPColumn,max(x.[Company Bank])[Company Bank],max(x.[Company Bank Account No])[Company Bank Account No],
                             max(x.Comp_Name)Comp_Name,max(x.Comp_address)Comp_address,max(x.CompPhone)CompPhone,max(x.Regn_No)Regn_No,max(x.MCC_NAME)MCC_NAME,
                             max(x.From_Date)From_Date,max(x.GSTReg_No)GSTReg_No,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.CycleNo)CycleNo,
                             max(x.Date_Range)Date_Range,x.VLC_CODE_Uploader,max(x.Payee_Joint_Name)Payee_Joint_Name,max(x.Bank_Code)Bank_Code,max(x.Branch_Name)Branch_Name,
@@ -437,14 +437,14 @@ Public Class frmVendorBankAdvice
     mp_V.Joint_Account_No
   ) end as Payee_Joint_Account_No,"
 
-                    If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
-                        BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
-                    Else
-                        BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount  "
+                If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
+                    BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
+                Else
+                    BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount  "
 
-                    End If
+                End If
 
-                    BaseQry += " from TSPL_PAYMENT_PROCESS_COMPULSORY 
+                BaseQry += " from TSPL_PAYMENT_PROCESS_COMPULSORY 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No
                             left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
                             left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code 
@@ -457,17 +457,17 @@ Public Class frmVendorBankAdvice
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank
                             left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
                             where TSPL_PAYMENT_PROCESS_HEAD.isPrePosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
-                    If clsCommon.myLen(txtMCC.Value) > 0 Then
-                        BaseQry += " And TSPL_MCC_MASTER.MCC_Code = '" + txtMCC.Value + "' "
-                    End If
-                    If clsCommon.myLen(fndArea.Value) > 0 Then
-                        BaseQry += " And TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" + fndArea.Value + "' "
-                    End If
-                    BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 )x
+                If clsCommon.myLen(txtMCC.Value) > 0 Then
+                    BaseQry += " And TSPL_MCC_MASTER.MCC_Code = '" + txtMCC.Value + "' "
+                End If
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    BaseQry += " And TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" + fndArea.Value + "' "
+                End If
+                BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 )x
 							group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No "
 
-                ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
-                    BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
+            ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
+                BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     BaseQry += " TSPL_Vendor_MASTER.Bank_Code+TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code as GRPColumn,"
                 Else
@@ -846,7 +846,7 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,'ONE DA
 
  FROM(
     SELECT Head_Load_Rate,[Bank Advise No],[Bank Advise Date],[Account_Type],[From_Date],[Doc_No],[Fiscal_Name],[Date_Range],[accno2],[VLC_CODE_Uploader],[Payee_Joint_Name],[Bank_Code],[Branch_Name],[Bank_Code_Desc],[Payee_Joint_IFSC_Code],[Payee_Joint_Account_No],[Payable_Amount],[Saving_Amount],[Bank_Account_No_Saving],[Bank_Code_Saving],[Bank_Desc_Saving],Round(IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)-IsNull(Saving_Amount,0),0) as CurrentAmt,
-	Round(Case When IsNull(Payable_Amount,0)>0 Then (IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)) Else IsNull(Saving_Amount,0) End,0) As Bill_Amt,(VLC_CODE_Uploader +' '+ Payee_Joint_Name) As DCS_Name,isnull(Bank_Code_Desc,Bank_Desc_Saving) as BankName,DCSCount from (
+	Round(Case When IsNull(Payable_Amount,0)>0 Then (IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)) Else IsNull(Saving_Amount,0) End,0) As Bill_Amt,(VLC_CODE_Uploader +' '+ Payee_Joint_Name) As DCS_Name,isnull(Bank_Code_Desc,Bank_Desc_Saving) as BankName,DCSCount,IFSC_Code,IFSCCode2 from (
     select  SavingDetail.Head_Load_Rate,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
                             convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VENDOR_MASTER.accno2,
                             TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
@@ -1189,15 +1189,17 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,ca.Bank
 
 ,(case when t.Bank_Code=t.Bank_Code_Saving then  t.[Bill_Amt] else (case when AccountType='Saving' then t.[Saving_Amount] else  t.[CurrentAmt] end) end )As [Bill_Amt]
 ,(case when t.Bank_Code=t.Bank_Code_Saving then  t.[Bank_Account_No_Saving] else (case when AccountType='Saving' then t.[Bank_Account_No_Saving] else '' end) end ) as [SavingAccountNo]
+,(case when t.Bank_Code=t.Bank_Code_Saving then  t.IFSCCode2 else (case when AccountType='Saving' then t.IFSCCode2 else '' end) end ) as [SavingIFSCCode]
 ,(case when t.Bank_Code=t.Bank_Code_Saving then  t.[Saving_Amount]  else (case when AccountType='Saving' then t.[Saving_Amount]  else 0 end) end ) as [SavingAmt]
 
 
 ,(case when t.Bank_Code=t.Bank_Code_Saving then  t.[Payee_Joint_Account_No]  else (case when AccountType='Current' then t.[Payee_Joint_Account_No]  else '' end) end ) as [CurrentAccountNo]
+,(case when t.Bank_Code=t.Bank_Code_Saving then  t.IFSC_Code  else (case when AccountType='Current' then t.IFSC_Code  else '' end) end ) as [CurrentIFSCCode]
 ,(case when t.Bank_Code=t.Bank_Code_Saving then  t.[CurrentAmt]  else (case when AccountType='Current' then t.[CurrentAmt]  else 0 end) end ) as [CurrentAmt],t.DCSCount
 
  FROM(
     SELECT Head_Load_Rate,[Bank Advise No],[Bank Advise Date],[Account_Type],[From_Date],[Doc_No],[Fiscal_Name],[Date_Range],[accno2],[VLC_CODE_Uploader],[Payee_Joint_Name],[Bank_Code],[Branch_Name],[Bank_Code_Desc],[Payee_Joint_IFSC_Code],[Payee_Joint_Account_No],[Payable_Amount],[Saving_Amount],[Bank_Account_No_Saving],[Bank_Code_Saving],[Bank_Desc_Saving],Round(IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)-IsNull(Saving_Amount,0),0) as CurrentAmt,
-	Round(Case When IsNull(Payable_Amount,0)>0 Then (IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)) Else IsNull(Saving_Amount,0) End,0) As Bill_Amt,(VLC_CODE_Uploader +' '+ Payee_Joint_Name) As DCS_Name,isnull(Bank_Code_Desc,Bank_Desc_Saving) as BankName,DCSCount from (
+	Round(Case When IsNull(Payable_Amount,0)>0 Then (IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)) Else IsNull(Saving_Amount,0) End,0) As Bill_Amt,(VLC_CODE_Uploader +' '+ Payee_Joint_Name) As DCS_Name,isnull(Bank_Code_Desc,Bank_Desc_Saving) as BankName,DCSCount,IFSC_Code,IFSCCode2 from (
     select  SavingDetail.Head_Load_Rate,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],
     Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,
     TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
@@ -1205,10 +1207,10 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,ca.Bank
     TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name, "
         If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, Nothing)) = "1" Then
             qry += " TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,
-                     TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name "
+                     TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2 "
         Else
             qry += " TSPL_Vendor_MASTER.Bank_Code,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,
-                     TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_VENDOR_MASTER.BankName2 as Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name "
+                     TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_VENDOR_MASTER.BankName2 as Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2 "
         End If
         qry += " ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
                             (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
@@ -1745,30 +1747,36 @@ MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code
             Gv1.Columns("Branch_Name").IsVisible = False
 
             Gv1.Columns("BankCode").HeaderText = "Bank Code"
-                Gv1.Columns("BankCode").IsVisible = True
+            Gv1.Columns("BankCode").IsVisible = True
 
-                Gv1.Columns("BankName").HeaderText = "Bank Name"
-                Gv1.Columns("BankName").IsVisible = True
+            Gv1.Columns("BankName").HeaderText = "Bank Name"
+            Gv1.Columns("BankName").IsVisible = True
 
-                Gv1.Columns("DCS_Name").HeaderText = "DCS Name"
-                Gv1.Columns("DCS_Name").IsVisible = True
+            Gv1.Columns("DCS_Name").HeaderText = "DCS Name"
+            Gv1.Columns("DCS_Name").IsVisible = True
 
-                Gv1.Columns("Bill_Amt").HeaderText = "Bill Amount"
-                Gv1.Columns("Bill_Amt").IsVisible = True
+            Gv1.Columns("Bill_Amt").HeaderText = "Bill Amount"
+            Gv1.Columns("Bill_Amt").IsVisible = True
 
-                Gv1.Columns("SavingAccountNo").HeaderText = "Saving Account No."
-                Gv1.Columns("SavingAccountNo").IsVisible = True
+            Gv1.Columns("SavingAccountNo").HeaderText = "Saving Account No."
+            Gv1.Columns("SavingAccountNo").IsVisible = True
 
-                Gv1.Columns("SavingAmt").HeaderText = "Saving Amount"
-                Gv1.Columns("SavingAmt").IsVisible = True
+            Gv1.Columns("SavingIFSCCode").HeaderText = "Saving IFSC Code"
+            Gv1.Columns("SavingIFSCCode").IsVisible = True
 
-                Gv1.Columns("CurrentAccountNo").HeaderText = "Current Account No."
-                Gv1.Columns("CurrentAccountNo").IsVisible = True
+            Gv1.Columns("SavingAmt").HeaderText = "Saving Amount"
+            Gv1.Columns("SavingAmt").IsVisible = True
 
-                Gv1.Columns("CurrentAmt").HeaderText = "Current Amount"
-                Gv1.Columns("CurrentAmt").IsVisible = True
-            End If
-            If rbtnBothSavCur.IsChecked Then
+            Gv1.Columns("CurrentAccountNo").HeaderText = "Current Account No."
+            Gv1.Columns("CurrentAccountNo").IsVisible = True
+
+            Gv1.Columns("CurrentIFSCCode").HeaderText = "Current IFSC Code"
+            Gv1.Columns("CurrentIFSCCode").IsVisible = True
+
+            Gv1.Columns("CurrentAmt").HeaderText = "Current Amount"
+            Gv1.Columns("CurrentAmt").IsVisible = True
+        End If
+        If rbtnBothSavCur.IsChecked Then
             Dim summaryRowItemB As New GridViewSummaryRowItem()
             'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
             Dim Bill_Amt As New GridViewSummaryItem("Bill_Amt", "{0:n2}", GridAggregateFunction.Sum)
