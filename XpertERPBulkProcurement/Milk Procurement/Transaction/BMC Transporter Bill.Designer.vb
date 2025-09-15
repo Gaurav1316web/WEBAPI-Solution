@@ -23,7 +23,7 @@ Partial Class BMC_Transporter_Bill
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -132,6 +132,7 @@ Partial Class BMC_Transporter_Bill
         Me.btnCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -240,6 +241,7 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,6 +258,7 @@ Partial Class BMC_Transporter_Bill
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnLayout)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -913,7 +916,7 @@ Partial Class BMC_Transporter_Bill
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -994,7 +997,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtDate.Size = New System.Drawing.Size(127, 18)
         Me.txtDate.TabIndex = 1524
         Me.txtDate.TabStop = False
-        Me.txtDate.Text = "13/06/2011 11:29 AM"
+        Me.txtDate.Text = "13-06-2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'RadLabel4
@@ -1715,16 +1718,17 @@ Partial Class BMC_Transporter_Bill
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(230, 23)
+        Me.btnReverse.Location = New System.Drawing.Point(315, 23)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(177, 22)
         Me.btnReverse.TabIndex = 161
         Me.btnReverse.Text = "Revese and Unpost"
+        Me.btnReverse.Visible = False
         '
         'btnLayout
         '
         Me.btnLayout.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
-        Me.btnLayout.Location = New System.Drawing.Point(209, 23)
+        Me.btnLayout.Location = New System.Drawing.Point(294, 23)
         Me.btnLayout.Name = "btnLayout"
         Me.btnLayout.Size = New System.Drawing.Size(110, 22)
         Me.btnLayout.TabIndex = 160
@@ -1781,6 +1785,17 @@ Partial Class BMC_Transporter_Bill
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 2
         Me.btnSave.Text = "Save"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(208, 22)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(78, 22)
+        Me.btnPrint.TabIndex = 162
+        Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
         '
         'BMC_Transporter_Bill
         '
@@ -1906,6 +1921,7 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2019,4 +2035,5 @@ Partial Class BMC_Transporter_Bill
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnReverse As RadButton
+    Friend WithEvents btnPrint As RadButton
 End Class
