@@ -432,7 +432,6 @@
     <Compile Include="Milk Procurement\clsBMCTransporterBill.vb" />
     <Compile Include="Milk Procurement\clsCapping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
-    <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
     <Compile Include="Milk Procurement\clsDCSSaleEntry.vb" />

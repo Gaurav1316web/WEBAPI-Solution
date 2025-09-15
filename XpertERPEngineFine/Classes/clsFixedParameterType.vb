@@ -1356,6 +1356,8 @@ Public Class clsFixedParameterType
     Public Const ApplyItemUOMOnDemand = "Apply Item UOM On Demand"
     Public Const MergeTCAmtofCreditCust = "Merge Transpoter Commission Amt of CreditCust"
     Public Const ConvertIntoBulkUOM = "Convert into Bulk UOM"
+    Public Const AddDistributorCommissioninItemPrice = "Add Distributor Commission In Item Price"
+    Public Const SubstractDistributorCommissioninItemPrice = "Substract Distributor Commission In Item Price"
 End Class
 Public Class clsFixedParameterCode
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -2865,7 +2867,8 @@ Public Class clsFixedParameterCode
     Public Const ApplyItemUOMOnDemand = "Apply Item UOM On Demand"
     Public Const MergeTCAmtofCreditCust = "Merge Transpoter Commission Amt of CreditCust"
     Public Const ConvertIntoBulkUOM = "Convert into Bulk UOM"
-
+    Public Const AddDistributorCommissioninItemPrice = "Add Distributor Commission In Item Price"
+    Public Const SubstractDistributorCommissioninItemPrice = "Substract Distributor Commission In Item Price"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4546,6 +4549,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AddDistributorCommissioninItemPrice, clsFixedParameterCode.AddDistributorCommissioninItemPrice, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6426,5 +6431,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.MergeTCAmtofCreditCust, clsFixedParameterCode.MergeTCAmtofCreditCust, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyBoothWiseScheme, clsFixedParameterCode.ApplyBoothWiseScheme, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AddDistributorCommissioninItemPrice, clsFixedParameterCode.AddDistributorCommissioninItemPrice, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, EnumControlType.CheckBox)
     End Sub
 End Class

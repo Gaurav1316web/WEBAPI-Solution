@@ -1921,6 +1921,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.Remarks = txtRemark.Text
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.TaxGroupName = lblTaxGrpName.Text
+                obj.IsEwaybill = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsGoverment from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code in(select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "')"))
                 If rbtnTaxCalAutomatic.IsChecked Then
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                 ElseIf rbtnTaxCalManual.IsChecked Then
@@ -2124,6 +2125,10 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                         txtSubLocation.Value = ""
                     End If
                 End If
+                txtTransporterCode.Value = obj.Transport_Id
+                lblTransporterName.Text = obj.Transporter_Name
+                lblVehicleNo.Text = obj.VehicleNo
+                txtVehicleCode.Value = obj.Vehicle_Code
                 txtInvoiceno.Text = obj.Invoice_No
                 GetTenderQty(txtOrderNo.Value)
                 chkReplacement.Checked = IIf(obj.IsReplacement = 1, True, False)

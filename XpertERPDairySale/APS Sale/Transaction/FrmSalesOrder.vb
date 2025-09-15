@@ -82,7 +82,7 @@ Public Class FrmSalesOrder
     End Sub
     Private Sub FrmSalesOrder_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        CreateTable()
+        'CreateTable()
         UcAttachment1.Form_ID = MyBase.Form_ID
         UcAttachment1.MandatoryPDFFileAny = False
         CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))

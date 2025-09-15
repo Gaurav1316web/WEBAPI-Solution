@@ -335,10 +335,13 @@ Public Class frmDistributorCommission
                     For Each items In obj.Items
                         Dim qry As String = "select * from TSPL_Distributor_commission_Head 
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_Distributor_commission_Head.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No 
-where TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + items + "' and TSPL_Distributor_commission_Head.Distributor_Tagging_Code='" + txtDistributorTagging.Value + "'"
+where TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" & items & "' and TSPL_Distributor_commission_Head.Distributor_Tagging_Code='" & txtDistributorTagging.Value & "'"
+                        If EnableVehicleType Then
+                            qry += " and TSPL_Distributor_commission_Head.Vehicle_Type='" & cmbVehicleType.SelectedValue & "'"
+                        End If
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                            Throw New Exception("Item : " + items + " is already exists with " + txtDistributorTagging.Value + " ! Please select different item/items")
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Throw New Exception("Item : " & items & " is already exists with " & txtDistributorTagging.Value & " ! Please select different item/items")
                         End If
                     Next
                     Dim StrQry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DISTRIBUTOR_ROUTE.ItemType 
