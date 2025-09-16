@@ -289,15 +289,17 @@ where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null "
         'where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and
         '           convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "'),103) and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_VENDOR_MASTER.Vendor_Group_Code='DCS'"
 
-        BaseQry += " union all select TSPL_SD_SHIPMENT_HEAD.Document_Code as Document_No,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_VENDOR_INVOICE_HEAD.Document_No as AP_Invoice_No ,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,'D' as Document_Type,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_Code ,Customer_Code as VLC_Code_VLC_Uploader,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount,0 as Reduce_Deduc_Amt ,4 as RI,TSPL_VLC_MASTER_HEAD.Active
-                       from TSPL_SD_SHIPMENT_DETAIL
-                       left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
-                       left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
-                       left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
-                       left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_ITEM_MASTER.Deduction 
-                       left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
-        left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_MCC_Material_Sale=TSPL_SD_SHIPMENT_HEAD.Document_Code
-        where  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.is_cashsale='N'  and TSPL_SD_SHIPMENT_HEAD.Status=1 "
+        BaseQry += " union all 
+select TSPL_SD_SHIPMENT_HEAD.Document_Code as Document_No,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_VENDOR_INVOICE_HEAD.Document_No as AP_Invoice_No ,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,'D' as Document_Type,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_Code ,Customer_Code as VLC_Code_VLC_Uploader,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount,0 as Reduce_Deduc_Amt ,4 as RI,TSPL_VLC_MASTER_HEAD.Active
+from TSPL_SD_SHIPMENT_DETAIL
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code--BSP
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_ITEM_MASTER.Deduction 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_MCC_Material_Sale=TSPL_SD_SHIPMENT_HEAD.Document_Code
+where  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.is_cashsale='N'  and TSPL_SD_SHIPMENT_HEAD.Status=1 "
 
         Dim qry As String = ""
         If chkDCSWise.Checked Then
@@ -310,8 +312,8 @@ where 2=2 and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode is not null "
             qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,cast((OP+Sale) as  decimal(18,2)) as [Opening+Sale],AMTDeducted as [Amt Deducted],cast((OP+Sale-AMTDeducted) as decimal(18,2)) as [Balance Amount],Active from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else -1 end)) as OP 
-,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
-,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted ,max(Active)Active
+,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=4) then 1 else 0 end)) as Sale
+,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=4) then 0 else 1 end)) as AMTDeducted ,max(Active)Active
 from (" + BaseQry + ")xx
 left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
 left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code "
