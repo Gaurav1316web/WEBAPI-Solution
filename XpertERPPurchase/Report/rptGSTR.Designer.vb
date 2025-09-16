@@ -40,18 +40,10 @@ Partial Class rptGSTR
         Me.btnGSTR1 = New Telerik.WinControls.UI.RadRadioButton()
         Me.btnGSTR2 = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.btnUpldBlnkGSTRExl = New Telerik.WinControls.UI.RadButton()
-        Me.btnExportGSTR1 = New Telerik.WinControls.UI.RadButton()
-        Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.lblToDate = New common.Controls.MyLabel()
+        Me.lblfromDate = New common.Controls.MyLabel()
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.lblCustomerGroup = New common.Controls.MyLabel()
@@ -62,13 +54,21 @@ Partial Class rptGSTR
         Me.txtVendor = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.lblToDate = New common.Controls.MyLabel()
-        Me.lblfromDate = New common.Controls.MyLabel()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv3 = New common.UserControls.MyRadGridView()
+        Me.btnUpldBlnkGSTRExl = New Telerik.WinControls.UI.RadButton()
+        Me.btnExportGSTR1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnSplit = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.BtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -89,11 +89,26 @@ Partial Class rptGSTR
         CType(Me.btnGSTR2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpldBlnkGSTRExl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportGSTR1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,21 +116,6 @@ Partial Class rptGSTR
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -223,6 +223,7 @@ Partial Class rptGSTR
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
@@ -246,7 +247,7 @@ Partial Class rptGSTR
         Me.RadPageViewPage1.Controls.Add(Me.txtVendor)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocation)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(865, 415)
@@ -303,121 +304,81 @@ Partial Class rptGSTR
         Me.RadGroupBox1.Size = New System.Drawing.Size(325, 44)
         Me.RadGroupBox1.TabIndex = 2
         '
-        'RadPageViewPage2
+        'txtToDate
         '
-        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(46.0!, 24.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(865, 419)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(221, 11)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Nothing
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.TabIndex = 1
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "17-12-2011"
+        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'SplitContainer2
+        'txtFromDate
         '
-        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Name = "SplitContainer2"
-        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(82, 11)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 0
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "17-12-2011"
+        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
-        'SplitContainer2.Panel1
+        'lblToDate
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.gv1)
+        Me.lblToDate.FieldName = Nothing
+        Me.lblToDate.Location = New System.Drawing.Point(170, 13)
+        Me.lblToDate.Name = "lblToDate"
+        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.lblToDate.TabIndex = 14
+        Me.lblToDate.Text = "To Date"
         '
-        'SplitContainer2.Panel2
+        'lblfromDate
         '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(865, 419)
-        Me.SplitContainer2.SplitterDistance = 152
-        Me.SplitContainer2.TabIndex = 6
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gv3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(66.0!, 24.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(865, 415)
-        Me.RadPageViewPage3.Text = "Detail data "
-        '
-        'btnUpldBlnkGSTRExl
-        '
-        Me.btnUpldBlnkGSTRExl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpldBlnkGSTRExl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpldBlnkGSTRExl.Location = New System.Drawing.Point(446, 14)
-        Me.btnUpldBlnkGSTRExl.Name = "btnUpldBlnkGSTRExl"
-        Me.btnUpldBlnkGSTRExl.Size = New System.Drawing.Size(153, 21)
-        Me.btnUpldBlnkGSTRExl.TabIndex = 318
-        Me.btnUpldBlnkGSTRExl.Text = "Upload Blank GSTR Excel"
-        '
-        'btnExportGSTR1
-        '
-        Me.btnExportGSTR1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExportGSTR1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExportGSTR1.Location = New System.Drawing.Point(327, 14)
-        Me.btnExportGSTR1.Name = "btnExportGSTR1"
-        Me.btnExportGSTR1.Size = New System.Drawing.Size(117, 21)
-        Me.btnExportGSTR1.TabIndex = 317
-        Me.btnExportGSTR1.Text = "Export GSTR Excel"
-        '
-        'btnSplit
-        '
-        Me.btnSplit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSplit.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplit.Location = New System.Drawing.Point(157, 13)
-        Me.btnSplit.Name = "btnSplit"
-        Me.btnSplit.Size = New System.Drawing.Size(95, 22)
-        Me.btnSplit.TabIndex = 316
-        Me.btnSplit.Text = "Export"
-        '
-        'rmiExcel
-        '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        '
-        'rmiPDF
-        '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(254, 14)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(71, 21)
-        Me.btnPrint.TabIndex = 157
-        Me.btnPrint.Text = "Print"
-        '
-        'BtnReset
-        '
-        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(84, 13)
-        Me.BtnReset.Name = "BtnReset"
-        Me.BtnReset.Size = New System.Drawing.Size(71, 22)
-        Me.BtnReset.TabIndex = 38
-        Me.BtnReset.Text = "Reset"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(781, 13)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(84, 22)
-        Me.btnclose.TabIndex = 39
-        Me.btnclose.Text = "Close"
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(11, 13)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(71, 22)
-        Me.btnGo.TabIndex = 37
-        Me.btnGo.Text = ">>>"
+        Me.lblfromDate.FieldName = Nothing
+        Me.lblfromDate.Location = New System.Drawing.Point(9, 12)
+        Me.lblfromDate.Name = "lblfromDate"
+        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
+        Me.lblfromDate.TabIndex = 13
+        Me.lblfromDate.Text = "From Date"
         '
         'lblCustomer
         '
@@ -534,81 +495,32 @@ Partial Class rptGSTR
         Me.txtLocation.Size = New System.Drawing.Size(309, 19)
         Me.txtLocation.TabIndex = 343
         '
-        'txtToDate
+        'RadPageViewPage2
         '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(221, 11)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Nothing
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtToDate.TabIndex = 1
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "17-12-2011"
-        Me.txtToDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(865, 415)
+        Me.RadPageViewPage2.Text = "Report"
         '
-        'txtFromDate
+        'SplitContainer2
         '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(82, 11)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Nothing
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
-        Me.txtFromDate.TabIndex = 0
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "17-12-2011"
-        Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'lblToDate
+        'SplitContainer2.Panel1
         '
-        Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(170, 13)
-        Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
-        Me.lblToDate.TabIndex = 14
-        Me.lblToDate.Text = "To Date"
+        Me.SplitContainer2.Panel1.Controls.Add(Me.gv1)
         '
-        'lblfromDate
+        'SplitContainer2.Panel2
         '
-        Me.lblfromDate.FieldName = Nothing
-        Me.lblfromDate.Location = New System.Drawing.Point(9, 12)
-        Me.lblfromDate.Name = "lblfromDate"
-        Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
-        Me.lblfromDate.TabIndex = 13
-        Me.lblfromDate.Text = "From Date"
+        Me.SplitContainer2.Panel2.Controls.Add(Me.gv2)
+        Me.SplitContainer2.Size = New System.Drawing.Size(865, 415)
+        Me.SplitContainer2.SplitterDistance = 150
+        Me.SplitContainer2.TabIndex = 6
         '
         'gv1
         '
@@ -634,7 +546,7 @@ Partial Class rptGSTR
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(865, 152)
+        Me.gv1.Size = New System.Drawing.Size(865, 150)
         Me.gv1.TabIndex = 5
         Me.gv1.VarID = ""
         '
@@ -662,9 +574,18 @@ Partial Class rptGSTR
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(865, 263)
+        Me.gv2.Size = New System.Drawing.Size(865, 261)
         Me.gv2.TabIndex = 6
         Me.gv2.VarID = ""
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gv3)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(70.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(865, 415)
+        Me.RadPageViewPage3.Text = "Detail data "
         '
         'gv3
         '
@@ -693,6 +614,86 @@ Partial Class rptGSTR
         Me.gv3.Size = New System.Drawing.Size(865, 415)
         Me.gv3.TabIndex = 6
         Me.gv3.VarID = ""
+        '
+        'btnUpldBlnkGSTRExl
+        '
+        Me.btnUpldBlnkGSTRExl.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpldBlnkGSTRExl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpldBlnkGSTRExl.Location = New System.Drawing.Point(446, 14)
+        Me.btnUpldBlnkGSTRExl.Name = "btnUpldBlnkGSTRExl"
+        Me.btnUpldBlnkGSTRExl.Size = New System.Drawing.Size(153, 21)
+        Me.btnUpldBlnkGSTRExl.TabIndex = 318
+        Me.btnUpldBlnkGSTRExl.Text = "Upload Blank GSTR Excel"
+        '
+        'btnExportGSTR1
+        '
+        Me.btnExportGSTR1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExportGSTR1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExportGSTR1.Location = New System.Drawing.Point(327, 14)
+        Me.btnExportGSTR1.Name = "btnExportGSTR1"
+        Me.btnExportGSTR1.Size = New System.Drawing.Size(117, 21)
+        Me.btnExportGSTR1.TabIndex = 317
+        Me.btnExportGSTR1.Text = "Export GSTR Excel"
+        '
+        'btnSplit
+        '
+        Me.btnSplit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSplit.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnSplit.Location = New System.Drawing.Point(157, 13)
+        Me.btnSplit.Name = "btnSplit"
+        Me.btnSplit.Size = New System.Drawing.Size(95, 22)
+        Me.btnSplit.TabIndex = 316
+        Me.btnSplit.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(254, 14)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(71, 21)
+        Me.btnPrint.TabIndex = 157
+        Me.btnPrint.Text = "Print"
+        '
+        'BtnReset
+        '
+        Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnReset.Location = New System.Drawing.Point(84, 13)
+        Me.BtnReset.Name = "BtnReset"
+        Me.BtnReset.Size = New System.Drawing.Size(71, 22)
+        Me.BtnReset.TabIndex = 38
+        Me.BtnReset.Text = "Reset"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(781, 13)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(84, 22)
+        Me.btnclose.TabIndex = 39
+        Me.btnclose.Text = "Close"
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(11, 13)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(71, 22)
+        Me.btnGo.TabIndex = 37
+        Me.btnGo.Text = ">>>"
         '
         'rptGSTR
         '
@@ -730,11 +731,26 @@ Partial Class rptGSTR
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpldBlnkGSTRExl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportGSTR1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplit, System.ComponentModel.ISupportInitialize).EndInit()
@@ -742,21 +758,6 @@ Partial Class rptGSTR
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomerGroup, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv3.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
