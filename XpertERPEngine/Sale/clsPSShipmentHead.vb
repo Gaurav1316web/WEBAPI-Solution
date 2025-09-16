@@ -1,11 +1,7 @@
-﻿
-Imports common
+﻿Imports common
 Imports System.Data.SqlClient
 Imports System.Windows.Forms
 Imports Telerik.WinControls
-
-
-
 Public Class clsPSShipmentHead
 #Region "Variables"
     Public ActualTCSBaseAmount As Double = 0
@@ -210,25 +206,20 @@ Public Class clsPSShipmentHead
     Public Is_Internal As Boolean = False
     Public Tax_Calculation_Type As EnumTaxCalucationType
     Public Trans_Type As String = Nothing
-
     Public Is_Create_Auto_Invoice As Boolean = False
     Public Sale_Invoice_No As String = Nothing
     Public Is_Create_Auto_Receipt As Boolean = False
     Public Against_POS As String = Nothing
-
     Public Salesman_Code As String = Nothing
     Public Salesman_Name As String = Nothing
     Public Arr As List(Of clsPSShipmentHeadDetail) = Nothing
     Public ArrChkList As List(Of clsPSShipmentChecklistDetail) = Nothing
-
     Public Form_ID As String = ""
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
-
     Public CURRENCY_CODE As String = ""
     Public ConvRate As Decimal
     Public ApplicableFrom As Date? = Nothing
     Public PROJECT_ID As String = Nothing
-
     Public Price_Code As String = Nothing
     Public Route_No As String = Nothing
     Public Route_Desc As String = Nothing
@@ -243,7 +234,6 @@ Public Class clsPSShipmentHead
     Public Item_Tax_Type As Integer = 0
     Public Print_Discount_Amt As Double = 0
     Public Nine_NR_No As String = Nothing
-
     Public CashCustomer As String = Nothing
     Public allowSMSforSalePerson As Boolean = False
     Public Manual_Driver_Name As String = Nothing
@@ -261,11 +251,9 @@ Public Class clsPSShipmentHead
     Public Vehicle_Type As String = ""
     Public Exclude_KKF_And_Mandi As Integer = 0
     Public Is_CashSale As String = ""
-
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
     Public ArrBoothScheme As List(Of clsPSShipmentBoothWiseScheme) = Nothing
 #End Region
-
     Public Shared Function SaveData(ByVal obj As clsPSShipmentHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -280,23 +268,18 @@ Public Class clsPSShipmentHead
     Public Shared Function GetInvoiceType(ByVal strCustCode As String, ByVal strLocation As String, ByVal strType As String, ByVal intItemTaxType As Integer, ByVal trans As SqlTransaction)
         Dim dt As DataTable
         Dim CreatVatSeriesOnExciseInvoice As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateVatSeriesForProductExciseinvoice, clsFixedParameterCode.CreateVatSeriesForProductExciseinvoice, trans))
-
         Dim qry As String
-
         If clsCommon.CompairString(strType, "S") = CompairStringResult.Equal Then
-
             qry = "select State from TSPL_SHIP_TO_LOCATION where Ship_To_Code='" & strLocation & "'"
         Else
-
-            qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
-              "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
-              "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
-              "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' " & _
+            qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+              "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
+              "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
+              "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' " &
               "WHERE TSPL_LOCATION_MASTER.Location_Code = '" + strLocation + "'"
         End If
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         Dim strLocState As String = clsCommon.myCstr(dt.Rows(0)("State"))
-
         qry = "select Price_Code,price_CodeNon,State,Tin_No from TSPL_CUSTOMER_MASTER where Cust_Code='" + strCustCode + "'"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         Dim strCustState As String = clsCommon.myCstr(dt.Rows(0)("State"))
@@ -319,7 +302,6 @@ Public Class clsPSShipmentHead
         If strExcise = True AndAlso intItemTaxType = 2 Then
             obj.Invoice_Type = "E"
         End If
-
         Return obj.Invoice_Type
     End Function
     Public Shared Function AdvanceReceived(ByVal strDONo As String, ByVal trans As SqlTransaction) As Boolean
@@ -352,7 +334,6 @@ Public Class clsPSShipmentHead
     End Function
     Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As Boolean
         '' created by Richa Agarwal against ticket No-ERO/09/09/19-001022  on date 09-09-2019
-
         'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             '' table list 
@@ -367,31 +348,23 @@ Public Class clsPSShipmentHead
             ''8. TSPL_JOURNAL_MASTER
             ''9. TSPL_BATCH_ITEM ( no need of history)
             '' steps for checking the items stock and batch wise stock
-
             Dim str As String = "select Document_Code,Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + Doc_No + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.myLen(InvoiceNo) > 0 Then
                         CancelData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), Form_Id, trans)
-
                     Else
                         CancelData(clsCommon.myCstr(dr("Document_Code")), Form_Id, trans)
-
                     End If
                 Next
                 'trans.Commit()
             Else
                 Throw New Exception("Please select Parent Document")
             End If
-
-
-
-
             '' release objects 
             'obj = Nothing
             'qry = Nothing
-
         Catch ex As Exception
             'trans.Rollback()
             Throw New Exception(ex.Message)
@@ -402,7 +375,6 @@ Public Class clsPSShipmentHead
         Try
             Dim qry As String = ""
             Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavigatorType.Current, trans, True)
-
             If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
                 Throw New Exception("Document- " & Doc_No & " not found")
             End If
@@ -412,11 +384,8 @@ Public Class clsPSShipmentHead
             'Else
             '    strInvTransType = "EX_SALE_IN"
             'End If
-
             ''richa agarwal 24 Dec,2020
-
             ''----------
-
             clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
             '' transfer data into cancel table
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "tspl_sd_shipment_head", "Document_Code", "tspl_sd_shipment_DETAIL", "Document_Code", trans)
@@ -424,76 +393,53 @@ Public Class clsPSShipmentHead
             '' Cancel TSPL_DAIRYSALE_GATEPASS_MASTER 
             Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & Doc_No & "' ", trans))
             clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDairyGAtePassCount, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
-
-
             '' cancel customer invoice data
             qry = "select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & InvoiceNo & "'"
             Dim Document_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             If clsCommon.myLen(Document_No) > 0 Then
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Document_No, "TSPL_Customer_Invoice_Head", "Document_No", "TSPL_Customer_Invoice_Detail", "Document_No", trans)
             End If
-
             '' cancel journal master data invoice
             qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & InvoiceNo & "')"
             Dim Voucher_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             If clsCommon.myLen(Voucher_No) > 0 Then
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
             End If
-
             '' cancel journal master data shipment
             qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No='" & Doc_No & "'"
             Voucher_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             If clsCommon.myLen(Voucher_No) > 0 Then
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
             End If
-
             '' cancel custom field data
             clsCommonFunctionality.SaveCancelDataMultKey(objCommonVar.CurrentUserCode, InvoiceNo, "TSPL_CUSTOM_FIELD_VALUES", "Transaction_Code", "Program_Code", Form_Id, trans)
-
-
-
             ''delete data from multiple tables
-
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & InvoiceNo & "'))"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No in (select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & InvoiceNo & "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_Customer_Invoice_Detail where Document_No in (Select Document_No from TSPL_Customer_Invoice_Head  where against_Sale_no='" & InvoiceNo & "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_Customer_Invoice_Head where against_Sale_no='" & InvoiceNo & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_CUSTOM_FIELD_VALUES where Transaction_Code in ('" & InvoiceNo & "','" & Doc_No & "') "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             '----- shipment data
-
-
             'qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type='FS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             'qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type='FS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No  ='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             ''Delete GatePass"
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
                 qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -502,17 +448,14 @@ Public Class clsPSShipmentHead
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDairyGAtePassCount), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
-
             qry = "select COUNT(*) as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code='" + Doc_No + "')"
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                 Throw New Exception("Gate Pass has already been created.")
             End If
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             '' Cancel E-Invoice ----------------------------- 
             Dim dtirn As DataTable = clsDBFuncationality.GetDataTable("select Einvoice_type,IRN_No,Is_Taxable,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where document_code='" & InvoiceNo & "'", trans)
             If dtirn IsNot Nothing AndAlso dtirn.Rows.Count > 0 Then
@@ -524,25 +467,20 @@ Public Class clsPSShipmentHead
                 End If
             End If
             ''End of Cancel E_Invoice ---------------------------------------
-
             qry = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" & InvoiceNo & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & InvoiceNo & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
-
     End Function
     Public Shared Function CancelData(ByVal Doc_No As String, ByVal Form_Id As String, ByVal trans As SqlTransaction) As Boolean
         Try
@@ -551,45 +489,33 @@ Public Class clsPSShipmentHead
             Dim invoice_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             If clsCommon.myLen(invoice_No) <= 0 Then
                 Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(Doc_No, NavigatorType.Current, trans, True)
-
                 If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
                     Throw New Exception("Document- " & Doc_No & " not found")
                 End If
                 Dim strInvTransType As String = String.Empty
-
                 clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
                 '' transfer data into cancel table
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Doc_No, "tspl_sd_shipment_head", "Document_Code", "tspl_sd_shipment_DETAIL", "Document_Code", trans)
                 '' Cancel TSPL_DAIRYSALE_GATEPASS_MASTER 
                 Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & Doc_No & "' ", trans))
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strDairyGAtePassCount, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", "GPCode", trans)
-
-
-
                 '' cancel journal master data shipment
                 qry = "select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No='" & Doc_No & "'"
                 Dim Voucher_No As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
                 If clsCommon.myLen(Voucher_No) > 0 Then
                     clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, Voucher_No, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
                 End If
-
-
                 qry = "delete from TSPL_BATCH_ITEM where  Document_Code='" & Doc_No & "' and Document_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & Doc_No & "' and Trans_Type in ('PS-SH', 'FS-SH','MCC-MSALE')"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No ='" & Doc_No & "')"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_JOURNAL_MASTER where Source_Doc_No  ='" & Doc_No & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 ''Delete GatePass"
                 qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 If IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, trans)) = 0, False, True) = True Then
                     qry = "Update TSPL_DEMAND_BOOKING_DETAIL set GPCode = null where GPCode='" & strDairyGAtePassCount & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -598,35 +524,28 @@ Public Class clsPSShipmentHead
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strDairyGAtePassCount), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
-
                 qry = "select COUNT(*) as doc_count from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL   where PK_ID in(select PK_ID from tspl_sd_shipment_detail where document_code='" + Doc_No + "')"
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                     Throw New Exception("Gate Pass has already been created.")
                 End If
                 qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & strDairyGAtePassCount & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode='" & strDairyGAtePassCount & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Else
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo='" + Doc_No + "' where Document_Code='" + Doc_No + "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
-
     End Function
     Public Shared Function SaveData(ByVal obj As clsPSShipmentHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim TransType_Str As String = ""
@@ -636,7 +555,6 @@ Public Class clsPSShipmentHead
                     clsRCDFRateControl.CheckRCDFRateControl(clsCommon.myCstr(obj.Arr(i).Item_Code), clsCommon.myCstr(obj.Arr(i).Unit_code), clsCommon.myCDecimal(obj.Arr(i).Item_Cost), clsCommon.myCDate(obj.Document_Date), trans)
                 Next
             End If
-
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmSaleDispatchDairy, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
             If IsDairyModule = False Then
@@ -646,22 +564,17 @@ Public Class clsPSShipmentHead
                 TransType_Str = TransType_Str & "-SH"
                 clsBatchInventory.DeleteData(TransType_Str, obj.Document_Code, trans)
             End If
-
             If Not isNewEntry Then
                 CheckInvoicePostedOnGovtProtal(obj.Document_Code, trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
             End If
-
-
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
-
             obj.GSTStatus = clsERPFuncationality.GetGSTStatus(obj.Document_Date)
             If isNewEntry Then
                 Dim strItemCategory As String = String.Empty
@@ -680,7 +593,6 @@ Public Class clsPSShipmentHead
                 End If
                 If clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal Then
                     obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmCustomerTenderDispatch, "", obj.Bill_To_Location)
-
                 Else
                     Dim strcount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT count(Item_Code) FROM TSPL_LOCATION_WISE_ITEM_MASTER where Location_Code='" & clsCommon.myCstr(obj.Bill_To_Location) & "' and Item_Category='" & strItemCategory & "' and Item_Code='" & stritemcode & "'", trans))
                     If strcount > 0 Then
@@ -690,7 +602,6 @@ Public Class clsPSShipmentHead
                         obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmShipmentProductSale, clsDocTransactionType.Other, obj.Bill_To_Location)
                     End If
                 End If
-
             End If
             '''' for Invoice Type
             If obj.GSTStatus = False Then
@@ -712,7 +623,6 @@ Public Class clsPSShipmentHead
                 End If
             End If
             ''''' invoice type ends here
-
             If (clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Error in Document Code Generation")
             End If
@@ -720,7 +630,6 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
             ''richa 13/08/2014 against Ticket No BM00000003502
             'If IsDBNull("cust_po_date") Then
-
             '--------------------------------------------------------
             '-----------------richa 27/06/2014 Ticket No .BM00000002982--------------------------------
             Dim isIncrementCounter As Boolean = True
@@ -728,8 +637,6 @@ Public Class clsPSShipmentHead
                 isIncrementCounter = False
             End If
             Dim Doc_Code As String = Nothing
-
-
             If obj.Mannual_Invoice_No > 0 Then
                 If clsCommon.CompairString(obj.Invoice_Type, "T") = CompairStringResult.Equal Then
                     Doc_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceTax, obj.Bill_To_Location, False, isIncrementCounter)
@@ -740,7 +647,6 @@ Public Class clsPSShipmentHead
                 ElseIf clsCommon.CompairString(obj.Invoice_Type, "S") = CompairStringResult.Equal Then
                     Doc_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmSaleInvoiceProductSale, clsDocTransactionType.SaleInvoiceService, obj.Bill_To_Location, False, isIncrementCounter)
                 End If
-
                 Dim strDocLike As String = ""
                 Dim arr As Array = Doc_Code.ToCharArray()
                 For jj As Integer = 0 To arr.Length - clsCommon.myLen(obj.Mannual_Invoice_No) - 1
@@ -749,12 +655,10 @@ Public Class clsPSShipmentHead
                 strDocLike += clsCommon.myCstr(obj.Mannual_Invoice_No)
                 Doc_Code = strDocLike
                 obj.Mannual_Invoice_No = Doc_Code
-
             ElseIf clsCommon.myLen(obj.InvoiceManualNowithPrefix) > 0 Then
                 Doc_Code = obj.InvoiceManualNowithPrefix
                 obj.InvoiceManualNowithPrefix = Doc_Code
             End If
-
             '---------------------------------------------------------------------------------------
             clsCommon.AddColumnsForChange(coll, "Freight_Distance", obj.Freight_Distance)
             'clsCommon.AddColumnsForChange(coll, "Against_Delivery_Code", obj.Against_Delivery_Code, True)
@@ -903,7 +807,6 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt10", obj.Add_Charge_Amt10)
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
             clsCommon.AddColumnsForChange(coll, "Tax_Calculation_Type", IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1))
-
             If obj.Challan_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
             End If
@@ -918,14 +821,12 @@ Public Class clsPSShipmentHead
             ''richa ERO/12/06/19-000642
             clsCommon.AddColumnsForChange(coll, "Manual_Driver_Name", obj.Manual_Driver_Name)
             clsCommon.AddColumnsForChange(coll, "Manual_Salesman_Name", obj.Manual_Salesman_Name)
-
             clsCommon.AddColumnsForChange(coll, "Is_Create_Auto_Invoice", IIf(obj.Is_Create_Auto_Invoice, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Sale_Invoice_No", obj.Sale_Invoice_No)
             clsCommon.AddColumnsForChange(coll, "Is_Create_Auto_Receipt", IIf(obj.Is_Create_Auto_Receipt, 1, 0))
             'clsCommon.AddColumnsForChange(coll, "Is_Create_Auto_Receipt", 1)
             clsCommon.AddColumnsForChange(coll, "Salesman_Code", obj.Salesman_Code, True)
             clsCommon.AddColumnsForChange(coll, "Salesman_Name", obj.Salesman_Name)
-
             '' currencyconversion
             clsCommon.AddColumnsForChange(coll, "CURRENCY_CODE", obj.CURRENCY_CODE, True)
             clsCommon.AddColumnsForChange(coll, "ConvRate", obj.ConvRate)
@@ -946,7 +847,6 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "Mannual_Invoice_No", obj.Mannual_Invoice_No)
             clsCommon.AddColumnsForChange(coll, "Mannual_Invoice_No_StringType", obj.InvoiceManualNowithPrefix)
             '
-
             clsCommon.AddColumnsForChange(coll, "SO_Validity", obj.SO_Validity)
             clsCommon.AddColumnsForChange(coll, "Commission_Apply", obj.Commission_Apply)
             clsCommon.AddColumnsForChange(coll, "Dispatch_date", clsCommon.GetPrintDate(obj.Dispatch_date, "dd/MMM/yyyy hh:mm tt"))
@@ -971,7 +871,6 @@ Public Class clsPSShipmentHead
             Else
                 clsCommon.AddColumnsForChange(coll, "WayBillDate", Nothing, True)
             End If
-
             If clsCommon.myLen(obj.GR_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "GR_Date", clsCommon.GetPrintDate(obj.GR_Date, "dd/MMM/yyyy"))
             Else
@@ -1022,10 +921,7 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "DO_Item_Type", obj.DO_Item_Type)
             clsCommon.AddColumnsForChange(coll, "Shift_type", obj.Shift_Type, True)
             clsCommon.AddColumnsForChange(coll, "Is_CustomerChanged", obj.Is_CustomerChanged)
-
-
             clsCommon.AddColumnsForChange(coll, "Insurance", obj.Insurance)
-
             clsCommon.AddColumnsForChange(coll, "ManualVehicle", obj.ManualVehicle)
             clsCommon.AddColumnsForChange(coll, "IsReplacement", obj.IsReplacement)
             clsCommon.AddColumnsForChange(coll, "Invoice_No_ForReplacement", obj.Invoice_No_ForReplacement, True)
@@ -1052,15 +948,12 @@ Public Class clsPSShipmentHead
             End If
             clsPSShipmentHeadDetail.SaveData(obj.Document_Code, obj.Arr, trans, obj.Document_Date, IsDairyModule, obj.Trans_Type)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
-
             If obj.ArrDemand IsNot Nothing Then
                 clsPSShipmentDemand.SaveData(obj.Document_Code, obj.ArrDemand, trans)
-
             End If
             If obj.ArrBoothScheme IsNot Nothing Then
                 clsPSShipmentBoothWiseScheme.SaveData(obj.Document_Code, obj.ArrBoothScheme, trans)
             End If
-
             clsPSShipmentChecklistDetail.SaveData(obj.Document_Code, obj.ArrChkList, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
             '''' to save item weight unit
@@ -1070,7 +963,6 @@ Public Class clsPSShipmentHead
             ''''  for automatic invoice
             Dim skipTaxableInvoice As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select skipTaxableInvoice from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans)) = 1, True, False)
             Dim skipNonTaxableInvoice As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select skipNonTaxableInvoice from TSPL_CUSTOMER_MASTER where Cust_Code='" + obj.Customer_Code + "'", trans)) = 1, True, False)
-
             If IsDairyModule = False Then
                 Dim objSI As clsPSInvoiceHead = ConvertShipmentToSaleInvoice(obj, trans, obj.Sale_Invoice_No, True, 0, IsDairyModule) 'sanjay
                 'If Dairy Sale Off
@@ -1080,7 +972,6 @@ Public Class clsPSShipmentHead
                     objSI.Item_Tax_Type = obj.Item_Tax_Type
                     objSI.SaveData(objSI, True, trans, False, False)
                 End If
-
             Else
                 'If Dairy Sale ON
                 If Not clsCommon.CompairString(obj.DO_Item_Type, "NT") = CompairStringResult.Equal Then
@@ -1095,8 +986,6 @@ Public Class clsPSShipmentHead
                             End If
                         End If
                     End If
-
-
                 Else
                     Dim saleInvoiceNo As String = ""
                     Dim CreateSeperateTaxInvForFOCIteminNonTaxdispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateSeperateTaxInvForFOCIteminNonTaxdispatch, clsFixedParameterCode.CreateSeperateTaxInvForFOCIteminNonTaxdispatch, trans))
@@ -1138,24 +1027,19 @@ Public Class clsPSShipmentHead
                         End If
                     End If
                 End If
-
-
             End If
             If obj.Is_CustomerChanged = 1 Then
                 UpdateInventoryMovement(obj, trans, True)
             End If
-
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
         Return True
     End Function
-
     Public Shared Function UpdateAfterPosting(ByVal obj As clsPSShipmentHead, ByVal trans As SqlTransaction) As Boolean
         Try
             If obj IsNot Nothing And clsCommon.myLen(obj.Document_Code) > 0 Then
                 Dim coll As New Hashtable()
-
                 clsCommon.AddColumnsForChange(coll, "OPKm", obj.OPKm)
                 clsCommon.AddColumnsForChange(coll, "CLKm", obj.CLKm)
                 clsCommon.AddColumnsForChange(coll, "GRNo", obj.GRNo)
@@ -1172,14 +1056,12 @@ Public Class clsPSShipmentHead
                 End If
                 clsCommon.AddColumnsForChange(coll, "EWayBillNo", obj.EWayBillNo)
                 clsCommon.AddColumnsForChange(coll, "Electronic_Ref_No", obj.Electronic_Ref_No)
-
                 If clsCommon.myLen(obj.EWayBillDate) > 0 Then
                     clsCommon.AddColumnsForChange(coll, "EWayBillDate", clsCommon.GetPrintDate(obj.EWayBillDate, "dd/MMM/yyyy"))
                 Else
                     clsCommon.AddColumnsForChange(coll, "EWayBillDate", Nothing, True)
                 End If
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SHIPMENT_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
-
                 Dim coll2 As New Hashtable()
                 Dim objInvoice As New clsPSInvoiceHead
                 objInvoice.Document_Code = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'", trans)
@@ -1207,13 +1089,11 @@ Public Class clsPSShipmentHead
             Throw New Exception(ex.Message)
         End Try
     End Function
-
     'sanjay
     Public Shared Function UpdateEWayBillDeatil(ByVal obj As clsPSShipmentHead, ByVal TransferNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             If obj IsNot Nothing And clsCommon.myLen(obj.Document_Code) > 0 Then
                 Dim coll As New Hashtable()
-
                 clsCommon.AddColumnsForChange(coll, "EWayBillNo", obj.EWayBillNo)
                 If clsCommon.myLen(obj.EWayBillDate) > 0 Then
                     clsCommon.AddColumnsForChange(coll, "EWayBillDate", clsCommon.GetPrintDate(obj.EWayBillDate, "dd/MMM/yyyy"))
@@ -1221,8 +1101,6 @@ Public Class clsPSShipmentHead
                     clsCommon.AddColumnsForChange(coll, "EWayBillDate", Nothing, True)
                 End If
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SHIPMENT_HEAD.document_code='" + obj.Document_Code + "'", trans)
-
-
                 Dim coll2 As New Hashtable()
                 Dim objInvoice As New clsPSInvoiceHead
                 objInvoice.Document_Code = clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Document_Code + "'", trans)
@@ -1233,7 +1111,6 @@ Public Class clsPSShipmentHead
                     clsCommon.AddColumnsForChange(coll2, "EWayBillDate", Nothing, True)
                 End If
                 clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + objInvoice.Document_Code + "'", trans)
-
             End If
             Return True
         Catch ex As Exception
@@ -1241,7 +1118,6 @@ Public Class clsPSShipmentHead
         End Try
     End Function
     'sanjay
-
     Public Shared Function checkSaveNotification(ByVal obj As clsPSShipmentHead, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim Count As Integer = 0
@@ -1313,11 +1189,9 @@ Public Class clsPSShipmentHead
             Throw New Exception(ex.Message)
         End Try
     End Function
-
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType) As clsPSShipmentHead
         Return GetData(strDocumentNo, NavType, Nothing)
     End Function
-
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False) As clsPSShipmentHead
         'Dim TransType_Str As String = ""
         Dim obj As clsPSShipmentHead = Nothing
@@ -1326,7 +1200,6 @@ Public Class clsPSShipmentHead
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
         ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours,TSPL_SD_SHIPMENT_HEAD.BoothSecurity_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Vehicle_Type,TSPL_SD_SHIPMENT_HEAD.IsEwaybill,TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer,TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID,TSPL_SD_SHIPMENT_HEAD.Exclude_KKF_And_Mandi "
-
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
         qry += " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SHIPMENT_HEAD.Ship_To_Location "
@@ -1342,7 +1215,6 @@ Public Class clsPSShipmentHead
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
         '    whrCls = " AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         'End If
-
         If IsDairyModule = False Then
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
                 whrCls = "  and TSPL_SD_SHIPMENT_HEAD.Trans_Type='PS' AND TSPL_SD_SHIPMENT_HEAD.Screen_Type='' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
@@ -1366,7 +1238,6 @@ Public Class clsPSShipmentHead
             End If
         End If
         '-----------------------------------------------------
-
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Document_Code = (select MIN(Document_Code) from TSPL_SD_SHIPMENT_HEAD WHERE 1=1 " + whrCls + ") "
@@ -1380,7 +1251,6 @@ Public Class clsPSShipmentHead
                 qry += " and TSPL_SD_SHIPMENT_HEAD.Document_Code = (select Max(Document_Code) from TSPL_SD_SHIPMENT_HEAD where Document_Code<'" + strPONo + "' " + whrCls + ")"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsPSShipmentHead()
             obj.IsSampling = clsCommon.myCdbl(dt.Rows(0)("IsSampling"))
@@ -1407,7 +1277,6 @@ Public Class clsPSShipmentHead
             obj.ChangedTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ChangedTCSBaseAmount"))
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ActualTCSBaseAmount"))
             obj.Exclude_KKF_And_Mandi = clsCommon.myCdbl(dt.Rows(0)("Exclude_KKF_And_Mandi"))
-
             obj.EmptyCharge = clsCommon.myCdbl(dt.Rows(0)("EmptyCharge"))
             obj.Freight_Type = clsCommon.myCstr(dt.Rows(0)("Freight_Type"))
             obj.Including_Insurance = clsCommon.myCdbl(dt.Rows(0)("Including_Insurance"))
@@ -1457,7 +1326,6 @@ Public Class clsPSShipmentHead
             If dt.Rows(0)("Supply_Date") IsNot DBNull.Value Then
                 obj.Supply_Date = clsCommon.myCstr(dt.Rows(0)("Supply_Date"))
             End If
-
             obj.Transport_Id = clsCommon.myCstr(dt.Rows(0)("Transport_Id"))
             obj.Transporter_Name = clsCommon.myCstr(dt.Rows(0)("Transporter_Name"))
             obj.Freight_Distance = clsCommon.myCdbl(dt.Rows(0)("Freight_Distance"))
@@ -1468,17 +1336,14 @@ Public Class clsPSShipmentHead
             obj.SO_Validity = clsCommon.myCdbl(dt.Rows(0)("SO_Validity"))
             obj.Commission_Apply = clsCommon.myCdbl(dt.Rows(0)("Commission_Apply"))
             obj.Total_Comm_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Comm_Amt"))
-
             If dt.Rows(0)("Dispatch_date") IsNot DBNull.Value Then
                 obj.Dispatch_date = clsCommon.myCDate(dt.Rows(0)("Dispatch_date"))
             End If
-
             obj.Vehicle_Capacity = clsCommon.myCdbl(dt.Rows(0)("Vehicle_Capacity"))
             obj.Dispatch_Terms = clsCommon.myCstr(dt.Rows(0)("Dispatch_Terms"))
             obj.Payment_Terms = clsCommon.myCstr(dt.Rows(0)("Payment_Terms"))
             obj.Dispatch_Period = clsCommon.myCdbl(dt.Rows(0)("Dispatch_Period"))
             obj.Road_Permit_No = clsCommon.myCstr(dt.Rows(0)("Road_Permit_No"))
-
             obj.Is_Delivered = clsCommon.myCdbl(dt.Rows(0)("Is_Delivered"))
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
@@ -1545,33 +1410,26 @@ Public Class clsPSShipmentHead
             obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
             obj.PROJECT_ID = clsCommon.myCstr(dt.Rows(0)("PROJECT_ID"))
             obj.Against_Cust_Order = clsCommon.myCstr(dt.Rows(0)("Against_Cust_Order"))
-
             obj.CashCustomer = clsCommon.myCstr(dt.Rows(0)("Cash_Customer"))
-
             If dt.Rows(0)("Due_Date") IsNot DBNull.Value Then
                 obj.Due_Date = clsCommon.myCstr(dt.Rows(0)("Due_Date"))
             End If
-
             '-----------------richa 26/06/2014 Ticket No .BM00000002982----------------------------
             obj.InvoiceManualNowithPrefix = clsCommon.myCstr(dt.Rows(0)("Mannual_Invoice_No_StringType"))
             obj.Mannual_Invoice_No = clsCommon.myCstr(dt.Rows(0)("Mannual_Invoice_No"))
             ''richa ERO/12/06/19-000642
             obj.Manual_Driver_Name = clsCommon.myCstr(dt.Rows(0)("Manual_Driver_Name"))
             obj.Manual_Salesman_Name = clsCommon.myCstr(dt.Rows(0)("Manual_Salesman_Name"))
-
             obj.BillToLocationName = clsCommon.myCstr(dt.Rows(0)("BillToLocationName"))
             obj.ShipToLocationName = clsCommon.myCstr(dt.Rows(0)("ShipToLocationName"))
             obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
             obj.TermsName = clsCommon.myCstr(dt.Rows(0)("TermsName"))
-
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             End If
-
             obj.IsReplacement = clsCommon.myCdbl(dt.Rows(0)("IsReplacement"))
             obj.Invoice_No_ForReplacement = clsCommon.myCstr(dt.Rows(0)("Invoice_No_ForReplacement"))
             obj.Customer_Complaint_No = clsCommon.myCstr(dt.Rows(0)("Customer_Complaint_No"))
-
             obj.Challan_No = clsCommon.myCdbl(dt.Rows(0)("Challan_No"))
             obj.Carrier = clsCommon.myCstr(dt.Rows(0)("Carrier"))
             obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
@@ -1582,74 +1440,53 @@ Public Class clsPSShipmentHead
             If dt.Rows(0)("GEDate") IsNot DBNull.Value Then
                 obj.GEDate = clsCommon.myCDate(dt.Rows(0)("GEDate"))
             End If
-
-
-
-
             obj.Dept = clsCommon.myCstr(dt.Rows(0)("Dept"))
             obj.Dept_Desc = clsCommon.myCstr(dt.Rows(0)("Dept_Desc"))
             obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
-
             obj.Against_Sales_Order = clsCommon.myCstr(dt.Rows(0)("Against_Sales_Order"))
             obj.Delivery_Code_PS = clsCommon.myCstr(dt.Rows(0)("Delivery_Code_PS"))
-
-
             obj.Add_Charge_Code1 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code1"))
             obj.Add_Charge_Name1 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name1"))
             obj.Add_Charge_Amt1 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt1"))
-
             obj.Add_Charge_Code2 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code2"))
             obj.Add_Charge_Name2 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name2"))
             obj.Add_Charge_Amt2 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt2"))
-
             obj.Add_Charge_Code3 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code3"))
             obj.Add_Charge_Name3 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name3"))
             obj.Add_Charge_Amt3 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt3"))
-
             obj.Add_Charge_Code4 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code4"))
             obj.Add_Charge_Name4 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name4"))
             obj.Add_Charge_Amt4 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt4"))
-
             obj.Add_Charge_Code5 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code5"))
             obj.Add_Charge_Name5 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name5"))
             obj.Add_Charge_Amt5 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt5"))
-
             obj.Add_Charge_Code6 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code6"))
             obj.Add_Charge_Name6 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name6"))
             obj.Add_Charge_Amt6 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt6"))
-
             obj.Add_Charge_Code7 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code7"))
             obj.Add_Charge_Name7 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name7"))
             obj.Add_Charge_Amt7 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt7"))
-
             obj.Add_Charge_Code8 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code8"))
             obj.Add_Charge_Name8 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name8"))
             obj.Add_Charge_Amt8 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt8"))
-
             obj.Add_Charge_Code9 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code9"))
             obj.Add_Charge_Name9 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name9"))
             obj.Add_Charge_Amt9 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt9"))
-
             obj.Add_Charge_Code10 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code10"))
             obj.Add_Charge_Name10 = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name10"))
             obj.Add_Charge_Amt10 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt10"))
-
             obj.Total_Add_Charge = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge"))
             obj.Inv_No = clsCommon.myCstr(dt.Rows(0)("Inv_No"))
             If dt.Rows(0)("Challan_Date") IsNot DBNull.Value Then
-
                 obj.Challan_Date = clsCommon.GetPrintDate((dt.Rows(0)("Challan_Date")), "dd/MMM/yyyy")
             End If
-
             If dt.Rows(0)("Inv_Date") IsNot DBNull.Value Then
                 obj.Inv_Date = clsCommon.GetPrintDate((dt.Rows(0)("Inv_Date")), "dd/MMM/yyyy")
             End If
-
             obj.Tax_Calculation_Type = IIf(clsCommon.myCdbl(dt.Rows(0)("Tax_Calculation_Type")) = 0, EnumTaxCalucationType.Automatic, EnumTaxCalucationType.Mannual)
             obj.Is_Create_Auto_Invoice = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Create_Auto_Invoice")) = 1, True, False)
             obj.Sale_Invoice_No = clsCommon.myCstr(dt.Rows(0)("Sale_Invoice_No"))
             obj.Is_Create_Auto_Receipt = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Create_Auto_Receipt")) = 1, True, False)
-
             obj.Salesman_Code = clsCommon.myCstr(dt.Rows(0)("Salesman_Code"))
             obj.Salesman_Name = clsCommon.myCstr(dt.Rows(0)("Salesman_Name"))
             obj.Price_Code = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
@@ -1687,7 +1524,6 @@ Public Class clsPSShipmentHead
             obj.BoothSecurity_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("BoothSecurity_TotalAmt"))
             'obj.Invoice_No = clsDBFuncationality.getSingleValue("Select Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" & obj.Document_Code & "' and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')='' ", trans)
             obj.Invoice_No = obj.Sale_Invoice_No
-
             qry = "SELECT  TSPL_SD_SHIPMENT_DETAIL.Sub_Location_code,TSPL_SD_SHIPMENT_DETAIL.VS_CashSchemeCode,TSPL_SD_SHIPMENT_DETAIL.VS_Cash_Amt,TSPL_SD_SHIPMENT_DETAIL.VS_ltrInCrate,TSPL_SD_SHIPMENT_DETAIL.CAN,TSPL_SD_SHIPMENT_DETAIL.Structure_Code,TSPL_SD_SHIPMENT_DETAIL.ItemwiseTaxCode,TSPL_SD_SHIPMENT_DETAIL.CRATE, TSPL_SD_SHIPMENT_DETAIL.Disc_Scheme_Amount,TSPL_SD_SHIPMENT_DETAIL.Disc_Scheme_Code,TSPL_SD_SHIPMENT_DETAIL.Disc_Scheme_Pers,TSPL_SD_SHIPMENT_DETAIL.Disc_Scheme_Type,TSPL_SD_SHIPMENT_DETAIL.GatePass_No,TSPL_SD_SHIPMENT_DETAIL.Alter_UnitQty,TSPL_SD_SHIPMENT_DETAIL.Rate_UnitQty,TSPL_SD_SHIPMENT_DETAIL.Cash_Scheme_Amount,TSPL_SD_SHIPMENT_DETAIL.Cash_Scheme_Type,TSPL_SD_SHIPMENT_DETAIL.Cash_Scheme_Pers,TSPL_SD_SHIPMENT_DETAIL.Cash_Scheme_Code, " &
             "TSPL_SD_SHIPMENT_DETAIL.Scheme_Item_UOM,TSPL_SD_SHIPMENT_DETAIL.Scheme_Qty,TSPL_SD_SHIPMENT_DETAIL.Scheme_Item_Code,TSPL_SD_SHIPMENT_DETAIL.Scheme_Type,TSPL_SD_SHIPMENT_DETAIL.Total_Item_WeightMetric,TSPL_SD_SHIPMENT_DETAIL.OrgUnit_code,TSPL_SD_SHIPMENT_DETAIL.Is_Mannual_Amt,TSPL_SD_SHIPMENT_DETAIL.Document_Code,TSPL_SD_SHIPMENT_DETAIL.Line_No, " &
             "TSPL_SD_SHIPMENT_DETAIL.Status,TSPL_SD_SHIPMENT_DETAIL.Row_Type,TSPL_SD_SHIPMENT_DETAIL.status,TSPL_SD_SHIPMENT_DETAIL.Item_Code, " &
@@ -1717,7 +1553,7 @@ Public Class clsPSShipmentHead
             "TSPL_SD_SHIPMENT_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_DETAIL.Price_Date, " &
             "TSPL_SD_SHIPMENT_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_DETAIL.Bin_No,TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_DETAIL.OrgRate,  " &
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
-            ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Scheme_Main_Item "
+            ",TSPL_SD_SHIPMENT_DETAIL.Item_Group,TSPL_SD_SHIPMENT_DETAIL.Billing_Unit_code,TSPL_SD_SHIPMENT_DETAIL.Billing_Qty,TSPL_SD_SHIPMENT_DETAIL.Against_Cust_Ord_PK_ID,TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,TSPL_SD_SHIPMENT_DETAIL.TAX_PAID,TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Scheme_Main_Item "
             qry += " ,TSPL_SD_SHIPMENT_DETAIL.Alternate_UOM,TSPL_SD_SHIPMENT_DETAIL.RATE_UOM,TSPL_BOOKING_MATSER.Document_No," &
                    " TSPL_BOOKING_MATSER.Created_By as Booking_User_Code,TSPL_USER_MASTER.Distributor_Retailer_Code,SecCust.Customer_Name as Distributor_Retailer_Name,SecCust.Email as Distributor_Retailer_Email,TSPL_Additional_Charges.Description as  AddChargeDesc,TSPL_SD_SHIPMENT_DETAIL.Sampling,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_PKID,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_RateWithTax,TSPL_SD_SHIPMENT_DETAIL.Distributor_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Security_Rate,TSPL_SD_SHIPMENT_DETAIL.Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Rate,TSPL_SD_SHIPMENT_DETAIL.PK_ID,TSPL_SD_SHIPMENT_DETAIL.Booth_Security_Amt,TSPL_SD_SHIPMENT_DETAIL.Transporter FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code "
@@ -1757,12 +1593,10 @@ Public Class clsPSShipmentHead
                     objTr.Cash_Scheme_Pers = clsCommon.myCdbl(dr("Cash_Scheme_Pers"))
                     objTr.Cash_Scheme_Amount = clsCommon.myCdbl(dr("Cash_Scheme_Amount"))
                     objTr.Against_Cust_Ord_PK_ID = clsCommon.myCdbl(dr("Against_Cust_Ord_PK_ID"))
-
                     objTr.Scheme_Type = clsCommon.myCstr(dr("Scheme_Type"))
                     objTr.Scheme_Qty = clsCommon.myCdbl(dr("Scheme_Qty"))
                     objTr.Scheme_Item_UOM = clsCommon.myCstr(dr("Scheme_Item_UOM"))
                     objTr.Scheme_Item_Code = clsCommon.myCstr(dr("Scheme_Item_Code"))
-
                     objTr.Total_Item_WeightMetric = clsCommon.myCdbl(dr("Total_Item_WeightMetric"))
                     objTr.Alternate_UOM = clsCommon.myCstr(dr("Alternate_UOM"))
                     objTr.RATE_UOM = clsCommon.myCstr(dr("RATE_UOM"))
@@ -1780,23 +1614,19 @@ Public Class clsPSShipmentHead
                     Else
                         objTr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
                     End If
-
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                     objTr.Status = Convert.ToInt32(clsCommon.myCdbl(dr("Status")))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                     objTr.Bar_Code = clsCommon.myCstr(dr("Bar_Code"))
-
                     objTr.Qty = clsCommon.myCdbl(dr("Qty"))
-
+                    objTr.Billing_Qty = clsCommon.myCdbl(dr("Billing_Qty"))
                     objTr.Trip_No = clsCommon.myCdbl(dr("Trip_No"))
-
-
                     objTr.Free_Qty = clsCommon.myCdbl(dr("Free_Qty"))
                     objTr.Order_Code = clsCommon.myCstr(dr("Order_Code"))
                     objTr.Delivery_Code_PS = clsCommon.myCstr(dr("Delivery_Code_PS"))
-
                     objTr.Balance_Qty = clsCommon.myCdbl(dr("Balance_Qty"))
                     objTr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
+                    objTr.Billing_Unit_code = clsCommon.myCstr(dr("Billing_Unit_code"))
                     objTr.Location = clsCommon.myCstr(dr("Location"))
                     objTr.LocationName = clsCommon.myCstr(dr("LocationName"))
                     objTr.Item_Cost = clsCommon.myCdbl(dr("Item_Cost"))
@@ -1846,13 +1676,9 @@ Public Class clsPSShipmentHead
                     objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
                     objTr.Total_Tax_Amt = clsCommon.myCdbl(dr("Total_Tax_Amt"))
                     objTr.Item_Net_Amt = clsCommon.myCdbl(dr("Item_Net_Amt"))
-
-
                     objTr.Is_Mannual_Amt = clsCommon.myCdbl(dr("Is_Mannual_Amt"))
-
                     ' ''objTr.Landed_Cost_Rate = clsCommon.myCdbl(dr("Landed_Cost_Rate"))
                     ' ''objTr.Landed_Cost_Amount = clsCommon.myCdbl(dr("Landed_Cost_Amount"))
-
                     objTr.MRP = clsCommon.myCdbl(dr("MRP"))
                     objTr.Assessable = clsCommon.myCdbl(dr("Assessable"))
                     objTr.AssessableAmt = clsCommon.myCdbl(dr("AssessableAmt"))
@@ -1866,7 +1692,6 @@ Public Class clsPSShipmentHead
                     objTr.Specification = clsCommon.myCstr(dr("Specification"))
                     objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
                     'objTr.Unit_Cogs = clsCommon.myCdbl(dr("Unit_Cogs"))
-
                     objTr.Scheme_Applicable = clsCommon.myCstr(dr("Scheme_Applicable"))
                     objTr.Scheme_Code = clsCommon.myCstr(dr("Scheme_Code"))
                     objTr.Scheme_Item = clsCommon.myCstr(dr("Scheme_Item"))
@@ -1882,7 +1707,6 @@ Public Class clsPSShipmentHead
                     If dr("Price_Date") IsNot DBNull.Value Then
                         objTr.Price_Date = clsCommon.myCDate(dr("Price_Date"))
                     End If
-
                     objTr.Abatement_Per = clsCommon.myCdbl(dr("Abatement_Per"))
                     objTr.Abatement_Amt = clsCommon.myCdbl(dr("Abatement_Amt"))
                     objTr.FOC_Item = clsCommon.myCdbl(dr("FOC_Item"))
@@ -1929,7 +1753,6 @@ Public Class clsPSShipmentHead
                 Next
             End If
             obj.ArrBoothScheme = clsPSShipmentBoothWiseScheme.GetData(obj.Document_Code, trans)
-
             qry = "select * from TSPL_SD_SHIPMENT_CHECKLIST_DETAIL WHERE SHIPMENT_CODE='" + obj.Document_Code + "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -1944,10 +1767,8 @@ Public Class clsPSShipmentHead
                 Next
             End If
         End If
-
         Return obj
     End Function
-
     Public Shared Function GetOriginalQty(ByVal strMrnNo As String, ByVal strICode As String, ByVal strUOM As String, ByVal dblAssessable As Double, ByVal dblMRP As Double, ByVal trans As SqlTransaction) As DataTable
         Dim qry As String = "Select TSPL_MRN_DETAIL.MRN_No,(TSPL_MRN_DETAIL.MRN_Qty+ISNULL(TSPL_MRN_DETAIL.Leak_Qty,0) +ISNULL(TSPL_MRN_DETAIL.Burst_Qty,0)+ISNULL(TSPL_MRN_DETAIL.Short_Qty,0)) as MRN_Qty,TSPL_GRN_DETAIL.GRN_No,(TSPL_GRN_DETAIL.GRN_Qty+ISNULL(TSPL_GRN_DETAIL.Leak_Qty,0) +ISNULL(TSPL_GRN_DETAIL.Burst_Qty,0)+ISNULL(TSPL_GRN_DETAIL.Short_Qty,0)) as GRN_Qty, TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty from TSPL_MRN_DETAIL left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code and TSPL_GRN_DETAIL.Unit_code=TSPL_MRN_DETAIL.Unit_code and isnull(TSPL_GRN_DETAIL.Assessable,0)=isnull(TSPL_MRN_DETAIL.Assessable,0) and isnull(TSPL_GRN_DETAIL.Item_Code,0)=isnull(TSPL_MRN_DETAIL.Item_Code ,0) left outer join TSPL_PURCHASE_ORDER_DETAIL on TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No= TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Unit_code=  TSPL_GRN_DETAIL.Unit_code and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)=  isnull(TSPL_GRN_DETAIL.Assessable,0) and isnull(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)=  isnull(TSPL_GRN_DETAIL.MRP,0) where TSPL_MRN_DETAIL.MRN_No='" + strMrnNo + "' and TSPL_MRN_DETAIL.Item_Code='" + strICode + "' and TSPL_MRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_MRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_MRN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'"
         Return clsDBFuncationality.GetDataTable(qry, trans)
@@ -1969,7 +1790,6 @@ Public Class clsPSShipmentHead
                     If isAllowStockCheckAtDOLevel Then
                         strCode = obj.Delivery_Code_PS
                     End If
-
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(objShipment.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(objShipment.Customer_Code) & "' ", trans)), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(objShipment.Customer_Code) & "' ", trans)), "") = CompairStringResult.Equal Then
                             dblBalQty = clsItemLocationDetails.getBalance(obj.Item_Code, IIf(clsCommon.myLen(clsCommon.myCstr(objShipment.Sub_Location_code)) > 0, objShipment.Sub_Location_code, objShipment.Bill_To_Location), strCode, objShipment.Document_Date, trans, obj.Unit_code, obj.MRP)
@@ -1990,7 +1810,6 @@ Public Class clsPSShipmentHead
         End Try
         Return True
     End Function
-
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -1999,7 +1818,6 @@ Public Class clsPSShipmentHead
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     PostData(FormId, clsCommon.myCstr(dr("Document_Code")), trans, Nothing, IsDairyModule, "")
-
                 Next
             Else
                 Throw New Exception("Please select Parent Document")
@@ -2010,7 +1828,6 @@ Public Class clsPSShipmentHead
             Dim qry As String = "select IRN_No,qr_code,ack_no,ack_date,EWayBillNo, EwayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + strDocNo + "'"
             Dim dtPortalInfo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             trans.Rollback()
-
             Try
                 If dtPortalInfo IsNot Nothing AndAlso dtPortalInfo.Rows.Count > 0 Then
                     Dim coll As New Hashtable()
@@ -2022,7 +1839,6 @@ Public Class clsPSShipmentHead
                             clsCommon.AddColumnsForChange(coll, "ack_date", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("ack_date")), "dd/MMM/yyyy hh:mm:ss tt"))
                         End If
                     End If
-
                     If clsCommon.myLen(dtPortalInfo.Rows(0)("EWayBillNo")) > 0 Then
                         clsCommon.AddColumnsForChange(coll, "EWayBillNo", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillNo")))
                         If dtPortalInfo.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
@@ -2033,17 +1849,13 @@ Public Class clsPSShipmentHead
                         End If
                         clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillRemarks")))
                     End If
-
                     If coll.Count > 0 Then
                         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "Against_Shipment_No='" + strDocNo + "'")
                     End If
-
                 End If
             Catch ex2 As Exception
                 strEx += Environment.NewLine + "Portal Info [" + ex2.Message + "]"
             End Try
-
-
             Try
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
@@ -2051,15 +1863,12 @@ Public Class clsPSShipmentHead
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_EXCEPTION", OMInsertOrUpdate.Insert, "")
-
             Catch ex1 As Exception
             End Try
-
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoForRecreateOnly As String = Nothing, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal strARInvoiceNoRecreateOnly As String = Nothing, Optional ByVal strDispatchVoucherNo As String = Nothing) As Boolean
         Try
             Dim isSaved As Boolean = True
@@ -2067,18 +1876,15 @@ Public Class clsPSShipmentHead
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Shipment No not found to Post")
             End If
-
             If IsDairyModule = False Then
                 obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans)
             Else
                 obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, IsDairyModule)
             End If
             Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, trans)) = 1, True, False)
-
             If StockCheckOnPostForDairyDispatchMultiple = True Then
                 CheckStock(obj, trans)
             End If
-
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -2093,7 +1899,6 @@ Public Class clsPSShipmentHead
                 Throw New Exception("Shipment No " + obj.Document_Code + " Is On Hold.Can't Post it")
             End If
             Dim qry As String = ""
-
             If Not clsApply_Approval.AllowNlevelonScreen(clsUserMgtCode.frmBulkMilkSRN, trans) Then
                 If AdvanceReceived(obj.Delivery_Code_PS, trans) = False AndAlso obj.Is_Advance_Approved = 0 AndAlso obj.Advance_Approval_Reqd = 0 Then
                     Dim intExist As Integer = 0
@@ -2101,11 +1906,9 @@ Public Class clsPSShipmentHead
                         If obj.Advance_Approval_Reqd = 0 Then
                             qry = "Update TSPL_SD_SHIPMENT_HEAD set Advance_Approval_Reqd=1 where Document_Code='" & obj.Document_Code & "' "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                             qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code) " &
                             "values ('Product Dispatch','" & clsUserMgtCode.frmShipmentProductSale & "','" & obj.Document_Code & "','" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Advance Receipt',0,'" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "','" & objCommonVar.CurrentCompanyCode & "')"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                         End If
                         'trans.Commit()
                         Return False
@@ -2131,11 +1934,9 @@ Public Class clsPSShipmentHead
             End If
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, trans)) = 0 Then
                 UpdateInventoryMovement(obj, trans, False, IsDairyModule)
-
             End If
             '===update by preeti gupta Against ticket no[BHA/22/06/18-000081][added Setting Only]
             'CreateSMSContent(obj, strVoucherNoForRecreateOnly, trans)
-
             Dim CalculateProvisionOnGateePass As Integer = 0 ' added by preeti gupta Against ticket no[UDL/10/01/19-000252]
             CalculateProvisionOnGateePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateProvisionOnGateePass, clsFixedParameterCode.CalculateProvisionOnGateePass, trans))
             If CalculateProvisionOnGateePass = 0 Then
@@ -2145,16 +1946,13 @@ Public Class clsPSShipmentHead
                     End If
                 End If
             End If
-
             'If clsCommon.myLen(obj.Delivery_Code_PS) > 0 Then
             '    Dim objSO As clsPSSalesOrder = ConvertShipmentToSaleOrder(obj)
             '    objSO.SaveData(objSO, True, False, trans)
             '    obj.Against_Sales_Order = objSO.Document_Code
             '    clsPSSalesOrder.PostData("", obj.Against_Sales_Order, trans)
             'End If
-
             CreateJournalEntry(obj.Document_Code, trans, strDispatchVoucherNo, IsDairyModule)
-
             qry = "Update TSPL_SD_SHIPMENT_HEAD set  Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
             qry += " where Document_Code='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -2175,7 +1973,6 @@ Public Class clsPSShipmentHead
                             obj.Sale_Invoice_No = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL inner join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE where TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code='" & obj.Document_Code & "' and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans)
                             clsPSInvoiceHead.PostData(FormId, obj.Sale_Invoice_No, trans, IsDairyModule, strVoucherNoForRecreateOnly, strARInvoiceNoRecreateOnly)
                         End If
-
                     Else
                         If Not skipNonTaxableInvoice Then
                             obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" & obj.Document_Code & "' and Total_Tax_Amt=0 and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''", trans))
@@ -2189,7 +1986,6 @@ Public Class clsPSShipmentHead
                         End If
                     End If
                 End If
-
             End If
             ''================ added parteek 16-01-2017
             Dim qrycheck As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Manual_Customer from tspl_customer_master where cust_code='" + obj.Customer_Code + "'", trans))
@@ -2222,23 +2018,19 @@ Public Class clsPSShipmentHead
     Public Shared Function ReciepEntryOfDispatch(ByVal strInvNo As String, ByVal strBankCode As String, ByVal strPaymentCode As String, ByVal trans As SqlTransaction) As String
         Dim objSaleInv As New clsPSShipmentHead()
         Try
-
             objSaleInv = GetData(strInvNo, NavigatorType.Current, trans)
             Dim dblReceiptAmt As Double = objSaleInv.Total_Amt
             If dblReceiptAmt > 0 Then
                 'Dim qry As String = "select SUM(Adjustment_Amount)  from TSPL_Receipt_Adjustment_Header where Doc_No='" + strInvNo + "' and Is_Post='Y'"
                 'Dim dblAdjAmt As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
                 'dblReceiptAmt = dblReceiptAmt - dblAdjAmt
-
                 'Dim originalamt As Decimal = objSaleInv.Document_Total
-
                 '---------------------------------------------------------------------------
                 Dim obj As New clsRcptEntryHeader()
                 obj.Entry_Desc = "Shipment No - " + strInvNo + " for Cash Memo No - " & objSaleInv.Document_Code & "  "
                 obj.Receipt_Date = clsCommon.GetPrintDate(objSaleInv.Posting_Date, "dd/MMM/yyyy")
                 obj.Receipt_Post_Date = clsCommon.GetPrintDate(objSaleInv.Posting_Date, "dd/MMM/yyyy")
                 obj.Bank_Code = clsCommon.myCstr(strBankCode)
-
                 obj.Receipt_Type = "R"
                 obj.Payment_Code = clsCommon.myCstr(strPaymentCode)
                 obj.Cheque_No = ""
@@ -2253,9 +2045,7 @@ Public Class clsPSShipmentHead
                 obj.Salesman_Code = ""
                 obj.Salesman_Name = ""
                 obj.SecurityDeposit = "N"
-
                 obj.ArrTr = New List(Of clsReceiptDettail)
-
                 Dim objTr As New clsReceiptDettail()
                 objTr.Apply = "Y"
                 objTr.Receipt_Type = "I"
@@ -2270,7 +2060,6 @@ Public Class clsPSShipmentHead
                 objTr.Adjustment_No = ""
                 objTr.Comment = objSaleInv.Remarks
                 obj.ArrTr.Add(objTr)
-
                 If obj.SaveData(obj, True, trans) Then
                     clsRcptEntryHeader.funRcptPost(obj.Receipt_No, trans, "MReceivable", objSaleInv.Bill_To_Location, True)
                     clsCommon.MyMessageBoxShow("Receipt No: '" + obj.Receipt_No + "' create aganist dispatch no: '" + objSaleInv.Document_Code + "'")
@@ -2279,19 +2068,14 @@ Public Class clsPSShipmentHead
                 Return obj.Receipt_No
             Else
                 Throw New Exception("Receipt can't be created.Invoice amount is zero.")
-
             End If
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return Nothing
     End Function
-
-
     Shared Sub CreateSMSContent(ByVal obj As clsPSShipmentHead, ByVal strVoucherNoForRecreateOnly As String, ByVal trans As SqlTransaction)
         obj.allowSMSforSalePerson = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowSMSSendtoSalePerson & "'", trans)) = 0, False, True)
-
         Dim Form_ID As String = clsUserMgtCode.frmSaleDispatchDairy
         If clsCommon.myLen(strVoucherNoForRecreateOnly) <= 0 Then
             Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + Form_ID + "'", trans)
@@ -2306,7 +2090,6 @@ Public Class clsPSShipmentHead
                     qry += " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Salesman_Code=TSPL_EMPLOYEE_MASTER.Emp_Code"
                     qry += " where 2=2 and len(replace( isnull((TSPL_EMPLOYEE_MASTER.PRESENT_MOBILE_NO),''),'_',''))>0 and EMP_CODE='" + obj.Salesman_Code + "' "
                 End If
-
                 Dim dtParty As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtParty IsNot Nothing AndAlso dtParty.Rows.Count > 0 Then
                     If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
@@ -2332,11 +2115,7 @@ Public Class clsPSShipmentHead
                             objSMSH.SaveData(Form_ID, objSMSH, trans)
                             objSMSH = Nothing
                         End If
-
-
-
                     End If
-
                     If clsCommon.myLen(dtContent.Rows(0)("Email_Text")) > 0 AndAlso clsCommon.myLen(dtParty.Rows(0)("Email")) > 0 Then
                         Dim objSMSH As New clsEMailHead()
                         objSMSH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
@@ -2355,15 +2134,13 @@ Public Class clsPSShipmentHead
             End If
         End If
     End Sub
-
     Private Shared Function ConvertProvision(ByVal objShipment As clsPSShipmentHead, ByVal trans As SqlTransaction) As clsProvisionEntry
-        Dim Qry As String = "select TSPL_PROVISION_ENTRY.Doc_No from TSPL_PROVISION_ENTRY left outer join TSPL_SD_SHIPMENT_HEAD on " & _
-        "TSPL_PROVISION_ENTRY.Ref_Doc_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No where Prog_Code='SHIPMENT-PS' and " & _
-        "convert(date,Doc_Date,103)='" & clsCommon.GetPrintDate(objShipment.Document_Date, "dd/MMM/yyyy") & "' and TSPL_SD_SHIPMENT_HEAD.VehicleNo='" & objShipment.VehicleNo & "' and " & _
+        Dim Qry As String = "select TSPL_PROVISION_ENTRY.Doc_No from TSPL_PROVISION_ENTRY left outer join TSPL_SD_SHIPMENT_HEAD on " &
+        "TSPL_PROVISION_ENTRY.Ref_Doc_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No where Prog_Code='SHIPMENT-PS' and " &
+        "convert(date,Doc_Date,103)='" & clsCommon.GetPrintDate(objShipment.Document_Date, "dd/MMM/yyyy") & "' and TSPL_SD_SHIPMENT_HEAD.VehicleNo='" & objShipment.VehicleNo & "' and " &
         "TSPL_PROVISION_ENTRY.Loc_Code='" & objShipment.Bill_To_Location & " ' and TSPL_PROVISION_ENTRY.Vendor_Code='" & objShipment.Transport_Id & "' "
         '"and  TSPL_PROVISION_ENTRY.Amount < " & objShipment.Freight_Charges & " "
         Dim strProvisionNo = clsDBFuncationality.getSingleValue(Qry, trans)
-
         Qry = "Select Amount from TSPL_PROVISION_ENTRY where Doc_No='" & strProvisionNo & "'"
         Dim dblProvAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans))
         If clsCommon.myLen(strProvisionNo) = 0 Then
@@ -2388,7 +2165,6 @@ Public Class clsPSShipmentHead
             obj.EmptyCharge = objShipment.EmptyCharge
             If clsProvisionEntry.SaveData(obj, trans) Then
                 If clsProvisionEntry.PostData(obj.Doc_No, trans, True) Then
-
                 End If
             End If
         Else
@@ -2396,18 +2172,12 @@ Public Class clsPSShipmentHead
                 Qry = "Update TSPL_PROVISION_ENTRY set Ref_Doc_No='" & objShipment.Sale_Invoice_No & "',Amount=" & objShipment.Freight_Charges & " where TSPL_PROVISION_ENTRY.Doc_No='" & strProvisionNo & "' "
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
-
         End If
-
-
         Return Nothing
-
     End Function
     Public Shared Function UpdateInventoryMovement(ByVal obj As clsPSShipmentHead, ByVal trans As SqlTransaction, Optional ByVal UpdateInventory As Boolean = False, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal FromDateForAvg As Date? = Nothing, Optional ByVal ExtraWhrForAvg As String = Nothing) As Boolean
         Dim TransType_Str As String = ""
         Try
-
-
             Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
             If UpdateInventory = True Then
                 clsDBFuncationality.ExecuteNonQuery("update tspl_batch_item set Against_Inv_Movement_Trans_Id=null where Document_Code='" & obj.Document_Code & "'", trans)
@@ -2431,7 +2201,6 @@ Public Class clsPSShipmentHead
                     End If
                     Dim objInventoryMovemnt As New clsInventoryMovement()
                     objInventoryMovemnt.InOut = "O"
-
                     If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(obj.Bill_To_Location) & "'", trans)), "Y") = CompairStringResult.Equal Then
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(obj.Customer_Code) & "' ", trans)), "Others") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Customer_category,'') from tspl_customer_master where cust_code='" & clsCommon.myCstr(obj.Customer_Code) & "' ", trans)), "") = CompairStringResult.Equal Then
                             objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(clsCommon.myCstr(obj.Sub_Location_code)) > 0, obj.Sub_Location_code, objTr.Location)
@@ -2441,8 +2210,6 @@ Public Class clsPSShipmentHead
                     Else
                         objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(clsCommon.myCstr(obj.Sub_Location_code)) > 0, obj.Sub_Location_code, objTr.Location)
                     End If
-
-
                     'objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(clsCommon.myCstr(obj.Sub_Location_code)) > 0, obj.Sub_Location_code, objTr.Location)
                     objInventoryMovemnt.Cust_Code = obj.Customer_Code
                     objInventoryMovemnt.Cust_Name = obj.Customer_Name
@@ -2486,7 +2253,6 @@ Public Class clsPSShipmentHead
                         Dim dblRate As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemCrateRate, clsFixedParameterCode.ItemCrateRate, trans))
                         Dim strCrateUOM = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & strCrateItem & "' and Default_UOM=1", trans)
                         Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strCrateItem, obj.Bill_To_Location, obj.Document_Code, obj.Document_Date, trans, strCrateUOM, 0)
-
                         If dblCrateQty > dblBalQty Then
                             Throw New Exception("Item - " + strCrateItem + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblCrateQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty))
                         Else
@@ -2504,13 +2270,9 @@ Public Class clsPSShipmentHead
                             Dim objInventoryMovemnt As New clsInventoryMovement()
                             Dim ArrInventoryMovementCrate As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
                             objInventoryMovemnt.InOut = "O"
-
-
                             objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(clsCommon.myCstr(obj.Sub_Location_code)) > 0, obj.Sub_Location_code, obj.Bill_To_Location)
-
                             objInventoryMovemnt.Cust_Code = obj.Customer_Code
                             objInventoryMovemnt.Cust_Name = obj.Customer_Name
-
                             objInventoryMovemnt.Item_Code = strCrateItem
                             objInventoryMovemnt.Item_Desc = clsItemMaster.GetItemName(strCrateItem, trans)
                             objInventoryMovemnt.Qty = obj.Crate
@@ -2521,28 +2283,22 @@ Public Class clsPSShipmentHead
                             objInventoryMovemnt.Net_Cost = 0
                             objInventoryMovemnt.ItemType = strItemTypeToSave
                             ArrInventoryMovementCrate.Add(objInventoryMovemnt)
-
                             clsInventoryMovement.SaveData(TransType_Str, obj.Document_Code, obj.Document_Date, clsCommon.GetPrintDate(obj.Document_Date, "dd/MM/yyyy"), ArrInventoryMovementCrate, trans)
-
                             Dim qry = "Update TSPL_SD_SHIPMENT_HEAD set Crate_Item='" & strCrateItem & "',Crate_ItemUnit='" & strCrateUOM & "',Crate_ItemRate='" & dblRate & "' where Document_Code='" & obj.Document_Code & "' "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                             qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Crate_Item='" & strCrateItem & "',Crate_ItemUnit='" & strCrateUOM & "',Crate_ItemRate='" & dblRate & "' where Document_Code='" & obj.Sale_Invoice_No & "' "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                     Else
-
                         Throw New Exception("Please Create item as Can type Item.")
                     End If
                 End If
-
                 If dblCanQty > 0 Then
                     Dim strCanItem = clsDBFuncationality.getSingleValue("select top 1 Item_Code from TSPL_ITEM_MASTER where isnull(Can,0)=1", trans)
                     If clsCommon.myLen(strCanItem) > 0 Then
                         Dim dblRate As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemCanRate, clsFixedParameterCode.ItemCanRate, trans))
                         Dim strCanUOM = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & strCanItem & "' and Default_UOM=1", trans)
                         Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strCanItem, obj.Bill_To_Location, obj.Document_Code, obj.Document_Date, trans, strCanUOM, 0)
-
                         If dblCanQty > dblBalQty Then
                             Throw New Exception("Item - " + strCanItem + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblCanQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty))
                         Else
@@ -2560,12 +2316,9 @@ Public Class clsPSShipmentHead
                             Dim objInventoryMovemnt As New clsInventoryMovement()
                             Dim ArrInventoryMovementCan As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
                             objInventoryMovemnt.InOut = "O"
-
                             objInventoryMovemnt.Location_Code = IIf(clsCommon.myLen(clsCommon.myCstr(obj.Sub_Location_code)) > 0, obj.Sub_Location_code, obj.Bill_To_Location)
-
                             objInventoryMovemnt.Cust_Code = obj.Customer_Code
                             objInventoryMovemnt.Cust_Name = obj.Customer_Name
-
                             objInventoryMovemnt.Item_Code = strCanItem
                             objInventoryMovemnt.Item_Desc = clsItemMaster.GetItemName(strCanItem, trans)
                             objInventoryMovemnt.Qty = obj.ShippedCAN
@@ -2577,10 +2330,8 @@ Public Class clsPSShipmentHead
                             objInventoryMovemnt.ItemType = strItemTypeToSave
                             ArrInventoryMovementCan.Add(objInventoryMovemnt)
                             clsInventoryMovement.SaveData(TransType_Str, obj.Document_Code, obj.Document_Date, clsCommon.GetPrintDate(obj.Document_Date, "dd/MM/yyyy"), ArrInventoryMovementCan, trans)
-
                             Dim qry = "Update TSPL_SD_SHIPMENT_HEAD set Can_Item='" & strCanItem & "',Can_ItemUnit='" & strCanUOM & "',Can_ItemRate='" & dblRate & "' where Document_Code='" & obj.Document_Code & "' "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                             qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Can_Item='" & strCanItem & "',Can_ItemUnit='" & strCanUOM & "',Can_ItemRate='" & dblRate & "' where Document_Code='" & obj.Sale_Invoice_No & "' "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -2596,12 +2347,11 @@ Public Class clsPSShipmentHead
     End Function
     Public Shared Sub CreateJournalEntry(ByVal strCode As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoForRecreateOnly As String = Nothing, Optional ByVal IsDairyModule As Boolean = False)
         Try
-
             Dim RecoControlACC As String = ""
-        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-            RecoControlACC = "I"
-        End If
-        Dim isSkipCogsGL As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, trans)) = 0, False, True)
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
+                RecoControlACC = "I"
+            End If
+            Dim isSkipCogsGL As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, trans)) = 0, False, True)
             If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL
                 Dim obj As New clsPSShipmentHead
                 obj = clsPSShipmentHead.GetData(strCode, NavigatorType.Current, trans)
@@ -2609,21 +2359,17 @@ Public Class clsPSShipmentHead
                 Dim strInventoryControlAc As String = ""
                 Dim strShipmentClearingAC As String = ""
                 Dim dblTotalCost As Double = 0
-
                 strShipmentClearingAC = clsDBFuncationality.getSingleValue("SELECT PA.Shipment_Clearing FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
                   " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                    " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'", trans)
                 strShipmentClearingAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strShipmentClearingAC, obj.Bill_To_Location, trans)
-
                 If clsCommon.myLen(strShipmentClearingAC) = 0 Then
                     Throw New Exception("Please set Shipment clearing Account for first item")
                 End If
                 'done by priti BHA/14/06/18-000053
                 Dim dblCogsCost As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end) as COst from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 and Source_Doc_No='" & obj.Document_Code & "'", trans))
-
                 Dim Acc() As String = {strShipmentClearingAC, dblCogsCost, "", "", "", "", "", "", "H"}
                 ArryLstGLAC.Add(Acc)
-
                 Dim strSql As String = "select TSPL_INVENTORY_MOVEMENT.Item_Code,case when Costing_Method=0 then Avg_Cost when Costing_Method=1 then Avg_Cost when Costing_Method=2 then FIFO_Cost when Costing_Method=3 then LIFO_Cost end as Cost from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code  where isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0 and Source_Doc_No='" & obj.Document_Code & "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(strSql, trans)
                 If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -2632,13 +2378,11 @@ Public Class clsPSShipmentHead
                         " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                         " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + clsCommon.myCstr(dr("Item_Code")) + "'", trans)
                         strInventoryControlAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInventoryControlAc, obj.Bill_To_Location, trans)
-
                         If clsCommon.myLen(strInventoryControlAc) = 0 Then
                             Throw New Exception("Please set Inventory Control Account for first item")
                         End If
                         Dim Acc1() As String = {strInventoryControlAc, -1 * clsCommon.myCdbl(dr("Cost")), "", "", "", "", "", "", RecoControlACC}
                         ArryLstGLAC.Add(Acc1)
-
                         ''richa agarwal 27 Dec,2018 BHA/27/11/18-000718
                         Dim TransType_Str As String = ""
                         If IsDairyModule = False Then
@@ -2659,13 +2403,10 @@ Public Class clsPSShipmentHead
                     clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "SD-SH", "Shipment", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
                 End If
             End If  '' Done By Pankaj Jha For Skipping Cogs GL
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
-
     Private Shared Function ConvertShipmentToSaleInvoice(ByVal objShipment As clsPSShipmentHead, ByVal trans As SqlTransaction, ByVal Sale_Invoice_No As String, ByVal SingleInvoice As Boolean, ByVal Taxable As Integer, ByVal IsDairyModule As Boolean) As clsPSInvoiceHead 'sanjay
         Dim obj As New clsPSInvoiceHead()
         obj = New clsPSInvoiceHead()
@@ -2775,82 +2516,60 @@ Public Class clsPSShipmentHead
         obj.Cust_PO_No = objShipment.Cust_PO_No
         obj.podate = objShipment.Podate
         obj.VAT_InvoiceNo = objShipment.VAT_InvoiceNo
-
         If objShipment.Posting_Date IsNot Nothing Then
             obj.Posting_Date = objShipment.Posting_Date
         End If
         ''richa ERO/18/06/19-000645
         obj.Manual_Driver_Name = objShipment.Manual_Driver_Name
         obj.Manual_Salesman_Name = objShipment.Manual_Salesman_Name
-
         obj.Salesman_Code = objShipment.Salesman_Code
         obj.Salesman_Name = objShipment.Salesman_Name
-
         obj.Challan_No = objShipment.Challan_No
         obj.Carrier = objShipment.Carrier
         obj.Vehicle_Code = objShipment.Vehicle_Code
         obj.VehicleNo = objShipment.VehicleNo
-
         obj.Transport_Code = objShipment.Transport_Id
         obj.Transporter_Name = objShipment.Transporter_Name
         obj.Freight_Distance = objShipment.Freight_Distance
-
         obj.GRNo = objShipment.GRNo
         obj.GENo = objShipment.GENo
         If objShipment.GEDate IsNot Nothing Then
             obj.GEDate = objShipment.GEDate
         End If
-
-
-
-
         obj.Dept = objShipment.Dept
         obj.Dept_Desc = objShipment.Dept_Desc
         obj.Item_Type = objShipment.Item_Type
-
         obj.Against_Shipment_No = objShipment.Document_Code
-
-
         obj.Add_Charge_Code1 = objShipment.Add_Charge_Code1
         obj.Add_Charge_Name1 = objShipment.Add_Charge_Name1
         obj.Add_Charge_Amt1 = objShipment.Add_Charge_Amt1
-
         obj.Add_Charge_Code2 = objShipment.Add_Charge_Code2
         obj.Add_Charge_Name2 = objShipment.Add_Charge_Name2
         obj.Add_Charge_Amt2 = objShipment.Add_Charge_Amt2
-
         obj.Add_Charge_Code3 = objShipment.Add_Charge_Code3
         obj.Add_Charge_Name3 = objShipment.Add_Charge_Name3
         obj.Add_Charge_Amt3 = objShipment.Add_Charge_Amt3
-
         obj.Add_Charge_Code4 = objShipment.Add_Charge_Code4
         obj.Add_Charge_Name4 = objShipment.Add_Charge_Name4
         obj.Add_Charge_Amt4 = objShipment.Add_Charge_Amt4
-
         obj.Add_Charge_Code5 = objShipment.Add_Charge_Code5
         obj.Add_Charge_Name5 = objShipment.Add_Charge_Name5
         obj.Add_Charge_Amt5 = objShipment.Add_Charge_Amt5
-
         obj.Add_Charge_Code6 = objShipment.Add_Charge_Code6
         obj.Add_Charge_Name6 = objShipment.Add_Charge_Name6
         obj.Add_Charge_Amt6 = objShipment.Add_Charge_Amt6
-
         obj.Add_Charge_Code7 = objShipment.Add_Charge_Code7
         obj.Add_Charge_Name7 = objShipment.Add_Charge_Name7
         obj.Add_Charge_Amt7 = objShipment.Add_Charge_Amt7
-
         obj.Add_Charge_Code8 = objShipment.Add_Charge_Code8
         obj.Add_Charge_Name8 = objShipment.Add_Charge_Name8
         obj.Add_Charge_Amt8 = objShipment.Add_Charge_Amt8
-
         obj.Add_Charge_Code9 = objShipment.Add_Charge_Code9
         obj.Add_Charge_Name9 = objShipment.Add_Charge_Name9
         obj.Add_Charge_Amt9 = objShipment.Add_Charge_Amt9
-
         obj.Add_Charge_Code10 = objShipment.Add_Charge_Code10
         obj.Add_Charge_Name10 = objShipment.Add_Charge_Name10
         obj.Add_Charge_Amt10 = objShipment.Add_Charge_Amt10
-
         obj.Total_Add_Charge = objShipment.Total_Add_Charge
         obj.Inv_No = objShipment.Inv_No
         If clsCommon.myLen(objShipment.Challan_Date) <= 0 Then
@@ -2858,7 +2577,6 @@ Public Class clsPSShipmentHead
         Else
             obj.Challan_Date = clsCommon.GetPrintDate(objShipment.Challan_Date, "dd/MMM/yyyy")
         End If
-
         If clsCommon.myLen(objShipment.Inv_Date) <= 0 Then
             obj.Inv_Date = Nothing
         Else
@@ -2878,9 +2596,6 @@ Public Class clsPSShipmentHead
         '-----------------richa 27/06/2014 Ticket No .BM00000002982----------
         obj.Mannual_Document_Code = objShipment.Mannual_Invoice_No
         obj.InvoiceManualNowithPrefix = objShipment.InvoiceManualNowithPrefix
-
-
-
         obj.Document_Code = Sale_Invoice_No
         If SingleInvoice = False AndAlso Taxable = 1 Then
             obj.Scheme_Tax_Group = objShipment.Scheme_Tax_Group
@@ -2900,7 +2615,6 @@ Public Class clsPSShipmentHead
             obj.TAX9_Rate = 0
             obj.TAX10_Rate = 0
             'obj.RoundOffAmount = 0
-
         End If
         If SingleInvoice = False Then
             obj.Discount_Amt = 0
@@ -2911,7 +2625,6 @@ Public Class clsPSShipmentHead
         obj.Distributor_Commission_TotalAmt = objShipment.Distributor_Commission_TotalAmt
         obj.Security_TotalAmt = objShipment.Security_TotalAmt
         obj.Transporter_Commission_TotalAmt = objShipment.Transporter_Commission_TotalAmt
-
         '-------------------------------------------------------------------
         If (objShipment.Arr IsNot Nothing AndAlso objShipment.Arr.Count > 0) Then
             obj.Arr = New List(Of clsPSInvoiceHeadDetail)
@@ -2937,8 +2650,6 @@ Public Class clsPSShipmentHead
                     objTr.VS_CashSchemeCode = objShipmentDetail.VS_CashSchemeCode
                     objTr.VS_Cash_Amt = objShipmentDetail.VS_Cash_Amt
                     objTr.VS_ltrInCrate = objShipmentDetail.VS_ltrInCrate
-
-
                     objTr.RATE_UOM = objShipmentDetail.RATE_UOM
                     objTr.Alternate_UOM = objShipmentDetail.Alternate_UOM
                     objTr.PrincipleCode = objShipmentDetail.PrincipleCode
@@ -2952,10 +2663,12 @@ Public Class clsPSShipmentHead
                     objTr.Item_Code = objShipmentDetail.Item_Code
                     objTr.Item_Desc = objShipmentDetail.Item_Desc
                     objTr.Qty = objShipmentDetail.Qty
+                    objTr.Billing_Qty = objShipmentDetail.Billing_Qty
                     objTr.Free_Qty = objShipmentDetail.Free_Qty
                     objTr.Shipment_Code = objShipment.Document_Code
                     objTr.Balance_Qty = objShipmentDetail.Balance_Qty
                     objTr.Unit_code = objShipmentDetail.Unit_code
+                    objTr.Billing_Unit_code = objShipmentDetail.Billing_Unit_code
                     objTr.Location = objShipmentDetail.Location
                     objTr.LocationName = objShipmentDetail.LocationName
                     objTr.Item_Cost = objShipmentDetail.Item_Cost
@@ -3005,10 +2718,7 @@ Public Class clsPSShipmentHead
                     objTr.Amt_Less_Discount = objShipmentDetail.Amt_Less_Discount
                     objTr.Total_Tax_Amt = objShipmentDetail.Total_Tax_Amt
                     objTr.Item_Net_Amt = objShipmentDetail.Item_Net_Amt
-
-
                     objTr.Is_Mannual_Amt = objShipmentDetail.Is_Mannual_Amt
-
                     objTr.MRP = objShipmentDetail.MRP
                     objTr.Assessable = objShipmentDetail.Assessable
                     objTr.AssessableAmt = objShipmentDetail.AssessableAmt
@@ -3021,7 +2731,6 @@ Public Class clsPSShipmentHead
                     End If
                     objTr.Specification = objShipmentDetail.Specification
                     objTr.Remarks = objShipmentDetail.Remarks
-
                     objTr.Scheme_Applicable = objShipmentDetail.Scheme_Applicable
                     objTr.Scheme_Code = objShipmentDetail.Scheme_Code
                     objTr.Scheme_Item = objShipmentDetail.Scheme_Item
@@ -3046,13 +2755,11 @@ Public Class clsPSShipmentHead
                     objTr.HeadDiscPerAmt = objShipmentDetail.HeadDiscPerAmt
                     objTr.CustDiscPer = objShipmentDetail.CustDiscPer
                     objTr.CasdDiscScheme_Code = objShipmentDetail.CasdDiscScheme_Code
-
                     objTr.Item_Weight = objShipmentDetail.Item_Weight
                     objTr.TotalItem_Weight = objShipmentDetail.TotalItem_Weight
                     objTr.Conv_Factor = objShipmentDetail.Conv_Factor
                     objTr.Purchase_Cost = objShipmentDetail.Purchase_Cost
                     objTr.OrgRate = objShipmentDetail.OrgRate
-
                     objTr.Price_Amount1 = objShipmentDetail.Price_Amount1
                     objTr.Price_Amount2 = objShipmentDetail.Price_Amount2
                     objTr.Price_Amount3 = objShipmentDetail.Price_Amount3
@@ -3063,7 +2770,6 @@ Public Class clsPSShipmentHead
                     objTr.Price_Amount8 = objShipmentDetail.Price_Amount8
                     objTr.Price_Amount9 = objShipmentDetail.Price_Amount9
                     objTr.Price_Amount10 = objShipmentDetail.Price_Amount10
-
                     objTr.TAX1_Base_Amt = objShipmentDetail.TAX1_Base_Amt
                     objTr.TAX2_Base_Amt = objShipmentDetail.TAX2_Base_Amt
                     objTr.TAX3_Base_Amt = objShipmentDetail.TAX3_Base_Amt
@@ -3082,8 +2788,6 @@ Public Class clsPSShipmentHead
                     objTr.Transporter_Commission_Amt = objShipmentDetail.Transporter_Commission_Amt
                     objTr.Security_Rate = objShipmentDetail.Security_Rate
                     objTr.Security_Amt = objShipmentDetail.Security_Amt
-
-
                     objTr.Commission_Rate = objShipmentDetail.Commission_Rate
                     objTr.Commission_Party = objShipmentDetail.Commission_Party
                     objTr.Commission_Amt = objShipmentDetail.Commission_Amt
@@ -3099,7 +2803,6 @@ Public Class clsPSShipmentHead
                         obj.Discount_Base += objShipmentDetail.Amt_Less_Discount
                     End If
                     If SingleInvoice = False AndAlso Taxable = 1 Then
-
                         obj.TAX1 = objShipmentDetail.TAX1
                         obj.TAX1_Base_Amt += objShipmentDetail.TAX1_Base_Amt
                         obj.TAX1_Rate = objShipmentDetail.TAX1_Rate
@@ -3242,8 +2945,6 @@ Public Class clsPSShipmentHead
             obj.TAX10_Base_Amt = objShipment.TAX10_Base_Amt
             obj.TAX10_Amt = objShipment.TAX10_Amt
         End If
-
-
         obj.Terms_Code = objShipment.Terms_Code
         obj.Due_Date = objShipment.Due_Date
         obj.Discount_Base = objShipment.Discount_Base
@@ -3265,9 +2966,6 @@ Public Class clsPSShipmentHead
         'If clsCommon.myLen(txtReqNo.Value) = 0 Then
         '    txtDispatchDate.Value = txtDeliveryDate.Value.AddDays(txtDispatchPeriod.Value)
         'End If
-
-
-
         If clsCommon.myLen(obj.Add_Charge_Code1) > 0 Then
             obj.Add_Charge_Code1 = objShipment.Add_Charge_Code1
             obj.Add_Charge_Name1 = objShipment.Add_Charge_Name1
@@ -3319,13 +3017,10 @@ Public Class clsPSShipmentHead
             obj.Add_Charge_Amt10 = objShipment.Add_Charge_Amt10
         End If
         obj.Total_Add_Charge = objShipment.Total_Add_Charge
-
         obj.Salesman_Code = objShipment.Salesman_Code
         obj.Salesman_Name = objShipment.Salesman_Name
-
         obj.Arr = New List(Of clsPSSalesOrderDetail)
         For Each objShipmentDetail As clsPSShipmentHeadDetail In objShipment.Arr
-
             Dim objTr As New clsPSSalesOrderDetail()
             objTr.Line_No = objShipmentDetail.Line_No
             objTr.Row_Type = objShipmentDetail.Row_Type
@@ -3406,7 +3101,6 @@ Public Class clsPSShipmentHead
             objTr.Abatement_Per = objShipmentDetail.Abatement_Per
             objTr.Abatement_Amt = objShipmentDetail.Abatement_Amt
             objTr.FOC_Item = objShipmentDetail.FOC_Item
-
             objTr.Item_Weight = objShipmentDetail.Item_Weight
             objTr.Conv_Factor = objShipmentDetail.Conv_Factor
             objTr.TotalItem_Weight = objShipmentDetail.TotalItem_Weight
@@ -3428,10 +3122,8 @@ Public Class clsPSShipmentHead
             objTr.PrincipleDesc = objShipmentDetail.PrincipleDesc
             objTr.vendor_code = objShipmentDetail.vendor_code
             objTr.vendor_desc = objShipmentDetail.vendor_desc
-
             objTr.HeadDiscPer = objShipmentDetail.HeadDiscPer
             objTr.HeadDiscPerAmt = objShipmentDetail.HeadDiscPerAmt
-
             objTr.Commission_Rate = objShipmentDetail.Commission_Rate
             objTr.Commission_Party = objShipmentDetail.Commission_Party
             objTr.Commission_Amt = objShipmentDetail.Commission_Amt
@@ -3444,13 +3136,9 @@ Public Class clsPSShipmentHead
                 obj.Arr.Add(objTr)
             End If
         Next
-
         Return obj
     End Function
-
     Private Shared Function GetFirstItemCode(ByVal Arr As List(Of clsPSShipmentHeadDetail)) As String
-
-
         For Each objtr As clsPSShipmentHeadDetail In Arr
             If clsCommon.CompairString(objtr.Row_Type, clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
                 Return objtr.Item_Code
@@ -3466,13 +3154,11 @@ Public Class clsPSShipmentHead
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
-
                     isSaved = isSaved AndAlso DeleteData(clsCommon.myCstr(dr("Document_Code")), clsCommon.myCstr(dr("Sale_Invoice_No")), trans)
                 Next
             Else
                 Throw New Exception("Please select Parent Document")
             End If
-
             trans.Commit()
             Return isSaved
         Catch ex As Exception
@@ -3481,7 +3167,6 @@ Public Class clsPSShipmentHead
         End Try
         Return True
     End Function
-
     Public Shared Function DeleteData(ByVal strCode As String, ByVal strInvoiceNo As String, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = False
         If (clsCommon.myLen(strCode) <= 0) Then
@@ -3497,51 +3182,39 @@ Public Class clsPSShipmentHead
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
                 End If
-
                 CheckInvoicePostedOnGovtProtal(strCode, trans)
-
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
                 'clsBatchInventory.DeleteData("PS-SH", strCode, trans)
-
                 ' done by priti BHA/12/06/18-000049
                 Dim TransType_Str As String = ""
                 TransType_Str = obj.Trans_Type
                 TransType_Str = TransType_Str & "-SH"
                 clsBatchInventory.DeleteData(TransType_Str, obj.Document_Code, trans)
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
-
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strInvoiceNo, "TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", "TSPL_SD_SALE_INVOICE_DETAIL", "Document_Code", trans)
                 clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
-
                 Dim qry As String = "delete from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strInvoiceNo + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strInvoiceNo + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_SD_SHIPMENT_CHECKLIST_DETAIL where Shipment_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 qry = "delete from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
-
             Catch ex As Exception
                 Throw New Exception(ex.Message)
             End Try
         End If
         Return isSaved
     End Function
-
     Private Shared Function CheckInvoicePostedOnGovtProtal(strCode As String, trans As SqlTransaction) As Boolean
         Dim qry As String = "select Document_Code,IRN_No,EWayBillNo from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + strCode + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -3555,7 +3228,6 @@ Public Class clsPSShipmentHead
         End If
         Return True
     End Function
-
     Public Shared Function IsValidCustomer(ByVal Arr As List(Of String), ByVal strCustomerCode As String) As Boolean
         If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
             Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code where Document_Code in (" + clsCommon.GetMulcallString(Arr) + ") and Customer_Code not in ('" + strCustomerCode + "')"
@@ -3570,7 +3242,6 @@ Public Class clsPSShipmentHead
         End If
         Return True
     End Function
-
     ' done by priti TEC/15/03/18-000091
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Dim TransType_Str As String = ""
@@ -3578,12 +3249,10 @@ Public Class clsPSShipmentHead
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Transaction No not found for reverse and unpost")
             End If
-
             Dim Qry As String = "select Status from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'"
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
-
             '' richa ERO/10/11/21-001547
             Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & strCode & "' ", trans))
             If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
@@ -3592,7 +3261,6 @@ Public Class clsPSShipmentHead
             Dim strGatepassdoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode from TSPL_SD_SHIPMENT_DETAIL left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where TSPL_SD_SHIPMENT_DETAIL.PK_ID in (select top 1 PK_ID from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "')", trans))
             If clsCommon.myLen(strGatepassdoc) > 0 Then
                 Throw New Exception("Shipment cannot be reverse because its GatePass has been generated.")
-
             End If
             ''Qry = "select distinct DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL where Shipment_Code='" + strCode + "'"
             Qry = " select distinct TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE from TSPL_SD_SALE_INVOICE_DETAIL  inner join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE where TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code='" & strCode & "' and isnull(TSPL_SD_SALE_INVOICE_HEAD .Invoice_No_For_Supplementary ,'')=''"
@@ -3608,37 +3276,27 @@ Public Class clsPSShipmentHead
                 'Next
                 'Throw New Exception(Qry)
             End If
-
             'sanjay
             TransType_Str = clsDBFuncationality.getSingleValue("SELECT isnull(Trans_Type,'') as Trans_Type FROM TSPL_SD_SHIPMENT_HEAD where Document_Code = '" + strCode + "'", trans)
-
             TransType_Str = TransType_Str + "-SH"
             '' delete from inventory movement
             'Qry = "update tspl_batch_item set against_inv_movement_trans_id=NULL where document_type='PS-SH' and document_code='" + strCode + "'"
             'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
             'Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & strCode & "' and Trans_Type= 'PS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
             'Qry = "delete from TSPL_INVENTORY_MOVEMENT_New where Source_Doc_No='" & strCode & "' and Trans_Type= 'PS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, trans)) = 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_batch_item", "document_code", trans)
-
                 Qry = "update tspl_batch_item set against_inv_movement_trans_id=NULL where document_type='" + TransType_Str + "' and document_code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
                 Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & strCode & "' and Trans_Type= '" + TransType_Str + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
                 Qry = "delete from TSPL_INVENTORY_MOVEMENT_New where Source_Doc_No='" & strCode & "' and Trans_Type= '" + TransType_Str + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                 'sanjay
-
             End If
-
-
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='SD-SH' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
@@ -3650,13 +3308,11 @@ Public Class clsPSShipmentHead
             Dim APDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No  from TSPL_VENDOR_INVOICE_HEAD where RefDocNo=(select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + strCode + "')", trans))
             If clsCommon.myLen(APDocNo) > 0 Then
                 clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, APDocNo, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", "TSPL_VENDOR_INVOICE_DETAIL", "Document_No", "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL", "AP_Invoice_No", "TSPL_AP_Invoice_Asset_EMI_Details", "AP_Invoice_No", "", "", "", "", "", "", trans)
-
                 Qry = "delete from TSPL_VENDOR_INVOICE_DETAIL where Document_No='" + APDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                 Qry = "delete from tspl_vendor_Invoice_Head where Document_No='" + APDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
-
             Qry = "select InOut,Trans_Type,Item_Code,Item_Desc,Location_Code,case when InOut='I' then -1 else 1 end *Qty as Qty ,UOM,MRP,ItemType,case when InOut='I' then -1 else 1 end* Basic_Cost as Basic_Cost from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='SD-SH'"
             dt = clsDBFuncationality.GetDataTable(Qry, trans)
             Dim ArrLocationDetails As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)
@@ -3675,23 +3331,18 @@ Public Class clsPSShipmentHead
             Next
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")
             clsItemLocationDetails.SaveData(strPostDate, ArrLocationDetails, trans)
-
             Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='SD-SH'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
             Qry = "Update TSPL_SD_SHIPMENT_HEAD set Status = 0 where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
             Qry = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_reverse=1 where document_code='" + strCode + "' and trans_code='" + clsCommon.myCstr(clsUserMgtCode.frmShipmentProductSale) + "' and is_reverse=0"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -3710,10 +3361,8 @@ Public Class clsPSShipmentHead
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
-
         Return True
     End Function
-
     Public Sub CreateEmailContent(ByVal Booking_No As String, ByVal trans As SqlTransaction)
         Dim Form_ID As String = clsUserMgtCode.frmSaleDispatchDairy
         '' get all distributers
@@ -3727,8 +3376,8 @@ Public Class clsPSShipmentHead
         '        End If
         '    End If
         'Next
-        Dim Qry As String = " select TSPL_Dispatch_Distributor.Document_No,TSPL_Dispatch_Distributor.Document_Date,TSPL_Dispatch_Distributor.Distributor_Code," & _
-                            " TSPL_SECONDARY_CUSTOMER_MASTER.Customer_Name,TSPL_SECONDARY_CUSTOMER_MASTER.Email from TSPL_Dispatch_Distributor " & _
+        Dim Qry As String = " select TSPL_Dispatch_Distributor.Document_No,TSPL_Dispatch_Distributor.Document_Date,TSPL_Dispatch_Distributor.Distributor_Code," &
+                            " TSPL_SECONDARY_CUSTOMER_MASTER.Customer_Name,TSPL_SECONDARY_CUSTOMER_MASTER.Email from TSPL_Dispatch_Distributor " &
                             " left join TSPL_SECONDARY_CUSTOMER_MASTER on TSPL_Dispatch_Distributor.Distributor_Code=TSPL_SECONDARY_CUSTOMER_MASTER.Cust_Code where TSPL_Dispatch_Distributor.Booking_No='" & Booking_No & "'"
         Dim dtParty As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
         'For Each dr As DataRow In dtDist.Rows
@@ -3744,20 +3393,16 @@ Public Class clsPSShipmentHead
             Qry = "Select * from (" & Qry & ") XXX LEFT OUTER JOIN (Select '1' as COL1, 1 as COL2,  'ORIGINAL COPY' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY YYY.COL2"
             ' UNION Select '1' as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select '1' as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select '1' as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-
             'Dim Qry2 As String = "select TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE  as InvoiceNo,Abatement_Amt,TSPL_ITEM_MASTER.Item_Code ,TSPL_ITEM_MASTER.Item_Desc + '( MRP : ' +   convert(varchar,TSPL_SD_SALE_INVOICE_DETAIL.MRP) + '  Abatement : ' + convert(varchar,convert(int,100- TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Per)) + '%)'  as Item_Desc ,TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX2 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate,TSPL_ITEM_MASTER.Cheapter_Heads  ,tax1.Tax_Code_Desc as tax1name,tax2.Tax_Code_Desc as tax2name,tax3.Tax_Code_Desc as tax3name   from TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_DETAIL.tax1 left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_DETAIL.tax2  left outer join tspl_tax_master as tax3 on tax3.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX3   left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_DETAIL .tax4   left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL .tax5   left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX6    left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX7   left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code= TSPL_SD_SALE_INVOICE_DETAIL .TAX8  left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX9   left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX10  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE       "
             'Qry2 += " where TSPL_SD_SALE_INVOICE_HEAD.Document_Code ='" & obj.Document_Code & "'"
             'Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(Qry2)
-
             Dim AttachmentPath As String = Application.StartupPath
             Dim count As Integer = 0
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim UOMKG As String = String.Empty
-
                 For i As Integer = 0 To dt.Rows.Count - 1
                     If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(i)("UOM")), clsCommon.myCstr(dt.Rows(0)("UOM"))) = CompairStringResult.Equal Then
                         count = count + 1
-
                     End If
                 Next
             End If
@@ -3773,7 +3418,6 @@ Public Class clsPSShipmentHead
             End If
             Dim strTrgtFile As String = ("DistributerInvoice_" & Booking_No).ToString.Replace("/", "").Replace("\", "")
             clsERPFuncationalityOLD.exportCrystalToPDF(dt, AttachmentPath & "\Crystal Reports\Kwality Sales Report", "rptDistributerProductSaleInvoice", strTrgtFile, AttachmentPath)
-
             'If clsCommon.myLen(strVoucherNoForRecreateOnly) <= 0 Then
             Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + Form_ID + "'", trans)
             If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
@@ -3794,228 +3438,211 @@ Public Class clsPSShipmentHead
                         objSMSH.Attachment_1_Path = AttachmentPath
                         objSMSH.SaveData(Form_ID, objSMSH, trans)
                         objSMSH = Nothing
-
                     End If
                 End If
             End If
         Next
-
         'End If
     End Sub
     Public Function GetQuery() As String
         Dim Qry As String = String.Empty
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "WHOLLY") = CompairStringResult.Equal Then
-            Qry = " select TSPL_SD_SALE_INVOICE_HEAD.Remarks, TSPL_SD_SHIPMENT_HEAD.RoundOffAmount as Roundoff,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name = '' THEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual ELSE  TSPL_SD_SHIPMENT_HEAD.Transporter_Name END AS Transporter_Name,TSPL_SD_SHIPMENT_HEAD.crate,TSPL_SD_SHIPMENT_HEAD.jaali,TSPL_SD_SHIPMENT_HEAD.box, TSPL_SD_SALE_INVOICE_head.Invoice_Type AS GP_Invoice_Type, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end    as Location_Address_GP, cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,TSPL_COMPANY_MASTER.comp_code,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ' , '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ' , '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when LEN(TSPL_COMPANY_MASTER.tin_no)>0 then ' , TIN No '+TSPL_COMPANY_MASTER.tin_no else ' ' end as Comp_Add_GP,TSPL_COMPANY_MASTER.CE_Division as GP_Division,TSPL_COMPANY_MASTER.ServiceTax_Reg_No +case when len(TSPL_COMPANY_MASTER.Ecc_No)>0 then ''+TSPL_COMPANY_MASTER.Ecc_No else '' end as GP_ECC_No,TSPL_COMPANY_MASTER.CE_Range as GP_CE_Range,   TSPL_ITEM_master.ITF_CODE,Location_State.STATE_NAME as Loc_State_Name,TSPL_CITY_MASTER.City_Name,Location_State.state_code as Loc_state_code, tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2, tspl_company_master.cst_lst as Comp_CSt_LST, TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.GRNo,case when TSPL_SD_SHIPMENT_HEAD.GRNo <> '' then convert(varchar,TSPL_SD_SHIPMENT_HEAD.GR_Date,103) else '' end as GR_Date ,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_DETAIL.Alter_UnitQty,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt  , TSPL_ITEM_master.ITF_CODE as Chap_Desc,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_LOCATION_MASTER.Registration_Number, case when TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms='A' then 'Advance' else TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms end as Payment_Terms, TSPL_SD_SALE_INVOICE_HEAD.Modify_By,TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_ITEM_MASTER.Cheapter_Heads,convert(date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,103) as RoadPermit_Date ," & _
-             " TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_For_Location.City_Name)>0 then ', '+TSPL_CITY_MASTER_For_Location .City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end  + case when len(TSPL_LOCATION_MASTER.Pin_Code   )>0 then ', Pin Code - '+ cast(TSPL_LOCATION_MASTER.Pin_Code  as varchar)  else ' ' end  + case when len(TSPL_LOCATION_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_LOCATION_MASTER.Tin_No as varchar)  else ' ' end  + Case when len(ISNULL(TSPL_LOCATION_MASTER.Phone1,''))>0 and TSPL_LOCATION_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_LOCATION_MASTER.Email    )>0 then ',Email - '+ TSPL_LOCATION_MASTER.Email else '' end  as Location_Address,TSPL_LOCATION_MASTER.CST_No as Loc_CSTNo,TSPL_LOCATION_MASTER.Excisable as loc_Excisable,TSPL_LOCATION_MASTER.Range_Address as Loc_range_Add,TSPL_LOCATION_MASTER.Division_Address  as loc_Division_Address,TSPL_LOCATION_MASTER.Commissionerate  as Loc_Commissionerate ,TSPL_SD_SALE_INVOICE_HEAD.Challan_No ,case when TSPL_SD_SALE_INVOICE_HEAD.Challan_No <> '' then  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Challan_Date,103) else '' end as Challan_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date," & _
-             " TSPL_SD_SALE_INVOICE_HEAD.total_add_charge ,TSPL_SD_SALE_INVOICE_HEAD. WayBillNo,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end" & _
-             " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_COMPANY_MASTER.Phone1 end " & _
-             " + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End " & _
-             " + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end " & _
-             " as Comp_Address, TSPL_LOCATION_MASTER .Add1 as Loc_Add1,TSPL_LOCATION_MASTER.Add2 as Loc_ADd2,TSPL_LOCATION_MASTER.Add3  as Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code as Loc_Pin_Code,TSPL_LOCATION_MASTER.TIN_No as Loc_TinNo,Case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  Loc_Phn,TSPL_LOCATION_MASTER.Email as Loc_Email,( case when TSPL_SD_SALE_INVOICE_head.Invoice_Type='R' then 'Retail Invoice' when TSPL_SD_SALE_INVOICE_head.Invoice_Type='A' then 'Tax Exempted' else 'Tax Invoice' end) as Invoice_Type,case when len(isnull(TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM ,''))>0 then ((TSPL_SD_SALE_INVOICE_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/Uom_Detail.Conversion_Factor) else null end  as Alternet_Qty," & _
-             " TSPL_SD_SALE_INVOICE_DETAIL .Alternate_UOM,    TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item_UOM + case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then ' (Free Scheme)' when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' then ''end as Scheme_Item_UOM  , TSPL_SD_SALE_INVOICE_HEAD.Discount_Base,case when len(isnull(TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No,''))>0 then TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No else TSPL_SD_SALE_INVOICE_HEAD.GRNo end AS Dis_Doc_No, TSPL_SD_SHIPMENT_HEAD.Description ,isnull(TSPL_SD_SHIPMENT_HEAD.Print_Discount_Amt,0) as 'Print_Discount_Amt', TSPL_COMPANY_MASTER .State as Comp_State, TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No as Buyer_order_no,case when TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No <> '' then convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_Date,103) else '' end  as Buyer_order_date,case when (TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms )='FE' then 'Freight Extra' else  TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms  end  as Terms_of_delivery,(case when len(coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,''))>0 then  (TSPL_SD_SALE_INVOICE_HEAD.Document_Code + '/' + coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'')) else TSPL_SD_SALE_INVOICE_HEAD.Document_Code end) as InvoiceNo,TSPL_Dispatch_Distributor.Document_No as Distributer_Dispatch_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as Date_Time_Invoice,convert(varchar ,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as InvoiceDate " & _
-             " ,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No as ShipmentNo,TSPL_SD_SALE_INVOICE_DETAIL.Alt_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Alt_UOM,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as ShipmentDate," & _
-             " TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as DeliveryOrderNo,TSPL_SD_SALE_INVOICE_HEAD.Terms_Code as TermCondition," & _
-             " TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Loc_Short_Name , TSPL_COMPANY_MASTER.Comp_Name as CompName, ISNULL(TSPL_COMPANY_MASTER.Phone1,'')+ " & _
-             " Case When ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone," & _
-             " TSPL_COMPANY_MASTER.Fax as CompFax,TSPL_COMPANY_MASTER.Email as ComMail,TSPL_COMPANY_MASTER.CINNo as CompCinNo,TSPL_COMPANY_MASTER.Pan_No as ComPanNo," & _
-             " TSPL_COMPANY_MASTER.CST_LST as CompCSTLST,TSPL_COMPANY_MASTER.Pincode as ComPINCode," & _
-             " TSPL_COMPANY_MASTER .Tin_No as ComTinNO,ISNULL(tspl_company_Master.ADD1,'') as Compaddress1,ISNULL(tspl_company_Master.ADD2,'') " & _
-             " as Compaddress2,ISNULL(tspl_company_Master.ADD3,'') as Compaddress3," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.Lst_No when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo, coalesce(p_cust.P_cust_code,TSPL_CUSTOMER_MASTER.Cust_Code) as P_CustCode, coalesce(p_cust .P_cust_name,TSPL_CUSTOMER_MASTER.Customer_Name) as P_Cust_Name," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CITY_MASTER   .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name    end as P_City_Name," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_state_Master.state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name    end as P_State_Name," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn,case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan,TSPL_CUSTOMER_MASTER.Cust_Code ,  TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_add2,TSPL_CUSTOMER_MASTER.Add3 as cust_add3,  case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End  as Cust_Phn,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_TinNo ,TSPL_CUSTOMER_MASTER.CST as Cust_CSTNo,TSPL_CUSTOMER_MASTER.Lst_No as Cust_LSTNo,TSPL_CUSTOMER_MASTER.Email as Cust_Email ,TSPL_CUSTOMER_MASTER.PIN_Code as Cust_PinCode,TSPL_CITY_MASTER.City_Name as Cust_City_Name,TSPL_CUSTOMER_MASTER.Fax as Cust_Fax,TSPL_STATE_MASTER .STATE_NAME  as Cust_State_Name,TSPL_CUSTOMER_MASTER.PAN  as Customer_Pan, " & _
-             " TSPL_SD_SALE_INVOICE_DETAIL.item_code  as item_code,((case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then '(TS)' else '' end)+TSPL_ITEM_MASTER.Item_Desc )as itemdesc,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then  TSPL_SD_SALE_INVOICE_DETAIL.Amt_less_Discount else 0 end) as Scheme_Amount,(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='CRATE' then  TSPL_SD_SALE_INVOICE_DETAIL.Qty else 0 end) as CRATES_QTY," & _
-            "(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='CRATE' then  TSPL_SD_SALE_INVOICE_DETAIL.Qty*(ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0 ))else 0 end) as PCS_QTY, " & _
-            "(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='PP' then  TSPL_SD_SALE_INVOICE_DETAIL.Qty else 0 end) as SCH_PCS_QTY," & _
-           " Item_Cost_Main= ROUND((case when ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)>0 THEN ( CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.Unit_code!='PP' THEN  TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0) ELSE TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost END ) else TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost end) ,2),TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty as qty" & _
-             "  ,TSPL_SD_SALE_INVOICE_DETAIL.mrp, (TSPL_SD_SALE_INVOICE_DETAIL.amount+coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as amount,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.unit_code as uom,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM as RATE_UOM" & _
-             "  ,(TSPL_SD_SALE_INVOICE_DETAIL.item_cost+coalesce(tspl_item_master.CNF_Commission,0)) as itemcost,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax1_amt,0) as txt1amt," & _
-             "  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax2_amt,0) as txt2amt,   tax3.Tax_Code_Desc as tax3name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax3_amt,0) as txt3amt,   tax4.Tax_Code_Desc as tax4name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax4_amt,0) as txt4amt,   tax5.Tax_Code_Desc as tax5name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax7_amt,0) as txt7amt,   tax8.Tax_Code_Desc as tax8name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax9_amt,0) as txt9amt,   tax10.Tax_Code_Desc as tax10name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax10_amt,0) as txt10amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, isnull(TSPL_SD_SALE_INVOICE_HEAD.Discount_Amt,0) as Discount_Amt,isnull(TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,0) as Amount_Less_Discount,  isnull(TSPL_SD_SALE_INVOICE_HEAD .Total_Tax_Amt,0) as Total_Tax_Amt, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as Total_Amt, '1' as CopyType ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5,0) as Add_Charge_Amt5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6,0) as Add_Charge_Amt6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7,0) as Add_Charge_Amt7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8,0) as Add_Charge_Amt8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9,0) as Add_Charge_Amt9,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10,0) as Add_Charge_Amt10  ,isnull(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0) as RoundOffAmount,coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'') AS Booking_No,(coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Distr_Commision " & _
-             "  from TSPL_SD_SALE_INVOICE_HEAD" & _
-             "  left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " & _
-             "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code  = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No" & _
-             "  Left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_SALE_INVOICE_DETAIL.Line_No " & _
-             "  left join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No " & _
-             "  and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " & _
-             "  and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code " & _
-             "  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " & _
-             "  left join TSPL_Dispatch_Distributor on TSPL_BOOKING_MATSER.Document_No=TSPL_Dispatch_Distributor.Booking_No and TSPL_Dispatch_Distributor.Document_Type= 'CD_To_Dis' " & _
-             "  left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location   =TSPL_LOCATION_MASTER.Location_Code " & _
-             "  left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.comp_code " & _
-             "  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code    " & _
-             "  LEFT join (select TSPL_CUSTOMER_MASTER.Cust_Code as P_cust_code,Customer_Name as P_cust_name,Add1 as P_cust_add1 ,Add2  as P_cust_add2,add3  as P_cust_add3,PIN_Code as P_Pin_No,Tin_No as p_Tin_No ,State as P_state,Email as P_Email,fax as P_Fax,TSPL_CITY_MASTER.City_Name as  P_City_Name,TSPL_STATE_MASTER.STATE_NAME as P_State_Name  ,case when ISNULL(Phone1,'')='(+__)__________' then '' else Phone1 end +  Case When   ISNULL(Phone2,'')<>'(+__)__________' Then ', '+ Phone2 Else'' End as  P_Phn,CST as P_CST_No,Terms_Code as P_Terms,Lst_No as P_LST_No,PAN as P_Pan  from TSPL_SECONDARY_CUSTOMER_MASTER as TSPL_CUSTOMER_MASTER   left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_CUSTOMER_MASTER.City_Code " & _
-             "  left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State =TSPL_STATE_MASTER.STATE_CODE  " & _
-             "  ) p_cust on p_cust.P_cust_code=TSPL_BOOKING_MATSER.Distributor_Code " & _
-             "  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_CUSTOMER_MASTER .State  " & _
-             " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & _
-             " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_HEAD.tax1" & _
-             " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2  " & _
-             " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .TAX3  " & _
-             " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_HEAD .tax4  " & _
-             " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .tax5  " & _
-             " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX6  " & _
-             " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX7 " & _
-             " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX8 " & _
-             " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX9 " & _
-             " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX10  " & _
-             " left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Unit_code " & _
-             " left outer join TSPL_ITEM_UOM_DETAIL as Uom_Detail  on Uom_Detail.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   Uom_Detail.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM " & _
-             " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER .City_Code =TSPL_CUSTOMER_MASTER.City_Code " & _
-             " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code " & _
-             " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State " & _
-             " left outer join TSPL_CITY_MASTER   as TSPL_CITY_MASTER_For_Location on  TSPL_CITY_MASTER_For_Location.City_Code =TSPL_LOCATION_MASTER.City_Code " & _
-             " left outer join TSPL_STATE_MASTER  as TSPL_STATE_MASTER_For_State on TSPL_STATE_MASTER_For_State.STATE_CODE =TSPL_LOCATION_MASTER.state " & _
-             " left outer join TSPL_CHAPTER_HEAD on TSPL_CHAPTER_HEAD.Chapter_Head_Code =TSPL_ITEM_MASTER.Cheapter_Heads" & _
+            Qry = " select TSPL_SD_SALE_INVOICE_HEAD.Remarks, TSPL_SD_SHIPMENT_HEAD.RoundOffAmount as Roundoff,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name = '' THEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual ELSE  TSPL_SD_SHIPMENT_HEAD.Transporter_Name END AS Transporter_Name,TSPL_SD_SHIPMENT_HEAD.crate,TSPL_SD_SHIPMENT_HEAD.jaali,TSPL_SD_SHIPMENT_HEAD.box, TSPL_SD_SALE_INVOICE_head.Invoice_Type AS GP_Invoice_Type, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end    as Location_Address_GP, cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,TSPL_COMPANY_MASTER.comp_code,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ' , '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ' , '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when LEN(TSPL_COMPANY_MASTER.tin_no)>0 then ' , TIN No '+TSPL_COMPANY_MASTER.tin_no else ' ' end as Comp_Add_GP,TSPL_COMPANY_MASTER.CE_Division as GP_Division,TSPL_COMPANY_MASTER.ServiceTax_Reg_No +case when len(TSPL_COMPANY_MASTER.Ecc_No)>0 then ''+TSPL_COMPANY_MASTER.Ecc_No else '' end as GP_ECC_No,TSPL_COMPANY_MASTER.CE_Range as GP_CE_Range,   TSPL_ITEM_master.ITF_CODE,Location_State.STATE_NAME as Loc_State_Name,TSPL_CITY_MASTER.City_Name,Location_State.state_code as Loc_state_code, tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2, tspl_company_master.cst_lst as Comp_CSt_LST, TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.GRNo,case when TSPL_SD_SHIPMENT_HEAD.GRNo <> '' then convert(varchar,TSPL_SD_SHIPMENT_HEAD.GR_Date,103) else '' end as GR_Date ,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_DETAIL.Alter_UnitQty,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt  , TSPL_ITEM_master.ITF_CODE as Chap_Desc,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_LOCATION_MASTER.Registration_Number, case when TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms='A' then 'Advance' else TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms end as Payment_Terms, TSPL_SD_SALE_INVOICE_HEAD.Modify_By,TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_ITEM_MASTER.Cheapter_Heads,convert(date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,103) as RoadPermit_Date ," &
+             " TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_For_Location.City_Name)>0 then ', '+TSPL_CITY_MASTER_For_Location .City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end  + case when len(TSPL_LOCATION_MASTER.Pin_Code   )>0 then ', Pin Code - '+ cast(TSPL_LOCATION_MASTER.Pin_Code  as varchar)  else ' ' end  + case when len(TSPL_LOCATION_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_LOCATION_MASTER.Tin_No as varchar)  else ' ' end  + Case when len(ISNULL(TSPL_LOCATION_MASTER.Phone1,''))>0 and TSPL_LOCATION_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_LOCATION_MASTER.Email    )>0 then ',Email - '+ TSPL_LOCATION_MASTER.Email else '' end  as Location_Address,TSPL_LOCATION_MASTER.CST_No as Loc_CSTNo,TSPL_LOCATION_MASTER.Excisable as loc_Excisable,TSPL_LOCATION_MASTER.Range_Address as Loc_range_Add,TSPL_LOCATION_MASTER.Division_Address  as loc_Division_Address,TSPL_LOCATION_MASTER.Commissionerate  as Loc_Commissionerate ,TSPL_SD_SALE_INVOICE_HEAD.Challan_No ,case when TSPL_SD_SALE_INVOICE_HEAD.Challan_No <> '' then  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Challan_Date,103) else '' end as Challan_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date," &
+             " TSPL_SD_SALE_INVOICE_HEAD.total_add_charge ,TSPL_SD_SALE_INVOICE_HEAD. WayBillNo,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end" &
+             " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_COMPANY_MASTER.Phone1 end " &
+             " + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End " &
+             " + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end " &
+             " as Comp_Address, TSPL_LOCATION_MASTER .Add1 as Loc_Add1,TSPL_LOCATION_MASTER.Add2 as Loc_ADd2,TSPL_LOCATION_MASTER.Add3  as Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code as Loc_Pin_Code,TSPL_LOCATION_MASTER.TIN_No as Loc_TinNo,Case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  Loc_Phn,TSPL_LOCATION_MASTER.Email as Loc_Email,( case when TSPL_SD_SALE_INVOICE_head.Invoice_Type='R' then 'Retail Invoice' when TSPL_SD_SALE_INVOICE_head.Invoice_Type='A' then 'Tax Exempted' else 'Tax Invoice' end) as Invoice_Type,case when len(isnull(TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM ,''))>0 then ((TSPL_SD_SALE_INVOICE_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/Uom_Detail.Conversion_Factor) else null end  as Alternet_Qty," &
+             " TSPL_SD_SALE_INVOICE_DETAIL .Alternate_UOM,    TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item_UOM + case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then ' (Free Scheme)' when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' then ''end as Scheme_Item_UOM  , TSPL_SD_SALE_INVOICE_HEAD.Discount_Base,case when len(isnull(TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No,''))>0 then TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No else TSPL_SD_SALE_INVOICE_HEAD.GRNo end AS Dis_Doc_No, TSPL_SD_SHIPMENT_HEAD.Description ,isnull(TSPL_SD_SHIPMENT_HEAD.Print_Discount_Amt,0) as 'Print_Discount_Amt', TSPL_COMPANY_MASTER .State as Comp_State, TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No as Buyer_order_no,case when TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No <> '' then convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_Date,103) else '' end  as Buyer_order_date,case when (TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms )='FE' then 'Freight Extra' else  TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms  end  as Terms_of_delivery,(case when len(coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,''))>0 then  (TSPL_SD_SALE_INVOICE_HEAD.Document_Code + '/' + coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'')) else TSPL_SD_SALE_INVOICE_HEAD.Document_Code end) as InvoiceNo,TSPL_Dispatch_Distributor.Document_No as Distributer_Dispatch_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as Date_Time_Invoice,convert(varchar ,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as InvoiceDate " &
+             " ,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No as ShipmentNo,TSPL_SD_SALE_INVOICE_DETAIL.Alt_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Alt_UOM,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as ShipmentDate," &
+             " TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as DeliveryOrderNo,TSPL_SD_SALE_INVOICE_HEAD.Terms_Code as TermCondition," &
+             " TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Loc_Short_Name , TSPL_COMPANY_MASTER.Comp_Name as CompName, ISNULL(TSPL_COMPANY_MASTER.Phone1,'')+ " &
+             " Case When ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone," &
+             " TSPL_COMPANY_MASTER.Fax as CompFax,TSPL_COMPANY_MASTER.Email as ComMail,TSPL_COMPANY_MASTER.CINNo as CompCinNo,TSPL_COMPANY_MASTER.Pan_No as ComPanNo," &
+             " TSPL_COMPANY_MASTER.CST_LST as CompCSTLST,TSPL_COMPANY_MASTER.Pincode as ComPINCode," &
+             " TSPL_COMPANY_MASTER .Tin_No as ComTinNO,ISNULL(tspl_company_Master.ADD1,'') as Compaddress1,ISNULL(tspl_company_Master.ADD2,'') " &
+             " as Compaddress2,ISNULL(tspl_company_Master.ADD3,'') as Compaddress3," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.Lst_No when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo, coalesce(p_cust.P_cust_code,TSPL_CUSTOMER_MASTER.Cust_Code) as P_CustCode, coalesce(p_cust .P_cust_name,TSPL_CUSTOMER_MASTER.Customer_Name) as P_Cust_Name," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CITY_MASTER   .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name    end as P_City_Name," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_state_Master.state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name    end as P_State_Name," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn,case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan,TSPL_CUSTOMER_MASTER.Cust_Code ,  TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_add2,TSPL_CUSTOMER_MASTER.Add3 as cust_add3,  case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End  as Cust_Phn,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_TinNo ,TSPL_CUSTOMER_MASTER.CST as Cust_CSTNo,TSPL_CUSTOMER_MASTER.Lst_No as Cust_LSTNo,TSPL_CUSTOMER_MASTER.Email as Cust_Email ,TSPL_CUSTOMER_MASTER.PIN_Code as Cust_PinCode,TSPL_CITY_MASTER.City_Name as Cust_City_Name,TSPL_CUSTOMER_MASTER.Fax as Cust_Fax,TSPL_STATE_MASTER .STATE_NAME  as Cust_State_Name,TSPL_CUSTOMER_MASTER.PAN  as Customer_Pan, " &
+             " TSPL_SD_SALE_INVOICE_DETAIL.item_code  as item_code,((case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then '(TS)' else '' end)+TSPL_ITEM_MASTER.Item_Desc )as itemdesc,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then  TSPL_SD_SALE_INVOICE_DETAIL.Amt_less_Discount else 0 end) as Scheme_Amount,(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='CRATE' then  TSPL_SD_SALE_INVOICE_DETAIL.Qty else 0 end) as CRATES_QTY," &
+            "(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='CRATE' then  TSPL_SD_SALE_INVOICE_DETAIL.Qty*(ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0 ))else 0 end) as PCS_QTY, " &
+            "(case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' AND TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='PP' then  TSPL_SD_SALE_INVOICE_DETAIL.Qty else 0 end) as SCH_PCS_QTY," &
+           " Item_Cost_Main= ROUND((case when ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)>0 THEN ( CASE WHEN TSPL_SD_SALE_INVOICE_DETAIL.Unit_code!='PP' THEN  TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0) ELSE TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost END ) else TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost end) ,2),TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty as qty" &
+             "  ,TSPL_SD_SALE_INVOICE_DETAIL.mrp, (TSPL_SD_SALE_INVOICE_DETAIL.amount+coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as amount,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.unit_code as uom,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM as RATE_UOM" &
+             "  ,(TSPL_SD_SALE_INVOICE_DETAIL.item_cost+coalesce(tspl_item_master.CNF_Commission,0)) as itemcost,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax1_amt,0) as txt1amt," &
+             "  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax2_amt,0) as txt2amt,   tax3.Tax_Code_Desc as tax3name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax3_amt,0) as txt3amt,   tax4.Tax_Code_Desc as tax4name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax4_amt,0) as txt4amt,   tax5.Tax_Code_Desc as tax5name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax7_amt,0) as txt7amt,   tax8.Tax_Code_Desc as tax8name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax9_amt,0) as txt9amt,   tax10.Tax_Code_Desc as tax10name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax10_amt,0) as txt10amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, isnull(TSPL_SD_SALE_INVOICE_HEAD.Discount_Amt,0) as Discount_Amt,isnull(TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,0) as Amount_Less_Discount,  isnull(TSPL_SD_SALE_INVOICE_HEAD .Total_Tax_Amt,0) as Total_Tax_Amt, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as Total_Amt, '1' as CopyType ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5,0) as Add_Charge_Amt5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6,0) as Add_Charge_Amt6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7,0) as Add_Charge_Amt7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8,0) as Add_Charge_Amt8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9,0) as Add_Charge_Amt9,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10,0) as Add_Charge_Amt10  ,isnull(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0) as RoundOffAmount,coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'') AS Booking_No,(coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Distr_Commision " &
+             "  from TSPL_SD_SALE_INVOICE_HEAD" &
+             "  left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
+             "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code  = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No" &
+             "  Left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_SALE_INVOICE_DETAIL.Line_No " &
+             "  left join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No " &
+             "  and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " &
+             "  and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code " &
+             "  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " &
+             "  left join TSPL_Dispatch_Distributor on TSPL_BOOKING_MATSER.Document_No=TSPL_Dispatch_Distributor.Booking_No and TSPL_Dispatch_Distributor.Document_Type= 'CD_To_Dis' " &
+             "  left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location   =TSPL_LOCATION_MASTER.Location_Code " &
+             "  left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.comp_code " &
+             "  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code    " &
+             "  LEFT join (select TSPL_CUSTOMER_MASTER.Cust_Code as P_cust_code,Customer_Name as P_cust_name,Add1 as P_cust_add1 ,Add2  as P_cust_add2,add3  as P_cust_add3,PIN_Code as P_Pin_No,Tin_No as p_Tin_No ,State as P_state,Email as P_Email,fax as P_Fax,TSPL_CITY_MASTER.City_Name as  P_City_Name,TSPL_STATE_MASTER.STATE_NAME as P_State_Name  ,case when ISNULL(Phone1,'')='(+__)__________' then '' else Phone1 end +  Case When   ISNULL(Phone2,'')<>'(+__)__________' Then ', '+ Phone2 Else'' End as  P_Phn,CST as P_CST_No,Terms_Code as P_Terms,Lst_No as P_LST_No,PAN as P_Pan  from TSPL_SECONDARY_CUSTOMER_MASTER as TSPL_CUSTOMER_MASTER   left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_CUSTOMER_MASTER.City_Code " &
+             "  left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State =TSPL_STATE_MASTER.STATE_CODE  " &
+             "  ) p_cust on p_cust.P_cust_code=TSPL_BOOKING_MATSER.Distributor_Code " &
+             "  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_CUSTOMER_MASTER .State  " &
+             " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " &
+             " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_HEAD.tax1" &
+             " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2  " &
+             " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .TAX3  " &
+             " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_HEAD .tax4  " &
+             " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .tax5  " &
+             " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX6  " &
+             " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX7 " &
+             " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX8 " &
+             " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX9 " &
+             " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX10  " &
+             " left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Unit_code " &
+             " left outer join TSPL_ITEM_UOM_DETAIL as Uom_Detail  on Uom_Detail.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   Uom_Detail.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM " &
+             " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER .City_Code =TSPL_CUSTOMER_MASTER.City_Code " &
+             " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code " &
+             " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State " &
+             " left outer join TSPL_CITY_MASTER   as TSPL_CITY_MASTER_For_Location on  TSPL_CITY_MASTER_For_Location.City_Code =TSPL_LOCATION_MASTER.City_Code " &
+             " left outer join TSPL_STATE_MASTER  as TSPL_STATE_MASTER_For_State on TSPL_STATE_MASTER_For_State.STATE_CODE =TSPL_LOCATION_MASTER.state " &
+             " left outer join TSPL_CHAPTER_HEAD on TSPL_CHAPTER_HEAD.Chapter_Head_Code =TSPL_ITEM_MASTER.Cheapter_Heads" &
              " left outer join tspl_state_master as Location_State on Location_State.state_code=tspl_location_master.state"
             ''and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No
         Else
-
-
-            Qry = " select TSPL_SD_SALE_INVOICE_HEAD.Remarks, TSPL_SD_SHIPMENT_HEAD.RoundOffAmount as Roundoff,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name = '' THEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual ELSE  TSPL_SD_SHIPMENT_HEAD.Transporter_Name END AS Transporter_Name,TSPL_SD_SHIPMENT_HEAD.crate,TSPL_SD_SHIPMENT_HEAD.jaali,TSPL_SD_SHIPMENT_HEAD.box, TSPL_SD_SALE_INVOICE_head.Invoice_Type AS GP_Invoice_Type, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end    as Location_Address_GP, cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,TSPL_COMPANY_MASTER.comp_code,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ' , '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ' , '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when LEN(TSPL_COMPANY_MASTER.tin_no)>0 then ' , TIN No '+TSPL_COMPANY_MASTER.tin_no else ' ' end as Comp_Add_GP,TSPL_COMPANY_MASTER.CE_Division as GP_Division,TSPL_COMPANY_MASTER.ServiceTax_Reg_No +case when len(TSPL_COMPANY_MASTER.Ecc_No)>0 then ''+TSPL_COMPANY_MASTER.Ecc_No else '' end as GP_ECC_No,TSPL_COMPANY_MASTER.CE_Range as GP_CE_Range,   TSPL_ITEM_master.ITF_CODE,Location_State.STATE_NAME as Loc_State_Name,TSPL_CITY_MASTER.City_Name,Location_State.state_code as Loc_state_code, tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2, tspl_company_master.cst_lst as Comp_CSt_LST, TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.GRNo,case when TSPL_SD_SHIPMENT_HEAD.GRNo <> '' then convert(varchar,TSPL_SD_SHIPMENT_HEAD.GR_Date,103) else '' end as GR_Date ,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_DETAIL.Alter_UnitQty,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt  , TSPL_ITEM_master.ITF_CODE as Chap_Desc,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_LOCATION_MASTER.Registration_Number, case when TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms='A' then 'Advance' else TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms end as Payment_Terms, TSPL_SD_SALE_INVOICE_HEAD.Modify_By,TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_ITEM_MASTER.Cheapter_Heads,convert(date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,103) as RoadPermit_Date ," & _
-             " TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_For_Location.City_Name)>0 then ', '+TSPL_CITY_MASTER_For_Location .City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end  + case when len(TSPL_LOCATION_MASTER.Pin_Code   )>0 then ', Pin Code - '+ cast(TSPL_LOCATION_MASTER.Pin_Code  as varchar)  else ' ' end  + case when len(TSPL_LOCATION_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_LOCATION_MASTER.Tin_No as varchar)  else ' ' end  + Case when len(ISNULL(TSPL_LOCATION_MASTER.Phone1,''))>0 and TSPL_LOCATION_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_LOCATION_MASTER.Email    )>0 then ',Email - '+ TSPL_LOCATION_MASTER.Email else '' end  as Location_Address,TSPL_LOCATION_MASTER.CST_No as Loc_CSTNo,TSPL_LOCATION_MASTER.Excisable as loc_Excisable,TSPL_LOCATION_MASTER.Range_Address as Loc_range_Add,TSPL_LOCATION_MASTER.Division_Address  as loc_Division_Address,TSPL_LOCATION_MASTER.Commissionerate  as Loc_Commissionerate ,TSPL_SD_SALE_INVOICE_HEAD.Challan_No ,case when TSPL_SD_SALE_INVOICE_HEAD.Challan_No <> '' then  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Challan_Date,103) else '' end as Challan_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date," & _
-             " TSPL_SD_SALE_INVOICE_HEAD.total_add_charge ,TSPL_SD_SALE_INVOICE_HEAD. WayBillNo,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end" & _
-             " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end" & _
-             " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_COMPANY_MASTER.Phone1 end " & _
-             " + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End " & _
-             " + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end " & _
-             " as Comp_Address, TSPL_LOCATION_MASTER .Add1 as Loc_Add1,TSPL_LOCATION_MASTER.Add2 as Loc_ADd2,TSPL_LOCATION_MASTER.Add3  as Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code as Loc_Pin_Code,TSPL_LOCATION_MASTER.TIN_No as Loc_TinNo,Case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  Loc_Phn,TSPL_LOCATION_MASTER.Email as Loc_Email,( case when TSPL_SD_SALE_INVOICE_head.Invoice_Type='R' then 'Retail Invoice' when TSPL_SD_SALE_INVOICE_head.Invoice_Type='A' then 'Tax Exempted' else 'Tax Invoice' end) as Invoice_Type,case when len(isnull(TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM ,''))>0 then ((TSPL_SD_SALE_INVOICE_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/Uom_Detail.Conversion_Factor) else null end  as Alternet_Qty," & _
-             " TSPL_SD_SALE_INVOICE_DETAIL .Alternate_UOM,    TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item_UOM + case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then ' (Free Scheme)' when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' then ''end as Scheme_Item_UOM  , TSPL_SD_SALE_INVOICE_HEAD.Discount_Base,case when len(isnull(TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No,''))>0 then TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No else TSPL_SD_SALE_INVOICE_HEAD.GRNo end AS Dis_Doc_No, TSPL_SD_SHIPMENT_HEAD.Description ,isnull(TSPL_SD_SHIPMENT_HEAD.Print_Discount_Amt,0) as 'Print_Discount_Amt', TSPL_COMPANY_MASTER .State as Comp_State, TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No as Buyer_order_no,case when TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No <> '' then convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_Date,103) else '' end  as Buyer_order_date,case when (TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms )='FE' then 'Freight Extra' else  TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms  end  as Terms_of_delivery,(case when len(coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,''))>0 then  (TSPL_SD_SALE_INVOICE_HEAD.Document_Code + '/' + coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'')) else TSPL_SD_SALE_INVOICE_HEAD.Document_Code end) as InvoiceNo,TSPL_Dispatch_Distributor.Document_No as Distributer_Dispatch_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as Date_Time_Invoice,convert(varchar ,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as InvoiceDate " & _
-             " ,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No as ShipmentNo,TSPL_SD_SALE_INVOICE_DETAIL.Alt_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Alt_UOM,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as ShipmentDate," & _
-             " TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as DeliveryOrderNo,TSPL_SD_SALE_INVOICE_HEAD.Terms_Code as TermCondition," & _
-             " TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Loc_Short_Name , TSPL_COMPANY_MASTER.Comp_Name as CompName, ISNULL(TSPL_COMPANY_MASTER.Phone1,'')+ " & _
-             " Case When ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone," & _
-             " TSPL_COMPANY_MASTER.Fax as CompFax,TSPL_COMPANY_MASTER.Email as ComMail,TSPL_COMPANY_MASTER.CINNo as CompCinNo,TSPL_COMPANY_MASTER.Pan_No as ComPanNo," & _
-             " TSPL_COMPANY_MASTER.CST_LST as CompCSTLST,TSPL_COMPANY_MASTER.Pincode as ComPINCode," & _
-             " TSPL_COMPANY_MASTER .Tin_No as ComTinNO,ISNULL(tspl_company_Master.ADD1,'') as Compaddress1,ISNULL(tspl_company_Master.ADD2,'') " & _
-             " as Compaddress2,ISNULL(tspl_company_Master.ADD3,'') as Compaddress3," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.Lst_No when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo, coalesce(p_cust.P_cust_code,TSPL_CUSTOMER_MASTER.Cust_Code) as P_CustCode, coalesce(p_cust .P_cust_name,TSPL_CUSTOMER_MASTER.Customer_Name) as P_Cust_Name," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CITY_MASTER   .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name    end as P_City_Name," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_state_Master.state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name    end as P_State_Name," & _
-             " case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn,case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan,TSPL_CUSTOMER_MASTER.Cust_Code ,  TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_add2,TSPL_CUSTOMER_MASTER.Add3 as cust_add3,  case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End  as Cust_Phn,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_TinNo ,TSPL_CUSTOMER_MASTER.CST as Cust_CSTNo,TSPL_CUSTOMER_MASTER.Lst_No as Cust_LSTNo,TSPL_CUSTOMER_MASTER.Email as Cust_Email ,TSPL_CUSTOMER_MASTER.PIN_Code as Cust_PinCode,TSPL_CITY_MASTER.City_Name as Cust_City_Name,TSPL_CUSTOMER_MASTER.Fax as Cust_Fax,TSPL_STATE_MASTER .STATE_NAME  as Cust_State_Name,TSPL_CUSTOMER_MASTER.PAN  as Customer_Pan, " & _
-             " TSPL_SD_SALE_INVOICE_DETAIL.item_code  as item_code,((case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then '(TS)' else '' end)+TSPL_ITEM_MASTER.Item_Desc )as itemdesc,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty as qty" & _
-             "  ,TSPL_SD_SALE_INVOICE_DETAIL.mrp, (TSPL_SD_SALE_INVOICE_DETAIL.amount+coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as amount,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.unit_code as uom,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM as RATE_UOM" & _
-             "  ,(TSPL_SD_SALE_INVOICE_DETAIL.item_cost+coalesce(tspl_item_master.CNF_Commission,0)) as itemcost, tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax1_amt,0) as txt1amt," & _
-             "  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax2_amt,0) as txt2amt,   tax3.Tax_Code_Desc as tax3name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax3_amt,0) as txt3amt,   tax4.Tax_Code_Desc as tax4name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax4_amt,0) as txt4amt,   tax5.Tax_Code_Desc as tax5name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax7_amt,0) as txt7amt,   tax8.Tax_Code_Desc as tax8name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax9_amt,0) as txt9amt,   tax10.Tax_Code_Desc as tax10name," & _
-             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax10_amt,0) as txt10amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, isnull(TSPL_SD_SALE_INVOICE_HEAD.Discount_Amt,0) as Discount_Amt,isnull(TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,0) as Amount_Less_Discount,  isnull(TSPL_SD_SALE_INVOICE_HEAD .Total_Tax_Amt,0) as Total_Tax_Amt, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as Total_Amt, '1' as CopyType ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5,0) as Add_Charge_Amt5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6,0) as Add_Charge_Amt6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7,0) as Add_Charge_Amt7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8,0) as Add_Charge_Amt8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9,0) as Add_Charge_Amt9,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10,0) as Add_Charge_Amt10  ,isnull(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0) as RoundOffAmount,coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'') AS Booking_No,(coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Distr_Commision " & _
-             "  from TSPL_SD_SALE_INVOICE_HEAD" & _
-             "  left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " & _
-             "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code  = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No" & _
-             "  Left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_SALE_INVOICE_DETAIL.Line_No " & _
-             "  left join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No " & _
-             "  and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " & _
-             "  and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code " & _
-             "  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " & _
-             "  left join TSPL_Dispatch_Distributor on TSPL_BOOKING_MATSER.Document_No=TSPL_Dispatch_Distributor.Booking_No and TSPL_Dispatch_Distributor.Document_Type= 'CD_To_Dis' " & _
-             "  left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location   =TSPL_LOCATION_MASTER.Location_Code " & _
-             "  left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.comp_code " & _
-             "  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code    " & _
-             "  LEFT join (select TSPL_CUSTOMER_MASTER.Cust_Code as P_cust_code,Customer_Name as P_cust_name,Add1 as P_cust_add1 ,Add2  as P_cust_add2,add3  as P_cust_add3,PIN_Code as P_Pin_No,Tin_No as p_Tin_No ,State as P_state,Email as P_Email,fax as P_Fax,TSPL_CITY_MASTER.City_Name as  P_City_Name,TSPL_STATE_MASTER.STATE_NAME as P_State_Name  ,case when ISNULL(Phone1,'')='(+__)__________' then '' else Phone1 end +  Case When   ISNULL(Phone2,'')<>'(+__)__________' Then ', '+ Phone2 Else'' End as  P_Phn,CST as P_CST_No,Terms_Code as P_Terms,Lst_No as P_LST_No,PAN as P_Pan  from TSPL_SECONDARY_CUSTOMER_MASTER as TSPL_CUSTOMER_MASTER   left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_CUSTOMER_MASTER.City_Code " & _
-             "  left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State =TSPL_STATE_MASTER.STATE_CODE  " & _
-             "  ) p_cust on p_cust.P_cust_code=TSPL_BOOKING_MATSER.Distributor_Code " & _
-             "  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_CUSTOMER_MASTER .State  " & _
-             " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " & _
-             " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_HEAD.tax1" & _
-             " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2  " & _
-             " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .TAX3  " & _
-             " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_HEAD .tax4  " & _
-             " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .tax5  " & _
-             " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX6  " & _
-             " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX7 " & _
-             " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX8 " & _
-             " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX9 " & _
-             " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX10  " & _
-             " left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Unit_code " & _
-             " left outer join TSPL_ITEM_UOM_DETAIL as Uom_Detail  on Uom_Detail.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   Uom_Detail.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM " & _
-             " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER .City_Code =TSPL_CUSTOMER_MASTER.City_Code " & _
-             " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code " & _
-             " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State " & _
-             " left outer join TSPL_CITY_MASTER   as TSPL_CITY_MASTER_For_Location on  TSPL_CITY_MASTER_For_Location.City_Code =TSPL_LOCATION_MASTER.City_Code " & _
-             " left outer join TSPL_STATE_MASTER  as TSPL_STATE_MASTER_For_State on TSPL_STATE_MASTER_For_State.STATE_CODE =TSPL_LOCATION_MASTER.state " & _
-             " left outer join TSPL_CHAPTER_HEAD on TSPL_CHAPTER_HEAD.Chapter_Head_Code =TSPL_ITEM_MASTER.Cheapter_Heads" & _
+            Qry = " select TSPL_SD_SALE_INVOICE_HEAD.Remarks, TSPL_SD_SHIPMENT_HEAD.RoundOffAmount as Roundoff,CASE WHEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name = '' THEN TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual ELSE  TSPL_SD_SHIPMENT_HEAD.Transporter_Name END AS Transporter_Name,TSPL_SD_SHIPMENT_HEAD.crate,TSPL_SD_SHIPMENT_HEAD.jaali,TSPL_SD_SHIPMENT_HEAD.box, TSPL_SD_SALE_INVOICE_head.Invoice_Type AS GP_Invoice_Type, TSPL_LOCATION_MASTER.TIN_No as Loc_Tin_No,TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end  + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end    as Location_Address_GP, cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,TSPL_COMPANY_MASTER.comp_code,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ' , '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ' , '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when LEN(TSPL_COMPANY_MASTER.tin_no)>0 then ' , TIN No '+TSPL_COMPANY_MASTER.tin_no else ' ' end as Comp_Add_GP,TSPL_COMPANY_MASTER.CE_Division as GP_Division,TSPL_COMPANY_MASTER.ServiceTax_Reg_No +case when len(TSPL_COMPANY_MASTER.Ecc_No)>0 then ''+TSPL_COMPANY_MASTER.Ecc_No else '' end as GP_ECC_No,TSPL_COMPANY_MASTER.CE_Range as GP_CE_Range,   TSPL_ITEM_master.ITF_CODE,Location_State.STATE_NAME as Loc_State_Name,TSPL_CITY_MASTER.City_Name,Location_State.state_code as Loc_state_code, tspl_location_master.HOAdd1 ,TSPL_LOCATION_MASTER .HOAdd2, tspl_company_master.cst_lst as Comp_CSt_LST, TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.GRNo,case when TSPL_SD_SHIPMENT_HEAD.GRNo <> '' then convert(varchar,TSPL_SD_SHIPMENT_HEAD.GR_Date,103) else '' end as GR_Date ,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_DETAIL.Alter_UnitQty,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt  , TSPL_ITEM_master.ITF_CODE as Chap_Desc,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_LOCATION_MASTER.Registration_Number, case when TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms='A' then 'Advance' else TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms end as Payment_Terms, TSPL_SD_SALE_INVOICE_HEAD.Modify_By,TSPL_COMPANY_MASTER.Pan_No as Comp_PANNO,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_ITEM_MASTER.Cheapter_Heads,convert(date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,103) as RoadPermit_Date ," &
+             " TSPL_LOCATION_MASTER.add1 +case when len(TSPL_LOCATION_MASTER.add2)>0 then ', '+TSPL_LOCATION_MASTER.add2 else '' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_For_Location.City_Name)>0 then ', '+TSPL_CITY_MASTER_For_Location .City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_State.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_State.STATE_NAME else ' ' end  + case when len(TSPL_LOCATION_MASTER.Pin_Code   )>0 then ', Pin Code - '+ cast(TSPL_LOCATION_MASTER.Pin_Code  as varchar)  else ' ' end  + case when len(TSPL_LOCATION_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_LOCATION_MASTER.Tin_No as varchar)  else ' ' end  + Case when len(ISNULL(TSPL_LOCATION_MASTER.Phone1,''))>0 and TSPL_LOCATION_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End   + case when len(TSPL_LOCATION_MASTER.Email    )>0 then ',Email - '+ TSPL_LOCATION_MASTER.Email else '' end  as Location_Address,TSPL_LOCATION_MASTER.CST_No as Loc_CSTNo,TSPL_LOCATION_MASTER.Excisable as loc_Excisable,TSPL_LOCATION_MASTER.Range_Address as Loc_range_Add,TSPL_LOCATION_MASTER.Division_Address  as loc_Division_Address,TSPL_LOCATION_MASTER.Commissionerate  as Loc_Commissionerate ,TSPL_SD_SALE_INVOICE_HEAD.Challan_No ,case when TSPL_SD_SALE_INVOICE_HEAD.Challan_No <> '' then  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Challan_Date,103) else '' end as Challan_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date," &
+             " TSPL_SD_SALE_INVOICE_HEAD.total_add_charge ,TSPL_SD_SALE_INVOICE_HEAD. WayBillNo,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER_fOR_Comp.City_Name)>0 then ', '+TSPL_CITY_MASTER_fOR_Comp.City_Name else ' ' end + case when len(TSPL_STATE_MASTER_For_Comp.STATE_NAME  )>0 then ', '+ TSPL_STATE_MASTER_For_Comp.STATE_NAME else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Pincode    )>0 then ', Pin Code - '+ cast(TSPL_COMPANY_MASTER.Pincode as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Tin_No     )>0 then ', Tin No - '+ cast(TSPL_COMPANY_MASTER.Tin_No as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.CINNo      )>0 then ', CIN No - '+ cast(TSPL_COMPANY_MASTER.CINNo as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Pan_No      )>0 then ', PAN No - '+ cast(TSPL_COMPANY_MASTER.Pan_No as varchar)  else ' ' end" &
+             " + case when len(TSPL_COMPANY_MASTER.Fax     )>0 then ',Fax '+ TSPL_COMPANY_MASTER.Fax else '' end" &
+             " + Case when len(ISNULL(TSPL_COMPANY_MASTER.Phone1,''))>0 and TSPL_COMPANY_MASTER.Phone1='(+__)__________' then '' else ',Phone'+TSPL_COMPANY_MASTER.Phone1 end " &
+             " + Case When   ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ',  '+ TSPL_COMPANY_MASTER.Phone2 Else'' End " &
+             " + case when len(TSPL_COMPANY_MASTER.Email    )>0 then ',Email - '+ TSPL_COMPANY_MASTER.Email else '' end " &
+             " as Comp_Address, TSPL_LOCATION_MASTER .Add1 as Loc_Add1,TSPL_LOCATION_MASTER.Add2 as Loc_ADd2,TSPL_LOCATION_MASTER.Add3  as Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code as Loc_Pin_Code,TSPL_LOCATION_MASTER.TIN_No as Loc_TinNo,Case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as  Loc_Phn,TSPL_LOCATION_MASTER.Email as Loc_Email,( case when TSPL_SD_SALE_INVOICE_head.Invoice_Type='R' then 'Retail Invoice' when TSPL_SD_SALE_INVOICE_head.Invoice_Type='A' then 'Tax Exempted' else 'Tax Invoice' end) as Invoice_Type,case when len(isnull(TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM ,''))>0 then ((TSPL_SD_SALE_INVOICE_DETAIL.Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/Uom_Detail.Conversion_Factor) else null end  as Alternet_Qty," &
+             " TSPL_SD_SALE_INVOICE_DETAIL .Alternate_UOM,    TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item_UOM + case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then ' (Free Scheme)' when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='N' then ''end as Scheme_Item_UOM  , TSPL_SD_SALE_INVOICE_HEAD.Discount_Base,case when len(isnull(TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No,''))>0 then TSPL_SD_SALE_INVOICE_HEAD.Road_Permit_No else TSPL_SD_SALE_INVOICE_HEAD.GRNo end AS Dis_Doc_No, TSPL_SD_SHIPMENT_HEAD.Description ,isnull(TSPL_SD_SHIPMENT_HEAD.Print_Discount_Amt,0) as 'Print_Discount_Amt', TSPL_COMPANY_MASTER .State as Comp_State, TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No as Buyer_order_no,case when TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No <> '' then convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_Date,103) else '' end  as Buyer_order_date,case when (TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms )='FE' then 'Freight Extra' else  TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms  end  as Terms_of_delivery,(case when len(coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,''))>0 then  (TSPL_SD_SALE_INVOICE_HEAD.Document_Code + '/' + coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'')) else TSPL_SD_SALE_INVOICE_HEAD.Document_Code end) as InvoiceNo,TSPL_Dispatch_Distributor.Document_No as Distributer_Dispatch_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as Date_Time_Invoice,convert(varchar ,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as InvoiceDate " &
+             " ,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No as ShipmentNo,TSPL_SD_SALE_INVOICE_DETAIL.Alt_Qty ,TSPL_SD_SALE_INVOICE_DETAIL.Alt_UOM,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as ShipmentDate," &
+             " TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as DeliveryOrderNo,TSPL_SD_SALE_INVOICE_HEAD.Terms_Code as TermCondition," &
+             " TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Loc_Short_Name , TSPL_COMPANY_MASTER.Comp_Name as CompName, ISNULL(TSPL_COMPANY_MASTER.Phone1,'')+ " &
+             " Case When ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone," &
+             " TSPL_COMPANY_MASTER.Fax as CompFax,TSPL_COMPANY_MASTER.Email as ComMail,TSPL_COMPANY_MASTER.CINNo as CompCinNo,TSPL_COMPANY_MASTER.Pan_No as ComPanNo," &
+             " TSPL_COMPANY_MASTER.CST_LST as CompCSTLST,TSPL_COMPANY_MASTER.Pincode as ComPINCode," &
+             " TSPL_COMPANY_MASTER .Tin_No as ComTinNO,ISNULL(tspl_company_Master.ADD1,'') as Compaddress1,ISNULL(tspl_company_Master.ADD2,'') " &
+             " as Compaddress2,ISNULL(tspl_company_Master.ADD3,'') as Compaddress3," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add1  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add1 end as P_Add1, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add2  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add2 end as P_Add2, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Add3  when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_cust_add3 end as P_Add3, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .PIN_Code   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Pin_No  end as P_PinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .CST    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_CST_No   end as P_CstNo,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Tin_No     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .p_Tin_No   end as P_TinNo, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Email    when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Email  end as P_Email,case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER  .Fax     when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Fax   end as P_Fax, case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CUSTOMER_MASTER.Lst_No when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_LST_No    end as P_LstNo, coalesce(p_cust.P_cust_code,TSPL_CUSTOMER_MASTER.Cust_Code) as P_CustCode, coalesce(p_cust .P_cust_name,TSPL_CUSTOMER_MASTER.Customer_Name) as P_Cust_Name," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_CITY_MASTER   .City_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_City_Name    end as P_City_Name," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then TSPL_state_Master.state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name    end as P_State_Name," &
+             " case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn,case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan,TSPL_CUSTOMER_MASTER.Cust_Code ,  TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_add2,TSPL_CUSTOMER_MASTER.Add3 as cust_add3,  case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End  as Cust_Phn,TSPL_CUSTOMER_MASTER.Tin_No  as Cust_TinNo ,TSPL_CUSTOMER_MASTER.CST as Cust_CSTNo,TSPL_CUSTOMER_MASTER.Lst_No as Cust_LSTNo,TSPL_CUSTOMER_MASTER.Email as Cust_Email ,TSPL_CUSTOMER_MASTER.PIN_Code as Cust_PinCode,TSPL_CITY_MASTER.City_Name as Cust_City_Name,TSPL_CUSTOMER_MASTER.Fax as Cust_Fax,TSPL_STATE_MASTER .STATE_NAME  as Cust_State_Name,TSPL_CUSTOMER_MASTER.PAN  as Customer_Pan, " &
+             " TSPL_SD_SALE_INVOICE_DETAIL.item_code  as item_code,((case when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then '(TS)' else '' end)+TSPL_ITEM_MASTER.Item_Desc )as itemdesc,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty as qty" &
+             "  ,TSPL_SD_SALE_INVOICE_DETAIL.mrp, (TSPL_SD_SALE_INVOICE_DETAIL.amount+coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as amount,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.unit_code as uom,TSPL_SD_SALE_INVOICE_DETAIL.RATE_UOM as RATE_UOM" &
+             "  ,(TSPL_SD_SALE_INVOICE_DETAIL.item_cost+coalesce(tspl_item_master.CNF_Commission,0)) as itemcost, tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax1_amt,0) as txt1amt," &
+             "  tax2.Tax_Code_Desc as tax2name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax2_amt,0) as txt2amt,   tax3.Tax_Code_Desc as tax3name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax3_amt,0) as txt3amt,   tax4.Tax_Code_Desc as tax4name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax4_amt,0) as txt4amt,   tax5.Tax_Code_Desc as tax5name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax5_amt,0) as txt5amt,   tax6.Tax_Code_Desc as tax6name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax6_amt,0) as txt6amt,   tax7.Tax_Code_Desc as tax7name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax7_amt,0) as txt7amt,   tax8.Tax_Code_Desc as tax8name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax9_amt,0) as txt9amt,   tax10.Tax_Code_Desc as tax10name," &
+             "  isnull (TSPL_SD_SALE_INVOICE_HEAD.tax10_amt,0) as txt10amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate ,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, isnull(TSPL_SD_SALE_INVOICE_HEAD.Discount_Amt,0) as Discount_Amt,isnull(TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,0) as Amount_Less_Discount,  isnull(TSPL_SD_SALE_INVOICE_HEAD .Total_Tax_Amt,0) as Total_Tax_Amt, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt as Total_Amt, '1' as CopyType ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,0) as Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,0) as Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,0) as Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,0) as Add_Charge_Amt4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5,0) as Add_Charge_Amt5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6,0) as Add_Charge_Amt6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7,0) as Add_Charge_Amt7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8,0) as Add_Charge_Amt8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9,0) as Add_Charge_Amt9,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10,isnull (TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10,0) as Add_Charge_Amt10  ,isnull(TSPL_SD_SALE_INVOICE_HEAD.RoundOffAmount,0) as RoundOffAmount,coalesce(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No,'') AS Booking_No,(coalesce(tspl_item_master.CNF_Commission,0)*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Distr_Commision " &
+             "  from TSPL_SD_SALE_INVOICE_HEAD" &
+             "  left outer join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE " &
+             "  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code  = TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No" &
+             "  Left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_SD_SALE_INVOICE_DETAIL.Unit_code and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_SD_SALE_INVOICE_DETAIL.Line_No " &
+             "  left join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No " &
+             "  and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " &
+             "  and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_code " &
+             "  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " &
+             "  left join TSPL_Dispatch_Distributor on TSPL_BOOKING_MATSER.Document_No=TSPL_Dispatch_Distributor.Booking_No and TSPL_Dispatch_Distributor.Document_Type= 'CD_To_Dis' " &
+             "  left outer join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location   =TSPL_LOCATION_MASTER.Location_Code " &
+             "  left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_SD_SALE_INVOICE_HEAD.comp_code " &
+             "  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_SD_SALE_INVOICE_HEAD.Customer_Code    " &
+             "  LEFT join (select TSPL_CUSTOMER_MASTER.Cust_Code as P_cust_code,Customer_Name as P_cust_name,Add1 as P_cust_add1 ,Add2  as P_cust_add2,add3  as P_cust_add3,PIN_Code as P_Pin_No,Tin_No as p_Tin_No ,State as P_state,Email as P_Email,fax as P_Fax,TSPL_CITY_MASTER.City_Name as  P_City_Name,TSPL_STATE_MASTER.STATE_NAME as P_State_Name  ,case when ISNULL(Phone1,'')='(+__)__________' then '' else Phone1 end +  Case When   ISNULL(Phone2,'')<>'(+__)__________' Then ', '+ Phone2 Else'' End as  P_Phn,CST as P_CST_No,Terms_Code as P_Terms,Lst_No as P_LST_No,PAN as P_Pan  from TSPL_SECONDARY_CUSTOMER_MASTER as TSPL_CUSTOMER_MASTER   left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_CUSTOMER_MASTER.City_Code " &
+             "  left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State =TSPL_STATE_MASTER.STATE_CODE  " &
+             "  ) p_cust on p_cust.P_cust_code=TSPL_BOOKING_MATSER.Distributor_Code " &
+             "  left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE =TSPL_CUSTOMER_MASTER .State  " &
+             " Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code " &
+             " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_HEAD.tax1" &
+             " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2  " &
+             " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .TAX3  " &
+             " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_HEAD .tax4  " &
+             " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .tax5  " &
+             " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX6  " &
+             " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX7 " &
+             " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX8 " &
+             " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX9 " &
+             " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX10  " &
+             " left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Unit_code " &
+             " left outer join TSPL_ITEM_UOM_DETAIL as Uom_Detail  on Uom_Detail.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   Uom_Detail.UOM_Code =TSPL_SD_SALE_INVOICE_DETAIL.Alternate_UOM " &
+             " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER .City_Code =TSPL_CUSTOMER_MASTER.City_Code " &
+             " LEFT OUTER JOIN TSPL_CITY_MASTER  AS TSPL_CITY_MASTER_fOR_Comp ON TSPL_CITY_MASTER_fOR_Comp.City_Code =TSPL_COMPANY_MASTER.City_Code " &
+             " LEFT OUTER JOIN TSPL_STATE_MASTER AS TSPL_STATE_MASTER_For_Comp  ON TSPL_STATE_MASTER_For_Comp.STATE_CODE  =TSPL_COMPANY_MASTER.State " &
+             " left outer join TSPL_CITY_MASTER   as TSPL_CITY_MASTER_For_Location on  TSPL_CITY_MASTER_For_Location.City_Code =TSPL_LOCATION_MASTER.City_Code " &
+             " left outer join TSPL_STATE_MASTER  as TSPL_STATE_MASTER_For_State on TSPL_STATE_MASTER_For_State.STATE_CODE =TSPL_LOCATION_MASTER.state " &
+             " left outer join TSPL_CHAPTER_HEAD on TSPL_CHAPTER_HEAD.Chapter_Head_Code =TSPL_ITEM_MASTER.Cheapter_Heads" &
              " left outer join tspl_state_master as Location_State on Location_State.state_code=tspl_location_master.state"
             ''and TSPL_SD_SHIPMENT_DETAIL.Line_No=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No
         End If
         Return Qry
     End Function
-
     Public Shared Function GetInvoiceType(ByVal CreateVatSeries As Integer) As DataTable
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = ""
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "R"
         dr("Name") = "Retail"
         dt.Rows.Add(dr)
-
-
         dr = dt.NewRow()
         dr("Code") = "T"
         dr("Name") = "Taxable"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "N"
         dr("Name") = "Non Taxable"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "E"
         dr("Name") = "Excise"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "A"
         dr("Name") = "Tax Exempted"
         dt.Rows.Add(dr)
-
         If CreateVatSeries = 1 Then
             dr = dt.NewRow()
             dr("Code") = "I"
             dr("Name") = "Interstate"
             dt.Rows.Add(dr)
         End If
-
         Return dt
     End Function
-
 End Class
-
 Public Class clsPSShipmentHeadDetail
 #Region "Variables"
     Public CAN As Double = 0
     Public Against_Booking_PK_ID As Integer = 0
-
     Public Structure_Code As String = Nothing
     Public ItemwiseTaxCode As String = ""
     Public VS_CashSchemeCode As String = String.Empty
@@ -4042,7 +3669,6 @@ Public Class clsPSShipmentHeadDetail
     Public Commission_Amt As Double = 0
     Public Amt_Less_Commission As Double = 0
     Public Sampling As Integer = 0
-
     Public Document_Code As String = Nothing
     Public Line_No As Integer = 0
     Public Row_Type As String = Nothing
@@ -4052,9 +3678,11 @@ Public Class clsPSShipmentHeadDetail
     Public Bar_Code As String = Nothing
     Public Qty As Double = 0
     Public Balance_Qty As Double = 0
+    Public Billing_Qty As Double = 0
     Public Free_Qty As Double = 0
     Public Order_Code As String = Nothing
     Public Unit_code As String = Nothing '
+    Public Billing_Unit_code As String = Nothing
     Public Location As String = Nothing '
     Public LocationName As String = Nothing 'Not a Table Field
     Public Item_Cost As Double = 0
@@ -4117,10 +3745,7 @@ Public Class clsPSShipmentHeadDetail
     Public Is_Mannual_Amt As Integer = Nothing
     'Public Unit_Cogs As Double = 0
     Public SRNTax_Group As String = Nothing 'Not a Table Field
-
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
-
-
     Public Scheme_Applicable As String = Nothing
     Public Scheme_Code As String = Nothing
     Public Scheme_Item As String = Nothing
@@ -4147,7 +3772,6 @@ Public Class clsPSShipmentHeadDetail
     Public Abatement_Amt As Double = 0
     Public FOC_Item As Double = 0
     Public Price_Date As String = Nothing
-
     Public Item_Weight As Double = 0
     Public Conv_Factor As Double = 0
     Public TotalItem_Weight As Double = 0
@@ -4196,17 +3820,13 @@ Public Class clsPSShipmentHeadDetail
     Public Booth_Security_Rate As Decimal = 0
     Public Booth_Security_Amt As Decimal = 0
     Public Transporter As String = ""
-
 #End Region
-
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsPSShipmentHeadDetail), ByVal trans As SqlTransaction, ByVal DocDate As DateTime, Optional ByVal IsDairyModule As Boolean = False, Optional ByVal FreshAmbient As String = Nothing) As Boolean
-
         Dim TransType_Str As String = ""
         If IsDairyModule = True Then
             'TransType_Str = IIf(IsTaxable = 1, "PS", "FS")
             TransType_Str = FreshAmbient & "-SH"
         End If
-
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsPSShipmentHeadDetail In Arr
                 Dim coll As New Hashtable()
@@ -4231,7 +3851,6 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Scheme_Type", obj.Scheme_Type)
                 clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code)
                 clsCommon.AddColumnsForChange(coll, "Against_Cust_Ord_PK_ID", obj.Against_Cust_Ord_PK_ID, True)
-
                 clsCommon.AddColumnsForChange(coll, "VS_CashSchemeCode", obj.VS_CashSchemeCode)
                 clsCommon.AddColumnsForChange(coll, "VS_Cash_Amt", obj.VS_Cash_Amt)
                 clsCommon.AddColumnsForChange(coll, "VS_ltrInCrate", obj.VS_ltrInCrate)
@@ -4252,17 +3871,17 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Scheme_Main_Item", obj.Scheme_Main_Item, True)
                 clsCommon.AddColumnsForChange(coll, "Bar_Code", obj.Bar_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "Billing_Qty", obj.Billing_Qty)
                 clsCommon.AddColumnsForChange(coll, "Sampling", obj.Sampling)
                 clsCommon.AddColumnsForChange(coll, "Free_qty", obj.Free_Qty)
-
                 clsCommon.AddColumnsForChange(coll, "Order_Code", obj.Order_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Delivery_Code_PS", obj.Delivery_Code_PS, True)
                 'clsCommon.AddColumnsForChange(coll, "Delivery_Code", obj.Delivery_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Balance_Qty", obj.Balance_Qty)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+                clsCommon.AddColumnsForChange(coll, "Billing_Unit_code", obj.Billing_Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
                 clsCommon.AddColumnsForChange(coll, "Item_Cost", obj.Item_Cost)
-
                 clsCommon.AddColumnsForChange(coll, "Against_Booking_PK_ID", obj.Against_Booking_PK_ID, True)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
                 clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
@@ -4313,7 +3932,6 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "MRP", obj.MRP)
                 clsCommon.AddColumnsForChange(coll, "Batch_No", obj.Batch_No)
                 clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No, True)
-
                 clsCommon.AddColumnsForChange(coll, "Specification", obj.Specification)
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
                 clsCommon.AddColumnsForChange(coll, "Is_Mannual_Amt", obj.Is_Mannual_Amt)
@@ -4325,11 +3943,11 @@ Public Class clsPSShipmentHeadDetail
                 End If
                 clsCommon.AddColumnsForChange(coll, "Assessable", obj.Assessable)
                 clsCommon.AddColumnsForChange(coll, "AssessableAmt", obj.AssessableAmt)
-                Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " & _
-              "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " & _
-              "TSPL_ITEM_PRICE_MASTER.Price_Amount6 ,TSPL_ITEM_PRICE_MASTER.Price_Amount7 ,TSPL_ITEM_PRICE_MASTER.Price_Amount8 , " & _
-              "TSPL_ITEM_PRICE_MASTER.Price_Amount9 ,TSPL_ITEM_PRICE_MASTER.Price_Amount10 from TSPL_ITEM_PRICE_MASTER " & _
-             "where  TSPL_ITEM_PRICE_MASTER.Price_Code='" & obj.Price_code & "' and  TSPL_ITEM_PRICE_MASTER.Item_Code='" & obj.Item_Code & "' and  " & _
+                Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " &
+              "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " &
+              "TSPL_ITEM_PRICE_MASTER.Price_Amount6 ,TSPL_ITEM_PRICE_MASTER.Price_Amount7 ,TSPL_ITEM_PRICE_MASTER.Price_Amount8 , " &
+              "TSPL_ITEM_PRICE_MASTER.Price_Amount9 ,TSPL_ITEM_PRICE_MASTER.Price_Amount10 from TSPL_ITEM_PRICE_MASTER " &
+             "where  TSPL_ITEM_PRICE_MASTER.Price_Code='" & obj.Price_code & "' and  TSPL_ITEM_PRICE_MASTER.Item_Code='" & obj.Item_Code & "' and  " &
              "TSPL_ITEM_PRICE_MASTER.Item_Basic_Net=" & obj.MRP & " and TSPL_ITEM_PRICE_MASTER.UOM='" & obj.Unit_code & "' "
                 Dim dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(strSql, trans)
@@ -4345,7 +3963,6 @@ Public Class clsPSShipmentHeadDetail
                     obj.Price_Amount9 = clsCommon.myCdbl(dt.Rows(0).Item("Price_Amount9"))
                     obj.Price_Amount10 = clsCommon.myCdbl(dt.Rows(0).Item("Price_Amount10"))
                 End If
-
                 clsCommon.AddColumnsForChange(coll, "Scheme_Applicable", IIf(obj.Scheme_Applicable = "Yes", "Y", "N"))
                 clsCommon.AddColumnsForChange(coll, "Scheme_Code", obj.Scheme_Code)
                 clsCommon.AddColumnsForChange(coll, "Scheme_Item", IIf(obj.Scheme_Item = "Yes", "Y", "N"))
@@ -4374,7 +3991,6 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Abatement_Per", obj.Abatement_Per)
                 clsCommon.AddColumnsForChange(coll, "Abatement_Amt", obj.Abatement_Amt)
                 clsCommon.AddColumnsForChange(coll, "FOC_Item", obj.FOC_Item)
-
                 clsCommon.AddColumnsForChange(coll, "Item_Weight", obj.Item_Weight)
                 clsCommon.AddColumnsForChange(coll, "Conv_Factor", obj.Conv_Factor)
                 clsCommon.AddColumnsForChange(coll, "TotalItem_Weight", obj.TotalItem_Weight)
@@ -4404,30 +4020,23 @@ Public Class clsPSShipmentHeadDetail
                 clsCommon.AddColumnsForChange(coll, "Booth_Security_Rate", obj.Booth_Security_Rate, True)
                 clsCommon.AddColumnsForChange(coll, "Booth_Security_Amt", obj.Booth_Security_Amt, True)
                 clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter, True)
-
-
                 'clsCommon.AddColumnsForChange(coll, "Unit_Cogs", clsItemLocationDetails.GetUnitCogs(obj.Item_Code, obj.Location, trans))
                 If obj.Is_CustomerChanged = 1 Then
-
                     Dim qry = "update TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE  set Customer_Code= '" & obj.Customer_Code & "',Is_CustomerChanged=1  where Document_Code='" + obj.Delivery_Code_PS + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     qry = "update TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE  set Ship_Party= '" & obj.Customer_Code & "'  where Document_Code='" + obj.Delivery_Code_PS + "' and Ship_Party='" & obj.OrgCustCOde & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                     Dim strSaleOrder As String = clsDBFuncationality.getSingleValue("select isnull(Against_Sales_Order,'') from  TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE where Document_Code='" & obj.Delivery_Code_PS & "'", trans)
                     qry = "update TSPL_SD_SALES_ORDER_HEAD  set Customer_Code= '" & obj.Customer_Code & "',Is_CustomerChanged=1  where Document_Code='" + strSaleOrder + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     qry = "update TSPL_SD_SALES_ORDER_DETAIL  set Ship_Party= '" & obj.Customer_Code & "' where Document_Code='" + strSaleOrder + "' and Ship_Party='" & obj.OrgCustCOde & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
                     Dim strBookingNo As String = clsDBFuncationality.getSingleValue("select isnull(Against_Booking_No,'') from  TSPL_SD_SALES_ORDER_HEAD where Document_Code='" & strSaleOrder & "'", trans)
                     qry = "update TSPL_BOOKING_MASTER_PRODUCTSALE  set Customer_Code= '" & obj.Customer_Code & "',Is_CustomerChanged=1  where Document_Code='" + strBookingNo + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("SD-IN", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
-
                 ''richa 11 Nov,2020 mrp should be saved into batch table only when checkstockmrpwise setting is ON
                 Dim checkstockmrpwise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, trans)) = 0, False, True)
                 If IsDairyModule = False Then
@@ -4444,7 +4053,6 @@ Public Class clsPSShipmentHeadDetail
                             clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Sub_Location_code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
                         Else
                             clsBatchInventory.SaveData(TransType_Str, strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
-
                         End If
                     End If
                 End If
@@ -4463,36 +4071,28 @@ Public Class clsPSShipmentHeadDetail
         End If
         Return True
     End Function
-
     Public Shared Function GetBalanceDOQty(ByVal strDOCode As String, ByVal strDispatchNo As String, ByVal strICode As String, ByVal strUnit As String, ByVal Trans As SqlTransaction) As Double
-        Dim qry As String = "select sum (qty) from ( " & _
-        "select Qty from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" & strDOCode & "' and Item_Code='" & strICode & "' and Unit_code='" & strUnit & "' and Scheme_Item='N' " & _
-        "union all " & _
-        "select -1 * Qty from TSPL_SD_SHIPMENT_DETAIL where Delivery_Code='" & strDOCode & "' and Item_Code='" & strICode & "' and " & _
-        "Unit_code='" & strUnit & "' and Scheme_Item='N'  and DOCUMENT_CODE not in ('" & strDispatchNo & "')  " & _
+        Dim qry As String = "select sum (qty) from ( " &
+        "select Qty from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_No='" & strDOCode & "' and Item_Code='" & strICode & "' and Unit_code='" & strUnit & "' and Scheme_Item='N' " &
+        "union all " &
+        "select -1 * Qty from TSPL_SD_SHIPMENT_DETAIL where Delivery_Code='" & strDOCode & "' and Item_Code='" & strICode & "' and " &
+        "Unit_code='" & strUnit & "' and Scheme_Item='N'  and DOCUMENT_CODE not in ('" & strDispatchNo & "')  " &
         ")final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Trans))
     End Function
-
 End Class
-
 Public Class clsPSShipmentChecklistDetail
 #Region "Variables"
     Public Shipment_Code As String = Nothing
     Public Dispatch_Checklist_Code As String = Nothing
     Public CheckListStatus As String = Nothing
-
 #End Region
-
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsPSShipmentChecklistDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-
             If strDocNo IsNot Nothing AndAlso clsCommon.myLen(strDocNo) > 0 Then
                 Dim qry As String = " DELETE FROM TSPL_SD_SHIPMENT_CHECKLIST_DETAIL WHERE SHIPMENT_CODE = '" + strDocNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
-
-
             For Each obj As clsPSShipmentChecklistDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Shipment_Code", strDocNo, True)
@@ -4503,9 +4103,7 @@ Public Class clsPSShipmentChecklistDetail
         End If
         Return True
     End Function
-
 End Class
-
 Public Class clsPSShipmentPrint
     Public Shared Function PrintDataBatchWiseInvoice(ByVal Form_ID As String, ByVal StrDocNo As String) As Boolean
         Try
@@ -4532,15 +4130,11 @@ Public Class clsPSShipmentPrint
                   "  LEFT OUTER JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code =TSPL_BATCH_ITEM.Item_Code  left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_SD_SHIPMENT_HEAD.Comp_Code   left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SHIPMENT_HEAD .Customer_Code  left join tspl_payment_code on tspl_payment_code.payment_code=tspl_customer_master.payment_code  left join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.terms_code=tspl_customer_master.terms_code  left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SHIPMENT_HEAD .Bill_To_Location  LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State  left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code=customer_city_master.City_Code  left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State= CUSTOMER_STATE_MASTER.STATE_CODE   left outer join TSPL_SD_SALE_INVOICE_HEAD  on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No    LEFT OUTER JOIN TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.AlternateVehicle  LEFT OUTER JOIN TSPL_VEHICLE_MASTER as Vehicle on Vehicle.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.Vehicle_Code  left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_no=TSPL_SD_SHIPMENT_HEAD.against_delivery_code left join tspl_route_master on tspl_route_master.route_no= TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.route_no  left outer join  TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code =TSPL_SD_SHIPMENT_HEAD .Ship_To_Location  left outer join TSPL_CITY_MASTER  as Ship_City on Ship_City.City_Code =TSPL_SHIP_TO_LOCATION.City_Code  left join tspl_state_master as Ship_State on Ship_State.state_code=TSPL_SHIP_TO_LOCATION.state  " &
                   "  where 2=2 and TSPL_SD_SHIPMENT_HEAD.Screen_Type ='DS' and TSPL_SD_SALE_INVOICE_HEAD.Document_Code in   ('" + StrDocNo + "')  " &
                   "  ) XXXX  Order By XXXX.Sale_Invoice_No, XXXX.Item_Code , XXXX.ItemBatchType  "
-
-
             Dim qryUomTotal As String = "   select (final.InvoiceNo) as InvoiceNo, final.HSN_Code, sum (Final.Amount- Final.Disc_Amt) as  Amount, max(TAX1_Rate) as TAX1_Rate, sum (Final.TAX1_Amt) as TAX1_Amt ,max( Final.tax1name) as tax1name , max (TAX2_Rate ) as  TAX2_Rate,sum( TAX2_Amt) as TAX2_Amt  , max( tax2name) as tax2name   ,  max (TAX3_Rate ) as  TAX3_Rate,sum( TAX3_Amt) as TAX3_Amt  , max( isnull(tax3name,'')) as tax3name   ,  max (TAX4_Rate ) as  TAX4_Rate,sum( TAX4_Amt) as TAX4_Amt  , max( isnull( tax4name,'')) as tax4name   ,  max (TAX5_Rate ) as  TAX5_Rate,sum( TAX5_Amt) as TAX5_Amt  , max( isnull(tax5name,'')) as tax5name   ,  max (TAX6_Rate ) as  TAX6_Rate,sum( TAX6_Amt) as TAX6_Amt  , max( isnull(tax6name,'')) as tax6name   ,  max (TAX7_Rate ) as  TAX7_Rate,sum( TAX7_Amt) as TAX7_Amt  , max( isnull(tax7name,'')) as tax7name   ,  max (TAX8_Rate ) as  TAX8_Rate,sum( TAX8_Amt) as TAX8_Amt  , max( isnull(tax8name,'')) as tax8name   ,  max (TAX9_Rate ) as  TAX9_Rate,sum( TAX9_Amt) as TAX9_Amt  , max( isnull(tax9name,'')) as tax9name   ,  max (TAX10_Rate ) as  TAX10_Rate,sum( TAX10_Amt) as TAX10_Amt  , max( isnull(tax10name,'')) as tax10name   from (select TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE  as InvoiceNo, TSPL_ITEM_MASTER.HSN_Code ,TSPL_SD_SALE_INVOICE_DETAIL.amount, isnull(TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt,0) as Disc_Amt,   TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate ,   TSPL_SD_SALE_INVOICE_DETAIL.TAX2 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate ,   TSPL_SD_SALE_INVOICE_DETAIL.TAX3 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX4 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX5 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX6 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX7 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX8 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX9 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate,   TSPL_SD_SALE_INVOICE_DETAIL.TAX10 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,   tax1.Type as tax1name,tax2.Type as tax2name,tax3.Type as tax3name   ,tax4.Type as tax4name ,tax5.Type as tax5name, tax6.Type as tax6name, tax7.Type as tax7name, tax8.Type as tax8name, tax9.Type as tax9name, tax10.Type as tax10name   from TSPL_SD_SALE_INVOICE_DETAIL  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code =TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_DETAIL.tax1 left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_DETAIL.tax2  left outer join tspl_tax_master as tax3 on tax3.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX3   left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_DETAIL .tax4   left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL .tax5   left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX6    left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX7   left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code= TSPL_SD_SALE_INVOICE_DETAIL .TAX8  left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX9   left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_DETAIL .TAX10  left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE        where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in ('" + StrDocNo + "') and TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item ='N' ) final group by final.InvoiceNo, final.HSN_Code   "
             Dim dtUOM As DataTable = clsDBFuncationality.GetDataTable(qryUomTotal)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-
-
                 qry = "select distinct customer_code from tspl_sd_sale_invoice_head where document_code in ('" & StrDocNo & "')"
                 Dim dt10 As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim CustomerCode As String = ""
@@ -4550,7 +4144,6 @@ Public Class clsPSShipmentPrint
                     Next
                     If clsCommon.myLen(CustomerCode) > 0 AndAlso clsCommon.myCstr(CustomerCode).Substring(0, 3) = "','" Then
                         CustomerCode = CustomerCode.Substring(3, CustomerCode.Length - 3)
-
                     End If
                 End If
                 frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDispacthBatchWiseReportByInvoice", "Invoice", clsCommon.myCDate(dt.Rows(0)("Sale_Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstanding.rpt", Nothing, "rptHashCodeSummary.rpt", dtUOM)
@@ -4563,9 +4156,7 @@ Public Class clsPSShipmentPrint
         End Try
         Return True
     End Function
-
 End Class
-
 Public Class clsPSShipmentDemand
     Public DOCUMENT_CODE As String
     Public Booth_Code As String
@@ -4577,7 +4168,6 @@ Public Class clsPSShipmentDemand
     Public Commission_Amt As Decimal
     Public Security_Amt As Decimal
     Public NoCrateIssue As Integer = 0
-
     Friend Shared Sub SaveData(strDocNo As String, arrDemand As List(Of clsPSShipmentDemand), trans As SqlTransaction)
         If (arrDemand IsNot Nothing AndAlso arrDemand.Count > 0) Then
             For Each obj As clsPSShipmentDemand In arrDemand
@@ -4600,13 +4190,11 @@ Public Class clsPSShipmentDemand
         Dim Arr As List(Of clsPSShipmentDemand) = Nothing
         Try
             Dim obj As clsPSShipmentDemand = Nothing
-
             Arr = New List(Of clsPSShipmentDemand)
             '            Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code  from TSPL_SD_SHIPMENT_BOOKING_DETAIL
             'left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
             'where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + DocCode + "' and TSPL_CUSTOMER_MASTER.Credit_Customer='Y'
             'group by Booth_Code"
-
             Dim strQry As String = "select 
 TSPL_Demand_Booking_Detail.Cust_Code
 from TSPL_Demand_Booking_Master
@@ -4622,7 +4210,6 @@ and TSPL_Demand_Booking_Master.Route_No='" + Route_No + "' and TSPL_Demand_Booki
             Else
                 strQry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
             End If
-
             strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & DocCode & "'))  
 group by TSPL_Demand_Booking_Detail.Cust_Code "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
@@ -4633,8 +4220,6 @@ group by TSPL_Demand_Booking_Detail.Cust_Code "
                     Arr.Add(obj)
                 Next
             End If
-
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -4644,7 +4229,6 @@ group by TSPL_Demand_Booking_Detail.Cust_Code "
         Dim Arr As List(Of clsPSShipmentDemand) = Nothing
         Try
             Dim obj As clsPSShipmentDemand = Nothing
-
             Arr = New List(Of clsPSShipmentDemand)
             Dim strQry As String = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code  from TSPL_SD_SHIPMENT_BOOKING_DETAIL
             left join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booth_Code=TSPL_CUSTOMER_MASTER.Cust_Code
@@ -4658,17 +4242,14 @@ group by TSPL_Demand_Booking_Detail.Cust_Code "
                     Arr.Add(obj)
                 Next
             End If
-
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return Arr
     End Function
 End Class
-
 Public Class clsPSShipmentBoothWiseScheme
-    #Region "Variables"
+#Region "Variables"
     Public DOCUMENT_CODE As String
     Public Booking_TR_Code As String
     Public Main_Item_Code As String
@@ -4682,7 +4263,6 @@ Public Class clsPSShipmentBoothWiseScheme
     Public Unit_Code As String
     Public Trip_No As Decimal
 #End Region
-
     Friend Shared Sub SaveData(strDocNo As String, arrBoothScheme As List(Of clsPSShipmentBoothWiseScheme), trans As SqlTransaction)
         If (arrBoothScheme IsNot Nothing AndAlso arrBoothScheme.Count > 0) Then
             For Each obj As clsPSShipmentBoothWiseScheme In arrBoothScheme
@@ -4707,7 +4287,6 @@ Public Class clsPSShipmentBoothWiseScheme
         Dim Arr As List(Of clsPSShipmentBoothWiseScheme) = Nothing
         Try
             Dim obj As clsPSShipmentBoothWiseScheme = Nothing
-
             Arr = New List(Of clsPSShipmentBoothWiseScheme)
             Dim strQry As String = "select *  from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL.DOCUMENT_CODE='" + DocCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
@@ -4728,8 +4307,6 @@ Public Class clsPSShipmentBoothWiseScheme
                     Arr.Add(obj)
                 Next
             End If
-
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

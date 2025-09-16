@@ -149,6 +149,8 @@ Public Class FrmProductDispatch
     Const colFreeQty As String = "COLFREEQTY"
     Const colUnit As String = "COLUNIT"
     Const colRate As String = "COLRATE"
+    Const colBillingUnit As String = "colBillingUnit"
+    Const colBillingQty As String = "colBillingQty"
     Const colAmt As String = "COLAMT"
     Const colDisPer As String = "COLDISPER"
     Const colDisAmt As String = "COLDISAMT"
@@ -2841,6 +2843,27 @@ Public Class FrmProductDispatch
         repoQty.ReadOnly = False
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQty)
+        Dim repBillinggUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repBillinggUnit.FormatString = ""
+        repBillinggUnit.HeaderText = "Billing UOM"
+        repBillinggUnit.Name = colBillingUnit
+        repBillinggUnit.Width = 80
+        repBillinggUnit.ReadOnly = False
+        repBillinggUnit.IsVisible = False
+        'repBillinggUnit.VisibleInColumnChooser = False
+        gv1.MasterTemplate.Columns.Add(repBillinggUnit)
+        Dim repoBillingQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoBillingQty = New GridViewDecimalColumn()
+        repoBillingQty.FormatString = "{0:n3}"
+        repoBillingQty.DecimalPlaces = 3
+        repoBillingQty.HeaderText = "Billing Qty(as per UOM)"
+        repoBillingQty.Name = colBillingQty
+        repoBillingQty.Width = 80
+        repoBillingQty.Minimum = 0
+        repoBillingQty.ReadOnly = False
+        repoBillingQty.IsVisible = False
+        repoBillingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoBillingQty)
         Dim repoMainUnitQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoMainUnitQty = New GridViewDecimalColumn()
         repoMainUnitQty.FormatString = ""
@@ -14657,9 +14680,7 @@ order by  TSPL_Product_Demand_Booking_Detail.TR_Code "
                             End If
                             Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and Billing_UOM=1", trans))
                             If clsCommon.myLen(Billing_UOM) > 0 Then
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Billing_UOM
-
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = Billing_UOM
                             Else
                                 LoadBlankGrid(trans)
                                 LoadBlankGridAC(trans)
@@ -14670,14 +14691,16 @@ order by  TSPL_Product_Demand_Booking_Detail.TR_Code "
                             Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(Bulk_UOM) & "' ", trans))
                             If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
                                 Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                'gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
                             End If
 
                         Else
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = myDictionary(strKey).UOM
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = myDictionary(strKey).Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
                         End If
 

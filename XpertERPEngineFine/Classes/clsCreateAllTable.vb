@@ -31744,6 +31744,8 @@ Public Class clsCreateAllTable
             coll.Add("REF_TPT_PK_ID", "integer null references TSPL_DCS_Transportation_Charges_Detail(PK_ID)")
             coll.Add("Against_Cust_Ord_PK_ID", "integer null references TSPL_CUSTOMER_TENDER_Order_DETAIL(PK_ID)")
             coll.Add("Trip_No", "integer null ")
+            coll.Add("Billing_Unit_code", "varchar(12) NULL")
+            coll.Add("Billing_Qty", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "", True)
 
             qry = "alter table TSPL_SD_SHIPMENT_detail alter column Amount Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column TAX1_Base_Amt Decimal(18,6) null "
@@ -33554,6 +33556,8 @@ Public Class clsCreateAllTable
             coll.Add("Security_Rate", "decimal(18,2) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("REF_TPT_PK_ID", "integer null references TSPL_DCS_Transportation_Charges_Detail(PK_ID)")
+            coll.Add("Billing_Unit_code", "varchar(12) NULL")
+            coll.Add("Billing_Qty", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_INVOICE_HEAD", "DOCUMENT_CODE", "", True)
 
 

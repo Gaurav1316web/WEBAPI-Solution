@@ -693,6 +693,7 @@ Public Class ClsEInvoiceOFAPIs
         End Try
         Return objResult
     End Function
+
     Public Shared Function PostAuthTokenNo_EWAYBillOnly(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal strIRNNo As String) As Object
         Dim httpRequest As HttpWebRequest = Nothing
         Dim httpResponse As HttpWebResponse = Nothing
