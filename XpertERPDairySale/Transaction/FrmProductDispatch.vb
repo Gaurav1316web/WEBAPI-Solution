@@ -14655,7 +14655,6 @@ order by  TSPL_Product_Demand_Booking_Detail.TR_Code "
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BulkUOMConvFactor)
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BulkUOMConvFactor)
                             End If
-                        ElseIf ConvertIntoBillingUOM Then
                             Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and Billing_UOM=1", trans))
                             If clsCommon.myLen(Billing_UOM) > 0 Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
@@ -14668,12 +14667,13 @@ order by  TSPL_Product_Demand_Booking_Detail.TR_Code "
                                 Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value) & "]")
                             End If
                             Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 ", trans))
-                            Dim ItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(myDictionary(strKey).UOM) & "' ", trans))
-                            If BillingUOMConvFactor > 0 AndAlso ItemConvFactor > 0 Then
-                                Dim DispatchQty As Decimal = clsCommon.myCDecimal(myDictionary(strKey).Qty) * ItemConvFactor
+                            Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(Bulk_UOM) & "' ", trans))
+                            If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
+                                Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
                             End If
+
                         Else
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
