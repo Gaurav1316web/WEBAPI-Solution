@@ -607,7 +607,7 @@ Public Class rptGSTR
             " -------------------------------------------------------registered/unregistered customer Nil Rated Invoices - 8A, 8B, 8C, 8D------------------------------------------------" & Environment.NewLine &
             " select max(SNo) as SNo,max(Name) as Name,count(VoucherCount)-1 as [Voucher Count] ,sum(TaxableValue)+SUM(IsNUll(MandiAmount,0))+SUM(IsNull(KKFAmount,0)) as [Taxable Value],sum(TaxableAmount)-Sum(TCSAmount)-SUM(IsNUll(MandiAmount,0))-SUM(IsNull(KKFAmount,0)) as [Taxable Amount],sum(RoundOffAmount) as [RoundOffAmount],sum(InvoiceAmount) as [Invoice Amount],count(VoucherCount)-1 as [Voucher Count1] ,sum(TaxableValue) as [Taxable Value1],sum(TaxableAmount) as [Taxable Amount1],sum(RoundOffAmount) as [RoundOffAmount1],sum(InvoiceAmount) as [Invoice Amount1]  from ( " & Environment.NewLine &
             " select '9' as SNo,'Nil Rated Invoices - 8A, 8B, 8C, 8D' AS Name,TSPL_Customer_Invoice_Head.Document_No as VoucherCount,case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end *  (isnull(TSPL_Customer_Invoice_Head.Discount_Base,0)-isnull(TSPL_Customer_Invoice_Head.Discount_Amount ,0))  as TaxableValue, case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end *  
-                 CASE WHEN TSPL_Customer_Invoice_Head.TAX1 IN ('IGST','CGST','SGST') THEN ISNULL(TSPL_Customer_Invoice_Head.TAX1_Amt,0) 
+                 CASE WHEN TSPL_Customer_Invoice_Head.TAX1 IN ('EXEMPT') THEN ISNULL(TSPL_Customer_Invoice_Head.TAX1_Amt,0) 
                 when TSPL_Customer_Invoice_Head.TAX2 IN ('EXEMPT') THEN ISNULL(TSPL_Customer_Invoice_Head.TAX2_Amt,0) 
                 when TSPL_Customer_Invoice_Head.TAX3 IN ('EXEMPT') THEN ISNULL(TSPL_Customer_Invoice_Head.TAX3_Amt,0) 
                 when TSPL_Customer_Invoice_Head.TAX4 IN ('EXEMPT') THEN ISNULL(TSPL_Customer_Invoice_Head.TAX4_Amt,0) 
@@ -2728,7 +2728,7 @@ Public Class rptGSTR
             End If
 
             BaseQry += " ) FinalQuery left outer join tspl_item_master on TSPL_ITEM_MASTER.Item_Code = FinalQuery.Item_Code Left Outer Join TSPL_UNIT_MAster On TSPL_UNIT_MAster.unit_code=finalQuery.UOM  Left Outer Join TSPL_EINVOICE_UOM On TSPL_EINVOICE_UOM.Code=TSPL_UNIT_MAster.GST_UNIT_CODE
- group by  FinalQuery.Item_Code ,FinalQuery.UOM" & Environment.NewLine
+ Where IsNull(FinalQuery.Item_Code,'')<>''  group by  FinalQuery.Item_Code ,FinalQuery.UOM" & Environment.NewLine
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
