@@ -9,6 +9,8 @@ Public Class FrmProductDispatch
     Dim ParentDocNo As String = ""
     Dim IsOnlyCreditCust As Boolean = True
     Dim ConvertIntoBulkUOM As Boolean = False
+    Dim ConvertIntoBillingUOM As Boolean = False
+
     Dim ConvertPouchtoCrateonDispatch As Boolean = True
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
@@ -479,6 +481,8 @@ Public Class FrmProductDispatch
         ConvertPouchtoCrateonDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrateonDispatch, clsFixedParameterCode.ConvertPouchtoCrateonDispatch, Nothing)) = 1, True, False)
         ConvertIntoBulkUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
+        ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         txtFdate.Value = clsCommon.GETSERVERDATE
@@ -14651,13 +14655,33 @@ order by  TSPL_Product_Demand_Booking_Detail.TR_Code "
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BulkUOMConvFactor)
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BulkUOMConvFactor)
                             End If
+                        ElseIf ConvertIntoBillingUOM Then
+                            Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and Billing_UOM=1", trans))
+                            If clsCommon.myLen(Billing_UOM) > 0 Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = Billing_UOM
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = Billing_UOM
 
+                            Else
+                                LoadBlankGrid(trans)
+                                LoadBlankGridAC(trans)
+                                LoadBlankGridTax(trans)
+                                Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value) & "]")
+                            End If
+                            Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 ", trans))
+                            Dim ItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(myDictionary(strKey).UOM) & "' ", trans))
+                            If BillingUOMConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                Dim DispatchQty As Decimal = clsCommon.myCDecimal(myDictionary(strKey).Qty) * ItemConvFactor
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                            End If
                         Else
-                                gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
                         End If
+
+
                         ItemPrice(gv1.CurrentRow.Cells(colICode).Value, gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Index, False, trans)
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = txtBillToLocation.Value
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = lblBillToLocation.Text

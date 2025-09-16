@@ -27650,6 +27650,7 @@ Public Class clsCreateAllTable
             coll.Add("InterUnionItem", "varchar(30) NULL")
             coll.Add("Bulk_UOM", "integer  null default 0")
             coll.Add("Loose_UOM", "integer  null default 0")
+            coll.Add("Billing_UOM", "integer  null default 0")
 
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
