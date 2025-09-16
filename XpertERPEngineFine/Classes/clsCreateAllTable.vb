@@ -25843,7 +25843,8 @@ Public Class clsCreateAllTable
             coll.Add("IsShare", "integer NULL")
             coll.Add("MarginDCS", "integer NULL")
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
-            'clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
+            coll.Add("FAT_Range_From", "decimal(18,1) NULL")
+            coll.Add("FAT_Range_To", "decimal(18,1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
 
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
