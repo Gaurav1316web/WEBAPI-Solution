@@ -244,6 +244,146 @@ Public Class clsCustomerPenalty
         End Try
         Return True
     End Function
+
+    Public Shared Function PrintDOSData(ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean, isMultipleRoutes As Boolean, ByVal isRouteSummary As Boolean, ByVal CharColumn As Integer, ByVal CharRows As Integer, ByVal EnumPageSize As DosPaperSize, ByVal enumPageSetup As PageSetup, ByVal isPdf As Boolean) As String
+        Try
+            Dim whrcls As String = ""
+            If clsCommon.myLen(ItemType) > 0 Then
+                whrcls += " and TSPL_Product_DEMAND_BOOKING_MASTER.ItemType='" + ItemType + "' "
+            End If
+            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient ,TSPL_ITEM_MASTER.IsTaxable,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code  ,(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code as Booth, "
+            qry += "TSPL_Product_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+            qry += " TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount "
+            qry += ",TSPL_CUSTOMER_MASTER.Display_Seq FROM TSPL_PRODUCT_DEMAND_BOOKING_DETAIL "
+
+            qry += " 
+left outer join TSPL_Product_DEMAND_BOOKING_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No
+Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_Product_DEMAND_BOOKING_MASTER.Route_No 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code
+LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code
+left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_Product_DEMAND_BOOKING_MASTER.Comp_Code
+left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.vehicle_code
+left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
+where 2 = 2 "
+
+            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
+            qry += "" & whrcls & "  "
+            qry += " and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "' and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "'"
+            If Not IsIndividualCustomer Then
+                qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            End If
+            If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
+                qry += " And TSPL_Product_DEMAND_BOOKING_MASTER.Route_No In (" & clsCommon.GetMulcallString(ArrRoute) & ") "
+            End If
+            qry += " ) "
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                Throw New Exception("No Data Found to Print")
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,max(Sku_Seq) as Sku_Seq,max(Short_Description) as Short_Description,max(Unit_code)Unit_code from (" + qry + ") x group by Item_Code order by Sku_Seq")
+                Dim FinalQuery As String = " With CTERawData as ( " + qry + "  )" + Environment.NewLine + Environment.NewLine
+
+
+                FinalQuery += " select " + clsCommon.myCstr(1) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo,'" & IIf(ItemType = "PRODUCT", "PRODUCT", "ICECREAM") & "' as ProductOrIceCream,'" & IIf(Status = 1, "Approved", "Pending") & "' as Status,'" + clsCommon.GetPrintDate(clsCommon.myCDate(DocDate), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1 ,max(Booth) as Booth,"
+                If isRouteSummary Then
+                        FinalQuery += "max(Cust_Code)Cust_Code, Route_No,"
+                    Else
+                        FinalQuery += "Cust_Code,max(Route_No) as Route_No,"
+                    End If
+                FinalQuery += " max(Route_Desc) as Route_Desc,max(Document_Date) as Document_Date"
+
+                For ii As Integer = 0 To dtItems.Rows.Count - 1
+                    Dim strShortDesc As String = clsCommon.myCstr(dtItems.Rows(ii)("Short_Description"))
+                    If clsCommon.myLen(strShortDesc) <= 0 Then
+                        Throw New Exception("Please set Short Description for item [" + clsCommon.myCstr(dtItems.Rows(ii)("Item_Code")) + "]")
+                    End If
+                    FinalQuery += ",CEILING(sum(case when Item_Code='" + clsCommon.myCstr(dtItems.Rows(ii)("Item_Code")) + "'  then Qty else null end )) as [" + strShortDesc + "] "
+                Next
+
+                FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount,sum(Amount*case when IsTaxable=0 then 0 else 1 end) as ProductAmount,sum(crate)TotalCrates ,max(Display_Seq) as Display_Seq,convert(varchar, max(Document_Date),103) as Document_Date,FORMAT(GETDATE(), 'dd/MM/yyyy hh:mm tt') as PrintDateTime from (
+select xx.*,Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor as QtyStock,TabDefaultUOM.Conversion_Factor ConvFacNo,TabCrateUOM.Conversion_Factor as ConvFacCrate	from CTERawData xx
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.Item_Code and  TSPL_ITEM_UOM_DETAIL.UOM_Code=xx.Unit_code
+left outer join TSPL_ITEM_UOM_DETAIL as TabDefaultUOM on TabDefaultUOM .Item_Code=xx.Item_Code and  TabDefaultUOM .Default_UOM=1
+left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.Item_Code and  TabCrateUOM.UOM_Code='Crate' 
+) x group by "
+
+                If isRouteSummary Then
+                    FinalQuery += " route_no"
+                Else
+                    FinalQuery += " Cust_Code"
+                End If
+
+                dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+
+
+                Dim obj As clsDosPrint = New clsDosPrint()
+                obj.ReportName = objCommonVar.CurrentCompanyName
+                obj.ApplyPrintCommand = True
+                obj.HideGroupHeader = True
+                obj.HideLastGroupTotal = True
+                obj.ShowPageNo = True
+                obj.PageSetupCustomizeCharColumn = CharColumn
+                obj.PageSetupCustomizeCharRows = CharRows
+                obj.objReportGroup = New clsDosPrintReportGroup
+                obj.objReportGroup.Name = "Route_No"
+                obj.objReportGroup.HeaderText1 = ItemType.ToUpper + " DEMAND SHEET FOR AREA NO: #$Route_No$# Date: #$Document_Date$#  Status: #$DocStatus$#"
+                obj.objReportGroup.arrHeaderText1 = New List(Of clsDosPrintReportGroupReplaceHeader)
+
+                Dim objGRH As New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Route_No"
+                objGRH.ConstString = "#$Route_No$#"
+                obj.objReportGroup.arrHeaderText1.Add(objGRH)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Date"
+                objGRH.ConstString = "#$Document_Date$#"
+                obj.objReportGroup.arrHeaderText1.Add(objGRH)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Status"
+                objGRH.ConstString = "#$DocStatus$#"
+                obj.objReportGroup.arrHeaderText1.Add(objGRH)
+                obj.objReportGroup.HeaderText2 = "#$Route_Desc$# (ROUTE:#$Route_No$#)#$TranspoterName$# VEHICLE NO:#$Vehicle_No$# [#$PrintDateTime$#]"
+                obj.objReportGroup.arrHeaderText2 = New List(Of clsDosPrintReportGroupReplaceHeader)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Route_Desc"
+                objGRH.ConstString = "#$Route_Desc$#"
+                obj.objReportGroup.arrHeaderText2.Add(objGRH)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Route_No"
+                objGRH.ConstString = "#$Route_No$#"
+                obj.objReportGroup.arrHeaderText2.Add(objGRH)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Transporter_Name"
+                objGRH.ConstString = "#$TranspoterName$#"
+                obj.objReportGroup.arrHeaderText2.Add(objGRH)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "Description"
+                objGRH.ConstString = "#$Vehicle_No$#"
+                obj.objReportGroup.arrHeaderText2.Add(objGRH)
+                objGRH = New clsDosPrintReportGroupReplaceHeader
+                objGRH.ColumnName = "PrintDateTime"
+                objGRH.ConstString = "#$PrintDateTime$#"
+                obj.objReportGroup.arrHeaderText2.Add(objGRH)
+                obj.arrFilter = New List(Of clsDosPrintHeaderFilter)()
+                obj.arrColumn = New List(Of clsDosPrintColumn)()
+                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 8, False, DecimalPlaces.NA))
+                For ii As Integer = 0 To dtItems.Rows.Count - 1
+                    If ii < 5 Then
+                        Dim strShortDesc As String = clsCommon.myCstr(dtItems.Rows(ii)("Short_Description"))
+                        obj.arrColumn.Add(clsDosPrintColumn.SetColumn(strShortDesc, strShortDesc + " " + clsCommon.myCstr(dtItems.Rows(ii)("Unit_code")), False, DosPrintAlignment.Right, 10, True, DecimalPlaces.One))
+                    End If
+                Next
+
+                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ProductAmount", "Total Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
+                Return obj.Print(obj, dtPrint, enumPageSetup, "", "", EnumPageSize, isPdf)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Nothing
+    End Function
 End Class
 
 Public Class clsCustomerPenaltyDetail
