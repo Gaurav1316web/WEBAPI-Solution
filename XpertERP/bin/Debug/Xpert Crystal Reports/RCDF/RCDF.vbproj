@@ -1457,6 +1457,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankDraftSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankSavingSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBmcTranspoterBill_1.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDayWiseCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
