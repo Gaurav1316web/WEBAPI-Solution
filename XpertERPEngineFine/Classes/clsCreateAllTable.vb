@@ -8899,7 +8899,8 @@ Public Class clsCreateAllTable
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("Batch_No", "varchar(30) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-
+            coll.Add("Billing_Unit_code", "varchar(12) NULL")
+            coll.Add("Billing_Qty", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_BOOKING_MATSER", "Document_No", "", True)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_Booking_Detail'"))

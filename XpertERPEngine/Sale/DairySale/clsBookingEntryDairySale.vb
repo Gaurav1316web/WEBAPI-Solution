@@ -1524,10 +1524,12 @@ Public Class clsBookingDetailDairySale
     Public Loc_Code As String = Nothing
     Public Item_Code As String = Nothing
     Public Booking_Qty As Double = 0
+    Public Billing_Qty As Double = 0
     Public DO_Qty As Double = 0
     Public DocumentAmount As Double = 0
     Public Short_Description As String = Nothing
     Public Unit_code As String = Nothing
+    Public Billing_Unit_code As String = Nothing
     Public Vehicle_Code As String = Nothing
     Public Item_Rate As Double = 0
     Public PreviousBookingQty As Double = 0
@@ -1651,9 +1653,11 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "Scheme_Main_Item", obj.Scheme_Main_Item)
                 clsCommon.AddColumnsForChange(coll, "PreviousBookingQty", obj.PreviousBookingQty)
                 clsCommon.AddColumnsForChange(coll, "Booking_Qty", obj.Booking_Qty)
+                clsCommon.AddColumnsForChange(coll, "Billing_Qty", obj.Billing_Qty)
                 clsCommon.AddColumnsForChange(coll, "DO_Qty", obj.Booking_Qty)
                 clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Short_Description)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+                clsCommon.AddColumnsForChange(coll, "Billing_Unit_code", obj.Billing_Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
                 clsCommon.AddColumnsForChange(coll, "DocumentAmount", obj.DocumentAmount)
                 clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Item_Rate)
