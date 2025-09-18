@@ -370,13 +370,13 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
                 obj.arrColumn = New List(Of clsDosPrintColumn)()
                 obj.arrColumn.Add(clsDosPrintColumn.SetColumn("Cust_Code", "Booth", False, DosPrintAlignment.Left, 8, False, DecimalPlaces.NA))
                 For ii As Integer = 0 To dtItems.Rows.Count - 1
-                    If ii < 5 Then
+                    If ii < 15 Then
                         Dim strShortDesc As String = clsCommon.myCstr(dtItems.Rows(ii)("Short_Description"))
-                        obj.arrColumn.Add(clsDosPrintColumn.SetColumn(strShortDesc, strShortDesc + " " + clsCommon.myCstr(dtItems.Rows(ii)("Unit_code")), False, DosPrintAlignment.Right, 10, True, DecimalPlaces.One))
+                        obj.arrColumn.Add(clsDosPrintColumn.SetColumn(strShortDesc, strShortDesc.Replace(" ", ""), True, DosPrintAlignment.Right, 10, True, DecimalPlaces.Zero, clsCommon.myCstr(dtItems.Rows(ii)("Unit_code")), False))
                     End If
                 Next
 
-                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ProductAmount", "Total Amt", True, DosPrintAlignment.Right, 12, True, DecimalPlaces.Two))
+                obj.arrColumn.Add(clsDosPrintColumn.SetColumn("ProductAmount", "Total Amt", True, DosPrintAlignment.Right, 15, True, DecimalPlaces.Two))
                 Return obj.Print(obj, dtPrint, enumPageSetup, "", "", EnumPageSize, isPdf)
             End If
         Catch ex As Exception
