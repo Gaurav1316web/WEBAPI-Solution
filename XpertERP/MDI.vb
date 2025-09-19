@@ -1150,6 +1150,7 @@ Public Class MDI
             End If
             Dim Pwd As String = clsCommon.myCstr(dt.Rows(0)("password"))
 
+
             If clsCommon.CompairString(txtUserName.Text, "admin") = CompairStringResult.Equal Then
                 If Not clsCommon.HighSecurityVerifyNumber(clsCommon.myCDecimal(lblOTPCode.Text)) = clsCommon.myCDecimal(txtPassword.Text) Then
                     clsCommon.MyMessageBoxShow(Me, "Wrong OTP.Try again...", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
@@ -8697,6 +8698,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.BMC_Transporter_Bill
                         frm = New BMC_Transporter_Bill
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmCattleFeedSalePurchaseUploader
+                        frm = New FrmCattleFeedSalePurchaseUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBankAdvise
                         frm = New frmBankAdvise
