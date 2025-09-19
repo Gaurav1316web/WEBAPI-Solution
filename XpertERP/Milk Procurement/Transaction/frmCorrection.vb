@@ -1130,11 +1130,13 @@ order by  xx.Shift desc,xx.Qty "
                                 If isThereOnlyOneRowOfOwnDCS Then
                                     FAT = Math.Round(clsCommon.myCDivide((100 * FATKG), Qty), 2, MidpointRounding.ToEven)
                                     SNF = Math.Round(clsCommon.myCDivide((100 * SNFKG), Qty), (settSNFDecimalPlace + 1), MidpointRounding.ToEven)
+
+                                    FAT = clsCommon.myRoundOFF(FAT, 1, ROIncreaseAfter)
+                                    SNF = clsCommon.myRoundOFF(SNF, settSNFDecimalPlace, ROIncreaseAfter)
+                                Else
+                                    FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
+                                    SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
                                 End If
-
-                                FAT = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * FATKG), Qty), 1, ROIncreaseAfter)
-                                SNF = clsCommon.myRoundOFF(clsCommon.myCDivide((100 * SNFKG), Qty), settSNFDecimalPlace, ROIncreaseAfter)
-
 
                                 If settMaxFATPerLimit > 0 Then
                                     If FAT > settMaxFATPerLimit Then

@@ -12,6 +12,8 @@ Public Class frmDairyBookingCustomer
     Dim isRCDFRateControl As Boolean = False
     Dim OneTimeCheck As Boolean = False
     Dim ApplyDefaultTCSIsChecked As Boolean = False
+    Dim ConvertIntoBillingUOM As Boolean = False
+
     Dim HideOutstanding As Boolean = True
     Dim ApplyManualScheme As Boolean = False
     Dim ApplyItemCapacityLimit As Boolean = False
@@ -85,8 +87,10 @@ Public Class frmDairyBookingCustomer
     Const ColAvailableQty As String = "ColAvailableQty"
     Const colPreviousQty As String = "colPreviousQty"
     Const ColAvgQty As String = "ColAvgQty"
+    Const ColBillingQty As String = "ColBillingQty"
     Const colQty As String = "COLQTY"
     Const colUnit As String = "COLUNIT"
+    Const colBillingUOM As String = "colBillingUOM"
     Const colRate As String = "COLRATE"
     Const colMRP As String = "colMRP"
     Const colAmt As String = "COLAMT"
@@ -311,6 +315,7 @@ Public Class frmDairyBookingCustomer
         ApplyManualScheme = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyManualScheme, clsFixedParameterCode.ApplyManualScheme, Nothing)) = 0, False, True)
         ApplyDefaultTCSIsChecked = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, Nothing)) = 0, False, True)
         ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
+        ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -580,6 +585,24 @@ Public Class frmDairyBookingCustomer
         repoUnit.Name = colUnit
         repoUnit.Width = 80
         gv1.MasterTemplate.Columns.Add(repoUnit)
+        Dim repoBillingUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoBillingUnit.FormatString = ""
+        repoBillingUnit.HeaderText = "Billing UOM"
+        repoBillingUnit.Name = colBillingUOM
+        repoBillingUnit.Width = 80
+        repoBillingUnit.IsVisible = False
+        repoBillingUnit.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoBillingUnit)
+        Dim repoBillingQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoBillingQty.FormatString = ""
+        repoBillingQty.HeaderText = "Billing Qty"
+        repoBillingQty.Name = ColBillingQty
+        repoBillingQty.Width = 100
+        repoBillingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoBillingQty.ReadOnly = True
+        repoBillingQty.IsVisible = False
+        repoBillingQty.VisibleInColumnChooser = True
+        gv1.MasterTemplate.Columns.Add(repoBillingQty)
         Dim repoAvgQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoAvgQty.FormatString = ""
         repoAvgQty.HeaderText = "Average Qty"
@@ -3570,14 +3593,29 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                         objTr.PreviousBookingQty = clsCommon.myCdbl(grow.Cells(colPreviousQty).Value)
                         objTr.Tax_On_Amount = clsCommon.myCdbl(grow.Cells(colTBaseAmt).Value)
                         objTr.Tax_Amount = clsCommon.myCdbl(grow.Cells(colTTaxAmt).Value)
+                        If ConvertIntoBillingUOM Then
+                            Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and Billing_UOM=1"))
+                            If clsCommon.myLen(Billing_UOM) > 0 Then
+                                objTr.Billing_Unit_code = Billing_UOM
+                            Else
+
+                                Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(grow.Cells(colIName).Value) & "]")
+                            End If
+                            Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 "))
+                            Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(grow.Cells(colUnit).Value) & "' "))
+                            If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
+                                Dim DispatchQty As Decimal = clsCommon.myCDecimal(grow.Cells(colQty).Value) * BillingItemConvFactor
+                                objTr.Billing_Qty = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                            End If
+                        Else
+                            objTr.Billing_Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                            objTr.Billing_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        End If
                         If Not isNewEntry AndAlso clsCommon.myLen(isDemandBooking1) > 0 Then
-                            'If clsCommon.myLen(isDemandBooking1) > 0 Then
                             objTr.Against_DemandBooking_No = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'")
                             objTr.Against_DemandBooking_TR_Code = clsDBFuncationality.getSingleValue("select Against_DemandBooking_TR_Code from TSPL_BOOKING_DETAIL  where Document_No='" & txtDocNo.Value & "' and Line_No=" + clsCommon.myCstr(objTr.Line_No) + "")
                             obj.Against_DemandBooking_No = objTr.Against_DemandBooking_No
-                            'End If
                         End If
-                        'sanjay
                         objTr.Item_Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
                         objTr.Disc_Scheme_Amount = clsCommon.myCdbl(grow.Cells(colDisc_Scheme_Amount).Value)
                         objTr.Disc_Scheme_Code = clsCommon.myCstr(grow.Cells(colDisc_Scheme_Code).Value)
@@ -4589,8 +4627,10 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     End If
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colPreviousQty).Value = clsCommon.myCdbl(dt2.Rows(jj)("PreviousBookingQty"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCdbl(dt2.Rows(jj)("Booking_Qty"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColBillingQty).Value = clsCommon.myCdbl(dt2.Rows(jj)("Billing_Qty"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgRate).Value = clsCommon.myCdbl(dt2.Rows(jj)("OrgRate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = clsCommon.myCstr(dt2.Rows(jj)("Unit_Code"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUOM).Value = clsCommon.myCstr(dt2.Rows(jj)("Billing_Unit_code"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = clsCommon.myCdbl(dt2.Rows(jj)("Item_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSellingRate).Value = clsCommon.myCdbl(dt2.Rows(jj)("Item_Selling_Price"))
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
@@ -8752,6 +8792,7 @@ from
                                     objTr.Scheme_Main_Item = clsCommon.myCstr(grow.Cells(ColMainItem).Value)
                                 End If
                                 objTr.Qty = clsCommon.myCDecimal(grow.Cells(colQty).Value)
+                                objTr.Billing_Qty = clsCommon.myCDecimal(grow.Cells(ColBillingQty).Value)
                                 objTr.Crate = clsCommon.myCDecimal(grow.Cells(colQty).Value)
                                 If chkSampling.Checked = True Then
                                     objTr.Item_Cost = clsCommon.myCDecimal(0)
@@ -8761,6 +8802,7 @@ from
                                 'objTr.Item_Cost = clsCommon.myCDecimal(grow.Cells(colOrgRate).Value)
                                 objTr.Amount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                                 objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                                objTr.Billing_Unit_code = clsCommon.myCstr(grow.Cells(colBillingUOM).Value)
                                 objTr.Sampling = IIf(chkSampling.Checked, 1, 0)
                                 objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                                 objTr.Location = txtLocation.Value

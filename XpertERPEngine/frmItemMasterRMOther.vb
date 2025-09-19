@@ -33,6 +33,7 @@ Public Class FrmItemMasterRMOther
     Const PrintUOM As String = "PrintUOM"
     Const ReportUOM As String = "ReportUOM"
     Const BulkUOM As String = "BulkUOM"
+    Const BillingUOM As String = "BillingUOM"
     Const LooseUOM As String = "LooseUOM"
     Const RMProcessloss As String = "RMProcessloss"
     Const UOMPieces As String = "UOMPieces"
@@ -906,6 +907,7 @@ Public Class FrmItemMasterRMOther
         gvUOM.Rows(IntRowNo).Cells(PrintUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(ReportUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(BulkUOM).ReadOnly = False
+        gvUOM.Rows(IntRowNo).Cells(BillingUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(LooseUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMColIsDecimal).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(RMProcessloss).ReadOnly = False
@@ -1135,6 +1137,15 @@ Public Class FrmItemMasterRMOther
         repoLooseUOM.IsVisible = True
         repoLooseUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvUOM.MasterTemplate.Columns.Add(repoLooseUOM)
+        Dim repoBillingUOM As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoBillingUOM.FormatString = ""
+        repoBillingUOM.HeaderText = "Billing UOM"
+        repoBillingUOM.Name = BillingUOM
+        repoBillingUOM.Width = 80
+        repoBillingUOM.ThreeState = False
+        repoBillingUOM.IsVisible = True
+        repoBillingUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvUOM.MasterTemplate.Columns.Add(repoBillingUOM)
 
         Dim repoIsDecimal As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
         repoIsDecimal.FormatString = ""
@@ -1764,6 +1775,12 @@ Public Class FrmItemMasterRMOther
                         CountBulkUOM = CountBulkUOM + 1
                     End If
                 Next
+                Dim CountBillingUOM As Integer = 0
+                For ii As Integer = 0 To gvUOM.RowCount - 1
+                    If gvUOM.Rows(ii).Cells(BillingUOM).Value = True Then
+                        CountBillingUOM = CountBillingUOM + 1
+                    End If
+                Next
                 Dim CountLooseUOM As Integer = 0
                 For ii As Integer = 0 To gvUOM.RowCount - 1
                     If gvUOM.Rows(ii).Cells(LooseUOM).Value = True Then
@@ -1841,6 +1858,11 @@ Public Class FrmItemMasterRMOther
                         objtr.Bulk_UOM = 1
                     Else
                         objtr.Bulk_UOM = 0
+                    End If
+                    If clsCommon.CompairString(gvUOM.Rows(ii).Cells(BillingUOM).Value, True) = CompairStringResult.Equal Then
+                        objtr.Billing_UOM = 1
+                    Else
+                        objtr.Billing_UOM = 0
                     End If
                     If clsCommon.CompairString(gvUOM.Rows(ii).Cells(LooseUOM).Value, True) = CompairStringResult.Equal Then
                         objtr.Loose_UOM = 1
@@ -2225,6 +2247,7 @@ Public Class FrmItemMasterRMOther
                 Dim CountPrintUOM As Integer = 0
                 Dim CountReportUOM As Integer = 0
                 Dim CountBulkUOM As Integer = 0
+                Dim CountBillingUOM As Integer = 0
                 Dim CountLooseUOM As Integer = 0
                 Dim CountDecimalUOM As Integer = 0
 
@@ -2267,6 +2290,9 @@ Public Class FrmItemMasterRMOther
                         End If
                         If gvUOM.Rows(ii).Cells(BulkUOM).Value = True Then
                             CountBulkUOM = CountBulkUOM + 1
+                        End If
+                        If gvUOM.Rows(ii).Cells(BillingUOM).Value = True Then
+                            CountBillingUOM = CountBillingUOM + 1
                         End If
                         If gvUOM.Rows(ii).Cells(LooseUOM).Value = True Then
                             CountLooseUOM = CountLooseUOM + 1
@@ -2314,6 +2340,10 @@ Public Class FrmItemMasterRMOther
                 If CountBulkUOM > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
                     Throw New Exception("Bulk UOM should be 1")
+                End If
+                If CountBillingUOM > 1 Then
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    Throw New Exception("Billing UOM should be 1")
                 End If
                 If CountLooseUOM > 1 Then
                     RadPageView1.SelectedPage = RadPageViewPage2
@@ -3093,6 +3123,11 @@ Public Class FrmItemMasterRMOther
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(BulkUOM).Value = True
                         Else
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(BulkUOM).Value = False
+                        End If
+                        If objtr.Billing_UOM = 1 Then
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(BillingUOM).Value = True
+                        Else
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(BillingUOM).Value = False
                         End If
                         If objtr.Loose_UOM = 1 Then
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(LooseUOM).Value = True

@@ -8,7 +8,7 @@ Public Class BMC_Transporter_Bill
     Inherits FrmMainTranScreen
 
 #Region "Variables"
-    Private isNewEntry As Boolean = False
+    Private isNewEntry As Boolean = True
     Private isInsideLoadData As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Const colDate As String = "colDate"
@@ -283,7 +283,7 @@ Public Class BMC_Transporter_Bill
         LoadHeadData()
     End Sub
 
-    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs)
         Me.Close()
     End Sub
 
@@ -368,7 +368,9 @@ Public Class BMC_Transporter_Bill
     Sub FatSnfRate()
         Try
             Dim qry As String = ""
-            qry = " SELECT TOP 1  Loss_FAT_Rate,Loss_SNF_Rate FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE Tanker_Rate = 1  AND convert(date,Start_Date,103) <= convert(date,'" + txtDate.Value + "',103) and End_Date is null 
+            'qry = " SELECT TOP 1  Loss_FAT_Rate,Loss_SNF_Rate FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE Tanker_Rate = 1  AND convert(date,Start_Date,103) <= convert(date,'" + txtDate.Value + "',103) and End_Date is null 
+            'ORDER BY Start_Date DESC "
+            qry = " SELECT TOP 1  Loss_FAT_Rate,Loss_SNF_Rate FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE convert(date,Start_Date,103) <= convert(date,'" + txtDate.Value + "',103) and End_Date is null 
                     ORDER BY Start_Date DESC "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
@@ -673,7 +675,6 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Sub LoadData(ByVal strDocumentNo As String, NavType As common.NavigatorType)
         Try
-            isNewEntry = False
             btnSave.Enabled = True
             btnPost.Enabled = True
             btnDelete.Enabled = True
@@ -682,12 +683,15 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             isInsideLoadData = True
             BlankAllControls()
             LoadBlankGrid()
+            isNewEntry = False
+
             'btnGo.Enabled = False
 
             Dim obj As New clsBMCTransporterBill()
             obj = clsBMCTransporterBill.GetData(strDocumentNo, NavType, True, Nothing)
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
+                isNewEntry = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -745,9 +749,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                                             FROM TSPL_MILK_COLLECTION_MCC  
                     left outer join TSPL_TANKER_MASTER ON TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
                     left outer join TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
-					where convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'01/Oct/2024',103)
-                    and  convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert(date,'05/Oct/2024',103) 
-                    and TSPL_MILK_COLLECTION_MCC.Tanker_No = 'RJ14GL6597' "
+					where convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + txtFromDate.Value + "' ,103)
+                    and  convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert(date,'" + txtToDate.Value + "' ,103)
+                    and TSPL_MILK_COLLECTION_MCC.Tanker_No = '" & txtTankerNo.Value & "' "
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
                     'For ii As Integer = 0 To dt.Rows.Count - 1
@@ -924,21 +928,26 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                '' REASON FOR DELETE 
-                Dim Reason As String = ""
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Reverse"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Exit Sub
-                Else
-                    Reason = frm.strRmks
-                End If
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select a document before reversing.", Me.Text)
+                Exit Sub
+            Else
+                If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                    '' REASON FOR DELETE 
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Reverse"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
 
-                clsBMCTransporterBill.ReverseAndUnpost(txtDocNo.Value)
-                clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
-                LoadData(txtDocNo.Value, NavigatorType.Current)
+                    clsBMCTransporterBill.ReverseAndUnpost(txtDocNo.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Task done Successfully", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -994,6 +1003,74 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             Next
         End If
     End Sub
+
+    Private Sub BMC_Transporter_Bill_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Try
+            If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SIR
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverse.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim FinalQuery As String = ""
+            FinalQuery = "   SELECT ROW_NUMBER() OVER (PARTITION BY TSPL_MILK_COLLECTION_MCC.Document_No ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SrNo
+,
+ TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code,
+ TSPL_MILK_COLLECTION_MCC.Document_No,Cast(TSPL_MILK_COLLECTION_MCC.Document_Date as Date)Document_Date,Route_Code,Trip_No,TSPL_TANKER_MASTER.Storage_Capacity,TSPL_BULK_ROUTE_MASTER.Distance
+, TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_1, TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_2,TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_3,TSPL_BMC_TRANSPORTER_BILL_DETAIL.STATION_4, TSPL_BMC_TRANSPORTER_BILL_DETAIL.GPS_KM,TSPL_BMC_TRANSPORTER_BILL_DETAIL.KM     ,TSPL_BMC_TRANSPORTER_BILL_DETAIL.AMOUNT,TSPL_BMC_TRANSPORTER_BILL_DETAIL.DIESEL_RD
+,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_no,TSPL_BMC_TRANSPORTER_BILL_HEAD.toll_tax,
+TSPL_BMC_TRANSPORTER_BILL_HEAD.ice_charge,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Snf_Shortage,TSPL_BMC_TRANSPORTER_BILL_HEAD.Fat_Rate,TSPL_BMC_TRANSPORTER_BILL_HEAD.Snf_Rate
+,TSPL_TANKER_MASTER.Description,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Phone1,TSPL_COMPANY_MASTER.City_Code
+,TSPL_BMC_TRANSPORTER_BILL_HEAD.From_Date,TSPL_BMC_TRANSPORTER_BILL_HEAD.To_Date
+,TSPL_BMC_TRANSPORTER_BILL_HEAD.KM_Rate,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_Capacity
+,	Diesel_Rate_Plus,	Diesel_Rate_Minus	,Total_Diesel,Total_Amount,	Gross_Amount
+FROM TSPL_MILK_COLLECTION_MCC  
+left outer join TSPL_TANKER_MASTER ON TSPL_TANKER_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
+ left outer join TSPL_BULK_ROUTE_MASTER ON TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+LEFT OUTER JOIN TSPL_BMC_TRANSPORTER_BILL_DETAIL ON TSPL_BMC_TRANSPORTER_BILL_DETAIL.MCC_Document_Code=TSPL_MILK_COLLECTION_MCC.Document_No
+LEFT OUTER JOIN TSPL_BMC_TRANSPORTER_BILL_HEAD ON TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code=TSPL_BMC_TRANSPORTER_BILL_DETAIL.Document_Code 
+left outer join TSPL_COMPANY_MASTER on 2=2
+where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQuery)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBmcTranspoterBill_1", "BMC Transpoter Bill") ''report for both (RCDF And RCDFCF)
+
+                frmCRV = Nothing
+            End If
+
+
+
+            'If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            '    Dim frmCRV As New frmCrystalReportViewer()
+            '    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "crptBmcTranspoterBill", "BMC Transpoter Bill", Nothing) ''report for both (RCDF And RCDFCF)
+            '    frmCRV = Nothing
+            'Else
+            '    clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
+            'End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    'Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+    '    Me.Close()
+    'End Sub
 
     'Private Sub txtDieselplus_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDieselplus.KeyPress
     '    Dim Total_GPS_KM As Decimal = 0

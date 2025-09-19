@@ -5,6 +5,7 @@ Public Class frmMCCMaterialSale
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim FlagDocumentIsTaxable As Integer = 0
+    Dim ConvertIntoBillingUOM As Boolean = False
     Dim chkTaxGroup As String
     Dim arrMCCRights As ArrayList
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Integer = 0
@@ -54,8 +55,10 @@ Public Class frmMCCMaterialSale
     Const colBarCode As String = "COLBARCODE"
     Const colPendingQty As String = "COLPENDINGQTY"
     Const colQty As String = "COLQTY"
+    Const colBillingQty As String = "colBillingQty"
     Const colFreeQty As String = "COLFREEQTY"
     Const colUnit As String = "COLUNIT"
+    Const colBillingUnit As String = "colBillingUnit"
     Const colUOMName As String = "COLUOMNAME"
     Const colRate As String = "COLRATE"
     Const colAmt As String = "COLAMT"
@@ -296,6 +299,8 @@ Public Class frmMCCMaterialSale
         EnableDynamicQRCodeForB2CInvoice = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, Nothing)) = "1", True, False))
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
+        ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         chkVendorGrossReceipt.Visible = False
@@ -677,6 +682,25 @@ Public Class frmMCCMaterialSale
         'repoOrgSRNQty.ReadOnly = Not isPO_GRN_MRN_Editable
         'repoOrgSRNQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         'gv1.MasterTemplate.Columns.Add(repoOrgSRNQty)
+        Dim repoBillingUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoBillingUnit.FormatString = ""
+        repoBillingUnit.HeaderText = "Billing UOM"
+        repoBillingUnit.Name = colBillingUnit
+        repoBillingUnit.Width = 80
+        repoBillingUnit.ReadOnly = True
+        repoBillingUnit.IsVisible = False
+        repoBillingUnit.HeaderImage = Global.ERP.My.Resources.Resources.search4
+        repoBillingUnit.TextImageRelation = TextImageRelation.TextBeforeImage
+        gv1.MasterTemplate.Columns.Add(repoBillingUnit)
+        Dim repoBillingQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoBillingQty = New GridViewDecimalColumn()
+        repoBillingQty.FormatString = ""
+        repoBillingQty.HeaderText = "Billing Qty"
+        repoBillingQty.Name = colBillingQty
+        repoBillingQty.Width = 80
+        repoBillingQty.Minimum = 0
+        repoBillingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoBillingQty)
         Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoUnit.FormatString = ""
         repoUnit.HeaderText = "UOM"
@@ -686,6 +710,7 @@ Public Class frmMCCMaterialSale
         repoUnit.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoUnit.TextImageRelation = TextImageRelation.TextBeforeImage
         gv1.MasterTemplate.Columns.Add(repoUnit)
+
         Dim repoUnitName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoUnitName.FormatString = ""
         repoUnitName.HeaderText = "UOM Description"
@@ -3939,6 +3964,24 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.Free_Qty = clsCommon.myCdbl(grow.Cells(colFreeQty).Value)
                     objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                    If ConvertIntoBillingUOM Then
+                        Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and Billing_UOM=1"))
+                        If clsCommon.myLen(Billing_UOM) > 0 Then
+                            objTr.Billing_Unit_code = Billing_UOM
+                        Else
+
+                            Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(grow.Cells(colIName).Value) & "]")
+                        End If
+                        Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 "))
+                        Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(grow.Cells(colUnit).Value) & "' "))
+                        If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
+                            Dim DispatchQty As Decimal = clsCommon.myCDecimal(grow.Cells(colQty).Value) * BillingItemConvFactor
+                            objTr.Billing_Qty = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                        End If
+                    Else
+                        objTr.Billing_Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                        objTr.Billing_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                    End If
                     objTr.OrgUnit_code = clsCommon.myCstr(grow.Cells(colOrgUnit).Value)
                     objTr.Order_Code = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
                     objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
@@ -4637,10 +4680,12 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                         'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgSOQty).Value = objTr.so_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingQty).Value = objTr.Billing_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = objTr.Balance_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFreeQty).Value = objTr.Free_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = objTr.OrgUnit_code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBillingUnit).Value = objTr.Billing_Unit_code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOMName).Value = clsDBFuncationality.getSingleValue("select Unit_Desc from tspl_unit_master where Unit_code= '" + objTr.Unit_code + "'")
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost

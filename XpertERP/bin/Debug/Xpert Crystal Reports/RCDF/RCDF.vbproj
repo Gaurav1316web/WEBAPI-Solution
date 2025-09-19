@@ -330,6 +330,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCRoutePrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBulkSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCANSaleInvoice.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptCommissionTPTRate.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
@@ -1456,6 +1457,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankDraftSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankSavingSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBmcTranspoterBill_1.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDayWiseCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />

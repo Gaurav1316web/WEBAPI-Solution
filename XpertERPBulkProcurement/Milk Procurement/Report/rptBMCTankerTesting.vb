@@ -162,8 +162,41 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 End If
                 qry += " order by SRNNO "
             ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAPD") = CompairStringResult.Equal Then
-                qry = " select TSPL_MILK_SRN_DETAIL.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.RATE,TSPL_MILK_SRN_DETAIL.AMOUNT,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS [SRN AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty AS  [Qty AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER as[FAT% AFTER CORRECTION] ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER as [SNF% AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE as [RATE AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT as [AMOUNT AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
- Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
+                qry = " Select (xx.SRNNO) as SRNNO,max(xx.Truck_SheetNo)Truck_SheetNo,max(xx.DOC_DATE)DOC_DATE,max(xx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
+                        max(xx.Qty)Qty,max(FAT_PER)FAT_PER,max(SNF_PER)SNF_PER,max(RATE)RATE,max(AMOUNT)AMOUNT,max(Remarks)Remarks,max(Document_Type)Document_Type,max(Document_No)Document_No,max(Document_Total)Document_Total 
+                        from ( select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
+                         Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
+                         --Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+                        TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
+                            from TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_DETAIL.DOC_CODE   
+                            where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
+                            and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103) "
+                If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
+                    qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
+                End If
+                qry += " union all
+
+							 select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_Qty as Qty,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_FAT_PER as FAT_PER,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_SNF_PER as SNF_PER,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_RATE as Rate,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_AMOUNT as Amount,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
+							-- Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DRCR_Amt > 0 then 'Credit' else 'Debit' end as Document_Type,
+							Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+							TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
                             from 
                             TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
                             left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
@@ -173,14 +206,15 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                             left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
 							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
                             inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
-							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_DETAIL.DOC_CODE  
+							--left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.VLC_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-OMSN'
+							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                             where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
                             and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103) "
                 If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
                     qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
                 End If
-                qry += " order by SRNNO "
+                qry += " ) XX group by SRNNO order by SRNNO  "
 
             Else
                 qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty
@@ -265,13 +299,13 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
             gv1.Columns("SNF_PER").HeaderText = "SNF %"
             gv1.Columns("RATE").HeaderText = "RATE"
             gv1.Columns("AMOUNT").HeaderText = "AMOUNT"
-            gv1.Columns("SRN AFTER CORRECTION").HeaderText = "SRN AFTER CORRECTION"
-            gv1.Columns("SRN AFTER CORRECTION").IsVisible = False
-            gv1.Columns("Qty AFTER CORRECTION").HeaderText = "Qty AFTER CORRECTION"
-            gv1.Columns("FAT% AFTER CORRECTION").HeaderText = "FAT% AFTER CORRECTION"
-            gv1.Columns("SNF% AFTER CORRECTION").HeaderText = "SNF% AFTER CORRECTION"
-            gv1.Columns("RATE AFTER CORRECTION").HeaderText = "RATE AFTER CORRECTION"
-            gv1.Columns("AMOUNT AFTER CORRECTION").HeaderText = "AMOUNT AFTER CORRECTION"
+            'gv1.Columns("SRN AFTER CORRECTION").HeaderText = "SRN AFTER CORRECTION"
+            'gv1.Columns("SRN AFTER CORRECTION").IsVisible = False
+            'gv1.Columns("Qty AFTER CORRECTION").HeaderText = "Qty AFTER CORRECTION"
+            'gv1.Columns("FAT% AFTER CORRECTION").HeaderText = "FAT% AFTER CORRECTION"
+            'gv1.Columns("SNF% AFTER CORRECTION").HeaderText = "SNF% AFTER CORRECTION"
+            'gv1.Columns("RATE AFTER CORRECTION").HeaderText = "RATE AFTER CORRECTION"
+            'gv1.Columns("AMOUNT AFTER CORRECTION").HeaderText = "AMOUNT AFTER CORRECTION"
             gv1.Columns("Document_No").HeaderText = "AP Invoice"
             gv1.Columns("Document_Type").HeaderText = "Type"
             gv1.Columns("Document_Total").HeaderText = "Total"
@@ -338,10 +372,10 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 summaryRowItem.Add(item1)
                 Dim item2 As New GridViewSummaryItem("AMOUNT", "{0:F3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
-                Dim item3 As New GridViewSummaryItem("Qty AFTER CORRECTION", "{0:F3}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(item3)
-                Dim item4 As New GridViewSummaryItem("AMOUNT AFTER CORRECTION", "{0:F3}", GridAggregateFunction.Sum)
-                summaryRowItem.Add(item4)
+                'Dim item3 As New GridViewSummaryItem("Qty AFTER CORRECTION", "{0:F3}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item3)
+                'Dim item4 As New GridViewSummaryItem("AMOUNT AFTER CORRECTION", "{0:F3}", GridAggregateFunction.Sum)
+                'summaryRowItem.Add(item4)
                 Dim item5 As New GridViewSummaryItem("Document_Total", "{0:F3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item5)
                 gv1.MasterTemplate.SummaryRowsBottom.Clear()
@@ -375,13 +409,16 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
             'End If
         Next
         If clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAP") = CompairStringResult.Equal Then
+        ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAPD") = CompairStringResult.Equal Then
         Else
             gv1.Columns("Corr_CLR").FormatString = "{0:n2}"
             gv1.Columns("CLR").FormatString = "{0:n2}"
             gv1.Columns("Retesting_CLR").FormatString = "{0:n2}"
         End If
+        If clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAPD") <> CompairStringResult.Equal Then
+            View()
+        End If
 
-        View()
     End Sub
 
     Private Sub EnableDisableControls(ByVal val As Boolean)
@@ -442,6 +479,7 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Document_Type").Name)
                 view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Document_Total").Name)
 
+            ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAPD") = CompairStringResult.Equal Then
             Else
 
                 view.ColumnGroups.Add(New GridViewColumnGroup("Original"))

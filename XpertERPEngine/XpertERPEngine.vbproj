@@ -162,7 +162,8 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon">
+    <Reference Include="XpertCommon, Version=2.1.6.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPBlankTableScript">
@@ -197,7 +198,6 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="AdminServices\clsSendSMSEmailSetting.vb" />
     <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
     <Compile Include="API\clsEWayBill.vb" />
     <Compile Include="clsAllEnum.vb" />
@@ -282,9 +282,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CustomerComplaint\clsCustomerComplain.vb" />
-    <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
-    <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
-    <Compile Include="EngAndPlantManagement\clsEngSection.vb" />
     <Compile Include="Finance\clsCashFlowPerforma.vb" />
     <Compile Include="Finance\ClsGLControlAccountMapping.vb" />
     <Compile Include="Fixed Asset\clsAssetBookMaster.vb" />
@@ -436,7 +433,6 @@
     <Compile Include="Milk Procurement\clsBMCTransporterBill.vb" />
     <Compile Include="Milk Procurement\clsCapping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
-    <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
     <Compile Include="Milk Procurement\clsDCSSaleEntry.vb" />
@@ -1633,6 +1629,8 @@
     <None Include="Resources\new.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AdminServices\" />
+    <Folder Include="EngAndPlantManagement\" />
     <Folder Include="ServiceAndWarranty\" />
     <Folder Include="TDS Module\" />
   </ItemGroup>

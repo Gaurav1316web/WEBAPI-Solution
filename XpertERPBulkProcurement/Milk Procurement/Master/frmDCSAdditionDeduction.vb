@@ -10,6 +10,14 @@ Public Class frmDCSAdditionDeduction
 #End Region
 
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("FAT_Range_From", "decimal(18,1) NULL")
+        coll.Add("FAT_Range_To", "decimal(18,1) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_DCS_ADDITION_DEDUCTION", coll, "", True, False, "", "", "", True)
+
+
+
+
         SetUserMgmtNew()
         LoadApplyType()
         LoadApplyOn()
@@ -140,6 +148,11 @@ Public Class frmDCSAdditionDeduction
         dr("Name") = "Percentage"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "2"
+        dr("Name") = "Rate With FAT Range"
+        dt.Rows.Add(dr)
+
         cboApplyType.DataSource = dt.Copy()
         cboApplyType.ValueMember = "Code"
         cboApplyType.DisplayMember = "Name"
@@ -199,8 +212,15 @@ Public Class frmDCSAdditionDeduction
                 ElseIf rbtnAdditionTypeCompulsory.IsChecked Then
                     obj.Saving = 2
                 End If
-                obj.Applicable_Type = clsCommon.myCdbl(cboApplyType.SelectedValue)
-                obj.Applicable_On = clsCommon.myCdbl(cboApplyOn.SelectedValue)
+                obj.Applicable_Type = clsCommon.myCDecimal(cboApplyType.SelectedValue)
+                If obj.Applicable_Type = 2 Then
+                    obj.FAT_Range_From = txtFATRangeFrom.Value
+                    obj.FAT_Range_To = txtFATRangeTo.Value
+                Else
+                    obj.FAT_Range_From = 0
+                    obj.FAT_Range_To = 0
+                End If
+                obj.Applicable_On = clsCommon.myCDecimal(cboApplyOn.SelectedValue)
                 obj.Include_Shortage_Own_BMC = chkIncludeShortageOwnBMC.Checked
                 obj.Subtract = chkSubtract.Checked
                 obj.Apply_Formula = chkApplyFormula.Checked
@@ -238,6 +258,8 @@ Public Class frmDCSAdditionDeduction
                 Else
                     obj.Milk_Type = ""
                 End If
+
+
                 obj.Arr = txtAddAmount.arrValueMember
                 obj.ArrDCSExclude = txtExcludeDCS.arrValueMember
                 If obj.SaveData(obj, isNewEntry) Then
@@ -320,6 +342,10 @@ Public Class frmDCSAdditionDeduction
                 'chkMarginDCS.Checked = obj.MarginDCS
                 chkApplyTDS.Checked = obj.Apply_TDS
                 cboApplyType.SelectedValue = clsCommon.myCstr(obj.Applicable_Type)
+                txtFATRangeFrom.Value = obj.FAT_Range_From
+                txtFATRangeTo.Value = obj.FAT_Range_To
+                ShowHideApplyType()
+
                 cboApplyOn.SelectedValue = clsCommon.myCstr(obj.Applicable_On)
                 If obj.Qty_UOM = 0 Then
                     rbtnQtyUOMRec.IsChecked = True
@@ -438,6 +464,30 @@ Public Class frmDCSAdditionDeduction
                 End If
             End If
         End If
+
+        If clsCommon.myCDecimal(cboApplyType.SelectedValue) = 2 Then
+            If rbtnDCSTypeBMCTruckSheet.IsChecked Then
+                clsCommon.MyMessageBoxShow(Me, "FAT Range is not for " + rbtnDCSTypeBMCTruckSheet.Text, Me.Text)
+                Return False
+            ElseIf rbtnDCSTypeDCSTruckSheet.IsChecked Then
+                clsCommon.MyMessageBoxShow(Me, "FAT Range is not for " + rbtnDCSTypeDCSTruckSheet.Text, Me.Text)
+                Return False
+            ElseIf rbtnDCSTypeDCSTruckSheetMultipleDays.IsChecked Then
+                clsCommon.MyMessageBoxShow(Me, "FAT Range is not for " + rbtnDCSTypeDCSTruckSheetMultipleDays.Text, Me.Text)
+                Return False
+            ElseIf rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.IsChecked Then
+                clsCommon.MyMessageBoxShow(Me, "FAT Range is not for " + rbtnDCSTypeDCSTruckSheetMultipleDaysDetail.Text, Me.Text)
+                Return False
+            End If
+            If txtFATRangeFrom.Value <= 0 AndAlso txtFATRangeTo.Value <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please define FAT Range", Me.Text)
+                Return False
+            End If
+            If txtFATRangeTo.Value < txtFATRangeFrom.Value Then
+                clsCommon.MyMessageBoxShow(Me, "FAT to range should be greater than FAT from range", Me.Text)
+                Return False
+            End If
+        End If
         Return True
     End Function
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -466,7 +516,7 @@ Public Class frmDCSAdditionDeduction
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
 
         Dim str As String = "select count(*) from TSPL_DCS_ADDITION_DEDUCTION where Code ='" + txtCode.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        Dim no As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
         Else
@@ -740,5 +790,16 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub cboApplyType_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cboApplyType.Validating
+        ShowHideApplyType()
+    End Sub
+
+    Private Sub ShowHideApplyType()
+        grpFATRange.Visible = False
+        If clsCommon.myCDecimal(cboApplyType.SelectedValue) = 2 Then
+            grpFATRange.Visible = True
+        End If
     End Sub
 End Class

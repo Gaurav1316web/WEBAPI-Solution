@@ -3285,7 +3285,8 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
                 If rbtnMilkType.Checked Then
                     clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)
                 ElseIf rbtnProductType.Checked OrElse rbtnIceCream.Checked Then
-                    clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, True, False)
+                    'clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, True, False)
+                    clsCustomerPenalty.PrintDOSData(txtMultPTSRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, True, False, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap, False)
                 End If
             Else
                 clsDemandBookingSale.PrintDOSData(txtMultPTSRoute.arrValueMember, ddlPTSShift.Text, txtPTSDateFrom.Value, rbtnMilk.Checked, rbtnProduct.Checked, chkIndividualCustomer.Checked, 135, 73, DosPaperSize.Tecxpert12X13P5, PageSetup.Landscap)

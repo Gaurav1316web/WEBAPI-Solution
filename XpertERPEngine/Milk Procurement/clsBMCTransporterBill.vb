@@ -109,6 +109,10 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
         If isNewEntry Then
+            'obj.Document_Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.DistributorRouteTagging, "", "")
+            'If clsCommon.myLen(obj.Document_Code) <= 0 Then
+            '    Throw New Exception("Error in Code Generation")
+            'End If
             clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
