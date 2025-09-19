@@ -322,6 +322,12 @@
     <Compile Include="frmItemMasterRMOther.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FrmItemMasterTax.Designer.vb">
+      <DependentUpon>FrmItemMasterTax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmItemMasterTax.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmPaymentDetail.Designer.vb">
       <DependentUpon>frmPaymentDetail.vb</DependentUpon>
     </Compile>
@@ -1384,6 +1390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmItemMasterRMOther.resx">
       <DependentUpon>frmItemMasterRMOther.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmItemMasterTax.resx">
+      <DependentUpon>FrmItemMasterTax.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPaymentDetail.resx">
       <DependentUpon>frmPaymentDetail.vb</DependentUpon>

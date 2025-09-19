@@ -14516,14 +14516,18 @@ TSPL_Product_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Product_Demand_Bookin
 from TSPL_Product_Demand_Booking_Master
 left join TSPL_Product_Demand_Booking_Detail on TSPL_Product_Demand_Booking_Master.Document_No=TSPL_Product_Demand_Booking_Detail.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Product_Demand_Booking_Detail.Item_Code 
+OUTER APPLY ( SELECT TOP 1 * FROM TSPL_ITEM_MASTER_TAXABLE  
+WHERE TSPL_ITEM_MASTER_TAXABLE.Item_Code = TSPL_Demand_Booking_Detail.Item_Code  AND TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtFrom_Date.Value) & "'
+    ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC
+) TSPL_ITEM_MASTER_TAXABLE
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Product_Demand_Booking_Detail.Cust_Code 
 where  TSPL_Product_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(txtFrom_Date.Value) + "' and TSPL_Product_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(txtTo_Date.Value.AddDays(1)) + "' 
    and TSPL_Product_Demand_Booking_Master.Posted=1
 and TSPL_Product_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Product_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                        qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
                     Else
-                        qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 "
                     End If
 
                     qry += " And TSPL_Product_Demand_Booking_Detail.TR_Code Is Not null  And Not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Product_Demand_Booking_Detail.TR_Code  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE Not in ('" + txtDocNo.Value + "')) 

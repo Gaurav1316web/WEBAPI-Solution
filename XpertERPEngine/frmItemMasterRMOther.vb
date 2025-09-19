@@ -1,5 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
+Imports common
+
 Public Class FrmItemMasterRMOther
     Inherits FrmMainTranScreen
     ''check In Prabhakar 19/06/2020
@@ -308,7 +310,7 @@ Public Class FrmItemMasterRMOther
         repoCatValue.HeaderText = "Category Value"
         repoCatValue.Name = CatcolValue
         repoCatValue.Width = 100
-        repoCatValue.HeaderImage = XpertERPEngine.My.Resources.Resources.search4
+        repoCatValue.HeaderImage = My.Resources.Resources.search4
         repoCatValue.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCatValue.ReadOnly = False
         gvCategory.MasterTemplate.Columns.Add(repoCatValue)
@@ -614,7 +616,7 @@ Public Class FrmItemMasterRMOther
         repocode.Name = colparamCode
         repocode.Width = 155
         repocode.HeaderText = "Parameter Code"
-        repocode.HeaderImage = XpertERPEngine.My.Resources.Resources.search4
+        repocode.HeaderImage = My.Resources.Resources.search4
         repocode.TextImageRelation = TextImageRelation.TextBeforeImage
         gv_param.MasterTemplate.Columns.Add(repocode)
 
@@ -737,7 +739,7 @@ Public Class FrmItemMasterRMOther
         txtBox.Name = colPurQCParamCode
         txtBox.Width = 150
         txtBox.HeaderText = "Parameter Code"
-        txtBox.HeaderImage = XpertERPEngine.My.Resources.Resources.search4
+        txtBox.HeaderImage = My.Resources.Resources.search4
         txtBox.TextImageRelation = TextImageRelation.TextBeforeImage
         gvPurQCPar.MasterTemplate.Columns.Add(txtBox)
 
@@ -938,7 +940,7 @@ Public Class FrmItemMasterRMOther
         repoUOMCode.FormatString = ""
         repoUOMCode.HeaderText = "UOM"
         repoUOMCode.Name = UOMColUnit
-        repoUOMCode.HeaderImage = XpertERPEngine.My.Resources.Resources.search4
+        repoUOMCode.HeaderImage = My.Resources.Resources.search4
         repoUOMCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoUOMCode.Width = 100
         gvUOM.MasterTemplate.Columns.Add(repoUOMCode)
@@ -7263,6 +7265,16 @@ ExitLOOP:
         If clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
+    End Sub
+
+    Private Sub btnTaxType_Click(sender As Object, e As EventArgs) Handles btnTaxType.Click
+        Try
+            Dim frm As New FrmItemMasterTax()
+            frm.stritemCode = clsCommon.myCstr(txtCode.Value)
+            frm.ShowDialog()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub ShowNOCPenalty()

@@ -271,6 +271,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX_AUTHORITY", coll)
             '==============================================================
 
+
             coll = New Dictionary(Of String, String)()
             coll.Add("S_NO", "VARCHAR(30) NULL")
             coll.Add("OLD_NO", "VARCHAR(30) NULL")
@@ -2479,6 +2480,25 @@ Public Class clsCreateAllTable
             'Catch ex As Exception
 
             'End Try
+            coll = New Dictionary(Of String, String)()
+            coll.Add("ITEM_CODE", "Varchar(50) Not NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("EFFECTIVE_DATE", "datetime not NULL")
+            coll.Add("IS_TAXABLE", "integer not null DEFAULT 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ITEM_MASTER_TAXABLE", coll, "", True, False, "", "ITEM_CODE", "EFFECTIVE_DATE", True)
+            Try
+                Dim itemCount As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(Item_Code) as noOfRecord from TSPL_ITEM_MASTER "))
+                If itemCount <= 0 Then
+                    Dim str As String = "INSERT INTO TSPL_ITEM_MASTER_TAXABLE (ITEM_CODE, IS_TAXABLE, EFFECTIVE_DATE,Created_By,Created_Date)
+SELECT Item_Code,IsTaxable, '2022-07-01 00:00:00.000' as EFFECTIVE_DATE, Created_By,Created_Date
+FROM TSPL_ITEM_MASTER"
+                    clsDBFuncationality.ExecuteNonQuery(str)
+                End If
+            Catch ex As Exception
+
+            End Try
 
 
             coll = New Dictionary(Of String, String)()
