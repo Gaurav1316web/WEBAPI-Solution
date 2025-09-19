@@ -27057,11 +27057,11 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
 
     Private Sub txtCreditCashDCSSaleDoc__My_Click(sender As Object, e As EventArgs) Handles txtCreditCashDCSSaleDoc._My_Click
         Try
-            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where Status=1  "
+            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where Status=1 and not exists ( select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE  where TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No = TSPL_SD_SHIPMENT_HEAD.Document_Code) "
             If rbtnCreditToCash.Checked Then
-                qry += " and  Is_CashSale ='N' "
+                qry += " and  TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='N' "
             ElseIf rbtnCashToCredit.Checked Then
-                qry += " and  Is_CashSale ='Y' "
+                qry += " and  TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='Y' "
             End If
             txtCreditCashDCSSaleDoc.arrValueMember = clsCommon.ShowMultipleSelectForm("CrCashDoc", qry, "Code", "Code", txtCreditCashDCSSaleDoc.arrValueMember, txtCreditCashDCSSaleDoc.arrDispalyMember)
         Catch ex As Exception
@@ -27074,18 +27074,24 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 If rbtnCreditToCash.Checked Then
-                    Dim obj As clsMCCMaterialSale = New clsMCCMaterialSale()
-                    For ii As Integer = 0 To txtCreditCashDCSSaleDoc.arrValueMember.Count - 1
-                        obj.MultipleRecieptEntryOfDCSSaleFromUtility(txtCreditCashDCSSaleDoc.arrValueMember(ii), trans)
-                    Next
-                ElseIf rbtnCashToCredit.Checked Then
-                    Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable("select Receipt_No from TSPL_RECEIPT_DETAIL  where Document_No in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
-                    If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No=null , Is_CashSale ='N' where Document_Code in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
-                        For Each dr As DataRow In dtReceipt.Rows
-                            clsRcptEntryHeader.ReverseAndUnpost(clsCommon.myCstr(dr("Receipt_No")), trans)
-                            clsRcptEntryHeader.fundelete(clsCommon.myCstr(dr("Receipt_No")), trans)
+                    If clsCommon.MyMessageBoxShow(Me, "Total [" + clsCommon.myCstr(txtCreditCashDCSSaleDoc.arrValueMember.Count) + "] of Document convert from credit to cash. Do You want to continue", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        Dim objDCSSale As clsMCCMaterialSale = New clsMCCMaterialSale()
+                        For ii As Integer = 0 To txtCreditCashDCSSaleDoc.arrValueMember.Count - 1
+                            objDCSSale = objDCSSale.GetData(txtCreditCashDCSSaleDoc.arrValueMember(ii), NavigatorType.Current, trans)
+                            objDCSSale.RecieptEntryOfDCSSale(objDCSSale, trans)
+                            clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Is_CashSale ='Y' where Document_Code='" + txtCreditCashDCSSaleDoc.arrValueMember(ii) + "'", trans)
                         Next
+                    End If
+                ElseIf rbtnCashToCredit.Checked Then
+                    If clsCommon.MyMessageBoxShow(Me, "Total [" + clsCommon.myCstr(txtCreditCashDCSSaleDoc.arrValueMember.Count) + "] of Document convert from cash to credit. Do You want to continue", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable("select Receipt_No from TSPL_RECEIPT_DETAIL  where Document_No in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
+                        If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No=null , Is_CashSale ='N' where Document_Code in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
+                            For Each dr As DataRow In dtReceipt.Rows
+                                clsRcptEntryHeader.ReverseAndUnpost(clsCommon.myCstr(dr("Receipt_No")), trans)
+                                clsRcptEntryHeader.fundelete(clsCommon.myCstr(dr("Receipt_No")), trans)
+                            Next
+                        End If
                     End If
                 End If
                 trans.Commit()

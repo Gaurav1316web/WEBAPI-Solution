@@ -13888,6 +13888,7 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
             coll.Add("RSM_CODE", "varchar(12) NULL references TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             coll.Add("Description_Hindi", "nvarchar(300) NULL")
+            coll.Add("Vendor_Code", "varchar(12) null REFERENCES TSPL_VENDOR_MASTER (Vendor_Code)")
             ' clsCommonFunctionality.CreateOrAlterTable("TSPL_ZONE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ZONE_MASTER", coll, "", True, False, "", "", "", True)
 

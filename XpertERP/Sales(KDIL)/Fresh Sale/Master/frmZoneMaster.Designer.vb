@@ -35,6 +35,7 @@ Partial Class FrmZoneMaster
         Me.txtdes = New common.Controls.MyTextBox()
         Me.lbldes = New common.Controls.MyLabel()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -42,7 +43,9 @@ Partial Class FrmZoneMaster
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.lblCFVendor = New common.Controls.MyLabel()
+        Me.txtCFVendor = New common.UserControls.txtFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -55,11 +58,13 @@ Partial Class FrmZoneMaster
         CType(Me.txtdes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbldes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCFVendor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -72,6 +77,9 @@ Partial Class FrmZoneMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblCFVendor)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtCFVendor)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtdesHindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblRSM)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndRSM)
@@ -91,8 +99,8 @@ Partial Class FrmZoneMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(685, 135)
-        Me.SplitContainer1.SplitterDistance = 103
+        Me.SplitContainer1.Size = New System.Drawing.Size(735, 161)
+        Me.SplitContainer1.SplitterDistance = 122
         Me.SplitContainer1.TabIndex = 0
         '
         'txtdesHindi
@@ -107,7 +115,7 @@ Partial Class FrmZoneMaster
         Me.txtdesHindi.IsSourceFromTable = False
         Me.txtdesHindi.IsSourceFromValueList = False
         Me.txtdesHindi.IsUnique = False
-        Me.txtdesHindi.Location = New System.Drawing.Point(383, 32)
+        Me.txtdesHindi.Location = New System.Drawing.Point(426, 32)
         Me.txtdesHindi.MaxLength = 150
         Me.txtdesHindi.MendatroryField = False
         Me.txtdesHindi.MyLinkLable1 = Nothing
@@ -128,7 +136,7 @@ Partial Class FrmZoneMaster
         Me.lblRSM.AutoSize = False
         Me.lblRSM.BorderVisible = True
         Me.lblRSM.FieldName = Nothing
-        Me.lblRSM.Location = New System.Drawing.Point(198, 77)
+        Me.lblRSM.Location = New System.Drawing.Point(241, 99)
         Me.lblRSM.Name = "lblRSM"
         Me.lblRSM.Size = New System.Drawing.Size(181, 18)
         Me.lblRSM.TabIndex = 29
@@ -144,7 +152,7 @@ Partial Class FrmZoneMaster
         Me.fndRSM.IsSourceFromTable = False
         Me.fndRSM.IsSourceFromValueList = False
         Me.fndRSM.IsUnique = False
-        Me.fndRSM.Location = New System.Drawing.Point(80, 76)
+        Me.fndRSM.Location = New System.Drawing.Point(123, 98)
         Me.fndRSM.MendatroryField = True
         Me.fndRSM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndRSM.MyLinkLable1 = Me.lblRSM
@@ -162,7 +170,7 @@ Partial Class FrmZoneMaster
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(9, 76)
+        Me.MyLabel2.Location = New System.Drawing.Point(9, 98)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel2.TabIndex = 30
@@ -173,7 +181,7 @@ Partial Class FrmZoneMaster
         Me.lblCity.AutoSize = False
         Me.lblCity.BorderVisible = True
         Me.lblCity.FieldName = Nothing
-        Me.lblCity.Location = New System.Drawing.Point(198, 55)
+        Me.lblCity.Location = New System.Drawing.Point(241, 55)
         Me.lblCity.Name = "lblCity"
         Me.lblCity.Size = New System.Drawing.Size(181, 18)
         Me.lblCity.TabIndex = 26
@@ -189,7 +197,7 @@ Partial Class FrmZoneMaster
         Me.txtCity.IsSourceFromTable = False
         Me.txtCity.IsSourceFromValueList = False
         Me.txtCity.IsUnique = False
-        Me.txtCity.Location = New System.Drawing.Point(80, 54)
+        Me.txtCity.Location = New System.Drawing.Point(123, 54)
         Me.txtCity.MendatroryField = True
         Me.txtCity.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCity.MyLinkLable1 = Me.lblCity
@@ -216,7 +224,7 @@ Partial Class FrmZoneMaster
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(80, 8)
+        Me.txtCode.Location = New System.Drawing.Point(123, 8)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -251,7 +259,7 @@ Partial Class FrmZoneMaster
         Me.txtdes.IsSourceFromTable = False
         Me.txtdes.IsSourceFromValueList = False
         Me.txtdes.IsUnique = False
-        Me.txtdes.Location = New System.Drawing.Point(80, 32)
+        Me.txtdes.Location = New System.Drawing.Point(123, 32)
         Me.txtdes.MaxLength = 150
         Me.txtdes.MendatroryField = False
         Me.txtdes.MyLinkLable1 = Nothing
@@ -281,16 +289,26 @@ Partial Class FrmZoneMaster
         '
         Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnnew.Location = New System.Drawing.Point(282, 8)
+        Me.btnnew.Location = New System.Drawing.Point(325, 8)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(16, 21)
         Me.btnnew.TabIndex = 20
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(160, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 9
+        Me.btnHistory.Text = "History"
         '
         'btnsave
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(12, 2)
+        Me.btnsave.Location = New System.Drawing.Point(12, 9)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(66, 18)
         Me.btnsave.TabIndex = 6
@@ -300,7 +318,7 @@ Partial Class FrmZoneMaster
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(85, 2)
+        Me.btndelete.Location = New System.Drawing.Point(85, 9)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(66, 18)
         Me.btndelete.TabIndex = 7
@@ -310,7 +328,7 @@ Partial Class FrmZoneMaster
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(606, 2)
+        Me.btnclose.Location = New System.Drawing.Point(656, 9)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 18)
         Me.btnclose.TabIndex = 8
@@ -321,7 +339,7 @@ Partial Class FrmZoneMaster
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(685, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(735, 20)
         Me.RadMenu1.TabIndex = 2
         '
         'RadMenuItem1
@@ -340,21 +358,56 @@ Partial Class FrmZoneMaster
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
-        'btnHistory
+        'lblCFVendor
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(160, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
-        Me.btnHistory.TabIndex = 9
-        Me.btnHistory.Text = "History"
+        Me.lblCFVendor.AutoSize = False
+        Me.lblCFVendor.BorderVisible = True
+        Me.lblCFVendor.FieldName = Nothing
+        Me.lblCFVendor.Location = New System.Drawing.Point(241, 77)
+        Me.lblCFVendor.Name = "lblCFVendor"
+        Me.lblCFVendor.Size = New System.Drawing.Size(181, 18)
+        Me.lblCFVendor.TabIndex = 33
+        '
+        'txtCFVendor
+        '
+        Me.txtCFVendor.CalculationExpression = Nothing
+        Me.txtCFVendor.FieldCode = Nothing
+        Me.txtCFVendor.FieldDesc = Nothing
+        Me.txtCFVendor.FieldMaxLength = 0
+        Me.txtCFVendor.FieldName = Nothing
+        Me.txtCFVendor.isCalculatedField = False
+        Me.txtCFVendor.IsSourceFromTable = False
+        Me.txtCFVendor.IsSourceFromValueList = False
+        Me.txtCFVendor.IsUnique = False
+        Me.txtCFVendor.Location = New System.Drawing.Point(123, 76)
+        Me.txtCFVendor.MendatroryField = True
+        Me.txtCFVendor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCFVendor.MyLinkLable1 = Me.lblCFVendor
+        Me.txtCFVendor.MyLinkLable2 = Me.MyLabel4
+        Me.txtCFVendor.MyReadOnly = False
+        Me.txtCFVendor.MyShowMasterFormButton = False
+        Me.txtCFVendor.Name = "txtCFVendor"
+        Me.txtCFVendor.ReferenceFieldDesc = Nothing
+        Me.txtCFVendor.ReferenceFieldName = Nothing
+        Me.txtCFVendor.ReferenceTableName = Nothing
+        Me.txtCFVendor.Size = New System.Drawing.Size(114, 18)
+        Me.txtCFVendor.TabIndex = 32
+        Me.txtCFVendor.Value = ""
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Location = New System.Drawing.Point(9, 77)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(102, 18)
+        Me.MyLabel4.TabIndex = 34
+        Me.MyLabel4.Text = "Cattle Feed Vendor"
         '
         'FrmZoneMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(685, 155)
+        Me.ClientSize = New System.Drawing.Size(735, 181)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmZoneMaster"
@@ -376,11 +429,13 @@ Partial Class FrmZoneMaster
         CType(Me.txtdes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbldes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCFVendor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -407,5 +462,8 @@ Partial Class FrmZoneMaster
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtdesHindi As common.Controls.MyTextBox
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents lblCFVendor As common.Controls.MyLabel
+    Friend WithEvents txtCFVendor As common.UserControls.txtFinder
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
 End Class
 
