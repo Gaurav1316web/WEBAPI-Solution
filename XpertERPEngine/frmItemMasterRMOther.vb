@@ -7269,9 +7269,14 @@ ExitLOOP:
 
     Private Sub btnTaxType_Click(sender As Object, e As EventArgs) Handles btnTaxType.Click
         Try
-            Dim frm As New FrmItemMasterTax()
-            frm.stritemCode = clsCommon.myCstr(txtCode.Value)
-            frm.ShowDialog()
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                Dim frm As New FrmItemMasterTax()
+                frm.stritemCode = clsCommon.myCstr(txtCode.Value)
+                frm.ShowDialog()
+            Else
+                Throw New Exception("Please Select Item")
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

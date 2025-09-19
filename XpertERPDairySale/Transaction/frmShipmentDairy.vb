@@ -12120,7 +12120,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 Dim dblDisAmt As Double = (dblAmt * dblDisPer) / 100
                 'Dim dblSCAmt As Double = dblAmt * (dblSCRate / 100)
                 'gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = dblSCAmt
-                If gv1.Rows(IntRowNo).Cells(ColDCRate).Value <> Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
+                If gv1.Rows(IntRowNo).Cells(ColDCRate).Value <> Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colMRP).Value) > 0 Then
                     If Not ApplyCommissionRateWithTax Then
                         gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = gv1.Rows(IntRowNo).Cells(ColDCRate).Value
                     Else
