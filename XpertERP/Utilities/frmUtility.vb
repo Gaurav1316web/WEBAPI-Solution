@@ -129,6 +129,9 @@ Public Class FrmUtility
         txtAddBatchMfgDate.Value = txtRetestingDate.Value
         txtFromGPDate.Value = txtRetestingDate.Value
         txtBmcMilkCollectionDate.Value = txtRetestingDate.Value
+        txtDemadUpdatedate.Value = txtRetestingDate.Value
+        txtDemandUpdateLoc.Enabled = True
+        rbtnMorning.Checked = True
         Timer3.Enabled = True
         MyCheckBox1.Checked = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateJEOnProduction, clsFixedParameterCode.CreateJEOnProduction, Nothing)) > 0)
         MyCheckBox7.Checked = True
@@ -27057,11 +27060,11 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
 
     Private Sub txtCreditCashDCSSaleDoc__My_Click(sender As Object, e As EventArgs) Handles txtCreditCashDCSSaleDoc._My_Click
         Try
-            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where Status=1  "
+            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where Status=1 and not exists ( select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE  where TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No = TSPL_SD_SHIPMENT_HEAD.Document_Code) "
             If rbtnCreditToCash.Checked Then
-                qry += " and  Is_CashSale ='N' "
+                qry += " and  TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='N' "
             ElseIf rbtnCashToCredit.Checked Then
-                qry += " and  Is_CashSale ='Y' "
+                qry += " and  TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='Y' "
             End If
             txtCreditCashDCSSaleDoc.arrValueMember = clsCommon.ShowMultipleSelectForm("CrCashDoc", qry, "Code", "Code", txtCreditCashDCSSaleDoc.arrValueMember, txtCreditCashDCSSaleDoc.arrDispalyMember)
         Catch ex As Exception
@@ -27074,18 +27077,24 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 If rbtnCreditToCash.Checked Then
-                    Dim obj As clsMCCMaterialSale = New clsMCCMaterialSale()
-                    For ii As Integer = 0 To txtCreditCashDCSSaleDoc.arrValueMember.Count - 1
-                        obj.MultipleRecieptEntryOfDCSSaleFromUtility(txtCreditCashDCSSaleDoc.arrValueMember(ii), trans)
-                    Next
-                ElseIf rbtnCashToCredit.Checked Then
-                    Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable("select Receipt_No from TSPL_RECEIPT_DETAIL  where Document_No in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
-                    If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No=null , Is_CashSale ='N' where Document_Code in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
-                        For Each dr As DataRow In dtReceipt.Rows
-                            clsRcptEntryHeader.ReverseAndUnpost(clsCommon.myCstr(dr("Receipt_No")), trans)
-                            clsRcptEntryHeader.fundelete(clsCommon.myCstr(dr("Receipt_No")), trans)
+                    If clsCommon.MyMessageBoxShow(Me, "Total [" + clsCommon.myCstr(txtCreditCashDCSSaleDoc.arrValueMember.Count) + "] of Document convert from credit to cash. Do You want to continue", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        Dim objDCSSale As clsMCCMaterialSale = New clsMCCMaterialSale()
+                        For ii As Integer = 0 To txtCreditCashDCSSaleDoc.arrValueMember.Count - 1
+                            objDCSSale = objDCSSale.GetData(txtCreditCashDCSSaleDoc.arrValueMember(ii), NavigatorType.Current, trans)
+                            objDCSSale.RecieptEntryOfDCSSale(objDCSSale, trans)
+                            clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Is_CashSale ='Y' where Document_Code='" + txtCreditCashDCSSaleDoc.arrValueMember(ii) + "'", trans)
                         Next
+                    End If
+                ElseIf rbtnCashToCredit.Checked Then
+                    If clsCommon.MyMessageBoxShow(Me, "Total [" + clsCommon.myCstr(txtCreditCashDCSSaleDoc.arrValueMember.Count) + "] of Document convert from cash to credit. Do You want to continue", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                        Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable("select Receipt_No from TSPL_RECEIPT_DETAIL  where Document_No in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
+                        If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
+                            clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No=null , Is_CashSale ='N' where Document_Code in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
+                            For Each dr As DataRow In dtReceipt.Rows
+                                clsRcptEntryHeader.ReverseAndUnpost(clsCommon.myCstr(dr("Receipt_No")), trans)
+                                clsRcptEntryHeader.fundelete(clsCommon.myCstr(dr("Receipt_No")), trans)
+                            Next
+                        End If
                     End If
                 End If
                 trans.Commit()
@@ -27097,6 +27106,83 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
         Else
             clsCommon.MyMessageBoxShow(Me, "Please select Document No", Me.Text)
         End If
+    End Sub
+
+    Private Sub btnDemandUpdate_Click(sender As Object, e As EventArgs) Handles btnDemandUpdate.Click
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(txtDemandUpdateLoc.Value) > 0 Then
+
+                Dim str As String = "select TR_Code,Cust_Code,Item_Code,Unit_code,Price_code,Qty from TSPL_DEMAND_BOOKING_DETAIL
+            where Document_No in(select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,document_date,103)='" & clsCommon.GetPrintDate(txtDemadUpdatedate.Value) & "'and ShiftType='" & IIf(rbtnMorning.Checked, "Morning", "Evening") & "')"
+
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        str = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
+                    " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
+                    "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
+                    " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
+                    " XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7, " &
+                    " XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.TAX1_Amt, " &
+                    " XXXE.TAX2_Amt,XXXE.TAX3_Amt,XXXE.TAX4_Amt, XXXE.TAX5_Amt,XXXE.TAX6_Amt,XXXE.TAX7_Amt,XXXE.TAX8_Amt,XXXE.TAX9_Amt,XXXE.TAX10_Amt,XXXE.Against_Plan_TR_Code  from ( " &
+                    "Select ROW_NUMBER() OVER (Partition By TSPL_ITEM_PRICE_MASTER.Item_Code ORDER BY TSPL_ITEM_PRICE_MASTER.Item_Code,  " &
+                    "Start_Date Desc) as RowNo,Is_With_Tax, Item_Price_ID, TSPL_ITEM_PRICE_MASTER.Item_Code, UOM, Start_Date,  " &
+                    "Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, TSPL_ITEM_PRICE_MASTER.Tax_group,TSPL_ITEM_PRICE_MASTER.TAX1_Rate,  " &
+                    "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate,  " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX6_Rate, TSPL_ITEM_PRICE_MASTER.TAX7_Rate, TSPL_ITEM_PRICE_MASTER.TAX8_Rate, TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX10_Rate, TSPL_ITEM_PRICE_MASTER.TAX1, TSPL_ITEM_PRICE_MASTER.TAX2, TSPL_ITEM_PRICE_MASTER.TAX3, " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
+                    " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.TAX5_Amt,TSPL_ITEM_PRICE_MASTER.TAX6_Amt,TSPL_ITEM_PRICE_MASTER.TAX7_Amt,   TSPL_ITEM_PRICE_MASTER.TAX8_Amt,TSPL_ITEM_PRICE_MASTER.TAX9_Amt,TSPL_ITEM_PRICE_MASTER.TAX10_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
+                    "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
+                    "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDemadUpdatedate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDemadUpdatedate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
+                    "TSPL_ITEM_PRICE_MASTER.Price_Code='" & clsCommon.myCstr(dr("Price_code")) & "' and UOM='" & clsCommon.myCstr(dr("Unit_code")) & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & clsCommon.myCstr(dr("Item_Code")) & "' AND Location_Code='" & clsCommon.myCstr(txtDemandUpdateLoc.Value) & "'  " &
+                    ") XXXE WHERE RowNo=1  "
+
+                        Dim dtp As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+                        If dtp.Rows.Count > 0 Then
+                            Dim dblRate As Decimal = Math.Round(clsCommon.myCdbl(dtp.Rows(0).Item("Item_Basic_Price")), 2)
+                            Dim ItemTotAmt As Decimal = Math.Round(clsCommon.myCdbl(dr("Qty")) * clsCommon.myCdbl(dblRate), 2)
+                            Dim strQry As String = "update TSPL_DEMAND_BOOKING_DETAIL set Item_Rate='" & clsCommon.myCstr(dblRate) & "',ItemNetAmount='" & clsCommon.myCstr(Math.Round(clsCommon.myCdbl(dr("Qty")) * clsCommon.myCdbl(dblRate), 2)) & "'
+,TAX_Group='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX_Group")) & "',
+TAX1='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX1")) & "',TAX1_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX1_Rate")) & "',TAX1_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX1_Rate") / 100), 2)) & "',TAX1_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX2='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX2")) & "',TAX2_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX2_Rate")) & "',TAX2_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX2_Rate") / 100), 2)) & "',TAX2_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX3='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX3")) & "',TAX3_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX3_Rate")) & "',TAX3_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX3_Rate") / 100), 2)) & "',TAX3_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX4='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX4")) & "',TAX4_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX4_Rate")) & "',TAX4_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX4_Rate") / 100), 2)) & "',TAX4_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX5='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX5")) & "',TAX5_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX5_Rate")) & "',TAX5_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX5_Rate") / 100), 2)) & "',TAX5_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX6='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX6")) & "',TAX6_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX6_Rate")) & "',TAX6_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX6_Rate") / 100), 2)) & "',TAX6_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX7='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX7")) & "',TAX7_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX7_Rate")) & "',TAX7_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX7_Rate") / 100), 2)) & "',TAX7_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX8='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX8")) & "',TAX8_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX8_Rate")) & "',TAX8_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX8_Rate") / 100), 2)) & "',TAX8_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX9='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX9")) & "',TAX9_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX9_Rate")) & "',TAX9_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX9_Rate") / 100), 2)) & "',TAX9_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "',
+TAX10='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX10")) & "',TAX10_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX10_Rate")) & "',TAX10_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX10_Rate") / 100), 2)) & "',TAX10_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "'
+where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
+                            clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+                        End If
+                    Next
+                Else
+                    Throw New Exception("No Data Found!")
+                End If
+            Else
+                Throw New Exception("Please select Location")
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtDemandUpdateLoc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDemandUpdateLoc._MYValidating
+        Try
+            Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],Loc_Short_Name as [Short Name],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country,Telphone,Email,Location_Type as [Location Type],Loc_Status as [Location Status],Status_Date as [Status Date],Excisable,Loc_Segment_Code as [Location Segment Code],Type,Purchase_Tax_Group as [Purchase Tax Group],Sales_Tax_Group as [Sales Tax Group],Ecc_Number as [ECC Number],Registration_Number as [Registration Number],Commissionerate as [Commission Rate],Range_Code as [Range Code],Range_Name as [Range Name],Range_Address as [Range Address],Division_Code as [Division Code],Division_Name as [Division Name],Division_Address as [Division Address],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_code as [Company Code],TIN_No as [TIN No],TAN_No as [TAN No],TCAN_No as [TCAN No],Service_Tax_Reg_No as [Service Tax Registration No],DutyPaid as [Duty Paid],Purchase_Tax_GroupIS as [Purchase Tax Group Inter State],Sales_Tax_GroupIS as [Sales Tax Group Inter State],Stock_Transfer_Filled_Ac as [Stock Transfer Filled Account],Stock_Transfer_Empty_Ac as [Stock Transfer Empty Account],GIT_Location as [GIT Location],GIT_Type as [GIT Type],Rejected_Type as [Rejected Type],Rejected_Location as [Rejected Location],CSA_Type as [CSA Type],Cust_Code as [Cust Code],MCC_Type as [MCC Type],CST_No as [CST No],Phone1,Phone2  from TSPL_Location_MASTER"
+            Dim WhrCls As String = " Loc_Status='N' and Location_Type='Physical' and Is_Section='N' and Is_Sub_Location='N' and CSA_Type <>'Y' and DutyPaid <>'Y' and Rejected_Type <>'Y' and GIT_Type<>'Y'"
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls += "  and  Location_Code in (" & objCommonVar.strCurrUserLocations & ")"
+            End If
+            txtDemandUpdateLoc.Value = clsCommon.ShowSelectForm("MulDS-UtlLocFndr", qry, "Code", WhrCls, txtDemandUpdateLoc.Value, "Code", isButtonClicked)
+            'lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & txtLocation.Value & "'"))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 Public Class clsDCDetail

@@ -2325,7 +2325,7 @@ Public Class clsUserMgtCode
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
     Public Const frmPaymentProcessFarmer As String = "Pay-Pro-Fa"
     Public Const BMC_Transporter_Bill As String = "BMC-TRN-BLL"
-
+    Public Const frmCattleFeedSalePurchaseUploader As String = "CF_S_PU_UPL"
     '===========================
     '--------------------------Reports-------------------------------------'
     Public Const FATSNFDiffReport As String = "FAT-SNF-DIFF"

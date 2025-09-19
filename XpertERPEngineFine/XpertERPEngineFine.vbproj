@@ -186,7 +186,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
-    <Reference Include="XpertCommon">
+    <Reference Include="XpertCommon, Version=2.1.6.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -336,6 +337,7 @@
     <Compile Include="LocationModel\clsLocationWiseItems.vb" />
     <Compile Include="LocationModel\clsLocationWiseTax.vb" />
     <Compile Include="LocationModel\ClsLocation_JobworkItem.vb" />
+    <Compile Include="Milk Procurement\clsCattleFeedSalePurchaseUploader.vb" />
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="Milk Procurement\clsDBTCaping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />

@@ -14,13 +14,14 @@ Public Class ClsZoneMaster
     Public City_Code As String = Nothing
     Public RSM_CODE As String = Nothing
     Public Location_CODE As String = Nothing
+    Public Vendor_Code As String = Nothing
 #End Region
     'Anand Ticket no:BM00000003994
     '----------------Code For Get Finder--------------------------------------------------------------------'
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         'Dim qry As String = "select Zone_Code as [Code],Description as [Zone Name],Created_By as [Created By],Created_Date as [Created Date],Modified_By as [Modify By],Modified_Date as [Modify Date],Comp_Code as [Company Code] from TSPL_ZONE_MASTER  "
-        Dim qry As String = "select Zone_Code as [Code],Description as [Zone Name],Location_Code as [Location Code] from TSPL_ZONE_MASTER  "
+        Dim qry As String = "select Zone_Code as [Code],Description as [Zone Name],Location_Code as [Location Code],Vendor_Code as [Vendor Code] from TSPL_ZONE_MASTER  "
         str = clsCommon.ShowSelectForm("RPTZONEFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
@@ -37,6 +38,7 @@ Public Class ClsZoneMaster
             clsCommon.AddColumnsForChange(coll, "City_Code", obj.City_Code, True)
             clsCommon.AddColumnsForChange(coll, "RSM_CODE", obj.RSM_CODE, True)
             clsCommon.AddColumnsForChange(coll, "Location_CODE", obj.Location_CODE, True)
+            clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -70,7 +72,7 @@ Public Class ClsZoneMaster
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsZoneMaster
         Dim obj As ClsZoneMaster = Nothing
         Dim Arr As List(Of ClsZoneMaster) = Nothing
-        Dim qry As String = "select Zone_Code ,Description,City_Code,RSM_CODE,Location_Code, Description_Hindi from TSPL_ZONE_MASTER where 2=2 "
+        Dim qry As String = "select Zone_Code ,Description,City_Code,RSM_CODE,Location_Code,Vendor_Code, Description_Hindi from TSPL_ZONE_MASTER where 2=2 "
         Dim whrclas As String = ""
         Select Case NavType
             Case NavigatorType.First
@@ -92,6 +94,7 @@ Public Class ClsZoneMaster
             obj.City_Code = clsCommon.myCstr(dt.Rows(0)("City_Code"))
             obj.RSM_CODE = clsCommon.myCstr(dt.Rows(0)("RSM_CODE"))
             obj.Location_CODE = clsCommon.myCstr(dt.Rows(0)("Location_CODE"))
+            obj.Vendor_Code = clsCommon.myCstr(dt.Rows(0)("Vendor_Code"))
             obj.Description_Hindi = clsCommon.myCstr(dt.Rows(0)("Description_Hindi"))
         End If
         Return obj

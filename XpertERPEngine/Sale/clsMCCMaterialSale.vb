@@ -1118,7 +1118,7 @@ Public Class clsMCCMaterialSale
             "TSPL_SD_SHIPMENT_DETAIL.FOC_Item,TSPL_SD_SHIPMENT_DETAIL.Item_Weight,TSPL_SD_SHIPMENT_DETAIL.Price_Date, " &
             "TSPL_SD_SHIPMENT_DETAIL.HeadDiscPer,TSPL_SD_SHIPMENT_DETAIL.HeadDiscPerAmt,TSPL_SD_SHIPMENT_DETAIL.Bin_No,TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,TSPL_SD_SHIPMENT_DETAIL.Conv_Factor,TSPL_SD_SHIPMENT_DETAIL.Purchase_Cost,TSPL_SD_SHIPMENT_DETAIL.OrgRate,  " &
             "TSPL_SD_SHIPMENT_DETAIL.vendor_code,TSPL_SD_SHIPMENT_DETAIL.vendor_desc,TSPL_SD_SHIPMENT_DETAIL.PrincipleCode,TSPL_SD_SHIPMENT_DETAIL.PrincipleDesc,TSPL_SD_SHIPMENT_DETAIL.Markup_On,TSPL_SD_SHIPMENT_DETAIL.Markup_Percent,TSPL_SD_SHIPMENT_DETAIL.Landing_Cost,TSPL_SD_SHIPMENT_DETAIL.HeadDiscAmt,TSPL_SD_SHIPMENT_DETAIL.CustDiscPer,TSPL_SD_SHIPMENT_DETAIL.CasdDiscScheme_Code " &
-            ",TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.REF_TPT_PK_ID,TSPL_SD_SHIPMENT_DETAIL.Disc_Per_Unit,TSPL_SD_SHIPMENT_DETAIL.Disc_Unit_Amt "
+            ",TSPL_SD_SHIPMENT_DETAIL.Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Billing_Qty,TSPL_SD_SHIPMENT_DETAIL.Billing_Unit_Code,TSPL_SD_SHIPMENT_DETAIL.Commission_Party,TSPL_SD_SHIPMENT_DETAIL.Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.Amt_Less_Commission,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Rate,TSPL_SD_SHIPMENT_DETAIL.Transporter_Commission_Amt,TSPL_SD_SHIPMENT_DETAIL.REF_TPT_PK_ID,TSPL_SD_SHIPMENT_DETAIL.Disc_Per_Unit,TSPL_SD_SHIPMENT_DETAIL.Disc_Unit_Amt "
             qry += " FROM TSPL_SD_SHIPMENT_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
             qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code"
@@ -1147,6 +1147,8 @@ Public Class clsMCCMaterialSale
                     objTr.Bar_Code = clsCommon.myCstr(dr("Bar_Code"))
                     objTr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
                     objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+                    objTr.Billing_Qty = clsCommon.myCdbl(dr("Billing_Qty"))
+                    objTr.Billing_Unit_code = clsCommon.myCstr(dr("Billing_Unit_code"))
                     objTr.DCS_Sale_Zero_Cost = clsCommon.myCdbl(dr("DCS_Sale_Zero_Cost"))
                     objTr.Free_Qty = clsCommon.myCdbl(dr("Free_Qty"))
                     objTr.Order_Code = clsCommon.myCstr(dr("Order_Code"))
@@ -1397,7 +1399,7 @@ Public Class clsMCCMaterialSale
 
             If objCommonVar.CreateAutoReceiptEntryDCSSale Then
                 If clsCommon.CompairString(obj.Is_CashSale, "Y") = CompairStringResult.Equal Then
-                    RecieptEntryOfDCSSale(obj, trans)
+                    obj.RecieptEntryOfDCSSale(obj, trans)
                 End If
             End If
 
@@ -1749,7 +1751,7 @@ Public Class clsMCCMaterialSale
         Return True
     End Function
 
-    Public Shared Function RecieptEntryOfDCSSale(ByVal objDCSSale As clsMCCMaterialSale, ByVal trans As SqlTransaction) As String
+    Public Function RecieptEntryOfDCSSale(ByVal objDCSSale As clsMCCMaterialSale, ByVal trans As SqlTransaction) As String
         Try
             Dim dblReceiptAmt As Double = (objDCSSale.Total_Amt - objDCSSale.TotalSubsidyAmt)
             If dblReceiptAmt > 0 Then
@@ -1809,66 +1811,6 @@ Public Class clsMCCMaterialSale
         Return Nothing
     End Function
 
-    Public Function MultipleRecieptEntryOfDCSSaleFromUtility(ByVal strCode As String, ByVal trans As SqlTransaction) As String
-        Try
-            Dim objDCSSale As clsMCCMaterialSale = GetData(strCode, NavigatorType.Current, trans)
-            Dim dblReceiptAmt As Double = (objDCSSale.Total_Amt - objDCSSale.TotalSubsidyAmt)
-            If dblReceiptAmt > 0 Then
-                Dim obj As New clsRcptEntryHeader()
-                obj.Entry_Desc = "Shipment No - " + objDCSSale.Document_Code + " for Cash Memo No - " & objDCSSale.Document_Code & "  "
-                obj.Receipt_Date = clsCommon.GetPrintDate(objDCSSale.Document_Date, "dd/MMM/yyyy")
-                obj.Receipt_Post_Date = clsCommon.GetPrintDate(objDCSSale.Document_Date, "dd/MMM/yyyy")
-                obj.Bank_Code = clsCommon.myCstr(objDCSSale.Bank_Code)
-
-                obj.Receipt_Type = "R"
-                obj.Payment_Code = clsCommon.myCstr(objDCSSale.Payment_Terms)
-                obj.Cheque_No = ""
-                obj.Cheque_Date = Nothing
-                obj.Cust_Code = clsCommon.myCstr(objDCSSale.Customer_Code)
-                obj.Receipt_Amount = dblReceiptAmt
-                obj.Balance_Amt = dblReceiptAmt
-                obj.UnApply_Amt = dblReceiptAmt
-                obj.Apply_By = ""
-                obj.Apply_To = ""
-                obj.IsSalesmanType = "N"
-                obj.Salesman_Code = ""
-                obj.Salesman_Name = ""
-                obj.SecurityDeposit = "N"
-
-                obj.ArrTr = New List(Of clsReceiptDettail)
-
-                Dim objTr As New clsReceiptDettail()
-                objTr.Apply = "Y"
-                objTr.Receipt_Type = "I"
-                objTr.TagType = "C"
-                objTr.Document_No = objDCSSale.Document_Code
-                If clsCommon.myLen(objDCSSale.Document_Code) > 0 Then
-                    objTr.Document_Date = objDCSSale.Document_Date
-                End If
-                objTr.Original_Amt = dblReceiptAmt
-                objTr.Pending_Balance = dblReceiptAmt
-                objTr.Applied_Amount = dblReceiptAmt
-                objTr.Adjustment_No = ""
-                objTr.Comment = objDCSSale.Remarks
-                obj.ArrTr.Add(objTr)
-
-                If obj.SaveData(obj, True, trans) Then
-                    clsRcptEntryHeader.funRcptPost(obj.Receipt_No, trans, "MReceivable", objDCSSale.Bill_To_Location, True)
-                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No ='" & obj.Receipt_No & "' where Document_Code='" + objDCSSale.Document_Code + "'", trans)
-                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Is_CashSale ='Y' where Document_Code='" + objDCSSale.Document_Code + "'", trans)
-                End If
-                '---------------------------------------------------------------------------
-                Return obj.Receipt_No
-            Else
-                Throw New Exception("Receipt can't be created.Invoice amount is zero.")
-
-            End If
-
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-        Return Nothing
-    End Function
     Public Shared Function CreateJournalEntry(ByVal strCode As String, ByVal trans As SqlTransaction, Optional ByVal strVoucherNoForRecreatedOnly As String = Nothing)
         Dim RecoControlACC As String = ""
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
@@ -2148,10 +2090,12 @@ Public Class clsMCCMaterialSale
                 objTr.Item_Code = objShipmentDetail.Item_Code
                 objTr.Item_Desc = objShipmentDetail.Item_Desc
                 objTr.Qty = objShipmentDetail.Qty
+                objTr.Billing_Qty = objShipmentDetail.Billing_Qty
                 objTr.Free_Qty = objShipmentDetail.Free_Qty
                 objTr.Shipment_Code = objShipment.Document_Code
                 objTr.Balance_Qty = objShipmentDetail.Balance_Qty
                 objTr.Unit_code = objShipmentDetail.Unit_code
+                objTr.Billing_Unit_code = objShipmentDetail.Billing_Unit_code
                 objTr.Location = objShipmentDetail.Location
                 objTr.LocationName = objShipmentDetail.LocationName
                 objTr.Item_Cost = objShipmentDetail.Item_Cost
@@ -3219,10 +3163,12 @@ Public Class clsMCCMaterialSaleDetail
     Public DCS_Sale_Zero_Cost As String = Nothing
     Public Bar_Code As String = Nothing
     Public Qty As Double = 0
+    Public Billing_Qty As Double = 0
     Public Balance_Qty As Double = 0
     Public Free_Qty As Double = 0
     Public Order_Code As String = Nothing
     Public Unit_code As String = Nothing '
+    Public Billing_Unit_code As String = Nothing '
     Public Location As String = Nothing '
     Public LocationName As String = Nothing 'Not a Table Field
     Public Item_Cost As Double = 0
@@ -3363,6 +3309,8 @@ Public Class clsMCCMaterialSaleDetail
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Bar_Code", obj.Bar_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "Billing_Qty", obj.Billing_Qty)
+                clsCommon.AddColumnsForChange(coll, "Billing_Unit_code", obj.Billing_Unit_code)
 
                 clsCommon.AddColumnsForChange(coll, "Free_qty", obj.Free_Qty)
 
