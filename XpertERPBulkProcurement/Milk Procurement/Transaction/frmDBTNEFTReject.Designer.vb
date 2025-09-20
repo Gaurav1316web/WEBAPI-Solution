@@ -21,7 +21,7 @@ Partial Class frmDBTNEFTReject
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.txtDPTNEFT = New common.UserControls.txtFinder()
@@ -35,6 +35,7 @@ Partial Class frmDBTNEFTReject
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.gvItem = New common.UserControls.MyRadGridView()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btn_Import = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
@@ -44,7 +45,8 @@ Partial Class frmDBTNEFTReject
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.txtPDABillNo = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -60,6 +62,7 @@ Partial Class frmDBTNEFTReject
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_Import, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,7 +70,7 @@ Partial Class frmDBTNEFTReject
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -108,6 +111,8 @@ Partial Class frmDBTNEFTReject
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtPDABillNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDPTNEFT)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
@@ -123,7 +128,7 @@ Partial Class frmDBTNEFTReject
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvItem)
         Me.SplitContainer2.Size = New System.Drawing.Size(825, 472)
-        Me.SplitContainer2.SplitterDistance = 77
+        Me.SplitContainer2.SplitterDistance = 93
         Me.SplitContainer2.TabIndex = 0
         '
         'txtDPTNEFT
@@ -137,7 +142,7 @@ Partial Class frmDBTNEFTReject
         Me.txtDPTNEFT.IsSourceFromTable = False
         Me.txtDPTNEFT.IsSourceFromValueList = False
         Me.txtDPTNEFT.IsUnique = False
-        Me.txtDPTNEFT.Location = New System.Drawing.Point(78, 31)
+        Me.txtDPTNEFT.Location = New System.Drawing.Point(78, 51)
         Me.txtDPTNEFT.MendatroryField = True
         Me.txtDPTNEFT.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDPTNEFT.MyLinkLable1 = Me.RadLabel2
@@ -156,7 +161,7 @@ Partial Class frmDBTNEFTReject
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(8, 32)
+        Me.RadLabel2.Location = New System.Drawing.Point(8, 53)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(62, 16)
         Me.RadLabel2.TabIndex = 32
@@ -174,7 +179,7 @@ Partial Class frmDBTNEFTReject
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(78, 53)
+        Me.txtRemarks.Location = New System.Drawing.Point(78, 72)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.RadLabel6
@@ -183,14 +188,14 @@ Partial Class frmDBTNEFTReject
         Me.txtRemarks.ReferenceFieldDesc = Nothing
         Me.txtRemarks.ReferenceFieldName = Nothing
         Me.txtRemarks.ReferenceTableName = Nothing
-        Me.txtRemarks.Size = New System.Drawing.Size(509, 18)
+        Me.txtRemarks.Size = New System.Drawing.Size(277, 18)
         Me.txtRemarks.TabIndex = 29
         '
         'RadLabel6
         '
         Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel6.Location = New System.Drawing.Point(8, 54)
+        Me.RadLabel6.Location = New System.Drawing.Point(8, 75)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(51, 16)
         Me.RadLabel6.TabIndex = 30
@@ -252,9 +257,9 @@ Partial Class frmDBTNEFTReject
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(334, 8)
+        Me.btnReset.Location = New System.Drawing.Point(334, 7)
         Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(21, 19)
+        Me.btnReset.Size = New System.Drawing.Size(21, 20)
         Me.btnReset.TabIndex = 8
         '
         'lblCode
@@ -292,15 +297,25 @@ Partial Class frmDBTNEFTReject
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvItem.MyExportFilePath = ""
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(825, 391)
+        Me.gvItem.Size = New System.Drawing.Size(825, 375)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         Me.gvItem.VarID = ""
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(446, 5)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
+        Me.btnReverse.TabIndex = 162
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'btnHistory
         '
@@ -381,15 +396,41 @@ Partial Class frmDBTNEFTReject
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'btnReverse
+        'txtPDABillNo
         '
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(446, 5)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
-        Me.btnReverse.TabIndex = 162
-        Me.btnReverse.Text = "Reverse"
-        Me.btnReverse.Visible = False
+        Me.txtPDABillNo.CalculationExpression = Nothing
+        Me.txtPDABillNo.FieldCode = Nothing
+        Me.txtPDABillNo.FieldDesc = Nothing
+        Me.txtPDABillNo.FieldMaxLength = 0
+        Me.txtPDABillNo.FieldName = Nothing
+        Me.txtPDABillNo.isCalculatedField = False
+        Me.txtPDABillNo.IsSourceFromTable = False
+        Me.txtPDABillNo.IsSourceFromValueList = False
+        Me.txtPDABillNo.IsUnique = False
+        Me.txtPDABillNo.Location = New System.Drawing.Point(78, 30)
+        Me.txtPDABillNo.MendatroryField = True
+        Me.txtPDABillNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPDABillNo.MyLinkLable1 = Me.MyLabel1
+        Me.txtPDABillNo.MyLinkLable2 = Nothing
+        Me.txtPDABillNo.MyReadOnly = False
+        Me.txtPDABillNo.MyShowMasterFormButton = False
+        Me.txtPDABillNo.Name = "txtPDABillNo"
+        Me.txtPDABillNo.ReferenceFieldDesc = Nothing
+        Me.txtPDABillNo.ReferenceFieldName = Nothing
+        Me.txtPDABillNo.ReferenceTableName = Nothing
+        Me.txtPDABillNo.Size = New System.Drawing.Size(277, 18)
+        Me.txtPDABillNo.TabIndex = 33
+        Me.txtPDABillNo.Value = ""
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(8, 31)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel1.TabIndex = 34
+        Me.MyLabel1.Text = "PDA Bill No"
         '
         'frmDBTNEFTReject
         '
@@ -419,6 +460,7 @@ Partial Class frmDBTNEFTReject
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_Import, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
@@ -426,7 +468,7 @@ Partial Class frmDBTNEFTReject
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -454,5 +496,7 @@ Partial Class frmDBTNEFTReject
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents btnReverse As RadButton
+    Friend WithEvents txtPDABillNo As common.UserControls.txtFinder
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class
 
