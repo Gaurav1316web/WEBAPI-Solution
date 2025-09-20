@@ -6,6 +6,7 @@ Public Class FrmItemMasterTax
     Inherits FrmMainTranScreen
 #Region "Variables"
     Public stritemCode As String = ""
+    Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterTax_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -73,6 +74,38 @@ FROM TSPL_ITEM_MASTER"
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        If Not OneTimeCheck Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.Transactionupdate
+            frm.strCode = clsFixedParameterCode.ItemMaster
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                ShowRemarks()
+                OneTimeCheck = True
+            End If
+        Else
+            ShowRemarks()
+        End If
+
+
+    End Sub
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            SaveData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub SaveData()
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.MyMessageBoxShow(Me, "Do you want to Save Item Code [" & txtitemCode.Text & "]" & Environment.NewLine & "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
@@ -103,4 +136,5 @@ FROM TSPL_ITEM_MASTER"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 End Class
