@@ -1918,6 +1918,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.IsReplacement = IIf(chkReplacement.Checked, 1, 0)
                 obj.Transport_Id = clsCommon.myCstr(txtTransporterCode.Value)
                 obj.Transporter_Name = lblTransporterName.Text
+                obj.VehicleNo = txtVehicleCode.Value
                 obj.Remarks = txtRemark.Text
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.TaxGroupName = lblTaxGrpName.Text
@@ -2309,7 +2310,8 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 txtTaxAmt.Text = obj.Total_Tax_Amt
                 txtDocAmt.Text = obj.Total_Amt
                 txtRemark.Text = obj.Remarks
-
+                txtVehicleCode.Value = obj.VehicleNo
+                lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleCode.Value) & "'")
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsPSShipmentHeadDetail In obj.Arr
