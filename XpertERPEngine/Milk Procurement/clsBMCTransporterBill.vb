@@ -34,20 +34,20 @@ Public Class clsBMCTransporterBill
 #End Region
 
 
-    Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
-        Try
-            Dim str As String = ""
-            Dim qry As String = ""
+    'Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+    '    Try
+    '        Dim str As String = ""
+    '        Dim qry As String = ""
 
-            qry = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
-                             from TSPL_BMC_TRANSPORTER_BILL_HEAD "
-            str = clsCommon.ShowSelectForm("fndPayProcess", qry, "Document_Code", whrcls, curcode, "Document_Code", isButtonClicked, "Document_date")
+    '        qry = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
+    '                         from TSPL_BMC_TRANSPORTER_BILL_HEAD "
+    '        str = clsCommon.ShowSelectForm("fndPayProcess", qry, "Document_Code", "", curcode, "Document_Code", isButtonClicked, "Document_date")
 
-            Return str
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-    End Function
+    '        Return str
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    'End Function
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

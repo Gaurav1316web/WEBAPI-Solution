@@ -859,7 +859,12 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
 
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
-            txtDocNo.Value = clsBMCTransporterBill.getFinder(Nothing, txtDocNo.Value, isButtonClicked)
+            '  txtDocNo.Value = clsBMCTransporterBill.getFinder(Nothing, txtDocNo.Value, isButtonClicked)
+
+            Dim qry As String = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
+                             from TSPL_BMC_TRANSPORTER_BILL_HEAD "
+            'Str = clsCommon.ShowSelectForm("fndPayProcess", qry, "Document_Code", "", curcode, "Document_Code", isButtonClicked, "Document_date")
+            txtDocNo.Value = clsCommon.ShowSelectForm("fmGroup_Code", qry, "Document_Code", "", txtDocNo.Value, "", isButtonClicked)
             'Dim qry As String = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
             '                 from TSPL_BMC_TRANSPORTER_BILL_HEAD "
             'LoadData(clsCommon.ShowSelectForm("TrsToSav@F", qry, "Document_Code", "", txtDocNo.Value, "Document_Code", isButtonClicked, "Document_date"), NavigatorType.Current)
@@ -1067,7 +1072,69 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub btnExport_Click_1(sender As Object, e As EventArgs) Handles btnExport.Click
+        '=======Update By preeti Gupta Against Ticket No[BM00000008831]
+        'sql = "select User_Code,User_Name,Password,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code from TSPL_USER_MASTER "
+        Dim sql As String = Nothing
+        sql = "select Document_Code AS [Document Code],	MCC_Document_Code AS [MCC Document Code]	,Station_1 AS [Station 1],	Station_2 AS [Station_2],	Station_3 AS [Station_3],	Station_4	AS [Station_4],Trip AS [Trip],	GPS_KM	AS [GPS_KM],KM	AS [KM],Quantity_KG	 AS [Quantity_KG],Amount AS [Amount]	,
+Diesel_RD AS [Diesel_RD] from TSPL_BMC_TRANSPORTER_BILL_DETAIL "
+        ListImpExpColumnsMandatory = New List(Of String)({"Document_Code"})
+        ListImpExpColumnsSuperMandatory = New List(Of String)({"Document_Code"})
+        transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+    End Sub
 
+    Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
+        funImport()
+    End Sub
+    Public Sub funImport()
+        Try
+            Dim gv As New UserControls.MyRadGridView
+            Me.Controls.Add(gv)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gv, "Document Code", "MCC Document Code", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Diesel RD", "Amount", "Diesel RD") Then
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+                clsCommon.ProgressBarShow()
+                Dim obj As New clsBMCTransporterBillDetail
+                Dim arr As New List(Of clsBMCTransporterBillDetail)
+                Dim strCode As String = ""
+                Dim strName As String = ""
+                Dim strUploader_No As String = ""
+                Dim strZone As String = ""
+                Dim duplicateUploader As String = Nothing
+                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Try
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        linno += 1
+                        obj.Document_Code = clsCommon.myCstr(grow.Cells("Document_Code").Value)
+                        obj.MCC_Document_Code = clsCommon.myCstr(grow.Cells("MCC_Document_Code").Value)
+                        obj.Station_1 = clsCommon.myCstr(grow.Cells("Station_1").Value)
+                        obj.Station_2 = clsCommon.myCstr(grow.Cells("Station_2").Value)
+                        obj.Station_3 = clsCommon.myCstr(grow.Cells("Station_3").Value)
+                        obj.Station_4 = clsCommon.myCstr(grow.Cells("Station_4").Value)
+                        obj.Trip = clsCommon.myCstr(grow.Cells("Trip").Value)
+                        obj.GPS_KM = clsCommon.myCstr(grow.Cells("GPS_KM").Value)
+                        obj.KM = clsCommon.myCstr(grow.Cells("KM").Value)
+                        obj.Quantity_KG = clsCommon.myCstr(grow.Cells("Quantity_KG").Value)
+                        obj.Diesel_RD = clsCommon.myCstr(grow.Cells("Diesel_RD").Value)
+                        obj.Amount = clsCommon.myCstr(grow.Cells("Amount").Value)
+                        clsBMCTransporterBillDetail.SaveData(Nothing, arr, trans)
+                    Next
+                    trans.Commit()
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     'Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
     '    Me.Close()
     'End Sub
