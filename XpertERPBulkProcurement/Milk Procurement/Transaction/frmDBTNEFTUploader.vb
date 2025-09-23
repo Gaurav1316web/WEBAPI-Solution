@@ -1174,16 +1174,43 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
 
 
     Private Sub RadMenuItem8_Click(sender As Object, e As EventArgs) Handles RadMenuItem8.Click
-        'Try
-        '    For i As Integer = 0 To gvHold.Rows.Count - 1
-        '        gvItem.Rows.AddNew()
-        '        For ii As Integer = 0 To gvHold.Columns.Count - 1
-        '            gvItem.Rows(i).Cells(gvHold.Columns(ii).Name).Value = gvHold.Rows(i).Cells(gvHold.Columns(ii).Name).Value
-        '        Next
-        '        gvHold.Rows(i).Delete()
-        '    Next
 
+
+        'Try
+        '    Dim gvImport As New UserControls.MyRadGridView
+        '    Me.Controls.Add(gvImport)
+        '    Dim currentdate As Date = Date.Today
+        '    If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFCSCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
+        '        Dim arr As New List(Of String)
+        '        Dim strDCSCode As String = ""
+        '        Dim dtError As New DataTable
+        '        dtError.Columns.Add("RowNo", GetType(Integer))
+        '        dtError.Columns.Add("Error", GetType(String))
+        '        Try
+        '            LoadBlankGrid()
+        '            Dim qry As String = "Valid Row [" + clsCommon.myCstr(gvImport.Rows.Count) + "] Do You want to Proceed"
+        '            clsCommon.ProgressBarPercentShow()
+        '            For ii As Integer = 0 To gvImport.Rows.Count - 1
+        '                clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
+        '                gvItem.Rows.AddNew()
+        '                For ic As Integer = 0 To gvImport.Columns.Count - 1
+        '                    'gvHold.Rows(ii).Cells(gvImport.Columns(ic).Name).Value = gvImport.Rows(ii).Cells(gvImport.Columns(ic).Name).Value
+        '                    gvItem.Rows(ii).Cells(ic).Value = gvImport.Rows(ii).Cells(ic).Value
+        '                Next
+        '                gvItem.Rows(ii).Delete()
+        '            Next
+
+        '            clsCommon.ProgressBarPercentHide()
+        '            clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+        '            'End If
+        '        Catch ex As Exception
+        '            clsCommon.ProgressBarPercentHide()
+        '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '        End Try
+
+        '    End If
         'Catch ex As Exception
+        '    clsCommon.ProgressBarPercentHide()
         '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         'End Try
 
@@ -1191,7 +1218,7 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
             Dim gvImport As New UserControls.MyRadGridView
             Me.Controls.Add(gvImport)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFSCCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
+            If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFCSCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
                 Dim arr As New List(Of String)
                 Dim strDCSCode As String = ""
                 Dim dtError As New DataTable
@@ -1204,7 +1231,8 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
                         clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index + 1) * 100 / (gvImport.Rows.Count + 1), "Importing  : " & (gvImport.Rows(ii).Index + 1) & "/" & gvImport.Rows.Count & "")
                         gvItem.Rows.AddNew()
                         gvItem.Rows(ii).Cells(SNo).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SNo).Value)
-                        gvItem.Rows(ii).Cells(UnionId).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(UnionId).Value)
+                        If ii < gvItem.Rows.Count AndAlso ii < gvImport.Rows.Count AndAlso UnionId < gvItem.Columns.Count AndAlso UnionId < gvImport.Columns.Count Then gvItem.Rows(ii).Cells(UnionId).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(UnionId).Value)
+                        ''gvItem.Rows(ii).Cells(UnionId).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(UnionId).Value)
                         gvItem.Rows(ii).Cells(UnionName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(UnionName).Value)
                         gvItem.Rows(ii).Cells(SocietyID).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SocietyID).Value)
                         gvItem.Rows(ii).Cells(SocietyName).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells(SocietyName).Value)
@@ -1249,7 +1277,7 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
             Dim gvImport As New UserControls.MyRadGridView
             Me.Controls.Add(gvImport)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFSCCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
+            If transportSql.importExcel(gvImport, "SNo", "UnionId", "UnionName", "SocietyID", "SocietyName", "FarmerID", "FarmerName", "FarmerContactNumber", "FarmerEmailID", "FarmerAccountNumber", "FarmerIFCSCode", "FarmerBankName", "FarmerBankBranch", "AMOUNT", "SocietySubName", "AddInfo1", "AddInfo2", "AddInfo3", "AddInfo4") Then
                 Dim arr As New List(Of String)
                 Dim strDCSCode As String = ""
                 Dim dtError As New DataTable
@@ -1268,7 +1296,9 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
                         'For i As Integer = 0 To gvItem.Rows.Count - 1
                         gvHold.Rows.AddNew()
                         For ic As Integer = 0 To gvImport.Columns.Count - 1
-                            gvHold.Rows(ii).Cells(gvImport.Columns(ic).Name).Value = gvImport.Rows(ii).Cells(gvImport.Columns(ic).Name).Value
+                            'gvHold.Rows(ii).Cells(gvImport.Columns(ic).Name).Value = gvImport.Rows(ii).Cells(gvImport.Columns(ic).Name).Value
+                            gvHold.Rows(ii).Cells(ic).Value = gvImport.Rows(ii).Cells(ic).Value
+
                         Next
                         gvItem.Rows(ii).Delete()
                     Next
