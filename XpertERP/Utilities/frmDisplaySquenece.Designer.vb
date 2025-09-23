@@ -22,7 +22,7 @@ Partial Class frmDisplaySquenece
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -36,6 +36,9 @@ Partial Class frmDisplaySquenece
         Me.cboModule = New common.Controls.MyComboBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rbShiftType = New System.Windows.Forms.GroupBox()
+        Me.rbtnMorning = New System.Windows.Forms.RadioButton()
+        Me.rbtnEvening = New System.Windows.Forms.RadioButton()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -52,6 +55,7 @@ Partial Class frmDisplaySquenece
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rbShiftType.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,6 +90,7 @@ Partial Class frmDisplaySquenece
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rbShiftType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.GB_ROUTE)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnShow)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
@@ -106,7 +111,7 @@ Partial Class frmDisplaySquenece
         Me.GB_ROUTE.Controls.Add(Me.lblRouteDesc)
         Me.GB_ROUTE.Controls.Add(Me.lblRouteNo)
         Me.GB_ROUTE.Controls.Add(Me.txtRouteNo)
-        Me.GB_ROUTE.Location = New System.Drawing.Point(269, 5)
+        Me.GB_ROUTE.Location = New System.Drawing.Point(8, 43)
         Me.GB_ROUTE.Name = "GB_ROUTE"
         Me.GB_ROUTE.Size = New System.Drawing.Size(426, 40)
         Me.GB_ROUTE.TabIndex = 151
@@ -119,7 +124,7 @@ Partial Class frmDisplaySquenece
         Me.lblRouteDesc.BorderVisible = True
         Me.lblRouteDesc.FieldName = Nothing
         Me.lblRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteDesc.Location = New System.Drawing.Point(194, 14)
+        Me.lblRouteDesc.Location = New System.Drawing.Point(198, 16)
         Me.lblRouteDesc.Name = "lblRouteDesc"
         Me.lblRouteDesc.Size = New System.Drawing.Size(227, 18)
         Me.lblRouteDesc.TabIndex = 150
@@ -128,7 +133,7 @@ Partial Class frmDisplaySquenece
         'lblRouteNo
         '
         Me.lblRouteNo.FieldName = Nothing
-        Me.lblRouteNo.Location = New System.Drawing.Point(8, 15)
+        Me.lblRouteNo.Location = New System.Drawing.Point(6, 16)
         Me.lblRouteNo.Name = "lblRouteNo"
         Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
         Me.lblRouteNo.TabIndex = 149
@@ -145,7 +150,7 @@ Partial Class frmDisplaySquenece
         Me.txtRouteNo.IsSourceFromTable = False
         Me.txtRouteNo.IsSourceFromValueList = False
         Me.txtRouteNo.IsUnique = False
-        Me.txtRouteNo.Location = New System.Drawing.Point(74, 13)
+        Me.txtRouteNo.Location = New System.Drawing.Point(66, 15)
         Me.txtRouteNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtRouteNo.MendatroryField = True
         Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -157,14 +162,14 @@ Partial Class frmDisplaySquenece
         Me.txtRouteNo.ReferenceFieldDesc = Nothing
         Me.txtRouteNo.ReferenceFieldName = Nothing
         Me.txtRouteNo.ReferenceTableName = Nothing
-        Me.txtRouteNo.Size = New System.Drawing.Size(115, 20)
+        Me.txtRouteNo.Size = New System.Drawing.Size(123, 20)
         Me.txtRouteNo.TabIndex = 148
         Me.txtRouteNo.Value = ""
         '
         'btnShow
         '
         Me.btnShow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShow.Location = New System.Drawing.Point(717, 14)
+        Me.btnShow.Location = New System.Drawing.Point(459, 53)
         Me.btnShow.Name = "btnShow"
         Me.btnShow.Size = New System.Drawing.Size(93, 31)
         Me.btnShow.TabIndex = 7
@@ -179,10 +184,10 @@ Partial Class frmDisplaySquenece
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Define Sequence"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 65)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 89)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(906, 355)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(906, 331)
         Me.RadGroupBox2.TabIndex = 8
         Me.RadGroupBox2.Text = "Define Sequence"
         '
@@ -202,13 +207,14 @@ Partial Class frmDisplaySquenece
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(886, 325)
+        Me.gv1.Size = New System.Drawing.Size(886, 301)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
@@ -225,7 +231,7 @@ Partial Class frmDisplaySquenece
         Me.cboModule.IsSourceFromTable = False
         Me.cboModule.IsSourceFromValueList = False
         Me.cboModule.IsUnique = False
-        Me.cboModule.Location = New System.Drawing.Point(68, 17)
+        Me.cboModule.Location = New System.Drawing.Point(80, 17)
         Me.cboModule.MendatroryField = True
         Me.cboModule.MyLinkLable1 = Nothing
         Me.cboModule.MyLinkLable2 = Nothing
@@ -233,14 +239,14 @@ Partial Class frmDisplaySquenece
         Me.cboModule.ReferenceFieldDesc = Nothing
         Me.cboModule.ReferenceFieldName = Nothing
         Me.cboModule.ReferenceTableName = Nothing
-        Me.cboModule.Size = New System.Drawing.Size(180, 20)
+        Me.cboModule.Size = New System.Drawing.Size(117, 20)
         Me.cboModule.TabIndex = 0
         '
         'RadLabel10
         '
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel10.Location = New System.Drawing.Point(8, 20)
+        Me.RadLabel10.Location = New System.Drawing.Point(20, 20)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(41, 16)
         Me.RadLabel10.TabIndex = 11
@@ -255,6 +261,39 @@ Partial Class frmDisplaySquenece
         Me.btnReset.Size = New System.Drawing.Size(69, 22)
         Me.btnReset.TabIndex = 6
         Me.btnReset.Text = "Reset"
+        '
+        'rbShiftType
+        '
+        Me.rbShiftType.Controls.Add(Me.rbtnEvening)
+        Me.rbShiftType.Controls.Add(Me.rbtnMorning)
+        Me.rbShiftType.Location = New System.Drawing.Point(206, 12)
+        Me.rbShiftType.Name = "rbShiftType"
+        Me.rbShiftType.Size = New System.Drawing.Size(189, 40)
+        Me.rbShiftType.TabIndex = 152
+        Me.rbShiftType.TabStop = False
+        Me.rbShiftType.Text = "Shift Type"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.AutoSize = True
+        Me.rbtnMorning.Location = New System.Drawing.Point(8, 17)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 0
+        Me.rbtnMorning.TabStop = True
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.UseVisualStyleBackColor = True
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.AutoSize = True
+        Me.rbtnEvening.Location = New System.Drawing.Point(77, 17)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.TabStop = True
+        Me.rbtnEvening.Text = "Evening"
+        Me.rbtnEvening.UseVisualStyleBackColor = True
         '
         'frmDisplaySquenece
         '
@@ -287,6 +326,8 @@ Partial Class frmDisplaySquenece
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rbShiftType.ResumeLayout(False)
+        Me.rbShiftType.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -304,5 +345,8 @@ Partial Class frmDisplaySquenece
     Friend WithEvents lblRouteNo As common.Controls.MyLabel
     Friend WithEvents txtRouteNo As common.UserControls.txtFinder
     Friend WithEvents GB_ROUTE As GroupBox
+    Friend WithEvents rbShiftType As GroupBox
+    Friend WithEvents rbtnMorning As RadioButton
+    Friend WithEvents rbtnEvening As RadioButton
 End Class
 

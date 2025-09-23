@@ -4387,6 +4387,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
     End Sub
 
     Sub AddNew()
+        chkBoothWiseReturn.Checked = False
         If ApplyBoothWiseReturn Then
             RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
         Else
@@ -5211,6 +5212,9 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 Else
                     btnCancel.Enabled = False
                 End If
+                If obj.Booth_Arr.Count > 0 Then
+                    chkBoothWiseReturn.Checked = True
+                End If
                 txtShippedCan.Value = obj.ShippedCAN
                 TxtTotalCAN.Value = obj.TotalCAN
                 txtCrateQty.Value = obj.CrateQty
@@ -5829,6 +5833,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 Else
                     txtDate.Enabled = True
                 End If
+
                 If ApplyBoothWiseReturn AndAlso obj.Booth_Arr IsNot Nothing AndAlso obj.Booth_Arr.Count > 0 Then
                     For Each objBoothTr As clsDSSalesReturnBookingDetail In obj.Booth_Arr
                         gvBooth.Rows(gvBooth.Rows.Count - 1).Cells(colDocno).Value = objBoothTr.Document_Code
@@ -10250,4 +10255,13 @@ left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DI
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_RETURN_Booking_DETAIL", coll, Nothing, True, True, "TSPL_SD_SALE_RETURN_HEAD", "DOCUMENT_CODE", "", True)
     End Sub
 
+    Private Sub chkBoothWiseReturn_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkBoothWiseReturn.ToggleStateChanged
+        If chkBoothWiseReturn.Checked Then
+            ApplyBoothWiseReturn = True
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            ApplyBoothWiseReturn = False
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+        End If
+    End Sub
 End Class
