@@ -271,10 +271,13 @@ Public Class BMC_Transporter_Bill
         gv1.AllowColumnReorder = False
         gv1.AllowRowReorder = False
         gv1.EnableSorting = False
+
+
+
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
-        'gv1.Rows.AddNew()
+        ' gv1.Rows.AddNew()
 
     End Sub
 
@@ -324,6 +327,9 @@ Public Class BMC_Transporter_Bill
         TxtBMCTotal.Text = ""
         isNewEntry = True
         btnGo.Enabled = True
+        gv1.Rows.Clear()
+
+        gv1.SummaryRowsBottom.Clear()
         UsLock1.Status = ERPTransactionStatus.Pending
     End Sub
 
@@ -641,6 +647,13 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 obj.Prorata_Amt = clsCommon.myCdbl(TxtBMCProrataamt.Text)
                 obj.Total_Before_Calc = clsCommon.myCdbl(TxtBMCTotal.Text)
 
+                Dim totalTrip As Double = 0
+                Dim totalGPSKM As Double = 0
+                Dim totalKM As Double = 0
+                Dim totalQty As Double = 0
+                Dim totalAmt As Double = 0
+                Dim totalDiesel As Double = 0
+
 
                 obj.Arr = New List(Of clsBMCTransporterBillDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -656,10 +669,21 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                     objTr.Quantity_KG = clsCommon.myCdbl(grow.Cells(ColQuantity).Value)
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
                     objTr.Diesel_RD = clsCommon.myCdbl(grow.Cells(ColDiesel).Value)
+
+                    totalTrip += objTr.Trip
+                    totalGPSKM += objTr.GPS_KM
+                    totalKM += objTr.KM
+                    totalQty += objTr.Quantity_KG
+                    totalAmt += objTr.Amount
+                    totalDiesel += objTr.Diesel_RD
+
+
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colDocumentNo).Value)) > 0 Then
                         obj.Arr.Add(objTr)
                     End If
                 Next
+                AddSummaryRow(totalTrip, totalGPSKM, totalKM, totalQty, totalAmt, totalDiesel)
+
 
                 If (obj.SaveData(obj, isNewEntry)) Then
                     If Not isPost Then
@@ -672,6 +696,32 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub AddSummaryRow(totalTrip As Double, totalGPSKM As Double, totalKM As Double, totalQty As Double, totalAmt As Double, totalDiesel As Double)
+        Try
+            ' Remove existing summary rows
+            gv1.SummaryRowsBottom.Clear()
+
+            ' Enable footer and summary
+            gv1.ShowColumnHeaders = True
+
+            Dim summaryRow As New GridViewSummaryRowItem()
+
+            summaryRow.Add(New GridViewSummaryItem(colDocumentNo, "Grand Total", GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColTrip, totalTrip.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColGPSKM, totalGPSKM.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColKM, totalKM.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColQuantity, totalQty.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColAmount, totalAmt.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColDiesel, totalDiesel.ToString("N2"), GridAggregateFunction.Sum))
+
+            gv1.SummaryRowsBottom.Add(summaryRow)
+        Catch ex As Exception
+            MessageBox.Show("Error adding summary row: " & ex.Message)
+        End Try
+    End Sub
+
+
+
 
     Sub LoadData(ByVal strDocumentNo As String, NavType As common.NavigatorType)
         Try
@@ -777,7 +827,9 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = clsCommon.myCstr(dt.Rows(i)("Document_Date"))
                         End If
                         i += 1
+                        AddSummaryRowToGrid()
                     Next
+
                     Dim rowCount As Integer = i
                     Dim Icecharges As Double = clsCommon.myCdbl(TxtTotalIceCharge.Text)
                     If rowCount > 0 Then
@@ -786,10 +838,51 @@ and TSPL_MILK_COLLECTION_MCC.Tanker_No in ('" + clsCommon.myCstr(txtTankerNo.Val
                 End If
             End If
             ReStoreGridLayout()
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
+        End Try
+    End Sub
+    Private Sub AddSummaryRowToGrid()
+        Try
+            ' Enable footer row
+            gv1.ShowColumnHeaders = True
+
+            ' Clear existing summary rows
+            gv1.SummaryRowsBottom.Clear()
+
+            ' Calculate totals
+            Dim totalTrip As Double = 0
+            Dim totalGPSKM As Double = 0
+            Dim totalKM As Double = 0
+            Dim totalQty As Double = 0
+            Dim totalAmt As Double = 0
+            Dim totalDiesel As Double = 0
+
+            For Each row As GridViewRowInfo In gv1.Rows
+                totalTrip += clsCommon.myCdbl(row.Cells(ColTrip).Value)
+                totalGPSKM += clsCommon.myCdbl(row.Cells(ColGPSKM).Value)
+                totalKM += clsCommon.myCdbl(row.Cells(ColKM).Value)
+                totalQty += clsCommon.myCdbl(row.Cells(ColQuantity).Value)
+                totalAmt += clsCommon.myCdbl(row.Cells(ColAmount).Value)
+                totalDiesel += clsCommon.myCdbl(row.Cells(ColDiesel).Value)
+            Next
+
+            ' Add summary row
+            Dim summaryRow As New GridViewSummaryRowItem()
+            summaryRow.Add(New GridViewSummaryItem(colDocumentNo, "Grand Total", GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColTrip, totalTrip.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColGPSKM, totalGPSKM.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColKM, totalKM.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColQuantity, totalQty.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColAmount, totalAmt.ToString("N2"), GridAggregateFunction.Sum))
+            summaryRow.Add(New GridViewSummaryItem(ColDiesel, totalDiesel.ToString("N2"), GridAggregateFunction.Sum))
+
+            gv1.SummaryRowsBottom.Add(summaryRow)
+        Catch ex As Exception
+            MessageBox.Show("Error while adding summary row: " & ex.Message)
         End Try
     End Sub
 
@@ -1076,8 +1169,7 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
         '=======Update By preeti Gupta Against Ticket No[BM00000008831]
         'sql = "select User_Code,User_Name,Password,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code from TSPL_USER_MASTER "
         Dim sql As String = Nothing
-        sql = "select Document_Code AS [Document Code],	MCC_Document_Code AS [MCC Document Code]	,Station_1 AS [Station 1],	Station_2 AS [Station_2],	Station_3 AS [Station_3],	Station_4	AS [Station_4],Trip AS [Trip],	GPS_KM	AS [GPS_KM],KM	AS [KM],Quantity_KG	 AS [Quantity_KG],Amount AS [Amount]	,
-Diesel_RD AS [Diesel_RD] from TSPL_BMC_TRANSPORTER_BILL_DETAIL "
+        sql = "select '' as Date,'BMC' AS Category,'' AS [Station 1],'' AS [Station 2],'' AS [Station 3],''	AS [Station 4],0 AS [Trip],0 AS [GPS KM],0 AS [KM],0 AS [Quantity KG],0 AS [Amount]	,0 AS [Diesel RD]  "
         ListImpExpColumnsMandatory = New List(Of String)({"Document_Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Document_Code"})
         transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
@@ -1088,114 +1180,119 @@ Diesel_RD AS [Diesel_RD] from TSPL_BMC_TRANSPORTER_BILL_DETAIL "
     End Sub
     Public Sub funImport()
         'Try
-        Dim gv As New UserControls.MyRadGridView
-            Me.Controls.Add(gv)
-            Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "Document Code", "MCC Document Code", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Diesel RD", "Amount", "Diesel RD") Then
-            Dim linno As Integer = 0
-            Dim TempNewRecord As Boolean = False
+        Dim gvimport As New UserControls.MyRadGridView
+        Me.Controls.Add(gvimport)
+        Dim currentdate As Date = Date.Today
+        LoadBlankGrid()
+        gv1.Rows.AddNew()
+        '       Dim qry1 As String = "select Document_No from TSPL_MILK_COLLECTION_MCC
+        'WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
+        '                   CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
+        '                   AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
+        '       Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
+        '       If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '           For Each dr As DataRow In dt.Rows
+        '               qry1 += clsCommon.myCstr(dr("Document_No"))
+        '           Next
+        '           Exit Sub
+        '       End If
+        If transportSql.importExcel(gvimport, "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
+            'If transportSql.importExcel(gvimport, "Station 1") Then
 
-            Dim obj As New clsBMCTransporterBillDetail
-            Dim arr As New List(Of clsBMCTransporterBillDetail)
-
-            Dim strCode As String = ""
-            Dim strName As String = ""
-            Dim strUploader_No As String = ""
-            Dim strZone As String = ""
-            Dim duplicateUploader As String = Nothing
-            Dim dtError As New DataTable
-            Dim ii As Integer = 0
-            dtError.Columns.Add("RowNo", GetType(Integer))
-            dtError.Columns.Add("Error", GetType(String))
-            'Try
-            If gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
+            Try
                 clsCommon.ProgressBarPercentShow()
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Try
-                        linno += 1
-                        clsCommon.ProgressBarPercentUpdate(linno, gv.Rows.Count, "Validating Data...")
-                        obj.Document_Code = clsCommon.myCstr(grow.Cells("Document Code").Value)
-                        obj.MCC_Document_Code = clsCommon.myCstr(grow.Cells("MCC Document Code").Value)
-                        obj.Station_1 = clsCommon.myCstr(grow.Cells("Station 1").Value)
-                        obj.Station_2 = clsCommon.myCstr(grow.Cells("Station 2").Value)
-                        obj.Station_3 = clsCommon.myCstr(grow.Cells("Station 3").Value)
-                        obj.Station_4 = clsCommon.myCstr(grow.Cells("Station 4").Value)
-                        obj.Trip = clsCommon.myCdbl(grow.Cells("Trip").Value)
-                        obj.GPS_KM = clsCommon.myCdbl(grow.Cells("GPS KM").Value)
-                        obj.KM = clsCommon.myCdbl(grow.Cells("KM").Value)
-                        obj.Quantity_KG = clsCommon.myCdbl(grow.Cells("Quantity KG").Value)
-                        obj.Diesel_RD = clsCommon.myCdbl(grow.Cells("Diesel RD").Value)
-                        obj.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
-                        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                        If dtError.Rows.Count > 0 Then
-                            Dim ff As New FrmFreeGrid
-                            ff.ReportID = "MilkShiftUploader"
-                            ff.Text = "BMC TRANSPOTER Errors"
-                            ff.dt = dtError
-                            ff.ShowDialog()
-                        ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
-                            Dim qry As String = "Valid Row [" + clsCommon.myCstr(arr.Count) + "] Do You want to Proceed"
-                            If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                                clsCommon.ProgressBarPercentShow()
-                                ii = 0
-                                'Dim trans1 As SqlTransaction = clsDBFuncationality.GetTransactin()
+                For ii As Integer = 0 To gvimport.Rows.Count - 1
+                    'If clsCommon.myLen(gvimport.Rows(ii).Cells("Document Code").Value) > 0 Then
+                    clsCommon.ProgressBarPercentUpdate((gvimport.Rows(ii).Index + 1) * 100 / (gvimport.Rows.Count + 1), "Importing  : " & (gvimport.Rows(ii).Index + 1) & "/" & gvimport.Rows.Count & "")
+                        Try
+                        gv1.Rows(ii).Cells(colDate).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Date").Value)
+                        gv1.Rows(ii).Cells(ColCategory).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Category").Value)
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("MCC Document Code").Value)
+                        gv1.Rows(ii).Cells(ColStation).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 1").Value)
+                        gv1.Rows(ii).Cells(ColStation2).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 2").Value)
+                        gv1.Rows(ii).Cells(ColStation3).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 3").Value)
+                        gv1.Rows(ii).Cells(ColStation4).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 4").Value)
+                        gv1.Rows(ii).Cells(ColTrip).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Trip").Value)
+                        gv1.Rows(ii).Cells(ColGPSKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("GPS KM").Value)
+                        gv1.Rows(ii).Cells(ColKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("KM").Value)
+                        gv1.Rows(ii).Cells(ColQuantity).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Quantity KG").Value)
+                        gv1.Rows(ii).Cells(ColDiesel).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Diesel RD").Value)
+                        gv1.Rows(ii).Cells(ColAmount).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Amount").Value)
+                        If clsCommon.myLen(txtDocNo.Value) = 0 Then
+                            If gv1.Rows.Count = gvimport.Rows.Count Then
+                            Else
+                                gv1.Rows.AddNew()
 
-                                Try
-                                    For Each obj1 As clsBMCTransporterBillDetail In arr
-                                        ii += 1
-                                        clsCommon.ProgressBarPercentUpdate(ii, arr.Count, "Saving Details..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(arr.Count) & "")
-                                        clsBMCTransporterBillDetail.SaveData(Nothing, arr, trans)
-                                    Next
-                                    trans.Commit()
-                                Catch ex As Exception
-                                    trans.Rollback()
-                                    Throw New Exception(ex.Message)
-                                Finally
-                                    clsCommon.ProgressBarPercentHide()
-                                End Try
-                                clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                             End If
-                        Else
-                            Throw New Exception("No Valid Rows Found to Save")
                         End If
-                        'Try
-                        '    For Each grow As GridViewRowInfo In gv.Rows
-                        '        linno += 1
-                        '        obj.Document_Code = clsCommon.myCstr(grow.Cells("Document_Code").Value)
-                        '        obj.MCC_Document_Code = clsCommon.myCstr(grow.Cells("MCC_Document_Code").Value)
-                        '        obj.Station_1 = clsCommon.myCstr(grow.Cells("Station_1").Value)
-                        '        obj.Station_2 = clsCommon.myCstr(grow.Cells("Station_2").Value)
-                        '        obj.Station_3 = clsCommon.myCstr(grow.Cells("Station_3").Value)
-                        '        obj.Station_4 = clsCommon.myCstr(grow.Cells("Station_4").Value)
-                        '        obj.Trip = clsCommon.myCstr(grow.Cells("Trip").Value)
-                        '        obj.GPS_KM = clsCommon.myCstr(grow.Cells("GPS_KM").Value)
-                        '        obj.KM = clsCommon.myCstr(grow.Cells("KM").Value)
-                        '        obj.Quantity_KG = clsCommon.myCstr(grow.Cells("Quantity_KG").Value)
-                        '        obj.Diesel_RD = clsCommon.myCstr(grow.Cells("Diesel_RD").Value)
-                        '        obj.Amount = clsCommon.myCstr(grow.Cells("Amount").Value)
-                        '        clsBMCTransporterBillDetail.SaveData(Nothing, arr, trans)
-                        '    Next
-                        '    trans.Commit()
-                        '    clsCommon.ProgressBarHide()
-                        '    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-                        'Catch ex As Exception
-                        '    trans.Rollback()
-                        '    clsCommon.ProgressBarHide()
-                        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                        'End Try
+                        'gv1.Rows.AddNew()
                     Catch ex As Exception
-                        Dim dr As DataRow = dtError.NewRow()
-                        dr("RowNo") = linno
-                        dr("Error") = ex.Message
-                        dtError.Rows.Add(dr)
-                    End Try
+                            gv1.Rows.RemoveAt(ii)
+                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                        End Try
+                    'End If
                 Next
-                clsCommon.ProgressBarPercentHide()
 
-                Me.Controls.Remove(gv)
-            End If
+                clsCommon.ProgressBarPercentHide()
+                common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
         End If
+        Me.Controls.Remove(gvImport)
     End Sub
+    'obj1.MCC_Document_Code = clsCommon.myCstr(grow.Cells("MCC Document Code").Value)
+    'obj1.Station_1 = clsCommon.myCstr(grow.Cells("Station 1").Value)
+    'obj1.Station_2 = clsCommon.myCstr(grow.Cells("Station 2").Value)
+    'obj1.Station_3 = clsCommon.myCstr(grow.Cells("Station 3").Value)
+    'obj1.Station_4 = clsCommon.myCstr(grow.Cells("Station 4").Value)
+    'obj1.Trip = clsCommon.myCdbl(grow.Cells("Trip").Value)
+    'obj1.GPS_KM = clsCommon.myCdbl(grow.Cells("GPS KM").Value)
+    'obj1.KM = clsCommon.myCdbl(grow.Cells("KM").Value)
+    'obj1.Quantity_KG = clsCommon.myCdbl(grow.Cells("Quantity KG").Value)
+    'obj1.Diesel_RD = clsCommon.myCdbl(grow.Cells("Diesel RD").Value)
+    'obj1.Amount = clsCommon.myCdbl(grow.Cells("Amount").Value)
+    ' gv1.Rows.AddNew()
+    'arr.Add(obj1)
+
+    '    For Each grow As GridViewRowInfo In gv.Rows
+    '        linno += 1
+    '        obj.Document_Code = clsCommon.myCstr(grow.Cells("Document_Code").Value)
+    '        obj.MCC_Document_Code = clsCommon.myCstr(grow.Cells("MCC_Document_Code").Value)
+    '        obj.Station_1 = clsCommon.myCstr(grow.Cells("Station_1").Value)
+    '        obj.Station_2 = clsCommon.myCstr(grow.Cells("Station_2").Value)
+    '        obj.Station_3 = clsCommon.myCstr(grow.Cells("Station_3").Value)
+    '        obj.Station_4 = clsCommon.myCstr(grow.Cells("Station_4").Value)
+    '        obj.Trip = clsCommon.myCstr(grow.Cells("Trip").Value)
+    '        obj.GPS_KM = clsCommon.myCstr(grow.Cells("GPS_KM").Value)
+    '        obj.KM = clsCommon.myCstr(grow.Cells("KM").Value)
+    '        obj.Quantity_KG = clsCommon.myCstr(grow.Cells("Quantity_KG").Value)
+    '        obj.Diesel_RD = clsCommon.myCstr(grow.Cells("Diesel_RD").Value)
+    '        obj.Amount = clsCommon.myCstr(grow.Cells("Amount").Value)
+    '        clsBMCTransporterBillDetail.SaveData(Nothing, arr, trans)
+    '    Next
+    '    trans.Commit()
+    '    clsCommon.ProgressBarHide()
+    '    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+    'Catch ex As Exception
+    '    trans.Rollback()
+    '    clsCommon.ProgressBarHide()
+    '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    'End Try
+    '            Catch ex As Exception
+    '                Dim dr As DataRow = dtError.NewRow()
+    '                dr("RowNo") = linno
+    '                dr("Error") = ex.Message
+    '                dtError.Rows.Add(dr)
+    '            End Try
+    '        Next
+    '        clsCommon.ProgressBarPercentHide()
+
+    '        Me.Controls.Remove(gv1)
+    '    End If
+    'End If
+ 
     'Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
     '    Me.Close()
     'End Sub

@@ -438,6 +438,30 @@ Public Class clsBMCTransporterBillDetail
     Public Amount As Decimal = 0
     'Public BalanceAmount As Decimal = 0
 #End Region
+    Public Shared Function SaveData1(ByVal strDocNo As String, ByVal isNewEntry As Boolean, ByVal obj As clsBMCTransporterBillDetail, ByVal arr As List(Of clsBMCTransporterBillDetail), ByVal trans As SqlTransaction) As Boolean
+        If (arr IsNot Nothing AndAlso arr.Count > 0) Then
+            For Each obj1 As clsBMCTransporterBillDetail In arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "MCC_Document_Code", obj.MCC_Document_Code)
+                clsCommon.AddColumnsForChange(coll, "Station_1", obj.Station_1)
+                clsCommon.AddColumnsForChange(coll, "Station_2", obj.Station_2)
+                clsCommon.AddColumnsForChange(coll, "Station_3", obj.Station_3)
+                clsCommon.AddColumnsForChange(coll, "Station_4", obj.Station_4)
+                clsCommon.AddColumnsForChange(coll, "Trip", obj.Trip)
+                clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
+                clsCommon.AddColumnsForChange(coll, "KM", obj.KM)
+                clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
+                clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
+                clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+
+    End Function
+
+
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBMCTransporterBillDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
@@ -455,7 +479,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Update, "", trans)
             Next
         End If
         Return True
