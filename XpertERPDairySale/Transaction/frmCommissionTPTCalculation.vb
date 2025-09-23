@@ -402,8 +402,8 @@ where TSPL_CUSTOMER_COMMISSION_TPT_INVOICE.Document_Code not in ('" & txtDocNo.V
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = clsCommon.myCstr(rows("SNo"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value = clsCommon.myCstr(rows("Document_Date"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRoute).Value = clsCommon.myCstr(rows("Route_No"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCstr(rows("QtyInLtr"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = clsCommon.myCstr(rows("Amt"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(rows("QtyInLtr"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = clsCommon.myCDecimal(rows("Amt"))
                     If clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colDate).Value) > 0 Then
                         Dim InvoiceDate As DateTime = clsCommon.myCDate(rows("Document_Date"))
                         Dim row As DataRow() = detaildt.Select("[Invoice Date] = #" & InvoiceDate.ToString("MM/dd/yyyy") & "# AND [Route No] = '" & clsCommon.myCstr(rows("Route_No")) & "'")
