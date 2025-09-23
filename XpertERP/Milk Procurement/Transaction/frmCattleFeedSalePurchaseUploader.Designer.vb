@@ -26,15 +26,15 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.lblSubLocation = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.lblPurSubLoc = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
-        Me.lblPurLoc = New common.Controls.MyLabel()
-        Me.txtLocation = New common.UserControls.txtFinder()
         Me.txtDocumentDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.lblPurLoc = New common.Controls.MyLabel()
+        Me.txtLocation = New common.UserControls.txtFinder()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblStatus = New common.usLock()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
@@ -44,7 +44,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.btnSelectSheet = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -55,13 +54,13 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPurSubLoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPurLoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPurLoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,7 +68,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,7 +95,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelectSheet)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -145,16 +142,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.Panel1.Size = New System.Drawing.Size(821, 107)
         Me.Panel1.TabIndex = 0
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(363, 12)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
-        Me.btnAddNew.TabIndex = 1578
-        '
         'lblSubLocation
         '
         Me.lblSubLocation.AutoSize = False
@@ -166,6 +153,16 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.lblSubLocation.Size = New System.Drawing.Size(263, 18)
         Me.lblSubLocation.TabIndex = 1098
         Me.lblSubLocation.TextWrap = False
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(367, 14)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 1578
         '
         'txtSubLocation
         '
@@ -215,42 +212,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.lblLocation.TabIndex = 1096
         Me.lblLocation.TextWrap = False
         '
-        'lblPurLoc
-        '
-        Me.lblPurLoc.FieldName = Nothing
-        Me.lblPurLoc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPurLoc.Location = New System.Drawing.Point(19, 39)
-        Me.lblPurLoc.Name = "lblPurLoc"
-        Me.lblPurLoc.Size = New System.Drawing.Size(49, 16)
-        Me.lblPurLoc.TabIndex = 5
-        Me.lblPurLoc.Text = "Location"
-        '
-        'txtLocation
-        '
-        Me.txtLocation.CalculationExpression = Nothing
-        Me.txtLocation.FieldCode = Nothing
-        Me.txtLocation.FieldDesc = Nothing
-        Me.txtLocation.FieldMaxLength = 0
-        Me.txtLocation.FieldName = Nothing
-        Me.txtLocation.isCalculatedField = False
-        Me.txtLocation.IsSourceFromTable = False
-        Me.txtLocation.IsSourceFromValueList = False
-        Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(116, 38)
-        Me.txtLocation.MendatroryField = True
-        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLocation.MyLinkLable1 = Me.lblPurLoc
-        Me.txtLocation.MyLinkLable2 = Nothing
-        Me.txtLocation.MyReadOnly = False
-        Me.txtLocation.MyShowMasterFormButton = False
-        Me.txtLocation.Name = "txtLocation"
-        Me.txtLocation.ReferenceFieldDesc = Nothing
-        Me.txtLocation.ReferenceFieldName = Nothing
-        Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(174, 20)
-        Me.txtLocation.TabIndex = 2
-        Me.txtLocation.Value = ""
-        '
         'txtDocumentDate
         '
         Me.txtDocumentDate.CalculationExpression = Nothing
@@ -295,6 +256,42 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.RadLabel4.TabIndex = 1573
         Me.RadLabel4.Text = "Date"
         '
+        'lblPurLoc
+        '
+        Me.lblPurLoc.FieldName = Nothing
+        Me.lblPurLoc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPurLoc.Location = New System.Drawing.Point(19, 39)
+        Me.lblPurLoc.Name = "lblPurLoc"
+        Me.lblPurLoc.Size = New System.Drawing.Size(49, 16)
+        Me.lblPurLoc.TabIndex = 5
+        Me.lblPurLoc.Text = "Location"
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(116, 38)
+        Me.txtLocation.MendatroryField = True
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.lblPurLoc
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(174, 20)
+        Me.txtLocation.TabIndex = 2
+        Me.txtLocation.Value = ""
+        '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
@@ -318,7 +315,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         'txtDocumentNo
         '
         Me.txtDocumentNo.FieldName = Nothing
-        Me.txtDocumentNo.Location = New System.Drawing.Point(111, 12)
+        Me.txtDocumentNo.Location = New System.Drawing.Point(115, 14)
         Me.txtDocumentNo.MendatroryField = False
         Me.txtDocumentNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -370,27 +367,27 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         '
         Me.btnExportFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExportFormat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExportFormat.Location = New System.Drawing.Point(433, 9)
+        Me.btnExportFormat.Location = New System.Drawing.Point(364, 9)
         Me.btnExportFormat.Name = "btnExportFormat"
-        Me.btnExportFormat.Size = New System.Drawing.Size(83, 24)
+        Me.btnExportFormat.Size = New System.Drawing.Size(156, 24)
         Me.btnExportFormat.TabIndex = 23
-        Me.btnExportFormat.Text = "Export Format"
+        Me.btnExportFormat.Text = "Export Blank Sheet"
         '
         'btnSelectSheet
         '
         Me.btnSelectSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSelectSheet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectSheet.Location = New System.Drawing.Point(357, 9)
+        Me.btnSelectSheet.Location = New System.Drawing.Point(288, 9)
         Me.btnSelectSheet.Name = "btnSelectSheet"
         Me.btnSelectSheet.Size = New System.Drawing.Size(72, 24)
         Me.btnSelectSheet.TabIndex = 22
-        Me.btnSelectSheet.Text = "Select Sheet"
+        Me.btnSelectSheet.Text = "Import"
         '
         'btnReverseUnpost
         '
         Me.btnReverseUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseUnpost.Location = New System.Drawing.Point(287, 9)
+        Me.btnReverseUnpost.Location = New System.Drawing.Point(218, 9)
         Me.btnReverseUnpost.Name = "btnReverseUnpost"
         Me.btnReverseUnpost.Size = New System.Drawing.Size(69, 24)
         Me.btnReverseUnpost.TabIndex = 7
@@ -407,16 +404,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.btnDelete.TabIndex = 6
         Me.btnDelete.Text = "Delete"
         Me.btnDelete.Visible = False
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(217, 9)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(68, 24)
-        Me.btnPrint.TabIndex = 1
-        Me.btnPrint.Text = "Print"
         '
         'btnPost
         '
@@ -475,13 +462,13 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPurSubLoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPurLoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPurLoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -489,7 +476,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -505,7 +491,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnReverseUnpost As Telerik.WinControls.UI.RadButton
     Friend WithEvents Panel1 As Panel

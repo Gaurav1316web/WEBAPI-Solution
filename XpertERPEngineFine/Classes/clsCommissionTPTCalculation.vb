@@ -62,10 +62,10 @@ Public Class clsCommissionTPTCalculation
             clsCommon.AddColumnsForChange(coll, "Total_Amount", obj.Total_Amount)
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_COMMISSION_TPT", OMInsertOrUpdate.Insert, Nothing, trans)
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_COMMISSION_TPT", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_COMMISSION_TPT.Document_Code='" & obj.Document_Code & "'", trans)

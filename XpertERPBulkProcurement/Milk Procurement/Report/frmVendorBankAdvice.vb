@@ -785,11 +785,19 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,ca.Bank
 	Round(Case When IsNull(Payable_Amount,0)>0 Then (IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)) Else IsNull(Saving_Amount,0) End,0) As Bill_Amt,(VLC_CODE_Uploader +' '+ Payee_Joint_Name) As DCS_Name,isnull(Bank_Code_Desc,Bank_Desc_Saving) as BankName,DCSCount from (
     select  SavingDetail.Head_Load_Rate,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
                             convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VENDOR_MASTER.accno2,
-                            TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
-                            case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
+                            TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,"
+                    If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, Nothing)) = "1" Then
+                        FinalQuery += " TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,
+                     TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving, TSPL_VENDOR_MASTER.Branch_Name, TSPL_VENDOR_MASTER.IFSC_Code, TSPL_VENDOR_MASTER.IFSCCode2, TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving "
+                    Else
+                        FinalQuery += " TSPL_Vendor_MASTER.Bank_Code,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,
+                     TSPL_VENDOR_MASTER.BankCode2 As Bank_Code_Saving, TSPL_VENDOR_MASTER.BankName2 As Bank_Desc_Saving, TSPL_VENDOR_MASTER.Branch_Name, TSPL_VENDOR_MASTER.IFSC_Code, TSPL_VENDOR_MASTER.IFSCCode2, TSPL_VENDOR_MASTER.AccNo2 as Bank_Account_No_Saving "
+                    End If
+
+                    FinalQuery += " ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
                             (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
-							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount,
-							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving,TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving  from TSPL_PAYMENT_PROCESS_DETAIL 
+							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount
+							  from TSPL_PAYMENT_PROCESS_DETAIL 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
@@ -831,7 +839,7 @@ WHERE t.Bank_Code <> t.Bank_Code_Saving
 
    union all
 
-   Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,('16/08/2025'+' to '+'31/08/2025') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
+   Select ROW_NUMBER() Over (Order By (Select 1)) As SNo,('" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MM/yyyy") + "'+' to '+'" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MM/yyyy") + "') As DateRange,xxxfinal.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,
                               TSPL_COMPANY_MASTER.Regn_No,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from (   --select * from bal
 
 SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,'ONE DAY STOP' AS BankCode,ca.Bank as [Branch_Name],ca.Bank as [BankName],t.DCS_Name
@@ -849,11 +857,19 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,'ONE DA
 	Round(Case When IsNull(Payable_Amount,0)>0 Then (IsNull(Payable_Amount,0)-ISNULL(Head_Load_Rate,0)) Else IsNull(Saving_Amount,0) End,0) As Bill_Amt,(VLC_CODE_Uploader +' '+ Payee_Joint_Name) As DCS_Name,isnull(Bank_Code_Desc,Bank_Desc_Saving) as BankName,DCSCount,IFSC_Code,IFSCCode2 from (
     select  SavingDetail.Head_Load_Rate,TSPL_BANK_ADVISE.Document_No As [Bank Advise No],Convert(Varchar(10),TSPL_BANK_ADVISE.Document_Date,103) As [Bank Advise Date],Case When TSPL_VENDOR_MASTER.Account_Type='cur' Then TSPL_VENDOR_MASTER.Account_Type Else Case When TSPL_VENDOR_MASTER.AccountType2='cur' Then TSPL_VENDOR_MASTER.AccountType2 else '' End  End As Account_Type,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name,
                             convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VENDOR_MASTER.accno2,
-                            TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,TSPL_Vendor_MASTER.Bank_Code,TSPL_VENDOR_MASTER.Branch_Name,
-                            case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
+                            TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name,"
+                    If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, Nothing)) = "1" Then
+                        FinalQuery += " TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,
+                     TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving, TSPL_VENDOR_MASTER.Branch_Name, TSPL_VENDOR_MASTER.IFSC_Code, TSPL_VENDOR_MASTER.IFSCCode2, TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving "
+                    Else
+                        FinalQuery += " TSPL_Vendor_MASTER.Bank_Code,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,
+                     TSPL_VENDOR_MASTER.BankCode2 As Bank_Code_Saving, TSPL_VENDOR_MASTER.BankName2 As Bank_Desc_Saving, TSPL_VENDOR_MASTER.Branch_Name, TSPL_VENDOR_MASTER.IFSC_Code, TSPL_VENDOR_MASTER.IFSCCode2, TSPL_VENDOR_MASTER.AccNo2 as Bank_Account_No_Saving "
+                    End If
+
+                    FinalQuery += "  ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
                             (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
-							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount,
-							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving,TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving  from TSPL_PAYMENT_PROCESS_DETAIL 
+							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount
+						    from TSPL_PAYMENT_PROCESS_DETAIL 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
@@ -1207,15 +1223,15 @@ SELECT ca.RI,t.[Bank Advise No],t.[Bank Advise Date],t.VLC_CODE_Uploader,ca.Bank
     TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Name, "
         If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, Nothing)) = "1" Then
             qry += " TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc as Bank_Code_Desc,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code_Saving,
-                     TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2 "
+                     TSPL_PAYMENT_PROCESS_DETAIL.Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2,TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving "
         Else
             qry += " TSPL_Vendor_MASTER.Bank_Code,case when isnull(TSPL_Vendor_MASTER.Bank_Name,'')  = '' then  TSPL_Vendor_MASTER.Bank_Code else TSPL_Vendor_MASTER.Bank_Name end as Bank_Code_Desc,
-                     TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_VENDOR_MASTER.BankName2 as Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2 "
+                     TSPL_VENDOR_MASTER.BankCode2 as Bank_Code_Saving,TSPL_VENDOR_MASTER.BankName2 as Bank_Desc_Saving,TSPL_VENDOR_MASTER.Branch_Name,TSPL_VENDOR_MASTER.IFSC_Code,TSPL_VENDOR_MASTER.IFSCCode2,TSPL_VENDOR_MASTER.AccNo2 as Bank_Account_No_Saving "
         End If
         qry += " ,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code,TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No,
                             (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)+isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0))  as Payable_Amount,
-							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount,
-							TSPL_PAYMENT_PROCESS_DETAIL.Bank_Account_No_Saving  from TSPL_PAYMENT_PROCESS_DETAIL 
+							isnull(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount,0) as Saving_Amount
+							  from TSPL_PAYMENT_PROCESS_DETAIL 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE								
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
@@ -1803,6 +1819,9 @@ MAX(Bank_Account_No_Saving)Bank_Account_No_Saving,max(Bank_Code_Saving)Bank_Code
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         EnableDisaableControls(True)
+        Gv1.DataSource = Nothing
+        Gv2.DataSource = Nothing
+        RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
     Sub EnableDisaableControls(ByVal flag As Boolean)
         txtMCC.Enabled = flag

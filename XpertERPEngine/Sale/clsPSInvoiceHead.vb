@@ -650,7 +650,9 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Add_Charge_Amt10", obj.Add_Charge_Amt10)
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
             clsCommon.AddColumnsForChange(coll, "Tax_Calculation_Type", IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1))
-            clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
+            If clsCommon.myLen(obj.Challan_Date) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
+            End If
             clsCommon.AddColumnsForChange(coll, "Inv_Date", clsCommon.GetPrintDate(obj.Inv_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Is_Create_Auto_Receipt", IIf(obj.Is_Create_Auto_Receipt, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Salesman_Code", obj.Salesman_Code, True)
@@ -1111,9 +1113,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
             obj.Add_Charge_Amt10 = clsCommon.myCdbl(dt.Rows(0)("Add_Charge_Amt10"))
             obj.Total_Add_Charge = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge"))
             obj.Inv_No = clsCommon.myCstr(dt.Rows(0)("Inv_No"))
-            If clsCommon.myLen((dt.Rows(0)("Challan_Date"))) <= 0 Then
-                obj.Challan_Date = ""
-            Else
+            If clsCommon.myLen((dt.Rows(0)("Challan_Date"))) > 0 Then
                 obj.Challan_Date = clsCommon.GetPrintDate((dt.Rows(0)("Challan_Date")), "dd/MMM/yyyy")
             End If
             If clsCommon.myLen((dt.Rows(0)("Inv_Date"))) <= 0 Then

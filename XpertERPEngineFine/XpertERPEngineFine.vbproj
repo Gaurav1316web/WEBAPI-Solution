@@ -338,12 +338,12 @@
     <Compile Include="LocationModel\clsLocationWiseItems.vb" />
     <Compile Include="LocationModel\clsLocationWiseTax.vb" />
     <Compile Include="LocationModel\ClsLocation_JobworkItem.vb" />
-    <Compile Include="Milk Procurement\clsCattleFeedSalePurchaseUploader.vb" />
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="Milk Procurement\clsDBTCaping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />
     <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDeductionTypeMaster.vb" />
+    <Compile Include="Milk Procurement\clsFreightChargesMaster.vb" />
     <Compile Include="Milk Procurement\clsMilkUnion.vb" />
     <Compile Include="Milk Procurement\clsReviseMilkBill.vb" />
     <Compile Include="Milk Procurement\clsSendDBTDataToJanAadhar.vb" />

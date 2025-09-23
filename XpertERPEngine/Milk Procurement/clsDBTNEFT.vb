@@ -431,9 +431,14 @@ left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.NEFT_DBT_Default=1
 left outer join TSPL_BANK_BRANCH_MASTER on TSPL_BANK_BRANCH_MASTER.Bank_CODE=TSPL_BANK_MASTER.BANK_CODE
 WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
                 dt = clsDBFuncationality.GetDataTable(qry)
+                Dim Apply_PD_Account_Date As Date = clsDBFuncationality.getSingleValue("SELECT [TSPL_APP_LOCATION].Apply_PD_Account_Date FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE Union_Report=1 and DataBase_Name IN ('" + objCommonVar.CurrDatabase + "') ORDER BY [TSPL_APP_LOCATION].Location_Name")
 
                 Dim frmCRV As New frmCrystalReportViewer()
-                strPAth = frmCRV.funreport("ABC", isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
+                If clsCommon.myCDate(ToDate) >= clsCommon.myCDate(Apply_PD_Account_Date) Then
+                    strPAth = frmCRV.funreport("ABC", isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
+                Else
+                    strPAth = frmCRV.funreport("ABC", isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetterYesBank", "Bank Letter NEFT Uploader")
+                End If
                 frmCRV = Nothing
             Catch ex As Exception
                 Throw New Exception(ex.Message)

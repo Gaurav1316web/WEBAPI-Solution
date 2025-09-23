@@ -52,17 +52,17 @@ Partial Class frmCommissionTPTCalculation
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.RadLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.lblTotalAmt = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.lblTotalQtyLTR = New common.Controls.MyLabel()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
-        Me.lblTotalQtyLTR = New common.Controls.MyLabel()
-        Me.lblTotalAmt = New common.Controls.MyLabel()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -93,17 +93,17 @@ Partial Class frmCommissionTPTCalculation
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalQtyLTR, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalQtyLTR, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -347,7 +347,7 @@ Partial Class frmCommissionTPTCalculation
         '
         Me.txtCorTPTRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
         Me.txtCorTPTRate.CalculationExpression = Nothing
-        Me.txtCorTPTRate.DecimalPlaces = 0
+        Me.txtCorTPTRate.DecimalPlaces = 2
         Me.txtCorTPTRate.FieldCode = Nothing
         Me.txtCorTPTRate.FieldDesc = Nothing
         Me.txtCorTPTRate.FieldMaxLength = 0
@@ -557,6 +557,61 @@ Partial Class frmCommissionTPTCalculation
         Me.gv1.Size = New System.Drawing.Size(796, 199)
         Me.gv1.TabIndex = 0
         '
+        'RadLabel12
+        '
+        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(12, -10)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(220, 16)
+        Me.RadLabel12.TabIndex = 27
+        Me.RadLabel12.Text = "Double click on Column To view Details"
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(484, 22)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel9.TabIndex = 428
+        Me.MyLabel9.Text = "Total Amount"
+        '
+        'lblTotalAmt
+        '
+        Me.lblTotalAmt.AutoSize = False
+        Me.lblTotalAmt.BorderVisible = True
+        Me.lblTotalAmt.FieldName = Nothing
+        Me.lblTotalAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalAmt.Location = New System.Drawing.Point(574, 21)
+        Me.lblTotalAmt.Name = "lblTotalAmt"
+        Me.lblTotalAmt.Size = New System.Drawing.Size(123, 18)
+        Me.lblTotalAmt.TabIndex = 136
+        Me.lblTotalAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotalAmt.TextWrap = False
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(484, 1)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(84, 16)
+        Me.MyLabel8.TabIndex = 427
+        Me.MyLabel8.Text = "Total Qty (LTR)"
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(294, 9)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
+        Me.btnReverse.TabIndex = 12
+        Me.btnReverse.Text = "Reverse"
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -566,6 +621,19 @@ Partial Class frmCommissionTPTCalculation
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 11
         Me.btnClose.Text = "Close"
+        '
+        'lblTotalQtyLTR
+        '
+        Me.lblTotalQtyLTR.AutoSize = False
+        Me.lblTotalQtyLTR.BorderVisible = True
+        Me.lblTotalQtyLTR.FieldName = Nothing
+        Me.lblTotalQtyLTR.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalQtyLTR.Location = New System.Drawing.Point(574, 1)
+        Me.lblTotalQtyLTR.Name = "lblTotalQtyLTR"
+        Me.lblTotalQtyLTR.Size = New System.Drawing.Size(123, 18)
+        Me.lblTotalQtyLTR.TabIndex = 135
+        Me.lblTotalQtyLTR.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotalQtyLTR.TextWrap = False
         '
         'btnPrint
         '
@@ -606,74 +674,6 @@ Partial Class frmCommissionTPTCalculation
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 4
         Me.btnSave.Text = "Save"
-        '
-        'btnReverse
-        '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(294, 9)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
-        Me.btnReverse.TabIndex = 12
-        Me.btnReverse.Text = "Reverse"
-        '
-        'lblTotalQtyLTR
-        '
-        Me.lblTotalQtyLTR.AutoSize = False
-        Me.lblTotalQtyLTR.BorderVisible = True
-        Me.lblTotalQtyLTR.FieldName = Nothing
-        Me.lblTotalQtyLTR.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalQtyLTR.Location = New System.Drawing.Point(574, 1)
-        Me.lblTotalQtyLTR.Name = "lblTotalQtyLTR"
-        Me.lblTotalQtyLTR.Size = New System.Drawing.Size(123, 18)
-        Me.lblTotalQtyLTR.TabIndex = 135
-        Me.lblTotalQtyLTR.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.lblTotalQtyLTR.TextWrap = False
-        '
-        'lblTotalAmt
-        '
-        Me.lblTotalAmt.AutoSize = False
-        Me.lblTotalAmt.BorderVisible = True
-        Me.lblTotalAmt.FieldName = Nothing
-        Me.lblTotalAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalAmt.Location = New System.Drawing.Point(574, 21)
-        Me.lblTotalAmt.Name = "lblTotalAmt"
-        Me.lblTotalAmt.Size = New System.Drawing.Size(123, 18)
-        Me.lblTotalAmt.TabIndex = 136
-        Me.lblTotalAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.lblTotalAmt.TextWrap = False
-        '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(484, 1)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(84, 16)
-        Me.MyLabel8.TabIndex = 427
-        Me.MyLabel8.Text = "Total Qty (LTR)"
-        '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(484, 22)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(74, 16)
-        Me.MyLabel9.TabIndex = 428
-        Me.MyLabel9.Text = "Total Amount"
-        '
-        'RadLabel12
-        '
-        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(12, -10)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(220, 16)
-        Me.RadLabel12.TabIndex = 27
-        Me.RadLabel12.Text = "Double click on Column To view Details"
         '
         'frmCommissionTPTCalculation
         '
@@ -720,17 +720,17 @@ Partial Class frmCommissionTPTCalculation
         Me.RadGroupBox1.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalQtyLTR, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalQtyLTR, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

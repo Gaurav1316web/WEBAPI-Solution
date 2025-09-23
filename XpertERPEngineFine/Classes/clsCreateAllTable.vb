@@ -23096,6 +23096,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("IsExemptSecurityDedution", "Integer not null default 0")
             coll.Add("Retention", "decimal(18,2) NULL")
             coll.Add("Inter_unit_purchase", "Integer default 0")
+            coll.Add("Against_CF_Sale_Purchase_No", "Varchar(30) null References TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER(Document_No)")
             'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_HEAD", coll, Nothing, True, True, "", "SRN_No", "SRN_Date
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_HEAD", coll, Nothing, True, True, "", "SRN_No", "SRN_Date", True)
 
@@ -31560,6 +31561,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
             coll.Add("Against_Cust_Order", "Varchar(30) null References TSPL_CUSTOMER_TENDER_Order(DOCUMENT_CODE)")
+            coll.Add("Against_CF_Sale_Purchase_No", "Varchar(30) null References TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
             Try
                 qry = "update TSPL_SD_SHIPMENT_HEAD set ParentDocNo=Document_Code where ParentDocNo is null "
