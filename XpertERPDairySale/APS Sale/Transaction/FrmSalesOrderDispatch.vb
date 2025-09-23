@@ -100,7 +100,7 @@ Public Class FrmSalesOrderDispatch
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
-
+        btnprinte_wayBill.Visible = False
         AddNew()
     End Sub
     Private Function GetItemType() As DataTable
@@ -165,7 +165,7 @@ Public Class FrmSalesOrderDispatch
         gv1.MasterTemplate.Columns.Add(repoIName)
 
         Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoQty.FormatString = "{0:n6}"
+        repoQty.FormatString = ""
         repoQty.HeaderText = "Qty"
         repoQty.Name = colQty
         repoQty.Width = 100
@@ -206,7 +206,7 @@ Public Class FrmSalesOrderDispatch
         repoSubLoc.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoSubLoc)
         Dim repoTenderRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTenderRate.FormatString = "{0:n6}"
+        repoTenderRate.FormatString = "{0:n2}"
         repoTenderRate.HeaderText = "Tender Rate"
         repoTenderRate.Name = colTenderRate
         repoTenderRate.Width = 50
@@ -216,7 +216,7 @@ Public Class FrmSalesOrderDispatch
         repoTenderRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTenderRate)
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRate.FormatString = "{0:n6}"
+        repoRate.FormatString = "{0:n2}"
         repoRate.HeaderText = "Item Rate"
         repoRate.Name = colRate
         repoRate.Width = 50
@@ -226,7 +226,7 @@ Public Class FrmSalesOrderDispatch
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
         Dim repoAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAmt.FormatString = "{0:n6}"
+        repoAmt.FormatString = "{0:n2}"
         repoAmt.HeaderText = "Item Amt"
         repoAmt.Name = colItemAmt
         repoAmt.Width = 50
@@ -617,7 +617,7 @@ Public Class FrmSalesOrderDispatch
         repoTax10Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax10Amt)
         Dim repoTotalTaxAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalTaxAmt.FormatString = "{0:n6}"
+        repoTotalTaxAmt.FormatString = "{0:n2}"
         repoTotalTaxAmt.HeaderText = "Total Tax Amt"
         repoTotalTaxAmt.Name = colTotalTaxAmt
         repoTotalTaxAmt.Width = 50
@@ -628,7 +628,7 @@ Public Class FrmSalesOrderDispatch
         gv1.MasterTemplate.Columns.Add(repoTotalTaxAmt)
 
         Dim repoTotalAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalAmt.FormatString = "{0:n6}"
+        repoTotalAmt.FormatString = "{0:n2}"
         repoTotalAmt.HeaderText = "Total Amt"
         repoTotalAmt.Name = colTotalAmt
         repoTotalAmt.Width = 50
@@ -638,7 +638,7 @@ Public Class FrmSalesOrderDispatch
         repoTotalAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTotalAmt)
         Dim repoPKID As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoPKID.FormatString = "{0:n6}"
+        repoPKID.FormatString = ""
         repoPKID.HeaderText = "PK ID"
         repoPKID.Name = colPKID
         repoPKID.Width = 50
@@ -1918,6 +1918,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.IsReplacement = IIf(chkReplacement.Checked, 1, 0)
                 obj.Transport_Id = clsCommon.myCstr(txtTransporterCode.Value)
                 obj.Transporter_Name = lblTransporterName.Text
+                obj.VehicleNo = txtVehicleCode.Value
                 obj.Remarks = txtRemark.Text
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.TaxGroupName = lblTaxGrpName.Text
@@ -2309,7 +2310,8 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 txtTaxAmt.Text = obj.Total_Tax_Amt
                 txtDocAmt.Text = obj.Total_Amt
                 txtRemark.Text = obj.Remarks
-
+                txtVehicleCode.Value = obj.VehicleNo
+                lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleCode.Value) & "'")
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsPSShipmentHeadDetail In obj.Arr
@@ -2478,5 +2480,18 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
         End Try
     End Sub
 
-
+    Private Sub btnprinte_wayBill_Click(sender As Object, e As EventArgs) Handles btnprinte_wayBill.Click
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(clsPSInvoiceHead.PrintEWayBill(txtDocCode.Value, txtCustomerCode.Value, False))
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rpte-waybill", "E-WayBill", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            Else
+                Throw New Exception("No Data Found ")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

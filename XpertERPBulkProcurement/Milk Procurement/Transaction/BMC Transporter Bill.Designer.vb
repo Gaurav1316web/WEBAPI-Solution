@@ -23,7 +23,7 @@ Partial Class BMC_Transporter_Bill
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -132,6 +132,9 @@ Partial Class BMC_Transporter_Bill
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -240,6 +243,7 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,6 +260,7 @@ Partial Class BMC_Transporter_Bill
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnLayout)
@@ -913,7 +918,7 @@ Partial Class BMC_Transporter_Bill
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -994,7 +999,7 @@ Partial Class BMC_Transporter_Bill
         Me.txtDate.Size = New System.Drawing.Size(127, 18)
         Me.txtDate.TabIndex = 1524
         Me.txtDate.TabStop = False
-        Me.txtDate.Text = "13-06-2011 11:29 AM"
+        Me.txtDate.Text = "13/06/2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'RadLabel4
@@ -1784,6 +1789,28 @@ Partial Class BMC_Transporter_Bill
         Me.btnSave.TabIndex = 2
         Me.btnSave.Text = "Save"
         '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(590, 11)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(110, 22)
+        Me.RadSplitButton1.TabIndex = 163
+        Me.RadSplitButton1.Text = "Import/Export"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
+        Me.btnImport.UseCompatibleTextRendering = False
+        '
+        'btnExport
+        '
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export"
+        Me.btnExport.UseCompatibleTextRendering = False
+        '
         'BMC_Transporter_Bill
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1908,6 +1935,7 @@ Partial Class BMC_Transporter_Bill
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2021,4 +2049,7 @@ Partial Class BMC_Transporter_Bill
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnReverse As RadButton
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents RadSplitButton1 As RadSplitButton
+    Friend WithEvents btnImport As RadMenuItem
+    Friend WithEvents btnExport As RadMenuItem
 End Class

@@ -3,8 +3,6 @@
 Public Class frmDBTNEFTReject
     Inherits FrmMainTranScreen
 #Region "Variables"
-
-
     Public Const colSlNo As String = "SLNO"
     Public Const colAgainstDBT As String = "colAgainstDBT"
     Public Const colRemAccNo As String = "colRemAccNo"
@@ -26,12 +24,20 @@ Public Class frmDBTNEFTReject
     Dim Qry As String
     Dim isFlag As Boolean = False
 
-
+    Dim strPortNo As String
 #End Region
     Public Sub New()
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Against_PDA_BillNo", "varchar(10) NULL")
+
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_REJECT", coll, "", True, False, "", "Document_Code", "Document_Date", True)
+
+
+        strPortNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  [TSPL_APP_LOCATION].PD_Account_Prefix as PortNo  from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE  [TSPL_APP_LOCATION].DataBase_Name='" + objCommonVar.CurrDatabase + "' and [TSPL_APP_LOCATION].Apply_PD_Account = 1 order by [TSPL_APP_LOCATION].Location_Name "))
+
         SetUserMgmtNew()
         Reset()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
@@ -39,7 +45,6 @@ Public Class frmDBTNEFTReject
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnReset, "Press Alt+N New Transaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
-
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
@@ -104,6 +109,7 @@ Public Class frmDBTNEFTReject
         lblPending.Status = ERPTransactionStatus.Pending
         txtRemarks.Text = ""
         txtDPTNEFT.Value = ""
+        txtPDABillNo.Value = ""
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -120,7 +126,7 @@ Public Class frmDBTNEFTReject
                 obj.Document_Date = txtdate.Value
                 obj.Remarks = txtRemarks.Text
                 obj.Against_DBT_NEFT = txtDPTNEFT.Value
-
+                obj.Against_PDA_BillNo = txtPDABillNo.Value
                 obj.arr = New List(Of clsDBTNEFTRejectDetail)
                 obj.arrSuccess = New List(Of clsDBTNEFTRejectSucess)
                 For Each grow As GridViewRowInfo In gvItem.Rows
@@ -180,6 +186,7 @@ Public Class frmDBTNEFTReject
             lblPending.Status = obj.Status
             txtRemarks.Text = obj.Remarks
             txtDPTNEFT.Value = obj.Against_DBT_NEFT
+            txtPDABillNo.Value = obj.Against_PDA_BillNo
             If clsCommon.myLen(obj.Document_Code) > 0 Then
                 Dim qry As String = "Select CAST(1 as bit) as colSelect,ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS SNo,x.* from (
 select  TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR AS AgainstMPIncetive,TSPL_DBT_NEFT_DETAIL.Rem_Account_No as [REMITTER ACCOUNT NO.],TSPL_DBT_NEFT_DETAIL.Rem_Name as [REMITTER NAME],TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code as [Society],TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code as [MP Uploader Code],TSPL_DBT_NEFT_DETAIL.Amount as AMOUNT,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No as [IFSC CODE],TSPL_DBT_NEFT_DETAIL.MP_Account_No as [BENEFICERY ACCOUNT  NO.],TSPL_DBT_NEFT_DETAIL.MP_Name as [BENEFICERY NAME],TSPL_DBT_NEFT_DETAIL.[Transaction] as [TRANSACTION DESC CREDIT],TSPL_DBT_NEFT_REJECT_DETAIL.Remarks
@@ -310,54 +317,89 @@ where TSPL_DBT_NEFT_REJECT_SUCESS.Document_Code='" & txtDocumentNo.Value & "'
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub txtDPTNEFT__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDPTNEFT._MYValidating
+    Private Sub txtPDABillNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPDABillNo._MYValidating
         Try
-            'loadBlankGrid()
-            gvItem.DataSource = Nothing
-            txtDPTNEFT.Value = clsDBTNEFT.getFinder(" isnull(TSPL_DBT_NEFT.Status,0)=1 ", txtDPTNEFT.Value, isButtonClicked)
-            If clsCommon.myLen(txtDPTNEFT.Value) > 0 Then
-                Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(txtDPTNEFT.Value, NavigatorType.Current)
-                If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
-                    '    Dim qry As String = "Select CAST(0 as bit) as colSelect ,TSPL_DBT_NEFT_DETAIL.SNo,TSPL_DBT_NEFT_DETAIL.PK_Id as AgainstMPIncetive,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code ,TSPL_DBT_NEFT_DETAIL.Rem_Account_No AS 
-                    '[REMITTER ACCOUNT NO.],TSPL_DBT_NEFT_DETAIL.Rem_Name AS [REMITTER NAME],TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code AS [Society]
-                    ',TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code AS [MP Uploader Code]
-                    ',TSPL_DBT_NEFT_DETAIL.Amount AS AMOUNT,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No AS [IFSC CODE]
-                    ',TSPL_DBT_NEFT_DETAIL.MP_Account_No AS [BENEFICERY ACCOUNT  NO.],TSPL_DBT_NEFT_DETAIL.MP_Name AS [BENEFICERY NAME]
-                    ',TSPL_DBT_NEFT_DETAIL.[Transaction] AS [TRANSACTION DESC CREDIT],'' AS Remarks
-                    '    from TSPL_DBT_NEFT_DETAIL 
-                    '    Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
-                    '    left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-                    '    where TSPL_DBT_NEFT_DETAIL.Document_Code='" & txtDPTNEFT.Value & "'  ORDER BY TSPL_DBT_NEFT_DETAIL.SNo "
-
-                    Qry = "Select CAST(0 as bit) as colSelect,ROW_NUMBER() over (order by max(xx.SNo) )  as SNo,xx.PK_Id as AgainstMPIncetive,max(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code) as  MP_Code,max(xx.Rem_Account_No) AS 
-[REMITTER ACCOUNT NO.],max(xx.Rem_Name) AS [REMITTER NAME],max(xx.VLC_Uploader_Code) AS [Society],max(xx.MP_Uploader_Code) AS [MP Uploader Code],max(xx.Amount) AS AMOUNT,max(xx.MP_IFSC_No) AS [IFSC CODE],max(xx.MP_Account_No) AS [BENEFICERY ACCOUNT  NO.],max(xx.MP_Name) AS [BENEFICERY NAME],max(xx.[Transaction]) AS [TRANSACTION DESC CREDIT],'' AS Remarks from (
-select TSPL_DBT_NEFT_DETAIL.SNo,TSPL_DBT_NEFT_DETAIL.PK_Id,TSPL_DBT_NEFT_DETAIL.Rem_Account_No,TSPL_DBT_NEFT_DETAIL.Rem_Name ,TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code  ,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code ,TSPL_DBT_NEFT_DETAIL.Amount,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No ,TSPL_DBT_NEFT_DETAIL.MP_Account_No ,TSPL_DBT_NEFT_DETAIL.MP_Name,TSPL_DBT_NEFT_DETAIL.[Transaction],1 as RI ,TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR  
-from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDPTNEFT.Value + "'
-union all
-select 0 as  SNo,TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR as PK_Id,'' as Rem_Account_No,'' as Rem_Name ,'' as VLC_Uploader_Code,'' as MP_Uploader_Code ,0 as Amount,'' as MP_IFSC_No,'' as MP_Account_No ,'' as MP_Name,'' as [Transaction],-1 as RI ,0 as Against_MP_Incentive_TR 
-from TSPL_DBT_NEFT_REJECT_DETAIL 
-left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code= TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code
-where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT='" + txtDPTNEFT.Value + "' and TSPL_DBT_NEFT_REJECT.Document_Code not in ('" + txtDocumentNo.Value + "')
-)xx 
-Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xx.Against_MP_Incentive_TR   
-left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-group by xx.PK_Id having sum(RI)>0"
-
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        gvItem.Rows.Clear()
-                        gvItem.Refresh()
-                        gvItem.MasterTemplate.SummaryRowsBottom.Clear()
-                        gvItem.DataSource = dt
-                        FormatGrid()
-                    End If
+            If clsCommon.myLen(strPortNo) > 0 Then
+                Dim qry As String = "Select xx.PDABillNo,TSPL_DBT_NEFT.Document_Code as Code,Convert(varchar,TSPL_DBT_NEFT.Document_Date,103) as Date
+,TSPL_DBT_NEFT.Remarks as [Remarks],Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date],TSPL_DBT_NEFT.Zone_code as Zone
+,case when isnull(TSPL_DBT_NEFT.Status,0)=0 then 'Pending' else 'Approved' end as Status,case when isnull(TSPL_DBT_NEFT.RCDF_Status,0)=0 then 'Pending' else 'Approved' end as [RCDF Status]
+from TSPL_DBT_NEFT 
+left outer join (
+select Document_Code,PDABillNo from (
+select TSPL_DBT_NEFT.Document_Code, '" + strPortNo + "'+ FORMAT(TSPL_DBT_NEFT.UKID, '0000')+CAST(TSPL_DBT_NEFT_DETAIL.Lot_No as varchar) as PDABillNo from TSPL_DBT_NEFT 
+left outer join TSPL_DBT_NEFT_DETAIL on TSPL_DBT_NEFT_DETAIL.Document_Code=TSPL_DBT_NEFT.Document_Code
+) xx group by Document_Code,PDABillNo 
+)xx on xx.Document_Code=TSPL_DBT_NEFT.Document_Code
+where isnull(TSPL_DBT_NEFT.Status,0)=1 "
+                gvItem.DataSource = Nothing
+                Dim dr As DataRow = clsCommon.ShowSelectFormForRow("DPTNeft#S", qry, "PDABillNo", txtPDABillNo.Value)
+                If dr IsNot Nothing Then
+                    txtPDABillNo.Value = clsCommon.myCstr(dr("PDABillNo"))
+                    txtDPTNEFT.Value = clsCommon.myCstr(dr("Code"))
+                    LoadDBTData(txtPDABillNo.Value, txtDPTNEFT.Value)
                 End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub txtDPTNEFT__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDPTNEFT._MYValidating
+        Try
+            gvItem.DataSource = Nothing
+            txtDPTNEFT.Value = clsDBTNEFT.getFinder(" isnull(TSPL_DBT_NEFT.Status,0)=1 ", txtDPTNEFT.Value, isButtonClicked)
+            LoadDBTData("", txtDPTNEFT.Value)
+            txtPDABillNo.Value = ""
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub LoadDBTData(strRefNo As String, strDBTNo As String)
+        If clsCommon.myLen(strDBTNo) > 0 Then
+            Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strDBTNo, NavigatorType.Current)
+            If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
+                Qry = "Select "
+                If clsCommon.myLen(strRefNo) > 0 Then
+                    Qry+=" CAST(1 as bit) as colSelect,"
+                Else
+                    Qry+="CAST(0 as bit) as colSelect,"
+                End If
+                Qry += "ROW_NUMBER() over (order by max(xx.SNo) )  as SNo,xx.PK_Id as AgainstMPIncetive,max(TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code) as  MP_Code,max(xx.Rem_Account_No) AS 
+[REMITTER ACCOUNT NO.],max(xx.Rem_Name) AS [REMITTER NAME],max(xx.VLC_Uploader_Code) AS [Society],max(xx.MP_Uploader_Code) AS [MP Uploader Code],max(xx.Amount) AS AMOUNT,max(xx.MP_IFSC_No) AS [IFSC CODE],max(xx.MP_Account_No) AS [BENEFICERY ACCOUNT  NO.],max(xx.MP_Name) AS [BENEFICERY NAME],max(xx.[Transaction]) AS [TRANSACTION DESC CREDIT],'' AS Remarks from (
+select TSPL_DBT_NEFT_DETAIL.SNo,TSPL_DBT_NEFT_DETAIL.PK_Id,TSPL_DBT_NEFT_DETAIL.Rem_Account_No,TSPL_DBT_NEFT_DETAIL.Rem_Name ,TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code  ,TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code ,TSPL_DBT_NEFT_DETAIL.Amount,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No ,TSPL_DBT_NEFT_DETAIL.MP_Account_No ,TSPL_DBT_NEFT_DETAIL.MP_Name,TSPL_DBT_NEFT_DETAIL.[Transaction],1 as RI ,TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR  
+from TSPL_DBT_NEFT_DETAIL 
+left outer join TSPL_DBT_NEFT  on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_DETAIL.Document_Code
+where TSPL_DBT_NEFT_DETAIL.Document_Code='" + strDBTNo + "'"
+                If clsCommon.myLen(strRefNo) > 0 Then
+                    If clsCommon.myLen(strRefNo) <> 8 Then
+                        Throw New Exception("Invalid Document [" + strRefNo + "]")
+                    End If
+
+                    Dim strUKID As String = strRefNo.Substring(2, 4)
+                    Dim strLotNo As String = strRefNo.Substring(6, 2)
+                    Qry += " and TSPL_DBT_NEFT.UKID=" + strUKID + " and TSPL_DBT_NEFT_DETAIL.Lot_No=" + strLotNo + ""
+                End If
+                Qry += " union all
+select 0 as  SNo,TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR as PK_Id,'' as Rem_Account_No,'' as Rem_Name ,'' as VLC_Uploader_Code,'' as MP_Uploader_Code ,0 as Amount,'' as MP_IFSC_No,'' as MP_Account_No ,'' as MP_Name,'' as [Transaction],-1 as RI ,0 as Against_MP_Incentive_TR 
+from TSPL_DBT_NEFT_REJECT_DETAIL 
+left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code= TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code
+where TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT='" + strDBTNo + "' and TSPL_DBT_NEFT_REJECT.Document_Code not in ('" + txtDocumentNo.Value + "')
+)xx 
+Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xx.Against_MP_Incentive_TR   
+left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+group by xx.PK_Id having sum(RI)>0"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    gvItem.Rows.Clear()
+                    gvItem.Refresh()
+                    gvItem.MasterTemplate.SummaryRowsBottom.Clear()
+                    gvItem.DataSource = dt
+                    FormatGrid()
+                End If
+            End If
+        End If
+    End Sub
+
     Private Sub FormatGrid()
         Try
             gvItem.MasterTemplate.SummaryRowsBottom.Clear()
@@ -548,5 +590,7 @@ group by xx.PK_Id having sum(RI)>0"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class
 

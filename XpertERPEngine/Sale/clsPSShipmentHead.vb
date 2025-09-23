@@ -4200,15 +4200,19 @@ TSPL_Demand_Booking_Detail.Cust_Code
 from TSPL_Demand_Booking_Master
 left join TSPL_Demand_Booking_Detail on TSPL_Demand_Booking_Master.Document_No=TSPL_Demand_Booking_Detail.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Booking_Detail.Item_Code 
+OUTER APPLY ( SELECT TOP 1 * FROM TSPL_ITEM_MASTER_TAXABLE  
+WHERE TSPL_ITEM_MASTER_TAXABLE.Item_Code = TSPL_Demand_Booking_Detail.Item_Code  AND TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(supplyDate) & "'
+    ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC
+) TSPL_ITEM_MASTER_TAXABLE
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Demand_Booking_Detail.Cust_Code 
 where TSPL_Demand_Booking_Master.ShiftType='" + IIf(clsCommon.CompairString(clsCommon.myCstr(ShiftType), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "'  and TSPL_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(supplyDate) + "' and TSPL_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(supplyDate.AddDays(1)) + "' 
    and TSPL_Demand_Booking_Master.Posted=1
 and TSPL_Demand_Booking_Master.Route_No='" + Route_No + "' and TSPL_Demand_Booking_Master.Location_Code='" + billtoLoc + "' 
  "
             If clsCommon.CompairString(clsCommon.myCstr(ItemType), "T") = CompairStringResult.Equal Then
-                strQry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
             Else
-                strQry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+                strQry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 "
             End If
             strQry += " and  TSPL_CUSTOMER_MASTER.Credit_Customer='Y' and TSPL_Demand_Booking_Detail.TR_Code is not null and TSPL_Demand_Booking_Detail.Qty>0   and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Demand_Booking_Detail.TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" & DocCode & "'))  
 group by TSPL_Demand_Booking_Detail.Cust_Code "

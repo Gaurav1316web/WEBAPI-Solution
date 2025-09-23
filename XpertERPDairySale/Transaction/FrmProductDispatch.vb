@@ -5463,7 +5463,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             Return 0
         End If
         If gv1.Rows(introw).Cells(ColFOC).Value = 1 Then
-            IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & strItem & "'", trans))
+            'IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & strItem & "'", trans))
+            IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 Is_Taxable from TSPL_ITEM_MASTER_TAXABLE where Item_Code='" & strItem & "' and TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtDate.Value) & "' ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC ", trans))
             If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
                 If IsTaxable = 1 Then
                     strTaxType = clsLocationWiseTax.TaxType(txtBillToLocation.Value, txtVendorNo.Value, "S", txtDate.Value, Nothing)
@@ -9621,7 +9622,8 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             For intRowNo As Integer = 0 To gv1.Rows.Count - 1
                 BlankTaxDetails(intRowNo, isChangeRate)
-                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'", trans))
+                'IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'", trans))
+                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 Is_Taxable from TSPL_ITEM_MASTER_TAXABLE where Item_Code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "' and TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtDate.Value) & "' ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC", trans))
                 If ((clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 And IsTaxable = 1) OrElse (gv1.Rows(intRowNo).Cells(colRowType).Value = "Misc") OrElse (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code IN (select Tax_Code  from TSPL_TAX_GROUP_DETAILS WHERE TAX_GROUP_CODE='" & txtTaxGroup.Value & "') AND Is_TCS ='Y'", trans)) > 0)) Then
                     Dim ii As Integer = 1
                     For Each dr As DataRow In dt.Rows
@@ -9722,7 +9724,8 @@ where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + ParentDocNo + "' and TS
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             Dim IsTaxable As Integer = 0
             For intRowNo As Integer = 0 To gv1.Rows.Count - 1
-                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'"))
+                'IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'"))
+                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 Is_Taxable from TSPL_ITEM_MASTER_TAXABLE where Item_Code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "' and TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtDate.Value) & "' ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC"))
                 If clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 AndAlso IsTaxable = 1 Then
                     Dim ii As Integer = 1
                     For Each dr As DataRow In dt.Rows
@@ -12490,7 +12493,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal AndAlso ItemMain = "N" Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceCHU", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceJPR12", "TAX INVOICE", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
+                        ' frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableInvoiceJPR", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
@@ -14516,14 +14521,18 @@ TSPL_Product_Demand_Booking_Detail.TR_Code as TR_CODE,TSPL_Product_Demand_Bookin
 from TSPL_Product_Demand_Booking_Master
 left join TSPL_Product_Demand_Booking_Detail on TSPL_Product_Demand_Booking_Master.Document_No=TSPL_Product_Demand_Booking_Detail.Document_No
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Product_Demand_Booking_Detail.Item_Code 
+OUTER APPLY ( SELECT TOP 1 * FROM TSPL_ITEM_MASTER_TAXABLE  
+WHERE TSPL_ITEM_MASTER_TAXABLE.Item_Code = TSPL_Product_Demand_Booking_Detail.Item_Code  AND TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(txtFrom_Date.Value) & "'
+    ORDER BY TSPL_ITEM_MASTER_TAXABLE.EFFECTIVE_DATE DESC
+) TSPL_ITEM_MASTER_TAXABLE
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_Product_Demand_Booking_Detail.Cust_Code 
 where  TSPL_Product_Demand_Booking_Master.Document_Date>='" + clsCommon.GetPrintDate(txtFrom_Date.Value) + "' and TSPL_Product_Demand_Booking_Master.Document_Date<'" + clsCommon.GetPrintDate(txtTo_Date.Value.AddDays(1)) + "' 
    and TSPL_Product_Demand_Booking_Master.Posted=1
 and TSPL_Product_Demand_Booking_Master.Route_No='" + txtRouteNo.Value + "' and TSPL_Product_Demand_Booking_Master.Location_Code='" + txtBillToLocation.Value + "' "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                        qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=1 "
                     Else
-                        qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+                        qry += " and TSPL_ITEM_MASTER_TAXABLE.Is_Taxable=0 "
                     End If
 
                     qry += " And TSPL_Product_Demand_Booking_Detail.TR_Code Is Not null  And Not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_Product_Demand_Booking_Detail.TR_Code  And TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE Not in ('" + txtDocNo.Value + "')) 

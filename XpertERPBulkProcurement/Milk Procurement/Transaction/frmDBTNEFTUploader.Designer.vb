@@ -27,6 +27,7 @@ Partial Class frmDBTNEFTUploader
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export = New Telerik.WinControls.UI.RadMenuItem()
@@ -99,6 +100,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDBTRevisePayment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnBank, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -194,6 +196,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadButton3)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadMenu1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkDBTRevisePayment)
         Me.SplitContainer2.Panel1.Controls.Add(Me.BtnBank)
@@ -225,6 +228,15 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Size = New System.Drawing.Size(860, 472)
         Me.SplitContainer2.SplitterDistance = 180
         Me.SplitContainer2.TabIndex = 0
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton3.Location = New System.Drawing.Point(606, 131)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(51, 39)
+        Me.RadButton3.TabIndex = 349
+        Me.RadButton3.Text = ">>"
         '
         'RadMenu1
         '
@@ -309,7 +321,7 @@ Partial Class frmDBTNEFTUploader
         'BtnBank
         '
         Me.BtnBank.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnBank.Location = New System.Drawing.Point(799, 72)
+        Me.BtnBank.Location = New System.Drawing.Point(799, 40)
         Me.BtnBank.Name = "BtnBank"
         Me.BtnBank.Size = New System.Drawing.Size(51, 20)
         Me.BtnBank.TabIndex = 92
@@ -577,7 +589,7 @@ Partial Class frmDBTNEFTUploader
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Nothing
         Me.txtVLC.MyLinkLable2 = Nothing
-        Me.txtVLC.MyNullText = "Please Select VLC"
+        Me.txtVLC.MyNullText = "All DCS"
         Me.txtVLC.Name = "txtVLC"
         Me.txtVLC.Size = New System.Drawing.Size(509, 19)
         Me.txtVLC.TabIndex = 4
@@ -1017,6 +1029,7 @@ Partial Class frmDBTNEFTUploader
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDBTRevisePayment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnBank, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1142,5 +1155,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents RadMenuItem7 As RadMenuItem
     Friend WithEvents RadMenuItem10 As RadMenuItem
     Friend WithEvents RadMenuItem11 As RadMenuItem
+    Friend WithEvents RadButton3 As RadButton
 End Class
 

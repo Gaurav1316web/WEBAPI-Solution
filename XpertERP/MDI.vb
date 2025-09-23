@@ -1150,6 +1150,7 @@ Public Class MDI
             End If
             Dim Pwd As String = clsCommon.myCstr(dt.Rows(0)("password"))
 
+
             If clsCommon.CompairString(txtUserName.Text, "admin") = CompairStringResult.Equal Then
                 If Not clsCommon.HighSecurityVerifyNumber(clsCommon.myCDecimal(lblOTPCode.Text)) = clsCommon.myCDecimal(txtPassword.Text) Then
                     clsCommon.MyMessageBoxShow(Me, "Wrong OTP.Try again...", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)

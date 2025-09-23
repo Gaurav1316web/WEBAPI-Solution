@@ -27112,13 +27112,17 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(txtDemandUpdateLoc.Value) > 0 Then
+                clsCommon.ProgressBarPercentShow()
 
                 Dim str As String = "select TR_Code,Cust_Code,Item_Code,Unit_code,Price_code,Qty from TSPL_DEMAND_BOOKING_DETAIL
             where Document_No in(select Document_No from TSPL_DEMAND_BOOKING_MASTER where convert(date,document_date,103)='" & clsCommon.GetPrintDate(txtDemadUpdatedate.Value) & "'and ShiftType='" & IIf(rbtnMorning.Checked, "Morning", "Evening") & "')"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
+                Dim RowCount As Integer = 1
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     For Each dr As DataRow In dt.Rows
+                        clsCommon.ProgressBarPercentUpdate((((RowCount) * 100) / dt.Rows.Count), "Updating Demand TR_Code -" & clsCommon.myCstr(dr("TR_Code")))
+
                         str = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price, XXXE.Tax_group,XXXE.TAX1_Rate, " &
                     " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
                     "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
@@ -27157,16 +27161,24 @@ TAX9='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX9")) & "',TAX9_Rate='" & clsComm
 TAX10='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX10")) & "',TAX10_Rate='" & clsCommon.myCstr(dtp.Rows(0).Item("TAX10_Rate")) & "',TAX10_Amt='" & clsCommon.myCstr(Math.Round(ItemTotAmt * (dtp.Rows(0).Item("TAX10_Rate") / 100), 2)) & "',TAX10_Base_Amt='" & clsCommon.myCstr(ItemTotAmt) & "'
 where TR_Code='" & clsCommon.myCstr(dr("TR_Code")) & "'"
                             clsDBFuncationality.ExecuteNonQuery(strQry, trans)
+
                         End If
+                        RowCount += 1
                     Next
+
+
                 Else
                     Throw New Exception("No Data Found!")
                 End If
+                trans.Commit()
+                clsCommon.ProgressBarPercentHide()
             Else
                 Throw New Exception("Please select Location")
 
             End If
         Catch ex As Exception
+            trans.Rollback()
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
