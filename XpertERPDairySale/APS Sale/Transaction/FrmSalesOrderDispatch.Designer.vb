@@ -91,6 +91,7 @@ Partial Class FrmSalesOrderDispatch
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -156,6 +157,7 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1082,6 +1084,7 @@ Partial Class FrmSalesOrderDispatch
         '
         'SplitContainer4.Panel2
         '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.btnprinte_wayBill)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnInvoiceJE)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnClose)
@@ -1151,6 +1154,16 @@ Partial Class FrmSalesOrderDispatch
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 18
         Me.btnSave.Text = "Save"
+        '
+        'btnprinte_wayBill
+        '
+        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprinte_wayBill.Location = New System.Drawing.Point(455, 5)
+        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
+        Me.btnprinte_wayBill.Size = New System.Drawing.Size(97, 22)
+        Me.btnprinte_wayBill.TabIndex = 1529
+        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
         '
         'FrmSalesOrderDispatch
         '
@@ -1235,6 +1248,7 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1307,4 +1321,5 @@ Partial Class FrmSalesOrderDispatch
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents btnReverseUnpost As RadButton
     Friend WithEvents btnCancel As RadButton
+    Friend WithEvents btnprinte_wayBill As RadButton
 End Class

@@ -1452,9 +1452,15 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
                 Dim EWayBillRemarks As String = objResult.SelectToken("data.alert").ToString
                 'Dim CompGSTNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GSTReg_No from TSPL_COMPANY_MASTER ", trans))
                 Dim CompGSTNo As String = objResult.SelectToken("header.gstin").ToString
-                Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EWayBillNo & "/" & CompGSTNo & "/" & clsCommon.GetPrintDate(EWayBillValidDate, "dd/MMM/yyyy hh:mm tt"))
-                clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  EWayBillNo ='" & EWayBillNo & "',EWayBillDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillValidDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillValidDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillRemarks='" & EWayBillRemarks & "' where TSPL_SD_SALE_INVOICE_HEAD.Document_Code ='" & strDocNo & "'", trans)
-                clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
+                Try
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(EWayBillNo & "/" & CompGSTNo & "/" & clsCommon.GetPrintDate(EWayBillValidDate, "dd/MMM/yyyy hh:mm tt"))
+                    clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  EWayBillNo ='" & EWayBillNo & "',EWayBillDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillValidDate='" & clsCommon.GetPrintDate(clsCommon.myCDate(EWayBillValidDate), "dd/MMM/yyyy hh:mm tt") & "',EWayBillRemarks='" & EWayBillRemarks & "' where TSPL_SD_SALE_INVOICE_HEAD.Document_Code ='" & strDocNo & "'", trans)
+                    clsDBFuncationality.UpdateImage("EWayBill_QR_Code", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
+
+                Catch ex As Exception
+
+                End Try
+                Dim ii As Integer = 0
             Else
                 Throw New Exception("eWayBill- Invalid JSON Value")
             End If
