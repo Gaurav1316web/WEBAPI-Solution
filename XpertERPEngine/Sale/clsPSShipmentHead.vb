@@ -2430,6 +2430,7 @@ Public Class clsPSShipmentHead
         obj.Including_Insurance = objShipment.Including_Insurance
         obj.Crate = objShipment.Crate
         obj.jaali = objShipment.jaali
+        obj.IsReplacement = objShipment.IsReplacement
         obj.Box = objShipment.Box
         obj.isCardSale = objShipment.isCardSale
         obj.IsEwaybill = objShipment.IsEwaybill

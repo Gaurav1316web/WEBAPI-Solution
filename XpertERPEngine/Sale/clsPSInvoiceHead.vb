@@ -17,6 +17,7 @@ Public Class clsPSInvoiceHead
     Public CLKm As Double = 0
     Public Screen_Type As String = Nothing
     Public IsSameBillShipParty As Integer = 0
+    Public IsReplacement As Integer = 0
     Public Ship_To_Party As String = Nothing
     Public Scheme_Tax_Group As String = Nothing
     Public Electronic_Ref_No As String = Nothing
@@ -587,6 +588,7 @@ Public Class clsPSInvoiceHead
             clsCommon.AddColumnsForChange(coll, "TPT_Vendor", obj.TPT_Vendor, True)
             clsCommon.AddColumnsForChange(coll, "Recommended_By", obj.Recommended_By, True)
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
+            clsCommon.AddColumnsForChange(coll, "IsReplacement", obj.IsReplacement, True)
             clsCommon.AddColumnsForChange(coll, "Exclude_KKF_And_Mandi", IIf(obj.Exclude_KKF_And_Mandi, 1, 0))
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
@@ -872,7 +874,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
     " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.SO_Validity,TSPL_SD_SALE_INVOICE_HEAD.Commission_Apply,TSPL_SD_SALE_INVOICE_HEAD.Total_Comm_Amt,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_date " &
     " ,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Terms,TSPL_SD_SALE_INVOICE_HEAD.Payment_Terms,TSPL_SD_SALE_INVOICE_HEAD.Dispatch_Period,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Capacity " &
-    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
+    " ,TSPL_SD_SALE_INVOICE_HEAD.trans_type,TSPL_SD_SALE_INVOICE_HEAD.IsReplacement,TSPL_SD_SALE_INVOICE_HEAD.CancelFlag,TSPL_SD_SALE_INVOICE_HEAD.Invoice_No_For_Supplementary,TSPL_SD_SALE_INVOICE_HEAD.Supplementary_Type,Transport_Code,Transporter_Name,Freight_Distance,TSPL_SD_SALE_INVOICE_HEAD.Deduction_Type ,TSPL_SD_SALE_INVOICE_HEAD.Deduction,TSPL_SD_SALE_INVOICE_HEAD.IsEwaybill,TSPL_SD_SALE_INVOICE_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Commission_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Security_TotalAmt,TSPL_SD_SALE_INVOICE_HEAD.Is_Apply_TPT,TSPL_SD_SALE_INVOICE_HEAD.Recommended_By,TSPL_SD_SALE_INVOICE_HEAD.TPT_Vendor,TSPL_SD_SALE_INVOICE_HEAD.IsMultipleInvoice  
      FROM TSPL_SD_SALE_INVOICE_HEAD " &
     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location " &
     " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location " &
@@ -936,6 +938,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
             obj.ShippedCAN = clsCommon.myCdbl(dt.Rows(0)("ShippedCAN"))
             obj.CrateQty = clsCommon.myCdbl(dt.Rows(0)("CrateQty"))
             obj.isCardSale = clsCommon.myCdbl(dt.Rows(0)("isCardSale"))
+            obj.IsReplacement = clsCommon.myCdbl(dt.Rows(0)("IsReplacement"))
             obj.OPKm = clsCommon.myCdbl(dt.Rows(0)("OPKm"))
             obj.CLKm = clsCommon.myCdbl(dt.Rows(0)("CLKm"))
             obj.IsSameBillShipParty = clsCommon.myCdbl(dt.Rows(0)("IsSameBillShipParty"))
@@ -1653,7 +1656,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         End If
                     End If
                 End If
-            ElseIf clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal AndAlso obj.IsReplacement = 0 Then
                 If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EWayBill_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
                     If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & strDocNo & "'", trans)) <= 0 Then

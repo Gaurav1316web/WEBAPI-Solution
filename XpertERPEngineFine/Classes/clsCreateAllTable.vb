@@ -33369,6 +33369,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Exclude_KKF_And_Mandi", "integer null")
             coll.Add("Send_By", "varchar(12)  NULL")
             coll.Add("Send_Date", "datetime  NULL")
+            coll.Add("IsReplacement", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SALE_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
             coll = New Dictionary(Of String, String)

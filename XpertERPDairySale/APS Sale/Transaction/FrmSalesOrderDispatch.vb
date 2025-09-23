@@ -101,6 +101,8 @@ Public Class FrmSalesOrderDispatch
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
         btnprinte_wayBill.Visible = False
+        lblInvnoForReplacement.Visible = False
+        txtInvoice_for_replacement.Visible = False
         AddNew()
     End Sub
     Private Function GetItemType() As DataTable
@@ -725,7 +727,7 @@ Public Class FrmSalesOrderDispatch
         UsLock1.Status = ERPTransactionStatus.Pending
         txtDocCode.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtInvoiceno.Text = ""
+        txtInvoice_for_replacement.Text = ""
         txtOrderNo.Value = ""
         lblorderdesc.Text = ""
         txtCustomerCode.Value = ""
@@ -747,6 +749,9 @@ Public Class FrmSalesOrderDispatch
         txtVehicleCode.Value = ""
         lblVehicleNo.Text = ""
         txtBalQty.Text = 0
+        txtInvoiceno.Text = ""
+        txtInvoice_for_replacement.Value = ""
+        txtInvoice_for_replacement.Enabled = False
         chkReplacement.Checked = False
         btnSave.Enabled = True
         btnDelete.Enabled = True
@@ -1286,8 +1291,10 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
                                 If gv1.CurrentRow.Cells(colIsBatchItem).Value AndAlso (RunBatchFifowise = 0 OrElse RunBatchFifowisewithmodifyfunctionality) Then
                                     OpenBatchItem()
                                 End If
+                                If Not chkReplacement.Checked Then
+                                    UpdateCurrentRow(gv1.CurrentRow.Index)
 
-                                UpdateCurrentRow(gv1.CurrentRow.Index)
+                                End If
                             Else
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                                 Throw New Exception("Item [" & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & "] out of stock! Current available balance is [" & clsCommon.myCstr(txtBalQty.Text) & "]")
@@ -1302,7 +1309,9 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
                         setGridFocus()
                     End If
                 End If
-                UpdateAllTotals()
+                If Not chkReplacement.Checked Then
+                    UpdateAllTotals()
+                End If
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
@@ -1745,7 +1754,7 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
 left join TSPL_CUSTOMER_TENDER_ORDER_DETAIL on TSPL_CUSTOMER_TENDER_ORDER_DETAIL.Document_Code=TSPL_CUSTOMER_TENDER_ORDER.Document_Code
 where TSPL_CUSTOMER_TENDER_ORDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TENDER_ORDER.Status=1"
             txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-            qry = "select sum(Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order='" & strCode & "' and TSPL_SD_SHIPMENT_HEAD.Status=1"
+            qry = "select sum(Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order='" & strCode & "' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=0 "
             txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
 
         Catch ex As Exception
@@ -1916,6 +1925,9 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.Bill_To_Location = txtLocation.Value
                 obj.Sub_Location_code = txtSubLocation.Value
                 obj.IsReplacement = IIf(chkReplacement.Checked, 1, 0)
+                If obj.IsReplacement = 1 Then
+                    obj.Invoice_No_ForReplacement = txtInvoice_for_replacement.Value
+                End If
                 obj.Transport_Id = clsCommon.myCstr(txtTransporterCode.Value)
                 obj.Transporter_Name = lblTransporterName.Text
                 obj.VehicleNo = txtVehicleCode.Value
@@ -2130,10 +2142,16 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 lblTransporterName.Text = obj.Transporter_Name
                 lblVehicleNo.Text = obj.VehicleNo
                 txtVehicleCode.Value = obj.Vehicle_Code
-                txtInvoiceno.Text = obj.Invoice_No
-                GetTenderQty(txtOrderNo.Value)
+                txtInvoiceno.Text = obj.Sale_Invoice_No
+                txtInvoice_for_replacement.Value = obj.Invoice_No_ForReplacement
                 chkReplacement.Checked = IIf(obj.IsReplacement = 1, True, False)
                 LoadBlankGridTax()
+                If chkReplacement.Checked Then
+                    GetReplacementQty(obj.Sale_Invoice_No, obj.Invoice_No_ForReplacement, True)
+                Else
+                    GetTenderQty(txtOrderNo.Value)
+
+                End If
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
                 objTaxGrpMaster = objTaxGrpMaster.GetDataForSale(obj.Tax_Group)
                 If (objTaxGrpMaster IsNot Nothing) Then
@@ -2410,7 +2428,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
     Sub DeleteData()
         Try
             If (myMessages.deleteConfirm()) Then
-                clsPSShipmentHead.DeleteData(txtDocCode.Value, txtInvoiceno.Text)
+                clsPSShipmentHead.DeleteData(txtDocCode.Value, txtInvoice_for_replacement.Text)
                 common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 AddNew()
             End If
@@ -2439,7 +2457,7 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
     End Sub
 
     Private Sub btnInvoiceJE_Click(sender As Object, e As EventArgs) Handles btnInvoiceJE.Click
-        clsOpenJEAgainstInvoice.ShowInvoiceJE(txtInvoiceno.Text)
+        clsOpenJEAgainstInvoice.ShowInvoiceJE(txtInvoice_for_replacement.Text)
     End Sub
 
     Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
@@ -2492,6 +2510,331 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkReplacement_CheckedChanged(sender As Object, e As EventArgs) Handles chkReplacement.CheckedChanged
+        If chkReplacement.Checked Then
+            txtInvoice_for_replacement.Enabled = True
+            txtInvoice_for_replacement.Visible = True
+            lblInvnoForReplacement.Visible = True
+        Else
+            txtInvoice_for_replacement.Enabled = False
+            txtInvoice_for_replacement.Visible = False
+            lblInvnoForReplacement.Visible = False
+        End If
+    End Sub
+
+
+    Private Sub LoadReplacementData(ByVal strCode As String, ByVal strInvoicenoReplacement As String, ByVal NavTyep As NavigatorType)
+        Try
+            isInsideLoadData = True
+            Dim obj As New clsPSShipmentHead()
+            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
+                LoadBlankGrid()
+
+                txtDocCode.Value = ""
+                txtDate.Value = obj.Document_Date
+                txtOrderNo.Value = obj.Against_Cust_Order
+                lblorderdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Remarks from TSPL_CUSTOMER_TENDER_Order where Document_Code='" & txtOrderNo.Value & "'"))
+                txtCustomerCode.Value = obj.Customer_Code
+                lblCustomerName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "'"))
+                txtLocation.Value = obj.Bill_To_Location
+                lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & txtLocation.Value & "'"))
+                If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
+                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                        txtSubLocation.Value = obj.Sub_Location_code
+                    Else
+                        txtSubLocation.Value = ""
+                    End If
+                End If
+                GetReplacementQty(obj.Sale_Invoice_No, strInvoicenoReplacement, False)
+                txtTransporterCode.Value = obj.Transport_Id
+                lblTransporterName.Text = obj.Transporter_Name
+                lblVehicleNo.Text = obj.VehicleNo
+                txtVehicleCode.Value = obj.Vehicle_Code
+                txtInvoice_for_replacement.Text = obj.Invoice_No
+                'GetTenderQty(txtOrderNo.Value)
+                'chkReplacement.Checked = IIf(obj.IsReplacement = 1, True, False)
+                LoadBlankGridTax()
+                Dim objTaxGrpMaster As New clsTaxGroupMaster()
+                objTaxGrpMaster = objTaxGrpMaster.GetDataForSale(obj.Tax_Group)
+                If (objTaxGrpMaster IsNot Nothing) Then
+                    lblTaxGrpName.Text = objTaxGrpMaster.Tax_Group_Desc
+                End If
+                If (clsCommon.myLen(obj.TAX1) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX1
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX1) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                End If
+                If (clsCommon.myLen(obj.TAX2) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX2
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX2) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                End If
+                If (clsCommon.myLen(obj.TAX3) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX3
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX3) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                End If
+                If (clsCommon.myLen(obj.TAX4) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX4
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX4) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                End If
+                If (clsCommon.myLen(obj.TAX5) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX5
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX5) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+                End If
+                If (clsCommon.myLen(obj.TAX6) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX6
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX6) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+                End If
+                If (clsCommon.myLen(obj.TAX7) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX7
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX7) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+                End If
+                If (clsCommon.myLen(obj.TAX8) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX8
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX8) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+                End If
+                If (clsCommon.myLen(obj.TAX9) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX9
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX9) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+                End If
+                If (clsCommon.myLen(obj.TAX10) > 0) Then
+                    gv2.Rows.AddNew()
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutCode).Value = obj.TAX10
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTBaseAmt).Value = 0
+                    gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAmt).Value = 0
+                    If (objTaxGrpMaster IsNot Nothing AndAlso objTaxGrpMaster.Arr IsNot Nothing AndAlso objTaxGrpMaster.Arr.Count > 0) Then
+                        For Each objTaxGrpTr As clsTaxGroupDetail In objTaxGrpMaster.Arr
+                            If (clsCommon.CompairString(objTaxGrpTr.Tax_Code, obj.TAX10) = CompairStringResult.Equal) Then
+                                gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxAutName).Value = objTaxGrpTr.Tax_Code_Desc
+
+                                Exit For
+                            End If
+                        Next
+                    End If
+                End If
+                If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
+                    rbtnTaxCalAutomatic.IsChecked = True
+                ElseIf obj.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
+                    rbtnTaxCalManual.IsChecked = True
+                End If
+                txtDocAmtWithoutTax.Text = 0
+                txtTaxAmt.Text = 0
+                txtDocAmt.Text = 0
+                txtRemark.Text = obj.Remarks
+                txtVehicleCode.Value = obj.VehicleNo
+                lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleCode.Value) & "'")
+                Dim sl As Integer = 1
+                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    For Each objTr As clsPSShipmentHeadDetail In obj.Arr
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.Row_Type
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = objTr.arrBatchItem
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Short_Description from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(objTr.Item_Code) & "' ")
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objTr.Unit_code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSubLocation).Value = objTr.Sub_Location_code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTenderRate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax1).Value = objTr.TAX1
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax1_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax1_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax1_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax2).Value = objTr.TAX2
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax2_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax2_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax2_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax3).Value = objTr.TAX3
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax3_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax3_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax3_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax4).Value = objTr.TAX4
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax4_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax4_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax4_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax5).Value = objTr.TAX5
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax5_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax5_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax5_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax6).Value = objTr.TAX6
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax6_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax6_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax6_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax7).Value = objTr.TAX7
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax7_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax7_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax7_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax8).Value = objTr.TAX8
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax8_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax8_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax8_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax9).Value = objTr.TAX9
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax9_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax9_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax9_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10).Value = objTr.TAX10
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10_BaseAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10_Rate).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTax10_Amt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalTaxAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTotalAmt).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPKID).Value = objTr.Against_Cust_Ord_PK_ID
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colInclusiveTax).Value = objTr.Inclusive_Tax
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colInclusiveTPT).Value = objTr.Inclusive_TPT
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(clsCommon.myCstr(objTr.Item_Code))
+                        sl += 1
+                    Next
+                End If
+                UcAttachment1.LoadData(obj.Document_Code)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            isInsideLoadData = False
+        End Try
+    End Sub
+
+    Private Sub txtInvoice_for_replacement__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtInvoice_for_replacement._MYValidating
+        Try
+
+            Dim qry As String = "select Sale_Invoice_No as Code,Document_Date,Customer_Code from TSPL_SD_SHIPMENT_HEAD  "
+
+            Dim Whrcls As String = "  Screen_Type='CT' and Status=1 "
+            txtInvoice_for_replacement.Value = clsCommon.ShowSelectForm("Sale-Ordcustfnd", qry, "Code", Whrcls, txtInvoice_for_replacement.Value, "Code", isButtonClicked)
+            Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Sale_Invoice_No='" & txtInvoice_for_replacement.Value & "' "))
+            If clsCommon.myLen(strDocNo) > 0 Then
+                LoadReplacementData(strDocNo, txtInvoice_for_replacement.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub GetReplacementQty(ByVal strInvoiceNo As String, ByVal strInvoiceReplacement As String, ByVal isLoad As Boolean)
+        Try
+            Dim qry As String = "select sum(Qty) as Qty 
+from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No='" & IIf(isLoad, strInvoiceReplacement, strInvoiceNo) & "' and TSPL_SD_SHIPMENT_HEAD.Status=1"
+            txtOrderQty.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            qry = "select sum(Qty) as Qty from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code where TSPL_SD_SHIPMENT_HEAD.Invoice_No_ForReplacement='" & strInvoiceReplacement & "' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_HEAD.IsReplacement=1 "
+            txtBalQty.Text = clsCommon.myCdbl(txtOrderQty.Text) - clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 End Class

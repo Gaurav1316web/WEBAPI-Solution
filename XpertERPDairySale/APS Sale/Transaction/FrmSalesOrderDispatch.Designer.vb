@@ -27,6 +27,10 @@ Partial Class FrmSalesOrderDispatch
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
+        Me.lblInvnoForReplacement = New common.Controls.MyLabel()
+        Me.txtInvoice_for_replacement = New common.UserControls.txtFinder()
+        Me.lblorderNo = New common.Controls.MyLabel()
+        Me.lblorderdesc = New common.Controls.MyLabel()
         Me.txtRemark = New common.Controls.MyTextBox()
         Me.lblRemark = New common.Controls.MyLabel()
         Me.lblTransporterName = New common.Controls.MyTextBox()
@@ -53,8 +57,6 @@ Partial Class FrmSalesOrderDispatch
         Me.lblSubLocationDesc = New common.Controls.MyLabel()
         Me.lblSubLocaiton = New common.Controls.MyLabel()
         Me.txtOrderNo = New common.UserControls.txtFinder()
-        Me.lblorderNo = New common.Controls.MyLabel()
-        Me.lblorderdesc = New common.Controls.MyLabel()
         Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.lblDate = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -85,19 +87,22 @@ Partial Class FrmSalesOrderDispatch
         Me.lblDocamt = New common.Controls.MyLabel()
         Me.txtDocAmt = New common.Controls.MyLabel()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnprinte_wayBill = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer5.Panel1.SuspendLayout()
         Me.SplitContainer5.Panel2.SuspendLayout()
         Me.SplitContainer5.SuspendLayout()
+        CType(Me.lblInvnoForReplacement, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblorderNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblorderdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -117,8 +122,6 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocaiton, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblorderNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblorderdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,13 +154,13 @@ Partial Class FrmSalesOrderDispatch
         Me.SplitContainer4.Panel1.SuspendLayout()
         Me.SplitContainer4.Panel2.SuspendLayout()
         Me.SplitContainer4.SuspendLayout()
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -172,7 +175,7 @@ Partial Class FrmSalesOrderDispatch
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(818, 413)
+        Me.RadPageView1.Size = New System.Drawing.Size(1000, 413)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -187,7 +190,7 @@ Partial Class FrmSalesOrderDispatch
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 367)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(979, 367)
         Me.RadPageViewPage1.Text = "Booking Order"
         '
         'SplitContainer5
@@ -201,6 +204,8 @@ Partial Class FrmSalesOrderDispatch
         '
         'SplitContainer5.Panel1
         '
+        Me.SplitContainer5.Panel1.Controls.Add(Me.lblInvnoForReplacement)
+        Me.SplitContainer5.Panel1.Controls.Add(Me.txtInvoice_for_replacement)
         Me.SplitContainer5.Panel1.Controls.Add(Me.txtRemark)
         Me.SplitContainer5.Panel1.Controls.Add(Me.lblRemark)
         Me.SplitContainer5.Panel1.Controls.Add(Me.lblTransporterName)
@@ -235,9 +240,66 @@ Partial Class FrmSalesOrderDispatch
         'SplitContainer5.Panel2
         '
         Me.SplitContainer5.Panel2.Controls.Add(Me.gv1)
-        Me.SplitContainer5.Size = New System.Drawing.Size(797, 367)
+        Me.SplitContainer5.Size = New System.Drawing.Size(979, 367)
         Me.SplitContainer5.SplitterDistance = 177
         Me.SplitContainer5.TabIndex = 1578
+        '
+        'lblInvnoForReplacement
+        '
+        Me.lblInvnoForReplacement.FieldName = Nothing
+        Me.lblInvnoForReplacement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInvnoForReplacement.Location = New System.Drawing.Point(638, 50)
+        Me.lblInvnoForReplacement.Name = "lblInvnoForReplacement"
+        Me.lblInvnoForReplacement.Size = New System.Drawing.Size(150, 16)
+        Me.lblInvnoForReplacement.TabIndex = 1629
+        Me.lblInvnoForReplacement.Text = "Invoice No For Replacement"
+        '
+        'txtInvoice_for_replacement
+        '
+        Me.txtInvoice_for_replacement.CalculationExpression = Nothing
+        Me.txtInvoice_for_replacement.FieldCode = Nothing
+        Me.txtInvoice_for_replacement.FieldDesc = Nothing
+        Me.txtInvoice_for_replacement.FieldMaxLength = 0
+        Me.txtInvoice_for_replacement.FieldName = Nothing
+        Me.txtInvoice_for_replacement.isCalculatedField = False
+        Me.txtInvoice_for_replacement.IsSourceFromTable = False
+        Me.txtInvoice_for_replacement.IsSourceFromValueList = False
+        Me.txtInvoice_for_replacement.IsUnique = False
+        Me.txtInvoice_for_replacement.Location = New System.Drawing.Point(794, 48)
+        Me.txtInvoice_for_replacement.MendatroryField = False
+        Me.txtInvoice_for_replacement.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtInvoice_for_replacement.MyLinkLable1 = Me.lblorderNo
+        Me.txtInvoice_for_replacement.MyLinkLable2 = Me.lblorderdesc
+        Me.txtInvoice_for_replacement.MyReadOnly = False
+        Me.txtInvoice_for_replacement.MyShowMasterFormButton = False
+        Me.txtInvoice_for_replacement.Name = "txtInvoice_for_replacement"
+        Me.txtInvoice_for_replacement.ReferenceFieldDesc = Nothing
+        Me.txtInvoice_for_replacement.ReferenceFieldName = Nothing
+        Me.txtInvoice_for_replacement.ReferenceTableName = Nothing
+        Me.txtInvoice_for_replacement.Size = New System.Drawing.Size(140, 20)
+        Me.txtInvoice_for_replacement.TabIndex = 1628
+        Me.txtInvoice_for_replacement.Value = ""
+        '
+        'lblorderNo
+        '
+        Me.lblorderNo.FieldName = Nothing
+        Me.lblorderNo.Location = New System.Drawing.Point(12, 27)
+        Me.lblorderNo.Name = "lblorderNo"
+        Me.lblorderNo.Size = New System.Drawing.Size(77, 18)
+        Me.lblorderNo.TabIndex = 1605
+        Me.lblorderNo.Text = "Sale Order No"
+        '
+        'lblorderdesc
+        '
+        Me.lblorderdesc.AutoSize = False
+        Me.lblorderdesc.BorderVisible = True
+        Me.lblorderdesc.FieldName = Nothing
+        Me.lblorderdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblorderdesc.Location = New System.Drawing.Point(279, 26)
+        Me.lblorderdesc.Name = "lblorderdesc"
+        Me.lblorderdesc.Size = New System.Drawing.Size(162, 20)
+        Me.lblorderdesc.TabIndex = 1606
+        Me.lblorderdesc.TextWrap = False
         '
         'txtRemark
         '
@@ -628,27 +690,6 @@ Partial Class FrmSalesOrderDispatch
         Me.txtOrderNo.TabIndex = 1604
         Me.txtOrderNo.Value = ""
         '
-        'lblorderNo
-        '
-        Me.lblorderNo.FieldName = Nothing
-        Me.lblorderNo.Location = New System.Drawing.Point(12, 27)
-        Me.lblorderNo.Name = "lblorderNo"
-        Me.lblorderNo.Size = New System.Drawing.Size(77, 18)
-        Me.lblorderNo.TabIndex = 1605
-        Me.lblorderNo.Text = "Sale Order No"
-        '
-        'lblorderdesc
-        '
-        Me.lblorderdesc.AutoSize = False
-        Me.lblorderdesc.BorderVisible = True
-        Me.lblorderdesc.FieldName = Nothing
-        Me.lblorderdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblorderdesc.Location = New System.Drawing.Point(279, 26)
-        Me.lblorderdesc.Name = "lblorderdesc"
-        Me.lblorderdesc.Size = New System.Drawing.Size(162, 20)
-        Me.lblorderdesc.TabIndex = 1606
-        Me.lblorderdesc.TextWrap = False
-        '
         'txtSubLocation
         '
         Me.txtSubLocation.CalculationExpression = Nothing
@@ -785,7 +826,7 @@ Partial Class FrmSalesOrderDispatch
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(797, 186)
+        Me.gv1.Size = New System.Drawing.Size(979, 186)
         Me.gv1.TabIndex = 19
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
@@ -1091,15 +1132,25 @@ Partial Class FrmSalesOrderDispatch
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer4.Size = New System.Drawing.Size(818, 450)
+        Me.SplitContainer4.Size = New System.Drawing.Size(1000, 450)
         Me.SplitContainer4.SplitterDistance = 413
         Me.SplitContainer4.TabIndex = 3
+        '
+        'btnprinte_wayBill
+        '
+        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnprinte_wayBill.Location = New System.Drawing.Point(637, 5)
+        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
+        Me.btnprinte_wayBill.Size = New System.Drawing.Size(97, 22)
+        Me.btnprinte_wayBill.TabIndex = 1529
+        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
         '
         'btnShowInventory
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(558, 5)
+        Me.btnShowInventory.Location = New System.Drawing.Point(740, 5)
         Me.btnShowInventory.Name = "btnShowInventory"
         Me.btnShowInventory.Size = New System.Drawing.Size(101, 22)
         Me.btnShowInventory.TabIndex = 23
@@ -1109,7 +1160,7 @@ Partial Class FrmSalesOrderDispatch
         '
         Me.btnInvoiceJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnInvoiceJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnInvoiceJE.Location = New System.Drawing.Point(665, 5)
+        Me.btnInvoiceJE.Location = New System.Drawing.Point(847, 5)
         Me.btnInvoiceJE.Name = "btnInvoiceJE"
         Me.btnInvoiceJE.Size = New System.Drawing.Size(61, 22)
         Me.btnInvoiceJE.TabIndex = 22
@@ -1119,7 +1170,7 @@ Partial Class FrmSalesOrderDispatch
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(732, 5)
+        Me.btnClose.Location = New System.Drawing.Point(914, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(71, 22)
         Me.btnClose.TabIndex = 21
@@ -1155,21 +1206,11 @@ Partial Class FrmSalesOrderDispatch
         Me.btnSave.TabIndex = 18
         Me.btnSave.Text = "Save"
         '
-        'btnprinte_wayBill
-        '
-        Me.btnprinte_wayBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnprinte_wayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnprinte_wayBill.Location = New System.Drawing.Point(455, 5)
-        Me.btnprinte_wayBill.Name = "btnprinte_wayBill"
-        Me.btnprinte_wayBill.Size = New System.Drawing.Size(97, 22)
-        Me.btnprinte_wayBill.TabIndex = 1529
-        Me.btnprinte_wayBill.Text = "Print E-Way Bill"
-        '
         'FrmSalesOrderDispatch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(818, 450)
+        Me.ClientSize = New System.Drawing.Size(1000, 450)
         Me.Controls.Add(Me.SplitContainer4)
         Me.Name = "FrmSalesOrderDispatch"
         '
@@ -1185,6 +1226,9 @@ Partial Class FrmSalesOrderDispatch
         Me.SplitContainer5.Panel1.PerformLayout()
         Me.SplitContainer5.Panel2.ResumeLayout(False)
         Me.SplitContainer5.ResumeLayout(False)
+        CType(Me.lblInvnoForReplacement, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblorderNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblorderdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRemark, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1205,8 +1249,6 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocaiton, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblorderNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblorderdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1242,13 +1284,13 @@ Partial Class FrmSalesOrderDispatch
         Me.SplitContainer4.Panel1.ResumeLayout(False)
         Me.SplitContainer4.Panel2.ResumeLayout(False)
         Me.SplitContainer4.ResumeLayout(False)
+        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnprinte_wayBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1293,7 +1335,6 @@ Partial Class FrmSalesOrderDispatch
     Friend WithEvents lblVehicleNo As common.Controls.MyTextBox
     Friend WithEvents txtVehicleCode As common.UserControls.txtFinder
     Friend WithEvents lblVehicleCode As common.Controls.MyLabel
-    Friend WithEvents txtInvoiceno As common.Controls.MyLabel
     Friend WithEvents lblInvoiceNo As common.Controls.MyLabel
     Friend WithEvents chkReplacement As CheckBox
     Friend WithEvents gbQtySummary As GroupBox
@@ -1322,4 +1363,7 @@ Partial Class FrmSalesOrderDispatch
     Friend WithEvents btnReverseUnpost As RadButton
     Friend WithEvents btnCancel As RadButton
     Friend WithEvents btnprinte_wayBill As RadButton
+    Friend WithEvents txtInvoice_for_replacement As common.UserControls.txtFinder
+    Friend WithEvents txtInvoiceno As common.Controls.MyLabel
+    Friend WithEvents lblInvnoForReplacement As common.Controls.MyLabel
 End Class
