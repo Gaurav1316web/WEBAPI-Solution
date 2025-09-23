@@ -1185,6 +1185,7 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
         Dim currentdate As Date = Date.Today
         LoadBlankGrid()
         gv1.Rows.AddNew()
+
         '       Dim qry1 As String = "select Document_No from TSPL_MILK_COLLECTION_MCC
         'WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
         '                   CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
