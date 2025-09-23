@@ -3964,7 +3964,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.Free_Qty = clsCommon.myCdbl(grow.Cells(colFreeQty).Value)
                     objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                    If ConvertIntoBillingUOM Then
+                    If ConvertIntoBillingUOM AndAlso clsCommon.myLen(objTr.Item_Code) > 0 Then
                         Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(grow.Cells(colICode).Value) & "' and Billing_UOM=1"))
                         If clsCommon.myLen(Billing_UOM) > 0 Then
                             objTr.Billing_Unit_code = Billing_UOM
