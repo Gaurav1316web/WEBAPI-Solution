@@ -978,6 +978,10 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
         Dim qry As String = "select isnull(Short_Description,'') as Short_Description from TSPL_ITEM_MASTER where Item_Code='" + strICode + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
+    Public Shared Function GetItemDeductionType(ByVal strICode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "select isnull(Deduction,'') as Deduction from TSPL_ITEM_MASTER where Item_Code='" + strICode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
     Public Shared Function GetItemStructureCode(ByVal strICode As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = "select Structure_Code from TSPL_ITEM_MASTER where Item_Code='" + strICode + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))

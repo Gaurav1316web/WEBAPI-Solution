@@ -432,6 +432,7 @@
     <Compile Include="Milk Procurement\clsBankAdvise.vb" />
     <Compile Include="Milk Procurement\clsBMCTransporterBill.vb" />
     <Compile Include="Milk Procurement\clsCapping.vb" />
+    <Compile Include="Milk Procurement\clsCattleFeedSalePurchaseUploader.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
@@ -791,7 +792,6 @@
     <Compile Include="Milk Procurement\clsContractTankerHead.vb" />
     <Compile Include="Milk Procurement\clsDeductionMapping.vb" />
     <Compile Include="Milk Procurement\clsDivertedContractor.vb" />
-    <Compile Include="Milk Procurement\clsFreightChargesMaster.vb" />
     <Compile Include="Milk Procurement\clsFrmMilkRecurringScheduler.vb" />
     <Compile Include="Milk Procurement\clsfrmMilkRouteMaster.vb" />
     <Compile Include="Milk Procurement\clsfrmParameterRangeMaster.vb" />

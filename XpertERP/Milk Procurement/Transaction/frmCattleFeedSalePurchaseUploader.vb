@@ -640,7 +640,7 @@ Public Class FrmCattleFeedSalePurchaseUploader
             End If
         Next
     End Sub
-    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs)
         Dim qry As String = " select  '" & objCommonVar.CurrentUser & "' as User_Code, ROW_NUMBER( ) over( order by TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.Document_date) as SNo,TSPL_COMPANY_MASTER.Comp_Name,convert(varchar,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Invoice_Date,103) as Invoice_Date,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Sale_Amt,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Deposit_Amt,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Curr_Balance_Amt,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Balance_Amt,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Penalty,convert(varchar,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.Document_date,103) as Document_date,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
         convert(varchar,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.From_Date,103) as From_Date,convert(varchar,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.To_Date,103) as To_Date,TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.Penalty_Per from  TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail
         left join TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER on TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.Document_No = TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER_detail.Document_No left join TSPL_COMPANY_MASTER on 1=1 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code = TSPL_CATTLE_FEED_SALE_PURCHASE_UPLOADER.Cust_Code

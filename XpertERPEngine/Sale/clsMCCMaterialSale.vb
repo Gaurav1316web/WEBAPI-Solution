@@ -29,6 +29,7 @@ Public Class clsMCCMaterialSale
     Public isTaxExempted As Boolean = False '' Not a table field
     Public Document_Date As DateTime? = Nothing
     Public Customer_Code As String = Nothing
+    Public Against_CF_Sale_Purchase_No As String = Nothing
     Public Customer_Name As String = Nothing  'Not a table field
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Rate_Status As Integer = 1
@@ -468,6 +469,7 @@ Public Class clsMCCMaterialSale
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code, True)
             '---------------------------------------------------------------------------------------
             clsCommon.AddColumnsForChange(coll, "Customer_Code", obj.Customer_Code)
+            clsCommon.AddColumnsForChange(coll, "Against_CF_Sale_Purchase_No", obj.Against_CF_Sale_Purchase_No, True)
             clsCommon.AddColumnsForChange(coll, "On_Hold", IIf(obj.On_Hold, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Internal", IIf(obj.Is_Internal, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Ref_No", obj.Ref_No)
@@ -2037,9 +2039,7 @@ Public Class clsMCCMaterialSale
 
         obj.Total_Add_Charge = objShipment.Total_Add_Charge
         obj.Inv_No = objShipment.Inv_No
-        If clsCommon.myLen(objShipment.Challan_Date) <= 0 Then
-            obj.Challan_Date = ""
-        Else
+        If clsCommon.myLen(objShipment.Challan_Date) > 0 Then
             obj.Challan_Date = clsCommon.GetPrintDate(objShipment.Challan_Date, "dd/MMM/yyyy")
         End If
 
@@ -3311,7 +3311,6 @@ Public Class clsMCCMaterialSaleDetail
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                 clsCommon.AddColumnsForChange(coll, "Billing_Qty", obj.Billing_Qty)
                 clsCommon.AddColumnsForChange(coll, "Billing_Unit_code", obj.Billing_Unit_code)
-
                 clsCommon.AddColumnsForChange(coll, "Free_qty", obj.Free_Qty)
 
                 clsCommon.AddColumnsForChange(coll, "Order_Code", obj.Order_Code, True)
