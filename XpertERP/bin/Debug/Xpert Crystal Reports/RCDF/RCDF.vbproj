@@ -1464,6 +1464,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploaderBankLetterYesBank.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDcsCredit.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />
