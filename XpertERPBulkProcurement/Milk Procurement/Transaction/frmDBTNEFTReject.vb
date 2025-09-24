@@ -30,14 +30,7 @@ Public Class frmDBTNEFTReject
         InitializeComponent()
     End Sub
     Private Sub FrmVLCDataUploaderManual_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Against_PDA_BillNo", "varchar(10) NULL")
-
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_REJECT", coll, "", True, False, "", "Document_Code", "Document_Date", True)
-
-
         strPortNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  [TSPL_APP_LOCATION].PD_Account_Prefix as PortNo  from TSPL_MASTER.dbo.TSPL_APP_LOCATION WHERE  [TSPL_APP_LOCATION].DataBase_Name='" + objCommonVar.CurrDatabase + "' and [TSPL_APP_LOCATION].Apply_PD_Account = 1 order by [TSPL_APP_LOCATION].Location_Name "))
-
         SetUserMgmtNew()
         Reset()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
