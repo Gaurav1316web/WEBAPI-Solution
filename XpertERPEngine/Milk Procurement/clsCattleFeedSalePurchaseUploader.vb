@@ -574,6 +574,8 @@ Public Class clsCattleFeedSalePurchaseUploader
                             'objDCSSaleDetail.Batch_No = objDetail.Batch_No
                             objDCSSaleDetail.Total_Basic_Amt = objItemDetail.Purchase_Amt
                             objDCSSaleDetail.Total_Disc_Amt = 0
+                            objDCSSaleDetail.Item_Cost = clsEkoPro.GetRateMccSale(objDCSSale.Bill_To_Location, objItemDetail.Item_Code, objItemDetail.Unit_Code, objDetail.SRN_Dispatch_Date, trans)
+
                             '    objDCSSaleDetail.Price_code = objDetail.Price_code
                             '  objDCSSaleDetail.Price_Date = objDetail.Price_Date
                             'objDCSSaleDetail.Item_Weight = objDetail.Item_Weight
@@ -609,7 +611,7 @@ Public Class clsCattleFeedSalePurchaseUploader
                             'objDCSSaleDetail.Batch_No = objDetail.Batch_No
                             ArrDCSSaleDetail(strItemDedDateDCSItemCode).Total_Basic_Amt += objItemDetail.Purchase_Amt
 
-                            'ArrDCSSaleDetail(strItemDedDateDCS).Item_Cost = clsEkoPro.GetRateMccSale(objDCSSale.Bill_To_Location, objItemDetail.Item_Code, objItemDetail.Unit_Code, objDetail.SRN_Dispatch_Date)
+                            ArrDCSSaleDetail(strItemDedDateDCS).Item_Cost = clsEkoPro.GetRateMccSale(objDCSSale.Bill_To_Location, objItemDetail.Item_Code, objItemDetail.Unit_Code, objDetail.SRN_Dispatch_Date, trans)
                         End If
                         ArrDCSSale(strItemDedDateDCS).TAX1_Amt += objDCSSaleDetail.TAX1_Amt
                         ArrDCSSale(strItemDedDateDCS).TAX1_Base_Amt += objItemDetail.Purchase_Amt

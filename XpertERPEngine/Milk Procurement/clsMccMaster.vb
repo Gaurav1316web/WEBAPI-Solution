@@ -2991,23 +2991,26 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
     End Function
 
     ''TEC/21/05/18-000242 by balwinder on 25/05/2018 
-    Public Shared Function GetRateMccSale(ByVal mccCode As String, ByVal Itemcode As String, ByVal Unitcode As String, ByVal Effctv_date As Date)
+    Public Shared Function GetRateMccSale(ByVal mccCode As String, ByVal Itemcode As String, ByVal Unitcode As String, ByVal Effctv_date As Date) As Boolean
+        Return GetRateMccSale(mccCode, Itemcode, Unitcode, Effctv_date, Nothing)
+    End Function
+    Public Shared Function GetRateMccSale(ByVal mccCode As String, ByVal Itemcode As String, ByVal Unitcode As String, ByVal Effctv_date As Date, ByVal trans As SqlTransaction)
         Dim tranDate As String = clsCommon.GetPrintDate(Effctv_date, "dd/MMM/yyyy")
         Dim Rate As Double = 0
         Dim qry As String = "select top 1 Price from TSPL_MCC_RATE_UPLOADER_master inner join TSPL_MCC_RATE_UPLOADER_MCC on " _
               & " TSPL_MCC_RATE_UPLOADER_MCC.MCC_Code='" & mccCode & "' and   TSPL_MCC_RATE_UPLOADER_master.Code=TSPL_MCC_RATE_UPLOADER_MCC.Code " _
               & " left join TSPL_MCC_RATE_UPLOADER_Detail on TSPL_MCC_RATE_UPLOADER_Detail.Code=TSPL_MCC_RATE_UPLOADER_MASTER.code where Item_Code='" & Itemcode & "' " _
               & " and TSPL_MCC_RATE_UPLOADER_Detail.RATE_UOM='" & Unitcode & "' and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Date,103) <=convert(date,'" & tranDate & "',103) and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Effective_date,103) >=convert(date,'" & tranDate & "',103) order by date desc ,TSPL_MCC_RATE_UPLOADER_master.code desc "
-        Rate = clsDBFuncationality.getSingleValue(qry)
+        Rate = clsDBFuncationality.getSingleValue(qry, trans)
         If Rate <= 0 Then
             qry = "select top 1 TSPL_ITEM_UOM_DETAIL.Item_Code,Price,TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_MCC_RATE_UPLOADER_master inner join TSPL_MCC_RATE_UPLOADER_MCC on " _
              & " TSPL_MCC_RATE_UPLOADER_MCC.MCC_Code='" & mccCode & "' and   TSPL_MCC_RATE_UPLOADER_master.Code=TSPL_MCC_RATE_UPLOADER_MCC.Code " _
              & " left join TSPL_MCC_RATE_UPLOADER_Detail on TSPL_MCC_RATE_UPLOADER_Detail.Code=TSPL_MCC_RATE_UPLOADER_MASTER.code inner join TSPL_ITEM_UOM_DETAIL on " _
              & " TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MCC_RATE_UPLOADER_Detail.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_MCC_RATE_UPLOADER_Detail.RATE_UOM where TSPL_MCC_RATE_UPLOADER_Detail.Item_Code='" & Itemcode & "' " _
              & " and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Date,103) <=convert(date,'" & tranDate & "',103) and convert(date,TSPL_MCC_RATE_UPLOADER_Master.Effective_date,103) >=convert(date,'" & tranDate & "',103) order by date desc ,TSPL_MCC_RATE_UPLOADER_master.code desc "
-            Dim Dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim Dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If Dt.Rows.Count > 0 Then
-                Dim Conv_Fac As Double = clsDBFuncationality.getSingleValue("select conversion_factor from TSPL_ITEM_UOM_DETAIL where Item_Code='" & Itemcode & "'  and Uom_Code='" & Unitcode & "' ")
+                Dim Conv_Fac As Double = clsDBFuncationality.getSingleValue("select conversion_factor from TSPL_ITEM_UOM_DETAIL where Item_Code='" & Itemcode & "'  and Uom_Code='" & Unitcode & "' ", trans)
                 Rate = Conv_Fac * clsCommon.myCdbl(Dt.Rows(0)("Price")) / IIf(clsCommon.myCdbl(Dt.Rows(0)("Conversion_Factor")) > 0, clsCommon.myCdbl(Dt.Rows(0)("Conversion_Factor")), 1)
                 Return Rate
             Else
