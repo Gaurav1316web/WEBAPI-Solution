@@ -1180,25 +1180,25 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
     End Sub
     Public Sub funImport()
         'Try
-        If clsCommon.myLen(txtFromDate.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select a 'From Date'.", Me.Text)
-            Exit Sub
-        End If
-        If clsCommon.myLen(txtToDate.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please select a 'To Date'.", Me.Text)
-            Exit Sub
-        End If
-        ' Validate Tanker Number
-        If clsCommon.myLen(txtTankerNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Please enter a 'Tanker Number'.", Me.Text)
-            Exit Sub
-        End If
+        'If clsCommon.myLen(txtFromDate.Value) = 0 Then
+        '    clsCommon.MyMessageBoxShow(Me, "Please select a 'From Date'.", Me.Text)
+        '    Exit Sub
+        'End If
+        'If clsCommon.myLen(txtToDate.Value) = 0 Then
+        '    clsCommon.MyMessageBoxShow(Me, "Please select a 'To Date'.", Me.Text)
+        '    Exit Sub
+        'End If
+        '' Validate Tanker Number
+        'If clsCommon.myLen(txtTankerNo.Value) = 0 Then
+        '    clsCommon.MyMessageBoxShow(Me, "Please enter a 'Tanker Number'.", Me.Text)
+        '    Exit Sub
+        'End If
 
-        ' Optional: Validate that From Date is not greater than To Date
-        If CDate(txtFromDate.Value) > CDate(txtToDate.Value) Then
-            clsCommon.MyMessageBoxShow(Me, "'From Date' cannot be greater than 'To Date'.", Me.Text)
-            Exit Sub
-        End If
+        '' Optional: Validate that From Date is not greater than To Date
+        'If CDate(txtFromDate.Value) > CDate(txtToDate.Value) Then
+        '    clsCommon.MyMessageBoxShow(Me, "'From Date' cannot be greater than 'To Date'.", Me.Text)
+        '    Exit Sub
+        'End If
         Dim gvimport As New UserControls.MyRadGridView
         Me.Controls.Add(gvimport)
         Dim currentdate As Date = Date.Today
