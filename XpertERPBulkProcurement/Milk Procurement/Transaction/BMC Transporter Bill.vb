@@ -1179,6 +1179,145 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
         funImport()
     End Sub
     Public Sub funImport()
+        Dim gvimport As New UserControls.MyRadGridView
+        Me.Controls.Add(gvimport)
+        Dim currentdate As Date = Date.Today
+        LoadBlankGrid()
+        gv1.Rows.AddNew()
+        Dim qry1 As String = Nothing
+        Dim dt As DataTable = Nothing
+        If clsCommon.myLen(txtDocNo.Value) > 0 Then
+
+            '    Dim qry1 As String = "select Document_No as [Document No] from TSPL_MILK_COLLECTION_MCC
+            'WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
+            '                   CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
+            '                   AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
+            '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
+            If transportSql.importExcel(gvimport, "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
+
+                Try
+                    clsCommon.ProgressBarPercentShow()
+                    For ii As Integer = 0 To gvimport.Rows.Count - 1
+                        'If clsCommon.myLen(gvimport.Rows(ii).Cells("Document Code").Value) > 0 Then
+                        clsCommon.ProgressBarPercentUpdate((gvimport.Rows(ii).Index + 1) * 100 / (gvimport.Rows.Count + 1), "Importing  : " & (gvimport.Rows(ii).Index + 1) & "/" & gvimport.Rows.Count & "")
+                        Try
+                            'gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Document No").Value)
+
+                            gv1.Rows(ii).Cells(colDate).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Date").Value)
+                            gv1.Rows(ii).Cells(ColCategory).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Category").Value)
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("MCC Document Code").Value)
+                            gv1.Rows(ii).Cells(ColStation).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 1").Value)
+                            gv1.Rows(ii).Cells(ColStation2).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 2").Value)
+                            gv1.Rows(ii).Cells(ColStation3).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 3").Value)
+                            gv1.Rows(ii).Cells(ColStation4).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 4").Value)
+                            gv1.Rows(ii).Cells(ColTrip).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Trip").Value)
+                            gv1.Rows(ii).Cells(ColGPSKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("GPS KM").Value)
+                            gv1.Rows(ii).Cells(ColKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("KM").Value)
+                            gv1.Rows(ii).Cells(ColQuantity).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Quantity KG").Value)
+                            gv1.Rows(ii).Cells(ColDiesel).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Diesel RD").Value)
+                            gv1.Rows(ii).Cells(ColAmount).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Amount").Value)
+                            If clsCommon.myLen(txtDocNo.Value) = 0 Then
+                                If gv1.Rows.Count = gvimport.Rows.Count Then
+                                Else
+                                    gv1.Rows.AddNew()
+
+                                End If
+                            End If
+                            'gv1.Rows.AddNew()
+                        Catch ex As Exception
+                            gv1.Rows.RemoveAt(ii)
+                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                        End Try
+                        'End If
+                    Next
+
+                    clsCommon.ProgressBarPercentHide()
+                    common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            End If
+            Me.Controls.Remove(gvimport)
+        Else
+            'Dim gvimport As New UserControls.MyRadGridView
+            'Me.Controls.Add(gvimport)
+            'Dim currentdate As Date = Date.Today
+            'LoadBlankGrid()
+            'gv1.Rows.AddNew()
+
+            If clsCommon.myLen(txtFromDate.Value) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select a 'From Date'.", Me.Text)
+                Exit Sub
+            End If
+            If clsCommon.myLen(txtToDate.Value) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please select a 'To Date'.", Me.Text)
+                Exit Sub
+            End If
+            ' Validate Tanker Number
+            If clsCommon.myLen(txtTankerNo.Value) = 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Please enter a 'Tanker Number'.", Me.Text)
+                Exit Sub
+            End If
+
+            ' Optional: Validate that From Date is not greater than To Date
+            If CDate(txtFromDate.Value) > CDate(txtToDate.Value) Then
+                clsCommon.MyMessageBoxShow(Me, "'From Date' cannot be greater than 'To Date'.", Me.Text)
+                Exit Sub
+            End If
+
+            qry1 = "select Document_No as [Document No] from TSPL_MILK_COLLECTION_MCC
+        WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
+                           CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
+                           AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
+            dt = clsDBFuncationality.GetDataTable(qry1)
+            If transportSql.importExcel(gvimport, "Document No", "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
+
+                Try
+                    clsCommon.ProgressBarPercentShow()
+                    For ii As Integer = 0 To gvimport.Rows.Count - 1
+                        'If clsCommon.myLen(gvimport.Rows(ii).Cells("Document Code").Value) > 0 Then
+                        clsCommon.ProgressBarPercentUpdate((gvimport.Rows(ii).Index + 1) * 100 / (gvimport.Rows.Count + 1), "Importing  : " & (gvimport.Rows(ii).Index + 1) & "/" & gvimport.Rows.Count & "")
+                        Try
+                            gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Document No").Value)
+
+                            gv1.Rows(ii).Cells(colDate).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Date").Value)
+                            gv1.Rows(ii).Cells(ColCategory).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Category").Value)
+                            'gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("MCC Document Code").Value)
+                            gv1.Rows(ii).Cells(ColStation).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 1").Value)
+                            gv1.Rows(ii).Cells(ColStation2).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 2").Value)
+                            gv1.Rows(ii).Cells(ColStation3).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 3").Value)
+                            gv1.Rows(ii).Cells(ColStation4).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 4").Value)
+                            gv1.Rows(ii).Cells(ColTrip).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Trip").Value)
+                            gv1.Rows(ii).Cells(ColGPSKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("GPS KM").Value)
+                            gv1.Rows(ii).Cells(ColKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("KM").Value)
+                            gv1.Rows(ii).Cells(ColQuantity).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Quantity KG").Value)
+                            gv1.Rows(ii).Cells(ColDiesel).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Diesel RD").Value)
+                            gv1.Rows(ii).Cells(ColAmount).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Amount").Value)
+                            If clsCommon.myLen(txtDocNo.Value) = 0 Then
+                                If gv1.Rows.Count = gvimport.Rows.Count Then
+                                Else
+                                    gv1.Rows.AddNew()
+
+                                End If
+                            End If
+                            'gv1.Rows.AddNew()
+                        Catch ex As Exception
+                            gv1.Rows.RemoveAt(ii)
+                            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                        End Try
+                        'End If
+                    Next
+
+                    clsCommon.ProgressBarPercentHide()
+                    common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
+                Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
+            End If
+            Me.Controls.Remove(gvimport)
+        End If
         'Try
         'If clsCommon.myLen(txtFromDate.Value) = 0 Then
         '    clsCommon.MyMessageBoxShow(Me, "Please select a 'From Date'.", Me.Text)
@@ -1199,63 +1338,63 @@ where TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code='" & txtDocNo.Value & "'  "
         '    clsCommon.MyMessageBoxShow(Me, "'From Date' cannot be greater than 'To Date'.", Me.Text)
         '    Exit Sub
         'End If
-        Dim gvimport As New UserControls.MyRadGridView
-        Me.Controls.Add(gvimport)
-        Dim currentdate As Date = Date.Today
-        LoadBlankGrid()
-        gv1.Rows.AddNew()
+        'Dim gvimport As New UserControls.MyRadGridView
+        'Me.Controls.Add(gvimport)
+        'Dim currentdate As Date = Date.Today
+        'LoadBlankGrid()
+        'gv1.Rows.AddNew()
 
-        Dim qry1 As String = "select Document_No as [Document No] from TSPL_MILK_COLLECTION_MCC
-        WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
-                           CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
-                           AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
-        If transportSql.importExcel(gvimport, "Document No", "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
+        'Dim qry1 As String = "select Document_No as [Document No] from TSPL_MILK_COLLECTION_MCC
+        'WHERE CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "', 103) and
+        '                   CONVERT(DATE, TSPL_MILK_COLLECTION_MCC.Document_Date, 103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "', 103)
+        '                   AND TSPL_MILK_COLLECTION_MCC.Tanker_No = '" + clsCommon.myCstr(txtTankerNo.Value) + "'"
+        'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
+        'If transportSql.importExcel(gvimport, "Document No", "Date", "Category", "Station 1", "Station 2", "Station 3", "Station 4", "Trip", "GPS KM", "KM", "Quantity KG", "Amount", "Diesel RD") Then
 
-            Try
-                clsCommon.ProgressBarPercentShow()
-                For ii As Integer = 0 To gvimport.Rows.Count - 1
-                    'If clsCommon.myLen(gvimport.Rows(ii).Cells("Document Code").Value) > 0 Then
-                    clsCommon.ProgressBarPercentUpdate((gvimport.Rows(ii).Index + 1) * 100 / (gvimport.Rows.Count + 1), "Importing  : " & (gvimport.Rows(ii).Index + 1) & "/" & gvimport.Rows.Count & "")
-                    Try
-                        gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Document No").Value)
+        '    Try
+        '        clsCommon.ProgressBarPercentShow()
+        '        For ii As Integer = 0 To gvimport.Rows.Count - 1
+        '            'If clsCommon.myLen(gvimport.Rows(ii).Cells("Document Code").Value) > 0 Then
+        '            clsCommon.ProgressBarPercentUpdate((gvimport.Rows(ii).Index + 1) * 100 / (gvimport.Rows.Count + 1), "Importing  : " & (gvimport.Rows(ii).Index + 1) & "/" & gvimport.Rows.Count & "")
+        '            Try
+        '                gv1.Rows(ii).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Document No").Value)
 
-                        gv1.Rows(ii).Cells(colDate).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Date").Value)
-                        gv1.Rows(ii).Cells(ColCategory).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Category").Value)
-                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("MCC Document Code").Value)
-                        gv1.Rows(ii).Cells(ColStation).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 1").Value)
-                        gv1.Rows(ii).Cells(ColStation2).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 2").Value)
-                        gv1.Rows(ii).Cells(ColStation3).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 3").Value)
-                        gv1.Rows(ii).Cells(ColStation4).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 4").Value)
-                        gv1.Rows(ii).Cells(ColTrip).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Trip").Value)
-                        gv1.Rows(ii).Cells(ColGPSKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("GPS KM").Value)
-                        gv1.Rows(ii).Cells(ColKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("KM").Value)
-                        gv1.Rows(ii).Cells(ColQuantity).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Quantity KG").Value)
-                        gv1.Rows(ii).Cells(ColDiesel).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Diesel RD").Value)
-                        gv1.Rows(ii).Cells(ColAmount).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Amount").Value)
-                        If clsCommon.myLen(txtDocNo.Value) = 0 Then
-                            If gv1.Rows.Count = gvimport.Rows.Count Then
-                            Else
-                                gv1.Rows.AddNew()
+        '                gv1.Rows(ii).Cells(colDate).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Date").Value)
+        '                gv1.Rows(ii).Cells(ColCategory).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Category").Value)
+        '                'gv1.Rows(gv1.Rows.Count - 1).Cells(colDocumentNo).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("MCC Document Code").Value)
+        '                gv1.Rows(ii).Cells(ColStation).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 1").Value)
+        '                gv1.Rows(ii).Cells(ColStation2).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 2").Value)
+        '                gv1.Rows(ii).Cells(ColStation3).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 3").Value)
+        '                gv1.Rows(ii).Cells(ColStation4).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Station 4").Value)
+        '                gv1.Rows(ii).Cells(ColTrip).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Trip").Value)
+        '                gv1.Rows(ii).Cells(ColGPSKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("GPS KM").Value)
+        '                gv1.Rows(ii).Cells(ColKM).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("KM").Value)
+        '                gv1.Rows(ii).Cells(ColQuantity).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Quantity KG").Value)
+        '                gv1.Rows(ii).Cells(ColDiesel).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Diesel RD").Value)
+        '                gv1.Rows(ii).Cells(ColAmount).Value = clsCommon.myCstr(gvimport.Rows(ii).Cells("Amount").Value)
+        '                If clsCommon.myLen(txtDocNo.Value) = 0 Then
+        '                    If gv1.Rows.Count = gvimport.Rows.Count Then
+        '                    Else
+        '                        gv1.Rows.AddNew()
 
-                            End If
-                        End If
-                        'gv1.Rows.AddNew()
-                    Catch ex As Exception
-                        gv1.Rows.RemoveAt(ii)
-                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-                    End Try
-                    'End If
-                Next
+        '                    End If
+        '                End If
+        '                'gv1.Rows.AddNew()
+        '            Catch ex As Exception
+        '                gv1.Rows.RemoveAt(ii)
+        '                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '            End Try
+        '            'End If
+        '        Next
 
-                clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            End Try
-        End If
-        Me.Controls.Remove(gvImport)
+        '        clsCommon.ProgressBarPercentHide()
+        '        common.clsCommon.MyMessageBoxShow(Me, "Data imported successfully", Me.Text, MessageBoxButtons.OK)
+        '    Catch ex As Exception
+        '        clsCommon.ProgressBarPercentHide()
+        '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '    End Try
+        'End If
+        'Me.Controls.Remove(gvimport)
     End Sub
 
     'Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
