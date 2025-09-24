@@ -6272,6 +6272,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnPurchaseReturn
                         frm = New frmPurchaseReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmPDAccountSummariesReport
+                        frm = New frmPDAccountSummariesReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     'sanjay BHA/09/05/18-000014 
                     Case clsUserMgtCode.frmMaterialQuotation
