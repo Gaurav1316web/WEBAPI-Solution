@@ -771,7 +771,7 @@ where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
     Private Function GetMpQry(ByVal IsPickValid As Boolean, ByVal GrpByFarmer As Boolean, ByVal isCheckOnly As Boolean) As String
 
         Dim BaseQry As String = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,case when len(isnull(TSPL_MP_MASTER.Telphone,''))=10 then TSPL_MP_MASTER.Telphone else '' end as Telphone,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount_Actual as Payable_Amount 
-,TSPL_ZONE_MASTER.Description  as ZoneName   
+,TSPL_ZONE_MASTER.Description  as ZoneName,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid   
 from TSPL_MP_INCENTIVE_ENTRY_DETAIL "
         If SettDCSMPIncetiveReco Then
             BaseQry += " left outer join TSPL_DCS_MP_INCENTIVE_RECO_DETAIL on TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Year=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Year and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Month=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Month and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_No=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_No and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code 
@@ -795,12 +795,12 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
             If IsPickValid Then
                 BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid=0"
             Else
-                BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid=1"
+                BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid>0"
             End If
         End If
         BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' "
-        If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count>0 Then
-            BaseQry += "  and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") " 
+        If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
+            BaseQry += "  and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") "
         End If
         BaseQry += " and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
     and not exists(select 1 from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code not in ('" + txtDocumentNo.Value + "') and TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id
@@ -815,33 +815,62 @@ update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 0 where PK_Id in (sele
 update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
 select CTE.PK_Id from CTE
 inner join ( select  Payee_Joint_Account_No from  CTE  group by  Payee_Joint_Account_No having sum(1)>1 )x on x.Payee_Joint_Account_No=CTE.Payee_Joint_Account_No
-)xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
+)xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
+where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1 where PK_Id in (select PK_Id from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name);"
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 2 where PK_Id in (select PK_Id from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name)
+and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 3  from (
  (select PK_Id from CTE where dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No )
- )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
+ )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
+where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             tempQty = "With CTE as ( " + BaseQry + ")
-update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 1  from (
- (select PK_Id from CTE where len(isnull(Payee_Joint_Account_No,''))<=8 or len(isnull(Payee_Joint_IFSC_Code,''))<>11 )
- )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id;"
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 4  from (
+ (select PK_Id from CTE  
+left outer join TSPL_MASTER.dbo.TSPL_IFSC on TSPL_MASTER.dbo.TSPL_IFSC.IFSC=CTE.Payee_Joint_IFSC_Code
+where TSPL_MASTER.dbo.TSPL_IFSC.IFSC is null  )
+ )xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
+where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0 ;"
+            clsDBFuncationality.ExecuteNonQuery(tempQty)
+
+            tempQty = "With CTE as ( " + BaseQry + ")
+update TSPL_MP_INCENTIVE_ENTRY_DETAIL set  Mark_Invalid = 5  from (
+(select PK_Id from CTE 
+left outer join TSPL_MASTER.dbo.TSPL_IFSC on TSPL_MASTER.dbo.TSPL_IFSC.IFSC=CTE.Payee_Joint_IFSC_Code
+left outer join TSPL_MASTER.dbo.IFSC_BANK_LENGTH on TSPL_MASTER.dbo.IFSC_BANK_LENGTH.BANK=TSPL_MASTER.dbo.TSPL_IFSC.BANK
+where TSPL_MASTER.dbo.IFSC_BANK_LENGTH.BANK is null or len(isnull(CTE.Payee_Joint_Account_No,''))<TSPL_MASTER.dbo.IFSC_BANK_LENGTH.MinLength or len(isnull(CTE.Payee_Joint_Account_No,''))>TSPL_MASTER.dbo.IFSC_BANK_LENGTH.MaxLength  )
+)xxx inner join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=xxx.PK_Id
+where TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid = 0;"
             clsDBFuncationality.ExecuteNonQuery(tempQty)
 
             strMain = "With CTE as ( " + BaseQry + ")
-select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,STRING_AGG(VLC_CODE_Uploader,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(Payee_Joint_Name,',') as MPPayeeName,STRING_AGG(VLC_Code_VLC_Uploader,',') as DCSUploaderCode  from  CTE  group by  Payee_Joint_Account_No having sum(1)>1
-union all
-select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name
-union all
-select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=8  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
-union all
-select 'Wrong IFSC No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_IFSC_Code,''))<>11 ;"
+select (case when Mark_Invalid=1 then 'Repeated Account No' 
+when Mark_Invalid=2 then  'Special Character in Payee Name' 
+when Mark_Invalid=3 then 'Special Character in Account No' 
+when Mark_Invalid=4 then 'Wrong IFSC No' 
+when Mark_Invalid=5 then 'Wrong Account No' end  ) as ErrorCode,
+(case when Mark_Invalid=1 then Payee_Joint_Account_No
+when Mark_Invalid=2 then  Payee_Joint_Name
+when Mark_Invalid=3 then Payee_Joint_Account_No
+when Mark_Invalid=4 then Payee_Joint_IFSC_Code
+when Mark_Invalid=5 then Payee_Joint_Account_No end) as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode 
+from  CTE   where Mark_Invalid>0 "
+
+            'strMain = "With CTE as ( " + BaseQry + ")
+            'select 'Repeated Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,STRING_AGG(VLC_CODE_Uploader,',') as MPUploaderCode,STRING_AGG(MP_Code,',') as MPCode,STRING_AGG(Payee_Joint_Name,',') as MPPayeeName,STRING_AGG(VLC_Code_VLC_Uploader,',') as DCSUploaderCode  from  CTE  group by  Payee_Joint_Account_No having sum(1)>1
+            'union all
+            'select 'Special Character'as ErrorCode,Payee_Joint_Name as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode  from CTE where dbo.RemoveExtraSpaces(UPPER(dbo.RemoveSpecialCharactersWithNumber(Payee_Joint_Name))) <> Payee_Joint_Name
+            'union all
+            'select 'Wrong Account No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_Account_No,''))<=8  or dbo.GetNumbersOnly(Payee_Joint_Account_No) <> Payee_Joint_Account_No
+            'union all
+            'select 'Wrong IFSC No' as ErrorCode,Payee_Joint_Account_No as ErrorValue,VLC_CODE_Uploader as MPUploaderCode, MP_Code as MPCode, Payee_Joint_Name as MPPayeeName, VLC_Code_VLC_Uploader as DCSUploaderCode from CTE where len(isnull(Payee_Joint_IFSC_Code,''))<>11 ;"
 
         Else
             Qry = "select   ROW_NUMBER() OVER (ORDER BY Bank_Code,MCC_Code,VLC_Code_VLC_Uploader) AS [" + clsDBTNEFTPerforma.colSlNo + "],MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],PK_Id as [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Bank_Code as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xxx "

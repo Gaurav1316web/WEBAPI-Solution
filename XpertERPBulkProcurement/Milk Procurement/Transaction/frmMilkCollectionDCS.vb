@@ -2265,46 +2265,39 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
 
     Private Sub btnMGo_Click(sender As Object, e As EventArgs) Handles btnMGo.Click
         Try
-            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select a document.", Me.Text)
-                Exit Sub
-            Else
-                If common.clsCommon.MyMessageBoxShow(Me,
+            If common.clsCommon.MyMessageBoxShow(Me,
     "Do you want to Get DCS BY Mobile Data of  " & clsCommon.GetPrintDate(txtMDCSDate.Value, "dd/MMM/yyyy") & "?" & Environment.NewLine & "",
     Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-
-
-
-                    Dim Arr As New List(Of clsBMCDCS_DCS_Head)
-                    For Each lst As clsBMCDCS_DCS_Head In clsBMCDCS_DCS_Head.GetDCSData(txtMDCSDate.Value)
-                        Arr.Add(lst)
-                    Next
-                    ' Add MCC Truck Sheet Entry
-                    If Arr.Count > 0 Then
-                        For Each lst As clsBMCDCS_DCS_Head In Arr
-                            Dim strQry = ""
-                            strQry = "select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No as Document_No 
+                Dim Arr As New List(Of clsBMCDCS_DCS_Head)
+                For Each lst As clsBMCDCS_DCS_Head In clsBMCDCS_DCS_Head.GetDCSData(txtMDCSDate.Value)
+                    Arr.Add(lst)
+                Next
+                ' Add MCC Truck Sheet Entry
+                If Arr.Count > 0 Then
+                    For Each lst As clsBMCDCS_DCS_Head In Arr
+                        Dim strQry = ""
+                        strQry = "select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No as Document_No 
 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL 
 inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id = TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
 inner join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
 inner join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID=TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP 
 where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID) + " and TSPL_MILK_COLLECTION_MCC.Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'"
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                                lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
-                                isNewEntry = False
-                                DCSEntry(lst)
-                            Else
-                                isNewEntry = True
-                                DCSEntry(lst)
-                            End If
-                        Next
-                        clsCommon.MyMessageBoxShow(Me, "DCS Truck Sheet Data saved successfully", Me.Text)
-                    Else
-                        Throw New Exception("No Data Found!")
-                    End If
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                            lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+                            isNewEntry = False
+                            DCSEntry(lst)
+                        Else
+                            isNewEntry = True
+                            DCSEntry(lst)
+                        End If
+                    Next
+                    clsCommon.MyMessageBoxShow(Me, "DCS Truck Sheet Data saved successfully", Me.Text)
+                Else
+                    Throw New Exception("No Data Found!")
                 End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
