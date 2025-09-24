@@ -188,6 +188,7 @@ Public Class clsSRNHead
     Public GRN_Date As Date? = Nothing
     Public NIRQC As Double
     Public QC_Status As String = Nothing
+    Public Against_CF_Sale_Purchase_No As String = Nothing
 #End Region
 
     Public Shared Function funSRNPrint(ByVal Form_ID As String, ByVal isCancel As Boolean, ByVal TXTDATE As DateTime, ByVal FromDate As Date?, ByVal ToDate As Date?, ByVal IsDocTypeFinsihGoods As Boolean, ByVal ArrSrnNo As ArrayList, ByVal ArrVendor As ArrayList, ByVal ArrLocation As ArrayList)
@@ -654,6 +655,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             clsCommon.AddColumnsForChange(coll, "Bill_To_Location", obj.Bill_To_Location)
             clsCommon.AddColumnsForChange(coll, "Ship_To_Location", obj.Ship_To_Location)
             clsCommon.AddColumnsForChange(coll, "Sublocation_Code", obj.Sublocation_Code)
+            clsCommon.AddColumnsForChange(coll, "Against_CF_Sale_Purchase_No", obj.Against_CF_Sale_Purchase_No, True)
             clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
             clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
             clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
@@ -775,8 +777,12 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
 
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge", obj.Total_Add_Charge)
             clsCommon.AddColumnsForChange(coll, "Tax_Calculation_Type", IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1))
-            clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Inv_Date", clsCommon.GetPrintDate(obj.Inv_Date, "dd/MMM/yyyy"))
+            If clsCommon.myLen(obj.Challan_Date) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Challan_Date", clsCommon.GetPrintDate(obj.Challan_Date, "dd/MMM/yyyy"))
+            End If
+            If clsCommon.myLen(obj.Inv_Date) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Inv_Date", clsCommon.GetPrintDate(obj.Inv_Date, "dd/MMM/yyyy"))
+            End If
 
             clsCommon.AddColumnsForChange(coll, "is_Excise_On_Qty", IIf(obj.is_Excise_On_Qty, 1, 0))
             clsCommon.AddColumnsForChange(coll, "is_RGP_Non_Inventory", IIf(obj.is_RGP_Non_Inventory, 1, 0))
@@ -930,7 +936,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         ' Dim obj As clsSRNHead = Nothing
         Dim obj As New clsSRNHead
         Dim qry As String = "SELECT TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
-        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,TSPL_GRN_HEAD.GRN_Date ,IsNull(TSPL_MRN_HEAD.NIR_QC,0)NIR_QC,TSPL_QC_CHECK_HEAD.QC_Status  " &
+        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,TSPL_GRN_HEAD.GRN_Date ,IsNull(TSPL_MRN_HEAD.NIR_QC,0)NIR_QC,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_SRN_HEAD.Against_CF_Sale_Purchase_No  " &
         " FROM TSPL_SRN_HEAD
         left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_MRN_HEAD On TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No " &
         "Left Outer Join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_MRN_HEAD.Against_GRN left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_HEAD.Bill_To_Location " &
@@ -992,6 +998,7 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             obj.Bill_To_Location = clsCommon.myCstr(dt.Rows(0)("Bill_To_Location"))
             obj.Ship_To_Location = clsCommon.myCstr(dt.Rows(0)("Ship_To_Location"))
             obj.Sublocation_Code = clsCommon.myCstr(dt.Rows(0)("Sublocation_Code"))
+            obj.Against_CF_Sale_Purchase_No = clsCommon.myCstr(dt.Rows(0)("Against_CF_Sale_Purchase_No"))
             obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
             obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
             obj.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX1_Rate"))

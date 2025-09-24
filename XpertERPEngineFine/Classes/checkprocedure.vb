@@ -1721,6 +1721,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmSendSMSToDCS, "Send SMS to Mobile", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "Exception", "Tanker P/L SMS", "Tanker QC SMS", "", "", False, "")
         InsertDefaultValue(clsUserMgtCode.frmReviseMilkBill, "Revise Milk Bill", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "Exception", "Tanker P/L SMS", "Tanker QC SMS", "", "", False, "")
         InsertDefaultValue(clsUserMgtCode.BMC_Transporter_Bill, "BMC Transporter Bill", "1.17.02.55", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCattleFeedSalePurchaseUploader, "Cattle Feed Sale/Purchase Uploader", "1.17.02.56", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
@@ -2385,7 +2386,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandUploader, "Demand Uploader", "1.36.02.30", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmProductDemandBooking, "Product Demand Booking", "1.36.02.31", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmProductDispatch, "Product Dispatch", "1.36.02.32", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmQuickDemand, "Quick Demand", "1.36.02.33", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmLeakedSaleReturn, "Leaked Sale Return", "1.36.02.34", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)

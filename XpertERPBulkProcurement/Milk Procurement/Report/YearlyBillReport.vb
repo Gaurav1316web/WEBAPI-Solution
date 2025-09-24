@@ -1947,9 +1947,23 @@ CASE WHEN SUM(ISNULL(SweetQty,0) + ISNULL(SourQty,0) + ISNULL(CurdQty,0)) = 0 TH
                 If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and Vendor_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
-                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
-                        sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                    sQuery += " And MCC in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                Else
+                    Dim qryS As String = "SELECT MCC_Code FROM TSPL_MCC_MASTER"
+                    Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qryS)
+                    If dtS IsNot Nothing AndAlso dtS.Rows.Count > 0 Then
+                        Dim mccCodes As String = ""
+                        For Each dr As DataRow In dtS.Rows
+                            mccCodes &= "'" & clsCommon.myCstr(dr("MCC_Code")) & "',"
+                        Next
+                        If mccCodes.Length > 0 Then
+                            mccCodes = mccCodes.Substring(0, mccCodes.Length - 1)
+                        End If
+                        mccCodes = "(" & mccCodes & ")"
+                        sQuery += " And MCC in " & mccCodes
                     End If
+                End If
                     If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
                         sQuery += " And Area_Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
@@ -1984,10 +1998,25 @@ Sum(SweetQty)SweetQty,Sum(SourQty)SourQty,sum(CurdQty)CurdQty,sum(fat_per)fat_pe
                 If txtDCS.arrValueMember IsNot Nothing AndAlso txtDCS.arrValueMember.Count > 0 Then
                         sQuery += " and TSPL_MILK_SRN_HEAD.VSP_CODE In (" + clsCommon.GetMulcallString(txtDCS.arrValueMember) + ") "
                     End If
-                    If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
-                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                If txtMultBMC.arrValueMember IsNot Nothing AndAlso txtMultBMC.arrValueMember.Count > 0 Then
+                    sQuery += " And TSPL_MCC_MASTER.MCC_Code in (" & clsCommon.GetMulcallString(txtMultBMC.arrValueMember) & ")"
+                Else
+                    Dim qryS As String = "SELECT MCC_Code FROM TSPL_MCC_MASTER"
+                    Dim dtS As DataTable = clsDBFuncationality.GetDataTable(qryS)
+                    If dtS IsNot Nothing AndAlso dtS.Rows.Count > 0 Then
+                        Dim mccCodes As String = ""
+                        For Each dr As DataRow In dtS.Rows
+                            mccCodes &= "'" & clsCommon.myCstr(dr("MCC_Code")) & "',"
+                        Next
+                        If mccCodes.Length > 0 Then
+                            mccCodes = mccCodes.Substring(0, mccCodes.Length - 1)
+                        End If
+                        mccCodes = "(" & mccCodes & ")"
+                        sQuery += " And TSPL_MCC_MASTER.MCC_Code in " & mccCodes
                     End If
-                    If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
+                End If
+
+                If txtMultArea.arrValueMember IsNot Nothing AndAlso txtMultArea.arrValueMember.Count > 0 Then
                         sQuery += " And TSPL_LOCATION_MASTER.Location_Code in (" & clsCommon.GetMulcallString(txtMultArea.arrValueMember) & ")"
                     End If
                     sQuery += " )XX GROUP BY DOC_CODE,QBD ) XX GROUP BY FROM_DATE,TO_DATE,MCC)Tab2 "

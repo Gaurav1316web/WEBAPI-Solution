@@ -34,20 +34,20 @@ Public Class clsBMCTransporterBill
 #End Region
 
 
-    Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
-        Try
-            Dim str As String = ""
-            Dim qry As String = ""
+    'Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+    '    Try
+    '        Dim str As String = ""
+    '        Dim qry As String = ""
 
-            qry = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
-                             from TSPL_BMC_TRANSPORTER_BILL_HEAD "
-            str = clsCommon.ShowSelectForm("fndPayProcess", qry, "Document_Code", whrcls, curcode, "Document_Code", isButtonClicked, "Document_date")
+    '        qry = "select TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_Code ,convert(varchar,TSPL_BMC_TRANSPORTER_BILL_HEAD.Document_date,103) as Document_date,TSPL_BMC_TRANSPORTER_BILL_HEAD.Tanker_No,case when TSPL_BMC_TRANSPORTER_BILL_HEAD.status =1  then 'Approved' else 'Pending' end as Status   
+    '                         from TSPL_BMC_TRANSPORTER_BILL_HEAD "
+    '        str = clsCommon.ShowSelectForm("fndPayProcess", qry, "Document_Code", "", curcode, "Document_Code", isButtonClicked, "Document_date")
 
-            Return str
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-    End Function
+    '        Return str
+    '    Catch ex As Exception
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    'End Function
     Public Function SaveData(ByVal obj As clsBMCTransporterBill, ByVal isNewEntry As Boolean) As Boolean
         Dim isSaved As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -109,6 +109,10 @@ Public Class clsBMCTransporterBill
         clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
         clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
         If isNewEntry Then
+            'obj.Document_Code = clsERPFuncationality.GetNextCode(trans, DateTime.Now, clsDocType.DistributorRouteTagging, "", "")
+            'If clsCommon.myLen(obj.Document_Code) <= 0 Then
+            '    Throw New Exception("Error in Code Generation")
+            'End If
             clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -434,6 +438,30 @@ Public Class clsBMCTransporterBillDetail
     Public Amount As Decimal = 0
     'Public BalanceAmount As Decimal = 0
 #End Region
+    Public Shared Function SaveData1(ByVal strDocNo As String, ByVal isNewEntry As Boolean, ByVal obj As clsBMCTransporterBillDetail, ByVal arr As List(Of clsBMCTransporterBillDetail), ByVal trans As SqlTransaction) As Boolean
+        If (arr IsNot Nothing AndAlso arr.Count > 0) Then
+            For Each obj1 As clsBMCTransporterBillDetail In arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "MCC_Document_Code", obj.MCC_Document_Code)
+                clsCommon.AddColumnsForChange(coll, "Station_1", obj.Station_1)
+                clsCommon.AddColumnsForChange(coll, "Station_2", obj.Station_2)
+                clsCommon.AddColumnsForChange(coll, "Station_3", obj.Station_3)
+                clsCommon.AddColumnsForChange(coll, "Station_4", obj.Station_4)
+                clsCommon.AddColumnsForChange(coll, "Trip", obj.Trip)
+                clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
+                clsCommon.AddColumnsForChange(coll, "KM", obj.KM)
+                clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
+                clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
+                clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+
+    End Function
+
+
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBMCTransporterBillDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
@@ -451,7 +479,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Update, "", trans)
             Next
         End If
         Return True

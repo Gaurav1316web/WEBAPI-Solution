@@ -330,6 +330,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCRoutePrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBulkSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCANSaleInvoice.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptCommissionTPTRate.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
@@ -378,6 +379,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJDH.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJDHNEW.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR12.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR_PartyWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceNew.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceRJS.rpt" />
@@ -494,6 +496,7 @@
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_InterState_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalJDH.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_LocalRJS.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_Local_WithMandi.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxable.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\rptMCCMaterialSale_NonTaxableRJS.rpt" />
@@ -1456,10 +1459,12 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankDraftSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankSavingSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBmcTranspoterBill_1.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDayWiseCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploaderBankLetterYesBank.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDcsCredit.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />

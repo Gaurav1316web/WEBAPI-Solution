@@ -523,7 +523,7 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(728, 218)
         Me.RadPageView1.TabIndex = 46
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -644,6 +644,8 @@ Partial Class FrmApprovalAlert_Child
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyExportFilePath = ""
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -651,6 +653,7 @@ Partial Class FrmApprovalAlert_Child
         Me.gv.Size = New System.Drawing.Size(707, 170)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
+        Me.gv.VarID = ""
         '
         'Attachments
         '

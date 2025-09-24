@@ -4,6 +4,7 @@ Public Class clsDBTNEFTReject
 #Region "variables"
     Public Document_Code As String = Nothing
     Public Document_Date As Date
+    Public Against_PDA_BillNo As String
     Public Against_DBT_NEFT As String
     Public Remarks As String = ""
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
@@ -25,6 +26,7 @@ Public Class clsDBTNEFTReject
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Against_DBT_NEFT", obj.Against_DBT_NEFT)
+            clsCommon.AddColumnsForChange(coll, "Against_PDA_BillNo", obj.Against_PDA_BillNo)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -76,6 +78,7 @@ Public Class clsDBTNEFTReject
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
             obj.Against_DBT_NEFT = clsCommon.myCstr(dt.Rows(0)("Against_DBT_NEFT"))
+            obj.Against_PDA_BillNo = clsCommon.myCstr(dt.Rows(0)("Against_PDA_BillNo"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
@@ -120,7 +123,7 @@ Public Class clsDBTNEFTReject
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "Select TSPL_DBT_NEFT_REJECT.Document_Code as Code,Convert(varchar,TSPL_DBT_NEFT_REJECT.Document_Date,103) as Date
-          ,TSPL_DBT_NEFT_REJECT.Remarks as [Remarks],TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT as [DBT NEFT No], Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date]
+          ,TSPL_DBT_NEFT_REJECT.Remarks as [Remarks],TSPL_DBT_NEFT_REJECT.Against_PDA_BillNo as [PDA Bill No], TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT as [DBT NEFT No], Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date]
           ,case when isnull(TSPL_DBT_NEFT_REJECT.Status,0)=0 then 'Pending' else 'Approved' end as Status 
           from TSPL_DBT_NEFT_REJECT left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code=TSPL_DBT_NEFT_REJECT.Against_DBT_NEFT"
         str = clsCommon.ShowSelectForm("DPTRNft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)

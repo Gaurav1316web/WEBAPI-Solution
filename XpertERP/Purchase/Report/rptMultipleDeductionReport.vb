@@ -209,9 +209,24 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
                 If clsCommon.myLen(fndArea.Value) > 0 Then
                     strBaseqry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                 End If
-
-                strBaseqry += " union all
-                        SELECT TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE as Vendor_Code,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_CUSTOMER_INVOICE_HEAD.Posting_Date,103) as Document_Date,0 as Addition,
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    strBaseqry += " union all
+SELECT TSPL_SD_SHIPMENT_HEAD.Customer_Code as Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition, (TSPL_SD_SHIPMENT_HEAD.Total_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code]
+from TSPL_SD_SHIPMENT_HEAD 
+left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
+left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
+where 2=2
+and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) 
+and TSPL_SD_SHIPMENT_HEAD.Is_CashSale='N' and TSPL_SD_SHIPMENT_HEAD.Status=1 "
+                    If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                        strBaseqry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+                    End If
+                Else
+                    strBaseqry += " union all
+                        SELECT TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE as Vendor_Code,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition,
                         (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code] 
 						from TSPL_PAYMENT_PROCESS_MCC_SALE
 						 left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
@@ -219,12 +234,14 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
 						 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
 						 left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 						 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
-						 where 2=2
+						 where 2=2  
 						 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + fromDate.Value + "'),103) 
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
-                If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
-                    strBaseqry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+                    If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                        strBaseqry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+                    End If
                 End If
+
 
 
                 If clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal AndAlso rdbDedWise.IsChecked = True Then

@@ -162,7 +162,8 @@
       <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon">
+    <Reference Include="XpertCommon, Version=2.1.6.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPBlankTableScript">
@@ -172,7 +173,7 @@
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="zxing">
-      <HintPath>..\..\Dll\zxing.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -197,7 +198,6 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="AdminServices\clsSendSMSEmailSetting.vb" />
     <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
     <Compile Include="API\clsEWayBill.vb" />
     <Compile Include="clsAllEnum.vb" />
@@ -282,9 +282,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CustomerComplaint\clsCustomerComplain.vb" />
-    <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
-    <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
-    <Compile Include="EngAndPlantManagement\clsEngSection.vb" />
     <Compile Include="Finance\clsCashFlowPerforma.vb" />
     <Compile Include="Finance\ClsGLControlAccountMapping.vb" />
     <Compile Include="Fixed Asset\clsAssetBookMaster.vb" />
@@ -323,6 +320,12 @@
       <DependentUpon>frmItemMasterRMOther.vb</DependentUpon>
     </Compile>
     <Compile Include="frmItemMasterRMOther.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmItemMasterTax.Designer.vb">
+      <DependentUpon>FrmItemMasterTax.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmItemMasterTax.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmPaymentDetail.Designer.vb">
@@ -435,8 +438,8 @@
     <Compile Include="Milk Procurement\clsBankAdvise.vb" />
     <Compile Include="Milk Procurement\clsBMCTransporterBill.vb" />
     <Compile Include="Milk Procurement\clsCapping.vb" />
+    <Compile Include="Milk Procurement\clsCattleFeedSalePurchaseUploader.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
-    <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
     <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
     <Compile Include="Milk Procurement\clsDCSSaleEntry.vb" />
@@ -546,7 +549,7 @@
     <Compile Include="Sale\DairySale\clsCustomerDeduction.vb" />
     <Compile Include="Sale\DairySale\clsCustomerIncentiveEntry.vb" />
     <Compile Include="Sale\DairySale\clsDemandAdjustment.vb" />
-    <Compile Include="Sale\DairySale\clsDemandBookingSale.vb" />
+    <Compile Include="Sale\DairySale\clsDemandBookingImport.vb" />
     <Compile Include="Sale\DairySale\clsItemProjection.vb" />
     <Compile Include="Sale\DairySale\clsCustCategoryWiseDefaultItemUomMaster.vb" />
     <Compile Include="Sale\DairySale\clsProductDemandBookingSale.vb" />
@@ -795,7 +798,6 @@
     <Compile Include="Milk Procurement\clsContractTankerHead.vb" />
     <Compile Include="Milk Procurement\clsDeductionMapping.vb" />
     <Compile Include="Milk Procurement\clsDivertedContractor.vb" />
-    <Compile Include="Milk Procurement\clsFreightChargesMaster.vb" />
     <Compile Include="Milk Procurement\clsFrmMilkRecurringScheduler.vb" />
     <Compile Include="Milk Procurement\clsfrmMilkRouteMaster.vb" />
     <Compile Include="Milk Procurement\clsfrmParameterRangeMaster.vb" />
@@ -1389,6 +1391,9 @@
     <EmbeddedResource Include="frmItemMasterRMOther.resx">
       <DependentUpon>frmItemMasterRMOther.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmItemMasterTax.resx">
+      <DependentUpon>FrmItemMasterTax.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPaymentDetail.resx">
       <DependentUpon>frmPaymentDetail.vb</DependentUpon>
     </EmbeddedResource>
@@ -1633,6 +1638,8 @@
     <None Include="Resources\new.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AdminServices\" />
+    <Folder Include="EngAndPlantManagement\" />
     <Folder Include="ServiceAndWarranty\" />
     <Folder Include="TDS Module\" />
   </ItemGroup>

@@ -641,7 +641,7 @@ where 2=2 "
         End If
         txtVLC.arrValueMember = clsCommon.ShowMultipleSelectForm("dbtneftv", qry, "DCS Code", "DCS Name", txtVLC.arrValueMember, txtVLC.arrDispalyMember)
 
-        fillMPS()
+
     End Sub
     Sub fillMPS()
         Try
@@ -798,7 +798,11 @@ and 2=(case when ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.DBT_Capping_Apply,0)=1 t
                 BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mark_Invalid=1"
             End If
         End If
-        BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
+        BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") and  TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date >='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' "
+        If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count>0 Then
+            BaseQry += "  and TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code in (" + clsCommon.GetMulcallString(txtVLC.arrValueMember) + ") " 
+        End If
+        BaseQry += " and  TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date <='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' 
     and not exists(select 1 from TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code not in ('" + txtDocumentNo.Value + "') and TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id
     and not exists(select 1 from TSPL_DBT_NEFT_REJECT_DETAIL left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code where TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR=TSPL_DBT_NEFT_DETAIL.PK_Id and TSPL_DBT_NEFT_REJECT.Status=1))"
         Dim strMain As String = ""
@@ -1723,6 +1727,10 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+        fillMPS()
     End Sub
 End Class
 

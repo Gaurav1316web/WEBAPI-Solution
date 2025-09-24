@@ -327,8 +327,9 @@
       <HintPath>lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="XpertCommon">
-      <HintPath>C:\Users\Dell\Desktop\New folder\XpertCommon.dll</HintPath>
+    <Reference Include="XpertCommon, Version=2.1.6.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPAdminServices">
       <HintPath>..\XpertERPAdminServices\bin\Debug\XpertERPAdminServices.dll</HintPath>
@@ -1811,6 +1812,12 @@
       <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmCattleFeedSalePurchaseUploader.Designer.vb">
+      <DependentUpon>frmCattleFeedSalePurchaseUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmCattleFeedSalePurchaseUploader.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmCleaningReverse.Designer.vb">
@@ -5581,6 +5588,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmBulkPurchaseUploader.resx">
       <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmCattleFeedSalePurchaseUploader.resx">
+      <DependentUpon>frmCattleFeedSalePurchaseUploader.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmCleaningReverse.resx">
       <DependentUpon>frmCleaningReverse.vb</DependentUpon>

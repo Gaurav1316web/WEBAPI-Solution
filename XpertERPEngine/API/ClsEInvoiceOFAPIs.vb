@@ -320,9 +320,9 @@ Public Class ClsEInvoiceOFAPIs
                             objEWayBill.actToStateCode = clsCommon.myCdbl(dtDetails(0)("actToStateCode"))
                             objEWayBill.toStateCode = clsCommon.myCdbl(dtDetails(0)("toStateCode"))
                             objEWayBill.transactionType = clsCommon.myCdbl(dtDetails(0)("transactionType"))
-                            objEWayBill.dispatchFromGSTIN = clsCommon.myCstr(dtDetails(0)("dispatchFromGSTIN"))
+                            'objEWayBill.dispatchFromGSTIN = clsCommon.myCstr(dtDetails(0)("dispatchFromGSTIN"))
                             objEWayBill.dispatchFromTradeName = clsCommon.myCstr(dtDetails(0)("dispatchFromTradeName"))
-                            objEWayBill.shipToGSTIN = clsCommon.myCstr(dtDetails(0)("shipToGSTIN"))
+                            'objEWayBill.shipToGSTIN = clsCommon.myCstr(dtDetails(0)("shipToGSTIN"))
                             objEWayBill.shipToTradeName = clsCommon.myCstr(dtDetails(0)("shipToTradeName"))
                             objEWayBill.totalValue = clsCommon.myCdbl(dtDetails(0)("totalValue"))
                             objEWayBill.cgstValue = clsCommon.myCdbl(dtDetails(0)("cgstValue"))
@@ -693,6 +693,7 @@ Public Class ClsEInvoiceOFAPIs
         End Try
         Return objResult
     End Function
+
     Public Shared Function PostAuthTokenNo_EWAYBillOnly(ByVal strCompCode As String, ByVal strTokenNo As String, ByVal strQry As String, ByVal strLocation As String, ByVal trans As SqlTransaction, ByVal strIRNNo As String) As Object
         Dim httpRequest As HttpWebRequest = Nothing
         Dim httpResponse As HttpWebResponse = Nothing
@@ -1003,9 +1004,9 @@ Public Class clsEwayBillDetail
     Public Property actToStateCode As Integer
     Public Property toStateCode As Integer
     Public Property transactionType As Integer
-    Public Property dispatchFromGSTIN As String
+    'Public Property dispatchFromGSTIN As String
     Public Property dispatchFromTradeName As String
-    Public Property shipToGSTIN As String
+    'Public Property shipToGSTIN As String
     Public Property shipToTradeName As String
     Public Property totalValue As Double
     Public Property cgstValue As Double

@@ -310,6 +310,38 @@ Public Class clsCustomerTenderOrder
         End Try
         Return isSaved
     End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim Qry As String = "select isnull(Status,0) as Status from TSPL_CUSTOMER_TENDER_ORDER where Document_Code='" & strCode & "'"
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 0 Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
+            Qry = "Select Against_Cust_Order from TSPL_SD_SHIPMENT_HEAD where Against_Cust_Order='" & strCode & "'"
+            If clsCommon.myLen(clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry, trans))) > 0 Then
+                Throw New Exception("Dispatch has been Created")
+            End If
+
+            Qry = "Update TSPL_CUSTOMER_TENDER_ORDER set Status = 0 where Document_Code='" & strCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_CUSTOMER_TENDER_ORDER", "Document_Code", "TSPL_CUSTOMER_TENDER_ORDER_DETAIL", "Document_Code", trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 Public Class clsCustomerTenderOrderDetail
 #Region "Variables"

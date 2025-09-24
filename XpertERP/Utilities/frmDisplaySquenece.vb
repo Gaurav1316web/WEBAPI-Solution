@@ -18,10 +18,13 @@ Public Class frmDisplaySquenece
     Dim Prev As Integer = 0
     Dim IsInsieLoadData As Boolean
     Dim isSelected As Boolean = True
+    Dim SeprateMorningEveningSequence As Boolean = False
     Private Sub frmDisplaySquenece_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C for Closing The Window")
         SetUserMgmtNew()
         LoadModuleType()
+        SeprateMorningEveningSequence = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, Nothing)) = 1, True, False)
+        rbShiftType.Visible = False
 
     End Sub
 
@@ -63,8 +66,13 @@ Public Class frmDisplaySquenece
     Public Sub LoadTrnsListOfSelectedModeule()
         If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
             GB_ROUTE.Visible = False
+            rbShiftType.Visible = False
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
             GB_ROUTE.Visible = True
+            If SeprateMorningEveningSequence Then
+                rbShiftType.Visible = True
+                rbtnMorning.Checked = True
+            End If
         End If
 
     End Sub
@@ -179,10 +187,25 @@ Public Class frmDisplaySquenece
                     ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name],TSPL_ITEM_MASTER.Is_DisplayDemand as [Display Demand],TSPL_ITEM_MASTER.Is_Parlour as Parlour,TSPL_ITEM_MASTER.Print_Sequence As [Print Sequence] from TSPL_ITEM_MASTER where Item_Type='F' and Is_DisplayDemand=1
                      ORDER BY TSPL_ITEM_MASTER.Sku_Seq  "
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
-                qry = "SELECT CAST(isnull(Display_Seq,0) as integer) as Sno ,tspl_customer_master.cust_code [Particlar Code] 
+                If SeprateMorningEveningSequence Then
+                    If rbtnMorning.Checked Then
+                        qry = "Select CAST(isnull(Display_SeqM,0) As Integer) As Sno ,tspl_customer_master.cust_code [Particlar Code] 
+                        ,tspl_customer_master.Customer_Name [Particlar Name] from tspl_customer_master
+                       where tspl_customer_master.route_no ='" + txtRouteNo.Value + "'
+                         ORDER BY tspl_customer_master.Display_SeqM  "
+                    ElseIf rbtnEvening.Checked Then
+                        qry = "Select CAST(isnull(Display_SeqE,0) As Integer) As Sno ,tspl_customer_master.cust_code [Particlar Code] 
+                        ,tspl_customer_master.Customer_Name [Particlar Name] from tspl_customer_master
+                       where tspl_customer_master.route_no ='" + txtRouteNo.Value + "'
+                         ORDER BY tspl_customer_master.Display_SeqE  "
+                    End If
+                Else
+                    qry = "Select CAST(isnull(Display_Seq, 0) as integer) as Sno ,tspl_customer_master.cust_code [Particlar Code] 
                         ,tspl_customer_master.Customer_Name [Particlar Name] from tspl_customer_master
                        where tspl_customer_master.route_no='" + txtRouteNo.Value + "'
                          ORDER BY tspl_customer_master.Display_Seq  "
+                End If
+
             End If
             If clsCommon.CompairString(clsCommon.myCstr(qry), Nothing) <> CompairStringResult.Equal Then
 
@@ -225,6 +248,7 @@ Public Class frmDisplaySquenece
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         txtRouteNo.Value = ""
         lblRouteDesc.Text = ""
+        rbtnMorning.Checked = True
         IsInsieLoadData = False
         gv1.DataSource = Nothing
     End Sub
@@ -262,10 +286,25 @@ Public Class frmDisplaySquenece
                 common.clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
                 btnShow.PerformClick()
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
-                For irow As Integer = 0 To gv1.Rows.Count - 1
-                    qry = "update tspl_customer_master set Display_Seq ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "' where Cust_code='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Particlar Code").Value) + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry)
-                Next
+                If SeprateMorningEveningSequence Then
+                    If rbtnMorning.Checked Then
+                        For irow As Integer = 0 To gv1.Rows.Count - 1
+                            qry = "update tspl_customer_master set Display_SeqM ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "' where Cust_code='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Particlar Code").Value) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry)
+                        Next
+                    ElseIf rbtnEvening.Checked Then
+                        For irow As Integer = 0 To gv1.Rows.Count - 1
+                            qry = "update tspl_customer_master set Display_SeqE ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "' where Cust_code='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Particlar Code").Value) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(qry)
+                        Next
+                    End If
+                Else
+                    For irow As Integer = 0 To gv1.Rows.Count - 1
+                        qry = "update tspl_customer_master set Display_Seq ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "' where Cust_code='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Particlar Code").Value) + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry)
+                    Next
+                End If
+
 
                 common.clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
                 btnShow.PerformClick()

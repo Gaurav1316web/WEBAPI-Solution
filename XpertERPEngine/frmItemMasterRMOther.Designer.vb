@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿Imports common
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmItemMasterRMOther
     Inherits FrmMainTranScreen
 
@@ -322,6 +324,7 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.btnTaxType = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -572,6 +575,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTaxType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -615,13 +619,14 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1207, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.btnTaxType)
         Me.RadPageViewPage1.Controls.Add(Me.chkDcsSaleZeroCost)
         Me.RadPageViewPage1.Controls.Add(Me.chkAllowDecimal)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsRepeat)
@@ -2901,7 +2906,7 @@ Partial Class FrmItemMasterRMOther
         '
         'btnNew
         '
-        Me.btnNew.Image = Global.XpertERPEngine.My.Resources.Resources._new
+        Me.btnNew.Image = My.Resources.Resources._new
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnNew.Location = New System.Drawing.Point(385, 3)
         Me.btnNew.Name = "btnNew"
@@ -4669,6 +4674,14 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'btnTaxType
+        '
+        Me.btnTaxType.Location = New System.Drawing.Point(867, 350)
+        Me.btnTaxType.Name = "btnTaxType"
+        Me.btnTaxType.Size = New System.Drawing.Size(161, 21)
+        Me.btnTaxType.TabIndex = 220
+        Me.btnTaxType.Text = "Tax Type"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4946,6 +4959,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTaxType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5169,9 +5183,10 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents txtAliesName2 As common.Controls.MyTextBox
     Friend WithEvents MyLabel41 As common.Controls.MyLabel
     Friend WithEvents MyLabel40 As common.Controls.MyLabel
-    Friend WithEvents chkQCSNFBssed As Controls.MyCheckBox
+    Friend WithEvents chkQCSNFBssed As common.Controls.MyCheckBox
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents RadPageViewPage8 As RadPageViewPage
+    'Friend WithEvents chkQCSNFBssed As Controls.MyCheckBox
     Friend WithEvents MyLabel38 As Controls.MyLabel
     Friend WithEvents txtSecurityDedPer As MyNumBox
     Friend WithEvents MyLabel42 As Controls.MyLabel
@@ -5224,5 +5239,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents RadPageViewPage10 As RadPageViewPage
     Friend WithEvents gvSlabTolerance As RadGridView
     Friend WithEvents chkDcsSaleZeroCost As Controls.MyCheckBox
+    Friend WithEvents btnTaxType As RadButton
 End Class
 

@@ -771,10 +771,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     }
                     For Each result In groupbyItem
                         Dim CrateConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and tspl_unit_master.Crate_Type ='Y' "))
-                        Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(result.Unit) & "' "))
-                        Dim DispatchQty As Decimal = clsCommon.myCdbl(result.TotalQty) * ItemConvFactor
-                        If DispatchQty > (CrateConvFactor / 2) AndAlso CrateConvFactor > 0 Then
-                            totalCrate += clsCommon.myRoundOFF((DispatchQty / CrateConvFactor), 0, 4)
+                        'Dim ItemConvFactor As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(result.Item) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(result.Unit) & "' "))
+                        'Dim DispatchQty As Decimal = clsCommon.myCdbl(result.TotalQty) * ItemConvFactor
+                        'If DispatchQty > (CrateConvFactor / 2) AndAlso CrateConvFactor > 0 Then
+                        '    totalCrate += clsCommon.myRoundOFF((DispatchQty / CrateConvFactor), 0, 4)
+                        'End If
+                        If CrateConvFactor > 0 Then
+                            totalCrate += result.TotalQty
                         End If
                     Next
                     txtCrateQty.Text = totalCrate

@@ -467,6 +467,15 @@ Partial Class FrmUtility
         Me.txtHyperTerminal = New common.Controls.MyTextBox()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadScrollablePanel6 = New Telerik.WinControls.UI.RadScrollablePanel()
+        Me.gbDemandUpdate = New System.Windows.Forms.GroupBox()
+        Me.txtDemandUpdateLoc = New common.UserControls.txtFinder()
+        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.rbtnEvening = New System.Windows.Forms.RadioButton()
+        Me.rbtnMorning = New System.Windows.Forms.RadioButton()
+        Me.btnDemandUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.lblDDate = New common.Controls.MyLabel()
+        Me.txtDemadUpdatedate = New common.Controls.MyDateTimePicker()
         Me.GroupBox115 = New System.Windows.Forms.GroupBox()
         Me.MyLabel73 = New common.Controls.MyLabel()
         Me.txtBmcMilkCollectionDate = New common.Controls.MyDateTimePicker()
@@ -730,7 +739,6 @@ Partial Class FrmUtility
         Me.MyLabel48 = New common.Controls.MyLabel()
         Me.MyDateTimePicker4 = New common.Controls.MyDateTimePicker()
         Me.chkDoNotConsiderOutTypeDocForBalance = New common.Controls.MyCheckBox()
-        Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtMultiSelectFinder()
         Me.MyCheckBox3 = New common.Controls.MyCheckBox()
         Me.MyCheckBox2 = New common.Controls.MyCheckBox()
@@ -1263,6 +1271,12 @@ Partial Class FrmUtility
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadScrollablePanel6.PanelContainer.SuspendLayout
         Me.RadScrollablePanel6.SuspendLayout
+        Me.gbDemandUpdate.SuspendLayout
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.btnDemandUpdate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblDDate, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtDemadUpdatedate, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox115.SuspendLayout
         CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.txtBmcMilkCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1508,7 +1522,6 @@ Partial Class FrmUtility
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyDateTimePicker4, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.chkDoNotConsiderOutTypeDocForBalance, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyCheckBox3, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyCheckBox2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton166, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1995,8 +2008,8 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1112, 455)
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -6239,7 +6252,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(145.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage6.Text = "Delete Entry After Posting"
         '
         'RadScrollablePanel6
@@ -6252,6 +6265,7 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel6.PanelContainer
         '
+        Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.gbDemandUpdate)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.GroupBox115)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.RadButton310)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.GroupBox44)
@@ -6290,9 +6304,142 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.MyLabel57)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.RadButton281)
         Me.RadScrollablePanel6.PanelContainer.Controls.Add(Me.TxtMultiSelectFinder15)
-        Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1074, 386)
-        Me.RadScrollablePanel6.Size = New System.Drawing.Size(1093, 405)
+        Me.RadScrollablePanel6.PanelContainer.Size = New System.Drawing.Size(1074, 500)
+        Me.RadScrollablePanel6.Size = New System.Drawing.Size(1093, 519)
         Me.RadScrollablePanel6.TabIndex = 388
+        '
+        'gbDemandUpdate
+        '
+        Me.gbDemandUpdate.Controls.Add(Me.txtDemandUpdateLoc)
+        Me.gbDemandUpdate.Controls.Add(Me.RadLabel15)
+        Me.gbDemandUpdate.Controls.Add(Me.rbtnEvening)
+        Me.gbDemandUpdate.Controls.Add(Me.rbtnMorning)
+        Me.gbDemandUpdate.Controls.Add(Me.btnDemandUpdate)
+        Me.gbDemandUpdate.Controls.Add(Me.lblDDate)
+        Me.gbDemandUpdate.Controls.Add(Me.txtDemadUpdatedate)
+        Me.gbDemandUpdate.Location = New System.Drawing.Point(793, 535)
+        Me.gbDemandUpdate.Name = "gbDemandUpdate"
+        Me.gbDemandUpdate.Size = New System.Drawing.Size(284, 112)
+        Me.gbDemandUpdate.TabIndex = 388
+        Me.gbDemandUpdate.TabStop = False
+        Me.gbDemandUpdate.Text = "Demand Update"
+        '
+        'txtDemandUpdateLoc
+        '
+        Me.txtDemandUpdateLoc.CalculationExpression = Nothing
+        Me.txtDemandUpdateLoc.Enabled = False
+        Me.txtDemandUpdateLoc.FieldCode = Nothing
+        Me.txtDemandUpdateLoc.FieldDesc = Nothing
+        Me.txtDemandUpdateLoc.FieldMaxLength = 0
+        Me.txtDemandUpdateLoc.FieldName = Nothing
+        Me.txtDemandUpdateLoc.isCalculatedField = False
+        Me.txtDemandUpdateLoc.IsSourceFromTable = False
+        Me.txtDemandUpdateLoc.IsSourceFromValueList = False
+        Me.txtDemandUpdateLoc.IsUnique = False
+        Me.txtDemandUpdateLoc.Location = New System.Drawing.Point(61, 45)
+        Me.txtDemandUpdateLoc.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtDemandUpdateLoc.MendatroryField = True
+        Me.txtDemandUpdateLoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDemandUpdateLoc.MyLinkLable1 = Me.RadLabel15
+        Me.txtDemandUpdateLoc.MyLinkLable2 = Me.lblLocation
+        Me.txtDemandUpdateLoc.MyReadOnly = False
+        Me.txtDemandUpdateLoc.MyShowMasterFormButton = False
+        Me.txtDemandUpdateLoc.Name = "txtDemandUpdateLoc"
+        Me.txtDemandUpdateLoc.ReferenceFieldDesc = Nothing
+        Me.txtDemandUpdateLoc.ReferenceFieldName = Nothing
+        Me.txtDemandUpdateLoc.ReferenceTableName = Nothing
+        Me.txtDemandUpdateLoc.Size = New System.Drawing.Size(87, 18)
+        Me.txtDemandUpdateLoc.TabIndex = 66
+        Me.txtDemandUpdateLoc.Value = ""
+        '
+        'RadLabel15
+        '
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(5, 45)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
+        Me.RadLabel15.TabIndex = 67
+        Me.RadLabel15.Text = "Location"
+        '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(6, 67)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(49, 18)
+        Me.lblLocation.TabIndex = 374
+        Me.lblLocation.Text = "Location"
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.AutoSize = True
+        Me.rbtnEvening.Location = New System.Drawing.Point(167, 45)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnEvening.TabIndex = 65
+        Me.rbtnEvening.TabStop = True
+        Me.rbtnEvening.Text = "Evening"
+        Me.rbtnEvening.UseVisualStyleBackColor = True
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.AutoSize = True
+        Me.rbtnMorning.Location = New System.Drawing.Point(167, 17)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(70, 17)
+        Me.rbtnMorning.TabIndex = 64
+        Me.rbtnMorning.TabStop = True
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.UseVisualStyleBackColor = True
+        '
+        'btnDemandUpdate
+        '
+        Me.btnDemandUpdate.Location = New System.Drawing.Point(43, 82)
+        Me.btnDemandUpdate.Name = "btnDemandUpdate"
+        Me.btnDemandUpdate.Size = New System.Drawing.Size(87, 24)
+        Me.btnDemandUpdate.TabIndex = 63
+        Me.btnDemandUpdate.Text = "Update"
+        '
+        'lblDDate
+        '
+        Me.lblDDate.FieldName = Nothing
+        Me.lblDDate.Location = New System.Drawing.Point(5, 21)
+        Me.lblDDate.Name = "lblDDate"
+        Me.lblDDate.Size = New System.Drawing.Size(30, 18)
+        Me.lblDDate.TabIndex = 62
+        Me.lblDDate.Text = "Date"
+        '
+        'txtDemadUpdatedate
+        '
+        Me.txtDemadUpdatedate.CalculationExpression = Nothing
+        Me.txtDemadUpdatedate.CustomFormat = "dd/MMM/yyyy"
+        Me.txtDemadUpdatedate.FieldCode = Nothing
+        Me.txtDemadUpdatedate.FieldDesc = Nothing
+        Me.txtDemadUpdatedate.FieldMaxLength = 0
+        Me.txtDemadUpdatedate.FieldName = Nothing
+        Me.txtDemadUpdatedate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDemadUpdatedate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDemadUpdatedate.isCalculatedField = False
+        Me.txtDemadUpdatedate.IsSourceFromTable = False
+        Me.txtDemadUpdatedate.IsSourceFromValueList = False
+        Me.txtDemadUpdatedate.IsUnique = False
+        Me.txtDemadUpdatedate.Location = New System.Drawing.Point(61, 20)
+        Me.txtDemadUpdatedate.MendatroryField = False
+        Me.txtDemadUpdatedate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDemadUpdatedate.MyLinkLable1 = Me.RadLabel4
+        Me.txtDemadUpdatedate.MyLinkLable2 = Nothing
+        Me.txtDemadUpdatedate.Name = "txtDemadUpdatedate"
+        Me.txtDemadUpdatedate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDemadUpdatedate.ReferenceFieldDesc = Nothing
+        Me.txtDemadUpdatedate.ReferenceFieldName = Nothing
+        Me.txtDemadUpdatedate.ReferenceTableName = Nothing
+        Me.txtDemadUpdatedate.Size = New System.Drawing.Size(87, 18)
+        Me.txtDemadUpdatedate.TabIndex = 61
+        Me.txtDemadUpdatedate.TabStop = False
+        Me.txtDemadUpdatedate.Text = "13/Jun/2011"
+        Me.txtDemadUpdatedate.Value = New Date(2011, 6, 13, 0, 0, 0, 0)
         '
         'GroupBox115
         '
@@ -6355,7 +6502,7 @@ Partial Class FrmUtility
         '
         'RadButton310
         '
-        Me.RadButton310.Location = New System.Drawing.Point(543, 565)
+        Me.RadButton310.Location = New System.Drawing.Point(575, 553)
         Me.RadButton310.Name = "RadButton310"
         Me.RadButton310.Size = New System.Drawing.Size(212, 24)
         Me.RadButton310.TabIndex = 386
@@ -9264,16 +9411,6 @@ Partial Class FrmUtility
         Me.chkDoNotConsiderOutTypeDocForBalance.Text = "Do Not Consider Out Type Doc For Balance"
         Me.chkDoNotConsiderOutTypeDocForBalance.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
-        'lblLocation
-        '
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(6, 67)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(49, 18)
-        Me.lblLocation.TabIndex = 374
-        Me.lblLocation.Text = "Location"
-        '
         'txtLocation
         '
         Me.txtLocation.arrDispalyMember = Nothing
@@ -10360,8 +10497,8 @@ Partial Class FrmUtility
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.Btnclose)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1112, 485)
-        Me.SplitContainer2.SplitterDistance = 455
+        Me.SplitContainer2.Size = New System.Drawing.Size(1112, 599)
+        Me.SplitContainer2.SplitterDistance = 569
         Me.SplitContainer2.TabIndex = 45
         '
         'Timer3
@@ -10372,7 +10509,7 @@ Partial Class FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1112, 485)
+        Me.ClientSize = New System.Drawing.Size(1112, 599)
         Me.Controls.Add(Me.SplitContainer2)
         Me.Name = "FrmUtility"
         '
@@ -10840,6 +10977,13 @@ Partial Class FrmUtility
         Me.RadScrollablePanel6.PanelContainer.PerformLayout
         CType(Me.RadScrollablePanel6, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadScrollablePanel6.ResumeLayout(False)
+        Me.gbDemandUpdate.ResumeLayout(False)
+        Me.gbDemandUpdate.PerformLayout
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnDemandUpdate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblDDate, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtDemadUpdatedate, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox115.ResumeLayout(False)
         Me.GroupBox115.PerformLayout
         CType(Me.MyLabel73, System.ComponentModel.ISupportInitialize).EndInit
@@ -11100,7 +11244,6 @@ Partial Class FrmUtility
         CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyDateTimePicker4, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.chkDoNotConsiderOutTypeDocForBalance, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyCheckBox3, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyCheckBox2, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton166, System.ComponentModel.ISupportInitialize).EndInit
@@ -11991,5 +12134,13 @@ Partial Class FrmUtility
     Friend WithEvents btnGo As RadButton
     Friend WithEvents rbtnCashToCredit As RadioButton
     Friend WithEvents rbtnCreditToCash As RadioButton
+    Friend WithEvents gbDemandUpdate As GroupBox
+    Friend WithEvents rbtnEvening As RadioButton
+    Friend WithEvents rbtnMorning As RadioButton
+    Friend WithEvents btnDemandUpdate As RadButton
+    Friend WithEvents lblDDate As common.Controls.MyLabel
+    Friend WithEvents txtDemadUpdatedate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtDemandUpdateLoc As common.UserControls.txtFinder
+    Friend WithEvents RadLabel15 As common.Controls.MyLabel
 End Class
 

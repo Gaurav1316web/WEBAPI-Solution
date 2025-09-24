@@ -3310,7 +3310,7 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
             If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
 #Region "Create DCS Addition/Deduction"
                 qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt,Against_Milk_Collection_DCS,Against_Milk_Collection_DCS_Multiple_Days)
-select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else (AMOUNT -(case when isnull(Consider_Negative_Amt,0)=1 then Negative_Amount else 0 end))  end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS,null as Against_Milk_Collection_DCS_Multiple_Days from ( 
+select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else (AMOUNT -(case when isnull(Consider_Negative_Amt,0)=1 then Negative_Amount else 0 end))  end) * Applicable_Value) / (case when (Applicable_Type=0 or Applicable_Type=2) then 1 else 100 end ))*Conversion) as Amt,null as Against_Milk_Collection_DCS,null as Against_Milk_Collection_DCS_Multiple_Days from ( 
 select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT,isnull(TSPL_MILK_SRN_DETAIL.Negative_Amount,0) as Negative_Amount, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion ,isnull(TSPL_DCS_ADDITION_DEDUCTION.Consider_Negative_Amt,0) as Consider_Negative_Amt
 from TSPL_MILK_SRN_DETAIL 
 inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
@@ -3330,6 +3330,9 @@ where TSPL_DCS_ADDITION_DEDUCTION.Posted=1 and
 isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0
 and (TSPL_DCS_ADDITION_DEDUCTION.End_Date IS NULL OR TSPL_MILK_SRN_HEAD.DOC_DATE <= TSPL_DCS_ADDITION_DEDUCTION.End_Date) 
 and TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ") 
+and ((isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,0) = 0 )
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,0) = 1 )
+    OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,0) = 2 AND isnull(TSPL_MILK_SRN_DETAIL.FAT_PER,0) >= isnull(TSPL_DCS_ADDITION_DEDUCTION.FAT_Range_From,0) AND isnull(TSPL_MILK_SRN_DETAIL.FAT_PER,0) <= isnull(TSPL_DCS_ADDITION_DEDUCTION.FAT_Range_To,0)))
 and ( isnull(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) = 0 
     OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) = 1 AND LEN(ISNULL(TSPL_VENDOR_MASTER.AccNo2, '')) > 0)
     OR (isnull(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) = 2 AND LEN(ISNULL(TSPL_VENDOR_MASTER.AccNo2, '')) <= 0))

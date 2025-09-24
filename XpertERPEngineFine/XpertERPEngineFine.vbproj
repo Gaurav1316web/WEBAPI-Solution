@@ -186,7 +186,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
-    <Reference Include="XpertCommon">
+    <Reference Include="XpertCommon, Version=2.1.6.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -246,7 +247,6 @@
     <Compile Include="Classes\clsCommissionTPTCalculation.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsCustomerTender.vb" />
-    <Compile Include="Classes\clsCustomerTenderOrderDispatch.vb" />
     <Compile Include="Classes\clsCustomerTenderOrder.vb" />
     <Compile Include="Classes\clsDAArrear.vb" />
     <Compile Include="Classes\clsDailyDemand.vb" />
@@ -295,6 +295,10 @@
     <Compile Include="Classes\clsWeeklyHolidays.vb" />
     <Compile Include="ClsCardSale.vb" />
     <Compile Include="ClsCatalogMaster.vb" />
+    <Compile Include="clsCustomerComplaintMaster.vb" />
+    <Compile Include="clsEngLogSheet.vb" />
+    <Compile Include="clsEngSection.vb" />
+    <Compile Include="clsSendSMSEmailSetting.vb" />
     <Compile Include="Common\clsCityMaster.vb" />
     <Compile Include="clsLanguage.vb" />
     <Compile Include="clsWorkEstimationHead.vb" />
@@ -304,6 +308,7 @@
     <Compile Include="Common\clsStateMaster.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="Dairy Sales\clsCustomerPenalty.vb" />
+    <Compile Include="Dairy Sales\clsDemandBookingSale.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
     <Compile Include="DemandUploaderClass\clsDemandBookingUploader.vb" />
@@ -336,7 +341,9 @@
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="Milk Procurement\clsDBTCaping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />
+    <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
     <Compile Include="Milk Procurement\clsDeductionTypeMaster.vb" />
+    <Compile Include="Milk Procurement\clsFreightChargesMaster.vb" />
     <Compile Include="Milk Procurement\clsMilkUnion.vb" />
     <Compile Include="Milk Procurement\clsReviseMilkBill.vb" />
     <Compile Include="Milk Procurement\clsSendDBTDataToJanAadhar.vb" />
