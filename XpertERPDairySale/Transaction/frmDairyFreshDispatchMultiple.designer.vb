@@ -22,13 +22,16 @@ Partial Class frmDairyFreshDispatchMultiple
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.lblSubLocationDesc = New common.Controls.MyLabel()
+        Me.txtSubLocation = New common.UserControls.txtFinder()
+        Me.lblSubLocation = New common.Controls.MyLabel()
         Me.lblDocDate = New common.Controls.MyLabel()
         Me.txtDocDate = New common.Controls.MyDateTimePicker()
         Me.lblRoute = New common.Controls.MyLabel()
@@ -69,6 +72,8 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblSubLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -119,9 +124,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -164,6 +169,9 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblSubLocationDesc)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtSubLocation)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblSubLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDocDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblRoute)
@@ -184,16 +192,65 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(882, 385)
-        Me.SplitContainer2.SplitterDistance = 77
+        Me.SplitContainer2.SplitterDistance = 95
         Me.SplitContainer2.TabIndex = 0
+        '
+        'lblSubLocationDesc
+        '
+        Me.lblSubLocationDesc.AutoSize = False
+        Me.lblSubLocationDesc.BorderVisible = True
+        Me.lblSubLocationDesc.FieldName = Nothing
+        Me.lblSubLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubLocationDesc.Location = New System.Drawing.Point(202, 51)
+        Me.lblSubLocationDesc.Name = "lblSubLocationDesc"
+        Me.lblSubLocationDesc.Size = New System.Drawing.Size(188, 18)
+        Me.lblSubLocationDesc.TabIndex = 1526
+        Me.lblSubLocationDesc.TextWrap = False
+        '
+        'txtSubLocation
+        '
+        Me.txtSubLocation.CalculationExpression = Nothing
+        Me.txtSubLocation.FieldCode = Nothing
+        Me.txtSubLocation.FieldDesc = Nothing
+        Me.txtSubLocation.FieldMaxLength = 0
+        Me.txtSubLocation.FieldName = Nothing
+        Me.txtSubLocation.isCalculatedField = False
+        Me.txtSubLocation.IsSourceFromTable = False
+        Me.txtSubLocation.IsSourceFromValueList = False
+        Me.txtSubLocation.IsUnique = False
+        Me.txtSubLocation.Location = New System.Drawing.Point(81, 49)
+        Me.txtSubLocation.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtSubLocation.MendatroryField = True
+        Me.txtSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSubLocation.MyLinkLable1 = Me.lblSubLocation
+        Me.txtSubLocation.MyLinkLable2 = Me.lblSubLocationDesc
+        Me.txtSubLocation.MyReadOnly = False
+        Me.txtSubLocation.MyShowMasterFormButton = False
+        Me.txtSubLocation.Name = "txtSubLocation"
+        Me.txtSubLocation.ReferenceFieldDesc = Nothing
+        Me.txtSubLocation.ReferenceFieldName = Nothing
+        Me.txtSubLocation.ReferenceTableName = Nothing
+        Me.txtSubLocation.Size = New System.Drawing.Size(115, 18)
+        Me.txtSubLocation.TabIndex = 1525
+        Me.txtSubLocation.Value = ""
+        '
+        'lblSubLocation
+        '
+        Me.lblSubLocation.FieldName = Nothing
+        Me.lblSubLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubLocation.Location = New System.Drawing.Point(10, 51)
+        Me.lblSubLocation.Name = "lblSubLocation"
+        Me.lblSubLocation.Size = New System.Drawing.Size(72, 16)
+        Me.lblSubLocation.TabIndex = 1527
+        Me.lblSubLocation.Text = "Sub Location"
         '
         'lblDocDate
         '
         Me.lblDocDate.FieldName = Nothing
         Me.lblDocDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocDate.Location = New System.Drawing.Point(201, 9)
+        Me.lblDocDate.Location = New System.Drawing.Point(205, 9)
         Me.lblDocDate.Name = "lblDocDate"
-        Me.lblDocDate.Size = New System.Drawing.Size(81, 16)
+        Me.lblDocDate.Size = New System.Drawing.Size(77, 16)
         Me.lblDocDate.TabIndex = 1523
         Me.lblDocDate.Text = "Dispatch Date"
         '
@@ -211,7 +268,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtDocDate.IsSourceFromTable = False
         Me.txtDocDate.IsSourceFromValueList = False
         Me.txtDocDate.IsUnique = False
-        Me.txtDocDate.Location = New System.Drawing.Point(286, 8)
+        Me.txtDocDate.Location = New System.Drawing.Point(295, 8)
         Me.txtDocDate.MendatroryField = False
         Me.txtDocDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDocDate.MyLinkLable1 = Me.lblDocDate
@@ -221,7 +278,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtDocDate.ReferenceFieldDesc = Nothing
         Me.txtDocDate.ReferenceFieldName = Nothing
         Me.txtDocDate.ReferenceTableName = Nothing
-        Me.txtDocDate.Size = New System.Drawing.Size(105, 18)
+        Me.txtDocDate.Size = New System.Drawing.Size(93, 18)
         Me.txtDocDate.TabIndex = 1524
         Me.txtDocDate.TabStop = False
         Me.txtDocDate.Text = "13/06/2011"
@@ -231,7 +288,7 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(10, 52)
+        Me.lblRoute.Location = New System.Drawing.Point(10, 72)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(36, 18)
         Me.lblRoute.TabIndex = 1522
@@ -241,13 +298,13 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(75, 51)
+        Me.txtRoute.Location = New System.Drawing.Point(81, 71)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.lblRoute
         Me.txtRoute.MyLinkLable2 = Nothing
         Me.txtRoute.MyNullText = "All"
         Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(316, 20)
+        Me.txtRoute.Size = New System.Drawing.Size(316, 18)
         Me.txtRoute.TabIndex = 1521
         '
         'btnGo
@@ -395,7 +452,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(75, 30)
+        Me.txtLocation.Location = New System.Drawing.Point(81, 28)
         Me.txtLocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -407,7 +464,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtLocation.ReferenceFieldDesc = Nothing
         Me.txtLocation.ReferenceFieldName = Nothing
         Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(115, 19)
+        Me.txtLocation.Size = New System.Drawing.Size(115, 18)
         Me.txtLocation.TabIndex = 53
         Me.txtLocation.Value = ""
         '
@@ -415,7 +472,7 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(9, 31)
+        Me.lblLocation.Location = New System.Drawing.Point(10, 30)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(49, 16)
         Me.lblLocation.TabIndex = 55
@@ -445,7 +502,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(75, 8)
+        Me.txtFromDate.Location = New System.Drawing.Point(81, 8)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Me.lblFromDate
@@ -455,7 +512,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtFromDate.ReferenceFieldDesc = Nothing
         Me.txtFromDate.ReferenceFieldName = Nothing
         Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(121, 18)
+        Me.txtFromDate.Size = New System.Drawing.Size(115, 18)
         Me.txtFromDate.TabIndex = 50
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "13/06/2011"
@@ -468,9 +525,9 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
-        Me.gv1.Size = New System.Drawing.Size(882, 304)
+        Me.gv1.Size = New System.Drawing.Size(882, 286)
         Me.gv1.TabIndex = 0
         '
         'btnPost
@@ -575,6 +632,8 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblSubLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
@@ -640,5 +699,8 @@ Partial Class frmDairyFreshDispatchMultiple
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblDocDate As common.Controls.MyLabel
     Friend WithEvents txtDocDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblSubLocationDesc As common.Controls.MyLabel
+    Friend WithEvents txtSubLocation As common.UserControls.txtFinder
+    Friend WithEvents lblSubLocation As common.Controls.MyLabel
 End Class
 

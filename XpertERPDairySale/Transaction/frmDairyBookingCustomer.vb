@@ -462,6 +462,7 @@ Public Class frmDairyBookingCustomer
         lblCreatedByValue.Text = ""
         txtCustPODate.Checked = False
         txtCustPODate.Value = clsCommon.GETSERVERDATE()
+        UsLock1.Status = ERPTransactionStatus.Pending
     End Sub
     Sub LoadBlankGrid()
         'Dim qry As String = String.Empty
@@ -2785,6 +2786,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             clsCommon.MyMessageBoxShow(Me, "Apply TPT and Apply Commission Both setting is on, please disable one.", Me.Text)
             Me.Close()
         End If
+        UsLock1.Status = ERPTransactionStatus.Pending
         UcAttachment1.BlankAllControls()
         'VendorCodeForChangeIndent = ""
         IsTotalQtyinKG = False
@@ -4147,23 +4149,23 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 IsTotalQtyinKG = False
                 chkSampling.Enabled = False
-                Dim isDemandBooking1 = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & obj.Document_No & "'")
-                If clsCommon.myLen(isDemandBooking1) > 0 Then
-                    rgbItemType.Visible = False
-                    If clsCommon.CompairString(obj.GatePass_Type, "AM") = CompairStringResult.Equal Then
-                        lblShiftType.Text = "Morning"
-                    Else
-                        lblShiftType.Text = "Evening"
-                    End If
-                Else
-                    rgbItemType.Visible = True
+                'Dim isDemandBooking1 = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & obj.Document_No & "'")
+                'If clsCommon.myLen(isDemandBooking1) > 0 Then
+                '    rgbItemType.Visible = False
+                '    If clsCommon.CompairString(obj.GatePass_Type, "AM") = CompairStringResult.Equal Then
+                '        lblShiftType.Text = "Morning"
+                '    Else
+                '        lblShiftType.Text = "Evening"
+                '    End If
+                'Else
+                rgbItemType.Visible = True
                     If obj.Is_Taxable = 2 Then
                         rbtnTaxable.IsChecked = True
                     ElseIf obj.Is_Taxable = 1 Then
                         rbtnNonTax.IsChecked = True
                     End If
                     rgbItemType.Enabled = False
-                End If
+                ' End If
 
                 btnSave.Enabled = True
                 btnPost.Enabled = True
@@ -4248,12 +4250,13 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
                     btnGatepass.Enabled = True
-                    Dim isDemandBooking = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'")
-                    If clsCommon.myLen(isDemandBooking) > 0 Then
-                        btnCreateAndPrintInvoice.Enabled = False
-                    Else
-                        btnCreateAndPrintInvoice.Enabled = True
-                    End If
+                    UsLock1.Status = ERPTransactionStatus.Approved
+                    'Dim isDemandBooking = clsDBFuncationality.getSingleValue("select top 1 Against_DemandBooking_No from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'")
+                    'If clsCommon.myLen(isDemandBooking) > 0 Then
+                    '    btnCreateAndPrintInvoice.Enabled = False
+                    'Else
+                    btnCreateAndPrintInvoice.Enabled = True
+                    'End If
                     btnCreateDO.Enabled = True
                     Dim DOStatus1 = clsDBFuncationality.getSingleValue("select top 1  Document_No from TSPL_BOOKING_DETAIL where DO_Posted <> 4 and Document_No='" & txtDocNo.Value & "'")
                     If clsCommon.myLen(DOStatus1) = 0 Then
@@ -4261,6 +4264,7 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                     End If
                 Else
                     btnCreateAndPrintInvoice.Enabled = False
+                    UsLock1.Status = ERPTransactionStatus.Pending
                 End If
                 'If obj.TRANSACTION_TYPE = "FS" Then
                 '    rbtn_Fresh.IsChecked = True
@@ -8608,6 +8612,7 @@ from
                         obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
                         obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
                         obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
+                        obj.Item_Type = "S"
                         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                             If chkcashsale.Checked AndAlso clsCommon.CompairString(cmbPaymentType.Text, "Cash") = CompairStringResult.Equal Then
                                 obj.Is_CashSale = "Y"

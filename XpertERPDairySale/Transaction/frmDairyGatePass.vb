@@ -44,6 +44,13 @@ Public Class frmDairyGatePass
     Const colPKID As String = "colPKID"
     Const colHSNCode As String = "colHSNCode"
     Const colSchemeItem As String = "colSchemeItem"
+
+    Const colCTDocCode As String = "colCTDocCode"
+    Const colCTICode As String = "colCTICode"
+    Const colCTCode As String = "colCTCode"
+    Const ColCTName As String = "ColCTName"
+    Const ColCTQty As String = "ColCTQty"
+
     Dim atchqry As String = ""
     Dim AlternateVechileforGatePass As Double
     Dim isCreateProvisionOfTransporterInDairyDispatch As Boolean = False
@@ -64,6 +71,7 @@ Public Class frmDairyGatePass
     Dim EnableDispatch As Boolean = False
     Dim EnableLocation As Boolean = False
     Dim settFileUpload As Boolean = False
+    Dim DifferentCrateTypeForFGItem As Boolean = False
 #End Region
     Private Sub SetUserMgmtNew()
         Me.Form_ID = clsUserMgtCode.frmDairyGatePass
@@ -89,7 +97,8 @@ Public Class frmDairyGatePass
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         settFileUpload = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FileUpload, clsUserMgtCode.frmDairyGatePass, Nothing)) = 1)
-        CreateTable()
+        'CreateTable()
+        CreateTable1()
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
             chkGhee.Visible = True
         Else
@@ -122,6 +131,7 @@ Public Class frmDairyGatePass
         AllowManualCrateForDispatch = clsCommon.myCBool(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualCrateForDispatch, clsFixedParameterCode.AllowManualCrateForDispatch, Nothing)))
         SetDefaultShiftTime = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetDefaultShiftTime, clsFixedParameterCode.SetDefaultShiftTime, Nothing))
         ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+        DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
 
         Addnew()
         LoadBlankGrid()
@@ -136,6 +146,9 @@ Public Class frmDairyGatePass
             btnPost.Enabled = False
         Else
             ' btnPost.Visible = False
+        End If
+        If Not DifferentCrateTypeForFGItem Then
+            RadPageView1.Pages("rpvpCrateType").Item.Visibility = ElementVisibility.Collapsed
         End If
         AlternateVechileforGatePass = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAlternateVechileforFreshSale, clsFixedParameterCode.ShowAlternateVechileforFreshSale, Nothing))
         'funFillGrid()
@@ -246,6 +259,65 @@ Public Class frmDairyGatePass
         coll.Add("GP_Qty", "Decimal(18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
         '=====================
+    End Sub
+    Sub LoadgvCrateType()
+        gvCrateType.Rows.Clear()
+        gvCrateType.Columns.Clear()
+        Dim CrateTypeDocCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        CrateTypeDocCode.FormatString = ""
+        CrateTypeDocCode.HeaderText = "Document Code"
+        CrateTypeDocCode.Name = colCTDocCode
+        CrateTypeDocCode.HeaderImage = My.Resources.search4
+        CrateTypeDocCode.TextImageRelation = TextImageRelation.TextBeforeImage
+        CrateTypeDocCode.Width = 100
+        CrateTypeDocCode.ReadOnly = True
+        CrateTypeDocCode.IsVisible = False
+        gvCrateType.MasterTemplate.Columns.Add(CrateTypeDocCode)
+        Dim resCrateICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        resCrateICode.FormatString = ""
+        resCrateICode.HeaderText = "Item Code"
+        resCrateICode.Name = colCTICode
+        resCrateICode.Width = 80
+        resCrateICode.ReadOnly = True
+        resCrateICode.IsVisible = False
+        gvCrateType.MasterTemplate.Columns.Add(resCrateICode)
+        Dim resCratetype As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        resCratetype.FormatString = ""
+        resCratetype.HeaderText = "Crate Type Code"
+        resCratetype.Name = colCTCode
+        resCratetype.Width = 80
+        resCratetype.ReadOnly = True
+        resCratetype.IsVisible = False
+        gvCrateType.MasterTemplate.Columns.Add(resCratetype)
+        Dim resCTname As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        resCTname.FormatString = ""
+        resCTname.HeaderText = "Crate Type Name"
+        resCTname.Name = ColCTName
+        resCTname.Width = 200
+        resCTname.ReadOnly = True
+        resCTname.IsVisible = True
+        gvCrateType.MasterTemplate.Columns.Add(resCTname)
+
+        Dim repoCrateQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoCrateQty.FormatString = ""
+        repoCrateQty.HeaderText = "Crate Qty"
+        repoCrateQty.Name = ColCTQty
+        repoCrateQty.Width = 120
+        repoCrateQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoCrateQty.ShowUpDownButtons = False
+        repoCrateQty.ReadOnly = False
+        repoCrateQty.IsVisible = True
+        gvCrateType.MasterTemplate.Columns.Add(repoCrateQty)
+
+        gvCrateType.AllowAddNewRow = False
+        gvCrateType.ShowGroupPanel = False
+        gvCrateType.AllowColumnReorder = True
+        gvCrateType.AllowRowReorder = False
+        gvCrateType.EnableSorting = False
+        gvCrateType.Rows.AddNew()
+        gvCrateType.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvCrateType.MasterTemplate.ShowRowHeaderColumn = False
+        gvCrateType.TableElement.TableHeaderHeight = 40
     End Sub
     Private Sub LoadBlankGrid()
         Gv1.DataSource = Nothing
@@ -783,6 +855,32 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                     txtCrateQty.Text = totalCrate
 
                 End If
+                If DifferentCrateTypeForFGItem Then
+                    Dim dbTotCrate As Integer = 0
+                    Dim lstCTstr As List(Of String) = New List(Of String)
+                    For ii As Integer = 0 To Gv1.Rows.Count - 1
+                        Dim strPKDoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DOCUMENT_CODE from tspl_SD_Shipment_detail where PK_ID='" & clsCommon.myCstr(Gv1.Rows(ii).Cells(colPKID).Value) & "'"))
+                        If Not lstCTstr.Contains(strPKDoc) Then
+                            lstCTstr.Add(strPKDoc)
+                        End If
+                    Next
+                    Dim dtct As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,CRATE_TYPE_CODE,CRATE_QTY from tspl_SD_Shipment_Crate_detail where DOCUMENT_CODE in(" & clsCommon.GetMulcallString(lstCTstr) & ")")
+                    If dtct IsNot Nothing AndAlso dtct.Rows.Count > 0 Then
+                        LoadgvCrateType()
+                        Dim intRow As Integer = 0
+                        For Each dr As DataRow In dtct.Rows
+                            gvCrateType.Rows.AddNew()
+                            gvCrateType.Rows(intRow).Cells(colCTICode).Value = clsCommon.myCstr(dr("Item_Code"))
+                            gvCrateType.Rows(intRow).Cells(colCTCode).Value = clsCommon.myCstr(dr("CRATE_TYPE_CODE"))
+                            gvCrateType.Rows(intRow).Cells(ColCTName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(dr("CRATE_TYPE_CODE")) & "' and CRATE=1"))
+                            gvCrateType.Rows(intRow).Cells(ColCTQty).Value = clsCommon.myCdbl(dr("CRATE_QTY"))
+                            dbTotCrate += clsCommon.myCdbl(dr("CRATE_QTY"))
+                            intRow += 1
+                        Next
+
+                    End If
+                    txtCrateQty.Text = dbTotCrate
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found.", Me.Text)
                 ' **************************************************************************************************
@@ -790,6 +888,16 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+    Private Sub CreateTable1()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PKID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("GPCode", "Varchar(30) null References TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
+        coll.Add("Item_Code", "varchar(50) NULL")
+        coll.Add("CRATE_TYPE_CODE", "varchar(30) NULL")
+        coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL", coll, "", True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "", True)
     End Sub
     Private Sub funLoadGrid(ByVal strGPCOde As String)
         Try
@@ -976,6 +1084,22 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtDriverMobNo.Text = obj.Driver_ContactNo
                 txtDistributorName.Text = obj.DistributorName
                 funLoadGrid(txtCode.Value)
+                If DifferentCrateTypeForFGItem Then
+                    If obj.ArrCrateType IsNot Nothing AndAlso obj.ArrCrateType.Count > 0 Then
+                        LoadgvCrateType()
+                        Dim dbtotcrate As Integer = 0
+                        For Each items As clsDairyGPCrateDetail In obj.ArrCrateType
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(colCTDocCode).Value = items.GPCode
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(colCTICode).Value = items.Item_Code
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(colCTCode).Value = items.CRATE_TYPE_CODE
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(ColCTName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & items.CRATE_TYPE_CODE & "' and CRATE=1"))
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(ColCTQty).Value = items.CRATE_QTY
+                            dbtotcrate += items.CRATE_QTY
+                            gvCrateType.Rows.AddNew()
+                        Next
+                        txtCrateQty.Text = dbtotcrate
+                    End If
+                End If
             End If
             isInsideLoadData = False
         Catch ex As Exception
@@ -1169,9 +1293,22 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         obj.Arr.Add(objTr)
                     End If
                 Next
+
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
+                End If
+                If DifferentCrateTypeForFGItem Then
+                    obj.ArrCrateType = New List(Of clsDairyGPCrateDetail)
+                    For Each grow As GridViewRowInfo In gvCrateType.Rows
+                        If clsCommon.myCdbl(grow.Cells(ColCTQty).Value) > 0 Then
+                            Dim objTr As New clsDairyGPCrateDetail()
+                            objTr.Item_Code = clsCommon.myCDecimal(grow.Cells(colCTICode).Value)
+                            objTr.CRATE_TYPE_CODE = clsCommon.myCstr(grow.Cells(colCTCode).Value)
+                            objTr.CRATE_QTY = clsCommon.myCdbl(grow.Cells(ColCTQty).Value)
+                            obj.ArrCrateType.Add(objTr)
+                        End If
+                    Next
                 End If
                 Dim CheckVehicle As String = clsDBFuncationality.getSingleValue("select Vehicle_Number from TSPL_DAIRYSALE_GATEPASS_Master where Convert(Date,GPDate,103)=Convert(Date,'" + txtDate.Value + "',103) And Route_No='" + clsCommon.myCstr(fndRouteNo.Value) + "' And ShiftType='" + clsCommon.myCstr(obj.ShiftType) + "' and Vehicle_Number='" + clsCommon.myCstr(obj.Vehicle_Number) + "'")
                 If CheckVehicle IsNot Nothing AndAlso clsCommon.myLen(CheckVehicle) > 0 Then

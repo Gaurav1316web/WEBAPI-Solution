@@ -55,6 +55,9 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtCrateTypeItem = New common.UserControls.txtFinder()
+        Me.lblCrateTypeItem = New common.Controls.MyLabel()
+        Me.btnTaxType = New Telerik.WinControls.UI.RadButton()
         Me.chkDcsSaleZeroCost = New common.Controls.MyCheckBox()
         Me.chkAllowDecimal = New common.Controls.MyCheckBox()
         Me.chkIsRepeat = New common.Controls.MyCheckBox()
@@ -324,13 +327,14 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.btnTaxType = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblCrateTypeItem, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTaxType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -575,7 +579,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnTaxType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -626,6 +629,8 @@ Partial Class FrmItemMasterRMOther
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtCrateTypeItem)
+        Me.RadPageViewPage1.Controls.Add(Me.lblCrateTypeItem)
         Me.RadPageViewPage1.Controls.Add(Me.btnTaxType)
         Me.RadPageViewPage1.Controls.Add(Me.chkDcsSaleZeroCost)
         Me.RadPageViewPage1.Controls.Add(Me.chkAllowDecimal)
@@ -781,6 +786,49 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1186, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'txtCrateTypeItem
+        '
+        Me.txtCrateTypeItem.CalculationExpression = Nothing
+        Me.txtCrateTypeItem.FieldCode = Nothing
+        Me.txtCrateTypeItem.FieldDesc = Nothing
+        Me.txtCrateTypeItem.FieldMaxLength = 0
+        Me.txtCrateTypeItem.FieldName = Nothing
+        Me.txtCrateTypeItem.isCalculatedField = False
+        Me.txtCrateTypeItem.IsSourceFromTable = False
+        Me.txtCrateTypeItem.IsSourceFromValueList = False
+        Me.txtCrateTypeItem.IsUnique = False
+        Me.txtCrateTypeItem.Location = New System.Drawing.Point(132, 439)
+        Me.txtCrateTypeItem.MendatroryField = True
+        Me.txtCrateTypeItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCrateTypeItem.MyLinkLable1 = Me.lblCrateTypeItem
+        Me.txtCrateTypeItem.MyLinkLable2 = Nothing
+        Me.txtCrateTypeItem.MyReadOnly = False
+        Me.txtCrateTypeItem.MyShowMasterFormButton = False
+        Me.txtCrateTypeItem.Name = "txtCrateTypeItem"
+        Me.txtCrateTypeItem.ReferenceFieldDesc = Nothing
+        Me.txtCrateTypeItem.ReferenceFieldName = Nothing
+        Me.txtCrateTypeItem.ReferenceTableName = Nothing
+        Me.txtCrateTypeItem.Size = New System.Drawing.Size(162, 20)
+        Me.txtCrateTypeItem.TabIndex = 221
+        Me.txtCrateTypeItem.Value = ""
+        '
+        'lblCrateTypeItem
+        '
+        Me.lblCrateTypeItem.FieldName = Nothing
+        Me.lblCrateTypeItem.Location = New System.Drawing.Point(2, 437)
+        Me.lblCrateTypeItem.Name = "lblCrateTypeItem"
+        Me.lblCrateTypeItem.Size = New System.Drawing.Size(85, 18)
+        Me.lblCrateTypeItem.TabIndex = 222
+        Me.lblCrateTypeItem.Text = "Crate Type Item"
+        '
+        'btnTaxType
+        '
+        Me.btnTaxType.Location = New System.Drawing.Point(867, 350)
+        Me.btnTaxType.Name = "btnTaxType"
+        Me.btnTaxType.Size = New System.Drawing.Size(161, 21)
+        Me.btnTaxType.TabIndex = 220
+        Me.btnTaxType.Text = "Tax Type"
         '
         'chkDcsSaleZeroCost
         '
@@ -2906,7 +2954,7 @@ Partial Class FrmItemMasterRMOther
         '
         'btnNew
         '
-        Me.btnNew.Image = My.Resources.Resources._new
+        Me.btnNew.Image = Global.XpertERPEngine.My.Resources.Resources._new
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnNew.Location = New System.Drawing.Point(385, 3)
         Me.btnNew.Name = "btnNew"
@@ -4674,14 +4722,6 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'btnTaxType
-        '
-        Me.btnTaxType.Location = New System.Drawing.Point(867, 350)
-        Me.btnTaxType.Name = "btnTaxType"
-        Me.btnTaxType.Size = New System.Drawing.Size(161, 21)
-        Me.btnTaxType.TabIndex = 220
-        Me.btnTaxType.Text = "Tax Type"
-        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4702,6 +4742,8 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblCrateTypeItem, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTaxType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDcsSaleZeroCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsRepeat, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4959,7 +5001,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnTaxType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5240,5 +5281,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents gvSlabTolerance As RadGridView
     Friend WithEvents chkDcsSaleZeroCost As Controls.MyCheckBox
     Friend WithEvents btnTaxType As RadButton
+    Friend WithEvents txtCrateTypeItem As UserControls.txtFinder
+    Friend WithEvents lblCrateTypeItem As Controls.MyLabel
 End Class
 

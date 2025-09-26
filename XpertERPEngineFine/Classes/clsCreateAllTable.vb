@@ -2473,6 +2473,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Print_Sequence", "integer Null")
             coll.Add("DCS_Sale_Zero_Cost", "integer Null")
+            coll.Add("CrateType_Item", "Varchar(30) null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
@@ -31827,6 +31828,14 @@ FROM TSPL_ITEM_MASTER"
             qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX10_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column Item_Tax Decimal(18,6) null
      alter table TSPL_SD_SHIPMENT_detail  alter column Total_Tax_Amt Decimal(18,6) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PKID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "Varchar(30) null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Item_Code", "varchar(50) NULL")
+            coll.Add("CRATE_TYPE_CODE", "varchar(30) NULL")
+            coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
+            coll.Add("Trip_No", "int NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_CRATE_DETAIL", coll, "", True, False, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL REFERENCES TSPL_SD_SHIPMENT_DETAIL(PK_ID)")
@@ -31838,6 +31847,14 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Scheme_Item", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PKID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("GPCode", "Varchar(30) null References TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
+            coll.Add("Item_Code", "varchar(50) NULL")
+            coll.Add("CRATE_TYPE_CODE", "varchar(30) NULL")
+            coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
+            coll.Add("Trip_No", "int NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL", coll, "", True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")

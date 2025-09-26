@@ -34,6 +34,7 @@ Public Class clsDairyGatePassEntry
     Public Trip_No As Decimal = 1
     Public Closing_Date As DateTime? = Nothing
     Public Arr As List(Of clsDairyGPDetail) = Nothing
+    Public ArrCrateType As List(Of clsDairyGPCrateDetail) = Nothing
     Public IsTransfer As Integer = 0
     Public AgainstTransferNo As String = String.Empty
     Public ShiftType As String = String.Empty
@@ -94,7 +95,8 @@ Public Class clsDairyGatePassEntry
             qry = ""
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPcode='" + obj.GPCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL where GPcode='" + obj.GPCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = ""
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPcode='" + obj.GPCode + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -156,6 +158,7 @@ Public Class clsDairyGatePassEntry
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAIRYSALE_GATEPASS_MASTER", OMInsertOrUpdate.Update, "TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" + obj.GPCode + "'", trans)
             End If
             isSaved = isSaved AndAlso clsDairyGPDetail.SaveData(obj.GPCode, obj.Arr, trans)
+            isSaved = isSaved AndAlso clsDairyGPCrateDetail.SaveData(obj.GPCode, obj.ArrCrateType, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.GPCode, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
             ''richa agarwal 22 Nov,2019 ERO/22/11/19-001129
             '' qry = "Update TSPL_SD_SHIPMENT_HEAD set GPCode='" & obj.GPCode & "' where  convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(obj.GPDate, "") & "' and isnull(GPCode,'') = '' and Trans_Type='FS' and Bill_To_Location='" & obj.Location_Code & "' and Vehicle_Code='" & obj.Vehicle_Id & "' and TSPL_SD_SHIPMENT_HEAD.Document_Code  in (" + AgainstDocumentCode + ")"
@@ -356,6 +359,7 @@ Public Class clsDairyGatePassEntry
                 obj.Demand_UniqueID = clsCommon.myCstr(dt.Rows(0)("Demand_UniqueID"))
             End If
             obj.Arr = clsDairyGPDetail.GetData(obj.GPCode, trans)
+            obj.ArrCrateType = clsDairyGPCrateDetail.GetData(obj.GPCode, trans)
         End If
         Return obj
     End Function
@@ -468,6 +472,8 @@ Public Class clsDairyGatePassEntry
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" & obj.GPCode & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL where GPcode='" + obj.GPCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" & obj.GPCode & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -615,7 +621,8 @@ Public Class clsDairyGatePassEntry
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
             'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
-
+            qry = "delete from TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL where GPcode='" + obj.GPCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_DAIRYSALE_GATEPASS_DETAIL where GPCode='" + obj.GPCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -831,6 +838,50 @@ Public Class clsDairyGPDetail
                 obj.HSN_Code = clsCommon.myCstr(dr("HSN_Code"))
                 obj.Scheme_Item = clsCommon.myCstr(dr("Scheme_Item"))
 
+
+                arr.Add(obj)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+Public Class clsDairyGPCrateDetail
+#Region "Variables"
+    Public GPCode As String = Nothing
+    Public Item_Code As String = Nothing
+    Public CRATE_TYPE_CODE As String = Nothing
+    Public CRATE_QTY As String = Nothing
+#End Region
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsDairyGPCrateDetail), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each obj As clsDairyGPCrateDetail In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "GPCode", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "CRATE_TYPE_CODE", obj.CRATE_TYPE_CODE)
+                clsCommon.AddColumnsForChange(coll, "CRATE_QTY", obj.CRATE_QTY)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsDairyGPCrateDetail)
+        Dim arr As List(Of clsDairyGPCrateDetail) = Nothing
+        Dim qry As String
+
+        qry = " select * from TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL where TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL.GPCode= '" & strCode & "'"
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            arr = New List(Of clsDairyGPCrateDetail)()
+            For Each dr As DataRow In dt.Rows
+                Dim obj As clsDairyGPCrateDetail = New clsDairyGPCrateDetail()
+                obj.GPCode = clsCommon.myCDecimal(dr("GPCode"))
+                obj.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                obj.CRATE_TYPE_CODE = clsCommon.myCstr(dr("CRATE_TYPE_CODE"))
+                obj.CRATE_QTY = clsCommon.myCdbl(dr("CRATE_QTY"))
 
                 arr.Add(obj)
             Next
