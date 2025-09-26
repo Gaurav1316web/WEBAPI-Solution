@@ -22,16 +22,26 @@ Partial Class RptSaleRegisterReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.ddlPaymentType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.TxtVLC = New common.UserControls.txtMultiSelectFinder()
+        Me.LblVLC = New common.Controls.MyLabel()
+        Me.chkShowOnlyVSP = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtZone = New common.UserControls.txtMultiSelectFinder()
@@ -98,9 +108,6 @@ Partial Class RptSaleRegisterReport
         Me.rmSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSend = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkShowOnlyVSP = New Telerik.WinControls.UI.RadCheckBox()
-        Me.TxtVLC = New common.UserControls.txtMultiSelectFinder()
-        Me.LblVLC = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -108,6 +115,10 @@ Partial Class RptSaleRegisterReport
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlPaymentType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkShowOnlyVSP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowCSASaleFromSalePatti, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,8 +169,6 @@ Partial Class RptSaleRegisterReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkShowOnlyVSP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -200,7 +209,6 @@ Partial Class RptSaleRegisterReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1044, 437)
         Me.RadPageView1.TabIndex = 71
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -216,6 +224,8 @@ Partial Class RptSaleRegisterReport
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.MyLabel11)
+        Me.Panel1.Controls.Add(Me.ddlPaymentType)
         Me.Panel1.Controls.Add(Me.TxtVLC)
         Me.Panel1.Controls.Add(Me.LblVLC)
         Me.Panel1.Controls.Add(Me.chkShowOnlyVSP)
@@ -255,6 +265,64 @@ Partial Class RptSaleRegisterReport
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(688, 339)
         Me.Panel1.TabIndex = 348
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Location = New System.Drawing.Point(11, 316)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(77, 18)
+        Me.MyLabel11.TabIndex = 362
+        Me.MyLabel11.Text = "Payment Type"
+        '
+        'ddlPaymentType
+        '
+        Me.ddlPaymentType.AutoCompleteDisplayMember = Nothing
+        Me.ddlPaymentType.AutoCompleteValueMember = Nothing
+        Me.ddlPaymentType.DropDownAnimationEnabled = True
+        RadListDataItem10.Text = "Both"
+        RadListDataItem11.Text = "Sale Invoice"
+        RadListDataItem12.Text = "Sale Return"
+        Me.ddlPaymentType.Items.Add(RadListDataItem10)
+        Me.ddlPaymentType.Items.Add(RadListDataItem11)
+        Me.ddlPaymentType.Items.Add(RadListDataItem12)
+        Me.ddlPaymentType.Location = New System.Drawing.Point(109, 314)
+        Me.ddlPaymentType.Name = "ddlPaymentType"
+        Me.ddlPaymentType.Size = New System.Drawing.Size(156, 20)
+        Me.ddlPaymentType.TabIndex = 361
+        '
+        'TxtVLC
+        '
+        Me.TxtVLC.arrDispalyMember = Nothing
+        Me.TxtVLC.arrValueMember = Nothing
+        Me.TxtVLC.Location = New System.Drawing.Point(109, 291)
+        Me.TxtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtVLC.MyLinkLable1 = Me.LblVLC
+        Me.TxtVLC.MyLinkLable2 = Nothing
+        Me.TxtVLC.MyNullText = "All"
+        Me.TxtVLC.Name = "TxtVLC"
+        Me.TxtVLC.Size = New System.Drawing.Size(309, 19)
+        Me.TxtVLC.TabIndex = 359
+        Me.TxtVLC.Visible = False
+        '
+        'LblVLC
+        '
+        Me.LblVLC.FieldName = Nothing
+        Me.LblVLC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblVLC.Location = New System.Drawing.Point(10, 292)
+        Me.LblVLC.Name = "LblVLC"
+        Me.LblVLC.Size = New System.Drawing.Size(27, 18)
+        Me.LblVLC.TabIndex = 360
+        Me.LblVLC.Text = "DCS"
+        Me.LblVLC.Visible = False
+        '
+        'chkShowOnlyVSP
+        '
+        Me.chkShowOnlyVSP.Location = New System.Drawing.Point(427, 98)
+        Me.chkShowOnlyVSP.Name = "chkShowOnlyVSP"
+        Me.chkShowOnlyVSP.Size = New System.Drawing.Size(94, 18)
+        Me.chkShowOnlyVSP.TabIndex = 358
+        Me.chkShowOnlyVSP.Text = "Show only VSP"
         '
         'TxtRoute
         '
@@ -392,6 +460,7 @@ Partial Class RptSaleRegisterReport
         '
         Me.ddlSubCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlSubCategory.AutoCompleteValueMember = Nothing
+        Me.ddlSubCategory.DropDownAnimationEnabled = True
         RadListDataItem1.Text = "Both"
         RadListDataItem2.Text = "Sale Invoice"
         RadListDataItem3.Text = "Sale Return"
@@ -408,6 +477,7 @@ Partial Class RptSaleRegisterReport
         '
         Me.ddlReportType.AutoCompleteDisplayMember = Nothing
         Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
         RadListDataItem4.Text = "Both"
         RadListDataItem5.Text = "Sale Invoice"
         RadListDataItem6.Text = "Sale Return"
@@ -666,14 +736,18 @@ Partial Class RptSaleRegisterReport
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCategory.MyExportFilePath = ""
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(290, 241)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
+        Me.gvCategory.VarID = ""
         '
         'Panel6
         '
@@ -784,12 +858,16 @@ Partial Class RptSaleRegisterReport
         '
         '
         '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MyExportFilePath = ""
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1023, 389)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        Me.Gv1.VarID = ""
         '
         'rdmenufile
         '
@@ -799,7 +877,6 @@ Partial Class RptSaleRegisterReport
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(1044, 20)
         Me.rdmenufile.TabIndex = 70
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -811,15 +888,11 @@ Partial Class RptSaleRegisterReport
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -834,36 +907,26 @@ Partial Class RptSaleRegisterReport
         '
         'QExpExcel
         '
-        Me.QExpExcel.AccessibleDescription = "Excel"
-        Me.QExpExcel.AccessibleName = "Excel"
         Me.QExpExcel.Name = "QExpExcel"
         Me.QExpExcel.Text = "Excel"
         '
         'QExpCSV
         '
-        Me.QExpCSV.AccessibleDescription = "CSV"
-        Me.QExpCSV.AccessibleName = "CSV"
         Me.QExpCSV.Name = "QExpCSV"
         Me.QExpCSV.Text = "CSV"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
         'BulkExcel
         '
-        Me.BulkExcel.AccessibleDescription = "Bulk Excel"
-        Me.BulkExcel.AccessibleName = "Bulk Excel"
         Me.BulkExcel.Name = "BulkExcel"
         Me.BulkExcel.Text = "Bulk Excel"
         '
         'BulkCSV
         '
-        Me.BulkCSV.AccessibleDescription = "Bulk CSV"
-        Me.BulkCSV.AccessibleName = "Bulk CSV"
         Me.BulkCSV.Name = "BulkCSV"
         Me.BulkCSV.Text = "Bulk CSV"
         '
@@ -924,57 +987,18 @@ Partial Class RptSaleRegisterReport
         '
         'rmSetting
         '
-        Me.rmSetting.AccessibleDescription = "EMail/SMS Setting"
-        Me.rmSetting.AccessibleName = "EMail/SMS Setting"
         Me.rmSetting.Name = "rmSetting"
         Me.rmSetting.Text = "EMail/SMS Setting"
         '
         'rmSend
         '
-        Me.rmSend.AccessibleDescription = "EMail/SMS Send"
-        Me.rmSend.AccessibleName = "EMail/SMS Send"
         Me.rmSend.Name = "rmSend"
         Me.rmSend.Text = "EMail/SMS Send"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
-        '
-        'chkShowOnlyVSP
-        '
-        Me.chkShowOnlyVSP.Location = New System.Drawing.Point(427, 98)
-        Me.chkShowOnlyVSP.Name = "chkShowOnlyVSP"
-        Me.chkShowOnlyVSP.Size = New System.Drawing.Size(94, 18)
-        Me.chkShowOnlyVSP.TabIndex = 358
-        Me.chkShowOnlyVSP.Text = "Show only VSP"
-        '
-        'TxtVLC
-        '
-        Me.TxtVLC.arrDispalyMember = Nothing
-        Me.TxtVLC.arrValueMember = Nothing
-        Me.TxtVLC.Location = New System.Drawing.Point(109, 291)
-        Me.TxtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtVLC.MyLinkLable1 = Me.LblVLC
-        Me.TxtVLC.MyLinkLable2 = Nothing
-        Me.TxtVLC.MyNullText = "All"
-        Me.TxtVLC.Name = "TxtVLC"
-        Me.TxtVLC.Size = New System.Drawing.Size(309, 19)
-        Me.TxtVLC.TabIndex = 359
-        Me.TxtVLC.Visible = False
-        '
-        'LblVLC
-        '
-        Me.LblVLC.FieldName = Nothing
-        Me.LblVLC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVLC.Location = New System.Drawing.Point(10, 292)
-        Me.LblVLC.Name = "LblVLC"
-        Me.LblVLC.Size = New System.Drawing.Size(26, 18)
-        Me.LblVLC.TabIndex = 360
-        Me.LblVLC.Text = "DCS"
-        Me.LblVLC.Visible = False
         '
         'RptSaleRegisterReport
         '
@@ -997,6 +1021,10 @@ Partial Class RptSaleRegisterReport
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlPaymentType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkShowOnlyVSP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkShowCSASaleFromSalePatti, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1050,8 +1078,6 @@ Partial Class RptSaleRegisterReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkShowOnlyVSP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1129,5 +1155,7 @@ Partial Class RptSaleRegisterReport
     Friend WithEvents TxtVLC As common.UserControls.txtMultiSelectFinder
     Friend WithEvents LblVLC As common.Controls.MyLabel
     Friend WithEvents chkShowOnlyVSP As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents ddlPaymentType As RadDropDownList
 End Class
 
