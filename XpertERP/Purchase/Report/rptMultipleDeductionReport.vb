@@ -181,40 +181,32 @@ group by Route_no"
 
             Else
 
-                strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  from TSPL_MULTIPLE_DEDUCTION_HEAD 
+                strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_DETAIL.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  
+from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
 left outer join TSPL_MCC_MASTER ON TSPL_MULTIPLE_DEDUCTION_DETAIL.BMC_Code=TSPL_MCC_MASTER.MCC_Code
 left outer join TSPL_LOCATION_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code
 where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
-
-
-                'If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
-                '    strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_HEAD.Loc_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
-                'End If
-
                 If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                     strBaseqry += " and TSPL_LOCATION_MASTER.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
                 End If
-
-
                 If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
                     strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
                 End If
-
                 If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
                     strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
                 End If
-
                 If clsCommon.myLen(fndArea.Value) > 0 Then
                     strBaseqry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                 End If
+
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     strBaseqry += " union all
-SELECT TSPL_SD_SHIPMENT_HEAD.Customer_Code as Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition, (TSPL_SD_SHIPMENT_HEAD.Total_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code]
+SELECT TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition, (TSPL_SD_SHIPMENT_HEAD.Total_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code]
 from TSPL_SD_SHIPMENT_HEAD 
 left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
-left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+inner join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
 left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
@@ -224,27 +216,61 @@ and TSPL_SD_SHIPMENT_HEAD.Is_CashSale='N' and TSPL_SD_SHIPMENT_HEAD.Status=1 "
                     If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
                         strBaseqry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
                     End If
-                Else
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        strBaseqry += " and TSPL_MCC_MASTER.MCC_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    End If
+                    If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                        strBaseqry += " and TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code in (" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+                    End If
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        strBaseqry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    End If
+
                     strBaseqry += " union all
-                        SELECT TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE as Vendor_Code,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME as Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition,
-                        (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code] 
-						from TSPL_PAYMENT_PROCESS_MCC_SALE
-						 left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
-						 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
-						 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
-						 left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-						 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
-						 where 2=2  
-						 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + fromDate.Value + "'),103) 
-                         and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
+SELECT TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ,TSPL_VLC_MASTER_HEAD.VLC_Name as Vendor_Name,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type ='C' then 'A' else 'D' end as Type,TSPL_VENDOR_INVOICE_HEAD.Document_No,convert(varchar,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) as Document_Date,case when TSPL_VENDOR_INVOICE_HEAD.Document_Type ='C' then TSPL_VENDOR_INVOICE_HEAD.Document_Total else 0 end as Addition, case when TSPL_VENDOR_INVOICE_HEAD.Document_Type ='C' then 0 else TSPL_VENDOR_INVOICE_HEAD.Document_Total end AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code]
+from TSPL_VENDOR_INVOICE_DETAIL
+left outer join TSPL_VENDOR_INVOICE_HEAD  on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_VENDOR_INVOICE_DETAIL.Document_No
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_VENDOR_INVOICE_DETAIL.DeductionCode
+where TSPL_VENDOR_INVOICE_HEAD.RefDocType in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') 
+and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) >=convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.Posting_Date,103) <= convert(date,('" + ToDate.Value + "'),103) 
+and  TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
                     If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
                         strBaseqry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
                     End If
+                    If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                        strBaseqry += " and TSPL_MCC_MASTER.MCC_Code in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+                    End If
+                    If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                        strBaseqry += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code in (" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+                    End If
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        strBaseqry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    End If
+
+                Else
+                    strBaseqry += " union all
+                        Select Case TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE As Vendor_Code,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME As Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition,
+                        (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code] 
+						From TSPL_PAYMENT_PROCESS_MCC_SALE
+                         Left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
+                         Left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
+                         Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                         Left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                         Left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction
+                         where 2 = 2  
+						 And convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(date,('" + fromDate.Value + "'),103) 
+                         And convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103) "
+                    If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                                    strBaseqry += " and TSPL_DEDUCTION_MASTER.Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+                                End If
+
                 End If
 
 
 
-                If clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal AndAlso rdbDedWise.IsChecked = True Then
+                        If clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal AndAlso rdbDedWise.IsChecked = True Then
                     qry = " Select max(final.Vendor_Code) as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.Type) as Type,max(final.Document_No) as [Document No],max(final.Document_Date) as [Document Date],final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction from ( " & strBaseqry & " )Final group by final.DeductionCode  "
                 ElseIf clsCommon.CompairString(ddlReportType.SelectedValue, "Document Wise") = CompairStringResult.Equal Then
                     qry = " Select final.Vendor_Code as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.Type) as Type,final.Document_No as [Document No],final.Document_Date as [Document Date],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction,final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc] from ( " & strBaseqry & " )Final group by final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode  "

@@ -453,6 +453,7 @@ Public Class frmMilkCollectionMCCQC
             gv2.Columns("SNF").HeaderText = "SNF"
             gv2.Columns("SNFKG").HeaderText = "SNF Kg"
             gv2.Columns("Status").HeaderText = "Status"
+            gv2.Columns("Milk_Type").HeaderText = "Milk Type"
             'If chkSms.Checked Then
             '    FormatGridGv2()
             'End If
