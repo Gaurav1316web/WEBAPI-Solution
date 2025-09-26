@@ -2394,6 +2394,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCommissionTPTCalculation, "Commission/TPT Calculation", "1.36.02.36", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmProductQuickDemand, "Product Quick Demand", "1.36.02.37", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCustomerPenalty, "Customer Penalty", "1.36.02.38", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmRouteWiseSaleTarget, "Route Wise Sale Target", "1.36.02.39", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 

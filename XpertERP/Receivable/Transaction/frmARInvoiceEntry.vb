@@ -520,8 +520,8 @@ Public Class FrmARInvoiceEntry
                         gv1.Rows.AddNew()
                         isInsideLoadData = True
                         If clsCommon.myLen(ddlSecDepositType.SelectedValue) > 0 Then
-                            Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select XXX.Account_Code, TSPL_GL_ACCOUNTS.Description as Account_desc from (" & _
-                    " Select Case When '" & ddlSecDepositType.SelectedValue & "'='S' then SECURITY_ACCOUNT When '" + ddlSecDepositType.SelectedValue + "'='C' Then CREATE_SECURITY_ACCOUNT When '" + ddlSecDepositType.SelectedValue + "'='R' Then BANK_GUARANTEE When '" + ddlSecDepositType.SelectedValue + "'='O' Then ACCOUNT1 End as Account_Code from TSPL_CUSTOMER_ACCOUNT_SET Where Cust_Account=(Select Cust_Account from TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & strCustCode & "')" & _
+                            Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select XXX.Account_Code, TSPL_GL_ACCOUNTS.Description as Account_desc from (" &
+                    " Select Case When '" & ddlSecDepositType.SelectedValue & "'='S' then SECURITY_ACCOUNT When '" + ddlSecDepositType.SelectedValue + "'='C' Then CREATE_SECURITY_ACCOUNT When '" + ddlSecDepositType.SelectedValue + "'='R' Then BANK_GUARANTEE When '" + ddlSecDepositType.SelectedValue + "'='O' Then ACCOUNT1 End as Account_Code from TSPL_CUSTOMER_ACCOUNT_SET Where Cust_Account=(Select Cust_Account from TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & strCustCode & "')" &
                     " ) XXX LEFT OUTER JOIN TSPL_GL_ACCOUNTS ON TSPL_GL_ACCOUNTS.Account_Code=XXX.Account_Code")
                             If dt.Rows.Count > 0 Then
 
@@ -1390,7 +1390,7 @@ Public Class FrmARInvoiceEntry
             Return
         End If
         Try
-            Dim obj As clsAdditionalCharge = clsAdditionalCharge.getFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAddChgCode).Value), isButtonClick, False, False, txtDate.Value)
+            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAddChgCode).Value), isButtonClick, False, False, txtDate.Value)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 gv1.CurrentRow.Cells(colAddChgCode).Value = obj.Code
                 gv1.CurrentRow.Cells(colAddChgName).Value = obj.desc
@@ -1591,13 +1591,13 @@ Public Class FrmARInvoiceEntry
         End If
 
         'richa 17 SEp,2019 TEC/03/07/19-000927
-        Dim strqry As String = " Select Account_Code,Description from (" & qry & " where " & whrcls & Environment.NewLine & _
-            " UNION All " & Environment.NewLine & _
-            " select Account_Code , Description  from TSPL_GL_ACCOUNTS " & Environment.NewLine & _
-" left outer join (select TSPL_GL_SEGMENT_CODE.Account_Code as AccCode from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No='7' " & Environment.NewLine & _
-" and len(isnull(TSPL_GL_SEGMENT_CODE.Account_Code,''))>0 ) as segTable  on segTable.AccCode=TSPL_GL_ACCOUNTS.Account_Code " & Environment.NewLine & _
-    " inner join TSPL_GL_STRUCTURE on TSPL_GL_ACCOUNTS .Str_Code=TSPL_GL_STRUCTURE.Str_Code where ( 2=2  and TSPL_GL_ACCOUNTS.Status='Y' and ( segTable.AccCode is null  ))" & Environment.NewLine & _
-    " and 1<>(isnull(Seg_No1,0) +isnull(Seg_No2,0) +isnull(Seg_No3,0) +isnull(Seg_No4,0) +isnull(Seg_No5,0) +isnull(Seg_No6,0) +isnull(Seg_No7,0) +isnull(Seg_No8,0) +isnull(Seg_No9,0) +isnull(Seg_No10,0) ) " & Environment.NewLine & _
+        Dim strqry As String = " Select Account_Code,Description from (" & qry & " where " & whrcls & Environment.NewLine &
+            " UNION All " & Environment.NewLine &
+            " select Account_Code , Description  from TSPL_GL_ACCOUNTS " & Environment.NewLine &
+" left outer join (select TSPL_GL_SEGMENT_CODE.Account_Code as AccCode from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No='7' " & Environment.NewLine &
+" and len(isnull(TSPL_GL_SEGMENT_CODE.Account_Code,''))>0 ) as segTable  on segTable.AccCode=TSPL_GL_ACCOUNTS.Account_Code " & Environment.NewLine &
+    " inner join TSPL_GL_STRUCTURE on TSPL_GL_ACCOUNTS .Str_Code=TSPL_GL_STRUCTURE.Str_Code where ( 2=2  and TSPL_GL_ACCOUNTS.Status='Y' and ( segTable.AccCode is null  ))" & Environment.NewLine &
+    " and 1<>(isnull(Seg_No1,0) +isnull(Seg_No2,0) +isnull(Seg_No3,0) +isnull(Seg_No4,0) +isnull(Seg_No5,0) +isnull(Seg_No6,0) +isnull(Seg_No7,0) +isnull(Seg_No8,0) +isnull(Seg_No9,0) +isnull(Seg_No10,0) ) " & Environment.NewLine &
     " and TSPL_GL_ACCOUNTS.Account_Code in (select TSPL_CONTROL_ACC_MAPPING.Account_Code  from TSPL_CONTROL_ACC_MAPPING where IsForAR =1) and  TSPL_GL_ACCOUNTS.Account_Seg_Code7='" + txtlocation.Value + "' "
 
         If clsCommon.myLen(strCustomerOpeningAccount) > 0 Then
@@ -1908,7 +1908,7 @@ Public Class FrmARInvoiceEntry
     End Sub
 
     Sub AddNew()
-        butCostCenterAndHirerachy_Update_AfterPost.Visible = False  
+        butCostCenterAndHirerachy_Update_AfterPost.Visible = False
         txtlocation.Enabled = True
         txtlocation.Value = ""
         LblLocDesp.Text = ""
@@ -2193,7 +2193,7 @@ Public Class FrmARInvoiceEntry
                 '------------------By vipin (12-04-2012)-----------------
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX1, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, Nothing) Then
                         'obj.TAX1_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX1)
                         obj.TAX1_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX1), txtlocation.Value, True, Nothing)
                     End If
@@ -2203,7 +2203,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 1) Then
                     obj.TAX2 = clsCommon.myCstr(gv2.Rows(1).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX2, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX2, Nothing) Then
                         'obj.TAX2_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX2)
                         obj.TAX2_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX2), txtlocation.Value, True, Nothing)
                     End If
@@ -2213,7 +2213,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 2) Then
                     obj.TAX3 = clsCommon.myCstr(gv2.Rows(2).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX3, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, Nothing) Then
                         'obj.TAX3_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX3)
                         obj.TAX3_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX3), txtlocation.Value, True, Nothing)
                     End If
@@ -2223,7 +2223,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 3) Then
                     obj.TAX4 = clsCommon.myCstr(gv2.Rows(3).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX4, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX4, Nothing) Then
                         'obj.TAX4_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX4)
                         obj.TAX4_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX4), txtlocation.Value, True, Nothing)
                     End If
@@ -2233,7 +2233,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 4) Then
                     obj.TAX5 = clsCommon.myCstr(gv2.Rows(4).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX5, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX5, Nothing) Then
                         'obj.TAX5_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX5)
                         obj.TAX5_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX5), txtlocation.Value, True, Nothing)
                     End If
@@ -2243,7 +2243,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 5) Then
                     obj.TAX6 = clsCommon.myCstr(gv2.Rows(5).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX6, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX6, Nothing) Then
                         'obj.TAX6_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX6)
                         obj.TAX6_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX6), txtlocation.Value, True, Nothing)
                     End If
@@ -2253,7 +2253,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 6) Then
                     obj.TAX7 = clsCommon.myCstr(gv2.Rows(6).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX7, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX7, Nothing) Then
                         'obj.TAX7_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX7)
                         obj.TAX7_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX7), txtlocation.Value, True, Nothing)
                     End If
@@ -2263,7 +2263,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 7) Then
                     obj.TAX8 = clsCommon.myCstr(gv2.Rows(7).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX8, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX8, Nothing) Then
                         'obj.TAX8_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX8)
                         obj.TAX8_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX8), txtlocation.Value, True, Nothing)
                     End If
@@ -2273,7 +2273,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 8) Then
                     obj.TAX9 = clsCommon.myCstr(gv2.Rows(8).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX9, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX9, Nothing) Then
                         'obj.TAX9_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX9)
                         obj.TAX9_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX9), txtlocation.Value, True, Nothing)
                     End If
@@ -2283,7 +2283,7 @@ Public Class FrmARInvoiceEntry
                 End If
                 If (gv2.Rows.Count > 9) Then
                     obj.TAX10 = clsCommon.myCstr(gv2.Rows(9).Cells(colTTaxAutCode).Value)
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX10, Nothing) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX10, Nothing) Then
                         'obj.TAX10_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX10)
                         obj.TAX10_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(clsTaxMaster.GetTaxPayAC(obj.TAX10), txtlocation.Value, True, Nothing)
                     End If
@@ -2503,9 +2503,9 @@ Public Class FrmARInvoiceEntry
                     End If
 
                     ''approval work 11/02/2020
-                        Dim xNewDesc As String = ""
-                        xNewDesc = "Party Name : " + obj.Customer_Name
-                        ''=====================capex cond==============
+                    Dim xNewDesc As String = ""
+                    xNewDesc = "Party Name : " + obj.Customer_Name
+                    ''=====================capex cond==============
 
                     xNewDesc = xNewDesc + Environment.NewLine + "Description : " + obj.Description
                     clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Document_No, txtDate.Value, clsCommon.myCstr(xNewDesc), clsCommon.myCstr(txtDesc.Text), clsCommon.myCdbl(lblTotRAmt1.Text), 0, "")
@@ -3878,14 +3878,14 @@ Public Class FrmARInvoiceEntry
                     End If
                     Dim qry1 As String = String.Empty
                     If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateOpeningEntryAutomatically, clsFixedParameterCode.CreateOpeningEntryAutomatically, trans)), "1") = CompairStringResult.Equal And JEWithOPening = True Then
-                        qry1 = "select TSPL_CUSTOMER_ACCOUNT_SET.Customer_Opening_Clearing_AC ,tspl_gl_accounts.Description " & _
-                 "  from TSPL_CUSTOMER_MASTER " & _
-                 " left outer join TSPL_CUSTOMER_ACCOUNT_SET  on TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account=TSPL_CUSTOMER_MASTER.Cust_Account " & _
+                        qry1 = "select TSPL_CUSTOMER_ACCOUNT_SET.Customer_Opening_Clearing_AC ,tspl_gl_accounts.Description " &
+                 "  from TSPL_CUSTOMER_MASTER " &
+                 " left outer join TSPL_CUSTOMER_ACCOUNT_SET  on TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account=TSPL_CUSTOMER_MASTER.Cust_Account " &
                   " left outer join tspl_gl_accounts on  TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct=tspl_gl_accounts.Account_Code where TSPL_CUSTOMER_MASTER.Cust_Code='" + strCustomer + "' "
                     Else
-                        qry1 = "select TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct ,tspl_gl_accounts.Description " & _
-                 "  from TSPL_CUSTOMER_MASTER " & _
-                 " left outer join TSPL_CUSTOMER_ACCOUNT_SET  on TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account=TSPL_CUSTOMER_MASTER.Cust_Account " & _
+                        qry1 = "select TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct ,tspl_gl_accounts.Description " &
+                 "  from TSPL_CUSTOMER_MASTER " &
+                 " left outer join TSPL_CUSTOMER_ACCOUNT_SET  on TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account=TSPL_CUSTOMER_MASTER.Cust_Account " &
                   " left outer join tspl_gl_accounts on  TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct=tspl_gl_accounts.Account_Code where TSPL_CUSTOMER_MASTER.Cust_Code='" + strCustomer + "' "
                     End If
 
@@ -4293,31 +4293,31 @@ Public Class FrmARInvoiceEntry
     End Sub
 
     Private Function GetAtchmentPrintQuery()
-        Dim qry As String = "select  Location_Desc,xxx.Tin_No,PAN,TSPL_COMPANY_MASTER.Add1 + case When TSPL_COMPANY_MASTER.Add2='' Then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Add2, 103) End + Case When TSPL_COMPANY_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_COMPANY_MASTER.Add3,103) end + case When TSPL_COMPANY_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.City_Code, 103) end+ Case When TSPL_COMPANY_MASTER.State='' Then '' else ', '+Convert(Varchar, TSPL_COMPANY_MASTER.State) end +  Case When TSPL_COMPANY_MASTER.Pincode='' Then '' Else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Pincode, 103)  end  as CompAdd , " & _
-            "XXX.Description,XXX.Account_Code,XXX.Account_Desc ,XXX.DrAmt ,XXX.CrAmt ,XXX.Document_No ,XXX.Document_Date,XXX.Status , " & _
-            "XXX.Document_Type ,XXX.Account_Set ,XXX.DocAmt,XXX.Customer_Code ,XXX.Customer_Name ,XXX.Created_By ,XXX.Modify_By ,XXX.Detail_Line_No , " & _
-            "XXX .Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2  from " & _
-            "(select distinct Location_Desc,Tin_No,PAN,(final.Account_Code),final.Account_Desc ,final.DrAmt ,final.CrAmt ,final.Document_No ,final.Document_Date, " & _
-            "final.Status ,final.Document_Type ,final.Account_Set ,final.DocAmt,final.Customer_Code ,final.Customer_Name ,final.Created_By , " & _
-            "final.Modify_By ,final.Detail_Line_No ,final .Comp_Code,Description  from " & _
-            "(select Location_Desc,TSPL_CUSTOMER_MASTER.Tin_No,TSPL_CUSTOMER_MASTER.PAN,TSPL_Customer_Invoice_Head.Description,case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt , " & _
-            "case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, " & _
-            "TSPL_Customer_Invoice_Head.Document_No, Document_Date , " & _
-            "case when TSPL_Customer_Invoice_Head.Status=1 then 'Authorized' else 'UnAuthorized' end as Status , " & _
-            "case when Document_Type='I' then 'Invoice' else case when Document_Type='D' then 'Debit' else " & _
-            "case when Document_Type='C' then 'Credit' else '' end end end as Document_Type,Account_Set,Document_Total as DocAmt,  " & _
-            "Customer_Code ,TSPL_Customer_Invoice_Head.Customer_Name,TSPL_Customer_Invoice_Head.Created_By ,TSPL_Customer_Invoice_Head.Modify_By  , " & _
-            "TSPL_JOURNAL_DETAILS.Detail_Line_No as Detail_Line_No ,TSPL_JOURNAL_DETAILS.Account_code as Account_Code , " & _
-            "TSPL_JOURNAL_DETAILS.Account_Desc as Account_Desc ,TSPL_Customer_Invoice_Detail.Amount , " & _
-            "TSPL_Customer_Invoice_Detail.Discount ,TSPL_Customer_Invoice_Detail.Amount_less_Discount , " & _
-            "TSPL_Customer_Invoice_Detail .Total_Tax ,TSPL_Customer_Invoice_Detail.Total_Amount  , " & _
-            "TSPL_Customer_Invoice_Head.Comp_Code    from TSPL_Customer_Invoice_Head left outer join " & _
-            "TSPL_Customer_Invoice_Detail on TSPL_Customer_Invoice_Detail.Document_No =TSPL_Customer_Invoice_Head.Document_No " & _
-            "left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No =TSPL_Customer_Invoice_Head.Document_No " & _
-            "left outer join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Journal_No = TSPL_JOURNAL_MASTER.Journal_No   " & _
-            "left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code  " & _
-            "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Customer_Invoice_Head.Loc_Code  " & _
-            "where TSPL_Customer_Invoice_Head.Document_No ='" + txtDocNo.Value + "' )final   )XXX left outer join " & _
+        Dim qry As String = "select  Location_Desc,xxx.Tin_No,PAN,TSPL_COMPANY_MASTER.Add1 + case When TSPL_COMPANY_MASTER.Add2='' Then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Add2, 103) End + Case When TSPL_COMPANY_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_COMPANY_MASTER.Add3,103) end + case When TSPL_COMPANY_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.City_Code, 103) end+ Case When TSPL_COMPANY_MASTER.State='' Then '' else ', '+Convert(Varchar, TSPL_COMPANY_MASTER.State) end +  Case When TSPL_COMPANY_MASTER.Pincode='' Then '' Else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Pincode, 103)  end  as CompAdd , " &
+            "XXX.Description,XXX.Account_Code,XXX.Account_Desc ,XXX.DrAmt ,XXX.CrAmt ,XXX.Document_No ,XXX.Document_Date,XXX.Status , " &
+            "XXX.Document_Type ,XXX.Account_Set ,XXX.DocAmt,XXX.Customer_Code ,XXX.Customer_Name ,XXX.Created_By ,XXX.Modify_By ,XXX.Detail_Line_No , " &
+            "XXX .Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2  from " &
+            "(select distinct Location_Desc,Tin_No,PAN,(final.Account_Code),final.Account_Desc ,final.DrAmt ,final.CrAmt ,final.Document_No ,final.Document_Date, " &
+            "final.Status ,final.Document_Type ,final.Account_Set ,final.DocAmt,final.Customer_Code ,final.Customer_Name ,final.Created_By , " &
+            "final.Modify_By ,final.Detail_Line_No ,final .Comp_Code,Description  from " &
+            "(select Location_Desc,TSPL_CUSTOMER_MASTER.Tin_No,TSPL_CUSTOMER_MASTER.PAN,TSPL_Customer_Invoice_Head.Description,case  when TSPL_JOURNAL_DETAILS.Amount >=0 then TSPL_JOURNAL_DETAILS.Amount else 0 end as DrAmt , " &
+            "case  when TSPL_JOURNAL_DETAILS.Amount <0 then TSPL_JOURNAL_DETAILS.Amount*-1 else 0 end as CrAmt, " &
+            "TSPL_Customer_Invoice_Head.Document_No, Document_Date , " &
+            "case when TSPL_Customer_Invoice_Head.Status=1 then 'Authorized' else 'UnAuthorized' end as Status , " &
+            "case when Document_Type='I' then 'Invoice' else case when Document_Type='D' then 'Debit' else " &
+            "case when Document_Type='C' then 'Credit' else '' end end end as Document_Type,Account_Set,Document_Total as DocAmt,  " &
+            "Customer_Code ,TSPL_Customer_Invoice_Head.Customer_Name,TSPL_Customer_Invoice_Head.Created_By ,TSPL_Customer_Invoice_Head.Modify_By  , " &
+            "TSPL_JOURNAL_DETAILS.Detail_Line_No as Detail_Line_No ,TSPL_JOURNAL_DETAILS.Account_code as Account_Code , " &
+            "TSPL_JOURNAL_DETAILS.Account_Desc as Account_Desc ,TSPL_Customer_Invoice_Detail.Amount , " &
+            "TSPL_Customer_Invoice_Detail.Discount ,TSPL_Customer_Invoice_Detail.Amount_less_Discount , " &
+            "TSPL_Customer_Invoice_Detail .Total_Tax ,TSPL_Customer_Invoice_Detail.Total_Amount  , " &
+            "TSPL_Customer_Invoice_Head.Comp_Code    from TSPL_Customer_Invoice_Head left outer join " &
+            "TSPL_Customer_Invoice_Detail on TSPL_Customer_Invoice_Detail.Document_No =TSPL_Customer_Invoice_Head.Document_No " &
+            "left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No =TSPL_Customer_Invoice_Head.Document_No " &
+            "left outer join TSPL_JOURNAL_DETAILS on TSPL_JOURNAL_DETAILS.Journal_No = TSPL_JOURNAL_MASTER.Journal_No   " &
+            "left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code  " &
+            "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Customer_Invoice_Head.Loc_Code  " &
+            "where TSPL_Customer_Invoice_Head.Document_No ='" + txtDocNo.Value + "' )final   )XXX left outer join " &
             "TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code order by XXX.Detail_Line_No  "
 
         Return qry
@@ -5065,8 +5065,7 @@ Public Class FrmARInvoiceEntry
                 IsEInvoiceApply = 1
             End If
             'Dim qry As String = " Select * from ( 
-            Dim qry As String = "
-            Select  tspl_company_master.Access_Officer as FSSAI,cast(TSPL_Customer_Invoice_Head.BarCode_Img as image) As BarCode_Img,isnull (TSPL_Customer_Invoice_Head.IRN_No,'') as IRN_No,isnull (TSPL_Customer_Invoice_Head.Ack_No,'') as Ack_No,case when len(isnull (TSPL_Customer_Invoice_Head.Ack_No,'')) > 0 then convert (varchar, TSPL_Customer_Invoice_Head.Ack_Date,103) else ''  end as Ack_Date, " + clsCommon.myCstr(IsEInvoiceApply) + " as  IsEInvoiceApply,'1' as CopyType, TSPL_COMPANY_MASTER.TIN_NO , TSPL_COMPANY_MASTER.CST_LST ,TSPL_COMPANY_MASTER.Pan_No,tspl_location_master.PAN_NO as LocationPAN," &
+            Dim qry As String = "   Select  tspl_company_master.Access_Officer as FSSAI,cast(TSPL_Customer_Invoice_Head.BarCode_Img as image) As BarCode_Img,isnull (TSPL_Customer_Invoice_Head.IRN_No,'') as IRN_No,isnull (TSPL_Customer_Invoice_Head.Ack_No,'') as Ack_No,case when len(isnull (TSPL_Customer_Invoice_Head.Ack_No,'')) > 0 then convert (varchar, TSPL_Customer_Invoice_Head.Ack_Date,103) else ''  end as Ack_Date, " + clsCommon.myCstr(IsEInvoiceApply) + " as  IsEInvoiceApply,'1' as CopyType, TSPL_COMPANY_MASTER.TIN_NO , TSPL_COMPANY_MASTER.CST_LST ,TSPL_COMPANY_MASTER.Pan_No,tspl_location_master.PAN_NO as LocationPAN," &
                                     " TSPL_COMPANY_MASTER.Add1 + case When TSPL_COMPANY_MASTER.Add2='' Then '' else ', '+ Convert(Varchar(50),TSPL_COMPANY_MASTER.Add2, 103) End + Case When TSPL_COMPANY_MASTER.Add3='' Then '' Else ', '+ COnvert( Varchar,TSPL_COMPANY_MASTER.Add3,103) end + case When TSPL_COMPANY_MASTER.City_Code ='' then '' else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.City_Code, 103) end+ Case When TSPL_COMPANY_MASTER.State='' Then '' else ', '+Convert(Varchar, TSPL_COMPANY_MASTER.State) end +  Case When TSPL_COMPANY_MASTER.Pincode='' Then '' Else ', '+ Convert(Varchar,TSPL_COMPANY_MASTER.Pincode, 103)  end  as CompAdd ," &
                                     " " &
                                     " tspl_state_master_For_Comp.GST_STATE_Code as Comp_GST_STATE_CODE , tspl_state_master_For_Comp.State_Name as Comp_State_Name,tspl_state_master_For_Comp.STATE_CODE as Comp_State_Code,TSPL_COMPANY_MASTER.Email as Comp_Email, TSPL_COMPANY_MASTER.CINNO as Comp_CINNO, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No," &
@@ -5098,9 +5097,15 @@ Public Class FrmARInvoiceEntry
                                     "  from TSPL_Customer_Invoice_Head  " &
                                     " left outer join TSPL_Customer_Invoice_Detail on  TSPL_Customer_Invoice_Detail.Document_No = TSPL_Customer_Invoice_Head.Document_No" &
                                     "  " &
-                                    "     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code=TSPL_Customer_Invoice_Head.Loc_Code   " &
-                                    " 	" &
-                                    " 	left outer join TSPL_STATE_MASTER as loc_state on loc_state.STATE_CODE =TSPL_LOCATION_MASTER.State   left outer join tspl_user_master on tspl_user_master.User_Code=TSPL_Customer_Invoice_Head.Created_By  left outer join tspl_user_master as user_master_modify on user_master_modify.User_Code=TSPL_Customer_Invoice_Head.Modify_By " &
+                                    "     left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_Customer_Invoice_Head.Customer_Code "
+
+            If objCommonVar.RCDFCFP Then
+                qry += "  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Loc_Segment_Code=TSPL_Customer_Invoice_Head.Loc_Code   "
+            Else
+                qry += "  left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Customer_Invoice_Head.Loc_Code   "
+            End If
+
+            qry += " 	left outer join TSPL_STATE_MASTER as loc_state on loc_state.STATE_CODE =TSPL_LOCATION_MASTER.State   left outer join tspl_user_master on tspl_user_master.User_Code=TSPL_Customer_Invoice_Head.Created_By  left outer join tspl_user_master as user_master_modify on user_master_modify.User_Code=TSPL_Customer_Invoice_Head.Modify_By " &
                                     " left outer join TSPL_Additional_Charges on 	TSPL_Additional_Charges.Code = TSPL_Customer_Invoice_Detail.AddChargeCode" &
                                     " " &
                                     "  left outer join TSPL_TAX_MASTER Tspl_Tax1 on Tspl_Tax1.Tax_Code =TSPL_Customer_Invoice_Head.TAX1 " &
@@ -5114,10 +5119,17 @@ Public Class FrmARInvoiceEntry
                                     "  left outer join TSPL_TAX_MASTER Tspl_Tax9 on Tspl_Tax9.Tax_Code =TSPL_Customer_Invoice_Head.TAX9  " &
                                     "  left outer join TSPL_TAX_MASTER Tspl_Tax10 on Tspl_Tax10.Tax_Code =TSPL_Customer_Invoice_Head.TAX10 " &
                                     "  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code = TSPL_LOCATION_MASTER.City_Code " &
-                                    " 	where TSPL_Customer_Invoice_Head.Document_No ='" + txtDocNo.Value + "'" &
+                                    " 	where TSPL_Customer_Invoice_Head.Document_No ='" & txtDocNo.Value & "'" &
                                     " " &
-                                    " 	 )final   )XXX left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = XXX.Customer_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Loc_Segment_Code = XXX.Loc_Code" &
-                                    "  left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state    " &
+                                    " 	 )final   )XXX left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXX.Comp_Code  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = XXX.Customer_Code left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State = TSPL_STATE_MASTER.STATE_CODE "
+            If objCommonVar.RCDFCFP Then
+                qry += " left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Loc_Segment_Code = XXX.Loc_Code "
+            Else
+                qry += " left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code = XXX.Loc_Code "
+            End If
+
+
+            qry += "  left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state    " &
                                     " " &
                                     "  left outer join tspl_state_master as tspl_state_master_For_Comp on tspl_state_master_For_Comp.state_code = TSPL_COMPANY_MASTER.State" &
                                     "  left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=XXX.DOCUMENT_NO "
@@ -5129,12 +5141,16 @@ Public Class FrmARInvoiceEntry
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             qry = "  select TSPL_Additional_Charges.SAC_Code, sum (TSPL_Customer_Invoice_Detail.Amount_Less_Discount) as Amount_Less_Discount  from TSPL_Customer_Invoice_Detail " &
                   "  left outer join TSPL_Additional_Charges on 	TSPL_Additional_Charges.Code = TSPL_Customer_Invoice_Detail.AddChargeCode " &
-                  " where  Document_No ='" + txtDocNo.Value + "' group by TSPL_Additional_Charges.SAC_Code "
+                  " where  Document_No ='" & txtDocNo.Value & "' group by TSPL_Additional_Charges.SAC_Code "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 'frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvc", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
-                frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvcnew", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
+                If objCommonVar.RCDFCFP Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvcnew", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
+                Else
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, dt2, "crptAPServiceInvcnewForAll", "rptAPInvBySAC.rpt", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "rptAPInvBySAC.rpt", "Address.rpt")
+                End If
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
