@@ -185,8 +185,8 @@ Public Class FrmGRNReport
 				(case when  TSPL_NIR_QC.Status='1'then 'Posted' when TSPL_NIR_QC.Status='0' then  'Unposted'end) AS [NIR Status],
 				TSPL_NIR_QC.QC_Remarks as [NIR QC Remark]
                 ,convert(varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as [Chemical QC Date],TSPL_QC_CHECK_HEAD.Document_Code as [Chemical QC No]
-                ,AliasName1,InputData1,AliasName2,InputData2,AliasName3,InputData3,AliasName4,InputData4,AliasName5,InputData5,AliasName6,InputData6,AliasName7,InputData7,AliasName8,InputData8,AliasName9,
-InputData9,AliasName10,InputData10,AliasName11,InputData11,AliasName12,InputData12,AliasName13,InputData13,AliasName14,InputData14,AliasName15,InputData15,TSPL_QC_CHECK_HEAD.QC_Status AS [Chemical QC Result]
+                ,Parameter1,InputData1,Parameter2,InputData2,Parameter3,InputData3,Parameter4,InputData4,Parameter5,InputData5,Parameter6,InputData6,Parameter7,InputData7,Parameter8,InputData8,Parameter9,
+                InputData9,Parameter10,InputData10,Parameter11,InputData11,Parameter12,InputData12,Parameter13,InputData13,Parameter14,InputData14,Parameter15,InputData15,TSPL_QC_CHECK_HEAD.QC_Status AS [Chemical QC Result]
                 ,(case when TSPL_QC_CHECK_HEAD.Posted=1 then 'Posted' when TSPL_QC_CHECK_HEAD.Posted=0 then 'UnPosted' end) as [Chemical QC Status]
                 ,(case when TSPL_QC_CHECK_HEAD.Approved_For_SRN=1 then 'Approved' when TSPL_QC_CHECK_HEAD.Approved_For_SRN=0 then 'UnApproved' end) as [Chemical QC Approved Status]
                 ,convert(varchar, TSPL_SRN_HEAD.SRN_Date,103) as [SRN Date],TSPL_SRN_HEAD.SRN_No as [SRN No]

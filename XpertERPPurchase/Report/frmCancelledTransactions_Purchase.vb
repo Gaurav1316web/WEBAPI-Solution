@@ -281,9 +281,15 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
 	,TSPL_NIR_QC_Cancel_Data.Cancel_By as [Cancelled By],TSPL_NIR_QC_Cancel_Data.Cancel_On as [Cancelled Date] from TSPL_NIR_QC_Cancel_Data 
 					Left Outer Join TSPL_MRN_HEAD_Cancel_Data On TSPL_MRN_HEAD_Cancel_Data.MRN_No=TSPL_NIR_QC_Cancel_Data.MRN_No
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_MRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  1=1
-					 And convert(date,TSPL_NIR_QC_Cancel_Data.Document_Date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) 
+                     WHERE  1=1"
+                If rbtnCancelDate.IsChecked Then
+                    qry += " And convert(date,TSPL_NIR_QC_Cancel_Data.cancel_on ,103) >= convert(date,'" & dtpFromDate.Value & "',103) 
+                     And Convert(Date, TSPL_NIR_QC_Cancel_Data.cancel_on,103) <= Convert(Date,'" & dtpToDate.Value & "',103)   "
+                Else
+                    qry += " And convert(date,TSPL_NIR_QC_Cancel_Data.Document_Date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) 
                      And Convert(Date, TSPL_NIR_QC_Cancel_Data.Document_Date,103) <= Convert(Date,'" & dtpToDate.Value & "',103)   "
+                End If
+
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_MRN_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
                 End If
@@ -323,8 +329,14 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
 	,Cancel_By as [Cancelled By],
 					Cancel_On as [Cancelled Date] from TSPL_GRN_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_GRN_HEAD_Cancel_Data.GRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE  "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " convert(date,TSPL_GRN_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_GRN_HEAD_Cancel_Data.cancel_on,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += " convert(date,TSPL_GRN_HEAD_Cancel_Data.GRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_GRN_HEAD_Cancel_Data.GRN_date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_GRN_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -343,9 +355,14 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
 					TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Cancel_On as [Cancelled Date] from TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data 
 					Left Outer Join TSPL_GRN_HEAD_Cancel_Data On TSPL_GRN_HEAD_Cancel_Data.GRN_No=TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Against_GRN_No
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Location_Code  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  1=1
-					 And convert(date,TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Weighment_Date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) 
+                     WHERE  1=1 "
+                If rbtnCancelDate.IsChecked Then
+                    qry += " And convert(date,TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" & dtpFromDate.Value & "',103) 
+                     And Convert(Date, TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" & dtpToDate.Value & "',103)  "
+                Else
+                    qry += " And convert(date,TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Weighment_Date ,103) >= convert(date,'" & dtpFromDate.Value & "',103) 
                      And Convert(Date, TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Weighment_Date,103) <= Convert(Date,'" & dtpToDate.Value & "',103)  "
+                End If
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_PO_WEIGHTMENT_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -365,8 +382,14 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
                     ,convert(varchar,TSPL_MRN_HEAD_Cancel_Data.Created_Date,103) as [Created Date],TSPL_MRN_HEAD_Cancel_Data.DESCRIPTION as Description ,Cancel_By as [Cancelled By],
 					Cancel_On as [Cancelled Date]  from TSPL_MRN_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_MRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_MRN_HEAD_Cancel_Data.MRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE"
+                If rbtnCancelDate.IsChecked Then
+                    qry += " convert(date,TSPL_MRN_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_MRN_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "  convert(date,TSPL_MRN_HEAD_Cancel_Data.MRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_MRN_HEAD_Cancel_Data.MRN_date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_MRN_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -389,8 +412,15 @@ and TBL_SMODULE.Program_Name in ('Transaction','MCC Transaction','Bulk Transacti
 					Cancel_On as [Cancelled Date] 
 from TSPL_SRN_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_SRN_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_SRN_HEAD_Cancel_Data.SRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE "
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_SRN_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_SRN_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_SRN_HEAD_Cancel_Data.SRN_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_SRN_HEAD_Cancel_Data.SRN_date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
+
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_SRN_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -414,8 +444,14 @@ from TSPL_SRN_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date]
                     ,TSPL_REQUISITION_HEAD_Cancel_Data.DESCRIPTION as Description from TSPL_REQUISITION_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD_Cancel_Data.Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE  "
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -443,8 +479,14 @@ from TSPL_SRN_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date] 
                     ,TSPL_IssueReturn_HEAD_Cancel_Data.Remarks as Description from TSPL_IssueReturn_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_IssueReturn_HEAD_Cancel_Data.From_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE  "
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_IssueReturn_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_IssueReturn_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_IssueReturn_HEAD_Cancel_Data.Doc_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_IssueReturn_HEAD_Cancel_Data.From_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -474,22 +516,27 @@ from TSPL_SRN_HEAD_Cancel_Data
 ,TSPL_PI_HEAD_Cancel_Data.Vendor_Code as [Vendor Code],TSPL_PI_HEAD_Cancel_Data.Ref_No as [Ref_No],'' as [Item code]
 from TSPL_PI_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PI_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_PI_HEAD_Cancel_Data.PI_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE  "
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_PI_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_PI_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_PI_HEAD_Cancel_Data.PI_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_PI_HEAD_Cancel_Data.PI_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
-
+                End If
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
-                    qry += " and TSPL_PI_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
-                End If
-                If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
-                    qry += " and TSPL_PI_HEAD_Cancel_Data.Cancel_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
-                    'Else
-                    '    qry += " and TSPL_PI_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
-                End If
-                qry += " ORDER BY TSPL_PI_HEAD_Cancel_Data.PI_Date,TSPL_PI_HEAD_Cancel_Data.PI_No "
+                        qry += " and TSPL_PI_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+                    End If
+                    If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                        qry += " and TSPL_PI_HEAD_Cancel_Data.Cancel_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        'Else
+                        '    qry += " and TSPL_PI_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                    End If
+                    qry += " ORDER BY TSPL_PI_HEAD_Cancel_Data.PI_Date,TSPL_PI_HEAD_Cancel_Data.PI_No "
 
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseReturn) = CompairStringResult.Equal Then
-                gv1.DataSource = Nothing
-                qry = "Select TSPL_PR_HEAD_Cancel_Data.PR_No as [Document Id],convert(varchar,TSPL_PR_HEAD_Cancel_Data.PR_Date ,103) as [Document Date]                
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseReturn) = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "Select TSPL_PR_HEAD_Cancel_Data.PR_No as [Document Id],convert(varchar,TSPL_PR_HEAD_Cancel_Data.PR_Date ,103) as [Document Date]                
                     ,TSPL_PR_HEAD_Cancel_Data.Bill_To_Location as [Location Code]
                     ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_PR_HEAD_Cancel_Data.Created_By as [Created By]
                     ,convert(varchar,TSPL_PR_HEAD_Cancel_Data.Created_Date,103) as [Created Date]
@@ -503,23 +550,30 @@ from TSPL_PI_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date]
 from TSPL_PR_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_PR_HEAD_Cancel_Data.Bill_To_Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_PR_HEAD_Cancel_Data.PR_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE"
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_PR_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_PR_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_PR_HEAD_Cancel_Data.PR_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_PR_HEAD_Cancel_Data.PR_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
+
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
-                    qry += " and TSPL_PR_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
-                End If
-                If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
-                    qry += " and TSPL_PR_HEAD_Cancel_Data.Cancel_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
-                    'Else
-                    '    qry += " and TSPL_PR_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
-                End If
-                qry += " ORDER BY TSPL_PR_HEAD_Cancel_Data.PR_Date,TSPL_PR_HEAD_Cancel_Data.PR_No "
+                        qry += " and TSPL_PR_HEAD_Cancel_Data.Bill_To_Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+                    End If
+                    If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                        qry += " and TSPL_PR_HEAD_Cancel_Data.Cancel_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        'Else
+                        '    qry += " and TSPL_PR_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                    End If
+                    qry += " ORDER BY TSPL_PR_HEAD_Cancel_Data.PR_Date,TSPL_PR_HEAD_Cancel_Data.PR_No "
 
 
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
-                gv1.DataSource = Nothing
-                qry = "Select TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id as [Document Id],convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) as [Document Date]                
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "Select TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id as [Document Id],convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) as [Document Date]                
                     ,TSPL_REQUISITION_HEAD_Cancel_Data.Location as [Location Code]
                     ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_REQUISITION_HEAD_Cancel_Data.Created_By as [Created By]
                     ,convert(varchar,TSPL_REQUISITION_HEAD_Cancel_Data.Created_Date,103) as [Created Date]
@@ -527,22 +581,27 @@ from TSPL_PR_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date],'' as Description
 from TSPL_REQUISITION_HEAD_Cancel_Data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD_Cancel_Data.Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE "
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
-
+                End If
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
                 End If
                 If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
-                    qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
-                    'Else
-                    '    qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
-                End If
-                qry += " ORDER BY TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id "
+                        qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Cancel_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        'Else
+                        '    qry += " and TSPL_REQUISITION_HEAD_Cancel_Data.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                    End If
+                    qry += " ORDER BY TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Date,TSPL_REQUISITION_HEAD_Cancel_Data.Requisition_Id "
 
 
-            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnGatePass) = CompairStringResult.Equal Then
-                gv1.DataSource = Nothing
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), clsUserMgtCode.mbtnGatePass) = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
                 qry = "Select TSPL_RGP_HEAD_cancel_data.RGP_No as [Document Id],convert(varchar,TSPL_RGP_HEAD_cancel_data.RGP_Date ,103) as [Document Date]                
                     ,TSPL_RGP_HEAD_cancel_data.Location as [Location Code]
                     ,TSPL_LOCATION_MASTER.Location_Desc as [Location Name],TSPL_RGP_HEAD_cancel_data.Created_By as [Created By]
@@ -551,8 +610,15 @@ from TSPL_REQUISITION_HEAD_Cancel_Data
 					Cancel_On as [Cancelled Date],'' as Description
 from TSPL_RGP_HEAD_cancel_data 
                     Left Outer Join TSPL_LOCATION_MASTER  on TSPL_RGP_HEAD_cancel_data.Location  =TSPL_LOCATION_MASTER.Location_Code 
-                     WHERE  convert(date,TSPL_RGP_HEAD_cancel_data.RGP_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     WHERE"
+                If rbtnCancelDate.IsChecked Then
+                    qry += "convert(date,TSPL_RGP_HEAD_cancel_data.Cancel_On ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
+                     And Convert(Date, TSPL_RGP_HEAD_cancel_data.Cancel_On,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                Else
+                    qry += "convert(date,TSPL_RGP_HEAD_cancel_data.RGP_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) 
                      And Convert(Date, TSPL_RGP_HEAD_cancel_data.RGP_Date,103) <= Convert(Date,'" + dtpToDate.Value + "',103) "
+                End If
+
 
                 If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_RGP_HEAD_cancel_data.Location  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
@@ -641,6 +707,7 @@ from TSPL_RGP_HEAD_cancel_data
         chkLocAll.CheckState = CheckState.Checked
         ChkUserAll.CheckState = CheckState.Checked
         gv1.DataSource = Nothing
+        rbtnDocumentDate.IsChecked = True
     End Sub
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
