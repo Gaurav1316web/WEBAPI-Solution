@@ -31845,6 +31845,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("GP_Qty", "Decimal(18,2) NULL")
             coll.Add("Trip_No", "int NULL")
+            coll.Add("isCrateIssue", "int NULL")
             coll.Add("Scheme_Item", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 

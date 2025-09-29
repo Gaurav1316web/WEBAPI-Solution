@@ -742,6 +742,7 @@ Public Class clsDairyGPDetail
     Public Price_Desc As String = Nothing
     Public Cust_Code As String = Nothing
     Public Customer_Name As String = Nothing
+    Public Crate_Qty As String = Nothing
 
     Public Item_Code As String = Nothing
     Public Unit_Code As String = Nothing
@@ -777,6 +778,7 @@ Public Class clsDairyGPDetail
                     clsCommon.AddColumnsForChange(coll1, "GP_Qty", obj.Qty)
                     clsCommon.AddColumnsForChange(coll1, "Scheme_Item", obj.Scheme_Item)
                     clsCommon.AddColumnsForChange(coll1, "Trip_No", obj.Trip_No)
+                    clsCommon.AddColumnsForChange(coll1, "Crate_Qty", obj.Crate_Qty)
                     clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
             Next
@@ -808,7 +810,7 @@ Public Class clsDairyGPDetail
         '             "convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' AND  " &
         '             "Document_Code not in (select DOCno From TSPL_DAIRYSALE_GATEPASS_DETAIL ) "
         'End If
-        qry = " select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code,max([Item_Desc]) as [Item Desc],TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code as Unit,CONVERT(INT, MAX(GP_Qty)) Quantity ,max(TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code)HSN_Code, max(TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item)Scheme_Item  from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL
+        qry = " select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID,TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code,max([Item_Desc]) as [Item Desc],TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Unit_Code as Unit,CONVERT(INT, MAX(GP_Qty)) Quantity ,max(TSPL_DAIRYSALE_GATEPASS_DETAIL.HSN_Code)HSN_Code, max(TSPL_DAIRYSALE_GATEPASS_DETAIL.Scheme_Item)Scheme_Item,max(TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Crate_Qty) as Crate_Qty  from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL
                         left outer join TSPL_DAIRYSALE_GATEPASS_DETAIL on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode  
 						left outer join TSPL_ITEM_MASTER on TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code   
 						where TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode= '" & strCode & "'  
@@ -837,6 +839,7 @@ Public Class clsDairyGPDetail
                 obj.Qty = clsCommon.myCstr(dr("Quantity"))
                 obj.HSN_Code = clsCommon.myCstr(dr("HSN_Code"))
                 obj.Scheme_Item = clsCommon.myCstr(dr("Scheme_Item"))
+                obj.Crate_Qty = clsCommon.myCdbl(dr("Crate_Qty"))
 
 
                 arr.Add(obj)
