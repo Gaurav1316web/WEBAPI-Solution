@@ -22,76 +22,87 @@ Partial Class frmCancelledTransactions_Exportsale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadLabel10 = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.lblCustomer = New common.Controls.MyLabel()
+        Me.cboModule = New common.Controls.MyComboBox()
+        Me.RadLabel1 = New common.Controls.MyLabel()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgUser = New common.MyCheckBoxGrid()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.chkUserSelect = New common.Controls.MyRadioButton()
         Me.ChkUserAll = New common.Controls.MyRadioButton()
+        Me.cboTransaction = New common.Controls.MyComboBox()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgLocation = New common.MyCheckBoxGrid()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.chkLocSelect = New common.Controls.MyRadioButton()
         Me.chkLocAll = New common.Controls.MyRadioButton()
-        Me.btnShow = New Telerik.WinControls.UI.RadButton()
-        Me.dtpToDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.dtpFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.RadLabel3 = New common.Controls.MyLabel()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.cboTransaction = New common.Controls.MyComboBox()
-        Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.cboModule = New common.Controls.MyComboBox()
-        Me.RadLabel10 = New common.Controls.MyLabel()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.lblNoOfRecords = New common.Controls.MyLabel()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnShow = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.dtpToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.dtpFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.GV2 = New common.UserControls.MyRadGridView()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.lblNoOfRecords = New common.Controls.MyLabel()
+        Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnCancelDate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDocumentDate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.chkUserSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkUserAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.chkLocSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkLocAll, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnShow, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboTransaction, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.btnShow, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.GV2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbItemType.SuspendLayout()
+        CType(Me.rbtnCancelDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,11 +139,56 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.SplitContainer1.SplitterDistance = 483
         Me.SplitContainer1.TabIndex = 0
         '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(947, 483)
+        Me.RadPageView1.TabIndex = 390
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.rgbItemType)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel10)
+        Me.RadPageViewPage1.Controls.Add(Me.txtCustomer)
+        Me.RadPageViewPage1.Controls.Add(Me.cboModule)
+        Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage1.Controls.Add(Me.cboTransaction)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.btnShow)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
+        Me.RadPageViewPage1.Controls.Add(Me.dtpToDate)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.dtpFromDate)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(100.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(926, 435)
+        Me.RadPageViewPage1.Text = "Transaction Data"
+        '
+        'RadLabel10
+        '
+        Me.RadLabel10.FieldName = Nothing
+        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel10.Location = New System.Drawing.Point(3, 34)
+        Me.RadLabel10.Name = "RadLabel10"
+        Me.RadLabel10.Size = New System.Drawing.Size(43, 16)
+        Me.RadLabel10.TabIndex = 11
+        Me.RadLabel10.Text = "Module"
+        '
         'txtCustomer
         '
         Me.txtCustomer.arrDispalyMember = Nothing
         Me.txtCustomer.arrValueMember = Nothing
-        Me.txtCustomer.Location = New System.Drawing.Point(78, 74)
+        Me.txtCustomer.Location = New System.Drawing.Point(78, 105)
         Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomer.MyLinkLable1 = Me.lblCustomer
         Me.txtCustomer.MyLinkLable2 = Nothing
@@ -145,11 +201,45 @@ Partial Class frmCancelledTransactions_Exportsale
         '
         Me.lblCustomer.FieldName = Nothing
         Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomer.Location = New System.Drawing.Point(3, 74)
+        Me.lblCustomer.Location = New System.Drawing.Point(3, 105)
         Me.lblCustomer.Name = "lblCustomer"
         Me.lblCustomer.Size = New System.Drawing.Size(55, 18)
         Me.lblCustomer.TabIndex = 388
         Me.lblCustomer.Text = "Customer"
+        '
+        'cboModule
+        '
+        Me.cboModule.CalculationExpression = Nothing
+        Me.cboModule.DropDownAnimationEnabled = True
+        Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboModule.FieldCode = Nothing
+        Me.cboModule.FieldDesc = Nothing
+        Me.cboModule.FieldMaxLength = 0
+        Me.cboModule.FieldName = Nothing
+        Me.cboModule.isCalculatedField = False
+        Me.cboModule.IsSourceFromTable = False
+        Me.cboModule.IsSourceFromValueList = False
+        Me.cboModule.IsUnique = False
+        Me.cboModule.Location = New System.Drawing.Point(78, 31)
+        Me.cboModule.MendatroryField = True
+        Me.cboModule.MyLinkLable1 = Nothing
+        Me.cboModule.MyLinkLable2 = Nothing
+        Me.cboModule.Name = "cboModule"
+        Me.cboModule.ReferenceFieldDesc = Nothing
+        Me.cboModule.ReferenceFieldName = Nothing
+        Me.cboModule.ReferenceTableName = Nothing
+        Me.cboModule.Size = New System.Drawing.Size(147, 20)
+        Me.cboModule.TabIndex = 0
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel1.Location = New System.Drawing.Point(3, 57)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(65, 16)
+        Me.RadLabel1.TabIndex = 10
+        Me.RadLabel1.Text = "Transaction"
         '
         'RadGroupBox4
         '
@@ -209,6 +299,30 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.ChkUserAll.TabIndex = 0
         Me.ChkUserAll.Text = "All"
         '
+        'cboTransaction
+        '
+        Me.cboTransaction.CalculationExpression = Nothing
+        Me.cboTransaction.DropDownAnimationEnabled = True
+        Me.cboTransaction.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboTransaction.FieldCode = Nothing
+        Me.cboTransaction.FieldDesc = Nothing
+        Me.cboTransaction.FieldMaxLength = 0
+        Me.cboTransaction.FieldName = Nothing
+        Me.cboTransaction.isCalculatedField = False
+        Me.cboTransaction.IsSourceFromTable = False
+        Me.cboTransaction.IsSourceFromValueList = False
+        Me.cboTransaction.IsUnique = False
+        Me.cboTransaction.Location = New System.Drawing.Point(78, 57)
+        Me.cboTransaction.MendatroryField = True
+        Me.cboTransaction.MyLinkLable1 = Nothing
+        Me.cboTransaction.MyLinkLable2 = Nothing
+        Me.cboTransaction.Name = "cboTransaction"
+        Me.cboTransaction.ReferenceFieldDesc = Nothing
+        Me.cboTransaction.ReferenceFieldName = Nothing
+        Me.cboTransaction.ReferenceTableName = Nothing
+        Me.cboTransaction.Size = New System.Drawing.Size(147, 20)
+        Me.cboTransaction.TabIndex = 3
+        '
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -267,63 +381,6 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.chkLocAll.TabIndex = 0
         Me.chkLocAll.Text = "All"
         '
-        'btnShow
-        '
-        Me.btnShow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShow.Location = New System.Drawing.Point(78, 100)
-        Me.btnShow.Name = "btnShow"
-        Me.btnShow.Size = New System.Drawing.Size(81, 39)
-        Me.btnShow.TabIndex = 7
-        Me.btnShow.Text = ">>"
-        '
-        'dtpToDate
-        '
-        Me.dtpToDate.CustomFormat = "dd/MMM/yyyy"
-        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpToDate.Location = New System.Drawing.Point(226, 49)
-        Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.Name = "dtpToDate"
-        Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.Size = New System.Drawing.Size(86, 20)
-        Me.dtpToDate.TabIndex = 5
-        Me.dtpToDate.TabStop = False
-        Me.dtpToDate.Text = "22/07/2011"
-        Me.dtpToDate.Value = New Date(2011, 7, 22, 13, 55, 15, 703)
-        '
-        'dtpFromDate
-        '
-        Me.dtpFromDate.CustomFormat = "dd/MMM/yyyy"
-        Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpFromDate.Location = New System.Drawing.Point(78, 49)
-        Me.dtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpFromDate.Name = "dtpFromDate"
-        Me.dtpFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpFromDate.Size = New System.Drawing.Size(90, 20)
-        Me.dtpFromDate.TabIndex = 4
-        Me.dtpFromDate.TabStop = False
-        Me.dtpFromDate.Text = "22/07/2011"
-        Me.dtpFromDate.Value = New Date(2011, 7, 22, 13, 55, 15, 703)
-        '
-        'RadLabel3
-        '
-        Me.RadLabel3.FieldName = Nothing
-        Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(174, 51)
-        Me.RadLabel3.Name = "RadLabel3"
-        Me.RadLabel3.Size = New System.Drawing.Size(46, 16)
-        Me.RadLabel3.TabIndex = 12
-        Me.RadLabel3.Text = "To Date"
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(3, 49)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(60, 16)
-        Me.RadLabel2.TabIndex = 9
-        Me.RadLabel2.Text = "From Date"
-        '
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -333,10 +390,10 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Transaction Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 150)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 181)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(923, 282)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(923, 251)
         Me.RadGroupBox2.TabIndex = 8
         Me.RadGroupBox2.Text = "Transaction Details"
         '
@@ -350,139 +407,79 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(903, 252)
+        Me.gv1.Size = New System.Drawing.Size(903, 221)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
+        Me.gv1.VarID = ""
         '
-        'cboTransaction
+        'btnShow
         '
-        Me.cboTransaction.CalculationExpression = Nothing
-        Me.cboTransaction.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboTransaction.FieldCode = Nothing
-        Me.cboTransaction.FieldDesc = Nothing
-        Me.cboTransaction.FieldMaxLength = 0
-        Me.cboTransaction.FieldName = Nothing
-        Me.cboTransaction.isCalculatedField = False
-        Me.cboTransaction.IsSourceFromTable = False
-        Me.cboTransaction.IsSourceFromValueList = False
-        Me.cboTransaction.IsUnique = False
-        Me.cboTransaction.Location = New System.Drawing.Point(78, 26)
-        Me.cboTransaction.MendatroryField = True
-        Me.cboTransaction.MyLinkLable1 = Nothing
-        Me.cboTransaction.MyLinkLable2 = Nothing
-        Me.cboTransaction.Name = "cboTransaction"
-        Me.cboTransaction.ReferenceFieldDesc = Nothing
-        Me.cboTransaction.ReferenceFieldName = Nothing
-        Me.cboTransaction.ReferenceTableName = Nothing
-        Me.cboTransaction.Size = New System.Drawing.Size(147, 20)
-        Me.cboTransaction.TabIndex = 3
+        Me.btnShow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShow.Location = New System.Drawing.Point(78, 131)
+        Me.btnShow.Name = "btnShow"
+        Me.btnShow.Size = New System.Drawing.Size(81, 39)
+        Me.btnShow.TabIndex = 7
+        Me.btnShow.Text = ">>"
         '
-        'RadLabel1
+        'RadLabel2
         '
-        Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(3, 26)
-        Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(65, 16)
-        Me.RadLabel1.TabIndex = 10
-        Me.RadLabel1.Text = "Transaction"
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(3, 80)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(60, 16)
+        Me.RadLabel2.TabIndex = 9
+        Me.RadLabel2.Text = "From Date"
         '
-        'cboModule
+        'dtpToDate
         '
-        Me.cboModule.CalculationExpression = Nothing
-        Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboModule.FieldCode = Nothing
-        Me.cboModule.FieldDesc = Nothing
-        Me.cboModule.FieldMaxLength = 0
-        Me.cboModule.FieldName = Nothing
-        Me.cboModule.isCalculatedField = False
-        Me.cboModule.IsSourceFromTable = False
-        Me.cboModule.IsSourceFromValueList = False
-        Me.cboModule.IsUnique = False
-        Me.cboModule.Location = New System.Drawing.Point(78, 0)
-        Me.cboModule.MendatroryField = True
-        Me.cboModule.MyLinkLable1 = Nothing
-        Me.cboModule.MyLinkLable2 = Nothing
-        Me.cboModule.Name = "cboModule"
-        Me.cboModule.ReferenceFieldDesc = Nothing
-        Me.cboModule.ReferenceFieldName = Nothing
-        Me.cboModule.ReferenceTableName = Nothing
-        Me.cboModule.Size = New System.Drawing.Size(147, 20)
-        Me.cboModule.TabIndex = 0
+        Me.dtpToDate.CustomFormat = "dd/MMM/yyyy"
+        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpToDate.Location = New System.Drawing.Point(226, 80)
+        Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpToDate.Name = "dtpToDate"
+        Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpToDate.Size = New System.Drawing.Size(86, 20)
+        Me.dtpToDate.TabIndex = 5
+        Me.dtpToDate.TabStop = False
+        Me.dtpToDate.Text = "22/07/2011"
+        Me.dtpToDate.Value = New Date(2011, 7, 22, 13, 55, 15, 703)
         '
-        'RadLabel10
+        'RadLabel3
         '
-        Me.RadLabel10.FieldName = Nothing
-        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel10.Location = New System.Drawing.Point(3, 3)
-        Me.RadLabel10.Name = "RadLabel10"
-        Me.RadLabel10.Size = New System.Drawing.Size(43, 16)
-        Me.RadLabel10.TabIndex = 11
-        Me.RadLabel10.Text = "Module"
+        Me.RadLabel3.FieldName = Nothing
+        Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel3.Location = New System.Drawing.Point(174, 82)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(46, 16)
+        Me.RadLabel3.TabIndex = 12
+        Me.RadLabel3.Text = "To Date"
         '
-        'btnReset
+        'dtpFromDate
         '
-        Me.btnReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(7, 3)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(69, 22)
-        Me.btnReset.TabIndex = 6
-        Me.btnReset.Text = "Reset"
-        '
-        'lblNoOfRecords
-        '
-        Me.lblNoOfRecords.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblNoOfRecords.FieldName = Nothing
-        Me.lblNoOfRecords.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNoOfRecords.Location = New System.Drawing.Point(743, 6)
-        Me.lblNoOfRecords.Name = "lblNoOfRecords"
-        Me.lblNoOfRecords.Size = New System.Drawing.Size(87, 16)
-        Me.lblNoOfRecords.TabIndex = 2
-        Me.lblNoOfRecords.Text = "0 Record Found"
-        '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(947, 483)
-        Me.RadPageView1.TabIndex = 390
-        Me.RadPageView1.Text = "RadPageView1"
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.RadLabel10)
-        Me.RadPageViewPage1.Controls.Add(Me.txtCustomer)
-        Me.RadPageViewPage1.Controls.Add(Me.cboModule)
-        Me.RadPageViewPage1.Controls.Add(Me.lblCustomer)
-        Me.RadPageViewPage1.Controls.Add(Me.RadLabel1)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
-        Me.RadPageViewPage1.Controls.Add(Me.cboTransaction)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
-        Me.RadPageViewPage1.Controls.Add(Me.btnShow)
-        Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
-        Me.RadPageViewPage1.Controls.Add(Me.dtpToDate)
-        Me.RadPageViewPage1.Controls.Add(Me.RadLabel3)
-        Me.RadPageViewPage1.Controls.Add(Me.dtpFromDate)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(100.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(926, 435)
-        Me.RadPageViewPage1.Text = "Transaction Data"
+        Me.dtpFromDate.CustomFormat = "dd/MMM/yyyy"
+        Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpFromDate.Location = New System.Drawing.Point(78, 80)
+        Me.dtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFromDate.Name = "dtpFromDate"
+        Me.dtpFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFromDate.Size = New System.Drawing.Size(90, 20)
+        Me.dtpFromDate.TabIndex = 4
+        Me.dtpFromDate.TabStop = False
+        Me.dtpFromDate.Text = "22/07/2011"
+        Me.dtpFromDate.Value = New Date(2011, 7, 22, 13, 55, 15, 703)
         '
         'RadPageViewPage2
         '
@@ -517,18 +514,83 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.GV2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.GV2.Location = New System.Drawing.Point(10, 20)
         '
-        'GV2
+        '
         '
         Me.GV2.MasterTemplate.AllowDeleteRow = False
         Me.GV2.MasterTemplate.EnableFiltering = True
+        Me.GV2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GV2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GV2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GV2.MyExportFilePath = ""
+        Me.GV2.MyStopExport = False
         Me.GV2.Name = "GV2"
         Me.GV2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GV2.ShowGroupPanel = False
         Me.GV2.ShowHeaderCellButtons = True
         Me.GV2.Size = New System.Drawing.Size(906, 405)
         Me.GV2.TabIndex = 0
-        Me.GV2.Text = "RadGridView1"
+        Me.GV2.VarID = ""
+        '
+        'btnReset
+        '
+        Me.btnReset.AccessibleRole = System.Windows.Forms.AccessibleRole.None
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(7, 3)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(69, 22)
+        Me.btnReset.TabIndex = 6
+        Me.btnReset.Text = "Reset"
+        '
+        'lblNoOfRecords
+        '
+        Me.lblNoOfRecords.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblNoOfRecords.FieldName = Nothing
+        Me.lblNoOfRecords.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNoOfRecords.Location = New System.Drawing.Point(743, 6)
+        Me.lblNoOfRecords.Name = "lblNoOfRecords"
+        Me.lblNoOfRecords.Size = New System.Drawing.Size(87, 16)
+        Me.lblNoOfRecords.TabIndex = 2
+        Me.lblNoOfRecords.Text = "0 Record Found"
+        '
+        'rgbItemType
+        '
+        Me.rgbItemType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbItemType.Controls.Add(Me.rbtnCancelDate)
+        Me.rgbItemType.Controls.Add(Me.rbtnDocumentDate)
+        Me.rgbItemType.HeaderText = ""
+        Me.rgbItemType.Location = New System.Drawing.Point(82, 0)
+        Me.rgbItemType.Name = "rgbItemType"
+        Me.rgbItemType.Size = New System.Drawing.Size(230, 25)
+        Me.rgbItemType.TabIndex = 1538
+        '
+        'rbtnCancelDate
+        '
+        Me.rbtnCancelDate.Location = New System.Drawing.Point(124, 5)
+        Me.rbtnCancelDate.Name = "rbtnCancelDate"
+        Me.rbtnCancelDate.Size = New System.Drawing.Size(79, 18)
+        Me.rbtnCancelDate.TabIndex = 1
+        Me.rbtnCancelDate.TabStop = False
+        Me.rbtnCancelDate.Text = "Cancel date"
+        '
+        'rbtnDocumentDate
+        '
+        Me.rbtnDocumentDate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(6, 5)
+        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
+        Me.rbtnDocumentDate.Size = New System.Drawing.Size(94, 18)
+        Me.rbtnDocumentDate.TabIndex = 0
+        Me.rbtnDocumentDate.Text = "Doument Date"
+        Me.rbtnDocumentDate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(3, 12)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel1.TabIndex = 1539
+        Me.MyLabel1.Text = "Date"
         '
         'frmCancelledTransactions_Exportsale
         '
@@ -548,43 +610,49 @@ Partial Class frmCancelledTransactions_Exportsale
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.chkUserSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkUserAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboTransaction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.chkLocSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkLocAll, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnShow, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboTransaction, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.btnShow, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         CType(Me.GV2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbItemType.ResumeLayout(False)
+        Me.rgbItemType.PerformLayout()
+        CType(Me.rbtnCancelDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -621,5 +689,9 @@ Partial Class frmCancelledTransactions_Exportsale
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents GV2 As common.UserControls.MyRadGridView
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents rgbItemType As RadGroupBox
+    Friend WithEvents rbtnCancelDate As RadRadioButton
+    Friend WithEvents rbtnDocumentDate As RadRadioButton
 End Class
 
