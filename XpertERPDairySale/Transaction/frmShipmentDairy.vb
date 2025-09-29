@@ -5218,6 +5218,7 @@ Public Class frmShipmentDairy
                                 '                                    End If
                                 '                                End If
                                 Dim dblPendingQty As Double = 0
+                                isCTQtyUpdate = False
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
                                     If btnUpdateCustomer.Enabled = False Then
                                         dblPendingQty = GetBalanceDeliveryQty(gv1.CurrentRow.Cells(colOrderNo).Value, gv1.CurrentRow.Cells(colICode).Value)
@@ -16712,7 +16713,6 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                 LoadgvCrateType(trans)
                 Dim lstCTstr As List(Of String) = New List(Of String)
                 Dim ctintRow As Integer = 0
-                Dim ctTotCrate As Integer = 0
                 For intRows As Integer = 0 To gv1.Rows.Count - 1
                     Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(gv1.Rows(intRows).Cells(colICode).Value) & "'", trans))
                     If ItemCrateType = 1 Then
@@ -16725,15 +16725,19 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                             gvCrateType.Rows(ctintRow - 1).Cells(colCTCode).Value = strCtCode
                             gvCrateType.Rows(ctintRow - 1).Cells(ColCTName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & strCtCode & "'", trans))
                             gvCrateType.Rows(ctintRow - 1).Cells(ColCTQty).Value = clsCommon.myCdbl(gv1.Rows(intRows).Cells(colCrate).Value)
-                            ctTotCrate = +clsCommon.myCdbl(gvCrateType.Rows(ctintRow - 1).Cells(ColCTQty).Value)
+                            lstCTstr.Add(strCtCode)
                         Else
-                            gvCrateType.Rows(ctintRow - 1).Cells(ColCTQty).Value = clsCommon.myCdbl(gvCrateType.Rows(ctintRow).Cells(ColCTQty).Value) + clsCommon.myCdbl(gv1.Rows(intRows).Cells(colCrate).Value)
-                            ctTotCrate = +clsCommon.myCdbl(gvCrateType.Rows(ctintRow - 1).Cells(ColCTQty).Value)
+                            For intinnerRow As Integer = 0 To gvCrateType.Rows.Count - 1
+                                If clsCommon.CompairString(strCtCode, clsCommon.myCstr(gvCrateType.Rows(intinnerRow).Cells(colCTCode).Value)) = CompairStringResult.Equal Then
+                                    gvCrateType.Rows(intinnerRow).Cells(ColCTQty).Value += clsCommon.myCdbl(gv1.Rows(intRows).Cells(colCrate).Value)
+                                End If
+                            Next
+
 
                         End If
                     End If
                 Next
-                txtCrate.Text = ctTotCrate
+                UpdateCTQty()
 
             End If
             isInsideLoadData = False
