@@ -1797,6 +1797,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptVSPIncentiveRegister, "VSP Incentive Register", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.MonthlyProgressReport, "Monthly Progress Report", "1.17.03.48", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         'InsertDefaultValue(clsUserMgtCode.DCSDeductionBalanceReport, "DCS Deduction Balance Amount", "1.17.03.49", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmPDAccountSummariesReport, "PD Account Summaries Report", "1.17.03.50", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '===sanjeet(21/11/2016)====================
 
@@ -1915,6 +1916,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmMilkProcurementSocietySummary, "Milk Procurement Society Summary", "1.17.03.154", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.CanSummaryReport, "Can Summary Report", "1.17.03.152", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.YearlyDBTSummaryReport, "Yearly DBT Summary Report", "1.17.03.153", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmTotalDeductionReport, "Total DCS Deduction Report", "1.17.03.157", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================
@@ -2393,6 +2395,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCommissionTPTCalculation, "Commission/TPT Calculation", "1.36.02.36", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmProductQuickDemand, "Product Quick Demand", "1.36.02.37", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCustomerPenalty, "Customer Penalty", "1.36.02.38", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmRouteWiseSaleTarget, "Route Wise Sale Target", "1.36.02.39", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 

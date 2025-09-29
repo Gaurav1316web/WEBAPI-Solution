@@ -9,12 +9,14 @@ Public Class frmShipmentDairy
     Dim ParentDocNo As String = ""
     Dim CreditCustDoc As String = ""
     Dim defaultScreenstartup As Boolean = True
+    Dim isCTQtyUpdate As Boolean = True
     Dim AllowAddOrEditItems As Boolean = False
     Dim ApplyMonthEndDispatch As Boolean = True
     Dim SetDefaultShiftTime As String = ""
     Dim IsOnlyCreditCust As Boolean = True
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim ConvertIntoBulkUOM As Boolean = False
+    Dim DifferentCrateTypeForFGItem As Boolean = False
 
     Dim ApplyManualScheme As Boolean = False
     Dim AutoSchemeOnTotalDispatchQty As Boolean = False
@@ -387,6 +389,7 @@ Public Class frmShipmentDairy
     Dim lstobj As List(Of clsPSShipmentDemand) = Nothing
     Public Property routeno As String
     Public Property LocationCode As String
+    Public Property subLocationCode As String
     Public Property Supplydate As Date?
     Public Property Shifttype As String = Nothing
     Public Property IsTaxable As String = Nothing
@@ -401,6 +404,12 @@ Public Class frmShipmentDairy
     Const colSIType As String = "colSIType"
     Const colSIShortName As String = "colSIShortName"
     Const colSIHSN As String = "colSIHSN"
+
+    Const colCTDocCode As String = "colCTDocCode"
+    Const colCTICode As String = "colCTICode"
+    Const colCTCode As String = "colCTCode"
+    Const ColCTName As String = "ColCTName"
+    Const ColCTQty As String = "ColCTQty"
 
     Const colBSTRCode As String = "colBSTRCode"
     Const colBSBoothCode As String = "colBSBoothCode"
@@ -503,6 +512,7 @@ Public Class frmShipmentDairy
         SetUserMgmtNew()
         btnHistory.Enabled = False
         SetMailRight()
+        CreateTable()
         'CalculateTaxRatefromItemwsieTaxOnSale = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing))
         'strVehicleCapacityUnit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.VehicleCapacityUnit & "'"))
         'ItemMRPEditable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.IsItemMRPEditableOnSales & "'")) = 0, False, True)
@@ -633,6 +643,9 @@ Public Class frmShipmentDairy
         End If
         If Not ApplyBoothWiseScheme Then
             RadPageView1.Pages("rpvpBoothScheme").Item.Visibility = ElementVisibility.Collapsed
+        End If
+        If Not DifferentCrateTypeForFGItem Then
+            RadPageView1.Pages("rpvpCrateTypeItem").Item.Visibility = ElementVisibility.Collapsed
         End If
         If clsCommon.myLen(DocumentNo) > 0 Then
             LoadData(DocumentNo, NavigatorType.Current)
@@ -770,6 +783,7 @@ Public Class frmShipmentDairy
         SubstractDistributorCommissioninItemPrice = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, Nothing)) = 1, True, False)
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
         ConvertIntoBulkUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, Nothing)) = 1, True, False)
+        DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = dtpChallan.Value
@@ -796,7 +810,7 @@ Public Class frmShipmentDairy
         ShowShipToPartyInDairyDispatch = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ShowShipToPartyInDairyDispatch & "'")) = 0, 0, 1)
 
     End Sub
-    Public Shared Sub ProcessShipment(routeno As String, locationCode As String, supplyDate As Date?, DocDate As Date?, shiftType As String, isTaxable As String, ByVal IsAutoClose As Boolean, ByRef obj As frmShipmentDairy)
+    Public Shared Sub ProcessShipment(routeno As String, locationCode As String, sublocationCode As String, supplyDate As Date?, DocDate As Date?, shiftType As String, isTaxable As String, ByVal IsAutoClose As Boolean, ByRef obj As frmShipmentDairy)
         Try
             obj.LoadSettings()
             obj.LoadDOItemType()
@@ -806,7 +820,7 @@ Public Class frmShipmentDairy
             If clsCommon.myLen(locationCode) > 0 Then
                 obj.txtBillToLocation.Value = locationCode
                 obj.txtRouteNo.Value = routeno
-
+                obj.txtSubLocation.Value = sublocationCode
             End If
             If supplyDate IsNot Nothing AndAlso clsCommon.myLen(supplyDate) > 0 Then
                 obj.txtSupplyDate.Value = supplyDate
@@ -4858,6 +4872,65 @@ Public Class frmShipmentDairy
         gvManualscheme.MasterTemplate.ShowRowHeaderColumn = False
         gvManualscheme.TableElement.TableHeaderHeight = 40
     End Sub
+    Sub LoadgvCrateType(ByVal trans As SqlTransaction)
+        gvCrateType.Rows.Clear()
+        gvCrateType.Columns.Clear()
+        Dim CrateTypeDocCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        CrateTypeDocCode.FormatString = ""
+        CrateTypeDocCode.HeaderText = "Document Code"
+        CrateTypeDocCode.Name = colCTDocCode
+        CrateTypeDocCode.HeaderImage = My.Resources.search4
+        CrateTypeDocCode.TextImageRelation = TextImageRelation.TextBeforeImage
+        CrateTypeDocCode.Width = 100
+        CrateTypeDocCode.ReadOnly = True
+        CrateTypeDocCode.IsVisible = False
+        gvCrateType.MasterTemplate.Columns.Add(CrateTypeDocCode)
+        Dim resCrateICode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        resCrateICode.FormatString = ""
+        resCrateICode.HeaderText = "Item Code"
+        resCrateICode.Name = colCTICode
+        resCrateICode.Width = 80
+        resCrateICode.ReadOnly = True
+        resCrateICode.IsVisible = False
+        gvCrateType.MasterTemplate.Columns.Add(resCrateICode)
+        Dim resCratetype As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        resCratetype.FormatString = ""
+        resCratetype.HeaderText = "Crate Type Code"
+        resCratetype.Name = colCTCode
+        resCratetype.Width = 80
+        resCratetype.ReadOnly = True
+        resCratetype.IsVisible = False
+        gvCrateType.MasterTemplate.Columns.Add(resCratetype)
+        Dim resCTname As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        resCTname.FormatString = ""
+        resCTname.HeaderText = "Crate Type Name"
+        resCTname.Name = ColCTName
+        resCTname.Width = 200
+        resCTname.ReadOnly = True
+        resCTname.IsVisible = True
+        gvCrateType.MasterTemplate.Columns.Add(resCTname)
+
+        Dim repoCrateQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoCrateQty.FormatString = ""
+        repoCrateQty.HeaderText = "Crate Qty"
+        repoCrateQty.Name = ColCTQty
+        repoCrateQty.Width = 120
+        repoCrateQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoCrateQty.ReadOnly = False
+        repoCrateQty.ShowUpDownButtons = False
+        repoCrateQty.IsVisible = True
+        gvCrateType.MasterTemplate.Columns.Add(repoCrateQty)
+
+        gvCrateType.AllowAddNewRow = False
+        gvCrateType.ShowGroupPanel = False
+        gvCrateType.AllowColumnReorder = True
+        gvCrateType.AllowRowReorder = False
+        gvCrateType.EnableSorting = False
+        gvCrateType.Rows.AddNew()
+        gvCrateType.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvCrateType.MasterTemplate.ShowRowHeaderColumn = False
+        gvCrateType.TableElement.TableHeaderHeight = 40
+    End Sub
     Sub OpenSerialItem()
         If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsSerialseItem).Value) Then
             Dim frm As frmSerializeItemOut = New frmSerializeItemOut()
@@ -5145,6 +5218,7 @@ Public Class frmShipmentDairy
                                 '                                    End If
                                 '                                End If
                                 Dim dblPendingQty As Double = 0
+                                isCTQtyUpdate = False
                                 If (clsCommon.myLen(gv1.CurrentRow.Cells(colOrderNo).Value) > 0) Then
                                     If btnUpdateCustomer.Enabled = False Then
                                         dblPendingQty = GetBalanceDeliveryQty(gv1.CurrentRow.Cells(colOrderNo).Value, gv1.CurrentRow.Cells(colICode).Value)
@@ -6894,6 +6968,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         End If
         txtTransNo.Text = ""
         ParentDocNo = ""
+        isCTQtyUpdate = False
         cmbDisItemType.Enabled = True
         lblAlternateVehicleCode.Text = "" ''ERO/21/05/19-000610 by balwinder on 21/05/2019
         lblAlternateVehicleName.Text = ""
@@ -6917,6 +6992,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
         LoadBlankGridAC(Nothing)
         LoadBlankGridTax(Nothing)
         LoadgvManualScheme(Nothing)
+        LoadgvCrateType(Nothing)
         chkRoundoff.Checked = False
         isNewEntry = True
         btnSave.Text = "Save"
@@ -8870,6 +8946,19 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
                     obj.ArrBoothScheme.Add(objD)
                 Next
             End If
+            If DifferentCrateTypeForFGItem Then
+                obj.ArrCrateType = New List(Of clsPSShipmentCrateTypeDtail)
+                For ii As Integer = 0 To gvCrateType.Rows.Count - 1
+                    Dim objD As New clsPSShipmentCrateTypeDtail
+                    objD.Item_Code = clsCommon.myCstr(gvCrateType.Rows(ii).Cells(colCTICode).Value)
+                    objD.Crate_Type_Code = clsCommon.myCstr(gvCrateType.Rows(ii).Cells(colCTCode).Value)
+                    objD.Crate_Qty = clsCommon.myCdbl(gvCrateType.Rows(ii).Cells(ColCTQty).Value)
+                    If clsCommon.myLen(objD.Item_Code) > 0 Then
+                        obj.ArrCrateType.Add(objD)
+
+                    End If
+                Next
+            End If
 
             ''For Custom Fields
             obj.Form_ID = MyBase.Form_ID
@@ -9915,6 +10004,20 @@ order by TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code"
                         gvBoothScheme.Rows(gvBoothScheme.Rows.Count - 1).Cells(colBSMainUnitCode).Value = objTrBoothScheme.Main_Unit_Code
                         gvBoothScheme.Rows(gvBoothScheme.Rows.Count - 1).Cells(colBSTrip).Value = objTrBoothScheme.Trip_No
                     Next
+                End If
+                If DifferentCrateTypeForFGItem Then
+                    If obj.ArrCrateType IsNot Nothing AndAlso obj.ArrCrateType.Count > 0 Then
+                        LoadgvCrateType(Nothing)
+                        For Each objTrCrateType As clsPSShipmentCrateTypeDtail In obj.ArrCrateType
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(colCTDocCode).Value = objTrCrateType.DOCUMENT_CODE
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(colCTICode).Value = objTrCrateType.Item_Code
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(colCTCode).Value = objTrCrateType.Crate_Type_Code
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(ColCTName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & objTrCrateType.Crate_Type_Code & "' and CRATE=1"))
+                            gvCrateType.Rows(gvCrateType.Rows.Count - 1).Cells(ColCTQty).Value = objTrCrateType.Crate_Qty
+                            gvCrateType.Rows.AddNew()
+
+                        Next
+                    End If
                 End If
             End If
             'txtCrate.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select sum(Qty) as Qty from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + ParentDocNo + "' and Unit_code='Crate' group by Unit_code"))
@@ -16606,6 +16709,37 @@ where  TSPL_SCHEME_BENEFICIARY.Cust_Code='" + txtVendorNo.Value + "' and Convert
                 End If
 
             End If
+            If DifferentCrateTypeForFGItem AndAlso Not isCTQtyUpdate Then
+                LoadgvCrateType(trans)
+                Dim lstCTstr As List(Of String) = New List(Of String)
+                Dim ctintRow As Integer = 0
+                For intRows As Integer = 0 To gv1.Rows.Count - 1
+                    Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(gv1.Rows(intRows).Cells(colICode).Value) & "'", trans))
+                    If ItemCrateType = 1 Then
+                        Dim strCtCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select CrateType_Item  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(gv1.Rows(intRows).Cells(colICode).Value) & "'", trans))
+                        If Not lstCTstr.Contains(strCtCode) Then
+                            ctintRow += 1
+                            gvCrateType.Rows.AddNew()
+                            gvCrateType.Rows(ctintRow - 1).Cells(colCTDocCode).Value = txtDocNo.Value
+                            gvCrateType.Rows(ctintRow - 1).Cells(colCTICode).Value = clsCommon.myCstr(gv1.Rows(intRows).Cells(colICode).Value)
+                            gvCrateType.Rows(ctintRow - 1).Cells(colCTCode).Value = strCtCode
+                            gvCrateType.Rows(ctintRow - 1).Cells(ColCTName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & strCtCode & "'", trans))
+                            gvCrateType.Rows(ctintRow - 1).Cells(ColCTQty).Value = clsCommon.myCdbl(gv1.Rows(intRows).Cells(colCrate).Value)
+                            lstCTstr.Add(strCtCode)
+                        Else
+                            For intinnerRow As Integer = 0 To gvCrateType.Rows.Count - 1
+                                If clsCommon.CompairString(strCtCode, clsCommon.myCstr(gvCrateType.Rows(intinnerRow).Cells(colCTCode).Value)) = CompairStringResult.Equal Then
+                                    gvCrateType.Rows(intinnerRow).Cells(ColCTQty).Value += clsCommon.myCdbl(gv1.Rows(intRows).Cells(colCrate).Value)
+                                End If
+                            Next
+
+
+                        End If
+                    End If
+                Next
+                UpdateCTQty()
+
+            End If
             isInsideLoadData = False
         Catch ex As Exception
             isInsideLoadData = False
@@ -16984,6 +17118,49 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + InvoiceNo + ")
         Else
             txtDemandNo.Enabled = False
         End If
+    End Sub
+
+    Private Sub CreateTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PKID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_Code", "Varchar(30) null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+        coll.Add("Item_Code", "varchar(50) NULL")
+        coll.Add("CRATE_TYPE_CODE", "varchar(30) NULL")
+        coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_CRATE_DETAIL", coll, "", True, False, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "", True)
+    End Sub
+
+    Private Sub gvCrateType_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvCrateType.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvCrateType.Columns(ColCTQty) Then
+                        UpdateCTQty()
+                        isCTQtyUpdate = True
+                    End If
+                    isCellValueChangedOpen = False
+
+                End If
+            End If
+        Catch ex As Exception
+            isCellValueChangedOpen = False
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Private Sub UpdateCTQty()
+        Try
+            Dim dbltotCrate As Integer = 0
+            For intRow As Integer = 0 To gvCrateType.Rows.Count - 1
+                dbltotCrate += clsCommon.myCdbl(gvCrateType.Rows(intRow).Cells(ColCTQty).Value)
+            Next
+            txtCrate.Text = dbltotCrate
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+
+        End Try
+
     End Sub
 End Class
 Class tempSchemStructrue

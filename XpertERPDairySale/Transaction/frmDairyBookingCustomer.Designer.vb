@@ -321,6 +321,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.UsLock1 = New common.usLock()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -660,6 +661,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.UsLock1)
         Me.RadPageViewPage1.Controls.Add(Me.chkExcludeKKFMND)
         Me.RadPageViewPage1.Controls.Add(Me.txtSupplyDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblSupplyDate)
@@ -756,7 +758,7 @@ Partial Class frmDairyBookingCustomer
         'chkExcludeKKFMND
         '
         Me.chkExcludeKKFMND.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExcludeKKFMND.Location = New System.Drawing.Point(910, 43)
+        Me.chkExcludeKKFMND.Location = New System.Drawing.Point(1017, 25)
         Me.chkExcludeKKFMND.Name = "chkExcludeKKFMND"
         Me.chkExcludeKKFMND.Size = New System.Drawing.Size(142, 16)
         Me.chkExcludeKKFMND.TabIndex = 1586
@@ -805,7 +807,7 @@ Partial Class frmDairyBookingCustomer
         'chkIsEwayBill
         '
         Me.chkIsEwayBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsEwayBill.Location = New System.Drawing.Point(438, 134)
+        Me.chkIsEwayBill.Location = New System.Drawing.Point(923, 134)
         Me.chkIsEwayBill.Name = "chkIsEwayBill"
         Me.chkIsEwayBill.Size = New System.Drawing.Size(110, 16)
         Me.chkIsEwayBill.TabIndex = 1583
@@ -845,9 +847,9 @@ Partial Class frmDairyBookingCustomer
         Me.lblShipToLocation.Enabled = False
         Me.lblShipToLocation.FieldName = Nothing
         Me.lblShipToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblShipToLocation.Location = New System.Drawing.Point(199, 133)
+        Me.lblShipToLocation.Location = New System.Drawing.Point(199, 134)
         Me.lblShipToLocation.Name = "lblShipToLocation"
-        Me.lblShipToLocation.Size = New System.Drawing.Size(227, 17)
+        Me.lblShipToLocation.Size = New System.Drawing.Size(135, 17)
         Me.lblShipToLocation.TabIndex = 1579
         Me.lblShipToLocation.TextWrap = False
         '
@@ -914,7 +916,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTransporter.Location = New System.Drawing.Point(199, 91)
         Me.lblTransporter.Name = "lblTransporter"
-        Me.lblTransporter.Size = New System.Drawing.Size(227, 17)
+        Me.lblTransporter.Size = New System.Drawing.Size(172, 17)
         Me.lblTransporter.TabIndex = 1574
         Me.lblTransporter.TextWrap = False
         '
@@ -1009,7 +1011,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtDescription.ReferenceFieldDesc = Nothing
         Me.txtDescription.ReferenceFieldName = Nothing
         Me.txtDescription.ReferenceTableName = Nothing
-        Me.txtDescription.Size = New System.Drawing.Size(430, 18)
+        Me.txtDescription.Size = New System.Drawing.Size(215, 18)
         Me.txtDescription.TabIndex = 1568
         '
         'lblReceiverName
@@ -1105,7 +1107,7 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.Items.Add(RadListDataItem9)
         Me.cmbPaymentType.Items.Add(RadListDataItem10)
         Me.cmbPaymentType.Items.Add(RadListDataItem11)
-        Me.cmbPaymentType.Location = New System.Drawing.Point(1010, 1)
+        Me.cmbPaymentType.Location = New System.Drawing.Point(506, 132)
         Me.cmbPaymentType.MendatroryField = True
         Me.cmbPaymentType.MyLinkLable1 = Me.MyLabel7
         Me.cmbPaymentType.MyLinkLable2 = Nothing
@@ -1113,7 +1115,7 @@ Partial Class frmDairyBookingCustomer
         Me.cmbPaymentType.ReferenceFieldDesc = Nothing
         Me.cmbPaymentType.ReferenceFieldName = Nothing
         Me.cmbPaymentType.ReferenceTableName = Nothing
-        Me.cmbPaymentType.Size = New System.Drawing.Size(102, 20)
+        Me.cmbPaymentType.Size = New System.Drawing.Size(111, 20)
         Me.cmbPaymentType.TabIndex = 1561
         '
         'MyLabel7
@@ -1130,7 +1132,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.lblPaymentType.FieldName = Nothing
         Me.lblPaymentType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPaymentType.Location = New System.Drawing.Point(931, 2)
+        Me.lblPaymentType.Location = New System.Drawing.Point(421, 134)
         Me.lblPaymentType.Name = "lblPaymentType"
         Me.lblPaymentType.Size = New System.Drawing.Size(79, 16)
         Me.lblPaymentType.TabIndex = 1560
@@ -1139,7 +1141,7 @@ Partial Class frmDairyBookingCustomer
         'chkcashsale
         '
         Me.chkcashsale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkcashsale.Location = New System.Drawing.Point(856, 2)
+        Me.chkcashsale.Location = New System.Drawing.Point(341, 134)
         Me.chkcashsale.Name = "chkcashsale"
         Me.chkcashsale.Size = New System.Drawing.Size(72, 16)
         Me.chkcashsale.TabIndex = 139
@@ -1168,7 +1170,7 @@ Partial Class frmDairyBookingCustomer
         'chkGhee
         '
         Me.chkGhee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkGhee.Location = New System.Drawing.Point(908, 23)
+        Me.chkGhee.Location = New System.Drawing.Point(1017, 5)
         Me.chkGhee.Name = "chkGhee"
         Me.chkGhee.Size = New System.Drawing.Size(74, 16)
         Me.chkGhee.TabIndex = 1557
@@ -1361,7 +1363,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblSubLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSubLocation.Location = New System.Drawing.Point(199, 110)
         Me.lblSubLocation.Name = "lblSubLocation"
-        Me.lblSubLocation.Size = New System.Drawing.Size(227, 17)
+        Me.lblSubLocation.Size = New System.Drawing.Size(172, 17)
         Me.lblSubLocation.TabIndex = 1544
         Me.lblSubLocation.TextWrap = False
         '
@@ -1673,7 +1675,7 @@ Partial Class frmDairyBookingCustomer
         'chkBPL
         '
         Me.chkBPL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBPL.Location = New System.Drawing.Point(808, 1)
+        Me.chkBPL.Location = New System.Drawing.Point(377, 27)
         Me.chkBPL.Name = "chkBPL"
         Me.chkBPL.Size = New System.Drawing.Size(42, 16)
         Me.chkBPL.TabIndex = 1485
@@ -1685,7 +1687,7 @@ Partial Class frmDairyBookingCustomer
         Me.rgbItemType.Controls.Add(Me.rbtnNonTax)
         Me.rgbItemType.Controls.Add(Me.rbtnTaxable)
         Me.rgbItemType.HeaderText = "Item Type"
-        Me.rgbItemType.Location = New System.Drawing.Point(1115, -4)
+        Me.rgbItemType.Location = New System.Drawing.Point(911, -2)
         Me.rgbItemType.Name = "rgbItemType"
         Me.rgbItemType.Size = New System.Drawing.Size(100, 64)
         Me.rgbItemType.TabIndex = 1534
@@ -2033,7 +2035,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocation.Location = New System.Drawing.Point(199, 71)
         Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(227, 17)
+        Me.lblLocation.Size = New System.Drawing.Size(172, 17)
         Me.lblLocation.TabIndex = 154
         Me.lblLocation.TextWrap = False
         '
@@ -2081,7 +2083,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRouteDesc.Location = New System.Drawing.Point(199, 27)
         Me.lblRouteDesc.Name = "lblRouteDesc"
-        Me.lblRouteDesc.Size = New System.Drawing.Size(227, 19)
+        Me.lblRouteDesc.Size = New System.Drawing.Size(172, 19)
         Me.lblRouteDesc.TabIndex = 144
         Me.lblRouteDesc.TextWrap = False
         '
@@ -2145,7 +2147,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblVendorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendorName.Location = New System.Drawing.Point(199, 50)
         Me.lblVendorName.Name = "lblVendorName"
-        Me.lblVendorName.Size = New System.Drawing.Size(227, 17)
+        Me.lblVendorName.Size = New System.Drawing.Size(172, 17)
         Me.lblVendorName.TabIndex = 10
         Me.lblVendorName.TextWrap = False
         '
@@ -4556,6 +4558,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(809, -2)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(97, 16)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1587
+        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5157,5 +5169,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents btnGatePassPrint As RadButton
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents chkDCS As RadCheckBox
+    Friend WithEvents UsLock1 As common.usLock
 End Class
 

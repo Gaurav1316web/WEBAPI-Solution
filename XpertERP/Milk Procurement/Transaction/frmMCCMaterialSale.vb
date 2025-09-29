@@ -699,6 +699,7 @@ Public Class frmMCCMaterialSale
         repoBillingQty.Name = colBillingQty
         repoBillingQty.Width = 80
         repoBillingQty.Minimum = 0
+        repoBillingQty.IsVisible = False
         repoBillingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoBillingQty)
         Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -4397,7 +4398,7 @@ Order By CONVERT(date,TSPL_ITEM_WISE_TAX.DOC_DATE,103) Desc")
                 lblGrossAmount.Text = clsCommon.myCdbl(obj.Gross_Amount)
                 ddlInvoiceType.SelectedValue = obj.Invoice_Type
                 lblCommAmt.Text = obj.Total_Comm_Amt
-                Dim dt_vlc As DataTable = clsDBFuncationality.GetDataTable("select * from tspl_vlc_master_Head where vsp_code='" & clsCommon.myCstr(txtVendorNo.Value) & "'")
+                Dim dt_vlc As DataTable = clsDBFuncationality.GetDataTable("SELECT TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code,TSPL_VLC_MASTER_HEAD.* FROM TSPL_CUSTOMER_VENDOR_MAPPING left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code WHERE TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "'")
                 If dt_vlc.Rows.Count > 0 Then
                     LblVlc_Code.Text = dt_vlc.Rows(0).Item("vlc_code_vlc_Uploader")
                     LblVlc_Code.Tag = dt_vlc.Rows(0).Item("vlc_code")

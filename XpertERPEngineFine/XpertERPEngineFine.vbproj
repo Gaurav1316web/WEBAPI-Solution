@@ -309,6 +309,7 @@
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="Dairy Sales\clsCustomerPenalty.vb" />
     <Compile Include="Dairy Sales\clsDemandBookingSale.vb" />
+    <Compile Include="Dairy Sales\clsRouteWiseSaleTarget.vb" />
     <Compile Include="DA_Arrear\clsDA_Arrear.vb" />
     <Compile Include="DemandUploaderClass\clsDairyBookingCustomerbyUploader.vb" />
     <Compile Include="DemandUploaderClass\clsDemandBookingUploader.vb" />

@@ -33,6 +33,8 @@ Public Class frmDairyFreshDispatchMultiple
     Public Sub AddNew()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtLocation.Value = ""
+        txtSubLocation.Value = ""
+        lblSubLocationDesc.Text = ""
         txtDocDate.Value = txtFromDate.Value
         lblLocationDesc.Text = ""
         rbtnMorning.Checked = True
@@ -72,6 +74,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Boo
                     Dim frm As New frmShipmentDairy
                     Dim routeno As String = clsCommon.myCstr(dr("route_no"))
                     Dim LocationCode As String = clsCommon.myCstr(dr("LocationCode"))
+                    Dim SubLocationCode As String = txtSubLocation.Value
                     Dim Supplydate As Date = clsCommon.GetPrintDate(dr("Document_Date"))
                     Dim DocDate As Date = clsCommon.GetPrintDate(txtDocDate.Value)
                     Dim Shifttype As String = clsCommon.myCstr(dr("ShiftType"))
@@ -79,7 +82,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_Demand_Boo
                     Dim IsAutoClose As Boolean = True
                     'frm.IsAutoClose = True
                     'frm.ShowDialog()
-                    frmShipmentDairy.ProcessShipment(routeno, LocationCode, Supplydate, DocDate, Shifttype, IsTaxable, IsAutoClose, frm)
+                    frmShipmentDairy.ProcessShipment(routeno, LocationCode, SubLocationCode, Supplydate, DocDate, Shifttype, IsTaxable, IsAutoClose, frm)
                 Next
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data Saved Succeffully.", Me.Text)
@@ -141,6 +144,15 @@ and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='" + IIf(rbtnNonTaxable.Checked, "NT", "T
             End If
             txtLocation.Value = clsCommon.ShowSelectForm("DS-SHLocFndr", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
             lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+            If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
+                    txtSubLocation.Enabled = True
+                Else
+                    txtSubLocation.Enabled = False
+                End If
+                txtSubLocation.Value = ""
+                lblSubLocationDesc.Text = ""
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -179,5 +191,21 @@ and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='" + IIf(rbtnNonTaxable.Checked, "NT", "T
         End Try
     End Sub
 
-
+    Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
+        Try
+            If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
+                txtSubLocation.Value = clsLocation.getFinder(" (isnull(is_sub_location,'N')='Y' or isnull(Is_Section,'N')='Y') and Main_Location_Code='" & txtLocation.Value & "'", txtSubLocation.Value, isButtonClicked)
+                If clsCommon.myLen(txtSubLocation.Value) > 0 Then
+                    lblSubLocationDesc.Text = clsLocation.GetName(txtSubLocation.Value, Nothing)
+                Else
+                    lblSubLocationDesc.Text = ""
+                End If
+            Else
+                txtSubLocation.Value = ""
+                lblSubLocationDesc.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

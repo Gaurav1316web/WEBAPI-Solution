@@ -6272,6 +6272,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnPurchaseReturn
                         frm = New frmPurchaseReturn()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmPDAccountSummariesReport
+                        frm = New frmPDAccountSummariesReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     'sanjay BHA/09/05/18-000014 
                     Case clsUserMgtCode.frmMaterialQuotation
@@ -8852,6 +8855,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptBMCTankerTestingReport
                         frm = New rptBMCTankerTesting
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.FrmTotalDeductionReport
+                        frm = New FrmTotalDeductionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTemporaryPaymentDeductionSummary
                         frm = New rptTemporaryPaymentDeductionSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -9683,6 +9689,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCustomerPenalty
                         frm = New frmCustomerPenalty
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmRouteWiseSaleTarget
+                        frm = New frmRouteWiseSaleTarget
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCommissionTPTCalculation
                         frm = New frmCommissionTPTCalculation
