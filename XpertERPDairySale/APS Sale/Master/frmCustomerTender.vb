@@ -60,6 +60,7 @@ Public Class frmCustomerTender
         repoRatePerLtr.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRatePerLtr)
         gv1.AllowAddNewRow = False
+        gv1.AllowDeleteRow = True
         gv1.ShowGroupPanel = False
         gv1.AllowColumnReorder = True
         gv1.AllowRowReorder = False
@@ -111,6 +112,7 @@ Public Class frmCustomerTender
         coll.Add("Total_Qty", "decimal(18,2) Not null")
         coll.Add("Tolerance", "decimal(18,2) null")
         coll.Add("Inclusive_Tax", "Integer not null default 0")
+        coll.Add("Inclusive_TPT", "Integer not null default 0")
         coll.Add("Remarks", "Varchar(200) null")
         coll.Add("Status", "integer not null default 0")
         coll.Add("Created_By", "varchar(12) NOT NULL")
