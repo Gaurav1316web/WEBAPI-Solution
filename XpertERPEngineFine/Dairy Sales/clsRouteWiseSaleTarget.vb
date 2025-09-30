@@ -6,6 +6,7 @@ Public Class clsRouteWiseSaleTarget
     Public Document_Date As DateTime = Nothing
     Public Month As DateTime = Nothing
     Public UOM As String = Nothing
+    Public Target_On As Integer = 0
     Public Item_Sub_Category As String = Nothing
     Public Remarks As String = Nothing
     Public Status As Integer = 0
@@ -43,6 +44,7 @@ Public Class clsRouteWiseSaleTarget
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Months", clsCommon.GetPrintDate(obj.Month, "MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
+            clsCommon.AddColumnsForChange(coll, "Target_On", obj.Target_On)
             clsCommon.AddColumnsForChange(coll, "Item_Sub_Category", obj.Item_Sub_Category)
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -96,6 +98,7 @@ Public Class clsRouteWiseSaleTarget
                 obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
                 obj.Month = clsCommon.myCDate(dt.Rows(0)("Months"))
                 obj.UOM = clsCommon.myCstr(dt.Rows(0)("UOM"))
+                obj.Target_On = clsCommon.myCDecimal(dt.Rows(0)("Target_On"))
                 obj.Item_Sub_Category = clsCommon.myCstr(dt.Rows(0)("Item_Sub_Category"))
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
                 obj.Status = clsCommon.myCDecimal(dt.Rows(0)("Status"))
@@ -104,9 +107,6 @@ Public Class clsRouteWiseSaleTarget
                 Dim objDetail As New clsRouteWiseSaleTargetDetail()
                 obj.Arr = objDetail.GetData(obj.Document_Code, trans)
                 objDetail = Nothing
-            Else
-                obj = Nothing
-                Throw New Exception("Data not found !")
             End If
         Catch ex As Exception
             obj = Nothing
@@ -135,6 +135,22 @@ Public Class clsRouteWiseSaleTarget
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd/MMM/yyyy"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ROUTE_WISE_SALE_TARGET", OMInsertOrUpdate.Update, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Code='" & strDoc & "'", Nothing)
+            'trans.Commit()
+        Catch ex As Exception
+            'trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Function DataInactive(ByVal strDoc As String) As Boolean
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Inactive", 1)
+            clsCommon.AddColumnsForChange(coll, "Inactive_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Inactive_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd/MMM/yyyy"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ROUTE_WISE_SALE_TARGET", OMInsertOrUpdate.Update, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Code='" & strDoc & "'", Nothing)
             'trans.Commit()
         Catch ex As Exception
@@ -175,6 +191,8 @@ Public Class clsRouteWiseSaleTargetDetail
     Public Document_Code As String = Nothing
     Public Route_Code As String = Nothing
     Public Route_Name As String = Nothing
+    Public Group_Code As String = Nothing
+    Public Group_Name As String = Nothing
     Public Target_Qty As Decimal = 0
 #End Region
 
@@ -184,7 +202,11 @@ Public Class clsRouteWiseSaleTargetDetail
                 For Each objTr In Arr
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
-                    clsCommon.AddColumnsForChange(coll, "Route_Code", objTr.Route_Code)
+                    If clsCommon.myLen(objTr.Route_Code) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "Route_Code", objTr.Route_Code)
+                    Else
+                        clsCommon.AddColumnsForChange(coll, "Cust_Group_Code", objTr.Group_Code)
+                    End If
                     clsCommon.AddColumnsForChange(coll, "Target_Qty", objTr.Target_Qty)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ROUTE_WISE_SALE_TARGET_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 Next
@@ -198,8 +220,8 @@ Public Class clsRouteWiseSaleTargetDetail
     Public Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsRouteWiseSaleTargetDetail)
         Dim arr As List(Of clsRouteWiseSaleTargetDetail) = Nothing
         Try
-            Dim qry As String = "Select TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.*,TSPL_ROUTE_MASTER.Route_Desc from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
-Left Outer Join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code Where TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code = '" & strCode & "' order by TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.PK_ID,TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code"
+            Dim qry As String = "Select TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.*,TSPL_ROUTE_MASTER.Route_Desc,TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
+Left Outer Join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code Left Outer Join TSPL_CUSTOMER_GROUP_MASTER On TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code Where TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code = '" & strCode & "' order by TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.PK_ID,TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 arr = New List(Of clsRouteWiseSaleTargetDetail)()
@@ -210,6 +232,8 @@ Left Outer Join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_ROUTE_WISE_
                     obj.Document_Code = clsCommon.myCstr(dr("Document_Code"))
                     obj.Route_Code = clsCommon.myCstr(dr("Route_Code"))
                     obj.Route_Name = clsCommon.myCstr(dr("Route_Desc"))
+                    obj.Group_Code = clsCommon.myCstr(dr("Cust_Group_Code"))
+                    obj.Group_Name = clsCommon.myCstr(dr("Cust_Group_Desc"))
                     obj.Target_Qty = clsCommon.myCDecimal(dr("Target_Qty"))
                     arr.Add(obj)
                     LineNo += 1

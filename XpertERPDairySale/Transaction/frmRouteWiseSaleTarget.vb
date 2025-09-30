@@ -10,13 +10,15 @@ Public Class frmRouteWiseSaleTarget
     Const colSNo As String = "COLSNO"
     Const colRouteCode As String = "COLROUTECODE"
     Const colRouteName As String = "COLROUTENAME"
+    Const colGroupCode As String = "COLGROUPCODE"
+    Const colGroupName As String = "COLGROUPNAME"
     Const colTargetQty As String = "COLTARGETQTY"
 #End Region
 
     Private Sub frmRouteWiseSaleTarget_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             Reset()
-            createTable()
+            'createTable()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -29,6 +31,7 @@ Public Class frmRouteWiseSaleTarget
         coll.Add("Document_Date", "DateTime not NULL")
         coll.Add("Months", "Varchar(10) not NULL")
         coll.Add("UOM", "Varchar(10) NULL")
+        coll.Add("Target_On", "integer NULL")
         coll.Add("Item_Sub_Category", "varchar(20) Not NULL references tspl_chapter_head(chapter_head_Code)")
         coll.Add("Remarks", "varchar(200) NULL")
         coll.Add("Status", "integer null")
@@ -47,6 +50,7 @@ Public Class frmRouteWiseSaleTarget
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
         coll.Add("Document_Code", "varchar(30) NOT NULL references TSPL_ROUTE_WISE_SALE_TARGET(Document_Code)")
         coll.Add("Route_Code", "varchar(12) NULL references TSPL_ROUTE_MASTER(Route_No)")
+        coll.Add("Cust_Group_Code", "varchar(12) NULL references TSPL_CUSTOMER_GROUP_MASTER(Cust_Group_Code)")
         coll.Add("Target_Qty", "Decimal(18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ROUTE_WISE_SALE_TARGET_DETAIL", coll, Nothing, True, True, "TSPL_ROUTE_WISE_SALE_TARGET", "DOCUMENT_CODE", "", True)
     End Sub
@@ -60,17 +64,33 @@ Public Class frmRouteWiseSaleTarget
     End Sub
 
     Sub Reset()
+        isInsideLoadData = False
         txtDocumentNo.Value = Nothing
         txtDocumentDate.Value = clsCommon.GETSERVERDATE()
         txtMonth.Value = txtDocumentDate.Value
+        cboUOM.SelectedItem = Nothing
         txtItemSubCateg.Value = Nothing
         lblItemSubCategName.Text = Nothing
         chkInactive.Checked = False
         lblStatus.Status = ERPTransactionStatus.Pending
-        LoadBlankGrid()
+        txtRemarks.Text = Nothing
+        btnSave.Text = "Save"
+        btnReverseUnpost.Visible = False
+        rbtnRoute.Checked = True
+        rbtnGroup.Checked = False
+        LoadBlankGrid(False)
+        EnableDisableFields(True)
     End Sub
 
-    Private Sub LoadBlankGrid()
+    Sub EnableDisableFields(ByVal isEnable As Boolean)
+        btnSave.Enabled = isEnable
+        btnPost.Enabled = isEnable
+        btnDelete.Enabled = isEnable
+        chkInactive.Visible = Not isEnable
+        chkInactive.Enabled = Not isEnable
+    End Sub
+
+    Private Sub LoadBlankGrid(ByVal isReadOnly As Boolean)
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
@@ -84,32 +104,54 @@ Public Class frmRouteWiseSaleTarget
         repoSNO.IsVisible = True
         Gv1.MasterTemplate.Columns.Add(repoSNO)
 
-        Dim repoRouteCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoRouteCode.FormatString = ""
-        repoRouteCode.HeaderText = "Route Code"
-        repoRouteCode.HeaderImage = My.Resources.search4
-        repoRouteCode.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoRouteCode.Name = colRouteCode
-        repoRouteCode.Width = 150
-        repoRouteCode.ReadOnly = False
-        repoRouteCode.IsVisible = True
-        Gv1.MasterTemplate.Columns.Add(repoRouteCode)
+        If rbtnRoute.Checked Then
+            Dim repoRouteCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoRouteCode.FormatString = ""
+            repoRouteCode.HeaderText = "Route Code"
+            repoRouteCode.HeaderImage = My.Resources.search4
+            repoRouteCode.TextImageRelation = TextImageRelation.TextBeforeImage
+            repoRouteCode.Name = colRouteCode
+            repoRouteCode.Width = 150
+            repoRouteCode.ReadOnly = isReadOnly
+            repoRouteCode.IsVisible = True
+            Gv1.MasterTemplate.Columns.Add(repoRouteCode)
 
-        Dim repoRouteName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoRouteName.FormatString = ""
-        repoRouteName.HeaderText = "Route Name"
-        repoRouteName.Name = colRouteName
-        repoRouteName.Width = 300
-        repoRouteName.ReadOnly = True
-        repoRouteName.IsVisible = True
-        Gv1.MasterTemplate.Columns.Add(repoRouteName)
+            Dim repoRouteName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoRouteName.FormatString = ""
+            repoRouteName.HeaderText = "Route Name"
+            repoRouteName.Name = colRouteName
+            repoRouteName.Width = 300
+            repoRouteName.ReadOnly = True
+            repoRouteName.IsVisible = True
+            Gv1.MasterTemplate.Columns.Add(repoRouteName)
+        Else
+            Dim repoGroupCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoGroupCode.FormatString = ""
+            repoGroupCode.HeaderText = "Group Code"
+            repoGroupCode.HeaderImage = My.Resources.search4
+            repoGroupCode.TextImageRelation = TextImageRelation.TextBeforeImage
+            repoGroupCode.Name = colGroupCode
+            repoGroupCode.Width = 150
+            repoGroupCode.ReadOnly = isReadOnly
+            repoGroupCode.IsVisible = True
+            Gv1.MasterTemplate.Columns.Add(repoGroupCode)
+
+            Dim repoGroupName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+            repoGroupName.FormatString = ""
+            repoGroupName.HeaderText = "Group Name"
+            repoGroupName.Name = colGroupName
+            repoGroupName.Width = 300
+            repoGroupName.ReadOnly = True
+            repoGroupName.IsVisible = True
+            Gv1.MasterTemplate.Columns.Add(repoGroupName)
+        End If
 
         Dim repoTargetQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoTargetQty.FormatString = "{0:n2}"
         repoTargetQty.HeaderText = "Target Qty"
         repoTargetQty.Name = colTargetQty
         repoTargetQty.Width = 200
-        repoTargetQty.ReadOnly = False
+        repoTargetQty.ReadOnly = isReadOnly
         repoTargetQty.ShowUpDownButtons = True
         Gv1.MasterTemplate.Columns.Add(repoTargetQty)
 
@@ -130,9 +172,17 @@ Public Class frmRouteWiseSaleTarget
         Try
             Dim Qry As String = "select chapter_head_Code as Code,Description as [Description] from tspl_chapter_head"
             txtItemSubCateg.Value = clsCommon.ShowSelectForm("@ItemSubCateg", Qry, "Code", Nothing, txtItemSubCateg.Value, "Code", isButtonClicked)
-            lblItemSubCategName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from tspl_chapter_head Where chapter_head_Code='" & txtItemSubCateg.Value & "'"))
+            ItemSubCategory()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub ItemSubCategory()
+        Try
+            lblItemSubCategName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from tspl_chapter_head Where chapter_head_Code='" & txtItemSubCateg.Value & "'"))
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 
@@ -143,6 +193,8 @@ Public Class frmRouteWiseSaleTarget
                     isCellValueChangedOpen = True
                     If e.Column Is Gv1.Columns(colRouteCode) Then
                         OpenRouteList(False)
+                    ElseIf e.Column Is Gv1.Columns(colGroupCode) Then
+                        OpenGroupList(False)
                     ElseIf e.Column Is Gv1.Columns(colTargetQty) Then
                         Gv1.Rows.AddNew()
                     End If
@@ -156,9 +208,23 @@ Public Class frmRouteWiseSaleTarget
 
     Sub OpenRouteList(ByVal isButtonClick As Boolean)
         Try
-            Dim Qry As String = "Select Route_No As [Code],Route_Desc As [Description] from TSPL_ROUTE_MASTER"
+            Dim Qry As String = "Select Route_No As [Code],Route_Desc As [Description] from TSPL_ROUTE_MASTER "
+            '            Dim whr As String = "  Route_No Not In (Select TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
+            'Inner Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Document_Code=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code Where TRY_CONVERT(DATE, '01/' + TSPL_ROUTE_WISE_SALE_TARGET.Months, 103) <= TRY_CONVERT(DATE, '" & txtMonth.Value & "', 103) And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Inactive,0)=0 And TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category='" & txtItemSubCateg.Value & "' ) "
             Gv1.CurrentRow.Cells(colRouteCode).Value = clsCommon.ShowSelectForm("@RouteCode", Qry, "Code", Nothing, Nothing, "Code", True)
             Gv1.CurrentRow.Cells(colRouteName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Route_Desc from TSPL_ROUTE_MASTER Where Route_No='" & clsCommon.myCstr(Gv1.CurrentRow.Cells(colRouteCode).Value) & "'"))
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Sub OpenGroupList(ByVal isButtonClick As Boolean)
+        Try
+            Dim Qry As String = " SELECT Cust_Group_Code as Code,Cust_Group_Desc As [Description] FROM TSPL_CUSTOMER_GROUP_MASTER "
+            '            Dim whr As String = "  Route_No Not In (Select TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code from TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
+            'Inner Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Document_Code=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code Where TRY_CONVERT(DATE, '01/' + TSPL_ROUTE_WISE_SALE_TARGET.Months, 103) <= TRY_CONVERT(DATE, '" & txtMonth.Value & "', 103) And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Inactive,0)=0 And TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category='" & txtItemSubCateg.Value & "' ) "
+            Gv1.CurrentRow.Cells(colGroupCode).Value = clsCommon.ShowSelectForm("@GroupCode", Qry, "Code", Nothing, Nothing, "Code", True)
+            Gv1.CurrentRow.Cells(colGroupName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Cust_Group_Desc from TSPL_CUSTOMER_GROUP_MASTER Where Cust_Group_Code='" & clsCommon.myCstr(Gv1.CurrentRow.Cells(colGroupCode).Value) & "'"))
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -198,27 +264,72 @@ Public Class frmRouteWiseSaleTarget
 
     Sub SaveData(ByVal isPost As Boolean)
         Try
+            If isPost AndAlso clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                Throw New Exception("Document Code not found to post !")
+            End If
             If AllowToSave() Then
                 Dim obj As New clsRouteWiseSaleTarget()
                 obj.Document_Code = txtDocumentNo.Value
                 obj.Document_Date = txtDocumentDate.Value
                 obj.Month = txtMonth.Value
                 obj.UOM = clsCommon.myCstr(cboUOM.SelectedItem)
+                If rbtnRoute.Checked Then
+                    obj.Target_On = 0
+                Else
+                    obj.Target_On = 1
+                End If
                 obj.Item_Sub_Category = txtItemSubCateg.Value
                 obj.Remarks = txtRemarks.Text
+                Dim sbRoute As New StringBuilder()
                 If Gv1 IsNot Nothing AndAlso Gv1.Rows.Count > 0 Then
                     obj.Arr = New List(Of clsRouteWiseSaleTargetDetail)
                     For Each row In Gv1.Rows
-                        Dim objTr As New clsRouteWiseSaleTargetDetail()
-                        objTr.Route_Code = clsCommon.myCstr(row.Cells(colRouteCode).Value)
-                        objTr.Target_Qty = clsCommon.myCDecimal(row.Cells(colTargetQty).Value)
-                        If clsCommon.myLen(objTr.Route_Code) > 0 Then
-                            obj.Arr.Add(objTr)
+                        Dim chkQry As String = "Select "
+                        If rbtnRoute.Checked Then
+                            chkQry += " Count(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code) "
+                        Else
+                            chkQry += " Count(TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code) "
                         End If
-                        objTr = Nothing
+                        chkQry += " From TSPL_ROUTE_WISE_SALE_TARGET_DETAIL
+Inner Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Document_Code=TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Document_Code Where TRY_CONVERT(DATE, '01/' + TSPL_ROUTE_WISE_SALE_TARGET.Months, 103) <= TRY_CONVERT(DATE, '" & txtMonth.Value & "', 103) And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Inactive,0)=0 And TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category='" & txtItemSubCateg.Value & "' "
+                        If rbtnRoute.Checked Then
+                            chkQry += " And TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Route_Code ='" & clsCommon.myCstr(row.Cells(colRouteCode).Value) & "' "
+                        Else
+                            chkQry += " And TSPL_ROUTE_WISE_SALE_TARGET_DETAIL.Cust_Group_Code='" & clsCommon.myCstr(row.Cells(colGroupCode).Value) & "' "
+                        End If
+                        If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
+                            chkQry += " And TSPL_ROUTE_WISE_SALE_TARGET.Document_Code <>'" & txtDocumentNo.Value & "'"
+                        End If
+                        If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(chkQry)) > 0 Then
+                            If clsCommon.myLen(sbRoute) <> 0 Then
+                                sbRoute.Append(",")
+                            End If
+                            sbRoute.Append(clsCommon.myCstr(row.Cells(colRouteCode).Value))
+                        Else
+                            Dim objTr As New clsRouteWiseSaleTargetDetail()
+                            If rbtnRoute.Checked Then
+                                objTr.Route_Code = clsCommon.myCstr(row.Cells(colRouteCode).Value)
+                            Else
+                                objTr.Group_Code = clsCommon.myCstr(row.Cells(colGroupCode).Value)
+                            End If
+                            objTr.Target_Qty = clsCommon.myCDecimal(row.Cells(colTargetQty).Value)
+                            If clsCommon.myLen(objTr.Route_Code) > 0 OrElse clsCommon.myLen(objTr.Group_Code) > 0 Then
+                                obj.Arr.Add(objTr)
+                            End If
+                            objTr = Nothing
+                        End If
                     Next
+                    If clsCommon.myLen(sbRoute) <> 0 Then
+                        clsCommon.MyMessageBoxShow(Me, clsCommon.myCstr(IIf(rbtnRoute.Checked, "Route ", "Group ")) & clsCommon.myCstr(sbRoute) & " are already exist.", Me.Text)
+                        sbRoute = Nothing
+#Disable Warning
+                        Exit Sub
+#Enable Warning
+                    End If
+
                 End If
-                If clsCommon.myLen(obj.Document_Code) <= 0 Then
+                sbRoute = Nothing
+                If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
                     isNewEntry = True
                 End If
                 If obj.SaveData(obj, isNewEntry) Then
@@ -229,43 +340,83 @@ Public Class frmRouteWiseSaleTarget
                     Else
                         clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
                     End If
-                    LoadData(obj.Document_Code, Nothing)
+                    LoadData(obj.Document_Code, NavigatorType.Current, False)
                 End If
                 obj = Nothing
             End If
+            isNewEntry = False
         Catch ex As Exception
+            isNewEntry = False
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Public Sub LoadData(ByVal strDoc As String, ByVal NavTyep As NavigatorType)
+    Public Sub LoadData(ByVal strDoc As String, ByVal NavTyep As NavigatorType, ByVal isCC As Boolean)
         Dim obj As clsRouteWiseSaleTarget = Nothing
         Try
-            If clsCommon.myLen(strDoc) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Document code not found to load data !")
-            Else
-                obj = New clsRouteWiseSaleTarget()
-                obj = obj.GetData(strDoc, NavTyep)
-                If obj IsNot Nothing Then
-                    isInsideLoadData = True
+            Reset()
+            obj = New clsRouteWiseSaleTarget()
+            obj = obj.GetData(strDoc, NavTyep)
+            If obj IsNot Nothing Then
+                isInsideLoadData = True
+                If Not isCC Then
                     txtDocumentNo.Value = obj.Document_Code
                     txtDocumentDate.Value = obj.Document_Date
                     txtMonth.Value = obj.Month
-                    cboUOM.SelectedText = obj.UOM
-                    txtItemSubCateg.Value = obj.Item_Sub_Category
-                    txtRemarks.Text = obj.Remarks
-                    lblStatus.Status = IIf(obj.Status = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
-                    chkInactive.Checked = IIf(obj.Inactive = 1, True, False)
-                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                        For Each row In obj.Arr
-                            Gv1.Rows.AddNew()
-                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = row.LineNo
+                    btnSave.Text = "Update"
+                Else
+                    txtDocumentNo.Value = Nothing
+                    txtDocumentDate.Value = clsCommon.GETSERVERDATE()
+                    txtMonth.Value = txtDocumentDate.Value
+                    btnSave.Text = "Save"
+                End If
+                cboUOM.SelectedValue = obj.UOM
+                If obj.Target_On = 1 Then
+                    rbtnGroup.Checked = True
+                    rbtnRoute.Checked = False
+                Else
+                    rbtnRoute.Checked = True
+                    rbtnGroup.Checked = False
+                End If
+                txtItemSubCateg.Value = obj.Item_Sub_Category
+                ItemSubCategory()
+                txtRemarks.Text = obj.Remarks
+                If Not isCC AndAlso obj.Status = 1 Then
+                    lblStatus.Status = ERPTransactionStatus.Approved
+                    EnableDisableFields(False)
+                Else
+                    lblStatus.Status = ERPTransactionStatus.Pending
+                    EnableDisableFields(True)
+                End If
+                If obj.Inactive = 1 Then
+                    chkInactive.Checked = True
+                    chkInactive.Enabled = False
+                Else
+                    chkInactive.Checked = False
+                    chkInactive.Enabled = True
+                End If
+                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    If obj.Status = 1 Then
+                        LoadBlankGrid(True)
+                    Else
+                        LoadBlankGrid(False)
+                    End If
+                    For Each row In obj.Arr
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = row.LineNo
+                        If rbtnRoute.Checked Then
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colRouteCode).Value = row.Route_Code
                             Gv1.Rows(Gv1.Rows.Count - 1).Cells(colRouteName).Value = row.Route_Name
-                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colTargetQty).Value = row.Target_Qty
-                        Next
-                    End If
+                        Else
+                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colGroupCode).Value = row.Group_Code
+                            Gv1.Rows(Gv1.Rows.Count - 1).Cells(colGroupName).Value = row.Group_Name
+                        End If
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colTargetQty).Value = row.Target_Qty
+                        Gv1.Rows.AddNew()
+                    Next
                 End If
+                isInsideLoadData = False
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
             End If
         Catch ex As Exception
             obj = Nothing
@@ -285,7 +436,11 @@ Public Class frmRouteWiseSaleTarget
     Sub setGridFocus()
         Try
             If Gv1.CurrentColumn IsNot Nothing AndAlso clsCommon.CompairString(Gv1.CurrentColumn.Name, colTargetQty) = CompairStringResult.Equal Then
-                Gv1.CurrentColumn = Gv1.Columns(colRouteCode)
+                If rbtnRoute.Checked Then
+                    Gv1.CurrentColumn = Gv1.Columns(colRouteCode)
+                Else
+                    Gv1.CurrentColumn = Gv1.Columns(colGroupCode)
+                End If
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -311,7 +466,110 @@ Public Class frmRouteWiseSaleTarget
     Private Sub txtDocumentNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocumentNo._MYValidating
         Try
             Dim Qry As String = "Select Document_Code As DocumentCode,Document_Date As [Document Date],Months,Item_Sub_Category As [Item Sub Category],Case When IsNull(Status,0)=0 Then 'Pending' Else 'Approved' End As Status from TSPL_ROUTE_WISE_SALE_TARGET"
-            LoadData(clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", isButtonClicked), Nothing)
+            LoadData(clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", isButtonClicked), NavigatorType.Current, False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                Throw New Exception("Document Code not found to delete !")
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to delete ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                Dim obj As New clsRouteWiseSaleTarget()
+                If obj.DeleteData(txtDocumentNo.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.")
+                    Reset()
+                End If
+                obj = Nothing
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtDocumentNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocumentNo._MYNavigator
+        Try
+            LoadData(txtDocumentNo.Value, NavType, False)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
+        Try
+            Dim Qry As String = "Select Document_Code As DocumentCode,Document_Date As [Document Date],Months,Item_Sub_Category As [Item Sub Category],Case When IsNull(Status,0)=0 Then 'Pending' Else 'Approved' End As Status from TSPL_ROUTE_WISE_SALE_TARGET"
+            LoadData(clsCommon.ShowSelectForm("@Doc", Qry, "DocumentCode", "", txtDocumentNo.Value, "TSPL_ROUTE_WISE_SALE_TARGET.Document_Date desc", True), Nothing, True)
+            EnableDisableFields(True)
+            isInsideLoadData = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+
+    Private Sub chkInactive_CheckedChanged(sender As Object, e As EventArgs) Handles chkInactive.CheckedChanged
+        Try
+            If chkInactive.Checked AndAlso Not isInsideLoadData Then
+                If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                    Throw New Exception("Document Code not found !")
+                End If
+                If clsCommon.MyMessageBoxShow(Me, "Are you sure to inactive ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    Dim obj As New clsRouteWiseSaleTarget()
+                    If obj.DataInactive(txtDocumentNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data inactive successfully.", Me.Text)
+                        LoadData(txtDocumentNo.Value, Nothing, False)
+                    End If
+                    obj = Nothing
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub frmRouteWiseSaleTarget_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
+                btnAddNew.PerformClick()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnSave.Enabled AndAlso MyBase.isModifyFlag Then
+                SaveData(False)
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnSave.Enabled AndAlso MyBase.isDeleteFlag Then
+                btnDelete.PerformClick()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
+                btnPost.PerformClick()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
+                Me.Close()
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIR
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseUnpost.Visible = True
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnRoute_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnRoute.CheckedChanged
+        CheckedRadioButton()
+    End Sub
+
+    Private Sub rbtnGroup_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnGroup.CheckedChanged
+        CheckedRadioButton()
+    End Sub
+
+    Sub CheckedRadioButton()
+        Try
+            LoadBlankGrid(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

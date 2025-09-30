@@ -41502,6 +41502,33 @@ LL")
 
             ''richa 25/08/2014 AGAINST TICKET No. BM00000003507--TSPL_COST_CENTRE_GROUP_MASTER---------
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Months", "Varchar(10) not NULL")
+            coll.Add("UOM", "Varchar(10) NULL")
+            coll.Add("Target_On", "integer NULL")
+            coll.Add("Item_Sub_Category", "varchar(20) Not NULL references tspl_chapter_head(chapter_head_Code)")
+            coll.Add("Remarks", "varchar(200) NULL")
+            coll.Add("Status", "integer null")
+            coll.Add("Created_By", "varchar(12)  NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("Inactive", "integer null")
+            coll.Add("Inactive_By", "varchar(12) NULL")
+            coll.Add("Inactive_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ROUTE_WISE_SALE_TARGET", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) NOT NULL references TSPL_ROUTE_WISE_SALE_TARGET(Document_Code)")
+            coll.Add("Route_Code", "varchar(12) NULL references TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Cust_Group_Code", "varchar(12) NULL references TSPL_CUSTOMER_GROUP_MASTER(Cust_Group_Code)")
+            coll.Add("Target_Qty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ROUTE_WISE_SALE_TARGET_DETAIL", coll, Nothing, True, True, "TSPL_ROUTE_WISE_SALE_TARGET", "DOCUMENT_CODE", "", True)
 
             ''-----------------------------------------------------------------
             ''Pankaj jha 25/08/2014 TSPL_VLC_DATA_UPLOADER---------
