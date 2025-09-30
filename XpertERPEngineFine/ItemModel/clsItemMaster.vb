@@ -148,6 +148,7 @@ Public Class clsItemMaster
     Public BuyBackValue As Decimal = 0
     Public IsRepeat As Integer = 0
     Public AllowEntryInDecimal As Integer = 0
+    Public CrateType_Item As String = String.Empty
 #End Region
     ''Richa 20201616
     '==================================
@@ -1571,6 +1572,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account, True)
                 clsCommon.AddColumnsForChange(coll, "IsRepeat", obj.IsRepeat)
                 clsCommon.AddColumnsForChange(coll, "AllowEntryInDecimal", obj.AllowEntryInDecimal)
+                clsCommon.AddColumnsForChange(coll, "CrateType_Item", obj.CrateType_Item, True)
                 ''
                 'If Not String.IsNullOrEmpty(obj.Rack_No) Then
                 clsCommon.AddColumnsForChange(coll, "Rack_No", obj.Rack_No)
@@ -1659,7 +1661,9 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsItemMasterCategory.SaveData(obj.Item_Code, obj.ArrItemMasterCategory, ArrDatabase, trans)
                 clsCustomFieldValues.SaveData(obj.Form_ID, obj.Item_Code, obj.arrCustomFields, trans)
                 clsItemMaster.SaveData_Parameter(obj.Item_Code, obj.Arr_Param, trans)
-                chkCanorCarte(obj.Item_Code, IIf(obj.Crate, 1, 0), IIf(obj.Can, 1, 0), trans)
+                If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, trans)) = 0 Then
+                    chkCanorCarte(obj.Item_Code, IIf(obj.Crate, 1, 0), IIf(obj.Can, 1, 0), trans)
+                End If
                 clsItemPurchaseQCParameter.SaveData(obj.Item_Code, obj.Arr_Purchase_QC_Parameter, trans)
                 clsItemSchedule.SaveData(obj.Item_Code, obj.ArrSchedule, trans)
                 clsItemNOCSchedule.SaveData(obj.Item_Code, obj.ArrNOCSchedule, trans)
@@ -1876,6 +1880,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Is_Insurance = clsCommon.myCdbl(dt.Rows(0)("Is_Insurance"))
                 obj.IsRepeat = clsCommon.myCdbl(dt.Rows(0)("IsRepeat"))
                 obj.AllowEntryInDecimal = clsCommon.myCdbl(dt.Rows(0)("AllowEntryInDecimal"))
+                obj.CrateType_Item = clsCommon.myCstr(dt.Rows(0)("CrateType_Item"))
                 If clsCommon.myCdbl(dt.Rows(0)("Is_Insurance")) > 0 Then
                     obj.InsuranceNo = clsCommon.myCstr(dt.Rows(0)("InsuranceNo"))
                     obj.InsuranceFromDate = clsCommon.myCDate(dt.Rows(0)("InsuranceFromDate"), "dd/MMM/yyyy")

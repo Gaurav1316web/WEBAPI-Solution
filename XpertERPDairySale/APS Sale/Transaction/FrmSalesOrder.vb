@@ -144,7 +144,7 @@ Public Class FrmSalesOrder
         gv1.MasterTemplate.Columns.Add(repoIName)
 
         Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoQty.FormatString = "{0:n6}"
+        repoQty.FormatString = "{0:n2}"
         repoQty.HeaderText = "Qty"
         repoQty.Name = colQty
         repoQty.Width = 100
@@ -161,7 +161,7 @@ Public Class FrmSalesOrder
         repoUOM.IsVisible = True
         gv1.MasterTemplate.Columns.Add(repoUOM)
         Dim repoTenderRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTenderRate.FormatString = "{0:n6}"
+        repoTenderRate.FormatString = "{0:n2}"
         repoTenderRate.HeaderText = "Tender Rate"
         repoTenderRate.Name = colTenderRate
         repoTenderRate.Width = 50
@@ -171,7 +171,7 @@ Public Class FrmSalesOrder
         repoTenderRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTenderRate)
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRate.FormatString = "{0:n6}"
+        repoRate.FormatString = "{0:n2}"
         repoRate.HeaderText = "Item Rate"
         repoRate.Name = colRate
         repoRate.Width = 80
@@ -181,7 +181,7 @@ Public Class FrmSalesOrder
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
         Dim repoAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAmt.FormatString = "{0:n6}"
+        repoAmt.FormatString = "{0:n2}"
         repoAmt.HeaderText = "Item Amt"
         repoAmt.Name = colItemAmt
         repoAmt.Width = 100
@@ -200,7 +200,7 @@ Public Class FrmSalesOrder
         repoTax1.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax1)
         Dim repoTax1BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax1BaseAmt.FormatString = "{0:n6}"
+        repoTax1BaseAmt.FormatString = "{0:n2}"
         repoTax1BaseAmt.HeaderText = "Tax1 Base Amt"
         repoTax1BaseAmt.Name = colTax1_BaseAmt
         repoTax1BaseAmt.Width = 50
@@ -210,7 +210,7 @@ Public Class FrmSalesOrder
         repoTax1BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax1BaseAmt)
         Dim repoTax1Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax1Rate.FormatString = "{0:n6}"
+        repoTax1Rate.FormatString = "{0:n2}"
         repoTax1Rate.HeaderText = "Tax1 Rate"
         repoTax1Rate.Name = colTax1_Rate
         repoTax1Rate.Width = 50
@@ -220,7 +220,7 @@ Public Class FrmSalesOrder
         repoTax1Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax1Rate)
         Dim repoTax1Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax1Amt.FormatString = "{0:n6}"
+        repoTax1Amt.FormatString = "{0:n2}"
         repoTax1Amt.HeaderText = "Tax1 Amt"
         repoTax1Amt.Name = colTax1_Amt
         repoTax1Amt.Width = 50
@@ -238,7 +238,7 @@ Public Class FrmSalesOrder
         repoTax2.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax2)
         Dim repoTax2BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax2BaseAmt.FormatString = "{0:n6}"
+        repoTax2BaseAmt.FormatString = "{0:n2}"
         repoTax2BaseAmt.HeaderText = "Tax2 Base Amt"
         repoTax2BaseAmt.Name = colTax2_BaseAmt
         repoTax2BaseAmt.Width = 50
@@ -248,7 +248,7 @@ Public Class FrmSalesOrder
         repoTax2BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax2BaseAmt)
         Dim repoTax2Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax2Rate.FormatString = "{0:n6}"
+        repoTax2Rate.FormatString = "{0:n2}"
         repoTax2Rate.HeaderText = "Tax2 Rate"
         repoTax2Rate.Name = colTax2_Rate
         repoTax2Rate.Width = 50
@@ -258,7 +258,7 @@ Public Class FrmSalesOrder
         repoTax2Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax2Rate)
         Dim repoTax2Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax2Amt.FormatString = "{0:n6}"
+        repoTax2Amt.FormatString = "{0:n2}"
         repoTax2Amt.HeaderText = "Tax2 Amt"
         repoTax2Amt.Name = colTax2_Amt
         repoTax2Amt.Width = 50
@@ -276,7 +276,7 @@ Public Class FrmSalesOrder
         repoTax3.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax3)
         Dim repoTax3BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax3BaseAmt.FormatString = "{0:n6}"
+        repoTax3BaseAmt.FormatString = "{0:n2}"
         repoTax3BaseAmt.HeaderText = "Tax3 Base Amt"
         repoTax3BaseAmt.Name = colTax3_BaseAmt
         repoTax3BaseAmt.Width = 50
@@ -286,7 +286,7 @@ Public Class FrmSalesOrder
         repoTax3BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax3BaseAmt)
         Dim repoTax3Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax3Rate.FormatString = "{0:n6}"
+        repoTax3Rate.FormatString = "{0:n2}"
         repoTax3Rate.HeaderText = "Tax3 Rate"
         repoTax3Rate.Name = colTax3_Rate
         repoTax3Rate.Width = 50
@@ -296,7 +296,7 @@ Public Class FrmSalesOrder
         repoTax3Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax3Rate)
         Dim repoTax3Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax3Amt.FormatString = "{0:n6}"
+        repoTax3Amt.FormatString = "{0:n2}"
         repoTax3Amt.HeaderText = "Tax3 Amt"
         repoTax3Amt.Name = colTax3_Amt
         repoTax3Amt.Width = 50
@@ -314,7 +314,7 @@ Public Class FrmSalesOrder
         repoTax4.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax4)
         Dim repoTax4BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax4BaseAmt.FormatString = "{0:n6}"
+        repoTax4BaseAmt.FormatString = "{0:n2}"
         repoTax4BaseAmt.HeaderText = "Tax4 Base Amt"
         repoTax4BaseAmt.Name = colTax4_BaseAmt
         repoTax4BaseAmt.Width = 50
@@ -324,7 +324,7 @@ Public Class FrmSalesOrder
         repoTax4BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax4BaseAmt)
         Dim repoTax4Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax4Rate.FormatString = "{0:n6}"
+        repoTax4Rate.FormatString = "{0:n2}"
         repoTax4Rate.HeaderText = "Tax4 Rate"
         repoTax4Rate.Name = colTax4_Rate
         repoTax4Rate.Width = 50
@@ -334,7 +334,7 @@ Public Class FrmSalesOrder
         repoTax4Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax4Rate)
         Dim repoTax4Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax4Amt.FormatString = "{0:n6}"
+        repoTax4Amt.FormatString = "{0:n2}"
         repoTax4Amt.HeaderText = "Tax4 Amt"
         repoTax4Amt.Name = colTax4_Amt
         repoTax4Amt.Width = 50
@@ -352,7 +352,7 @@ Public Class FrmSalesOrder
         repoTax5.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax5)
         Dim repoTax5BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax5BaseAmt.FormatString = "{0:n6}"
+        repoTax5BaseAmt.FormatString = "{0:n2}"
         repoTax5BaseAmt.HeaderText = "Tax5 Base Amt"
         repoTax5BaseAmt.Name = colTax5_BaseAmt
         repoTax5BaseAmt.Width = 50
@@ -362,7 +362,7 @@ Public Class FrmSalesOrder
         repoTax5BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax5BaseAmt)
         Dim repoTax5Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax5Rate.FormatString = "{0:n6}"
+        repoTax5Rate.FormatString = "{0:n2}"
         repoTax5Rate.HeaderText = "Tax5 Rate"
         repoTax5Rate.Name = colTax5_Rate
         repoTax5Rate.Width = 50
@@ -372,7 +372,7 @@ Public Class FrmSalesOrder
         repoTax5Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax5Rate)
         Dim repoTax5Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax5Amt.FormatString = "{0:n6}"
+        repoTax5Amt.FormatString = "{0:n2}"
         repoTax5Amt.HeaderText = "Tax5 Amt"
         repoTax5Amt.Name = colTax5_Amt
         repoTax5Amt.Width = 50
@@ -390,7 +390,7 @@ Public Class FrmSalesOrder
         repoTax6.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax6)
         Dim repoTax6BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax6BaseAmt.FormatString = "{0:n6}"
+        repoTax6BaseAmt.FormatString = "{0:n2}"
         repoTax6BaseAmt.HeaderText = "Tax6 Base Amt"
         repoTax6BaseAmt.Name = colTax6_BaseAmt
         repoTax6BaseAmt.Width = 50
@@ -400,7 +400,7 @@ Public Class FrmSalesOrder
         repoTax6BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax6BaseAmt)
         Dim repoTax6Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax6Rate.FormatString = "{0:n6}"
+        repoTax6Rate.FormatString = "{0:n2}"
         repoTax6Rate.HeaderText = "Tax6 Rate"
         repoTax6Rate.Name = colTax6_Rate
         repoTax6Rate.Width = 50
@@ -410,7 +410,7 @@ Public Class FrmSalesOrder
         repoTax6Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax6Rate)
         Dim repoTax6Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax6Amt.FormatString = "{0:n6}"
+        repoTax6Amt.FormatString = "{0:n2}"
         repoTax6Amt.HeaderText = "Tax6 Amt"
         repoTax6Amt.Name = colTax6_Amt
         repoTax6Amt.Width = 50
@@ -428,7 +428,7 @@ Public Class FrmSalesOrder
         repoTax7.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax7)
         Dim repoTax7BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax7BaseAmt.FormatString = "{0:n6}"
+        repoTax7BaseAmt.FormatString = "{0:n2}"
         repoTax7BaseAmt.HeaderText = "Tax7 Base Amt"
         repoTax7BaseAmt.Name = colTax7_BaseAmt
         repoTax7BaseAmt.Width = 50
@@ -438,7 +438,7 @@ Public Class FrmSalesOrder
         repoTax7BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax7BaseAmt)
         Dim repoTax7Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax7Rate.FormatString = "{0:n6}"
+        repoTax7Rate.FormatString = "{0:n2}"
         repoTax7Rate.HeaderText = "Tax7 Rate"
         repoTax7Rate.Name = colTax7_Rate
         repoTax7Rate.Width = 50
@@ -448,7 +448,7 @@ Public Class FrmSalesOrder
         repoTax7Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax7Rate)
         Dim repoTax7Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax7Amt.FormatString = "{0:n6}"
+        repoTax7Amt.FormatString = "{0:n2}"
         repoTax7Amt.HeaderText = "Tax7 Amt"
         repoTax7Amt.Name = colTax7_Amt
         repoTax7Amt.Width = 50
@@ -466,7 +466,7 @@ Public Class FrmSalesOrder
         repoTax8.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax8)
         Dim repoTax8BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax8BaseAmt.FormatString = "{0:n6}"
+        repoTax8BaseAmt.FormatString = "{0:n2}"
         repoTax8BaseAmt.HeaderText = "Tax8 Base Amt"
         repoTax8BaseAmt.Name = colTax8_BaseAmt
         repoTax8BaseAmt.Width = 50
@@ -476,7 +476,7 @@ Public Class FrmSalesOrder
         repoTax8BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax8BaseAmt)
         Dim repoTax8Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax8Rate.FormatString = "{0:n6}"
+        repoTax8Rate.FormatString = "{0:n2}"
         repoTax8Rate.HeaderText = "Tax8 Rate"
         repoTax8Rate.Name = colTax8_Rate
         repoTax8Rate.Width = 50
@@ -486,7 +486,7 @@ Public Class FrmSalesOrder
         repoTax8Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax8Rate)
         Dim repoTax8Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax8Amt.FormatString = "{0:n6}"
+        repoTax8Amt.FormatString = "{0:n2}"
         repoTax8Amt.HeaderText = "Tax8 Amt"
         repoTax8Amt.Name = colTax8_Amt
         repoTax8Amt.Width = 50
@@ -504,7 +504,7 @@ Public Class FrmSalesOrder
         repoTax9.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax9)
         Dim repoTax9BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax9BaseAmt.FormatString = "{0:n6}"
+        repoTax9BaseAmt.FormatString = "{0:n2}"
         repoTax9BaseAmt.HeaderText = "Tax9 Base Amt"
         repoTax9BaseAmt.Name = colTax9_BaseAmt
         repoTax9BaseAmt.Width = 50
@@ -514,7 +514,7 @@ Public Class FrmSalesOrder
         repoTax9BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax9BaseAmt)
         Dim repoTax9Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax9Rate.FormatString = "{0:n6}"
+        repoTax9Rate.FormatString = "{0:n2}"
         repoTax9Rate.HeaderText = "Tax9 Rate"
         repoTax9Rate.Name = colTax9_Rate
         repoTax9Rate.Width = 50
@@ -524,7 +524,7 @@ Public Class FrmSalesOrder
         repoTax9Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax9Rate)
         Dim repoTax9Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax9Amt.FormatString = "{0:n6}"
+        repoTax9Amt.FormatString = "{0:n2}"
         repoTax9Amt.HeaderText = "Tax9 Amt"
         repoTax9Amt.Name = colTax9_Amt
         repoTax9Amt.Width = 50
@@ -542,7 +542,7 @@ Public Class FrmSalesOrder
         repoTax10.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoTax10)
         Dim repoTax10BaseAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax10BaseAmt.FormatString = "{0:n6}"
+        repoTax10BaseAmt.FormatString = "{0:n2}"
         repoTax10BaseAmt.HeaderText = "Tax10 Base Amt"
         repoTax10BaseAmt.Name = colTax10_BaseAmt
         repoTax10BaseAmt.Width = 50
@@ -552,7 +552,7 @@ Public Class FrmSalesOrder
         repoTax10BaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax10BaseAmt)
         Dim repoTax10Rate As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax10Rate.FormatString = "{0:n6}"
+        repoTax10Rate.FormatString = "{0:n2}"
         repoTax10Rate.HeaderText = "Tax10 Rate"
         repoTax10Rate.Name = colTax10_Rate
         repoTax10Rate.Width = 50
@@ -562,7 +562,7 @@ Public Class FrmSalesOrder
         repoTax10Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax10Rate)
         Dim repoTax10Amt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTax10Amt.FormatString = "{0:n6}"
+        repoTax10Amt.FormatString = "{0:n2}"
         repoTax10Amt.HeaderText = "Tax10 Amt"
         repoTax10Amt.Name = colTax10_Amt
         repoTax10Amt.Width = 50
@@ -572,7 +572,7 @@ Public Class FrmSalesOrder
         repoTax10Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTax10Amt)
         Dim repoTotalTaxAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalTaxAmt.FormatString = "{0:n6}"
+        repoTotalTaxAmt.FormatString = "{0:n2}"
         repoTotalTaxAmt.HeaderText = "Total Tax Amt"
         repoTotalTaxAmt.Name = colTotalTaxAmt
         repoTotalTaxAmt.Width = 150
@@ -583,7 +583,7 @@ Public Class FrmSalesOrder
         gv1.MasterTemplate.Columns.Add(repoTotalTaxAmt)
 
         Dim repoTotalAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalAmt.FormatString = "{0:n6}"
+        repoTotalAmt.FormatString = "{0:n2}"
         repoTotalAmt.HeaderText = "Total Amt"
         repoTotalAmt.Name = colTotalAmt
         repoTotalAmt.Width = 150
@@ -593,7 +593,7 @@ Public Class FrmSalesOrder
         repoTotalAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTotalAmt)
         Dim repoTotalInclusiveTax As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalInclusiveTax.FormatString = "{0:n6}"
+        repoTotalInclusiveTax.FormatString = "{0:n2}"
         repoTotalInclusiveTax.HeaderText = "Inclusive Tax"
         repoTotalInclusiveTax.Name = colInclusiveTax
         repoTotalInclusiveTax.Width = 50
@@ -603,7 +603,7 @@ Public Class FrmSalesOrder
         repoTotalInclusiveTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTotalInclusiveTax)
         Dim repoTotalInclusiveTPT As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoTotalInclusiveTPT.FormatString = "{0:n6}"
+        repoTotalInclusiveTPT.FormatString = "{0:n2}"
         repoTotalInclusiveTPT.HeaderText = "Inclusive TPT"
         repoTotalInclusiveTPT.Name = colInclusiveTPT
         repoTotalInclusiveTPT.Width = 50
@@ -714,15 +714,20 @@ Public Class FrmSalesOrder
         AddNew()
     End Sub
     Private Sub setGridFocus()
-        Dim intCurrRow As Integer = gv1.CurrentRow.Index
-        gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-        If intCurrRow = gv1.Rows.Count - 1 Then
-            gv1.Rows.AddNew()
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemAmt).ReadOnly = False
-            gv1.CurrentRow = gv1.Rows(intCurrRow)
-        End If
+        Try
+            Dim intCurrRow As Integer = gv1.CurrentRow.Index
+            gv1.CurrentRow.Cells(colLineNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+            If intCurrRow = gv1.Rows.Count - 1 Then
+                gv1.Rows.AddNew()
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).ReadOnly = True
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colItemAmt).ReadOnly = False
+                gv1.CurrentRow = gv1.Rows(intCurrRow)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
     End Sub
     Private Sub txtDocCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocCode._MYNavigator
         Try
@@ -1329,6 +1334,7 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
                 objTaxGrpMaster = objTaxGrpMaster.GetDataForSale(obj.Tax_Group)
                 If (objTaxGrpMaster IsNot Nothing) Then
+                    txtTaxGroup.Value = obj.Tax_Group
                     lblTaxGrpName.Text = objTaxGrpMaster.Tax_Group_Desc
                 End If
                 If (clsCommon.myLen(obj.TAX1) > 0) Then
@@ -1581,6 +1587,7 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                         If clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) > 0 Then
                             If clsCommon.myCdbl(txtBalQty.Text) >= clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) Then
                                 UpdateCurrentRow(gv1.CurrentRow.Index)
+
                             Else
                                 gv1.CurrentRow.Cells(colQty).Value = 0
                                 Throw New Exception("Item [" & clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) & "] out of stock! Current available balance is [" & clsCommon.myCstr(txtBalQty.Text) & "]")
@@ -1591,6 +1598,8 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                         End If
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colICode).Value) > 0 AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colItemAmt).Value) > 0 Then
                             UpdateCurrentRow(gv1.CurrentRow.Index)
+                            'UpdateAllTotals()
+
                         End If
                         setGridFocus()
                     End If
@@ -1798,7 +1807,7 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
                                     gv1.Rows(intRow).Cells(clsCommon.myCstr("COLTAX" & Strii & "_BASEAMT")).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 4)
                                 ElseIf clsCommon.CompairString(strTaxCode, "IGST") = CompairStringResult.Equal Then
                                     gv1.Rows(intRow).Cells("colTax" & clsCommon.myCstr(ii) & "_Amt").Value = dblGSTTaxValue1
-                                    gv1.Rows(intRow).Cells(clsCommon.myCstr("COLTAX" & Strii & "BASEAMT")).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 4)
+                                    gv1.Rows(intRow).Cells(clsCommon.myCstr("COLTAX" & Strii & "_BASEAMT")).Value = clsCommon.myRoundOFF(dblTaxableValue, 2, 4)
                                 ElseIf clsCommon.CompairString(strTaxCode, "EXEMPTED") = CompairStringResult.Equal Then
                                     gv1.Rows(intRow).Cells("colTax" & clsCommon.myCstr(ii) & "_Amt").Value = 0
                                     gv1.Rows(intRow).Cells(clsCommon.myCstr("COLTAX" & Strii & "_BASEAMT")).Value = clsCommon.myRoundOFF(dblTaxableValue, 3, 4)
@@ -2140,19 +2149,24 @@ where TSPL_CUSTOMER_TENDER.Document_Code='" & strCode & "' and TSPL_CUSTOMER_TEN
     End Sub
 
     Private Sub FrmSalesOrder_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing Then
-            isCellValueChangedOpen = True
-            setGridFocus()
-            isCellValueChangedOpen = False
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverseAndUnPost.Visible = True
+        Try
+            If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing Then
+                isCellValueChangedOpen = True
+                setGridFocus()
+                isCellValueChangedOpen = False
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control AndAlso e.KeyCode = Keys.F12 Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseAndUnPost.Visible = True
+                End If
             End If
-        End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 
     Private Sub btnReverseAndUnPost_Click(sender As Object, e As EventArgs) Handles btnReverseAndUnPost.Click

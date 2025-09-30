@@ -105,6 +105,17 @@ Public Class RptSaleRegisterReport
         ddlReportType.DisplayMember = "Code"
     End Sub
 
+    Sub PaymentTypes()
+        dt = New DataTable
+        dt.Columns.Add("Code", GetType(String))
+        dt.Rows.Add("Both")
+        dt.Rows.Add("CASH")
+        dt.Rows.Add("CREDIT")
+        ddlPaymentType.DataSource = dt
+        ddlPaymentType.ValueMember = "Code"
+        ddlPaymentType.DisplayMember = "Code"
+    End Sub
+
 
     Sub LoadSubCategory()
         dt = New DataTable
@@ -445,6 +456,7 @@ Public Class RptSaleRegisterReport
         obj.Other_Cond = Other_Cond
         obj.Unit_Code = txtUOM.Value
         obj.ReportType = ddlReportType.SelectedValue
+        obj.PaymentType = ddlPaymentType.SelectedValue
         obj.From_Date = fromDate.Value
         obj.To_Date = ToDate.Value
         obj.stockinguom = chk_stockingunit.Checked
@@ -950,8 +962,10 @@ Public Class RptSaleRegisterReport
         fromDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
         txtUOM.Value = ""
         LoadTypes()
+        PaymentTypes()
         LoadSubCategory()
         ddlReportType.SelectedValue = "Total Sale"
+        ddlPaymentType.SelectedValue = "Both"
         lblSubCategory.Visible = False
         ddlSubCategory.Visible = False
         ddlSubCategory.SelectedValue = "All"

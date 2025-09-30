@@ -437,7 +437,7 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
         Else
             qry = "Select tspl_Milk_collection_MCC.Document_No,tspl_Milk_collection_MCC_Detail.PK_Id,TSPL_MILK_COLLECTION_MCC.Route_Code,tspl_Milk_collection_MCC_Detail.Sample_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,tspl_Milk_collection_MCC_Detail.Gaze_Qty,tspl_Milk_collection_MCC_Detail.Qty,tspl_Milk_collection_MCC_Detail.FAT,tspl_Milk_collection_MCC_Detail.FATKG,tspl_Milk_collection_MCC_Detail.SNF,tspl_Milk_collection_MCC_Detail.SNFKG,Case When IsNUll(tspl_Milk_collection_MCC.Status,0)=0 Then 'Pending' Else 'Approved' End As Status "
         End If
-        qry += ",tspl_Milk_collection_MCC_Detail.Remark From tspl_Milk_collection_MCC_Detail 
+        qry += ",tspl_Milk_collection_MCC_Detail.Remark,isnull( Milk_Type,'Good') as Milk_Type From tspl_Milk_collection_MCC_Detail 
 Left outer join tspl_Milk_collection_MCC on tspl_Milk_collection_MCC.Document_No=tspl_Milk_collection_MCC_Detail.Document_No
 Left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=tspl_Milk_collection_MCC_Detail.MCC_Code "
         If SendSMSScreen Then
