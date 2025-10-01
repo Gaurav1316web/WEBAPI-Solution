@@ -116,7 +116,7 @@ Public Class frmCustomerPenalty
         repoPenalty.ShowUpDownButtons = False
         Gv1.MasterTemplate.Columns.Add(repoPenalty)
 
-        Gv1.AllowDeleteRow = True
+        Gv1.AllowDeleteRow = False
         Gv1.AllowAddNewRow = False
         Gv1.ShowGroupPanel = False
         Gv1.AllowColumnReorder = False
@@ -436,7 +436,7 @@ Public Class frmCustomerPenalty
                     Dim Used_Amt As Decimal = 0
                     obj.ArrInvoiceDetails = New List(Of clsCustomerPenaltyInvoiceDetail)
                     obj.ArrReceiptDetails = New List(Of clsCustomerPenaltyReceiptDetail)
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = ii & 1
+                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSNo).Value = ii + 1
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDate).Value = dt.Rows(ii)("InvoiceDate")
                     Gv1.Rows(Gv1.Rows.Count - 1).Cells(colSaleAmount).Value = dt.Rows(ii)("Sale_Amt")
                     Dim InvoiceDate As DateTime = clsCommon.myCDate(dt.Rows(ii)("InvoiceDate"))
@@ -475,11 +475,14 @@ Public Class frmCustomerPenalty
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+        Dim days As Integer = 0
+        If DateTime.IsLeapYear(txtFromDate.Value.Year()) Then
+            days = 366
+        Else
+            days = 365
+        End If
         Dim dblCurrBalance_Amt As Double = 0
-        Dim days As Integer = (New DateTime(txtFromDate.Value.Year() & 1, 1, 1) - New DateTime(txtFromDate.Value.Year, 1, 1)).Days
         If clsCommon.myLen(clsCommon.myCDate(Gv1.Rows(IntRowNo).Cells(colDate).Value)) > 0 Then
             dblCurrBalance_Amt = Gv1.Rows(IntRowNo).Cells(colCurrBalanceAmount).Value
             If IntRowNo > 0 Then
@@ -497,119 +500,6 @@ Public Class frmCustomerPenalty
         Next
         lblTotalPenalty.Text = Math.Round(clsCommon.myCdbl(dblTotalPenalty), 2)
     End Sub
-    'Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
-    '    clsCommon.MyExportToExcelGrid("", Gv1, Nothing, Me.Text)
-    '    clsCommon.MyMessageBoxShow(Me, "Exported Successfully", Me.Text)
-    'End Sub
-
-    'Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
-    '    Try
-    '        Dim gvImport As New UserControls.MyRadGridView
-    '        Me.Controls.Add(gvImport)
-    '        Dim currentdate As Date = Date.Today
-    '        If transportSql.importExcel(gvImport, "DCS Code", "DCS Name", "Share Captial Opening Amount", "Total Share Captial Deducted Amount", "Balance Amt", "Share Rate Per Share", "No of Share to be allocated", "Share Certificate No Start From", "Share Certificate No To") Then
-    '            Dim arr As New List(Of String)
-    '            Dim strDCSCode As String = ""
-    '            Dim dtError As New DataTable
-    '            dtError.Columns.Add("RowNo", GetType(Integer))
-    '            dtError.Columns.Add("Error", GetType(String))
-    '            Try
-    '                If gvImport IsNot Nothing AndAlso gvImport.Rows.Count > 0 Then
-    '                    clsCommon.ProgressBarPercentShow()
-    '                    For ii As Integer = 0 To gvImport.Rows.Count - 1
-    '                        Try
-    '                            clsCommon.ProgressBarPercentUpdate(ii & 1, gvImport.Rows.Count, "Validating Data...")
-    '                            If clsCommon.myLen(clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)) <= 0 Then
-    '                                Throw New Exception("DCS Code can't be blank !")
-    '                            End If
-    '                            strDCSCode = clsDBFuncationality.getSingleValue("Select VLC_Code_VLC_Uploader FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "' ")
-    '                            If clsCommon.myLen(strDCSCode) <= 0 Then
-    '                                Throw New Exception("DCS Uploader Code cannot exist in DCS Master")
-    '                            End If
-    '                            arr.Add(strDCSCode)
-    '                        Catch ex As Exception
-    '                            Dim dr As DataRow = dtError.NewRow()
-    '                            dr("RowNo") = ii
-    '                            dr("Error") = ex.Message
-    '                            dtError.Rows.Add(dr)
-
-    '                        End Try
-    '                    Next
-    '                    clsCommon.ProgressBarPercentHide()
-    '                End If
-    '                Try
-
-    '                    If dtError.Rows.Count > 0 Then
-    '                        Dim ff As New FrmFreeGrid
-    '                        ff.ReportID = MyBase.Form_ID
-    '                        ff.Text = "Share Allotment DCS Errors"
-    '                        ff.dt = dtError
-    '                        ff.ShowDialog()
-    '                    ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
-    '                        Dim qry As String = "Valid Row [" & clsCommon.myCstr(arr.Count) & "] Do You want to Proceed"
-
-    '                        If clsCommon.MyMessageBoxShow(Me, qry, Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
-    '                            clsCommon.ProgressBarPercentShow()
-    '                            For ii As Integer = 0 To gvImport.Rows.Count - 1
-
-    '                                If clsCommon.myLen(gvImport.Rows(ii).Cells("DCS Code").Value) > 0 Then
-
-    '                                    clsCommon.ProgressBarPercentUpdate((gvImport.Rows(ii).Index & 1) * 100 / (gvImport.Rows.Count & 1), "Importing  : " & (gvImport.Rows(ii).Index & 1) & "/" & gvImport.Rows.Count & "")
-    '                                    Try
-    '                                        Gv1.Rows(ii).Cells(colSNo).Value = ii & 1
-    '                                        Gv1.Rows(ii).Cells(colDCSUploaderNo).Value = clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value)
-    '                                        Gv1.Rows(ii).Cells(colDCSName).Value = clsDBFuncationality.getSingleValue("Select VLC_NAME FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
-    '                                        Gv1.Rows(ii).Cells(colVendorCode).Value = clsDBFuncationality.getSingleValue("Select VSP_CODE FROM TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" & clsCommon.myCstr(gvImport.Rows(ii).Cells("DCS Code").Value) & "'")
-
-    '                                        Gv1.Rows(ii).Cells(colShareCaptialOpeningAmount).Value = Math.Round(clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Share Captial Opening Amount").Value), 2)
-
-    '                                        Gv1.Rows(ii).Cells(colShareDeductedAmount).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
-    '                                        'gv1.Rows(ii).Cells(colBalanceAmt).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Balance Amt").Value)
-    '                                        Gv1.Rows(ii).Cells(colRatePerShare).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Share Rate Per Share").Value)
-    '                                        UpdateCurrentRow(ii)
-    '                                        'gv1.Rows(ii).Cells(colNoOfShareToBeAllocated).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Total Share Captial Deducted Amount").Value)
-    '                                        txtPenaltyPer.Value = Gv1.Rows(ii).Cells(colRatePerShare).Value
-    '                                        If clsCommon.myLen(txtDocumentNo.Value) = 0 Then
-    '                                            If gv1.Rows.Count = gvImport.Rows.Count Then
-    '                                            Else
-    '                                                gv1.Rows.AddNew()
-    '                                            End If
-    '                                        End If
-
-    '                                    Catch ex As Exception
-    '                                        gv1.Rows.RemoveAt(ii)
-    '                                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '                                    End Try
-    '                                End If
-
-    '                            Next
-    '                            clsCommon.ProgressBarPercentHide()
-    '                            clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-    '                        End If
-    '                    Else
-    '                        Throw New Exception("No Valid Rows Found ")
-    '                    End If
-    '                Catch ex As Exception
-    '                    clsCommon.ProgressBarPercentHide()
-    '                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '                End Try
-    '            Catch ex As Exception
-    '                clsCommon.ProgressBarPercentHide()
-    '                Throw New Exception(ex.Message)
-    '            End Try
-    '        End If
-    '    Catch ex As Exception
-    '        clsCommon.ProgressBarPercentHide()
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
-
-    Private Sub gv1_UserDeletedRow(sender As Object, e As GridViewRowEventArgs)
-        For ii As Integer = 1 To Gv1.Rows.Count
-            Gv1.Rows(ii - 1).Cells(colSNo).Value = ii
-        Next
-    End Sub
-
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellDoubleClick
         If Gv1.CurrentCell.ColumnInfo.Name Is colSaleAmount Then
             OpenInvoiceDetails()
