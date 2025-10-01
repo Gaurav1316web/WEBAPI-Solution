@@ -94,6 +94,7 @@ Partial Class FrmSalesOrderDispatch
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -161,6 +162,7 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1125,6 +1127,7 @@ Partial Class FrmSalesOrderDispatch
         '
         'SplitContainer4.Panel2
         '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnprinte_wayBill)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer4.Panel2.Controls.Add(Me.btnInvoiceJE)
@@ -1205,6 +1208,16 @@ Partial Class FrmSalesOrderDispatch
         Me.btnSave.Size = New System.Drawing.Size(57, 22)
         Me.btnSave.TabIndex = 18
         Me.btnSave.Text = "Save"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(204, 6)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(61, 22)
+        Me.btnPrint.TabIndex = 1530
+        Me.btnPrint.Text = "Print"
         '
         'FrmSalesOrderDispatch
         '
@@ -1291,6 +1304,7 @@ Partial Class FrmSalesOrderDispatch
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1366,4 +1380,5 @@ Partial Class FrmSalesOrderDispatch
     Friend WithEvents txtInvoice_for_replacement As common.UserControls.txtFinder
     Friend WithEvents txtInvoiceno As common.Controls.MyLabel
     Friend WithEvents lblInvnoForReplacement As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class
