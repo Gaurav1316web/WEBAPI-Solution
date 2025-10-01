@@ -474,6 +474,7 @@
     <Compile Include="Payable\clsEmployeeSavingsMapping.vb" />
     <Compile Include="Payable\clsMulitpleProcDeductionHead.vb" />
     <Compile Include="Payable\clsPaymentProcess.vb" />
+    <Compile Include="Payable\clsQuickPaymentBySingleCheque.vb" />
     <Compile Include="Payable\clsSavingMaster.vb" />
     <Compile Include="Payable\clsSectionAllowanceMaster.vb" />
     <Compile Include="Payroll\clsApplyLoan.vb" />

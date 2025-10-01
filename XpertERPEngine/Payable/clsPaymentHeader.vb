@@ -9,6 +9,7 @@ Imports common
 
 Public Class clsPaymentHeader
 #Region "Variables"
+    Public REF_PK_ID As Integer
     Public Vendor_Bank_Code As String = Nothing
     Public Vendor_Bank_Name As String = Nothing
     Public Vendor_IFSC_Code As String = Nothing
@@ -365,6 +366,7 @@ Public Class clsPaymentHeader
             clsCommon.AddColumnsForChange(coll, "WaveOFFBankCharges", obj.WaveOFFBankCharges)
 
             clsCommon.AddColumnsForChange(coll, "Vendor_Bank_Code", obj.Vendor_Bank_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Ref_PK_Id", obj.REF_PK_ID, True)
             clsCommon.AddColumnsForChange(coll, "Vendor_IFSC_Code", obj.Vendor_IFSC_Code, True)
             clsCommon.AddColumnsForChange(coll, "Vendor_Bank_Name", obj.Vendor_Bank_Name, True)
             clsCommon.AddColumnsForChange(coll, "Vendor_Branch_Name", obj.Vendor_Branch_Name, True)

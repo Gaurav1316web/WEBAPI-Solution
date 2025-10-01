@@ -278,6 +278,9 @@ Public Class FrmCattleFeedSalePurchaseUploader
                     End If
                 End If
             End If
+            If Gv1.Rows.Count = 1 Then
+                Throw New Exception("Please fill atleast one item")
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
@@ -443,11 +446,11 @@ Public Class FrmCattleFeedSalePurchaseUploader
                     btnDelete.Enabled = False
                     btnSave.Enabled = False
                     btnPost.Enabled = False
-                    btnSelectSheet.Enabled = False
+                    btnImport.Enabled = False
                 Else
                     lblStatus.Status = ERPTransactionStatus.Pending
                     btnDelete.Enabled = True
-                    btnSelectSheet.Enabled = True
+                    btnImport.Enabled = True
                 End If
                 txtDocumentNo.Value = obj.Document_No
                 txtDocumentDate.Value = obj.Document_date
@@ -529,13 +532,6 @@ Public Class FrmCattleFeedSalePurchaseUploader
             If frm.isPasswordCorrect Then
                 btnReverseUnpost.Visible = True
             End If
-            'Dim frmCustPenaltyInvoice = New FrmCattleFeedSalePurchaseUploaderInvoiceDetails()
-            'If isLoadData Then
-            '    frmCustPenaltyInvoice.arr = obj.ArrInvoiceDetails
-            'Else
-            '    frmCustPenaltyInvoice.arr = objtr.ArrInvoiceAllDetails
-            'End If
-            'frmCustPenaltyInvoice.ShowDialog()
         End If
     End Sub
 
@@ -610,12 +606,11 @@ Public Class FrmCattleFeedSalePurchaseUploader
         End If
     End Sub
 
-    Private Sub btnSelectSheet_Click(sender As Object, e As EventArgs) Handles btnSelectSheet.Click
+    Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Dim gvimport As New UserControls.MyRadGridView
         Me.Controls.Add(gvimport)
         LoadBlankGrid()
         Dim arr As New List(Of String)
-        arr.Add(Gv1.Columns(colSNo).HeaderText)
         arr.Add(Gv1.Columns(colSRNDispatchDate).HeaderText)
         arr.Add(Gv1.Columns(colDCSUploaderCode).HeaderText)
         arr.Add(Gv1.Columns(colGRNNo).HeaderText)
@@ -736,7 +731,7 @@ Public Class FrmCattleFeedSalePurchaseUploader
 
             End Try
         End If
-        Me.Controls.Remove(Gv1)
+        Me.Controls.Remove(gvimport)
     End Sub
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Try
@@ -821,9 +816,9 @@ Public Class FrmCattleFeedSalePurchaseUploader
         End If
     End Sub
     Private Sub gv1_UserDeletedRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles Gv1.UserDeletedRow
-        RefeshSNO()
+        RefreshSNO()
     End Sub
-    Sub RefeshSNO()
+    Sub RefreshSNO()
         For ii As Integer = 1 To Gv1.Rows.Count
             Gv1.Rows(ii - 1).Cells(colSNo).Value = ii
         Next
@@ -845,7 +840,7 @@ Public Class FrmCattleFeedSalePurchaseUploader
 
     Private Sub btnExportFormat_Click(sender As Object, e As EventArgs) Handles btnExportFormat.Click
         Dim whrcls As String = ""
-        Dim qry As String = "select '' as SNo, '' as 'SRN/Dispatch Date','' as [DCS Uploader Code]" ','' as [DCS Code] , '' as [DCS Name],'' as [Zone Code],
+        Dim qry As String = "select  '' as 'SRN/Dispatch Date','' as [DCS Uploader Code]" ','' as [DCS Code] , '' as [DCS Name],'' as [Zone Code],
         qry += " ,'' as [GRN No], "
 
         For dblcolumns As Integer = colStartIndex To Gv1.Columns.Count - colEndIndex
