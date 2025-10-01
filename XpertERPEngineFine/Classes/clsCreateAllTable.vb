@@ -2473,6 +2473,7 @@ Public Class clsCreateAllTable
             coll.Add("Deduction", "Varchar(30) null References TSPL_DEDUCTION_MASTER(Code)")
             coll.Add("Print_Sequence", "integer Null")
             coll.Add("DCS_Sale_Zero_Cost", "integer Null")
+            coll.Add("CrateType_Item", "Varchar(30) null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
@@ -31172,6 +31173,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Total_Qty", "decimal(18,2) Not null")
             coll.Add("Tolerance", "decimal(18,2) null")
             coll.Add("Inclusive_Tax", "Integer not null default 0")
+            coll.Add("Inclusive_TPT", "Integer not null default 0")
             coll.Add("Remarks", "Varchar(200) null")
             coll.Add("Status", "integer not null default 0")
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -31859,6 +31861,14 @@ FROM TSPL_ITEM_MASTER"
             qry += " alter table TSPL_SD_SHIPMENT_detail  alter column TAX10_Amt Decimal(18,6) null alter table TSPL_SD_SHIPMENT_detail  alter column Item_Tax Decimal(18,6) null
      alter table TSPL_SD_SHIPMENT_detail  alter column Total_Tax_Amt Decimal(18,6) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PKID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "Varchar(30) null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Item_Code", "varchar(50) NULL")
+            coll.Add("CRATE_TYPE_CODE", "varchar(30) NULL")
+            coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
+            coll.Add("Trip_No", "int NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_CRATE_DETAIL", coll, "", True, False, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL REFERENCES TSPL_SD_SHIPMENT_DETAIL(PK_ID)")
@@ -31867,9 +31877,18 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("GP_Qty", "Decimal(18,2) NULL")
             coll.Add("Trip_No", "int NULL")
+            coll.Add("isCrateIssue", "int NULL")
             coll.Add("Scheme_Item", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PKID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("GPCode", "Varchar(30) null References TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
+            coll.Add("Item_Code", "varchar(50) NULL")
+            coll.Add("CRATE_TYPE_CODE", "varchar(30) NULL")
+            coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
+            coll.Add("Trip_No", "int NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_CRATE_DETAIL", coll, "", True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
@@ -41534,6 +41553,33 @@ LL")
 
             ''richa 25/08/2014 AGAINST TICKET No. BM00000003507--TSPL_COST_CENTRE_GROUP_MASTER---------
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Months", "Varchar(10) not NULL")
+            coll.Add("UOM", "Varchar(10) NULL")
+            coll.Add("Target_On", "integer NULL")
+            coll.Add("Item_Sub_Category", "varchar(20) Not NULL references tspl_chapter_head(chapter_head_Code)")
+            coll.Add("Remarks", "varchar(200) NULL")
+            coll.Add("Status", "integer null")
+            coll.Add("Created_By", "varchar(12)  NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "Datetime NULL")
+            coll.Add("Inactive", "integer null")
+            coll.Add("Inactive_By", "varchar(12) NULL")
+            coll.Add("Inactive_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ROUTE_WISE_SALE_TARGET", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_Code", "varchar(30) NOT NULL references TSPL_ROUTE_WISE_SALE_TARGET(Document_Code)")
+            coll.Add("Route_Code", "varchar(12) NULL references TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Cust_Group_Code", "varchar(12) NULL references TSPL_CUSTOMER_GROUP_MASTER(Cust_Group_Code)")
+            coll.Add("Target_Qty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ROUTE_WISE_SALE_TARGET_DETAIL", coll, Nothing, True, True, "TSPL_ROUTE_WISE_SALE_TARGET", "DOCUMENT_CODE", "", True)
 
             ''-----------------------------------------------------------------
             ''Pankaj jha 25/08/2014 TSPL_VLC_DATA_UPLOADER---------

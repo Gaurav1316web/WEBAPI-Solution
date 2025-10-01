@@ -3466,7 +3466,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " FOR XML PATH('') ), 1, 1, ''),'' ) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Voucher Number of Linked Advance Receipt]" &
                 " , case when isnull(xx.[Delivery No],'')='' then 0 else (select sum(Receipt_Amount) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Adjustment Amount of the Linked Advance Receipt], "
             End If
-            strMCCMaterial += " [LUT No],TCSBaseAmount "
+            strMCCMaterial += " [LUT No],TCSBaseAmount,[Payment Type] as PaymentType,[Gross Amount] "
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
             '    strMCCMaterial += " ,[Payment Type] as PaymentType,CustomerType,[Shipment Status] "
             'End If
@@ -6536,9 +6536,23 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                     strRunQuery = "select [Trans Type],[Document No], [Customer Code],tspl_customer_master.pan,[Customer Name], [Document_date], [Sale Amount GST] as [Sale Amount] ,[TCS%],TCSBaseAmount [TCS Base Amount],[TCS] as [TCS Amount] from (" & strMain & ") tcsledger inner join tspl_customer_master on  tspl_customer_master.Cust_code=tcsledger.[Customer Code] order by convert(Date,[Document_Date],103),[Document No]"
                 Else
                     If obj.QuickLoad Then
-                        strRunQuery = strMain & " order by convert(Date,[Document_Date],103),[Document No]"
+                        'strRunQuery = strMain & " order by convert(Date,[Document_Date],103),[Document No]"
+                        If obj.PaymentType = "Both" Then
+                            strRunQuery = strMain & " order by convert(Date,[Document_Date],103),[Document No]"
+                        ElseIf obj.PaymentType = "CREDIT" Then
+                            strRunQuery = strMain & " and [Payment Type]='CREDIT' order by convert(Date,[Document_Date],103),[Document No]"
+                        ElseIf obj.PaymentType = "CASH" Then
+                            strRunQuery = strMain & " and [Payment Type]='CASH' order by convert(Date,[Document_Date],103),[Document No]"
+                        End If
                     Else
-                        strRunQuery = strMain & " order by convert(Date,[Document_Date],103),[Document No]"
+                        If obj.PaymentType = "Both" Then
+                            strRunQuery = strMain & " order by convert(Date,[Document_Date],103),[Document No]"
+                        ElseIf obj.PaymentType = "CREDIT" Then
+                            strRunQuery = strMain & " and [Payment Type]='CREDIT' order by convert(Date,[Document_Date],103),[Document No]"
+                        ElseIf obj.PaymentType = "CASH" Then
+                            strRunQuery = strMain & " and [Payment Type]='CASH' order by convert(Date,[Document_Date],103),[Document No]"
+                        End If
+                        'strRunQuery = strMain & " order by convert(Date,[Document_Date],103),[Document No]"
                     End If
                 End If
                 ''richa 11 Sep,2018 BHA/13/09/18-000544
@@ -8931,6 +8945,7 @@ Public Class clsSaleRegisterParameterType
     Public stockinguom As Boolean = False
     Public supply_Date As Boolean
     Public ReportType As String
+    Public PaymentType As String
     Public UOMType As String
     Public From_Date As Date
     Public To_Date As Date

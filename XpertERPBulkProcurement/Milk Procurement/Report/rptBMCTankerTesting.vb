@@ -153,7 +153,7 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                         LEFT JOIN TSPL_MILK_COLLECTION_DCS_DETAIL AS TabDCS2 ON TabDCS2.PK_Id = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
                         INNER JOIN TSPL_MILK_PURCHASE_INVOICE_DETAIL ON TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
                         LEFT JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
-                        LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.RefDocNo = TSPL_MILK_SRN_DETAIL.DOC_CODE AND RefDocType = 'CAP-MSN'
+                        LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.RefDocNo = TSPL_MILK_SRN_DETAIL.DOC_CODE AND RefDocType In('CAP-MSN','CAP-MSN-CDCS')
                         LEFT JOIN XX ON XX.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
                             where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
                             and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103)"
@@ -162,14 +162,16 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 End If
                 qry += " order by SRNNO "
             ElseIf clsCommon.CompairString(txtReportType.SelectedItem.Value, "CAPD") = CompairStringResult.Equal Then
-                qry = " Select (xx.SRNNO) as SRNNO,max(xx.Truck_SheetNo)Truck_SheetNo,max(xx.DOC_DATE)DOC_DATE,max(xx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
-                        max(xx.Qty)Qty,max(FAT_PER)FAT_PER,max(SNF_PER)SNF_PER,max(RATE)RATE,max(AMOUNT)AMOUNT,max(Remarks)Remarks,max(Document_Type)Document_Type,max(Document_No)Document_No,max(Document_Total)Document_Total 
+                qry = " Select (xx.SRNNO) as SRNNO,(xx.Truck_SheetNo)Truck_SheetNo,(xx.DOC_DATE)DOC_DATE,(xx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
+                        (xx.Qty)Qty,(FAT_PER)FAT_PER,(SNF_PER)SNF_PER,(RATE)RATE,(AMOUNT)AMOUNT,(Remarks)Remarks,(Document_Type)Document_Type,(Document_No)Document_No,(Vendor_Invoice_Date)Vendor_Invoice_Date,
+                        (Document_Total)Document_Total ,Created_By,Created_Date
                         from ( select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE,
                          TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT,
                          TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
-                         Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
-                         --Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
-                        TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
+                         --Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
+                         Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+                        TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,
+                        TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_By,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date
                             from TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
                             left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
                             left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
@@ -179,7 +181,7 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
 							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
                             inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
 							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
-							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_DETAIL.DOC_CODE   
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-MSN' 
                             where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
                             and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103) "
                 If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
@@ -187,7 +189,8 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 End If
                 qry += " union all
 
-							 select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
+							 select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,
+                             convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,vmch.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader ,
 							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_Qty as Qty,
 							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_FAT_PER as FAT_PER,
 							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_SNF_PER as SNF_PER,
@@ -196,7 +199,8 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
 							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
 							-- Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DRCR_Amt > 0 then 'Credit' else 'Debit' end as Document_Type,
 							Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
-							TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
+							TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_By,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date
                             from 
                             TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
                             left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
@@ -209,12 +213,40 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
 							--left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.VLC_CODE
 							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-OMSN'
 							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            left outer join TSPL_VLC_MASTER_HEAD vmch on vmch.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
                             where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
                             and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103) "
                 If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
                     qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
                 End If
-                qry += " ) XX group by SRNNO order by SRNNO  "
+
+                qry += " Union all
+                          select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
+                         --Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
+                         Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+                            TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_By,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date
+                            from 
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+							--left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.VLC_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-MSN-CDCS'
+							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+							left outer join TSPL_VLC_MASTER_HEAD vmch on vmch.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
+                            where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
+                            and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103) and TSPL_VENDOR_INVOICE_HEAD.Document_No is not null "
+                If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
+                    qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
+                End If
+                qry += " ) XX  where SRNNO is not null order by SRNNO  "
 
             Else
                 qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty
@@ -308,7 +340,10 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
             'gv1.Columns("AMOUNT AFTER CORRECTION").HeaderText = "AMOUNT AFTER CORRECTION"
             gv1.Columns("Document_No").HeaderText = "AP Invoice"
             gv1.Columns("Document_Type").HeaderText = "Type"
+            gv1.Columns("Vendor_Invoice_Date").HeaderText = "AP Date"
             gv1.Columns("Document_Total").HeaderText = "Total"
+            gv1.Columns("Created_By").HeaderText = "Correction After Process By"
+            gv1.Columns("Created_Date").HeaderText = "Correction After Process Date"
 
         Else
             gv1.Columns("Document_Date").HeaderText = "Date"

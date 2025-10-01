@@ -253,6 +253,7 @@ Public Class clsPSShipmentHead
     Public Is_CashSale As String = ""
     Public ArrDemand As List(Of clsPSShipmentDemand) = Nothing
     Public ArrBoothScheme As List(Of clsPSShipmentBoothWiseScheme) = Nothing
+    Public ArrCrateType As List(Of clsPSShipmentCrateTypeDtail) = Nothing
 #End Region
     Public Shared Function SaveData(ByVal obj As clsPSShipmentHead, ByVal isNewEntry As Boolean, Optional ByVal IsDairyModule As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -473,6 +474,10 @@ Public Class clsPSShipmentHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SHIPMENT_CRATE_DETAIL where Document_Code='" & Doc_No & "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
@@ -534,6 +539,10 @@ Public Class clsPSShipmentHead
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" & Doc_No & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" & Doc_No & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_CRATE_DETAIL where Document_Code='" & Doc_No & "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from tspl_sd_shipment_detail where Document_Code='" & Doc_No & "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from tspl_sd_shipment_head where Document_Code='" & Doc_No & "' "
@@ -571,6 +580,8 @@ Public Class clsPSShipmentHead
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_BOOKING_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "delete from TSPL_SD_SHIPMENT_CRATE_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -953,6 +964,9 @@ Public Class clsPSShipmentHead
             End If
             If obj.ArrBoothScheme IsNot Nothing Then
                 clsPSShipmentBoothWiseScheme.SaveData(obj.Document_Code, obj.ArrBoothScheme, trans)
+            End If
+            If obj.ArrCrateType IsNot Nothing Then
+                clsPSShipmentCrateTypeDtail.SaveData(obj.Document_Code, obj.ArrCrateType, trans)
             End If
             clsPSShipmentChecklistDetail.SaveData(obj.Document_Code, obj.ArrChkList, trans)
             clsCustomFieldValues.SaveData(obj.Form_ID, obj.Document_Code, obj.arrCustomFields, trans)
@@ -1753,6 +1767,7 @@ Public Class clsPSShipmentHead
                 Next
             End If
             obj.ArrBoothScheme = clsPSShipmentBoothWiseScheme.GetData(obj.Document_Code, trans)
+            obj.ArrCrateType = clsPSShipmentCrateTypeDtail.GetData(obj.Document_Code, trans)
             qry = "select * from TSPL_SD_SHIPMENT_CHECKLIST_DETAIL WHERE SHIPMENT_CODE='" + obj.Document_Code + "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -3203,6 +3218,8 @@ Public Class clsPSShipmentHead
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_SD_SHIPMENT_BOOTH_WISE_SCHEME_DETAIL where Document_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                qry = "delete from TSPL_SD_SHIPMENT_CRATE_DETAIL where Document_Code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "delete from TSPL_SD_SHIPMENT_CHECKLIST_DETAIL where Shipment_Code='" + strCode + "'"
@@ -4309,6 +4326,50 @@ Public Class clsPSShipmentBoothWiseScheme
                     obj.Scheme_Qty = clsCommon.myCdbl(dr("Scheme_Qty"))
                     obj.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
                     obj.Trip_No = clsCommon.myCdbl(dr("Trip_No"))
+                    Arr.Add(obj)
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return Arr
+    End Function
+End Class
+Public Class clsPSShipmentCrateTypeDtail
+#Region "Variables"
+    Public DOCUMENT_CODE As String
+    Public Item_Code As String
+    Public Crate_Type_Code As String
+    Public Crate_Qty As Decimal = 0
+
+#End Region
+    Friend Shared Sub SaveData(strDocNo As String, arrCrateType As List(Of clsPSShipmentCrateTypeDtail), trans As SqlTransaction)
+        If (arrCrateType IsNot Nothing AndAlso arrCrateType.Count > 0) Then
+            For Each obj As clsPSShipmentCrateTypeDtail In arrCrateType
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Crate_Type_Code", obj.Crate_Type_Code)
+                clsCommon.AddColumnsForChange(coll, "Crate_Qty", obj.Crate_Qty)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_CRATE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+    End Sub
+    Public Shared Function GetData(ByVal DocCode As String, ByVal trans As SqlTransaction) As List(Of clsPSShipmentCrateTypeDtail)
+        Dim Arr As List(Of clsPSShipmentCrateTypeDtail) = Nothing
+        Try
+            Dim obj As clsPSShipmentCrateTypeDtail = Nothing
+            Arr = New List(Of clsPSShipmentCrateTypeDtail)
+            Dim strQry As String = "select *  from TSPL_SD_SHIPMENT_CRATE_DETAIL where TSPL_SD_SHIPMENT_CRATE_DETAIL.DOCUMENT_CODE='" + DocCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                For Each dr As DataRow In dt.Rows
+                    obj = New clsPSShipmentCrateTypeDtail()
+                    obj.DOCUMENT_CODE = clsCommon.myCstr(dr("DOCUMENT_CODE"))
+                    obj.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                    obj.Crate_Type_Code = clsCommon.myCstr(dr("Crate_Type_Code"))
+                    obj.Crate_Qty = clsCommon.myCstr(dr("Crate_Qty"))
+
                     Arr.Add(obj)
                 Next
             End If

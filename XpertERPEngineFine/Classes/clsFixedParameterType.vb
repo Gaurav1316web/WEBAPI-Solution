@@ -1359,6 +1359,7 @@ Public Class clsFixedParameterType
     Public Const AddDistributorCommissioninItemPrice = "Add Distributor Commission In Item Price"
     Public Const SubstractDistributorCommissioninItemPrice = "Substract Distributor Commission In Item Price"
     Public Const ConvertTOBillingUOM = "Convert into Billing UOM"
+    Public Const DifferentCrateTypeForFGItem = "Different Crate Type For FG Item"
 End Class
 Public Class clsFixedParameterCode
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -2871,6 +2872,7 @@ Public Class clsFixedParameterCode
     Public Const AddDistributorCommissioninItemPrice = "Add Distributor Commission In Item Price"
     Public Const SubstractDistributorCommissioninItemPrice = "Substract Distributor Commission In Item Price"
     Public Const ConvertTOBillingUOM = "Convert into Billing UOM"
+    Public Const DifferentCrateTypeForFGItem = "Different Crate Type For FG Item"
 
 End Class
 Public Class clsFixedParameter
@@ -4555,6 +4557,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AddDistributorCommissioninItemPrice, clsFixedParameterCode.AddDistributorCommissioninItemPrice, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6438,5 +6441,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AddDistributorCommissioninItemPrice, clsFixedParameterCode.AddDistributorCommissioninItemPrice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, EnumControlType.CheckBox)
     End Sub
 End Class

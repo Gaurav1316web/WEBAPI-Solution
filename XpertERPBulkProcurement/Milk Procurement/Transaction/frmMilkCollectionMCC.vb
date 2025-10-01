@@ -2630,15 +2630,9 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
     End Sub
     Private Sub btnMGo_Click(sender As Object, e As EventArgs) Handles btnMGo.Click
         Try
-            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select a document.", Me.Text)
-                Exit Sub
-            Else
-                If common.clsCommon.MyMessageBoxShow(Me,
+            If common.clsCommon.MyMessageBoxShow(Me,
     "Do you want to Get BMC BY Mobile Data of  " & clsCommon.GetPrintDate(txtMDate.Value, "dd/MMM/yyyy") & "?" & Environment.NewLine & "",
     Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-
-                End If
                 Dim Arr As New List(Of clsBMCDCSMobile)
                 For Each lst As clsBMCDCSMobile In clsBMCDCSMobile.GetData(txtMDate.Value)
                     Arr.Add(lst)

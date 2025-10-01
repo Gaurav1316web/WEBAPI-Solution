@@ -699,6 +699,7 @@ Public Class frmMCCMaterialSale
         repoBillingQty.Name = colBillingQty
         repoBillingQty.Width = 80
         repoBillingQty.Minimum = 0
+        repoBillingQty.IsVisible = False
         repoBillingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoBillingQty)
         Dim repoUnit As GridViewTextBoxColumn = New GridViewTextBoxColumn()

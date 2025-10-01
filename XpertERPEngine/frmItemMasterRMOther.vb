@@ -10,6 +10,7 @@ Public Class FrmItemMasterRMOther
     Dim dblWeightImp As Double = 0
     Dim AllowTo As Boolean = False
     Dim EnableProductSaleForJPR As Boolean = False
+    Dim DifferentCrateTypeForFGItem As Boolean = False
     Dim AllowFinishGoodAsBatchItem As Boolean = False
     Dim ToleranceMandatoryFor_RM_Other_Trade As Boolean = False
     Dim ItemStructureMandatoryOnWeightConversion As Boolean = False
@@ -185,6 +186,7 @@ Public Class FrmItemMasterRMOther
         ItemStructureMandatoryOnWeightConversion = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ItemStructureMandatoryOnWeightConversion, clsFixedParameterCode.ItemStructureMandatoryOnWeightConversion, Nothing)) = 1, True, False)
         SHowCheckBoxChangeRateOnDiaryDispatch = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionOnItemMasterChangeItemRate, clsFixedParameterCode.ShowOptionOnItemMasterChangeItemRate, Nothing))
         ShelfLifeManadatoryOnFG = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowShelfLifeMandatoryOnFG, clsFixedParameterCode.AllowShelfLifeMandatoryOnFG, Nothing)) = 1, True, False)
+        DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
         If SHowCheckBoxChangeRateOnDiaryDispatch = 1 Then
             chkChangeRate.Visible = True
         Else
@@ -395,6 +397,8 @@ Public Class FrmItemMasterRMOther
         txtDescription.Text = ""
         txtItemDescHindi.Text = ""
         txtShortDescHindi.Text = ""
+        txtCrateTypeItem.Value = ""
+
         txtAliesNameHindi.Text = ""
         txtBrand.Text = ""
         txttype.Text = ""
@@ -1445,6 +1449,7 @@ Public Class FrmItemMasterRMOther
         ItemShortDesp()
         ' BM00000007910
 
+
         chkHighClass.Checked = False
         chkHighClass.Visible = True
         chkSkipSecurityDed.Checked = False
@@ -1647,6 +1652,9 @@ Public Class FrmItemMasterRMOther
                 obj.isPenaltyDeduction = clsCommon.myCdbl(IIf(chkSkipPenaltyDed.Checked, 1, 0))
                 obj.isHighClass = clsCommon.myCdbl(IIf(chkHighClass.Checked, 1, 0))
                 obj.AllowEntryInDecimal = clsCommon.myCdbl(IIf(chkAllowDecimal.Checked, 1, 0))
+                If DifferentCrateTypeForFGItem Then
+                    obj.CrateType_Item = clsCommon.myCstr(txtCrateTypeItem.Value)
+                End If
                 If chkDcsSaleZeroCost.Checked = True Then
                     obj.DCS_Sale_Zero_Cost = 1
                 Else
@@ -2067,6 +2075,13 @@ Public Class FrmItemMasterRMOther
         Try
             If chkDoNotCheckOnSave.Checked Then
                 Return True
+            End If
+            If DifferentCrateTypeForFGItem AndAlso ChkCrateType.Checked Then
+                If clsCommon.myLen(txtCrateTypeItem.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Crate Type Item", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    Return False
+                End If
+
             End If
             AllowTo = True
             Dim ShortDesp As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) As Row from tspl_item_master Where (Short_Description ='" & clsCommon.myCstr(txtShortDescription.Text) & "' and LEN(ISNULL( Short_Description,'')) > 0) AND Item_Code <>'" & clsCommon.myCstr(txtCode.Value) & "'"))
@@ -2942,7 +2957,10 @@ Public Class FrmItemMasterRMOther
                 txtAlternativeItem.Value = obj.AlternativeItem
                 lblAlternativeItemName.Text = clsItemMaster.GetItemName(txtAlternativeItem.Value, Nothing)
                 ' lblchptrdesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_CHAPTER_HEAD where Chapter_head_code ='" + fndChptr.Value + "'"))
+                If DifferentCrateTypeForFGItem Then
+                    txtCrateTypeItem.Value = obj.CrateType_Item
 
+                End If
                 fndCSA_AC_Code.Value = obj.Cust_Account
                 txtCSA_AC_Name.Text = obj.Cust_Account_Name
                 chkFGforCF.Checked = IIf(obj.FG_for_CF = 1, True, False)
@@ -6522,8 +6540,17 @@ ExitLOOP:
         '====================Added by preeti Gupta Against ticket no[BHA/12/06/18-000050]==========
         If ChkCrateType.Checked = True Then
             chkIsCanType.Enabled = False
+            If DifferentCrateTypeForFGItem Then
+                lblCrateTypeItem.Visible = True
+                txtCrateTypeItem.Visible = True
+            Else
+                lblCrateTypeItem.Visible = False
+                txtCrateTypeItem.Visible = False
+            End If
         Else
             chkIsCanType.Enabled = True
+            lblCrateTypeItem.Visible = False
+            txtCrateTypeItem.Visible = False
         End If
         '====================Added by preeti Gupta Against ticket no[BHA/12/06/18-000050]==========
     End Sub
@@ -7277,6 +7304,15 @@ ExitLOOP:
                 Throw New Exception("Please Select Item")
             End If
 
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtCrateTypeItem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCrateTypeItem._MYValidating
+        Try
+            Dim qry As String = "select Item_Code as Code,Item_Desc,Short_Description from TSPL_ITEM_MASTER "
+            txtCrateTypeItem.Value = clsCommon.ShowSelectForm("IMCrateType", qry, "Code", " CRATE=1", txtCrateTypeItem.Value, "", isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

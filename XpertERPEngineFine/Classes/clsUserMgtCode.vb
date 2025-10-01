@@ -1,5 +1,7 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmRouteWiseSaleTarget As String = "RTWS-SL-TGT"
+    Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"
     Public Const frmCommissionTPTCalculation As String = "CMN-TPT-CLN"
     Public Const frmSendBilltoDistributor As String = "SND-BLL-DST"
     Public Const frmIBPReport As String = "IBP-RPT"
@@ -2416,6 +2418,7 @@ Public Class clsUserMgtCode
     Public Const BmcLabReport As String = "BMC_LB_RPT"
     Public Const CanSummaryReport As String = "CN_SM_RPT"
     Public Const YearlyDBTSummaryReport As String = "YE_DBT_SU"
+    Public Const FrmTotalDeductionReport As String = "TO_DED_RPT"
 
     Public Const FrmDayWiseMilkCollectionVsDispatch As String = "DY_MKCO_DS"
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
