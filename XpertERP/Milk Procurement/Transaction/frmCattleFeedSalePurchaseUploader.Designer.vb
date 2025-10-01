@@ -22,7 +22,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -41,7 +41,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.btnExportFormat = New Telerik.WinControls.UI.RadButton()
-        Me.btnSelectSheet = New Telerik.WinControls.UI.RadButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -65,7 +65,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,7 +92,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExportFormat)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelectSheet)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -111,7 +111,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -367,29 +367,29 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         '
         Me.btnExportFormat.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExportFormat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExportFormat.Location = New System.Drawing.Point(364, 9)
+        Me.btnExportFormat.Location = New System.Drawing.Point(292, 9)
         Me.btnExportFormat.Name = "btnExportFormat"
         Me.btnExportFormat.Size = New System.Drawing.Size(156, 24)
         Me.btnExportFormat.TabIndex = 23
         Me.btnExportFormat.Text = "Export Blank Sheet"
         '
-        'btnSelectSheet
+        'btnImport
         '
-        Me.btnSelectSheet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSelectSheet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSelectSheet.Location = New System.Drawing.Point(288, 9)
-        Me.btnSelectSheet.Name = "btnSelectSheet"
-        Me.btnSelectSheet.Size = New System.Drawing.Size(72, 24)
-        Me.btnSelectSheet.TabIndex = 22
-        Me.btnSelectSheet.Text = "Import"
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnImport.Location = New System.Drawing.Point(217, 9)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(72, 24)
+        Me.btnImport.TabIndex = 22
+        Me.btnImport.Text = "Import"
         '
         'btnReverseUnpost
         '
         Me.btnReverseUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseUnpost.Location = New System.Drawing.Point(218, 9)
+        Me.btnReverseUnpost.Location = New System.Drawing.Point(451, 9)
         Me.btnReverseUnpost.Name = "btnReverseUnpost"
-        Me.btnReverseUnpost.Size = New System.Drawing.Size(69, 24)
+        Me.btnReverseUnpost.Size = New System.Drawing.Size(90, 24)
         Me.btnReverseUnpost.TabIndex = 7
         Me.btnReverseUnpost.Text = "Reverse"
         Me.btnReverseUnpost.Visible = False
@@ -414,6 +414,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.btnPost.Size = New System.Drawing.Size(68, 24)
         Me.btnPost.TabIndex = 4
         Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
         '
         'btnSave
         '
@@ -424,6 +425,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         Me.btnSave.Size = New System.Drawing.Size(68, 24)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        Me.btnSave.Visible = False
         '
         'btnClose
         '
@@ -473,7 +475,7 @@ Partial Class FrmCattleFeedSalePurchaseUploader
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExportFormat, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSelectSheet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -511,6 +513,6 @@ Partial Class FrmCattleFeedSalePurchaseUploader
     Friend WithEvents lblSubLocation As common.Controls.MyLabel
     Friend WithEvents txtSubLocation As common.UserControls.txtFinder
     Friend WithEvents btnExportFormat As RadButton
-    Friend WithEvents btnSelectSheet As RadButton
+    Friend WithEvents btnImport As RadButton
 End Class
 

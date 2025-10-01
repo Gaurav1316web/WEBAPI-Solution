@@ -1333,6 +1333,7 @@ Public Class clsUserMgtCode
     Public Const frmPurchaseSchedule As String = "PO-SCHD"
     Public Const frmNEFTUploader As String = "NEFT-UP"
     Public Const frmNEFTUploaderFarmer As String = "NEFT-UP_FAR"
+    Public Const frmQuickPaymentBySingleCheque As String = "QCK-PNT-CHQ"
     ''richa
     'Public Const frmItemQuantityInformation As String = "PO-IQI"
 

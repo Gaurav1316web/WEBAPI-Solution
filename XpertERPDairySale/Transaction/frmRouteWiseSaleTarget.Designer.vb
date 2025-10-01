@@ -24,13 +24,13 @@ Partial Class frmRouteWiseSaleTarget
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkInactive = New System.Windows.Forms.CheckBox()
         Me.cboUOM = New common.Controls.MyComboBox()
         Me.btnCC = New Telerik.WinControls.UI.RadButton()
-        Me.chkInactive = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.lblItemSubCategName = New common.Controls.MyLabel()
         Me.lblDistributor = New common.Controls.MyLabel()
@@ -52,6 +52,9 @@ Partial Class frmRouteWiseSaleTarget
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnRoute = New System.Windows.Forms.RadioButton()
+        Me.rbtnGroup = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -61,7 +64,6 @@ Partial Class frmRouteWiseSaleTarget
         Me.SplitContainer2.SuspendLayout()
         CType(Me.cboUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemSubCategName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +83,8 @@ Partial Class frmRouteWiseSaleTarget
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -124,9 +128,10 @@ Partial Class frmRouteWiseSaleTarget
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkInactive)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cboUOM)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnCC)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.chkInactive)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblItemSubCategName)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDistributor)
@@ -149,6 +154,16 @@ Partial Class frmRouteWiseSaleTarget
         Me.SplitContainer2.SplitterDistance = 104
         Me.SplitContainer2.TabIndex = 0
         '
+        'chkInactive
+        '
+        Me.chkInactive.AutoSize = True
+        Me.chkInactive.Location = New System.Drawing.Point(657, 11)
+        Me.chkInactive.Name = "chkInactive"
+        Me.chkInactive.Size = New System.Drawing.Size(65, 17)
+        Me.chkInactive.TabIndex = 1599
+        Me.chkInactive.Text = "Inactive"
+        Me.chkInactive.UseVisualStyleBackColor = True
+        '
         'cboUOM
         '
         Me.cboUOM.AutoCompleteDisplayMember = Nothing
@@ -169,7 +184,7 @@ Partial Class frmRouteWiseSaleTarget
         RadListDataItem2.Text = "LTR"
         Me.cboUOM.Items.Add(RadListDataItem1)
         Me.cboUOM.Items.Add(RadListDataItem2)
-        Me.cboUOM.Location = New System.Drawing.Point(265, 30)
+        Me.cboUOM.Location = New System.Drawing.Point(265, 33)
         Me.cboUOM.MendatroryField = True
         Me.cboUOM.MyLinkLable1 = Nothing
         Me.cboUOM.MyLinkLable2 = Nothing
@@ -189,19 +204,11 @@ Partial Class frmRouteWiseSaleTarget
         Me.btnCC.TabIndex = 1597
         Me.btnCC.Text = "CC"
         '
-        'chkInactive
-        '
-        Me.chkInactive.Location = New System.Drawing.Point(657, 10)
-        Me.chkInactive.Name = "chkInactive"
-        Me.chkInactive.Size = New System.Drawing.Size(59, 18)
-        Me.chkInactive.TabIndex = 1596
-        Me.chkInactive.Text = "Inactive"
-        '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(226, 32)
+        Me.MyLabel2.Location = New System.Drawing.Point(226, 35)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(33, 16)
         Me.MyLabel2.TabIndex = 1592
@@ -213,9 +220,9 @@ Partial Class frmRouteWiseSaleTarget
         Me.lblItemSubCategName.BorderVisible = True
         Me.lblItemSubCategName.FieldName = Nothing
         Me.lblItemSubCategName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemSubCategName.Location = New System.Drawing.Point(382, 52)
+        Me.lblItemSubCategName.Location = New System.Drawing.Point(382, 57)
         Me.lblItemSubCategName.Name = "lblItemSubCategName"
-        Me.lblItemSubCategName.Size = New System.Drawing.Size(236, 20)
+        Me.lblItemSubCategName.Size = New System.Drawing.Size(238, 20)
         Me.lblItemSubCategName.TabIndex = 1591
         Me.lblItemSubCategName.TextWrap = False
         '
@@ -223,7 +230,7 @@ Partial Class frmRouteWiseSaleTarget
         '
         Me.lblDistributor.FieldName = Nothing
         Me.lblDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDistributor.Location = New System.Drawing.Point(12, 54)
+        Me.lblDistributor.Location = New System.Drawing.Point(12, 58)
         Me.lblDistributor.Name = "lblDistributor"
         Me.lblDistributor.Size = New System.Drawing.Size(88, 16)
         Me.lblDistributor.TabIndex = 1590
@@ -240,7 +247,7 @@ Partial Class frmRouteWiseSaleTarget
         Me.txtItemSubCateg.IsSourceFromTable = False
         Me.txtItemSubCateg.IsSourceFromValueList = False
         Me.txtItemSubCateg.IsUnique = False
-        Me.txtItemSubCateg.Location = New System.Drawing.Point(106, 52)
+        Me.txtItemSubCateg.Location = New System.Drawing.Point(106, 57)
         Me.txtItemSubCateg.MendatroryField = True
         Me.txtItemSubCateg.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemSubCateg.MyLinkLable1 = Me.lblDistributor
@@ -269,7 +276,7 @@ Partial Class frmRouteWiseSaleTarget
         Me.txtMonth.IsSourceFromTable = False
         Me.txtMonth.IsSourceFromValueList = False
         Me.txtMonth.IsUnique = False
-        Me.txtMonth.Location = New System.Drawing.Point(106, 31)
+        Me.txtMonth.Location = New System.Drawing.Point(106, 34)
         Me.txtMonth.MendatroryField = True
         Me.txtMonth.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMonth.MyLinkLable1 = Me.MyLabel1
@@ -293,7 +300,7 @@ Partial Class frmRouteWiseSaleTarget
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(12, 32)
+        Me.MyLabel1.Location = New System.Drawing.Point(12, 35)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(38, 16)
         Me.MyLabel1.TabIndex = 1587
@@ -402,7 +409,7 @@ Partial Class frmRouteWiseSaleTarget
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(106, 76)
+        Me.txtRemarks.Location = New System.Drawing.Point(106, 80)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.MyLabel3
@@ -411,14 +418,14 @@ Partial Class frmRouteWiseSaleTarget
         Me.txtRemarks.ReferenceFieldDesc = Nothing
         Me.txtRemarks.ReferenceFieldName = Nothing
         Me.txtRemarks.ReferenceTableName = Nothing
-        Me.txtRemarks.Size = New System.Drawing.Size(512, 18)
+        Me.txtRemarks.Size = New System.Drawing.Size(514, 18)
         Me.txtRemarks.TabIndex = 1579
         '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 77)
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 80)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(54, 16)
         Me.MyLabel3.TabIndex = 1580
@@ -433,7 +440,7 @@ Partial Class frmRouteWiseSaleTarget
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -472,6 +479,7 @@ Partial Class frmRouteWiseSaleTarget
         Me.btnPrint.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint.TabIndex = 9
         Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
         '
         'btnPost
         '
@@ -503,6 +511,39 @@ Partial Class frmRouteWiseSaleTarget
         Me.btnClose.TabIndex = 11
         Me.btnClose.Text = "Close"
         '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnGroup)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnRoute)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 33)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(238, 21)
+        Me.RadGroupBox1.TabIndex = 1600
+        '
+        'rbtnRoute
+        '
+        Me.rbtnRoute.AutoSize = True
+        Me.rbtnRoute.Location = New System.Drawing.Point(24, 2)
+        Me.rbtnRoute.Name = "rbtnRoute"
+        Me.rbtnRoute.Size = New System.Drawing.Size(84, 17)
+        Me.rbtnRoute.TabIndex = 0
+        Me.rbtnRoute.TabStop = True
+        Me.rbtnRoute.Text = "Route Wise"
+        Me.rbtnRoute.UseVisualStyleBackColor = True
+        '
+        'rbtnGroup
+        '
+        Me.rbtnGroup.AutoSize = True
+        Me.rbtnGroup.Location = New System.Drawing.Point(130, 2)
+        Me.rbtnGroup.Name = "rbtnGroup"
+        Me.rbtnGroup.Size = New System.Drawing.Size(86, 17)
+        Me.rbtnGroup.TabIndex = 1
+        Me.rbtnGroup.TabStop = True
+        Me.rbtnGroup.Text = "Group Wise"
+        Me.rbtnGroup.UseVisualStyleBackColor = True
+        '
         'frmRouteWiseSaleTarget
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -526,7 +567,6 @@ Partial Class frmRouteWiseSaleTarget
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.cboUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemSubCategName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -546,6 +586,9 @@ Partial Class frmRouteWiseSaleTarget
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -576,7 +619,10 @@ Partial Class frmRouteWiseSaleTarget
     Friend WithEvents txtItemSubCateg As common.UserControls.txtFinder
     Friend WithEvents lblItemSubCategName As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents chkInactive As RadCheckBox
     Friend WithEvents btnCC As RadButton
     Friend WithEvents cboUOM As common.Controls.MyComboBox
+    Friend WithEvents chkInactive As CheckBox
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnGroup As RadioButton
+    Friend WithEvents rbtnRoute As RadioButton
 End Class
