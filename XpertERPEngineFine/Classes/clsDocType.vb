@@ -418,6 +418,7 @@ Public Class clsDocType
     Public Const MultipleShareAllotment As String = "Multiple Share Allotment"
     Public Const CustomerPenalty As String = "Customer Penalty"
     Public Const CFSalePurchaseUploader As String = "CF Sale Purchase Uploader"
+    Public Const QuickPaymentBySingleCheque As String = "Quick Payment By Single Cheque"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const BullInsurance As String = "Bull Insurance"
