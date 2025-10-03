@@ -719,9 +719,20 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                 End If
 
                 If ConvertVlcCodeUploaderToInt Then
-                    FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        'FinalQuery += " Select * from (" + FinalQuery + ")xx where  xx.dcscount <> 1 order by cast(VLC_CODE_Uploader as int) "
+                        FinalQuery = " Select * from (" + GetSavingCurrentALW() + ")xx where  xx.dcscount <> 1 order by cast(VLC_CODE_Uploader as int) "
+                    Else
+                        FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
+                    End If
+                    'FinalQuery += " order by cast(VLC_CODE_Uploader as int) "
                 Else
-                    FinalQuery += " order by  VLC_CODE_Uploader  "
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                        FinalQuery += " Select * from (" + GetSavingCurrentALW() + ")xx where xx.dcscount <> 1 order by  VLC_CODE_Uploader  "
+                    Else
+                        FinalQuery += " order by  VLC_CODE_Uploader  "
+                    End If
+                    ' FinalQuery += " order by  VLC_CODE_Uploader  "
                 End If
             End If
             If isSendMail Then

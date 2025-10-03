@@ -2991,7 +2991,7 @@ where  TSPL_FAT_SNF_UPLOADER_MASTER.Posted='1' "
     End Function
 
     ''TEC/21/05/18-000242 by balwinder on 25/05/2018 
-    Public Shared Function GetRateMccSale(ByVal mccCode As String, ByVal Itemcode As String, ByVal Unitcode As String, ByVal Effctv_date As Date) As Boolean
+    Public Shared Function GetRateMccSale(ByVal mccCode As String, ByVal Itemcode As String, ByVal Unitcode As String, ByVal Effctv_date As Date)
         Return GetRateMccSale(mccCode, Itemcode, Unitcode, Effctv_date, Nothing)
     End Function
     Public Shared Function GetRateMccSale(ByVal mccCode As String, ByVal Itemcode As String, ByVal Unitcode As String, ByVal Effctv_date As Date, ByVal trans As SqlTransaction)

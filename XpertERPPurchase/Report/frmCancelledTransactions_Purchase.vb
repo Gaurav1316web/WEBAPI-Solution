@@ -707,6 +707,7 @@ from TSPL_RGP_HEAD_cancel_data
         chkLocAll.CheckState = CheckState.Checked
         ChkUserAll.CheckState = CheckState.Checked
         gv1.DataSource = Nothing
+        rbtnDocumentDate.IsChecked = True
     End Sub
 
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
