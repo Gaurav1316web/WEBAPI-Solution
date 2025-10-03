@@ -179,13 +179,13 @@ Public Class FrmStockStatementReport
                 Address = clsCommon.myCstr(dtCompany.Rows(0)("CompanyAddress"))
             End If
 
-            qry = " select max('" + txtFromDate.Value + "') as CDate, '" + StrSubCategory + "' as StrSubCategory,'" + Strlocation + "' as Strlocation,'" + StrItem + "' as StrItem,'" + StrCategory + "' as StrCategory ,Category_Code,MAX( Category_Name) as Category_Name, Sub_Category_Code, max(Description) as SubDesc, Item_Code, max(Item_Desc) as Item_Desc, UOM,SUM(Qty) as Qty,max(Comp_Name) as Comp_Name,max('" + Address + "') as Address ,Location_Code,max(Location_Desc) as Location_Desc  from ( " & _
-                " select TSPL_Item_Category.Category_Code,TSPL_Item_Category.Category_Name,TSPL_ITEM_SUB_CATEGORY.Sub_Category_Code,TSPL_ITEM_SUB_CATEGORY.Description,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_INVENTORY_MOVEMENT.UOM,TSPL_INVENTORY_MOVEMENT.Qty * (case when InOut='I' then 1 else -1 end ) as Qty,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1, TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc " & _
-                " from  TSPL_INVENTORY_MOVEMENT " & _
-                " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code " & _
-                " left outer join TSPL_ITEM_SUB_CATEGORY on TSPL_ITEM_SUB_CATEGORY .Sub_Category_Code=TSPL_ITEM_MASTER.Sub_item_category " & _
-                " left outer join TSPL_Item_Category on TSPL_Item_Category.Category_Code=TSPL_ITEM_SUB_CATEGORY.Category_Code " & _
-                " left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_INVENTORY_MOVEMENT.Comp_Code " & _
+            qry = " select max('" + txtFromDate.Value + "') as CDate, '" + StrSubCategory + "' as StrSubCategory,'" + Strlocation + "' as Strlocation,'" + StrItem + "' as StrItem,'" + StrCategory + "' as StrCategory ,Category_Code,MAX( Category_Name) as Category_Name, Sub_Category_Code, max(Description) as SubDesc, Item_Code, max(Item_Desc) as Item_Desc, UOM,SUM(Qty) as Qty,max(Comp_Name) as Comp_Name,max('" + Address + "') as Address ,Location_Code,max(Location_Desc) as Location_Desc  from ( " &
+                " select TSPL_Item_Category.Category_Code,TSPL_Item_Category.Category_Name,TSPL_ITEM_SUB_CATEGORY.Sub_Category_Code,TSPL_ITEM_SUB_CATEGORY.Description,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Sku_Seq,TSPL_INVENTORY_MOVEMENT.UOM,TSPL_INVENTORY_MOVEMENT.Qty * (case when InOut='I' then 1 else -1 end ) as Qty,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1, TSPL_LOCATION_MASTER.Location_Code,TSPL_LOCATION_MASTER.Location_Desc " &
+                " from  TSPL_INVENTORY_MOVEMENT " &
+                " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER .Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code " &
+                " left outer join TSPL_ITEM_SUB_CATEGORY on TSPL_ITEM_SUB_CATEGORY .Sub_Category_Code=TSPL_ITEM_MASTER.Sub_item_category " &
+                " left outer join TSPL_Item_Category on TSPL_Item_Category.Category_Code=TSPL_ITEM_SUB_CATEGORY.Category_Code " &
+                " left Outer Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_INVENTORY_MOVEMENT.Comp_Code " &
                 " left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code  where(2 = 2)   and    convert (date,TSPL_INVENTORY_MOVEMENT.Entry_Date,103) <='" + clsCommon.GetPrintDate((txtFromDate.Value), "yyyy-MM-dd") + "' and  TSPL_ITEM_MASTER.Item_Type<>'F'  "
 
 
@@ -214,7 +214,7 @@ Public Class FrmStockStatementReport
 
 
 
-            qry += " ) xxx group by Category_Code,Sub_Category_Code,Item_Code,UOM ,Location_Code"
+            qry += " ) xxx group by Category_Code,Sub_Category_Code,Item_Code,Sku_Seq,UOM ,Location_Code order by Sku_Seq "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
