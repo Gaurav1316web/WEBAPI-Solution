@@ -493,7 +493,7 @@ Public Class FrmPurchaseOrderRegister
                 qry = "SELECT distinct TSPL_REQUISITION_HEAD.Requisition_Id as [Indent No] ,convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as [Indent Date],convert(varchar,PO_Head .PurchaseOrder_Date,103) as [PO Date],PO_Head .PurchaseOrder_No as [PONO]," + postatusdetail + ",stuff((select ',' + PJV_No from TSPL_PJV_HEAD  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No  =TSPL_PJV_HEAD.SRN_No  where TSPL_SRN_HEAD.Against_PO =PO_Head .PurchaseOrder_No for xml path('')),1,1,'') as PJVNo  " &
                         " ,PO_Head .Vendor_Code as Party, " &
                           " PO_Head .Vendor_Name as [Party Name],PO_Detail .Requisition_Id as Indent,PO_Detail .Item_Code as Item,PO_Detail .Item_Desc as [Name Of Item],TSPL_STRUCTURE_MASTER.Structure_Descq as [Structure Of Item]," &
-                          "  convert(decimal(18,3),PO_Detail .PurchaseOrder_Qty) as Qty, Item_Cost as Rate,PO_Detail .Amount ,convert(decimal(18,2),PO_Detail .Disc_Per) as [Disc%],PO_Detail .Disc_Amt,(PO_Detail .Amount -Po_detail.Disc_Amt )as Value " &
+                          "  convert(decimal(18,3),PO_Detail .PurchaseOrder_Qty) as Qty, CAST(Item_Cost AS DECIMAL(18,2)) AS Rate,PO_Detail .Amount ,convert(decimal(18,2),PO_Detail .Disc_Per) as [Disc%],PO_Detail .Disc_Amt,(PO_Detail .Amount -Po_detail.Disc_Amt )as Value " &
                           " , (Case when tax1 .Type ='E'then PO_Detail.TAX1_Rate  else 0 end+Case when tax2.Type ='E'then PO_Detail.TAX2_Rate  else 0 end+Case when tax3 .Type ='E'then PO_Detail.TAX3_Rate  else 0 end+Case when tax4 .Type ='E'then PO_Detail.TAX4_Rate  else 0 end+Case when tax5 .Type ='E'then PO_Detail.TAX5_Rate  else 0 end+Case when tax6 .Type ='E'then PO_Detail.TAX6_Rate  else 0 end+Case when tax7 .Type ='E'then PO_Detail.TAX7_Rate  else 0 end+Case when tax8 .Type ='E'then PO_Detail.TAX8_Rate  else 0 end+Case when tax9 .Type ='E'then PO_Detail.TAX9_Rate  else 0 end+Case when tax10 .Type ='E'then PO_Detail.TAX10_Rate  else 0 end)as Excise_Rate "
 
                 qry += " , (Case when tax1 .Type ='E'then PO_Detail.TAX1_Amt  else 0 end+Case when tax2.Type ='E'then PO_Detail.TAX2_Amt  else 0 end+Case when tax3 .Type ='E'then PO_Detail.TAX3_Amt  else 0 end+Case when tax4 .Type ='E'then PO_Detail.TAX4_Amt  else 0 end+Case when tax5 .Type ='E'then PO_Detail.TAX5_Amt  else 0 end+Case when tax6 .Type ='E'then PO_Detail.TAX6_Amt  else 0 end+Case when tax7 .Type ='E'then PO_Detail.TAX7_Amt  else 0 end+Case when tax8 .Type ='E'then PO_Detail.TAX8_Amt  else 0 end+Case when tax9 .Type ='E'then PO_Detail.TAX9_Amt  else 0 end+Case when tax10 .Type ='E'then PO_Detail.TAX10_Amt  else 0 end)as Excise_Amount"
@@ -1008,6 +1008,9 @@ Public Class FrmPurchaseOrderRegister
             gv.Columns("Net_Amount").IsVisible = True
             gv.Columns("Net_Amount").Width = 100
             gv.Columns("Net_Amount").HeaderText = "Net Amount"
+
+            Dim item As New GridViewSummaryItem("Rate", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item)
 
             Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
