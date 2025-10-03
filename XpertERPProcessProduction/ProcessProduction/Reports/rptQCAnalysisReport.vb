@@ -77,12 +77,12 @@ Public Class rptQCAnalysisReport
                 whrcls += " and TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(txtRALNo.arrValueMember) + ")"
             End If
 
-            Dim qry As String = "select TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code,max(case when len(tspl_qc_log_sheet_master.AliasName)>0 then tspl_qc_log_sheet_master.AliasName else tspl_qc_log_sheet_master.description end) as param_desc  from TSPL_QC_CHECK_SRN_DETAIL
+            Dim qry As String = "Select max(QC_Param_Code)QC_Param_Code,param_desc from (select TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code,(case when len(tspl_qc_log_sheet_master.AliasName)>0 then tspl_qc_log_sheet_master.AliasName else tspl_qc_log_sheet_master.description end) as param_desc  from TSPL_QC_CHECK_SRN_DETAIL
         inner join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code = TSPL_QC_CHECK_SRN_DETAIL.Document_Code left outer join tspl_qc_log_sheet_master on tspl_qc_log_sheet_master.code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code and tspl_qc_log_sheet_master.trans_id='standard' 
         left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_QC_CHECK_HEAD.Bill_To_location left outer join TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER on TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.Item_Code=TSPL_QC_CHECK_SRN_DETAIL.Item_Code
         left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No = TSPL_QC_CHECK_SRN_DETAIL.MRN_No and TSPL_MRN_DETAIL.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code
         left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No = TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code = TSPL_MRN_DETAIL.Item_Code left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_GRN_DETAIL.GRN_No	left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_DETAIL.GRN_No
-        " & whrcls &" group by QC_Param_Code"
+        " & whrcls & "  ) xx group by param_desc "
             Dim dtParam As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim paramNameInput As String = Nothing
             Dim paramNameDed As String = Nothing

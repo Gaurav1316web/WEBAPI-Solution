@@ -295,10 +295,16 @@ Partial Class QualitySummaryReport
         '
         '
         '
+        Me.Gvv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gvv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.Gvv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gvv1.MyExportFilePath = ""
+        Me.Gvv1.MyStopExport = False
         Me.Gvv1.Name = "Gvv1"
+        Me.Gvv1.ShowHeaderCellButtons = True
         Me.Gvv1.Size = New System.Drawing.Size(779, 354)
         Me.Gvv1.TabIndex = 0
+        Me.Gvv1.VarID = ""
         '
         'btnnclose
         '
@@ -319,6 +325,7 @@ Partial Class QualitySummaryReport
         Me.btnnPrint.Size = New System.Drawing.Size(62, 17)
         Me.btnnPrint.TabIndex = 53
         Me.btnnPrint.Text = "Print"
+        Me.btnnPrint.Visible = False
         '
         'btnnSplitExport
         '
