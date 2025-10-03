@@ -32,9 +32,9 @@ Public Class FrmPriceChartUploader
         cmbaxis.Enabled = True
         cmbmatrix.Enabled = True
         BtnPost.Enabled = True
-        btnUpdates.Enabled = True
         BtnSaveCharge.Enabled = True
         btnUpdates.Enabled = False
+        btnAddMoreBMC.Enabled = False
         cmbrate.Enabled = True
         txtDocNo.Value = ""
         txtDocNo.MyReadOnly = False
@@ -277,10 +277,12 @@ Public Class FrmPriceChartUploader
                 BtnPost.Enabled = False
                 BtnSaveCharge.Enabled = False
                 btnUpdates.Enabled = True
+                btnAddMoreBMC.Enabled = True
             Else
                 BtnPost.Enabled = True
                 BtnSaveCharge.Enabled = True
                 btnUpdates.Enabled = True
+                btnAddMoreBMC.Enabled = True
             End If
         Else
             clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -994,6 +996,51 @@ Public Class FrmPriceChartUploader
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "doc_no", "TSPL_FAT_SNF_UPLOADER_Chart_Detail")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnAddMoreBMC_Click(sender As Object, e As EventArgs) Handles btnAddMoreBMC.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Please select Price code")
+            End If
+
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "PWD"
+            frm.strCode = "UserPWD"
+            frm.ShowDialog()
+            If Not frm.isPasswordCorrect Then
+                Exit Sub
+            End If
+
+            Dim qry As String = "select MCC_Code,MCC_NAME from TSPL_MCC_MASTER where In_active=0 and not exists (select 1 from  TSPL_FAT_SNF_UPLOADER_MCC where Code='" + txtDocNo.Value + "' and TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code=TSPL_MCC_MASTER.MCC_Code)"
+            Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("AddBMC@up", qry, "MCC_Code", "", Nothing, Nothing)
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                If clsCommon.MyMessageBoxShow("Add " + clsCommon.myCstr(arr.Count) + " BMC in current price." + Environment.NewLine + " Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        Dim dt As DateTime = clsCommon.GETSERVERDATE(trans)
+                        If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                            For Each strvalue As String In arr
+                                Dim coll As New Hashtable()
+                                clsCommon.AddColumnsForChange(coll, "Code", txtDocNo.Value)
+                                clsCommon.AddColumnsForChange(coll, "MCC_Code", strvalue)
+                                clsCommon.AddColumnsForChange(coll, "Added_By", objCommonVar.CurrentUserCode)
+                                clsCommon.AddColumnsForChange(coll, "Added_On", clsCommon.GetPrintDate(dt, "dd/MMM/yyyy hh:mm tt"))
+                                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_FAT_SNF_UPLOADER_MCC", OMInsertOrUpdate.Insert, "", trans)
+                            Next
+                        End If
+                        trans.Commit()
+                        clsCommon.MyMessageBoxShow(Me, "BMC Added Surressfully", Me.Text)
+                        LoadData()
+                    Catch ex As Exception
+                        trans.Rollback()
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
