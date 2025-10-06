@@ -417,10 +417,10 @@ Public Class frmCustomerPenalty
             Dim dtInvoice As DataTable = clsDBFuncationality.GetDataTable(Invoiceqry)
 
             Dim Receiptqry As String = " select Document_Code,max(InvoiceDate ) as InvoiceDate ,0 as Sale_Amt,sum(Deposit_Amt*RI) as Deposit_Amt from ( select TSPL_RECEIPT_HEADER.Receipt_No as Document_Code, convert(date,Receipt_Date,103) as InvoiceDate, Receipt_Amount as Deposit_Amt,1 as RI ,1 as chk from TSPL_RECEIPT_HEADER 
-            where Posted='Y' and  Receipt_Date >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' and  Receipt_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' 
+            where TSPL_RECEIPT_HEADER.Cust_Code = '" & txtDistributor.Value & "'  and  Posted='Y' and  Receipt_Date >= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' and  Receipt_Date <= '" & clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") & "' 
             union all 
             select TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No as Document_Code,null as InvoiceDate ,Receipt_Amount as Deposit_Amt,-1 as RI,0 as chk from TSPL_CUSTOMER_PENALTY_RECEIPT left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No=TSPL_CUSTOMER_PENALTY_RECEIPT.Receipt_No 
-            where TSPL_RECEIPT_HEADER.Cust_Code = 'D050'  and TSPL_CUSTOMER_PENALTY_RECEIPT.Document_No not in ('" & txtDocumentNo.Value & "')  ) xx group by Document_Code having sum(chk)>0 and sum(Deposit_Amt*RI)>0 "
+            where TSPL_RECEIPT_HEADER.Cust_Code = '" & txtDistributor.Value & "'  and TSPL_CUSTOMER_PENALTY_RECEIPT.Document_No not in ('" & txtDocumentNo.Value & "')  ) xx group by Document_Code having sum(chk)>0 and sum(Deposit_Amt*RI)>0 "
             Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable(Receiptqry)
 
             Finalqry = " select ROW_NUMBER( ) over( order by InvoiceDate) as SNo,InvoiceDate,sum(Sale_Amt) as Sale_Amt,sum(Deposit_Amt) as Deposit_Amt,sum(Sale_Amt-Deposit_Amt) as Curr_Bal_Amt from (
@@ -491,6 +491,9 @@ Public Class frmCustomerPenalty
                 Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value = dblCurrBalance_Amt
             End If
             Gv1.Rows(IntRowNo).Cells(colPenalty).Value = (Gv1.Rows(IntRowNo).Cells(colBalanceAmt).Value * txtPenaltyPer.Value) / (100 * days)
+            If Gv1.Rows(IntRowNo).Cells(colPenalty).Value < 0 Then
+                Gv1.Rows(IntRowNo).Cells(colPenalty).Value = 0
+            End If
         End If
     End Sub
     Sub UpdateTotal()
