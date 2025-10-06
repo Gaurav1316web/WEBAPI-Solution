@@ -63,9 +63,9 @@ Public Class QualitySummaryReport
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
                 count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2 or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED',
-				count(case when deduction>0 and TSPL_QC_CHECK_HEAD.QC_Status='Under Deviation' then 'Accepted With Deduction' end) as 'Accepted With Deduction',
-				count(case when deduction=0 and TSPL_QC_CHECK_HEAD.QC_Status='Accepted' then 'Accepted Without Deduction' end) as 'Accepted Without Deduction',
-				count(case when deduction>=0 and TSPL_QC_CHECK_HEAD.QC_Status IN ('Accepted','Under Deviation') then 'Total Wet QC' end) as 'Total Wet QC',
+				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>0 and TSPL_QC_CHECK_HEAD.QC_Status='Under Deviation' then 'Accepted With Deduction' end) as 'Accepted With Deduction',
+				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction=0 and TSPL_QC_CHECK_HEAD.QC_Status='Accepted' then 'Accepted Without Deduction' end) as 'Accepted Without Deduction',
+				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>=0 and TSPL_QC_CHECK_HEAD.QC_Status IN ('Accepted','Under Deviation') then 'Total Wet QC' end) as 'Total Wet QC',
 				count(case when  TSPL_QC_CHECK_HEAD.QC_Status='Rejected'then 'Rejected Wet QC' end) as 'Rejected Wet QC'
                 from  TSPL_GRN_HEAD
                 left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
@@ -320,9 +320,9 @@ Public Class QualitySummaryReport
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
                 count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
                 count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2 or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED',
-				count(case when deduction>0 and TSPL_QC_CHECK_HEAD.QC_Status='Under Deviation' then 'Accepted With Deduction' end) as 'Accepted With Deduction',
-				count(case when deduction=0 and TSPL_QC_CHECK_HEAD.QC_Status='Accepted' then 'Accepted Without Deduction' end) as 'Accepted Without Deduction',
-				count(case when deduction>=0 and TSPL_QC_CHECK_HEAD.QC_Status IN ('Accepted','Under Deviation') then 'Total Wet QC' end) as 'Total Wet QC',
+				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>0 and TSPL_QC_CHECK_HEAD.QC_Status='Under Deviation' then 'Accepted With Deduction' end) as 'Accepted With Deduction',
+				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction=0 and TSPL_QC_CHECK_HEAD.QC_Status='Accepted' then 'Accepted Without Deduction' end) as 'Accepted Without Deduction',
+				count(case when TSPL_QC_CHECK_SRN_DETAIL.deduction>=0 and TSPL_QC_CHECK_HEAD.QC_Status IN ('Accepted','Under Deviation') then 'Total Wet QC' end) as 'Total Wet QC',
 				count(case when  TSPL_QC_CHECK_HEAD.QC_Status='Rejected'then 'Rejected Wet QC' end) as 'Rejected Wet QC'
                 from  TSPL_GRN_HEAD
                 left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
@@ -348,7 +348,7 @@ Public Class QualitySummaryReport
             End If
 
         Catch ex As Exception
-
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
 
 

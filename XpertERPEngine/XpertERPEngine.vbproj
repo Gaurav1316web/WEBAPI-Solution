@@ -173,7 +173,7 @@
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="zxing">
-      <HintPath>..\..\dll2\dll\zxing.dll</HintPath>
+      <HintPath>..\XpertERP\bin\Debug\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +474,7 @@
     <Compile Include="Payable\clsEmployeeSavingsMapping.vb" />
     <Compile Include="Payable\clsMulitpleProcDeductionHead.vb" />
     <Compile Include="Payable\clsPaymentProcess.vb" />
+    <Compile Include="Payable\clsQuickPaymentBySingleCheque.vb" />
     <Compile Include="Payable\clsSavingMaster.vb" />
     <Compile Include="Payable\clsSectionAllowanceMaster.vb" />
     <Compile Include="Payroll\clsApplyLoan.vb" />

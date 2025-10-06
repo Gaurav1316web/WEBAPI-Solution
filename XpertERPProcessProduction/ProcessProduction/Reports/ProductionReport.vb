@@ -134,7 +134,7 @@ Public Class ProductionReport
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           (((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) )* 50)/1000) as [Total MT]
                           FROM ( Select max(Add1)Add1,max(Add4)Add4,max(Location_Desc)Location_Desc,[Item Code],max(ITEM_DESCRIPTION)ITEM_DESCRIPTION,
-                               LOCATION_CODE,max(PROD_DATE)PROD_DATE,shiftcode "
+                               LOCATION_CODE,(PROD_DATE)PROD_DATE,shiftcode "
                         If Productionchk.IsChecked = True Then
                 qry += " ,Sum(qty_bag1) as qty_bag "
             ElseIf RePrdntchk.IsChecked = True Then
@@ -165,7 +165,7 @@ Public Class ProductionReport
 
             qry += " where 2=2  " + Status1 + " " + FG + " " + SFG + " " + FGSFG + " and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' 
                      and TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE<= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'"
-            qry += " )Tab1 group by LOCATION_CODE,[Item Code],shiftcode)YY
+            qry += " )Tab1 group by PROD_DATE,LOCATION_CODE,[Item Code],shiftcode)YY
                                     PIVOT(SUM(qty_bag) FOR shiftcode IN ([A-SHIFT],[B-SHIFT],[C-SHIFT],[WHOLEDAY])) AS Tab2 )tmp
 									where [Item Code] IN (" & itemNames1 & ")  and tmp.PROD_DATE >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and tmp.PROD_DATE<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "  order by PROD_DATE "
             If clsCommon.myLen(qry) > 0 Then

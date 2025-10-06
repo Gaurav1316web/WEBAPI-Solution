@@ -3489,8 +3489,8 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                         ChkAdvSalary.Checked = False
                     End If
                 ElseIf (clsCommon.CompairString(obj.Payment_Type, "AV") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Payment_Type, "OA") = CompairStringResult.Equal) Then
-                    txtPaymentAmt.Text = clsCommon.myCstr(obj.Total_Prepayment)
-                    txtTDSAmt.Text = clsCommon.myCstr(obj.TDS_Amount)
+                    txtPaymentAmt.Text = clsCommon.myCdbl(obj.Total_Prepayment)
+                    txtTDSAmt.Text = clsCommon.myCdbl(obj.TDS_Amount)
                     txtNetPayableAmt.Text = clsCommon.myCstr(obj.Payment_Amount)
                     Dim objVendor As clsTDSVendorDetails = clsTDSVendorDetails.GetData(txtVendorCode.Value)
                     If objVendor IsNot Nothing Then
@@ -3985,7 +3985,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 ''End of For Custom Fields
                 UcAttachment1.LoadData(obj.Payment_No)
 
-            End If
+                End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

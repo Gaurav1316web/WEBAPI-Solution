@@ -287,6 +287,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmNEFTUploader, "NEFT Uploader", "1.03.02.10", clsUserMgtCode.SubModulePayableTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.VendorRegistration, "Vendor Registration", "1.03.02.11", clsUserMgtCode.SubModulePayableTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmNEFTUploaderFarmer, "NEFT Uploader Farmer", "1.03.02.12", clsUserMgtCode.SubModulePayableTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmQuickPaymentBySingleCheque, "Quick Payment By Single Cheque", "1.03.02.13", clsUserMgtCode.SubModulePayableTransaction, 8)
         'Reports
         InsertDefaultValue(clsUserMgtCode.SubModulePayableReport, "Report", "1.03.03", clsUserMgtCode.ModulePayable, "SM", 30)
 
@@ -2442,6 +2443,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDayWiseBoothDemand, "Day Wise Booth Demand Report", "1.36.03.38", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmSendBilltoDistributor, "Send Bill To Distributor", "1.36.03.39", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmRouteWiseSaleTargetReport, "Route Wise Sale Target Report", "1.36.03.40", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSchemeSaleReport, "Scheme Sale Report", "1.36.03.42", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)

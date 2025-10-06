@@ -1178,7 +1178,7 @@ Public Class MDI
                     Exit Sub
                 End If
             End If
-
+                
             If clsCommon.CompairString("Y", clsCommon.myCstr(dt.Rows(0)("InActive"))) = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "You are not active user.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
                 Exit Sub
@@ -4755,6 +4755,10 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmNEFTUploaderFarmer
                         frm = New FrmNEFTUploader(strProgramCode)
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.frmQuickPaymentBySingleCheque
+                        frm = New frmQuickPaymentBySingleCheque
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.CustomerVendorMappingVendor
@@ -8809,6 +8813,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptDailyStatementReport
                         frm = New rptDailyStatementReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptSchemeSaleReport
+                        frm = New rptSchemeSaleReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptCreditCustomerReport
                         frm = New rptCreditCustomerReport

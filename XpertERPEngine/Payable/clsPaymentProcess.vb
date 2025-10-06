@@ -1999,8 +1999,12 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 Flag = True
             End If
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                sQuery = " select Description,(Amount)Amount from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
+            Else
+                sQuery = " select Description,Sum(Amount)Amount from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
+            End If
 
-            sQuery = " select Description,Sum(Amount)Amount from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
             If Flag Then
                 sQuery += " sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
             Else
@@ -2047,7 +2051,8 @@ union all"
                             left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
                             where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")  group by TSPL_DEDUCTION_MASTER.Description
                             
-)xx group by xx.Description order by  xx.SNo "
+)xx order by  xx.SNo "
+                '')xx group by xx.Description order by  xx.SNo "
             Else
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
                             union all
@@ -3137,7 +3142,7 @@ left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL
 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
 left outer join TSPL_DEDUCTION_MASTER ON TSPL_DEDUCTION_MASTER.Code = TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
-where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in ( " + strDocNo + " ) 
+where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in ( " + strDocNo + " ) and TSPL_VENDOR_INVOICE_HEAD.RefDocType not in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') 
 ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc,final.Addition_Hindi "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") <> CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BRN") <> CompairStringResult.Equal And clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") <> CompairStringResult.Equal Then
@@ -3164,7 +3169,7 @@ left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code 
 --left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_Code
 left outer join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No =TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.InvoiceNo
-where TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Nature_Type='C' and TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")"
+where TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Nature_Type='C' and TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED_DONT_GENERATE_DR_CR_NOTE.Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") "
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal Then
             sQuery += "union all
@@ -3176,7 +3181,7 @@ from TSPL_PAYMENT_PROCESS_COMPULSORY left join TSPL_VENDOR_INVOICE_HEAD on TSPL_
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")"
+where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") and TSPL_VENDOR_INVOICE_HEAD.RefDocType not in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                 sQuery += " and TSPL_DCS_ADDITION_DEDUCTION.Saving <> 2 "
@@ -3219,7 +3224,7 @@ where  "
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 and TSPL_VENDOR_INVOICE_HEAD.Saving=0 "
         Else
-            sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") "
+            sQuery += " TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and TSPL_VENDOR_INVOICE_HEAD.RefDocType not in ('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') "
         End If
 
         sQuery += "   union all
@@ -3279,60 +3284,30 @@ where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")
 
         'CorrectionQuery
 
-        sQuery = " Select max(xx.SHIFT)SHIFT,(xx.SRNNO) as SRNNO,max(xx.Truck_SheetNo)Truck_SheetNo,max(xx.DOC_DATE)DOC_DATE,max(xx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,max(xx.VSP_Code)VSP_Code,
-                        max(xx.Qty)Qty,max(FAT_PER)FAT_PER,max(SNF_PER)SNF_PER,max(RATE)RATE,max(AMOUNT)AMOUNT,max(Remarks)Remarks,max(Document_Type)Document_Type,max(Document_No)Document_No,max(Document_Total)Document_Total 
-                        from ( select TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_MILK_SRN_HEAD.SHIFT,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE,
-                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT,
-                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
-                         Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
-                         --Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
-                        TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
-                            from TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
-                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
-                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
-                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
-                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
-							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
-                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
-							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_DETAIL.DOC_CODE   
-                            where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, ('" + fromDate + "'), 103)
-                            and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, ('" + Todate + "'), 103) "
-        If clsCommon.myLen(strVSPCode) > 0 Then
-            sQuery += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + strVSPCode + ") "
-        End If
-        sQuery += " union all
+        sQuery = " Select * from ( Select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,
+TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt, 
+CAST(TSPL_MILK_SRN_HEAD.DOC_DATE AS DATE) AS SRNDate
+from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_VENDOR_INVOICE_HEAD.RefDocNo
+where 2=2  and RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') and TSPL_PAYMENT_PROCESS_CREDIT_NOTE.doc_no  in (" + strDocNo + ") 
 
-							 select TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_MILK_SRN_HEAD.SHIFT,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,
-							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_Qty as Qty,
-							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_FAT_PER as FAT_PER,
-							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_SNF_PER as SNF_PER,
-							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_RATE as Rate,
-							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_AMOUNT as Amount,
-							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
-							-- Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DRCR_Amt > 0 then 'Credit' else 'Debit' end as Document_Type,
-							Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
-							TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
-                            from 
-                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
-                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
-                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
-                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
-                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
-							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
-                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-							--left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.VLC_CODE
-							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-OMSN'
-							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                            where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, ('" + fromDate + "'), 103)
-                            and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, ('" + Todate + "'), 103) "
-        If clsCommon.myLen(strVSPCode) > 0 Then
-            sQuery += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + strVSPCode + ") "
-        End If
-
-        sQuery += " ) XX group by SRNNO order by SRNNO "
+union all
+Select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,CAST(TSPL_MILK_SRN_HEAD.DOC_DATE AS DATE) AS SRNDate
+from TSPL_PAYMENT_PROCESS_DEDUCTION
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_VENDOR_INVOICE_HEAD.RefDocNo
+where 2=2 and RefDocType In('CAP-MSN-CDCS','CAP-MSN','CAP-OMSN') and TSPL_PAYMENT_PROCESS_DEDUCTION.doc_no  in (" + strDocNo + ") )XX order by SRNDate  "
         Dim dtCorrection As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
         If dt IsNot Nothing And dt.Rows.Count > 0 Then

@@ -128,34 +128,37 @@ Public Class frmPrintCheck
             If clsCommon.CompairString(DocumentType, "Payment Entry") = CompairStringResult.Equal Then
                 '(case when TSPL_PAYMENT_HEADER.Payment_Type in ('PY','AV') then TSPL_VENDOR_MASTER.Vendor_Name  else TSPL_PAYMENT_HEADER.Entry_Desc  end) as Pay_To
                 '(TSPL_VENDOR_MASTER.vsp_payee_name + '  A/c ' + coalesce(TSPL_BANK_MASTER.Bank_Name,'') + ' - ' + coalesce(TSPL_VENDOR_MASTER.Account_No,''))
-                Qry = "select TSPL_PAYMENT_HEADER.Bank_Code,TSPL_BANK_MASTER.Bank_Name as bank_name,Cheque_No as check_no, " & _
-                                " coalesce(Cheque_In_Favour_Of,Remit_To) as Pay_To," & _
-                                " (case when memorandum_amt>0 and Payment_Amount>0 then Payment_Amount when memorandum_amt>0 and  Payment_Amount=0 then memorandum_amt else Payment_Amount end ) as Check_Amount,'' as Amount_In_Words," & _
-                                " TSPL_VENDOR_MASTER.Account_No as Account_No,TSPL_BANK_MASTER.ADD1 as Address1,TSPL_PAYMENT_HEADER.Comp_Code, " & _
-                                " TSPL_COMPANY_MASTER.Comp_Name as Comp_Name, convert(varchar,Cheque_Date,105) as check_Date ,(case when memorandum_amt>0 then '(not exceeding for Rs.' + cast(cast(memorandum_amt as decimal) as varchar) + '/-)' else '' end) as Memorandum_Lim_Desc,memorandum_amt,(case when memorandum_amt>0 then Entry_Desc else '' end) as Memorandum_Entry_Desc " & _
-                                " , (case when TSPL_PAYMENT_HEADER.Account_Payee = 1 then 'A/C Payee' else '' end) as Account_Payee,TSPL_PAYMENT_HEADER.Bank_Charges " & _
-                                " from TSPL_PAYMENT_HEADER " & _
-                                " left join TSPL_COMPANY_MASTER on TSPL_PAYMENT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " & _
-                                " left join TSPL_VENDOR_MASTER on TSPL_PAYMENT_HEADER.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code " & _
-                                " left join TSPL_VENDOR_BANK_MASTER as TSPL_BANK_MASTER  on TSPL_VENDOR_MASTER.Bank_Code=TSPL_BANK_MASTER.Bank_Code " & _
+                Qry = "select TSPL_PAYMENT_HEADER.Bank_Code,TSPL_BANK_MASTER.Bank_Name as bank_name,Cheque_No as check_no, " &
+                                " coalesce(Cheque_In_Favour_Of,Remit_To) as Pay_To," &
+                                " (case when memorandum_amt>0 and Payment_Amount>0 then Payment_Amount when memorandum_amt>0 and  Payment_Amount=0 then memorandum_amt else Payment_Amount end ) as Check_Amount,'' as Amount_In_Words," &
+                                " TSPL_VENDOR_MASTER.Account_No as Account_No,TSPL_BANK_MASTER.ADD1 as Address1,TSPL_PAYMENT_HEADER.Comp_Code, " &
+                                " TSPL_COMPANY_MASTER.Comp_Name as Comp_Name, convert(varchar,Cheque_Date,105) as check_Date ,(case when memorandum_amt>0 then '(not exceeding for Rs.' + cast(cast(memorandum_amt as decimal) as varchar) + '/-)' else '' end) as Memorandum_Lim_Desc,memorandum_amt,(case when memorandum_amt>0 then Entry_Desc else '' end) as Memorandum_Entry_Desc " &
+                                " , (case when TSPL_PAYMENT_HEADER.Account_Payee = 1 then 'A/C Payee' else '' end) as Account_Payee,TSPL_PAYMENT_HEADER.Bank_Charges " &
+                                " from TSPL_PAYMENT_HEADER " &
+                                " left join TSPL_COMPANY_MASTER on TSPL_PAYMENT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
+                                " left join TSPL_VENDOR_MASTER on TSPL_PAYMENT_HEADER.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code " &
+                                " left join TSPL_VENDOR_BANK_MASTER as TSPL_BANK_MASTER  on TSPL_VENDOR_MASTER.Bank_Code=TSPL_BANK_MASTER.Bank_Code " &
                                 " where TSPL_PAYMENT_HEADER.Payment_No='" & Me.txtDocCode.Text & "' "
 
                 ' " coalesce((CASE WHEN TSPL_VENDOR_MASTER.Form_Type in ('VSP','PTM','TTM') then coalesce(Cheque_In_Favour_Of,'') else (TSPL_VENDOR_MASTER.Vendor_Name) end),Remit_To) as Pay_To," & _
             ElseIf clsCommon.CompairString(DocumentType, "Receipt Entry") = CompairStringResult.Equal Then
-                Qry = " select TSPL_RECEIPT_HEADER.Bank_Code,TSPL_BANK_MASTER.DESCRIPTION as bank_name,Cheque_No as check_no,  " & _
-                    " (case when TSPL_RECEIPT_HEADER.Receipt_Type='PY' then TSPL_CUSTOMER_MASTER.Customer_Name else TSPL_RECEIPT_HEADER.Entry_Desc end) as Pay_To, " & _
-                    " Receipt_Amount as Check_Amount,'' as Amount_In_Words, TSPL_BANK_MASTER.BANKACCNUMBER as Account_No,TSPL_BANK_MASTER.ADD1 as Address1, " & _
-                    " TSPL_RECEIPT_HEADER.Comp_Code,  TSPL_COMPANY_MASTER.Comp_Name as Comp_Name, convert(varchar,Cheque_Date,105) as check_Date,TSPL_RECEIPT_HEADER.Bank_charges_amt as Bank_Charges from TSPL_RECEIPT_HEADER " & _
-                    " left join TSPL_BANK_MASTER on TSPL_RECEIPT_HEADER.Bank_Code=TSPL_BANK_MASTER.Bank_Code  " & _
-                    " left join TSPL_COMPANY_MASTER on TSPL_RECEIPT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  " & _
-                    " left join TSPL_CUSTOMER_MASTER on TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " & _
+                Qry = " select TSPL_RECEIPT_HEADER.Bank_Code,TSPL_BANK_MASTER.DESCRIPTION as bank_name,Cheque_No as check_no,  " &
+                    " (case when TSPL_RECEIPT_HEADER.Receipt_Type='PY' then TSPL_CUSTOMER_MASTER.Customer_Name else TSPL_RECEIPT_HEADER.Entry_Desc end) as Pay_To, " &
+                    " Receipt_Amount as Check_Amount,'' as Amount_In_Words, TSPL_BANK_MASTER.BANKACCNUMBER as Account_No,TSPL_BANK_MASTER.ADD1 as Address1, " &
+                    " TSPL_RECEIPT_HEADER.Comp_Code,  TSPL_COMPANY_MASTER.Comp_Name as Comp_Name, convert(varchar,Cheque_Date,105) as check_Date,TSPL_RECEIPT_HEADER.Bank_charges_amt as Bank_Charges from TSPL_RECEIPT_HEADER " &
+                    " left join TSPL_BANK_MASTER on TSPL_RECEIPT_HEADER.Bank_Code=TSPL_BANK_MASTER.Bank_Code  " &
+                    " left join TSPL_COMPANY_MASTER on TSPL_RECEIPT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  " &
+                    " left join TSPL_CUSTOMER_MASTER on TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
                     " where TSPL_RECEIPT_HEADER.Receipt_No='" & Me.txtDocCode.Text & "' "
             ElseIf clsCommon.CompairString(DocumentType, "Bank Transfer") = CompairStringResult.Equal Then
-                Qry = "Select TSPL_BANK_TRANSFER.From_Bank_Code AS [Bank_Code],TSPL_BANK_TRANSFER.From_Bank_Name AS [Bank_Name],TSPL_BANK_TRANSFER.Cheque_No AS [Check_No],ISNULL(TSPL_BANK_TRANSFER.Remitt_To,'') AS Pay_To,TSPL_BANK_TRANSFER.Transfer_Amount AS [Check_Amount],'' as Amount_In_Words,TSPL_BANK_TRANSFER.From_Bank_Acc_No AS Account_No,TSPL_BANK_MASTER.ADD1 as Address1,TSPL_BANK_TRANSFER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name as Comp_Name,convert(varchar,TSPL_BANK_TRANSFER.Cheque_Date,105) as check_Date,'' as Memorandum_Lim_Desc,0 AS memorandum_amt,'' as Memorandum_Entry_Desc " & _
-                    " , '' as Account_Payee,TSPL_BANK_TRANSFER.Bank_Charges_Ac as Bank_Charges From TSPL_BANK_TRANSFER " & _
-                    " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_TRANSFER.From_Bank_Code =TSPL_BANK_MASTER.BANK_CODE " & _
-                    " LEFT OUTER JOIN TSPL_COMPANY_MASTER on TSPL_BANK_TRANSFER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " & _
+                Qry = "Select TSPL_BANK_TRANSFER.From_Bank_Code AS [Bank_Code],TSPL_BANK_TRANSFER.From_Bank_Name AS [Bank_Name],TSPL_BANK_TRANSFER.Cheque_No AS [Check_No],ISNULL(TSPL_BANK_TRANSFER.Remitt_To,'') AS Pay_To,TSPL_BANK_TRANSFER.Transfer_Amount AS [Check_Amount],'' as Amount_In_Words,TSPL_BANK_TRANSFER.From_Bank_Acc_No AS Account_No,TSPL_BANK_MASTER.ADD1 as Address1,TSPL_BANK_TRANSFER.Comp_Code , TSPL_COMPANY_MASTER.Comp_Name as Comp_Name,convert(varchar,TSPL_BANK_TRANSFER.Cheque_Date,105) as check_Date,'' as Memorandum_Lim_Desc,0 AS memorandum_amt,'' as Memorandum_Entry_Desc " &
+                    " , '' as Account_Payee,TSPL_BANK_TRANSFER.Bank_Charges_Ac as Bank_Charges From TSPL_BANK_TRANSFER " &
+                    " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_TRANSFER.From_Bank_Code =TSPL_BANK_MASTER.BANK_CODE " &
+                    " LEFT OUTER JOIN TSPL_COMPANY_MASTER on TSPL_BANK_TRANSFER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
                     " WHERE TSPL_BANK_TRANSFER.Transfer_No ='" & Me.txtDocCode.Text & "' "
+            ElseIf clsCommon.CompairString(DocumentType, "Quick Payment By Single Cheque") = CompairStringResult.Equal Then
+                Qry = " select TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Bank_Code,TSPL_BANK_MASTER.DESCRIPTION as bank_name,Cheque_No as check_no, '' as Pay_To, TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Cheque_Amount as Check_Amount,'' as Amount_In_Words, TSPL_BANK_MASTER.ADD1 as Address1,TSPL_COMPANY_MASTER.Comp_Code1 as comp_code,  TSPL_COMPANY_MASTER.Comp_Name as Comp_Name, convert(varchar,Cheque_Date,105) as check_Date , ''  as Memorandum_Lim_Desc,''  as Memorandum_Entry_Desc  , (case when TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Account_Payee = 1 then 'A/C Payee' else '' end) as Account_Payee,0 as Bank_Charges
+                from TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE left join TSPL_COMPANY_MASTER on 1=1  left join  TSPL_BANK_MASTER  on TSPL_BANK_MASTER.Bank_Code=TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Bank_Code  where TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_No='" + Me.txtDocCode.Text + "' "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 

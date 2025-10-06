@@ -851,6 +851,12 @@
     <Compile Include="Report\rptSalesVehicleReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptSchemeSaleReport.Designer.vb">
+      <DependentUpon>rptSchemeSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSchemeSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptTransporterWiseReport.Designer.vb">
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>
     </Compile>
@@ -1592,6 +1598,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesVehicleReport.resx">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSchemeSaleReport.resx">
+      <DependentUpon>rptSchemeSaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptTransporterWiseReport.resx">
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>

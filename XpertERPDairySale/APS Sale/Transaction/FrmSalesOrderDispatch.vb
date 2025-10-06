@@ -2838,4 +2838,57 @@ from TSPL_SD_SHIPMENT_HEAD left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        PrintInvoiveForAll()
+    End Sub
+    Private Sub PrintInvoiveForAll()
+        Try
+            Dim Qry As String = Nothing
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+            Dim ItemMain As String = Nothing
+            Dim itemScheme As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SD_sale_invoice_DETAIL where Shipment_Code='" + txtDocCode.Value + "' and Scheme_Applicable='Y'"))
+
+            If itemScheme > 0 Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHU") = CompairStringResult.Equal Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "Do you want to print main item then YES and if you want to print Scheme then NO?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+
+                        ItemMain = "Y"
+                    Else
+                        ItemMain = "N"
+                    End If
+                Else
+                    ItemMain = "Y"
+                End If
+            Else
+                ItemMain = "Y"
+            End If
+
+            If clsCommon.myLen(txtInvoiceno.Text) <= 0 Then
+                myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
+            Else
+                Dim dtDocdate As Date?
+                dtDocdate = Nothing
+                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceno.Text & "'"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
+                If dt1.Rows.Count > 0 Then
+                    dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
+                End If
+                Dim InvoiceNo As String = clsCommon.GetMulcallString(clsDBFuncationality.GetDataTable("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAd where Document_Code in(select Document_Code from TSPL_SD_SHIPMENT_HEAD where ParentDocNo='" + txtDocCode.Value + "')"), "Sale_Invoice_No")
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, txtDate.Value, txtCustomerCode.Value, ItemMain)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptInvoiceForAPSSales", "TAX INVOICE", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
+
+                Else
+                    Throw New Exception("No data found")
+                End If
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

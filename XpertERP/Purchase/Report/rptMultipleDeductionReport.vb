@@ -251,7 +251,7 @@ and  TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
 
                 Else
                     strBaseqry += " union all
-                        Select Case TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE As Vendor_Code,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME As Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition,
+                        Select  TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_CODE As Vendor_Code,TSPL_PAYMENT_PROCESS_MCC_SALE.Customer_NAME As Vendor_Name,'D' as Type,TSPL_CUSTOMER_INVOICE_HEAD.Document_No,convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Document_Date,0 as Addition,
                         (TSPL_PAYMENT_PROCESS_MCC_SALE.Amount-TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt) AS Deduction,TSPL_DEDUCTION_MASTER.Code as DeductionCode,TSPL_DEDUCTION_MASTER.Description as Deduction_Desc,cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [VLC Uploader Code] 
 						From TSPL_PAYMENT_PROCESS_MCC_SALE
                          Left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_CUSTOMER_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No

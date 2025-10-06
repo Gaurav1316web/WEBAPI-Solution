@@ -500,7 +500,7 @@ Public Class frmPo_action
            " WHEN TSPL_COMPANY_MASTER.State = '' THEN '' ELSE ', ' + CONVERT(varchar, TSPL_COMPANY_MASTER.State) END + CASE " &
            " WHEN TSPL_COMPANY_MASTER.Pincode = '' THEN '' ELSE ', ' + CONVERT(varchar, TSPL_COMPANY_MASTER.Pincode, 103) END) AS address1, " &
           " PO.delivery_date AS Delivaery_date, " &
-          " PO.Item_Cost AS po_rate, " &
+          " CAST(PO.Item_Cost AS DECIMAL(18,2)) AS po_rate, " &
           " PO.item_code AS item_code, " &
           " PO.item_desc AS itemdesc,PO.purchaseorder_qty AS po_qty,PO.unit_code AS uom,PO.Bill_To_Location AS Location," &
           " ( SELECT Location_Desc FROM TSPL_LOCATION_MASTER WHERE Location_Code = PO.Bill_To_Location) AS Location_Desc, " &

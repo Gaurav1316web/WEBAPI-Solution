@@ -10,7 +10,6 @@ Public Class clsCattleFeedSalePurchaseUploader
     Public Remarks As String = Nothing
     Public Status As Integer = 0
     Public Posted_Date As DateTime? = Nothing
-    Public Total_Penalty As Decimal = 0
     Public Arr As List(Of clsCattleFeedSalePurchaseUploaderDetail) = Nothing
     Public ArrItemDetails As List(Of clsCattleFeedSalePurchaseUploaderItemDetail) = Nothing
 #End Region

@@ -15,41 +15,121 @@ Public Class SrnCorrection
             'If clsCommon.myLen(strDocNo) > 0 Then
             '    Throw New Exception("NO Data Found")
             'End If
-            Dim qry As String = "WITH CTE AS
-            (SELECT OwnDCS_DOC_CODE,OwnDCS_Qty,OwnDCS_FAT_PER,OwnDCS_FAT_KG,OwnDCS_SNF_PER,OwnDCS_SNF_KG,OwnDCS_CLR,OwnDCS_Price_Code,OwnDCS_RATE,OwnDCS_AMOUNT,
-            OwnDCS_ACC_Qty,OwnDCS_ACC_Qty_LTR,OwnDCS_DRCR_Amt,Created_Date
-            FROM TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS WHERE OwnDCS_DOC_CODE IS NOT NULL),XX AS(
-            SELECT * FROM ((SELECT *,ROW_NUMBER() OVER (PARTITION BY DOC_CODE ORDER BY Created_Date DESC) AS rn
-            FROM (  SELECT t.DOC_CODE,t.Qty,t.FAT_PER,t.FAT_KG,t.SNF_PER,t.SNF_KG,t.CLR,t.Price_Code,t.RATE,t.AMOUNT,t.ACC_Qty,t.ACC_Qty_LTR,t.DRCR_Amt,
-            t.Created_Date FROM TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS t
-            INNER JOIN CTE c ON c.OwnDCS_DOC_CODE = t.DOC_CODE
+            '         Dim qry As String = "WITH CTE AS
+            '         (SELECT OwnDCS_DOC_CODE,OwnDCS_Qty,OwnDCS_FAT_PER,OwnDCS_FAT_KG,OwnDCS_SNF_PER,OwnDCS_SNF_KG,OwnDCS_CLR,OwnDCS_Price_Code,OwnDCS_RATE,OwnDCS_AMOUNT,
+            '         OwnDCS_ACC_Qty,OwnDCS_ACC_Qty_LTR,OwnDCS_DRCR_Amt,Created_Date
+            '         FROM TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS WHERE OwnDCS_DOC_CODE IS NOT NULL),XX AS(
+            '         SELECT * FROM ((SELECT *,ROW_NUMBER() OVER (PARTITION BY DOC_CODE ORDER BY Created_Date DESC) AS rn
+            '         FROM (  SELECT t.DOC_CODE,t.Qty,t.FAT_PER,t.FAT_KG,t.SNF_PER,t.SNF_KG,t.CLR,t.Price_Code,t.RATE,t.AMOUNT,t.ACC_Qty,t.ACC_Qty_LTR,t.DRCR_Amt,
+            '         t.Created_Date FROM TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS t
+            '         INNER JOIN CTE c ON c.OwnDCS_DOC_CODE = t.DOC_CODE
 
-        UNION ALL
+            '     UNION ALL
 
-        SELECT OwnDCS_DOC_CODE,OwnDCS_Qty,OwnDCS_FAT_PER,OwnDCS_FAT_KG,OwnDCS_SNF_PER,OwnDCS_SNF_KG,OwnDCS_CLR,OwnDCS_Price_Code,OwnDCS_RATE,
-            OwnDCS_AMOUNT,OwnDCS_ACC_Qty,OwnDCS_ACC_Qty_LTR,OwnDCS_DRCR_Amt, Created_Date
-        FROM CTE 
-		 union all
-        select DOC_CODE,	Qty,	FAT_PER,	FAT_KG,	SNF_PER,	SNF_KG,	CLR,	Price_Code,	RATE,	AMOUNT,	ACC_Qty,	ACC_Qty_LTR,	DRCR_Amt,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date from TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS 
-				) vv )  ) xxt where XXT.rn=1)
-        SELECT TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,CONVERT(VARCHAR, TSPL_MILK_SRN_HEAD.DOC_DATE,103) AS DOC_DATE,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,
-        TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.RATE,
-        TSPL_MILK_SRN_DETAIL.AMOUNT,XX.DOC_CODE AS [SRN AFTER CORRECTION],XX.Qty AS [Qty AFTER CORRECTION],XX.FAT_PER AS [FAT% AFTER CORRECTION],XX.SNF_PER AS [SNF% AFTER CORRECTION],
-        XX.RATE AS [RATE AFTER CORRECTION],XX.AMOUNT AS [AMOUNT AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks AS [Remarks],
-        CASE WHEN TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' THEN 'Debit' WHEN TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' THEN 'Credit' ELSE '' END AS Document_Type,
-        TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
-        FROM TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
-        LEFT JOIN TSPL_MILK_SRN_HEAD ON TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
-        LEFT JOIN TSPL_MILK_SRN_DETAIL ON TSPL_MILK_SRN_DETAIL.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
-        LEFT JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
-        LEFT JOIN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
-        LEFT JOIN TSPL_MILK_COLLECTION_DCS_DETAIL AS TabDCS1 ON TabDCS1.PK_Id = TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
-        LEFT JOIN TSPL_MILK_COLLECTION_DCS_DETAIL AS TabDCS2 ON TabDCS2.PK_Id = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
-        INNER JOIN TSPL_MILK_PURCHASE_INVOICE_DETAIL ON TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
-        LEFT JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
-        LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.RefDocNo = TSPL_MILK_SRN_DETAIL.DOC_CODE AND RefDocType In('CAP-MSN','CAP-MSN-CDCS','CAP-OMSN')
-        LEFT JOIN XX ON XX.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
-        where TabDCS1.Document_No='" + docno + "' or TabDCS2.Document_No='" + docno + "'"
+            '     SELECT OwnDCS_DOC_CODE,OwnDCS_Qty,OwnDCS_FAT_PER,OwnDCS_FAT_KG,OwnDCS_SNF_PER,OwnDCS_SNF_KG,OwnDCS_CLR,OwnDCS_Price_Code,OwnDCS_RATE,
+            '         OwnDCS_AMOUNT,OwnDCS_ACC_Qty,OwnDCS_ACC_Qty_LTR,OwnDCS_DRCR_Amt, Created_Date
+            '     FROM CTE 
+            'union all
+            '     select DOC_CODE,	Qty,	FAT_PER,	FAT_KG,	SNF_PER,	SNF_KG,	CLR,	Price_Code,	RATE,	AMOUNT,	ACC_Qty,	ACC_Qty_LTR,	DRCR_Amt,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date from TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS 
+            '	) vv )  ) xxt where XXT.rn=1)
+            '     SELECT TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,CONVERT(VARCHAR, TSPL_MILK_SRN_HEAD.DOC_DATE,103) AS DOC_DATE,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,
+            '     TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.RATE,
+            '     TSPL_MILK_SRN_DETAIL.AMOUNT,XX.DOC_CODE AS [SRN AFTER CORRECTION],XX.Qty AS [Qty AFTER CORRECTION],XX.FAT_PER AS [FAT% AFTER CORRECTION],XX.SNF_PER AS [SNF% AFTER CORRECTION],
+            '     XX.RATE AS [RATE AFTER CORRECTION],XX.AMOUNT AS [AMOUNT AFTER CORRECTION],TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks AS [Remarks],
+            '     CASE WHEN TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' THEN 'Debit' WHEN TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' THEN 'Credit' ELSE '' END AS Document_Type,
+            '     TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Document_Total
+            '     FROM TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+            '     LEFT JOIN TSPL_MILK_SRN_HEAD ON TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+            '     LEFT JOIN TSPL_MILK_SRN_DETAIL ON TSPL_MILK_SRN_DETAIL.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+            '     LEFT JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+            '     LEFT JOIN TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL ON TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+            '     LEFT JOIN TSPL_MILK_COLLECTION_DCS_DETAIL AS TabDCS1 ON TabDCS1.PK_Id = TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+            '     LEFT JOIN TSPL_MILK_COLLECTION_DCS_DETAIL AS TabDCS2 ON TabDCS2.PK_Id = TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+            '     INNER JOIN TSPL_MILK_PURCHASE_INVOICE_DETAIL ON TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+            '     LEFT JOIN TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MILK_SRN_HEAD.VSP_CODE
+            '     LEFT JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.RefDocNo = TSPL_MILK_SRN_DETAIL.DOC_CODE AND RefDocType In('CAP-MSN','CAP-MSN-CDCS','CAP-OMSN')
+            '     LEFT JOIN XX ON XX.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+            '     where TabDCS1.Document_No='" + docno + "' or TabDCS2.Document_No='" + docno + "'"
+            Dim qry As String = " Select (xx.SRNNO) as SRNNO,(xx.Truck_SheetNo)Truck_SheetNo,(xx.DOC_DATE)DOC_DATE,(xx.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,
+                        (xx.Qty)Qty,(FAT_PER)FAT_PER,(SNF_PER)SNF_PER,(RATE)RATE,(AMOUNT)AMOUNT,(Remarks)Remarks,(Document_Type)Document_Type,(Document_No)Document_No,(Vendor_Invoice_Date)Vendor_Invoice_Date,
+                        (Document_Total)Document_Total ,Created_By,Created_Date
+                        from ( select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
+                         --Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
+                         Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+                        TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,
+                        TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_By,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date
+                            from TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-MSN' 
+                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            where TabDCS1.Document_No='" + docno + "' or TabDCS2.Document_No='" + docno + "'
+							
+							--convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '23-Mar-2025', 103)
+                            --and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '23-Mar-2025', 103) 
+							union all
+
+							 select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,
+                             convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,vmch.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader ,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_Qty as Qty,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_FAT_PER as FAT_PER,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_SNF_PER as SNF_PER,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_RATE as Rate,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_AMOUNT as Amount,
+							 TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
+							-- Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.OwnDCS_DRCR_Amt > 0 then 'Credit' else 'Debit' end as Document_Type,
+							Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+							TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_By,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date
+                            from 
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+							--left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.VLC_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-OMSN'
+							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                            left outer join TSPL_VLC_MASTER_HEAD vmch on vmch.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
+                            where TabDCS1.Document_No='" + docno + "' or TabDCS2.Document_No='" + docno + "'
+						   --where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '23-Mar-2025', 103)
+                            --and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '23-Mar-2025', 103) 
+							
+							Union all
+                          select TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE AS SRNNO,coalesce(TabDCS1.Document_No,TabDCS2.Document_No)as Truck_SheetNo,convert(VarChar,TSPL_MILK_SRN_HEAD.DOC_DATE,103)DOC_DATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Qty,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.FAT_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.SNF_PER,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.RATE,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT,
+                         TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Remarks as [Remarks],
+                         --Case when TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.AMOUNT > 0 then 'Credit' else 'Debit' end as Document_Type,
+                         Case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' then 'Debit' when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' then'Credit' else '' end as Document_Type,
+                            TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Total,
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_By,TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.Created_Date
+                            from 
+                            TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS
+                            left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.DOC_CODE
+                            left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+                            left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No
+                            left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No
+                            left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
+                            inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+							--left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_CORRECTION_AFTER_PROCESS.VLC_CODE
+							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-MSN-CDCS'
+							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+							left outer join TSPL_VLC_MASTER_HEAD vmch on vmch.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
+                            where TabDCS1.Document_No='" + docno + "' or TabDCS2.Document_No='" + docno + "' and TSPL_VENDOR_INVOICE_HEAD.Document_No is not null
+						   --where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '23-Mar-2025', 103)
+                           -- and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '23-Mar-2025', 103) and TSPL_VENDOR_INVOICE_HEAD.Document_No is not null  
+						   ) XX  where SRNNO is not null and Document_No is not null order by SRNNO  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             gv1.DataSource = Nothing
@@ -68,7 +148,7 @@ Public Class SrnCorrection
             Else
                 clsCommon.MyMessageBoxShow("No data found")
             End If
-            View()
+            'View()
             gv1.BestFitColumns()
         Catch ex As Exception
             'clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -118,6 +198,7 @@ Public Class SrnCorrection
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             gv1.Columns("SRNNO").HeaderText = "SRN NO"
+            gv1.Columns("DOC_DATE").HeaderText = "DOC DATE"
             gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Uploader NO"
             gv1.Columns("Truck_SheetNo").HeaderText = "Truck Sheet No"
             gv1.Columns("Qty").HeaderText = "Qty"
@@ -125,13 +206,17 @@ Public Class SrnCorrection
             gv1.Columns("SNF_PER").HeaderText = "SNF %"
             gv1.Columns("RATE").HeaderText = "RATE"
             gv1.Columns("AMOUNT").HeaderText = "AMOUNT"
-            gv1.Columns("SRN AFTER CORRECTION").HeaderText = "SRN AFTER CORRECTION"
-            gv1.Columns("SRN AFTER CORRECTION").IsVisible = False
-            gv1.Columns("Qty AFTER CORRECTION").HeaderText = "Qty AFTER CORRECTION"
-            gv1.Columns("FAT% AFTER CORRECTION").HeaderText = "FAT% AFTER CORRECTION"
-            gv1.Columns("SNF% AFTER CORRECTION").HeaderText = "SNF% AFTER CORRECTION"
-            gv1.Columns("RATE AFTER CORRECTION").HeaderText = "RATE AFTER CORRECTION"
-            gv1.Columns("AMOUNT AFTER CORRECTION").HeaderText = "AMOUNT AFTER CORRECTION"
+            gv1.Columns("Vendor_Invoice_Date").IsVisible = False
+            gv1.Columns("Created_By").IsVisible = False
+            gv1.Columns("Created_Date").IsVisible = False
+            'gv1.Columns("SRN AFTER CORRECTION").HeaderText = "SRN AFTER CORRECTION"
+            'gv1.Columns("SRN AFTER CORRECTION").IsVisible = False
+            ' gv1.Columns("Qty AFTER CORRECTION").HeaderText = "Qty AFTER CORRECTION"
+            ' gv1.Columns("FAT% AFTER CORRECTION").HeaderText = "FAT% AFTER CORRECTION"
+            ' gv1.Columns("SNF% AFTER CORRECTION").HeaderText = "SNF% AFTER CORRECTION"
+            ' gv1.Columns("RATE AFTER CORRECTION").HeaderText = "RATE AFTER CORRECTION"
+            'gv1.Columns("AMOUNT AFTER CORRECTION").HeaderText = "AMOUNT AFTER CORRECTION"
+            gv1.Columns("Remarks").HeaderText = "Remarks"
             gv1.Columns("Document_No").HeaderText = "AP Invoice"
             gv1.Columns("Document_Type").HeaderText = "Type"
             gv1.Columns("Document_Total").HeaderText = "Total"

@@ -5,6 +5,7 @@ Public Class clsUserMgtCode
     Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"
     Public Const frmCommissionTPTCalculation As String = "CMN-TPT-CLN"
     Public Const frmSendBilltoDistributor As String = "SND-BLL-DST"
+    Public Const rptSchemeSaleReport As String = "SHM-SLE-RPT"
     Public Const frmIBPReport As String = "IBP-RPT"
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
@@ -1334,6 +1335,7 @@ Public Class clsUserMgtCode
     Public Const frmPurchaseSchedule As String = "PO-SCHD"
     Public Const frmNEFTUploader As String = "NEFT-UP"
     Public Const frmNEFTUploaderFarmer As String = "NEFT-UP_FAR"
+    Public Const frmQuickPaymentBySingleCheque As String = "QCK-PNT-CHQ"
     ''richa
     'Public Const frmItemQuantityInformation As String = "PO-IQI"
 
