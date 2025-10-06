@@ -371,6 +371,7 @@
     <Compile Include="PJC\clsProjectStatus.vb" />
     <Compile Include="Purchase\clsRALNOC.vb" />
     <Compile Include="Purchase\clsTenderDetail.vb" />
+    <Compile Include="RCDFProduction\ClsBagReceipt.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightCalculation.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
