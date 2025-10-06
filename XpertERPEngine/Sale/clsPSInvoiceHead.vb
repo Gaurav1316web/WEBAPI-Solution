@@ -3466,7 +3466,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " FOR XML PATH('') ), 1, 1, ''),'' ) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Voucher Number of Linked Advance Receipt]" &
                 " , case when isnull(xx.[Delivery No],'')='' then 0 else (select sum(Receipt_Amount) from TSPL_RECEIPT_HEADER where 1=1 and Delivery_Code_PS =xx.[Delivery No]   ) end as [Adjustment Amount of the Linked Advance Receipt], "
             End If
-            strMCCMaterial += " [LUT No],TCSBaseAmount,[Payment Type] as PaymentType,[Gross Amount] "
+            strMCCMaterial += " [LUT No],TCSBaseAmount "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
+                strMCCMaterial += ",[Payment Type] as PaymentType,[Gross Amount] "
+            End If
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
             '    strMCCMaterial += " ,[Payment Type] as PaymentType,CustomerType,[Shipment Status] "
             'End If

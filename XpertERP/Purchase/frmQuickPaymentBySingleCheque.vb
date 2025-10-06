@@ -425,18 +425,6 @@ Public Class frmQuickPaymentBySingleCheque
             End If
         Next
     End Sub
-    Private Sub btnPrint_Click(sender As Object, e As EventArgs)
-        Dim qry As String = " select  '" & objCommonVar.CurrentUser & "' as User_Code, ROW_NUMBER( ) over( order by TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_date) as SNo,TSPL_COMPANY_MASTER.Comp_Name,convert(varchar,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Invoice_Date,103) as Invoice_Date,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Sale_Amt,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Deposit_Amt,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Curr_Balance_Amt,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Balance_Amt,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Penalty,convert(varchar,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_date,103) as Document_date,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
-        convert(varchar,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.From_Date,103) as From_Date,convert(varchar,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.To_Date,103) as To_Date,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Penalty_Per from  TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail
-        left join TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE on TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_No = TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_detail.Document_No left join TSPL_COMPANY_MASTER on 1=1 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.cust_code = TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Cust_Code
-        where TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_No='" & txtDocumentNo.Value & "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt.Rows.Count > 0 Then
-            Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.KwalitySalesReport, dt, "rptCustomerPenalty", "Customer Penalty", clsCommon.myCDate(dt.Rows(0)("Document_date")))
-            frmCRV = Nothing
-        End If
-    End Sub
     Private Sub txtBankCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBankCode._MYValidating
         Try
             Dim strWhrclas As String = ""
@@ -597,7 +585,7 @@ Public Class frmQuickPaymentBySingleCheque
         Dim check As Integer = 0
         Dim VendorCode As String = ""
         Dim lineno As Integer = 1
-        If transportSql.importExcel(gvimport, "Vendor Code", "Vendor Name", "A/C No", "IFSC Code", "Amount") Then
+        If transportSql.importExcel(gvimport, "Vendor Code", "Vendor Name", "Vendor Bank", "Vendor Bank Name", "A/C No", "IFSC Code", "Amount") Then
             Dim index As Integer = 0
             Dim dtError As New DataTable
             dtError.Columns.Add("RowNo", GetType(Integer))
@@ -670,8 +658,18 @@ Public Class frmQuickPaymentBySingleCheque
 
     Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
         Dim whrcls As String = ""
-        Dim qry As String = "select '' as [Vendor Code],'' as [Vendor Name] , '' as [A/C No] , '' as [IFSC Code] , 0 as Amount"
+        Dim qry As String = "select '' as [Vendor Code],'' as [Vendor Name], '' as [Vendor Bank], '' as [Vendor Bank Name], '' as [A/C No] , '' as [IFSC Code] , 0 as Amount"
         transportSql.ExporttoExcel(qry, "", "", Me)
+    End Sub
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Dim qry As String = " select  '" & objCommonVar.CurrentUser & "' as User_Code, Comp_Name,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Bank_Code,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Bank_Name,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_date,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Cheque_No,convert(varchar,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Cheque_Date,103) as Cheque_Date,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Cheque_Amount, ROW_NUMBER( ) over( order by TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_Code) as SNo,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_Bank_Code,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_Bank_Name,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_Bank_ACNo,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_IFSC_Code,TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Amount from TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL
+        LEFT JOIN TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE ON TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE.Document_No = TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Document_No LEFT JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code= TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Vendor_Code left join TSPL_COMPANY_MASTER on 1=1 where TSPL_QUICK_PAYMENT_BY_SINGLE_CHEQUE_DETAIL.Document_No='" & txtDocumentNo.Value & "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt.Rows.Count > 0 Then
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(MyBase.Form_ID, False, CrystalReportFolder.SalesReport, dt, "rptQuickPaymentBySingleCheque", "Quick Payment By Single Cheque")
+            frmCRV = Nothing
+        End If
     End Sub
 End Class
 

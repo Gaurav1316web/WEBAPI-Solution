@@ -180,8 +180,8 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                             left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS1 on TabDCS1.PK_Id=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
 							left outer join TSPL_MILK_COLLECTION_DCS_DETAIL as TabDCS2 on TabDCS2.PK_Id=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail
                             inner join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-							left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_CODE
 							left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_SRN_HEAD.DOC_CODE and RefDocType='CAP-MSN' 
+                            left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                             where convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
                             and convert( date ,TSPL_MILK_SRN_HEAD.DOC_DATE , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103) "
                 If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
@@ -246,7 +246,7 @@ and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date
                 If clsCommon.myLen(TxtDcsCode.arrValueMember) > 0 Then
                     qry += " and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtDcsCode.arrValueMember) + ")"
                 End If
-                qry += " ) XX  where SRNNO is not null order by SRNNO  "
+                qry += " ) XX  where SRNNO is not null and Document_No is not null order by SRNNO  "
 
             Else
                 qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty

@@ -11012,6 +11012,8 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("Added_By", "varchar(12) null")
+            coll.Add("Added_On", "datetime null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_UPLOADER_MCC", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -31879,6 +31881,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Trip_No", "int NULL")
             coll.Add("isCrateIssue", "int NULL")
             coll.Add("Scheme_Item", "char(1) NULL")
+            coll.Add("CRATE_QTY", "DECIMAL(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
             coll = New Dictionary(Of String, String)()

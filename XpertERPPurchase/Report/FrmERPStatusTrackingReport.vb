@@ -290,10 +290,12 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If objCommonVar.RCDFCFP Then
-                        frmCRV.funreport(MyBase.Form_ID, MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReport", Label1.Text)
+                        ' frmCRV.funreport(MyBase.Form_ID, MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReport", Label1.Text)
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReport", Label1.Text)
                     Else
                         If rdbERPStatusMilkUnion.Checked Then
-                            frmCRV.funreport(MyBase.Form_ID, MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReportUnion", Label1.Text)
+                            'frmCRV.funreport(MyBase.Form_ID, MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReportUnion", Label1.Text)
+                            frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt2, "rptERPStatusTrackingReportUnion", Label1.Text)
                         End If
                     End If
                     frmCRV = Nothing
