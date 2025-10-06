@@ -739,16 +739,16 @@ Public Class frmDairyGatePass
                             End If
                         End If
                         If intLineNo = 1 Then
-                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                                '                                txtDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from tspl_customer_master where cust_code in(select  top 1 x.Cust_Code 
-                                'from(
-                                'select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
-                                'from TSPL_DISTRIBUTOR_ROUTE
-                                'left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-                                'where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "'
-                                ' Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
-                                ') X)"))
-                                Dim strQry As String = "select Customer_Name from tspl_customer_master where cust_code in(select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+                            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                            '                                txtDistributorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from tspl_customer_master where cust_code in(select  top 1 x.Cust_Code 
+                            'from(
+                            'select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
+                            'from TSPL_DISTRIBUTOR_ROUTE
+                            'left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+                            'where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "'
+                            ' Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
+                            ') X)"))
+                            Dim strQry As String = "select Customer_Name from tspl_customer_master where cust_code in(select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
 left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
                 where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
 select top 1 TSPL_DISTRIBUTOR_ROUTE.Code from TSPL_DISTRIBUTOR_ROUTE
@@ -765,11 +765,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
                                 Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry))
                                 Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustName).Value = clsCommon.myCstr(txtDistributorName.Text)
-                            Else
-                                txtDistributorName.Text = clsCommon.myCstr(dr("Customer_Name"))
-                                Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Customer_Name='" + clsCommon.myCstr(txtDistributorName.Text) + "'"))
-                                Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustName).Value = clsCommon.myCstr(txtDistributorName.Text)
-                            End If
+                            'Else
+                            '    txtDistributorName.Text = clsCommon.myCstr(dr("Customer_Name"))
+                            '    Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Customer_Name='" + clsCommon.myCstr(txtDistributorName.Text) + "'"))
+                            '    Gv1.Rows(Gv1.Rows.Count - 1).Cells(ColCustName).Value = clsCommon.myCstr(txtDistributorName.Text)
+                            'End If
                         End If
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Value = clsCommon.myCDecimal(dr("PK_ID"))
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colPKID).Tag = clsCommon.myCDecimal(dr("PK_ID"))
