@@ -8814,6 +8814,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDailyStatementReport
                         frm = New rptDailyStatementReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptSchemeSaleReport
+                        frm = New rptSchemeSaleReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptCreditCustomerReport
                         frm = New rptCreditCustomerReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

@@ -4,6 +4,7 @@ Public Class clsUserMgtCode
     Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"
     Public Const frmCommissionTPTCalculation As String = "CMN-TPT-CLN"
     Public Const frmSendBilltoDistributor As String = "SND-BLL-DST"
+    Public Const rptSchemeSaleReport As String = "SHM-SLE-RPT"
     Public Const frmIBPReport As String = "IBP-RPT"
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"

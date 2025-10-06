@@ -2442,6 +2442,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptMonthlyBillSummaryReport, "Monthly Bill Summary Report", "1.36.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDayWiseBoothDemand, "Day Wise Booth Demand Report", "1.36.03.38", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmSendBilltoDistributor, "Send Bill To Distributor", "1.36.03.39", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSchemeSaleReport, "Scheme Sale Report", "1.36.03.42", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
