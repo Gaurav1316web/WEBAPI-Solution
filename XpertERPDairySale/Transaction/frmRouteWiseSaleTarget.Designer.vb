@@ -24,10 +24,13 @@ Partial Class frmRouteWiseSaleTarget
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnGroup = New System.Windows.Forms.RadioButton()
+        Me.rbtnRoute = New System.Windows.Forms.RadioButton()
         Me.chkInactive = New System.Windows.Forms.CheckBox()
         Me.cboUOM = New common.Controls.MyComboBox()
         Me.btnCC = New Telerik.WinControls.UI.RadButton()
@@ -52,9 +55,6 @@ Partial Class frmRouteWiseSaleTarget
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnRoute = New System.Windows.Forms.RadioButton()
-        Me.rbtnGroup = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -62,6 +62,8 @@ Partial Class frmRouteWiseSaleTarget
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me.cboUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,8 +85,6 @@ Partial Class frmRouteWiseSaleTarget
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,6 +153,39 @@ Partial Class frmRouteWiseSaleTarget
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 386)
         Me.SplitContainer2.SplitterDistance = 104
         Me.SplitContainer2.TabIndex = 0
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnGroup)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnRoute)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 33)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(238, 21)
+        Me.RadGroupBox1.TabIndex = 1600
+        '
+        'rbtnGroup
+        '
+        Me.rbtnGroup.AutoSize = True
+        Me.rbtnGroup.Location = New System.Drawing.Point(130, 2)
+        Me.rbtnGroup.Name = "rbtnGroup"
+        Me.rbtnGroup.Size = New System.Drawing.Size(86, 17)
+        Me.rbtnGroup.TabIndex = 1
+        Me.rbtnGroup.TabStop = True
+        Me.rbtnGroup.Text = "Group Wise"
+        Me.rbtnGroup.UseVisualStyleBackColor = True
+        '
+        'rbtnRoute
+        '
+        Me.rbtnRoute.AutoSize = True
+        Me.rbtnRoute.Location = New System.Drawing.Point(24, 2)
+        Me.rbtnRoute.Name = "rbtnRoute"
+        Me.rbtnRoute.Size = New System.Drawing.Size(84, 17)
+        Me.rbtnRoute.TabIndex = 0
+        Me.rbtnRoute.TabStop = True
+        Me.rbtnRoute.Text = "Route Wise"
+        Me.rbtnRoute.UseVisualStyleBackColor = True
         '
         'chkInactive
         '
@@ -440,7 +473,7 @@ Partial Class frmRouteWiseSaleTarget
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -511,39 +544,6 @@ Partial Class frmRouteWiseSaleTarget
         Me.btnClose.TabIndex = 11
         Me.btnClose.Text = "Close"
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.rbtnGroup)
-        Me.RadGroupBox1.Controls.Add(Me.rbtnRoute)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 33)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(238, 21)
-        Me.RadGroupBox1.TabIndex = 1600
-        '
-        'rbtnRoute
-        '
-        Me.rbtnRoute.AutoSize = True
-        Me.rbtnRoute.Location = New System.Drawing.Point(24, 2)
-        Me.rbtnRoute.Name = "rbtnRoute"
-        Me.rbtnRoute.Size = New System.Drawing.Size(84, 17)
-        Me.rbtnRoute.TabIndex = 0
-        Me.rbtnRoute.TabStop = True
-        Me.rbtnRoute.Text = "Route Wise"
-        Me.rbtnRoute.UseVisualStyleBackColor = True
-        '
-        'rbtnGroup
-        '
-        Me.rbtnGroup.AutoSize = True
-        Me.rbtnGroup.Location = New System.Drawing.Point(130, 2)
-        Me.rbtnGroup.Name = "rbtnGroup"
-        Me.rbtnGroup.Size = New System.Drawing.Size(86, 17)
-        Me.rbtnGroup.TabIndex = 1
-        Me.rbtnGroup.TabStop = True
-        Me.rbtnGroup.Text = "Group Wise"
-        Me.rbtnGroup.UseVisualStyleBackColor = True
-        '
         'frmRouteWiseSaleTarget
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -565,6 +565,9 @@ Partial Class frmRouteWiseSaleTarget
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me.cboUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -586,9 +589,6 @@ Partial Class frmRouteWiseSaleTarget
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

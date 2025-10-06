@@ -9693,6 +9693,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmRouteWiseSaleTarget
                         frm = New frmRouteWiseSaleTarget
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmRouteWiseSaleTargetReport
+                        frm = New frmRouteWiseSaleTargetReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCommissionTPTCalculation
                         frm = New frmCommissionTPTCalculation
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
