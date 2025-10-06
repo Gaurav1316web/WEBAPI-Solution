@@ -1999,8 +1999,12 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
                 Flag = True
             End If
 
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
+                sQuery = " select Description,(Amount)Amount from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
+            Else
+                sQuery = " select Description,Sum(Amount)Amount from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
+            End If
 
-            sQuery = " select Description,Sum(Amount)Amount from ( select TSPL_DEDUCTION_MASTER.Description as Description,"
             If Flag Then
                 sQuery += " sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
             Else
@@ -2047,7 +2051,8 @@ union all"
                             left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction
                             where TSPL_PAYMENT_PROCESS_MCC_SALE.doc_no  in (" + strDocNo + ")  group by TSPL_DEDUCTION_MASTER.Description
                             
-)xx group by xx.Description order by  xx.SNo "
+)xx order by  xx.SNo "
+                '')xx group by xx.Description order by  xx.SNo "
             Else
                 sQuery += " Select * from(select 'TDS' as Description,isnull(sum(isnull(TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount,0)),0) as Amount from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") )x where Amount>0 
                             union all

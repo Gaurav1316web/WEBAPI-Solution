@@ -219,7 +219,7 @@ Public Class FrmProductionAndSaleReport
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST((ProdDailyQty.ProdCumQty*100)/((cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)))*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)) else 0 end as CUM
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST((ProdDailyQty.ProdCumQty*100)/((cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)))*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)) else 0 end as CUY
                         ,CAST(SaleDailyQty.Qty AS DECIMAL(18,0)) as SaleDailyQty
-                        ,CAST(SaleDailyQty.SaleCumQty AS DECIMAL(18,0)) as SaleCumQty
+                        ,CAST(SaleCumQty.Qty AS DECIMAL(18,0)) as SaleCumQty
                         ,CAST(FGS.Qty AS DECIMAL(18,0)) as FGS
                         ,case when isnull(PSO.Qty,0)<0 then 0 else CAST(isnull(PSO.Qty,0) AS DECIMAL(18,0)) end as PSO
                         ,BreakDown.BreakdownHRS
