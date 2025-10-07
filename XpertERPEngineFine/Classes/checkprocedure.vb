@@ -1185,6 +1185,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMRPAutoMobile, "MRP(STD)", "1.12.02.17", clsUserMgtCode.SubModuleProductionTransactionSTD, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmStanderdProductionEntry, "Std Production Entry", "1.12.02.18", clsUserMgtCode.SubModuleProductionTransactionSTD, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
         InsertDefaultValue(clsUserMgtCode.frmBreakDownEntry, "Break Down Entry", "1.12.02.19", clsUserMgtCode.SubModuleProductionTransactionSTD, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmBagReceipt, "BAG Receipt Entry", "1.12.02.23", clsUserMgtCode.SubModuleProductionTransactionSTD, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
 
         'Reports(Setup)
         InsertDefaultValue(clsUserMgtCode.SubModuleProductionSetupReportSTD, "Setup Report", "1.12.03", clsUserMgtCode.ModuleProductionSTD, "SM", 30)

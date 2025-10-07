@@ -5866,7 +5866,14 @@ Public Class frmGRN
         Dim frm As New frmPendingPO()
         If objCommonVar.RCDFCFP = True Then
             Dim objItemMaster As clsItemMaster
-            objItemMaster = clsItemMaster.FinderForItem("", "", True)
+
+            Dim whrcls As String = Nothing
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to select RM type?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                whrcls = " TSPL_ITEM_MASTER.Structure_Code='RM' "
+            Else
+                whrcls = " TSPL_ITEM_MASTER.Structure_Code<>'RM' "
+            End If
+            objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
             If objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
                 frm.ItemForDocumentFilter = objItemMaster.Item_Code
             Else
@@ -8201,6 +8208,18 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
             CancelGRNData()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnShowSchedule_Click(sender As Object, e As EventArgs) Handles btnShowSchedule.Click
+        Try
+            If clsCommon.myLen(txtRefNo.Text) > 0 Then
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Reference No can't be blank !", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

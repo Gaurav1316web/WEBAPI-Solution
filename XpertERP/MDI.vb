@@ -7200,6 +7200,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmStanderdProductionEntry
                         frm = New frmStanderdProductionEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.FrmBagReceipt
+                        frm = New FrmBagReceipt
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'End If
                     'Case clsUserMgtCode.frmProductionPlanning
                     '    Dim OpenProcessProductionBOm As Boolean = clsDBFuncationality.getSingleValue("select IsBOMFromProcessProduction from TSPL_INV_PARAMETERS")

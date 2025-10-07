@@ -1694,6 +1694,7 @@ Public Class clsUserMgtCode
     '------------------Transaction----------------------------------------'
     Public Const frmBreakDownEntry As String = "PRO_BD_ENT"
     Public Const frmStanderdProductionEntry As String = "STD_PRO_ENT"
+    Public Const FrmBagReceipt As String = "BAG_RCPT"
     Public Const frmBillOfMaterialCosting As String = "BOMCOSTING"
     Public Const frmProductionPlanningSTD As String = "PRODPLAN_STD"
     Public Const frmProductionPlanningDairy As String = "PRODPLAN_D"

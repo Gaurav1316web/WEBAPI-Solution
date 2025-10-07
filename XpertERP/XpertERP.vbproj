@@ -364,7 +364,8 @@
     <Reference Include="XpertERPEngineeringAndPlantManagement">
       <HintPath>..\XpertERPEngineeringAndPlantManagement\bin\Debug\XpertERPEngineeringAndPlantManagement.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngineFine">
+    <Reference Include="XpertERPEngineFine, Version=7.1.5.15, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPFarmerPayment">
@@ -7649,6 +7650,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

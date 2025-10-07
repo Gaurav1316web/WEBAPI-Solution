@@ -23,7 +23,7 @@ Partial Class rptSchemeSaleReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -196,10 +196,12 @@ Partial Class rptSchemeSaleReport
         'rdbMilk
         '
         Me.rdbMilk.AutoSize = True
+        Me.rdbMilk.Checked = True
         Me.rdbMilk.Location = New System.Drawing.Point(5, 5)
         Me.rdbMilk.Name = "rdbMilk"
         Me.rdbMilk.Size = New System.Drawing.Size(47, 17)
         Me.rdbMilk.TabIndex = 438
+        Me.rdbMilk.TabStop = True
         Me.rdbMilk.Text = "Milk"
         Me.rdbMilk.UseVisualStyleBackColor = True
         '
@@ -326,7 +328,7 @@ Partial Class rptSchemeSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
