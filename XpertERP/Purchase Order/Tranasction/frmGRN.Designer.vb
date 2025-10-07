@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmGRN
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmGRN
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
@@ -42,6 +42,7 @@ Partial Class frmGRN
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnShowSchedule = New Telerik.WinControls.UI.RadButton()
         Me.Inter_unit_Purchk = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSkipPurchaseQc = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkJobWorkOutward = New Telerik.WinControls.UI.RadCheckBox()
@@ -234,6 +235,7 @@ Partial Class frmGRN
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnShowSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Inter_unit_Purchk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSkipPurchaseQc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -483,6 +485,7 @@ Partial Class frmGRN
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnShowSchedule)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Inter_unit_Purchk)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkSkipPurchaseQc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkJobWorkOutward)
@@ -560,6 +563,16 @@ Partial Class frmGRN
         Me.SplitContainer2.Size = New System.Drawing.Size(992, 383)
         Me.SplitContainer2.SplitterDistance = 225
         Me.SplitContainer2.TabIndex = 0
+        '
+        'btnShowSchedule
+        '
+        Me.btnShowSchedule.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowSchedule.Location = New System.Drawing.Point(714, 110)
+        Me.btnShowSchedule.Name = "btnShowSchedule"
+        Me.btnShowSchedule.Size = New System.Drawing.Size(50, 21)
+        Me.btnShowSchedule.TabIndex = 1486
+        Me.btnShowSchedule.Text = "Show"
+        Me.btnShowSchedule.Visible = False
         '
         'Inter_unit_Purchk
         '
@@ -841,7 +854,7 @@ Partial Class frmGRN
         Me.cmbGRNType.IsSourceFromTable = False
         Me.cmbGRNType.IsSourceFromValueList = False
         Me.cmbGRNType.IsUnique = False
-        Me.cmbGRNType.Location = New System.Drawing.Point(779, 88)
+        Me.cmbGRNType.Location = New System.Drawing.Point(836, 88)
         Me.cmbGRNType.MendatroryField = True
         Me.cmbGRNType.MyLinkLable1 = Me.MyLabel5
         Me.cmbGRNType.MyLinkLable2 = Nothing
@@ -856,7 +869,7 @@ Partial Class frmGRN
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(713, 90)
+        Me.MyLabel5.Location = New System.Drawing.Point(770, 90)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel5.TabIndex = 51
@@ -877,7 +890,7 @@ Partial Class frmGRN
         Me.cmbRGPType.IsSourceFromTable = False
         Me.cmbRGPType.IsSourceFromValueList = False
         Me.cmbRGPType.IsUnique = False
-        Me.cmbRGPType.Location = New System.Drawing.Point(779, 109)
+        Me.cmbRGPType.Location = New System.Drawing.Point(836, 109)
         Me.cmbRGPType.MendatroryField = True
         Me.cmbRGPType.MyLinkLable1 = Me.MyLabel6
         Me.cmbRGPType.MyLinkLable2 = Nothing
@@ -892,7 +905,7 @@ Partial Class frmGRN
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(713, 112)
+        Me.MyLabel6.Location = New System.Drawing.Point(770, 112)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(59, 16)
         Me.MyLabel6.TabIndex = 53
@@ -1114,7 +1127,7 @@ Partial Class frmGRN
         Me.txtSch_No.IsSourceFromTable = False
         Me.txtSch_No.IsSourceFromValueList = False
         Me.txtSch_No.IsUnique = False
-        Me.txtSch_No.Location = New System.Drawing.Point(786, 132)
+        Me.txtSch_No.Location = New System.Drawing.Point(843, 132)
         Me.txtSch_No.MendatroryField = False
         Me.txtSch_No.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSch_No.MyLinkLable1 = Me.MyLabel3
@@ -1134,7 +1147,7 @@ Partial Class frmGRN
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(712, 133)
+        Me.MyLabel3.Location = New System.Drawing.Point(769, 133)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(71, 16)
         Me.MyLabel3.TabIndex = 47
@@ -3319,6 +3332,7 @@ Partial Class frmGRN
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnShowSchedule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Inter_unit_Purchk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSkipPurchaseQc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkJobWorkOutward, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3694,5 +3708,6 @@ Partial Class frmGRN
     Friend WithEvents btnhistory As RadButton
     Friend WithEvents Cancelbtn As RadButton
     Friend WithEvents Inter_unit_Purchk As RadCheckBox
+    Friend WithEvents btnShowSchedule As RadButton
 End Class
 

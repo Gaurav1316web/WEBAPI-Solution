@@ -99,10 +99,17 @@ Public Class frmPendingPO
 #End Region
 
     Private Sub FrmPendingRequistion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        txtToDate.Value = dtGRNDate
+        txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         AutoClosePOBasedOnSRNQtyWithTolerance = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = 1, True, False)
         OpenPOForShorateLeakageQty = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, Nothing)) = 1, True, False)
-        Dim qry As String = ""
+
         ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
+        LoadAllDataOnLoadAndButtonGoClick()
+    End Sub
+
+    Sub LoadAllDataOnLoadAndButtonGoClick()
+        Dim qry As String = ""
         If strFormType IsNot Nothing AndAlso clsCommon.myLen(strFormType) > 0 AndAlso clsCommon.CompairString(strFormType, "EXPORT SO") = CompairStringResult.Equal Then
             blnShowInvoiceNo = "0"
             qry = "select '' as Against_Item_Wise_Tax_Rate, '' as Vendor,'' as VendorName,CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,'' as TaxGroupName,ICode,max(IName) as IName,MAX(IType) as IType,max(Unit)as Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName," &
@@ -427,7 +434,9 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 '       " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_QC_CHECK_SRN_DETAIL.item_code where TSPL_QC_CHECK_HEAD.Posted=1 " &
                 '       " and len(isnull(TSPL_QC_CHECK_SRN_DETAIL.PO_No,''))>0  and TSPL_QC_CHECK_SRN_DETAIL.Ok_Qty<=0 and not exists (select * from TSPL_MRN_DETAIL where TSPL_MRN_DETAIL.MRN_No=TSPL_QC_CHECK_SRN_DETAIL.MRN_No )"
                 qry += " )Final left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=Final.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' "
-
+                If objCommonVar.RCDFCFP Then
+                    qry += "  Where Convert(Date,TransDate,103)>=Convert(Date,'" & txtFromDate.Value & "',103) And Convert(Date,TransDate,103)<=Convert(Date,'" & txtToDate.Value & "',103) "
+                End If
                 qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and  (SUM((Qty *RI)-Unapproved" + IIf(OpenPOForShorateLeakageQty, "+", "-") + "DamageQty) <>0 or sum(isBlanket)>0) order by Code,ICode "
 
             End If
@@ -440,6 +449,14 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
         End If
         LoadHeadData()
         LoadBlankGridDetail()
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        Try
+            LoadAllDataOnLoadAndButtonGoClick()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Public Shared Function Load_discount_for_GRN(ByVal po_No As String, ByVal item_code As String)
@@ -1623,6 +1640,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
         End If
 
     End Sub
+
 
 End Class
 
