@@ -101,7 +101,7 @@ Public Class FrmBagReceipt
         coll = New Dictionary(Of String, String)
         coll.Add("Document_Code", "varchar(30) NOT NULL PRIMARY KEY")
         coll.Add("Document_Date", "datetime NOT NULL")
-        coll.Add("Location", "varchar(40)  NULL")
+        coll.Add("Location", "varchar(12)  NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
         coll.Add("Remarks", "varchar(250)  NULL")
         coll.Add("Status", "integer null")
         coll.Add("Created_By", "varchar(12)  NOT NULL")
@@ -110,7 +110,7 @@ Public Class FrmBagReceipt
         coll.Add("Modify_Date", "datetime NOT NULL")
         coll.Add("Posted_By", "varchar(12) NULL")
         coll.Add("Posted_Date", "datetime null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BAG_RECEIPT_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date", True)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BAG_RECEIPT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date", True)
 
         coll = New Dictionary(Of String, String)()
         coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION PRIMARY KEY")
@@ -118,8 +118,9 @@ Public Class FrmBagReceipt
         coll.Add("Item_Code", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
         coll.Add("UOM", "varchar(12) NULL")
         coll.Add("Qty", "decimal (18,2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BAG_RECEIPT_DETAIL", coll, Nothing, True, False, "TSPL_BAG_RECEIPT_HEAD", "Document_Code", "", True)
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BAG_RECEIPT_DETAIL", coll, Nothing, True, True, "TSPL_BAG_RECEIPT_HEAD", "Document_Code", "", True)
 
+        txtDate.Value = clsCommon.GETSERVERDATE()
         SetUserMgmtNew()
         LoadBlankGridGunny()
     End Sub
@@ -260,6 +261,7 @@ where TSPL_ITEM_UOM_DETAIL.Net_Weight > 0"
             txtDocNo.Value = obj.Document_Code
             Me.txtDate.Value = obj.Document_Date
             txtLocation.Value = obj.Location
+            lblLocation.Text = clsDBFuncationality.getSingleValue(" select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'")
             txtRemarks.Text = obj.Remarks
 
             If obj.ArrGunny IsNot Nothing AndAlso obj.ArrGunny.Count > 0 Then
@@ -340,5 +342,59 @@ where TSPL_ITEM_UOM_DETAIL.Net_Weight > 0"
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+        Try
+            Dim WhrCls As String = " Location_Type='Physical'  and  Rejected_Type='N'"
+            If clsCommon.myLen(arrLoc) > 0 Then
+                WhrCls += "  and  Location_Code in (" + arrLoc + ")"
+            End If
+            txtLocation.Value = clsLocation.getFinder(WhrCls, Me.txtLocation.Value, isButtonClicked)
+            If clsCommon.myLen(txtLocation.Value) > 0 Then
+                lblLocation.Text = clsLocation.GetName(Me.txtLocation.Value, Nothing)
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
+        Try
+            Dim qst As String = "select count(*) from TSPL_BAG_RECEIPT_HEAD where Document_Code='" + txtDocNo.Value + "'"
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+            If count = 0 Then
+                txtDocNo.MyReadOnly = False
+            Else
+                txtDocNo.MyReadOnly = True
+            End If
+            LoadData(txtDocNo.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
+        Dim qry As String = "Select Document_Code As Code,Document_Date,Location,Remarks from TSPL_BAG_RECEIPT_HEAD "
+        'Dim whrClas As String = " 1=1 and isnull(AdjustType,'') <> 'Consume' and Adjustment_Type <> 'PRE' "
+        Dim whrClas As String = " "
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    whrClas += " AND (Loc_Code in (" + objCommonVar.strCurrUserLocations + ") or  mainlocationcode in (" + objCommonVar.strCurrUserLocations + "))"
+        'End If
+        'whrClas += " AND ItemType IN ('RM', 'OT')"
+
+
+        txtDocNo.Value = clsCommon.ShowSelectForm("AdjustmentStoreDo1", qry, "Code", whrClas, txtDocNo.Value, "TSPL_BAG_RECEIPT_HEAD.Document_Date desc", isButtonClicked, "Document_Date")
+        LoadData(txtDocNo.Value, NavigatorType.Current)
+    End Sub
+
+    Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
+        clsOpenInventory.ShowInventoryDatails(txtDocNo.Value)
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
     End Sub
 End Class

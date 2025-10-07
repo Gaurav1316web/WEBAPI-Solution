@@ -23,7 +23,7 @@ Partial Class FrmBagReceipt
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -42,10 +42,11 @@ Partial Class FrmBagReceipt
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -66,10 +67,11 @@ Partial Class FrmBagReceipt
         CType(Me.lblAbandonmentNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTankerNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,6 +88,7 @@ Partial Class FrmBagReceipt
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
@@ -183,7 +186,7 @@ Partial Class FrmBagReceipt
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -360,25 +363,15 @@ Partial Class FrmBagReceipt
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""
         '
-        'btnSave
+        'btnClose
         '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(10, 8)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(57, 22)
-        Me.btnSave.TabIndex = 3
-        Me.btnSave.Text = "Save"
-        '
-        'btnDelete
-        '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(73, 8)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(60, 22)
-        Me.btnDelete.TabIndex = 23
-        Me.btnDelete.Text = "Delete"
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(708, 8)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(78, 22)
+        Me.btnClose.TabIndex = 163
+        Me.btnClose.Text = "Close"
         '
         'btnPost
         '
@@ -390,15 +383,35 @@ Partial Class FrmBagReceipt
         Me.btnPost.TabIndex = 24
         Me.btnPost.Text = "Post"
         '
-        'btnClose
+        'btnDelete
         '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(708, 8)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(78, 22)
-        Me.btnClose.TabIndex = 163
-        Me.btnClose.Text = "Close"
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(73, 8)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(60, 22)
+        Me.btnDelete.TabIndex = 23
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(10, 8)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(57, 22)
+        Me.btnSave.TabIndex = 3
+        Me.btnSave.Text = "Save"
+        '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(205, 8)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(96, 22)
+        Me.btnShowInventory.TabIndex = 164
+        Me.btnShowInventory.Text = "Show Inventory"
         '
         'FrmBagReceipt
         '
@@ -433,10 +446,11 @@ Partial Class FrmBagReceipt
         CType(Me.lblAbandonmentNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTankerNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -464,4 +478,5 @@ Partial Class FrmBagReceipt
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents btnPost As RadButton
     Friend WithEvents btnClose As RadButton
+    Friend WithEvents btnShowInventory As RadButton
 End Class

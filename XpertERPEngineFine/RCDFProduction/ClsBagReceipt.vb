@@ -41,9 +41,9 @@ Public Class ClsBagReceipt
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-        If obj.Arr.Count <= 0 Then
-            Throw New Exception("No detail found to save")
-        End If
+        'If obj.Arr.Count <= 0 Then
+        '    Throw New Exception("No detail found to save")
+        'End If
 
         If (isNewEntry) Then
             obj.Document_Code = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.BMCTransporterBill, "", Nothing)
@@ -146,7 +146,7 @@ Public Class ClsBagReceipt
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,LOCATION from TSPL_BAG_RECEIPT_HEAD where Document_Code='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmStanderdProductionEntry, clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE")), clsCommon.myCDate(dt.Rows(0)("PROD_DATE")), trans)
+                clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmStanderdProductionEntry, clsCommon.myCstr(dt.Rows(0)("LOCATION")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
             End If
 
             Dim obj As ClsBagReceipt = ClsBagReceipt.GetData(strCode, "", NavigatorType.Current, trans)
@@ -155,10 +155,10 @@ Public Class ClsBagReceipt
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
 
-            clsSerializeInvenotry.DeleteData("Production", strCode, trans)
+            clsSerializeInvenotry.DeleteData("BAG-RCP", strCode, trans)
 
             HistoryData(strCode, trans)
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", "PROD_ENTRY_CODE", "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", "PROD_ENTRY_CODE", trans)
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, strCode, "TSPL_BAG_RECEIPT_HEAD", "Document_Code", "TSPL_BAG_RECEIPT_DETAIL", "Document_Code", trans)
 
             Dim qry As String = "delete from TSPL_BAG_RECEIPT_DETAIL where Document_Code ='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -191,35 +191,135 @@ Public Class ClsBagReceipt
         End Try
         Return True
     End Function
-    'Public Shared Function UpdateInventoryMovement(ByVal Form_Id As String, ByVal obj As clsStanderdProductionEntry, ByVal arrloc As String, ByVal trans As SqlTransaction) As Boolean
-    '    clsDBFuncationality.ExecuteNonQuery("update tspl_batch_item set Against_Inv_Movement_Trans_Id=null where Document_Code='" & obj.PROD_ENTRY_CODE & "'", trans)
-    '    clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & obj.PROD_ENTRY_CODE & "'", trans)
 
-    '    clsStanderdProductionEntryRM.SaveRM(obj.PROD_ENTRY_CODE, arrloc, trans)
-    '    clsStanderdProductionEntryRM.UpdateInventoryMovement(Form_Id, obj.PROD_ENTRY_CODE, arrloc, trans)
-    '    Return True
-    'End Function
     Public Shared Function PostData(ByVal Form_Id As String, ByVal strDocNo As String, ByVal arrloc As String, ByVal isCheckForPosted As Boolean, ByVal trans As SqlTransaction) As Boolean
 
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Code not found to Post")
         End If
         Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
-        Dim obj As ClsBagReceipt = ClsBagReceipt.GetData(strDocNo, arrloc, NavigatorType.Current, trans)
+        Dim objBR As ClsBagReceipt = ClsBagReceipt.GetData(strDocNo, arrloc, NavigatorType.Current, trans)
 
-        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmStanderdProductionEntry, obj.Location, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, clsUserMgtCode.SubModuleProductionTransactionSTD, clsUserMgtCode.FrmBagReceipt, objBR.Location, objBR.Document_Date, trans)
 
 
 
-        If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
+        If (objBR Is Nothing OrElse clsCommon.myLen(objBR.Document_Code) <= 0) Then
             Throw New Exception("No Data found to Post")
         End If
-        If (isCheckForPosted AndAlso obj.Status = True) Then
-            Throw New Exception("Already Post on :" + obj.Posted_Date)
+        If (isCheckForPosted AndAlso objBR.Status = True) Then
+            Throw New Exception("Already Post on :" + objBR.Posted_Date)
         End If
         Dim isSaved As Boolean = True
+        Try
+            Dim obj As clsInventoryMovement = Nothing
+            Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+
+            For Each objGunny As clsBagReceiptDetail In objBR.ArrGunny
+                obj = New clsInventoryMovement
+                obj.Trans_Type = "GunnyBag"
+                obj.InOut = "I"
+                obj.Location_Code = objBR.Location 'objProd.LOCATION_CODE
+                obj.Item_Code = objGunny.Item_Code
+                obj.Item_Desc = objGunny.Item_Name
+                obj.Qty = objGunny.Qty
+                obj.UOM = objGunny.UOM
+                obj.Source_Doc_No = objBR.Document_Code
+                obj.Source_Doc_Date = objBR.Document_Date
+
+                Dim strItemType As String = clsItemMaster.GetItemType(objGunny.Item_Code, trans)
+                Dim strItemTypeToSave As String = ""
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "FT"
+                Else
+                    strItemTypeToSave = strItemType
+                    'Throw New Exception("Item Type not found: " + strItemType)
+                End If
+                obj.ItemType = strItemTypeToSave
+                obj.Batch_No = ""
+
+                ''===========================================================
+                obj.FAT_Per = 0
+                obj.SNF_Per = 0
+                obj.FAT_KG = 0
+                obj.SNF_KG = 0
+
+                obj.Fat_Rate = 0
+                obj.SNF_Amt = 0
+                obj.Fat_Amt = 0
+                obj.SNF_Rate = 0
+                ''==================================================================
+
+                obj.Avg_Cost = 0
+                obj.FIFO_Cost = 0
+                obj.LIFO_Cost = 0
+
+
+                ArrInventoryMovement.Add(obj)
+
+            Next
+
+            If ArrInventoryMovement.Count > 0 Then
+                clsInventoryMovement.SaveData("BAG-RCP", strDocNo, clsCommon.GetPrintDate(objBR.Document_Date, "dd/MMM/yyyy"), clsCommon.GetPrintDate(objBR.Document_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+            Return False
+        End Try
         'UpdateInventoryMovement(Form_Id, obj, arrloc, trans)
-        Dim qry As String = "Update TSPL_SPP_PRODUCTION_ENTRY set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where PROD_ENTRY_CODE ='" + strDocNo + "'"
+
+        'For Each objGunny As clsStanderdProductionEntryGunnyBag In objRec.ArrGunny
+        '    obj = New clsInventoryMovement
+        '    obj.Trans_Type = "GunnyBag"
+        '    obj.InOut = "I"
+        '    obj.Location_Code = objRec.LOCATION_CODE 'objProd.LOCATION_CODE
+        '    obj.Item_Code = objGunny.Item_Code
+        '    obj.Item_Desc = objGunny.Item_Name
+        '    obj.Qty = objGunny.Qty
+        '    obj.UOM = objGunny.UOM
+        '    obj.Source_Doc_No = objRec.PROD_ENTRY_CODE
+        '    obj.Source_Doc_Date = objRec.PROD_DATE
+
+        '    Dim strItemType As String = clsItemMaster.GetItemType(objGunny.Item_Code, trans)
+        '    Dim strItemTypeToSave As String = ""
+        '    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "RM"
+        '    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "OT"
+        '    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+        '        strItemTypeToSave = "FT"
+        '    Else
+        '        strItemTypeToSave = strItemType
+        '        'Throw New Exception("Item Type not found: " + strItemType)
+        '    End If
+        '    obj.ItemType = strItemTypeToSave
+        '    obj.Batch_No = ""
+
+        '    ''===========================================================
+        '    obj.FAT_Per = 0
+        '    obj.SNF_Per = 0
+        '    obj.FAT_KG = 0
+        '    obj.SNF_KG = 0
+
+        '    obj.Fat_Rate = 0
+        '    obj.SNF_Amt = 0
+        '    obj.Fat_Amt = 0
+        '    obj.SNF_Rate = 0
+        '    ''==================================================================
+
+        '    obj.Avg_Cost = 0
+        '    obj.FIFO_Cost = 0
+        '    obj.LIFO_Cost = 0
+
+
+        '    ArrInventoryMovement.Add(obj)
+
+        'Next
+        Dim qry As String = "Update TSPL_BAG_RECEIPT_HEAD set Status=1, Posted_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Document_Code ='" + strDocNo + "'"
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
         'isSaved = isSaved And JournalEntry(trans, obj)
         HistoryData(strDocNo, trans)
