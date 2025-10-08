@@ -43,17 +43,59 @@ Public Class frmRouteWiseSaleTargetReport
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            Dim strQry As String = "Select Chapter_Head_Code,MAX(Description)Description,UOM_Code from(
+            Dim strQry As String = ReturnQry(False)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.MasterView.Refresh()
+                Gv1.DataSource = dt
+                Gv1.EnableFiltering = True
+                Gv1.AllowAddNewRow = False
+                Gv1.AllowDragToGroup = False
+                Gv1.ReadOnly = True
+                EnableDisableFields(False)
+
+                For rowI As Integer = 0 To Gv1.Rows.Count - 1
+                    For colI As Integer = 2 To Gv1.Columns.Count - 1
+                        Dim cellValue As Object = Gv1.Rows(rowI).Cells(Gv1.Columns(colI).Name).Value
+                        If cellValue IsNot Nothing AndAlso IsNumeric(cellValue) Then
+                            Dim col As GridViewDecimalColumn = TryCast(Gv1.Columns(Gv1.Columns(colI).Name), GridViewDecimalColumn)
+                            If col IsNot Nothing Then
+                                col.FormatString = "{0:N0}"
+                            End If
+                            col = Nothing
+                        End If
+                    Next
+                Next
+                Gv1.BestFitColumns()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Public Function ReturnQry(ByVal isPrint As Boolean) As String
+        Dim strQry As String
+        Try
+            strQry = "Select Chapter_Head_Code,MAX(Description)Description,UOM_Code from(
 select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,tspl_chapter_head.Chapter_Head_Code,tspl_chapter_head.Description,TSPL_ITEM_UOM_DETAIL.UOM_Code from tspl_chapter_head
 Left Outer Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category=tspl_chapter_head.Chapter_Head_Code
 Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Sub_Group_Type=TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category
 Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
 Where TSPL_ITEM_UOM_DETAIL.Default_UOM=1)ItemUOMDetails Group By Chapter_Head_Code,UOM_Code"
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim sbLTR As New StringBuilder()
                 Dim sbKG As New StringBuilder()
                 Dim strItemType As New StringBuilder()
+                Dim i As Integer = 0
                 For Each UOM In dt.Rows
                     If clsCommon.myLen(UOM("Chapter_Head_Code")) <> 0 AndAlso clsCommon.CompairString(UOM("UOM_Code"), "LTR") = CompairStringResult.Equal Then
                         If clsCommon.myLen(sbLTR) > 0 Then
@@ -67,8 +109,14 @@ Where TSPL_ITEM_UOM_DETAIL.Default_UOM=1)ItemUOMDetails Group By Chapter_Head_Co
                         End If
                         sbKG.Append("'" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "'")
                     End If
-                    If clsCommon.myLen(UOM("Description")) > 0 Then
-                        strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [" & clsCommon.myCstr(UOM("Description")) & "]")
+                    If isPrint Then
+                        If clsCommon.myLen(UOM("Description")) > 0 Then
+                            strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [Group" & clsCommon.myCstr(i + 1) & "]")
+                        End If
+                    Else
+                        If clsCommon.myLen(UOM("Description")) > 0 Then
+                            strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [" & clsCommon.myCstr(UOM("Description")) & "]")
+                        End If
                     End If
                 Next
 
@@ -198,43 +246,26 @@ IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
 from DetailData 
 Group BY DetailData.Target_Qty 
 )AllTotal Group By Description
-)TotalWise Group By Description
-
-"
-                dt = Nothing
-                dt = clsDBFuncationality.GetDataTable(strQry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Gv1.DataSource = Nothing
-                    Gv1.Rows.Clear()
-                    Gv1.Columns.Clear()
-                    Gv1.GroupDescriptors.Clear()
-                    Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                    Gv1.MasterView.Refresh()
-                    Gv1.DataSource = dt
-                    Gv1.EnableFiltering = True
-                    Gv1.AllowAddNewRow = False
-                    Gv1.AllowDragToGroup = False
-                    Gv1.ReadOnly = True
-                    EnableDisableFields(False)
-
-                    For rowI As Integer = 0 To Gv1.Rows.Count - 1
-                        For colI As Integer = 2 To Gv1.Columns.Count - 1
-                            Dim cellValue As Object = Gv1.Rows(rowI).Cells(Gv1.Columns(colI).Name).Value
-                            If cellValue IsNot Nothing AndAlso IsNumeric(cellValue) Then
-                                Dim col As GridViewDecimalColumn = TryCast(Gv1.Columns(Gv1.Columns(colI).Name), GridViewDecimalColumn)
-                                If col IsNot Nothing Then
-                                    col.FormatString = "{0:N0}"
-                                End If
-                                col = Nothing
-                            End If
-                        Next
-                    Next
-                    Gv1.BestFitColumns()
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
-                End If
+)TotalWise Group By Description "
             Else
-                clsCommon.MyMessageBoxShow("Item sub group type not found !")
+                clsCommon.MyMessageBoxShow(Me, "Item sub group type not found !", Me.Text)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return strQry
+    End Function
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim strQry As String = ReturnQry(True)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frm As New frmCrystalReportViewer()
+                frm.funreport(Form_ID, CrystalReportFolder.SalesReport, dt, "crptRouteWiseSaleTargetReport", "Route Wise Sale Target Report")
+                frm = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
