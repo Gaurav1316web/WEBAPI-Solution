@@ -2688,6 +2688,10 @@ Public Class clsUserMgtCode
     Public Const AuditTrailGeneralLedger As String = "ADIT_GENLEG"
     Public Const AuditTrailSaleAndDistribution As String = "ADIT_SALDBU"
     Public Const rptSalesReport As String = "SALE-RPT"
+
+    Public Const rptDealerSalesReport As String = "DEA_SA_RE"
+
+
     Public Const rptSaleReportCustomerWise As String = "SALE-CW-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"
     Public Const AuditTrailPurchase As String = "ADIT_PURCH"

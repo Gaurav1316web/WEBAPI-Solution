@@ -581,6 +581,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.34", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.RoutePartyWisePriceList, "Route and PartyWise Price List", "1.06.03.38", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleReportCustomerWise, "Sales Report Customer Wise", "1.06.03.41", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDealerSalesReport, "Dealer Sales Report", "1.06.03.42", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
