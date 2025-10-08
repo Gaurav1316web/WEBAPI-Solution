@@ -99,13 +99,22 @@ Public Class frmPendingPO
 #End Region
 
     Private Sub FrmPendingRequistion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        txtToDate.Value = dtGRNDate
-        txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        AutoClosePOBasedOnSRNQtyWithTolerance = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = 1, True, False)
-        OpenPOForShorateLeakageQty = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, Nothing)) = 1, True, False)
+        Try
+            If objCommonVar.RCDFCFP AndAlso dtGRNDate IsNot Nothing AndAlso clsCommon.CompairString(Is_Load_MRN, "False") = CompairStringResult.Equal Then
+                txtToDate.Value = dtGRNDate
+                txtFromDate.Value = txtToDate.Value.AddMonths(-1)
+                SplitContainer2.Panel1.Visible = True
+            Else
+                SplitContainer2.Panel1.Visible = False
+            End If
+            AutoClosePOBasedOnSRNQtyWithTolerance = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AutoClosePOBasedOnSRNQtyWithTolerance, clsFixedParameterCode.AutoClosePOBasedOnSRNQtyWithTolerance, Nothing)) = 1, True, False)
+            OpenPOForShorateLeakageQty = IIf(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, Nothing)) = 1, True, False)
 
-        ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
-        LoadAllDataOnLoadAndButtonGoClick()
+            ShowCapexCodeandSubCode = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
+            LoadAllDataOnLoadAndButtonGoClick()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub LoadAllDataOnLoadAndButtonGoClick()
@@ -167,6 +176,9 @@ Public Class frmPendingPO
                 " select 0 as Header_Discount_Per,0 as Taxable_Amount_Per, '' as Against_Item_Wise_Tax_Rate,TSPL_SRN_DETAIL.Category,TSPL_SRN_DETAIL.Emergency,TSPL_SRN_DETAIL.Capex_Code,TSPL_SRN_DETAIL.Capex_SubCode,TSPL_SRN_DETAIL.Bin_No,coalesce(TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.RGP_ID) as Code,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,TSPL_SRN_DETAIL.Item_Desc as IName,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,TSPL_SRN_DETAIL.GRN_ID as GRN_No,null,null,'' as Item_Insurance_Apply_On,0 as Item_Insurance_Rate,0 as Item_Insurance_Amt  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 and TSPL_SRN_DETAIL.SRN_No not in ('" + strCurrCode + "')   and not exists (select 1 from TSPL_SRN_RETURN where TSPL_SRN_RETURN.SRN_No=TSPL_SRN_DETAIL.SRN_No) " + Environment.NewLine &
                 " )Final left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=Final.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P'  
                    where 1=1 "
+                'If objCommonVar.RCDFCFP AndAlso dtGRNDate IsNot Nothing Then
+                '    qry += "  And Convert(Date,TransDate,103)>=Convert(Date,'" & txtFromDate.Value & "',103) And Convert(Date,TransDate,103)<=Convert(Date,'" & txtToDate.Value & "',103) "
+                'End If
                 ''item which are mpped for qc ,exclude that from pendign queries
                 If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowQualityModuleInERP, clsFixedParameterCode.AllowQualityModuleInERP, Nothing)), "1") = CompairStringResult.Equal Then
                     qry += " and final.icode not in (select distinct TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL.Item_Code from TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL left outer join TSPL_QC_VENDOR_ITEM_MAPPING_HEAD on TSPL_QC_VENDOR_ITEM_MAPPING_HEAD.Document_Code=TSPL_QC_VENDOR_ITEM_MAPPING_DETAIL.Document_Code where TSPL_QC_VENDOR_ITEM_MAPPING_HEAD.vendor_code=final.vendor) "
@@ -434,7 +446,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 '       " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_QC_CHECK_SRN_DETAIL.item_code where TSPL_QC_CHECK_HEAD.Posted=1 " &
                 '       " and len(isnull(TSPL_QC_CHECK_SRN_DETAIL.PO_No,''))>0  and TSPL_QC_CHECK_SRN_DETAIL.Ok_Qty<=0 and not exists (select * from TSPL_MRN_DETAIL where TSPL_MRN_DETAIL.MRN_No=TSPL_QC_CHECK_SRN_DETAIL.MRN_No )"
                 qry += " )Final left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=Final.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' "
-                If objCommonVar.RCDFCFP Then
+                If objCommonVar.RCDFCFP AndAlso dtGRNDate IsNot Nothing Then
                     qry += "  Where Convert(Date,TransDate,103)>=Convert(Date,'" & txtFromDate.Value & "',103) And Convert(Date,TransDate,103)<=Convert(Date,'" & txtToDate.Value & "',103) "
                 End If
                 qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and  (SUM((Qty *RI)-Unapproved" + IIf(OpenPOForShorateLeakageQty, "+", "-") + "DamageQty) <>0 or sum(isBlanket)>0) order by Code,ICode "

@@ -572,7 +572,6 @@ Partial Class frmGRN
         Me.btnShowSchedule.Size = New System.Drawing.Size(50, 21)
         Me.btnShowSchedule.TabIndex = 1486
         Me.btnShowSchedule.Text = "Show"
-        Me.btnShowSchedule.Visible = False
         '
         'Inter_unit_Purchk
         '
@@ -3180,7 +3179,7 @@ Partial Class frmGRN
         'Cancelbtn
         '
         Me.Cancelbtn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cancelbtn.Location = New System.Drawing.Point(220, 5)
+        Me.Cancelbtn.Location = New System.Drawing.Point(218, 4)
         Me.Cancelbtn.Name = "Cancelbtn"
         Me.Cancelbtn.Size = New System.Drawing.Size(69, 22)
         Me.Cancelbtn.TabIndex = 161
@@ -3190,7 +3189,7 @@ Partial Class frmGRN
         '
         Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnhistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnhistory.Location = New System.Drawing.Point(687, 4)
+        Me.btnhistory.Location = New System.Drawing.Point(683, 4)
         Me.btnhistory.Name = "btnhistory"
         Me.btnhistory.Size = New System.Drawing.Size(69, 22)
         Me.btnhistory.TabIndex = 160
@@ -3200,7 +3199,7 @@ Partial Class frmGRN
         '
         Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
-        Me.btnRejected.Location = New System.Drawing.Point(459, 5)
+        Me.btnRejected.Location = New System.Drawing.Point(456, 4)
         Me.btnRejected.Name = "btnRejected"
         Me.btnRejected.Size = New System.Drawing.Size(83, 22)
         Me.btnRejected.TabIndex = 159
@@ -3222,7 +3221,7 @@ Partial Class frmGRN
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(362, 5)
+        Me.RadButton1.Location = New System.Drawing.Point(360, 4)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(94, 22)
         Me.RadButton1.TabIndex = 8
@@ -3233,7 +3232,7 @@ Partial Class frmGRN
         '
         Me.btn_Amendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Amendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Amendment.Location = New System.Drawing.Point(544, 5)
+        Me.btn_Amendment.Location = New System.Drawing.Point(541, 4)
         Me.btn_Amendment.Name = "btn_Amendment"
         Me.btn_Amendment.Size = New System.Drawing.Size(69, 22)
         Me.btn_Amendment.TabIndex = 7
@@ -3254,7 +3253,7 @@ Partial Class frmGRN
         '
         Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpost.Location = New System.Drawing.Point(615, 5)
+        Me.btnUnpost.Location = New System.Drawing.Point(612, 4)
         Me.btnUnpost.Name = "btnUnpost"
         Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
         Me.btnUnpost.TabIndex = 4
@@ -3264,7 +3263,7 @@ Partial Class frmGRN
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(291, 5)
+        Me.btnPrint.Location = New System.Drawing.Point(289, 4)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 3
@@ -3273,7 +3272,7 @@ Partial Class frmGRN
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(78, 5)
+        Me.btnDelete.Location = New System.Drawing.Point(76, 4)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 2
@@ -3282,7 +3281,7 @@ Partial Class frmGRN
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(149, 5)
+        Me.btnPost.Location = New System.Drawing.Point(147, 4)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
         Me.btnPost.TabIndex = 1
