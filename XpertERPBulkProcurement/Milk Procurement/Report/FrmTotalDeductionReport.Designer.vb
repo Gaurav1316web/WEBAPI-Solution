@@ -28,6 +28,13 @@ Partial Class FrmTotalDeductionReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnAliasNameWise = New common.Controls.MyRadioButton()
+        Me.rdbArea = New common.Controls.MyRadioButton()
+        Me.MyRadioButton1 = New common.Controls.MyRadioButton()
+        Me.rdbBMC = New common.Controls.MyRadioButton()
+        Me.rdbBMCDCS = New common.Controls.MyRadioButton()
+        Me.rdbDCS = New common.Controls.MyRadioButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnMonthly = New System.Windows.Forms.RadioButton()
         Me.rbtnCycleWise = New System.Windows.Forms.RadioButton()
@@ -65,6 +72,14 @@ Partial Class FrmTotalDeductionReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbtnAliasNameWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbBMCDCS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,6 +149,7 @@ Partial Class FrmTotalDeductionReport
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox3)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
         Me.RadPanel1.Controls.Add(Me.MyLabel1)
@@ -143,6 +159,92 @@ Partial Class FrmTotalDeductionReport
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 339)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnAliasNameWise)
+        Me.RadGroupBox3.Controls.Add(Me.rdbArea)
+        Me.RadGroupBox3.Controls.Add(Me.MyRadioButton1)
+        Me.RadGroupBox3.Controls.Add(Me.rdbBMC)
+        Me.RadGroupBox3.Controls.Add(Me.rdbBMCDCS)
+        Me.RadGroupBox3.Controls.Add(Me.rdbDCS)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(391, 46)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(350, 49)
+        Me.RadGroupBox3.TabIndex = 448
+        '
+        'rbtnAliasNameWise
+        '
+        Me.rbtnAliasNameWise.Location = New System.Drawing.Point(15, 25)
+        Me.rbtnAliasNameWise.MyLinkLable1 = Nothing
+        Me.rbtnAliasNameWise.MyLinkLable2 = Nothing
+        Me.rbtnAliasNameWise.Name = "rbtnAliasNameWise"
+        Me.rbtnAliasNameWise.Size = New System.Drawing.Size(104, 18)
+        Me.rbtnAliasNameWise.TabIndex = 6
+        Me.rbtnAliasNameWise.TabStop = False
+        Me.rbtnAliasNameWise.Text = "Alias Name Wise"
+        Me.rbtnAliasNameWise.Visible = False
+        '
+        'rdbArea
+        '
+        Me.rdbArea.Location = New System.Drawing.Point(152, 5)
+        Me.rdbArea.MyLinkLable1 = Nothing
+        Me.rdbArea.MyLinkLable2 = Nothing
+        Me.rdbArea.Name = "rdbArea"
+        Me.rdbArea.Size = New System.Drawing.Size(43, 18)
+        Me.rdbArea.TabIndex = 5
+        Me.rdbArea.TabStop = False
+        Me.rdbArea.Text = "Area"
+        '
+        'MyRadioButton1
+        '
+        Me.MyRadioButton1.Location = New System.Drawing.Point(183, 26)
+        Me.MyRadioButton1.MyLinkLable1 = Nothing
+        Me.MyRadioButton1.MyLinkLable2 = Nothing
+        Me.MyRadioButton1.Name = "MyRadioButton1"
+        Me.MyRadioButton1.Size = New System.Drawing.Size(110, 18)
+        Me.MyRadioButton1.TabIndex = 4
+        Me.MyRadioButton1.TabStop = False
+        Me.MyRadioButton1.Text = "Month Cycle Wise"
+        Me.MyRadioButton1.Visible = False
+        '
+        'rdbBMC
+        '
+        Me.rdbBMC.Location = New System.Drawing.Point(69, 5)
+        Me.rdbBMC.MyLinkLable1 = Nothing
+        Me.rdbBMC.MyLinkLable2 = Nothing
+        Me.rdbBMC.Name = "rdbBMC"
+        Me.rdbBMC.Size = New System.Drawing.Size(44, 18)
+        Me.rdbBMC.TabIndex = 3
+        Me.rdbBMC.TabStop = False
+        Me.rdbBMC.Text = "BMC"
+        '
+        'rdbBMCDCS
+        '
+        Me.rdbBMCDCS.Location = New System.Drawing.Point(108, 28)
+        Me.rdbBMCDCS.MyLinkLable1 = Nothing
+        Me.rdbBMCDCS.MyLinkLable2 = Nothing
+        Me.rdbBMCDCS.Name = "rdbBMCDCS"
+        Me.rdbBMCDCS.Size = New System.Drawing.Size(69, 18)
+        Me.rdbBMCDCS.TabIndex = 2
+        Me.rdbBMCDCS.TabStop = False
+        Me.rdbBMCDCS.Text = "BMC/DCS"
+        Me.rdbBMCDCS.Visible = False
+        '
+        'rdbDCS
+        '
+        Me.rdbDCS.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbDCS.Location = New System.Drawing.Point(5, 5)
+        Me.rdbDCS.MyLinkLable1 = Nothing
+        Me.rdbDCS.MyLinkLable2 = Nothing
+        Me.rdbDCS.Name = "rdbDCS"
+        Me.rdbDCS.Size = New System.Drawing.Size(41, 18)
+        Me.rdbDCS.TabIndex = 1
+        Me.rdbDCS.Text = "DCS"
+        Me.rdbDCS.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox2
         '
@@ -209,7 +311,7 @@ Partial Class FrmTotalDeductionReport
         '
         Me.lblDCS.FieldName = Nothing
         Me.lblDCS.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDCS.Location = New System.Drawing.Point(5, 81)
+        Me.lblDCS.Location = New System.Drawing.Point(5, 59)
         Me.lblDCS.Name = "lblDCS"
         Me.lblDCS.Size = New System.Drawing.Size(58, 18)
         Me.lblDCS.TabIndex = 390
@@ -219,7 +321,7 @@ Partial Class FrmTotalDeductionReport
         '
         Me.TxtDeduction.arrDispalyMember = Nothing
         Me.TxtDeduction.arrValueMember = Nothing
-        Me.TxtDeduction.Location = New System.Drawing.Point(95, 81)
+        Me.TxtDeduction.Location = New System.Drawing.Point(95, 58)
         Me.TxtDeduction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtDeduction.MyLinkLable1 = Me.lblDCS
         Me.TxtDeduction.MyLinkLable2 = Nothing
@@ -227,7 +329,6 @@ Partial Class FrmTotalDeductionReport
         Me.TxtDeduction.Name = "TxtDeduction"
         Me.TxtDeduction.Size = New System.Drawing.Size(243, 19)
         Me.TxtDeduction.TabIndex = 389
-        Me.TxtDeduction.Visible = False
         '
         'txtDCS
         '
@@ -256,7 +357,7 @@ Partial Class FrmTotalDeductionReport
         '
         Me.lblBMC.FieldName = Nothing
         Me.lblBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBMC.Location = New System.Drawing.Point(5, 57)
+        Me.lblBMC.Location = New System.Drawing.Point(5, 84)
         Me.lblBMC.Name = "lblBMC"
         Me.lblBMC.Size = New System.Drawing.Size(30, 18)
         Me.lblBMC.TabIndex = 356
@@ -267,7 +368,7 @@ Partial Class FrmTotalDeductionReport
         '
         Me.txtMCC.arrDispalyMember = Nothing
         Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(95, 57)
+        Me.txtMCC.Location = New System.Drawing.Point(95, 83)
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.lblBMC
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -510,6 +611,15 @@ Partial Class FrmTotalDeductionReport
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbtnAliasNameWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadioButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbBMC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbBMCDCS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -571,4 +681,11 @@ Partial Class FrmTotalDeductionReport
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
     Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rbtnAliasNameWise As common.Controls.MyRadioButton
+    Friend WithEvents rdbArea As common.Controls.MyRadioButton
+    Friend WithEvents MyRadioButton1 As common.Controls.MyRadioButton
+    Friend WithEvents rdbBMC As common.Controls.MyRadioButton
+    Friend WithEvents rdbBMCDCS As common.Controls.MyRadioButton
+    Friend WithEvents rdbDCS As common.Controls.MyRadioButton
 End Class

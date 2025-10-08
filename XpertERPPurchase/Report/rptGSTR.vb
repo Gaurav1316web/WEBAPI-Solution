@@ -2902,9 +2902,9 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
                     Wrcls += "  AND isnull(TSPL_Customer_Invoice_Head.Total_Tax,0) =0  AND TSPL_Customer_Invoice_Head.Against_Sale_No not IN (select  Document_Code  from TSPL_SD_SALE_INVOICE_HEAD where Document_Type in ('EX','MT')) "
                     qry = getBaseQueryForItemWise_GSTR1(Wrcls, "Nil Rated Invoices - 8A, 8B, 8C, 8D")
                 End If
-
+                Dim strQry As String = ";With CTE As (" & qry & ")"
                 If Not exportGSTR Then
-                    dt = clsDBFuncationality.GetDataTable(qry)
+                    dt = clsDBFuncationality.GetDataTable(strQry & "Select * from CTE")
                     gv3.DataSource = Nothing
                     gv3.Rows.Clear()
                     gv3.Columns.Clear()
@@ -2923,7 +2923,7 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
                         Throw New Exception("No Data Found to Display")
                     End If
                 Else
-                    strQryGSTR = qry
+                    strQryGSTR = strQry
                 End If
             End If
         Catch ex As Exception
@@ -3059,8 +3059,9 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
                     qry = getBaseQueryforDetail_GSTR1(Wrcls, clsCommon.myCstr(IIf(exportGSTR = True, "Taxable Invoice (Direct)", clsCommon.myCstr(gv2.CurrentRow.Cells("Name").Value))))
                 End If
 
+                Dim strQry As String = ";With CTE As (" & qry & ")"
                 If Not exportGSTR Then
-                    dt = clsDBFuncationality.GetDataTable(qry)
+                    dt = clsDBFuncationality.GetDataTable(strQry & "Select * from CTE")
 
                     'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     '    dt.Columns.Add("InvoiceAmountDisc", GetType(Decimal))
@@ -3117,7 +3118,7 @@ Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') The
                     End If
                 Else
                     strQryGSTR = Nothing
-                    strQryGSTR = qry
+                    strQryGSTR = strQry
                 End If
             End If
         Catch ex As Exception
@@ -4292,32 +4293,32 @@ having Count(Part3)>0 "
                     sheet = CType(workbook.Sheets(sheetName), Excel.Worksheet)
                     DrillDownDetailForGSTR1(sheetName)
                     If clsCommon.CompairString(sheetName, "b2b,sez,de") = CompairStringResult.Equal Then 'AndAlso i = 1 Then
-                        dt = clsDBFuncationality.GetDataTable("Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],[Reverse Charges],'' As [Applicable of Tax Rate],[Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from (" & strQryGSTR & ")xyz Order By SNo")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select [GST No],[Customer Name],[Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],[Reverse Charges],'' As [Applicable of Tax Rate],[Invoice Type],'' As [E-Commerce GSTIN],TaxRate,[Taxable Value],'' As [Cess Amount] from CTE Order By SNo")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "b2cl") = CompairStringResult.Equal Then ' AndAlso i = 4 Then
-                        dt = clsDBFuncationality.GetDataTable("Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" & strQryGSTR & ")xyz")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select [Sale Invoice No],Format([Sale Invoice Date],'dd-MMM-yyyy')[Sale Invoice Date],[Invoice Amount],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from CTE")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "b2cs") = CompairStringResult.Equal Then 'AndAlso i = 5 Then
-                        dt = clsDBFuncationality.GetDataTable("Select 'OE' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,Sum([Taxable Value])[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from(" & strQryGSTR & ")xyz Group By [Place of Supply],TaxRate Order By TaxRate")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select 'OE' As [Type],[Place of Supply],'' As [Applicable of Tax Rate],TaxRate,Sum([Taxable Value])[Taxable Value],'' As [Cess Amount],'' As [E-Commerce GSTIN] from CTE Group By [Place of Supply],TaxRate Order By TaxRate")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "cdnr") = CompairStringResult.Equal Then 'AndAlso i = 6 Then
-                        dt = clsDBFuncationality.GetDataTable("Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Reverse Charges],[Invoice Type] As [Note Supply Type],[Invoice Amount] As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from (" & strQryGSTR & ")xyz")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select [GST No] As [GSTIN/UIN of Recipient],[Customer Name] As [Receiver Name],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Reverse Charges],[Invoice Type] As [Note Supply Type],[Invoice Amount] As [Note Value],'' [Applicable % of Tax Rate],TaxRate As Rate,[Taxable Value],'' As [Cess Amount] from CTE")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "cdnur") = CompairStringResult.Equal Then 'AndAlso i = 7 Then
-                        dt = clsDBFuncationality.GetDataTable("Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Invoice Amount] As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from (" & strQryGSTR & ")xyz")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select '' As [UR Type],[Document No] As [Note Number],[Document Date] As [Note Date],[Document Type] As [Note Type],[Place of Supply],[Invoice Amount] As [Note Value],'' As [Applicable % of Tax Rate],TaxRate As [Rate],[Taxable Value],'' As [Cess Amount] from CTE")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "exemp") = CompairStringResult.Equal Then 'AndAlso i = 11 Then
-                        Dim Qry As String = "Select Description ,Sum([Nil Rated Supplies])[Nil Rated Supplies] ,Sum([Exempted(other than nil rated/non GST supply)])[Exempted(other than nil rated/non GST supply)], Sum([Non-GST Supplies])[Non-GST Supplies] 
+                        Dim Qry As String = strQryGSTR & "Select Description ,Sum([Nil Rated Supplies])[Nil Rated Supplies] ,Sum([Exempted(other than nil rated/non GST supply)])[Exempted(other than nil rated/non GST supply)], Sum([Non-GST Supplies])[Non-GST Supplies] 
 from (Select 'Intra-State supplies to registered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
 Union All
 Select 'Intra-State supplies to unregistered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
@@ -4326,7 +4327,7 @@ Select 'Inter-State supplies to unregistered persons' As Description,0 As [Nil R
 Union All
 Select 'Inter-State supplies to registered persons' As Description,0 As [Nil Rated Supplies],0 As [Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],'' As [Place of Supply]
 Union All "
-                        Qry += " Select Description,0 As [Nil Rated Supplies],Sum([Invoice Amount])[Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],[Place of Supply] from (" & strQryGSTR & ")xyz Group By Description,[Place of Supply]"
+                        Qry += " Select Description,0 As [Nil Rated Supplies],Sum([Invoice Amount])[Exempted(other than nil rated/non GST supply)],0 As [Non-GST Supplies],[Place of Supply] from CTE Group By Description,[Place of Supply]"
                         Qry += ")abc Group By Description"
                         dt = clsDBFuncationality.GetDataTable(Qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -4334,13 +4335,13 @@ Union All "
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "hsn(b2b)") = CompairStringResult.Equal Then 'AndAlso i = 13 Then
                         DrillDownDetailForGSTR1_ItemWise(sheetName)
-                        dt = clsDBFuncationality.GetDataTable("Select [HSN Code],Max(Description)Description,Max(UOM)UOM,Sum(TotalQty)TotalQty,Sum(TotalAmount)TotalAmount,Max(Tax_Rate)Tax_Rate,Sum(TotalTaxableValue)TotalTaxableValue,Sum(IGSTAmount)IGSTAmount,Sum(CGSTAmount)CGSTAmount,Sum(SGSTAmount)SGSTAmount,'' As [Cess Amount]  from (" & strQryGSTR & ") xyz Where xyz.TotalQty<>0 Group By [HSN Code]")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select [HSN Code],Max(Description)Description,Max(UOM)UOM,Sum(TotalQty)TotalQty,Sum(TotalAmount)TotalAmount,Max(Tax_Rate)Tax_Rate,Sum(TotalTaxableValue)TotalTaxableValue,Sum(IGSTAmount)IGSTAmount,Sum(CGSTAmount)CGSTAmount,Sum(SGSTAmount)SGSTAmount,'' As [Cess Amount]  from CTE Where TotalQty<>0 Group By [HSN Code]")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
                     ElseIf clsCommon.CompairString(sheetName, "hsn(b2c)") = CompairStringResult.Equal Then 'AndAlso i = 13 Then
                         DrillDownDetailForGSTR1_ItemWise(sheetName)
-                        dt = clsDBFuncationality.GetDataTable("Select [HSN Code],Max(Description)Description,Max(UOM)UOM,Sum(TotalQty)TotalQty,Sum(TotalAmount)TotalAmount,Max(Tax_Rate)Tax_Rate,Sum(TotalTaxableValue)TotalTaxableValue,Sum(IGSTAmount)IGSTAmount,Sum(CGSTAmount)CGSTAmount,Sum(SGSTAmount)SGSTAmount,'' As [Cess Amount]  from (" & strQryGSTR & ") xyz Where xyz.TotalQty<>0 Group By [HSN Code]")
+                        dt = clsDBFuncationality.GetDataTable(strQryGSTR & "Select [HSN Code],Max(Description)Description,Max(UOM)UOM,Sum(TotalQty)TotalQty,Sum(TotalAmount)TotalAmount,Max(Tax_Rate)Tax_Rate,Sum(TotalTaxableValue)TotalTaxableValue,Sum(IGSTAmount)IGSTAmount,Sum(CGSTAmount)CGSTAmount,Sum(SGSTAmount)SGSTAmount,'' As [Cess Amount]  from CTE  Where TotalQty<>0 Group By [HSN Code]")
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             WriteDataTableToSheet(sheet, dt, 3) ' Writing data from row 3
                         End If
