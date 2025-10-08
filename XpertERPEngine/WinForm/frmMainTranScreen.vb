@@ -1322,28 +1322,28 @@ Public Class FrmMainTranScreen
 
     'End Sub
     Private Sub FrmMainTranScreen_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
-        'If Not Me.DesignMode Then
-        '    Try
-        '        If clsCommon.myLen(Form_ID) > 0 Then
-        '            Dim obj As New frmClientFormLableDetails
-        '            obj.formcode = Form_ID
-        '            obj.formnam = Me
-        '            obj.LoadLableChanged(Me, , True)
-        '            obj.Dispose()
-        '            'If objCommonVar.AutoRestoreGridLayout Then 
-        '            '    FindAndRestoreGridLayout(Me)
-        '            'End If
-        '            FindAndSetgridUpDownFalse(Me)
-        '            'AddMouseMove(Me)
+        If Not Me.DesignMode Then
+            Try
+                If clsCommon.myLen(Form_ID) > 0 Then
+                    Dim obj As New frmClientFormLableDetails
+                    obj.formcode = Form_ID
+                    obj.formnam = Me
+                    obj.LoadLableChanged(Me, , True)
+                    obj.Dispose()
+                    'If objCommonVar.AutoRestoreGridLayout Then 
+                    '    FindAndRestoreGridLayout(Me)
+                    'End If
+                    FindAndSetgridUpDownFalse(Me)
+                    'AddMouseMove(Me)
 
-        '        End If
-        '        If is_Cancel_Allowed = "1" Then
-        '            frmClientFormLableDetails.HideDeleteButon(Me, Me.Form_ID, Nothing)
-        '        End If
-        '    Catch ex As Exception
-        '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        '    End Try
-        'End If
+                End If
+                If is_Cancel_Allowed = "1" Then
+                    frmClientFormLableDetails.HideDeleteButon(Me, Me.Form_ID, Nothing)
+                End If
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        End If
     End Sub
     '' Anubhooti 09-Sep-2014 Check Transactions For Financial Year--------------------------------------------
     Public Shared Function ValidateTransactionAccToFinYear(ByVal Form_Name As String, ByVal DocDate As String) As Boolean
