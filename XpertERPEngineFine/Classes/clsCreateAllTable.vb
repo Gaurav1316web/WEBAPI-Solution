@@ -11012,6 +11012,8 @@ FROM TSPL_ITEM_MASTER"
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("Added_By", "varchar(12) null")
+            coll.Add("Added_On", "datetime null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_UPLOADER_MCC", coll)
 
             coll = New Dictionary(Of String, String)()

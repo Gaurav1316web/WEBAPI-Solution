@@ -1,9 +1,11 @@
 ﻿Imports common
 Public Class clsUserMgtCode
+    Public Const frmRouteWiseSaleTargetReport As String = "RSL-TGT-RPT"
     Public Const frmRouteWiseSaleTarget As String = "RTWS-SL-TGT"
     Public Const frmPDAccountSummariesReport As String = "PD-ACC-SRPT"
     Public Const frmCommissionTPTCalculation As String = "CMN-TPT-CLN"
     Public Const frmSendBilltoDistributor As String = "SND-BLL-DST"
+    Public Const rptSchemeSaleReport As String = "SHM-SLE-RPT"
     Public Const frmIBPReport As String = "IBP-RPT"
     Public Const frmMonthWiseBeneficieriesReport As String = "MNTH-BNFRCS"
     Public Const rptBMCGazeCapacityUtilizationReport As String = "BMCGAZE-UT"
@@ -1692,6 +1694,7 @@ Public Class clsUserMgtCode
     '------------------Transaction----------------------------------------'
     Public Const frmBreakDownEntry As String = "PRO_BD_ENT"
     Public Const frmStanderdProductionEntry As String = "STD_PRO_ENT"
+    Public Const FrmBagReceipt As String = "BAG_RCPT"
     Public Const frmBillOfMaterialCosting As String = "BOMCOSTING"
     Public Const frmProductionPlanningSTD As String = "PRODPLAN_STD"
     Public Const frmProductionPlanningDairy As String = "PRODPLAN_D"
@@ -2685,6 +2688,10 @@ Public Class clsUserMgtCode
     Public Const AuditTrailGeneralLedger As String = "ADIT_GENLEG"
     Public Const AuditTrailSaleAndDistribution As String = "ADIT_SALDBU"
     Public Const rptSalesReport As String = "SALE-RPT"
+
+    Public Const rptDealerSalesReport As String = "DEA_SA_RE"
+
+
     Public Const rptSaleReportCustomerWise As String = "SALE-CW-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"
     Public Const AuditTrailPurchase As String = "ADIT_PURCH"

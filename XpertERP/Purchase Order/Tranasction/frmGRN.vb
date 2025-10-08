@@ -7,6 +7,7 @@ Imports Telerik.WinControls
 Imports System.IO
 Imports System.Xml
 Imports System.Data.SqlClient
+Imports System.Text
 
 Public Class frmGRN
     Inherits FrmMainTranScreen
@@ -299,6 +300,11 @@ Public Class frmGRN
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        If objCommonVar.RCDFCFP Then
+            btnShowSchedule.Visible = True
+        Else
+            btnShowSchedule.Visible = False
+        End If
         RadButton1.Visible = True
         SettRateDecimalPlaces = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModule, clsFixedParameterCode.RateDecimalPlaces, Nothing))
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
@@ -5866,7 +5872,14 @@ Public Class frmGRN
         Dim frm As New frmPendingPO()
         If objCommonVar.RCDFCFP = True Then
             Dim objItemMaster As clsItemMaster
-            objItemMaster = clsItemMaster.FinderForItem("", "", True)
+
+            Dim whrcls As String = Nothing
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to select RM type?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                whrcls = " TSPL_ITEM_MASTER.Structure_Code='RM' "
+            Else
+                whrcls = " TSPL_ITEM_MASTER.Structure_Code<>'RM' "
+            End If
+            objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
             If objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
                 frm.ItemForDocumentFilter = objItemMaster.Item_Code
             Else
@@ -8203,4 +8216,41 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnShowSchedule_Click(sender As Object, e As EventArgs) Handles btnShowSchedule.Click
+        Try
+            If clsCommon.myLen(txtRefNo.Text) > 0 Then
+                Dim lstItem As New List(Of String)
+                If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
+                    For Each strRow As GridViewRowInfo In gv1.Rows
+                        If Not lstItem.Contains(strRow.Cells(colICode).Value) Then
+                            If clsCommon.myLen(strRow.Cells(colICode).Value) > 0 Then
+                                lstItem.Add(strRow.Cells(colICode).Value)
+                            End If
+                        End If
+                    Next
+                End If
+
+                Dim strQry As String = "Select Schedule_No As [Schedule No],Convert(Varchar(10),From_Date,103) As [From Date],Convert(Varchar(10),To_Date,103) As [To Date],Schedule_Qty_Per As [Schedule Qty Per],Schedule_Qty As [Schedule Qty] from(" & clsTenderSchedule.GetScheduleDataQuery(txtRefNo.Text, txtVendorNo.Value, clsCommon.GetMulcallString(lstItem), txtBillToLocation.Value) & ")final order by PK_Id"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Dim frm As New FrmFreeGrid()
+                    frm.ReportID = Form_ID
+                    frm.Text = "Schedule"
+                    frm.dt = dt
+                    frm.ShowDialog()
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Schedule not found.", Me.Text)
+                End If
+
+                lstItem = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Reference No can't be blank !", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 End Class

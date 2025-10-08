@@ -736,6 +736,12 @@
     <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RCDFProduction\FrmBagReceipt.Designer.vb">
+      <DependentUpon>FrmBagReceipt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RCDFProduction\FrmBagReceipt.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.Designer.vb">
       <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
     </Compile>
@@ -1096,6 +1102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Transaction\frmBreakDownEntry.resx">
       <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RCDFProduction\FrmBagReceipt.resx">
+      <DependentUpon>FrmBagReceipt.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RCDFProduction\Transaction\frmRCDFStandardization.resx">
       <DependentUpon>frmRCDFStandardization.vb</DependentUpon>

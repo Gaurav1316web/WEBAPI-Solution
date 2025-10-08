@@ -7200,6 +7200,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmStanderdProductionEntry
                         frm = New frmStanderdProductionEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.FrmBagReceipt
+                        frm = New FrmBagReceipt
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'End If
                     'Case clsUserMgtCode.frmProductionPlanning
                     '    Dim OpenProcessProductionBOm As Boolean = clsDBFuncationality.getSingleValue("select IsBOMFromProcessProduction from TSPL_INV_PARAMETERS")
@@ -8814,6 +8818,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDailyStatementReport
                         frm = New rptDailyStatementReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptSchemeSaleReport
+                        frm = New rptSchemeSaleReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptCreditCustomerReport
                         frm = New rptCreditCustomerReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -9697,6 +9704,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmRouteWiseSaleTarget
                         frm = New frmRouteWiseSaleTarget
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmRouteWiseSaleTargetReport
+                        frm = New frmRouteWiseSaleTargetReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCommissionTPTCalculation
                         frm = New frmCommissionTPTCalculation
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -10271,6 +10281,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptSalesReport
                         frm = New rptSalesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptDealerSalesReport
+                        frm = New rptDealerSalesReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSaleReportCustomerWise
                         frm = New rptSaleReportCustomerWise
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

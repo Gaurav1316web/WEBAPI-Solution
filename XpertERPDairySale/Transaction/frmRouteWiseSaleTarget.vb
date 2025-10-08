@@ -574,4 +574,22 @@ Inner Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Document_C
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnReverseUnpost_Click(sender As Object, e As EventArgs) Handles btnReverseUnpost.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "Are you sure to Reverse ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    Dim obj As New clsRouteWiseSaleTarget()
+                    If obj.ReverseAndUnpost(txtDocumentNo.Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Data Reverse Successfully.")
+                    End If
+                    obj = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Document Code not found to reverse !", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

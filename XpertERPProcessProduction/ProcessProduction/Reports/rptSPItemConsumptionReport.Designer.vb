@@ -22,10 +22,10 @@ Partial Class rptSPItemConsumptionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -54,6 +54,7 @@ Partial Class rptSPItemConsumptionReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -86,6 +87,7 @@ Partial Class rptSPItemConsumptionReport
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,6 +110,7 @@ Partial Class rptSPItemConsumptionReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -209,16 +212,16 @@ Partial Class rptSPItemConsumptionReport
         '
         Me.ddlReportsType.DropDownAnimationEnabled = True
         Me.ddlReportsType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem4.Tag = ""
-        RadListDataItem4.Text = "Batch-Wise"
-        RadListDataItem4.TextWrap = False
-        RadListDataItem5.Tag = ""
-        RadListDataItem5.Text = "BOM-Wise"
-        RadListDataItem5.TextWrap = False
-        RadListDataItem6.Text = "Item-Wise"
-        Me.ddlReportsType.Items.Add(RadListDataItem4)
-        Me.ddlReportsType.Items.Add(RadListDataItem5)
-        Me.ddlReportsType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Tag = ""
+        RadListDataItem1.Text = "Batch-Wise"
+        RadListDataItem1.TextWrap = False
+        RadListDataItem2.Tag = ""
+        RadListDataItem2.Text = "BOM-Wise"
+        RadListDataItem2.TextWrap = False
+        RadListDataItem3.Text = "Item-Wise"
+        Me.ddlReportsType.Items.Add(RadListDataItem1)
+        Me.ddlReportsType.Items.Add(RadListDataItem2)
+        Me.ddlReportsType.Items.Add(RadListDataItem3)
         Me.ddlReportsType.Location = New System.Drawing.Point(83, 12)
         Me.ddlReportsType.Name = "ddlReportsType"
         Me.ddlReportsType.Size = New System.Drawing.Size(125, 20)
@@ -433,7 +436,9 @@ Partial Class rptSPItemConsumptionReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ReadOnly = True
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -441,6 +446,7 @@ Partial Class rptSPItemConsumptionReport
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(670, 251)
         Me.gv1.TabIndex = 5
+        Me.gv1.VarID = ""
         '
         'RadMenu1
         '
@@ -465,6 +471,16 @@ Partial Class rptSPItemConsumptionReport
         '
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(226, 6)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(97, 17)
+        Me.RadButton1.TabIndex = 38
+        Me.RadButton1.Text = "Print Date Wise"
         '
         'btnSplitExport
         '
@@ -558,6 +574,7 @@ Partial Class rptSPItemConsumptionReport
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -600,5 +617,6 @@ Partial Class rptSPItemConsumptionReport
     Friend WithEvents btnSplitExport As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents RadButton1 As RadButton
 End Class
 

@@ -747,6 +747,12 @@
     <Compile Include="Product Sale\Report\rptDCSSaleRegister.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Product Sale\Report\rptDealerSalesReport.Designer.vb">
+      <DependentUpon>rptDealerSalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptDealerSalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Product Sale\Report\RptFlavouredMilk.Designer.vb">
       <DependentUpon>RptFlavouredMilk.vb</DependentUpon>
     </Compile>
@@ -2166,6 +2172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\rptDCSSaleRegister.resx">
       <DependentUpon>rptDCSSaleRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptDealerSalesReport.resx">
+      <DependentUpon>rptDealerSalesReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\RptFlavouredMilk.resx">
       <DependentUpon>RptFlavouredMilk.vb</DependentUpon>

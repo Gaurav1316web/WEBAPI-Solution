@@ -190,7 +190,7 @@ Public Class FrmGRNReport
                 ,(case when TSPL_QC_CHECK_HEAD.Posted=1 then 'Posted' when TSPL_QC_CHECK_HEAD.Posted=0 then 'UnPosted' end) as [Chemical QC Status]
                 ,(case when TSPL_QC_CHECK_HEAD.Approved_For_SRN=1 then 'Approved' when TSPL_QC_CHECK_HEAD.Approved_For_SRN=0 then 'UnApproved' end) as [Chemical QC Approved Status]
                 ,convert(varchar, TSPL_SRN_HEAD.SRN_Date,103) as [SRN Date],TSPL_SRN_HEAD.SRN_No as [SRN No]
-                ,TSPL_SRN_DETAIL.Item_Cost AS [SRN Rate]
+                ,CAST(TSPL_SRN_DETAIL.Item_Cost AS DECIMAL(18,3)) AS [SRN Rate]
                 ,TSPL_SRN_DETAIL.MRN_Qty AS [SRN Received Qty]
                 ,Cast(TSPL_SRN_DETAIL.Rejected_Qty as decimal(18,2)) as [SRN Rejected Qty]
                 ,Cast(TSPL_SRN_DETAIL.SRN_Qty as decimal(18,2))  as [SRN Accepted Qty]
@@ -437,6 +437,7 @@ Null As InputData9,Null As AliasName10,Null As InputData10,Null As AliasName11,N
             End If
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Gv1.DataSource = dt
+                SetGridFormat1()
                 Gv1.MasterTemplate.BestFitColumns()
                 Gv1.ReadOnly = True
                 ReStoreGridLayout()
@@ -749,5 +750,68 @@ Null As InputData9,Null As AliasName10,Null As InputData10,Null As AliasName11,N
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
         common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+    End Sub
+
+
+
+
+    Sub SetGridFormat1()
+        Gv1.AutoExpandGroups = True
+        Gv1.ShowGroupPanel = True
+        Gv1.ShowRowHeaderColumn = False
+        Gv1.AllowAddNewRow = False
+        Gv1.AllowDeleteRow = False
+        Gv1.EnableFiltering = True
+        Gv1.ShowFilteringRow = True
+
+
+        'For ii As Integer = 0 To Gv1.Columns.Count - 1
+        '    Gv1.Columns(ii).ReadOnly = True
+        '    Gv1.Columns(ii).BestFit()
+        '    'gv1.Columns(ii).Width = 200
+        'Next
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        'Dim item1 As New GridViewSummaryItem("SNo", "{0:f0}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(item1)
+
+        Dim item2 As New GridViewSummaryItem("GRN Qty", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+
+        Dim item3 As New GridViewSummaryItem("Weighment Gross Weight", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+
+        Dim item4 As New GridViewSummaryItem("Weighment Tare Weight", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        Dim item5 As New GridViewSummaryItem("Gunny Bag Weight", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+
+        Dim item6 As New GridViewSummaryItem("Weighment Net Weight", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+
+        Dim item7 As New GridViewSummaryItem("SRN Rate", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+
+        Dim item8 As New GridViewSummaryItem("SRN Received Qty", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
+        Dim item9 As New GridViewSummaryItem("SRN Rejected Qty", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item9)
+
+        Dim item10 As New GridViewSummaryItem("SRN Accepted Qty", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item10)
+
+        Dim item11 As New GridViewSummaryItem("SRN Amount", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item11)
+
+        Dim item12 As New GridViewSummaryItem("SRN Tax Amount", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item12)
+
+        Dim item13 As New GridViewSummaryItem("SRN Net Amount", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item13)
+
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 End Class

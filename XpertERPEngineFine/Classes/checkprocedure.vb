@@ -581,6 +581,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.saleconsignee, "Sale Consignee", "1.06.03.34", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.RoutePartyWisePriceList, "Route and PartyWise Price List", "1.06.03.38", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleReportCustomerWise, "Sales Report Customer Wise", "1.06.03.41", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDealerSalesReport, "Dealer Sales Report", "1.06.03.42", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -1185,6 +1186,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMRPAutoMobile, "MRP(STD)", "1.12.02.17", clsUserMgtCode.SubModuleProductionTransactionSTD, "", 8, 0, "", "", "", False, False, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.frmStanderdProductionEntry, "Std Production Entry", "1.12.02.18", clsUserMgtCode.SubModuleProductionTransactionSTD, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
         InsertDefaultValue(clsUserMgtCode.frmBreakDownEntry, "Break Down Entry", "1.12.02.19", clsUserMgtCode.SubModuleProductionTransactionSTD, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmBagReceipt, "BAG Receipt Entry", "1.12.02.23", clsUserMgtCode.SubModuleProductionTransactionSTD, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, False, True)
 
         'Reports(Setup)
         InsertDefaultValue(clsUserMgtCode.SubModuleProductionSetupReportSTD, "Setup Report", "1.12.03", clsUserMgtCode.ModuleProductionSTD, "SM", 30)
@@ -2442,6 +2444,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptMonthlyBillSummaryReport, "Monthly Bill Summary Report", "1.36.03.37", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDayWiseBoothDemand, "Day Wise Booth Demand Report", "1.36.03.38", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmSendBilltoDistributor, "Send Bill To Distributor", "1.36.03.39", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmRouteWiseSaleTargetReport, "Route Wise Sale Target Report", "1.36.03.40", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSchemeSaleReport, "Scheme Sale Report", "1.36.03.42", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)

@@ -419,6 +419,12 @@
     <Compile Include="Report\frmDayBook.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmRouteWiseSaleTargetReport.Designer.vb">
+      <DependentUpon>frmRouteWiseSaleTargetReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmRouteWiseSaleTargetReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmSendBilltoDistributor.Designer.vb">
       <DependentUpon>frmSendBilltoDistributor.vb</DependentUpon>
     </Compile>
@@ -843,6 +849,12 @@
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptSalesVehicleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptSchemeSaleReport.Designer.vb">
+      <DependentUpon>rptSchemeSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptSchemeSaleReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\rptTransporterWiseReport.Designer.vb">
@@ -1398,6 +1410,9 @@
     <EmbeddedResource Include="Report\FrmPrintMultipleGatepass.resx">
       <DependentUpon>FrmPrintMultipleGatepass.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmRouteWiseSaleTargetReport.resx">
+      <DependentUpon>frmRouteWiseSaleTargetReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\frmSendBilltoDistributor.resx">
       <DependentUpon>frmSendBilltoDistributor.vb</DependentUpon>
     </EmbeddedResource>
@@ -1583,6 +1598,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesVehicleReport.resx">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSchemeSaleReport.resx">
+      <DependentUpon>rptSchemeSaleReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptTransporterWiseReport.resx">
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>

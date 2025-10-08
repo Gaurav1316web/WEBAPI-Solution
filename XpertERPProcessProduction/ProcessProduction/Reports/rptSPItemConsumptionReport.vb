@@ -928,13 +928,71 @@ Public Class rptSPItemConsumptionReport
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Item Consumption Report", gv1, arrHeader, "Item Consumption Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        Try
+            If TxtMultiLocation.arrValueMember Is Nothing OrElse TxtMultiLocation.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select Location")
+            End If
+            If txtItemMult.arrValueMember Is Nothing OrElse txtItemMult.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select item")
+            End If
 
+            'Dim qry As String = "select Item_Code,Short_Description, * from TSPL_ITEM_MASTER where  FG_for_CF_PL=1"
+            Dim qry As String = "select Item_Code,Short_Description from TSPL_ITEM_MASTER where  FG_for_CF_PL=1"
+            Dim dtItem As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dtItem Is Nothing OrElse dtItem.Rows.Count <= 0 Then
+                Throw New Exception("Please define FG for CF PL in item master")
+            End If
+
+            qry = "with CTE as (
+select TSPL_INVENTORY_MOVEMENT.Trans_Id, CONVERT(Date, TSPL_INVENTORY_MOVEMENT.Punching_Date,103) as Punching_Date,TSPL_INVENTORY_MOVEMENT.Source_Doc_No,TSPL_INVENTORY_MOVEMENT.Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_INVENTORY_MOVEMENT.Trans_Type,TSPL_INVENTORY_MOVEMENT.InOut,TSPL_INVENTORY_MOVEMENT.Stock_Qty,TSPL_INVENTORY_MOVEMENT.Stock_UOM,TSPL_ITEM_TYPE_MASTER.UOM
+,case when ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)=0 then 0 else (TSPL_INVENTORY_MOVEMENT.Stock_Qty/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) end as MTQty
+,TabMainItem.Main_ITEM_CODE 
+from TSPL_INVENTORY_MOVEMENT 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
+left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TSPL_ITEM_MASTER.Item_Type
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_ITEM_TYPE_MASTER.UOM
+left outer join (  select PROD_ENTRY_CODE,max(Main_ITEM_CODE) as Main_ITEM_CODE,CONSM_ITEM_CODE from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH where CONSM_ITEM_CODE in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ") group by PROD_ENTRY_CODE,CONSM_ITEM_CODE ) as TabMainItem on TabMainItem.PROD_ENTRY_CODE=TSPL_INVENTORY_MOVEMENT.Source_Doc_No and TabMainItem.CONSM_ITEM_CODE=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_INVENTORY_MOVEMENT.Trans_Type='STD_PRO_ENT'  
+left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_INVENTORY_MOVEMENT.Location_Code
+where TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE ='R' and TSPL_INVENTORY_MOVEMENT.Location_Code in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") and TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(txtItemMult.arrValueMember) + ") and CONVERT(date, TSPL_INVENTORY_MOVEMENT.Punching_Date,103) < '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+)
+
+select '" + objCommonVar.CurrentUser + "' as CurrUser, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " - " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as DateRange,convert(varchar, CTE.Punching_Date,103) as IDate,CTE.Punching_Date,CTE.Location_Code,max(CTE.Location_Desc) as Location_Desc,CTE.Item_Code,max(CTE.Item_Desc) as Item_Desc
+,(select isnull(sum(InnerCTE.MTQty * case when InnerCTE.InOut='I' then 1 else -1 end),0) from CTE as InnerCTE where InnerCTE.Item_Code=CTE.Item_Code and InnerCTE.Location_Code=CTE.Location_Code and InnerCTE.Punching_Date<CTE.Punching_Date ) as OPQty
+,sum(MTQty*case when InOut='I' then 1 else 0 end) as  RecQty"
+            Dim temp As String=""
+            For ii As Integer = 0 To dtItem.Rows.Count-1
+                qry += Environment.NewLine + ",(sum(MTQty*case when InOut='O' and CTE.Main_ITEM_CODE='" + clsCommon.myCstr(dtItem.Rows(ii)("Item_Code")) + "' and CTE.Trans_Type='STD_PRO_ENT' then 1 else 0 end)) as  Item" + clsCommon.myCstr((ii + 1)) + "
+,'" + clsCommon.myCstr(dtItem.Rows(ii)("Short_Description")) + "' as ItemName" + clsCommon.myCstr((ii + 1))
+
+                If ii > 0 Then
+                    temp += " or "
+                End If
+                temp += "  CTE.Main_ITEM_CODE='" + clsCommon.myCstr(dtItem.Rows(ii)("Item_Code")) + "'"
+            Next
+
+            qry += ",sum(MTQty*(case when InOut='O' then 1 else 0 end ) * (case when CTE.Trans_Type='STD_PRO_ENT' and ( " + temp + " )  then 0 else 1 end ) ) as  'IssueOther'
+,(select isnull(sum(InnerCTE.MTQty * case when InnerCTE.InOut='I' then 1 else -1 end),0) from CTE as InnerCTE where InnerCTE.Item_Code=CTE.Item_Code and InnerCTE.Location_Code=CTE.Location_Code and InnerCTE.Punching_Date<=CTE.Punching_Date ) as CLQty
+from CTE where Punching_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'
+group by Location_Code,Item_Code,Punching_Date order by Location_Code,Item_Code,Punching_Date"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("No Data Found")
+            Else
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.PRODUCTION, dt, "DaywiseMaterialConsumptionReport", "Daywise Material Consumption Report")
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

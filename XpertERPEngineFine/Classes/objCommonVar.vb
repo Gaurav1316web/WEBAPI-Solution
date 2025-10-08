@@ -122,7 +122,7 @@ Public Class objCommonVar
     Private Shared _PricePlan As Integer
     Private Shared _InstantSendTheSMS As Boolean
     Private Shared _InstantSendTheEmail As Boolean
-    Private Shared _MaxFATPerForRate As Integer
+    Private Shared _MaxFATPerForRate As Decimal
     Private Shared _MaxSNFPerForRate As Integer
     Private Shared _EInvoiceImplementationDate As Date?
     Private Shared _GenerateEWayBillWithEInvoice As Boolean
@@ -428,19 +428,19 @@ Public Class objCommonVar
         End Set
     End Property
 
-    Public Shared Property MaxFATPerForRate() As Integer
+    Public Shared Property MaxFATPerForRate() As Decimal
         Get
             Return _MaxFATPerForRate
         End Get
-        Set(ByVal Value As Integer)
+        Set(ByVal Value As Decimal)
             _MaxFATPerForRate = Value
         End Set
     End Property
-    Public Shared Property MaxSNFPerForRate() As Integer
+    Public Shared Property MaxSNFPerForRate() As Decimal
         Get
             Return _MaxSNFPerForRate
         End Get
-        Set(ByVal Value As Integer)
+        Set(ByVal Value As Decimal)
             _MaxSNFPerForRate = Value
         End Set
     End Property
@@ -951,8 +951,8 @@ Public Class objCommonVar
         objCommonVar.PricePlan = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPriceChartPlanningScreenOnTotalSolid, clsFixedParameterCode.OpenPriceChartPlanningScreenOnTotalSolid, Nothing))
         objCommonVar.InstantSendTheSMS = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SMSPrefix, clsFixedParameterCode.InstantSendTheSMS, Nothing)) = 1)
         objCommonVar.InstantSendTheEmail = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmailPrefix, clsFixedParameterCode.InstantSendTheEmail, Nothing)) = 1)
-        objCommonVar.MaxFATPerForRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxFATPerLimit, Nothing))
-        objCommonVar.MaxSNFPerForRate = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
+        objCommonVar.MaxFATPerForRate = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxFATPerLimit, Nothing))
+        objCommonVar.MaxSNFPerForRate = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxFATSNFPerForRate, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
         objCommonVar.MilkSRNFATSNFDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkSRNFATSNFDecimalPlaces, clsFixedParameterCode.MilkSRNFATSNFDecimalPlaces, Nothing))
         objCommonVar.IsDemoERP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunDemoERP, clsFixedParameterCode.RunDemoERP, Nothing)) = 1, True, False)
         objCommonVar.IsSendToTally = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SendToTally, clsFixedParameterCode.SendToTally, Nothing)) = 1, True, False)

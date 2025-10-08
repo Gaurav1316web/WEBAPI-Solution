@@ -945,14 +945,14 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageConsumption
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1036, 291)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Consumption"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Consumption"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Gunny Bag"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Gunny Bag"
         '
         'pageBatchProduction
         '
@@ -1062,7 +1062,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1015, 266)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1015, 245)
         Me.RadPageViewPage2.Text = "Gunny Bag"
         '
         'gvGunny
@@ -1088,7 +1088,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvGunny.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvGunny.ShowGroupPanel = False
         Me.gvGunny.ShowHeaderCellButtons = True
-        Me.gvGunny.Size = New System.Drawing.Size(1015, 266)
+        Me.gvGunny.Size = New System.Drawing.Size(1015, 245)
         Me.gvGunny.TabIndex = 1
         Me.gvGunny.TabStop = False
         Me.gvGunny.VarID = ""
