@@ -22,7 +22,7 @@ Partial Class rptSaleReportCustomerWise
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,8 @@ Partial Class rptSaleReportCustomerWise
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.TxtCustGrp = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblBillToLocation = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.TxtLocation = New common.UserControls.txtFinder()
@@ -48,6 +50,7 @@ Partial Class rptSaleReportCustomerWise
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -55,6 +58,7 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,6 +75,7 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -114,6 +119,7 @@ Partial Class rptSaleReportCustomerWise
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -136,6 +142,8 @@ Partial Class rptSaleReportCustomerWise
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.TxtCustGrp)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
         Me.RadPageViewPage1.Controls.Add(Me.TxtLocation)
@@ -147,6 +155,29 @@ Partial Class rptSaleReportCustomerWise
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 344)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'TxtCustGrp
+        '
+        Me.TxtCustGrp.arrDispalyMember = Nothing
+        Me.TxtCustGrp.arrValueMember = Nothing
+        Me.TxtCustGrp.Location = New System.Drawing.Point(115, 102)
+        Me.TxtCustGrp.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtCustGrp.MyLinkLable1 = Me.MyLabel1
+        Me.TxtCustGrp.MyLinkLable2 = Nothing
+        Me.TxtCustGrp.MyNullText = "All"
+        Me.TxtCustGrp.Name = "TxtCustGrp"
+        Me.TxtCustGrp.Size = New System.Drawing.Size(251, 19)
+        Me.TxtCustGrp.TabIndex = 449
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(16, 103)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(89, 18)
+        Me.MyLabel1.TabIndex = 450
+        Me.MyLabel1.Text = "Customer Group"
         '
         'lblBillToLocation
         '
@@ -303,7 +334,7 @@ Partial Class rptSaleReportCustomerWise
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -327,7 +358,7 @@ Partial Class rptSaleReportCustomerWise
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(179, 7)
+        Me.btnSplitExport.Location = New System.Drawing.Point(171, 7)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
         Me.btnSplitExport.TabIndex = 157
@@ -365,6 +396,16 @@ Partial Class rptSaleReportCustomerWise
         Me.btnGo.TabIndex = 152
         Me.btnGo.Text = ">>>"
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(273, 7)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(70, 22)
+        Me.btnPrint.TabIndex = 159
+        Me.btnPrint.Text = "Print"
+        '
         'rptSaleReportCustomerWise
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -386,6 +427,7 @@ Partial Class rptSaleReportCustomerWise
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -403,6 +445,7 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -434,4 +477,7 @@ Partial Class rptSaleReportCustomerWise
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents btnClose As RadButton
     Friend WithEvents lblBillToLocation As common.Controls.MyLabel
+    Friend WithEvents TxtCustGrp As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class

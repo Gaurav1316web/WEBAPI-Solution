@@ -149,9 +149,15 @@ Public Class clsTenderSchedule
     End Function
 
     Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As List(Of clsTenderSchedule)
+        Return GetData(strDocNo, Nothing, Nothing, Nothing, trans)
+    End Function
+
+
+    Public Shared Function GetData(ByVal strDocNo As String, ByVal strVendor As String, ByVal strItem As String, ByVal strLocation As String, ByVal trans As SqlTransaction) As List(Of clsTenderSchedule)
         Dim arr As List(Of clsTenderSchedule) = Nothing
-        Dim qry As String = "select TSPL_TENDER_SCHEDULE.* from TSPL_TENDER_SCHEDULE  where TSPL_TENDER_SCHEDULE.DocumentCode='" + clsCommon.myCstr(strDocNo) + "' order by TSPL_TENDER_SCHEDULE.PK_Id"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        Dim Qry As String = GetScheduleDataQuery(strDocNo, strVendor, strItem, strLocation)
+        Qry += " order by TSPL_TENDER_SCHEDULE.PK_Id"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             arr = New List(Of clsTenderSchedule)()
             For ii As Integer = 0 To dt.Rows.Count - 1
@@ -179,6 +185,21 @@ Public Class clsTenderSchedule
         End If
         Return arr
     End Function
+
+    Public Shared Function GetScheduleDataQuery(ByVal strDocNo As String, ByVal strVendor As String, ByVal strItem As String, ByVal strLocation As String) As String
+        Dim qry As String = "select TSPL_TENDER_SCHEDULE.* from TSPL_TENDER_SCHEDULE  where TSPL_TENDER_SCHEDULE.DocumentCode='" & clsCommon.myCstr(strDocNo) & "'"
+        If clsCommon.myLen(strVendor) > 0 Then
+            qry += " And TSPL_TENDER_SCHEDULE.Vendor_Code='" & strVendor & "'"
+        End If
+        If clsCommon.myLen(strItem) > 0 Then
+            qry += " And TSPL_TENDER_SCHEDULE.Item_Code In (" & strItem & ")"
+        End If
+        If clsCommon.myLen(strLocation) > 0 Then
+            qry += " And TSPL_TENDER_SCHEDULE.Location_Code='" & strLocation & "'"
+        End If
+        Return qry
+    End Function
+
 End Class
 
 Public Class clsTenderSchedulePenelty

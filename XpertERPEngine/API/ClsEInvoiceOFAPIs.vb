@@ -303,7 +303,7 @@ Public Class ClsEInvoiceOFAPIs
                                 Throw New Exception("From Pincode not Found/Invalid!")
                             End If
                             objEWayBill.fromStateCode = clsCommon.myCdbl(dtDetails(0)("fromStateCode"))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toGstin"))) = 15 Then
+                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("toGstin"))) = 15 OrElse clsCommon.CompairString(clsCommon.myCstr(dtDetails.Rows(0)("toGstin")), "URP") = CompairStringResult.Equal Then
                                 objEWayBill.toGstin = clsCommon.myCstr(dtDetails(0)("toGstin"))
                             Else
                                 Throw New Exception("To GSTIN No. not Found/Invalid!")

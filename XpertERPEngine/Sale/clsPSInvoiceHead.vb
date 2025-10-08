@@ -1410,7 +1410,9 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
             Dim strQry As String = "select 'O' as supplyType,'1' as subSupplyType,TSPL_SD_SALE_INVOICE_HEAD.Remarks as subSupplyDesc,
     'INV' as DocType,TSPL_Customer_master.Cust_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code As DocNo, convert( Date, TSPL_SD_SALE_INVOICE_HEAD.Document_Date, 103 ) As DocDate, 
     Bill_To_Location.GSTNO as fromGstin,  TSPL_COMPANY_MASTER.Comp_Name as fromTrdName, Bill_To_Location.Add1 as fromAddr1, Bill_To_Location.Add2 as fromAddr2, Bill_To_Location.City_Code as fromPlace, Bill_To_Location.Pin_Code as fromPincode, BillToLocation_State_Master.GST_STATE_Code as actFromStateCode, BillToLocation_State_Master.GST_STATE_Code as fromStateCode, 
-    TSPL_Customer_master.GSTNo as toGstin, TSPL_Customer_master.Alies_name as toTrdName,
+    --TSPL_Customer_master.GSTNo as toGstin,
+'URP' as toGstin,
+TSPL_Customer_master.Alies_name as toTrdName,
     TSPL_Customer_master.Add1 as toAddr1,TSPL_Customer_master.Add2 as toAddr2,tspl_city_master.City_Name as toPlace,
     Case when isnull( TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location, '' )= '' then Customer_State_Master.GST_STATE_Code else Ship_To_Location_State_Master.GST_STATE_Code end as actToStateCode,Customer_State_Master.GST_STATE_Code as toStateCode,
     cast( TSPL_Customer_master.PIN_NO as int ) as toPincode,'1' as transactionType,
@@ -1445,7 +1447,7 @@ where TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strInvoiceNO & "' "
     left outer join TSPL_STATE_MASTER as Customer_State_Master on Customer_State_Master.STATE_CODE = TSPL_Customer_master.State 
     left outer join tspl_city_master on tspl_city_master.city_code = TSPL_Customer_master.City_Code left outer join tspl_tax_master as TCS1 on TCS1.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax2 
     left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code = TSPL_SD_SALE_INVOICE_HEAD.Tax3 Left Outer Join tspl_vendor_master on tspl_vendor_master.vendor_code = TSPL_SD_SALE_INVOICE_HEAD.Transport_Code 
-    left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SALE_INVOICE_HEAD.VehicleNo
+    left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code
         where TSPL_SD_SALE_INVOICE_HEAD.Document_Code = '" & strDocNo & "'"
             Dim objResult As Object = ClsEInvoiceOFAPIs.PostEWayBill(objCommonVar.CurrentCompanyCode, strQry, strLocation, trans)
             If objResult IsNot Nothing Then
@@ -1656,7 +1658,7 @@ Left Outer Join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against
                         End If
                     End If
                 End If
-            ElseIf clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal AndAlso obj.IsReplacement = 0 Then
+            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Screen_Type, "CT") = CompairStringResult.Equal AndAlso obj.IsReplacement = 0 Then
                 If clsCommon.myLen(GetEWayBillNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EWayBill_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
                     If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" & strDocNo & "'", trans)) <= 0 Then
