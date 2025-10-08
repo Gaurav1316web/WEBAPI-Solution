@@ -1408,18 +1408,18 @@ Public Class FrmReceipttNew
                 CheckNegativeBankBalance()
             End If
             ''--------
-            If objCommonVar.RCDFCFP = False Then
-                Dim qry As String = clsDBFuncationality.getSingleValue(clsCommon.myCstr("Select Count(*)  from TSPL_CUSTOMER_MASTER where Cust_Code='" & fndCustomer.Value & "' and (IsDistributor='Y' OR Credit_Customer='Y')"))
-                If qry = 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "This Customer is neither Distributor nor credit Customer Type")
-                    Return False
-                End If
-                'TxtRoute.Visible = False
-                'RadLabel2.Visible = False
-                'Else
-                'TxtRoute.Visible = True
-                'RadLabel2.Visible = True
-            End If
+            'If objCommonVar.RCDFCFP = False Then
+            '    Dim qry As String = clsDBFuncationality.getSingleValue(clsCommon.myCstr("Select Count(*)  from TSPL_CUSTOMER_MASTER where Cust_Code='" & fndCustomer.Value & "' and (IsDistributor='Y' OR Credit_Customer='Y')"))
+            '    If qry = 0 Then
+            '        common.clsCommon.MyMessageBoxShow(Me, "This Customer is neither Distributor nor credit Customer Type")
+            '        Return False
+            '    End If
+            '    'TxtRoute.Visible = False
+            '    'RadLabel2.Visible = False
+            '    'Else
+            '    'TxtRoute.Visible = True
+            '    'RadLabel2.Visible = True
+            'End If
 
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()

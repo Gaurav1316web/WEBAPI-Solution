@@ -150,7 +150,7 @@ Public Class FrmGRNReport
             ' " where 2=2 and detail.Row_Type='Item' "
             If chkTrackingReport.Checked Then
 
-                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.* from ("
+                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.*,[GRN Qty]-[Weighment Net Weight] as [Partial Reject Qty] from ("
 
                 If Not chkCancelRejected.Checked Then
                     qry += "select convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]
@@ -810,6 +810,9 @@ Null As InputData9,Null As AliasName10,Null As InputData10,Null As AliasName11,N
 
         Dim item13 As New GridViewSummaryItem("SRN Net Amount", "{0:f0}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item13)
+
+        Dim item14 As New GridViewSummaryItem("Partial Reject Qty", "{0:f0}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item14)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
