@@ -219,7 +219,7 @@ Public Class FrmProductionAndSaleReport
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST((ProdDailyQty.ProdCumQty*100)/((cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)))*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)) else 0 end as CUM
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST((ProdDailyQty.ProdCumQty*100)/((cast(cast((TSPL_LOCATION_MASTER.target) AS DECIMAL(18,0))/(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'))) AS DECIMAL(18,0)))*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)) else 0 end as CUY
                         ,CAST(SaleDailyQty.Qty AS DECIMAL(18,0)) as SaleDailyQty
-                        ,CAST(SaleCumQty.Qty AS DECIMAL(18,0)) as SaleCumQty
+                        ,CAST(SaleDailyQty.SaleCumQty AS DECIMAL(18,0)) as SaleCumQty
                         ,CAST(FGS.Qty AS DECIMAL(18,0)) as FGS
                         ,case when isnull(PSO.Qty,0)<0 then 0 else CAST(isnull(PSO.Qty,0) AS DECIMAL(18,0)) end as PSO
                         ,BreakDown.BreakdownHRS
@@ -574,8 +574,11 @@ Public Class FrmProductionAndSaleReport
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
 
                 ElseIf rdbInvoice.IsChecked = True Then
-                    query += "  LEFT OUTER JOIN( Select Sum(Qty)Qty,Bill_To_Location from
+                    query += "  LEFT OUTER JOIN( Select Sum(Qty)Qty,sum(SaleCumQty)SaleCumQty,Bill_To_Location from
                         (SELECT SUM((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,
+                        sum(case when (convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103))
+                         then  ((isnull(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) else 0  end) as SaleCumQty,
                          TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SALE_INVOICE_DETAIL left join 
                         TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code
@@ -594,7 +597,11 @@ Public Class FrmProductionAndSaleReport
                     query += " and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location 
                         union all
-						SELECT SUM((isnull(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM 
+						SELECT SUM((isnull(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,
+                        sum(case when (convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SCRAPINVOICE_HEAD.shipment_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)) 
+                        then  ((isnull(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) else 0  end) as SaleCumQty,
+TSPL_SCRAPINVOICE_HEAD.Loc_Code FROM 
                         TSPL_SCRAPINVOICE_DETAIL left join 
                         TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.invoice_No=TSPL_SCRAPINVOICE_DETAIL.invoice_No
                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SCRAPINVOICE_DETAIL.ITEM_CODE
@@ -669,6 +676,9 @@ Public Class FrmProductionAndSaleReport
                 ElseIf rdbSaleReturn.IsChecked = True Then
                     query += "  LEFT OUTER JOIN
                         (SELECT SUM((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,
+                        sum(case when (convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         and convert(date,TSPL_SD_SALE_RETURN_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103))
+                        then  ((isnull(TSPL_SD_SALE_RETURN_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) else 0  end) as SaleCumQty,
                          TSPL_SD_SALE_RETURN_HEAD.Bill_To_Location FROM 
                         TSPL_SD_SALE_RETURN_DETAIL left join 
                         TSPL_SD_SALE_RETURN_HEAD on TSPL_SD_SALE_RETURN_HEAD.document_code=TSPL_SD_SALE_RETURN_DETAIL.document_code

@@ -22,7 +22,7 @@ Partial Class rptSaleReportCustomerWise
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -39,18 +39,18 @@ Partial Class rptSaleReportCustomerWise
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.dtpToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadLabel1 = New common.Controls.MyLabel()
-        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -65,17 +65,17 @@ Partial Class rptSaleReportCustomerWise
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -253,10 +253,10 @@ Partial Class rptSaleReportCustomerWise
         'RadGroupBox3
         '
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.txtToDate)
+        Me.RadGroupBox3.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel2)
-        Me.RadGroupBox3.Controls.Add(Me.dtpToDate)
         Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
-        Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = ""
         Me.RadGroupBox3.Location = New System.Drawing.Point(16, 9)
         Me.RadGroupBox3.Name = "RadGroupBox3"
@@ -273,20 +273,6 @@ Partial Class rptSaleReportCustomerWise
         Me.MyLabel2.TabIndex = 4
         Me.MyLabel2.Text = "To Date"
         '
-        'dtpToDate
-        '
-        Me.dtpToDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpToDate.Location = New System.Drawing.Point(236, 11)
-        Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.Name = "dtpToDate"
-        Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpToDate.Size = New System.Drawing.Size(107, 20)
-        Me.dtpToDate.TabIndex = 3
-        Me.dtpToDate.TabStop = False
-        Me.dtpToDate.Text = "24/10/2011"
-        Me.dtpToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
-        '
         'RadLabel1
         '
         Me.RadLabel1.FieldName = Nothing
@@ -295,20 +281,6 @@ Partial Class rptSaleReportCustomerWise
         Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
         Me.RadLabel1.TabIndex = 2
         Me.RadLabel1.Text = "From Date"
-        '
-        'fromDate
-        '
-        Me.fromDate.CustomFormat = "dd/MM/yyyy"
-        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.fromDate.Location = New System.Drawing.Point(67, 11)
-        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Name = "fromDate"
-        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.fromDate.Size = New System.Drawing.Size(107, 20)
-        Me.fromDate.TabIndex = 0
-        Me.fromDate.TabStop = False
-        Me.fromDate.Text = "24/10/2011"
-        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
         'RadPageViewPage2
         '
@@ -334,7 +306,7 @@ Partial Class rptSaleReportCustomerWise
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -343,6 +315,16 @@ Partial Class rptSaleReportCustomerWise
         Me.Gv1.Size = New System.Drawing.Size(779, 344)
         Me.Gv1.TabIndex = 0
         Me.Gv1.VarID = ""
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(273, 7)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(70, 22)
+        Me.btnPrint.TabIndex = 159
+        Me.btnPrint.Text = "Print"
         '
         'btnClose
         '
@@ -396,15 +378,63 @@ Partial Class rptSaleReportCustomerWise
         Me.btnGo.TabIndex = 152
         Me.btnGo.Text = ">>>"
         '
-        'btnPrint
+        'txtFromDate
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(273, 7)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(70, 22)
-        Me.btnPrint.TabIndex = 159
-        Me.btnPrint.Text = "Print"
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(67, 12)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Nothing
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtFromDate.TabIndex = 451
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "13-07-2023"
+        Me.txtFromDate.Value = New Date(2023, 7, 13, 0, 0, 0, 0)
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(235, 12)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Nothing
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(82, 20)
+        Me.txtToDate.TabIndex = 452
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "13-07-2023"
+        Me.txtToDate.Value = New Date(2023, 7, 13, 0, 0, 0, 0)
         '
         'rptSaleReportCustomerWise
         '
@@ -435,17 +465,17 @@ Partial Class rptSaleReportCustomerWise
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -461,9 +491,7 @@ Partial Class rptSaleReportCustomerWise
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents dtpToDate As RadDateTimePicker
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
-    Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents txtCustomer As common.UserControls.txtMultiSelectFinder
@@ -480,4 +508,6 @@ Partial Class rptSaleReportCustomerWise
     Friend WithEvents TxtCustGrp As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
 End Class
