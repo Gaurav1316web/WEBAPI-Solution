@@ -131,8 +131,8 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
             'finalqry = qry + baseqry
 
             If clsCommon.myLen(finalqry) > 0 Then
-                    dt = clsDBFuncationality.GetDataTable(finalqry)
-                End If
+                dt = clsDBFuncationality.GetDataTable(finalqry)
+            End If
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If Print = False Then
@@ -161,8 +161,8 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
 
                     End If
                     frmCRV = Nothing
-                    End If
-                    Else
+                End If
+            Else
                 clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
             End If
         Catch ex As Exception
@@ -233,7 +233,7 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
         End If
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
-            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         Gv1.AutoSizeRows = True
         Gv1.BestFitColumns()
