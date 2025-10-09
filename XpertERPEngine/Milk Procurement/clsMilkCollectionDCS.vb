@@ -5,6 +5,7 @@ Public Class clsMilkCollectionDCS
 #Region "Variables"
     Public Document_No As String
     Public Document_Date As DateTime
+    Public Document_Shift As String
     Public Description As String
     Public Slip_No As String
     'Public Against_Milk_Collection_MCC_Detail As Integer
@@ -28,33 +29,24 @@ Public Class clsMilkCollectionDCS
     End Function
     Public Function SaveData(ByVal obj As clsMilkCollectionDCS, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            'clsMCCPaymentCycleLockForScheduler.CheckForSchedulerLock(obj.VLC_Code, obj.Document_Date, trans)
-            'If isNewEntry = False Then
-            '    HistoryUpdate(obj.Document_No, trans)
-            'End If
-
             Dim Mcccode As String = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader from TSPL_MILK_COLLECTION_DCS_DETAIL
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where Document_No='" + obj.Document_No + "'"
             Mcccode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Mcccode, trans))
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionMCC, Mcccode, obj.Document_Date, trans)
 
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkCollectionDCS, obj., obj.Document_Date, trans)
-
             Dim qry As String = "delete from TSPL_MILK_COLLECTION_DCS_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Document_Shift", obj.Document_Shift, True)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-
-                clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
-            End If
-
+            clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "operation_type", "Save/Update")
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
@@ -73,7 +65,6 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             clsMilkCollectionDCSMCCDetail.SaveData(obj.Document_No, obj.ArrMCC, trans)
             clsMilkCollectionDCSDetail.SaveData(obj.Document_No, obj.Arr, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_MILK_COLLECTION_DCS", "Document_No", "TSPL_MILK_COLLECTION_DCS_DETAIL", "Document_No", "", "Document_No", trans)
-
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -104,9 +95,9 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             obj = New clsMilkCollectionDCS()
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
+            obj.Document_Shift = clsCommon.myCstr(dt.Rows(0)("Document_Shift"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Slip_No = clsCommon.myCstr(dt.Rows(0)("Slip_No"))
-
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))

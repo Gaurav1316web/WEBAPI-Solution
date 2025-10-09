@@ -25,9 +25,13 @@ Partial Class frmMilkCollectionDCS
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.cboShift = New common.Controls.MyComboBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtMDCSDate = New common.Controls.MyDateTimePicker()
         Me.lblMDCSDate = New common.Controls.MyLabel()
@@ -87,6 +91,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtMDCSDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -170,13 +176,15 @@ Partial Class frmMilkCollectionDCS
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1091, 226)
+        Me.gv1.Size = New System.Drawing.Size(1091, 198)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         Me.gv1.VarID = ""
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.MyLabel2)
+        Me.Panel1.Controls.Add(Me.cboShift)
         Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.txtTotPendingSNFPer)
         Me.Panel1.Controls.Add(Me.txtTotPendingFATPer)
@@ -218,6 +226,47 @@ Partial Class frmMilkCollectionDCS
         Me.Panel1.Size = New System.Drawing.Size(1091, 93)
         Me.Panel1.TabIndex = 0
         '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(496, 5)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel2.TabIndex = 1431
+        Me.MyLabel2.Text = "Shift"
+        '
+        'cboShift
+        '
+        Me.cboShift.AutoCompleteDisplayMember = Nothing
+        Me.cboShift.AutoCompleteValueMember = Nothing
+        Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
+        Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboShift.FieldCode = Nothing
+        Me.cboShift.FieldDesc = Nothing
+        Me.cboShift.FieldMaxLength = 0
+        Me.cboShift.FieldName = Nothing
+        Me.cboShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboShift.isCalculatedField = False
+        Me.cboShift.IsSourceFromTable = False
+        Me.cboShift.IsSourceFromValueList = False
+        Me.cboShift.IsUnique = False
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
+        Me.cboShift.Location = New System.Drawing.Point(544, 4)
+        Me.cboShift.MendatroryField = True
+        Me.cboShift.MyLinkLable1 = Me.MyLabel2
+        Me.cboShift.MyLinkLable2 = Nothing
+        Me.cboShift.Name = "cboShift"
+        Me.cboShift.ReferenceFieldDesc = Nothing
+        Me.cboShift.ReferenceFieldName = Nothing
+        Me.cboShift.ReferenceTableName = Nothing
+        Me.cboShift.Size = New System.Drawing.Size(148, 18)
+        Me.cboShift.TabIndex = 1430
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -225,9 +274,9 @@ Partial Class frmMilkCollectionDCS
         Me.RadGroupBox1.Controls.Add(Me.btnMGo)
         Me.RadGroupBox1.Controls.Add(Me.lblMDCSDate)
         Me.RadGroupBox1.HeaderText = "Generate DCS Data By Mobile"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(842, 6)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(859, 4)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(179, 79)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(165, 79)
         Me.RadGroupBox1.TabIndex = 45
         Me.RadGroupBox1.Text = "Generate DCS Data By Mobile"
         '
@@ -245,7 +294,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtMDCSDate.IsSourceFromTable = False
         Me.txtMDCSDate.IsSourceFromValueList = False
         Me.txtMDCSDate.IsUnique = False
-        Me.txtMDCSDate.Location = New System.Drawing.Point(63, 22)
+        Me.txtMDCSDate.Location = New System.Drawing.Point(56, 23)
         Me.txtMDCSDate.MendatroryField = True
         Me.txtMDCSDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMDCSDate.MyLinkLable1 = Me.lblMDCSDate
@@ -265,7 +314,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.lblMDCSDate.FieldName = Nothing
         Me.lblMDCSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMDCSDate.Location = New System.Drawing.Point(25, 23)
+        Me.lblMDCSDate.Location = New System.Drawing.Point(18, 24)
         Me.lblMDCSDate.Name = "lblMDCSDate"
         Me.lblMDCSDate.Size = New System.Drawing.Size(30, 16)
         Me.lblMDCSDate.TabIndex = 29
@@ -274,7 +323,7 @@ Partial Class frmMilkCollectionDCS
         'btnMGo
         '
         Me.btnMGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMGo.Location = New System.Drawing.Point(25, 42)
+        Me.btnMGo.Location = New System.Drawing.Point(18, 43)
         Me.btnMGo.Name = "btnMGo"
         Me.btnMGo.Size = New System.Drawing.Size(128, 18)
         Me.btnMGo.TabIndex = 13
@@ -308,7 +357,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(497, 6)
+        Me.MyLabel1.Location = New System.Drawing.Point(694, 27)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel1.TabIndex = 28
@@ -331,11 +380,11 @@ Partial Class frmMilkCollectionDCS
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem1)
-        Me.cboFATSNFType.Items.Add(RadListDataItem2)
-        Me.cboFATSNFType.Location = New System.Drawing.Point(584, 5)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem3)
+        Me.cboFATSNFType.Items.Add(RadListDataItem4)
+        Me.cboFATSNFType.Location = New System.Drawing.Point(781, 26)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
         Me.cboFATSNFType.MyLinkLable2 = Nothing
@@ -343,7 +392,7 @@ Partial Class frmMilkCollectionDCS
         Me.cboFATSNFType.ReferenceFieldDesc = Nothing
         Me.cboFATSNFType.ReferenceFieldName = Nothing
         Me.cboFATSNFType.ReferenceTableName = Nothing
-        Me.cboFATSNFType.Size = New System.Drawing.Size(106, 18)
+        Me.cboFATSNFType.Size = New System.Drawing.Size(74, 18)
         Me.cboFATSNFType.TabIndex = 29
         '
         'MyLabel7
@@ -385,7 +434,7 @@ Partial Class frmMilkCollectionDCS
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadButton1.Location = New System.Drawing.Point(694, 46)
         Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(102, 41)
+        Me.RadButton1.Size = New System.Drawing.Size(161, 41)
         Me.RadButton1.TabIndex = 12
         Me.RadButton1.Text = "Add To Suspense"
         '
@@ -513,7 +562,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(85, 26)
+        Me.txtMCC.Location = New System.Drawing.Point(85, 25)
         Me.txtMCC.MendatroryField = True
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel3
@@ -591,7 +640,7 @@ Partial Class frmMilkCollectionDCS
         Me.lblQty.AutoSize = False
         Me.lblQty.BorderVisible = True
         Me.lblQty.FieldName = Nothing
-        Me.lblQty.Location = New System.Drawing.Point(85, 46)
+        Me.lblQty.Location = New System.Drawing.Point(85, 45)
         Me.lblQty.Name = "lblQty"
         Me.lblQty.Size = New System.Drawing.Size(69, 20)
         Me.lblQty.TabIndex = 21
@@ -621,10 +670,10 @@ Partial Class frmMilkCollectionDCS
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(694, 5)
+        Me.UsLock1.Location = New System.Drawing.Point(694, 4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(102, 19)
+        Me.UsLock1.Size = New System.Drawing.Size(161, 19)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 30
         '
@@ -642,7 +691,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(361, 6)
+        Me.RadLabel4.Location = New System.Drawing.Point(361, 5)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 27
@@ -652,7 +701,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(6, 6)
+        Me.RadLabel1.Location = New System.Drawing.Point(6, 5)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(75, 16)
         Me.RadLabel1.TabIndex = 24
@@ -661,7 +710,7 @@ Partial Class frmMilkCollectionDCS
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(85, 5)
+        Me.txtDocNo.Location = New System.Drawing.Point(85, 4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -688,7 +737,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(397, 5)
+        Me.txtDate.Location = New System.Drawing.Point(397, 4)
         Me.txtDate.MendatroryField = True
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -698,7 +747,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(90, 18)
+        Me.txtDate.Size = New System.Drawing.Size(95, 18)
         Me.txtDate.TabIndex = 1
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011"
@@ -716,7 +765,7 @@ Partial Class frmMilkCollectionDCS
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(85, 68)
+        Me.txtDesc.Location = New System.Drawing.Point(85, 67)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -733,9 +782,9 @@ Partial Class frmMilkCollectionDCS
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
+        Me.btnAddNew.Location = New System.Drawing.Point(335, 4)
         Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 18)
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
         Me.btnAddNew.TabIndex = 26
         '
         'Panel2
@@ -763,7 +812,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.gv2)
         Me.SplitContainer1.Size = New System.Drawing.Size(1091, 264)
-        Me.SplitContainer1.SplitterDistance = 226
+        Me.SplitContainer1.SplitterDistance = 198
         Me.SplitContainer1.TabIndex = 3
         '
         'gv2
@@ -789,7 +838,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1091, 34)
+        Me.gv2.Size = New System.Drawing.Size(1091, 62)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         Me.gv2.VarID = ""
@@ -975,6 +1024,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -1095,5 +1146,7 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents gv2 As common.UserControls.MyRadGridView
     Friend WithEvents btnBookSuspence As RadButton
     Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents cboShift As common.Controls.MyComboBox
 End Class
 

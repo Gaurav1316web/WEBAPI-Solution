@@ -5,6 +5,7 @@ Public Class clsMilkCollectionMCC
 #Region "Variables"
     Public Document_No As String
     Public Document_Date As DateTime
+    Public Document_Shift As String
     Public Late As Integer
     Public Route_Code As String
     Public Route_Name As String ''Not a table Column
@@ -119,15 +120,11 @@ Public Class clsMilkCollectionMCC
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
-                clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
-            End If
-
+            clsCommon.AddColumnsForChange(coll, "Remark", obj.Remark)
             'clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
-
-
+            clsCommon.AddColumnsForChange(coll, "Document_Shift", obj.Document_Shift, True)
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
             clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
             clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No)
@@ -204,6 +201,7 @@ where 2=2"
             obj = New clsMilkCollectionMCC()
             obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
+            obj.Document_Shift = clsCommon.myCstr(dt.Rows(0)("Document_Shift"))
             obj.Late = clsCommon.myCDecimal(dt.Rows(0)("Late"))
             obj.Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
             obj.Route_Name = clsCommon.myCstr(dt.Rows(0)("Route_Name"))
