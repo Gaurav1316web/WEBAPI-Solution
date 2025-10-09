@@ -202,6 +202,8 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
                 Gv1.Columns("place").IsVisible = False
                 Gv1.Columns("place").HeaderText = "Place"
             Else
+                Gv1.Columns("month").IsVisible = False
+
                 Gv1.Columns("place").IsVisible = True
                 Gv1.Columns("place").HeaderText = "Place"
                 Gv1.Columns("Quantity").IsVisible = True

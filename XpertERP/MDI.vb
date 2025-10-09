@@ -10286,6 +10286,10 @@ Public Class MDI
                         frm = New rptDealerSalesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptPlantWiseAvailableStockQtyReport
+                        frm = New rptPlantWiseAvailableStockQtyReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSaleReportCustomerWise
                         frm = New rptSaleReportCustomerWise
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

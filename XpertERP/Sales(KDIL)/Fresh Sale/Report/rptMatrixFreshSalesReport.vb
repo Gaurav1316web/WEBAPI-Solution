@@ -3720,7 +3720,7 @@ max(TAX1_Base_Amt)TAX1_Base_Amt,
             End If
             Dim Qry As String = Nothing
             If EnableProductSaleForJPR AndAlso (rbtnProductType.Checked OrElse rbtnIceCream.Checked) Then
-                clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, TxtRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, False, True)
+                clsProductDemandBookingSale.PrintDemandProductData(MyBase.Form_ID, txtMultPTSRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked, False, True)
             Else
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
                     Qry = " select TSPL_DEMAND_BOOKING_MASTER.Route_No ,TSPL_ROUTE_MASTER.Route_Desc, TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, TSPL_DEMAND_BOOKING_DETAIL.Qty, TSPL_DEMAND_BOOKING_DETAIL.Unit_code, TSPL_DEMAND_BOOKING_DETAIL.Item_Code, TSPL_ITEM_MASTER.Short_Description, TSPL_ITEM_MASTER.Is_FreshItem, TSPL_ITEM_MASTER.Sku_Seq, TSPL_DEMAND_BOOKING_MASTER.Document_Date, TSPL_DEMAND_BOOKING_MASTER.ShiftType, TSPL_ROUTE_MASTER.Route_Desc as Route_Desc, TSPL_DEMAND_BOOKING_MASTER.Route_No as Route_No, Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Tonk Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName, TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILCrate.CFForCrate) else 0 end as QtyCrate, case when TSPL_ITEM_MASTER.Is_FreshItem=1 then ((TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAILLTR.CFForLTR) else 0 end as QtyLTR,  case   WHEN TSPL_DEMAND_BOOKING_DETAIL.Unit_code = 'CUP' then qty * ITEMDETAILcup.Conversion_factor / ITEMDETAILCrate.CFForCrate when TSPL_ITEM_MASTER.Is_FreshItem=0 then (TSPL_DEMAND_BOOKING_DETAIL.Qty) else 0 end as PQty, TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code Left Join (select Conversion_factor AS CFForCrate,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CRATE') as ITEMDETAILCrate on ITEMDETAILCrate.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAILLTR on ITEMDETAILLTR.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code  Left Join (select Conversion_factor AS Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='CUP') as ITEMDETAILcup on ITEMDETAILcup.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "' " + whrcls
@@ -5585,5 +5585,17 @@ FROM
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnPrintLoadInSlip_Click(sender As Object, e As EventArgs) Handles btnPrintLoadInSlip.Click
+        clsProductDemandBookingSale.PrintLoadInSlipData(MyBase.Form_ID, txtMultPTSRoute.arrValueMember, IIf(rbtnProductType.Checked, "Product", "IceCream"), txtPTSDateFrom.Value, 1, chkIndividualCustomer.Checked)
+    End Sub
+
+    Private Sub rbtnProductType_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnProductType.CheckedChanged, rbtnIceCream.CheckedChanged
+        If rbtnProductType.Checked OrElse rbtnIceCream.Checked Then
+            btnPrintLoadInSlip.Visible = True
+        Else
+            btnPrintLoadInSlip.Visible = False
+        End If
     End Sub
 End Class

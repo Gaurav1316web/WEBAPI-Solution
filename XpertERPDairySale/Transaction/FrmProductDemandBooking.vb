@@ -2072,4 +2072,16 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
             Throw New Exception(ex.Message)
         End Try
     End Sub
+
+    Private Sub btnPrintLoadinSlip_Click(sender As Object, e As EventArgs) Handles btnPrintLoadinSlip.Click
+        Dim ItemType As String = ""
+        If rbtn_Product.IsChecked Then
+            ItemType = "Product"
+        ElseIf rbtn_IceCream.IsChecked Then
+            ItemType = "IceCream"
+        End If
+        Dim ArrRoute As ArrayList = New ArrayList
+        ArrRoute.Add(txtRouteNo.Value)
+        clsProductDemandBookingSale.PrintLoadInSlipData(MyBase.Form_ID, ArrRoute, ItemType, txtDate.Value, UsLock1.Status, False)
+    End Sub
 End Class
