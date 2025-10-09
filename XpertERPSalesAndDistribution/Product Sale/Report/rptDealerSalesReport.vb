@@ -2,8 +2,13 @@
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.IO
+
 Public Class rptDealerSalesReport
     Inherits FrmMainTranScreen
+
+    Dim startDate As DateTime
+    Dim endDate As DateTime
+
     Private Sub rptDealerSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
         txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy")
@@ -15,6 +20,8 @@ Public Class rptDealerSalesReport
     End Sub
     Private Sub Load_Dealer_Sales_Report(ByVal Print As Boolean)
         Dim qry As String = ""
+        Dim baseqry As String = ""
+        Dim finalqry As String = ""
         Dim dt As New DataTable()
         txtFromDate.Enabled = False
         txtToDate.Enabled = False
@@ -31,12 +38,12 @@ Public Class rptDealerSalesReport
 
         Try
 
-            qry = "(SELECT   '" + objCommonVar.CurrentUser + "' as username ,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,   ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,  Customer_Code,MAX(CUSTOMER_NAME)CUSTOMER_NAME,max(XX.Location)Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add2)Add2,
+            qry = "(SELECT  datename(month,max(xx.Document_Date))month,  '" + objCommonVar.CurrentUser + "' as username ,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,   ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,  Customer_Code,MAX(CUSTOMER_NAME)CUSTOMER_NAME,max(XX.Location)Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add2)Add2,
                                      max(xx.add1+xx.add2)COMPANYLocation,
                                      max(xx.Add4)Add4,max(xx.Document_Date)Document_Date,max(xx.CustAdd2+xx.CustAdd1+xx.CustAdd3)place,
-                                     cast(sum(xx.Quantity)as decimal(10,2))Quantity,max(price_CodeNon)price_CodeNon,max(xx.HeadName)HeadName FROM 
-									
-                                   (SELECT TSPL_SD_SHIPMENT_HEAD.Customer_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME, 
+                                     cast(sum(xx.Quantity)as decimal(10,3))Quantity,max(price_CodeNon)price_CodeNon,max(xx.HeadName)HeadName FROM "
+
+            baseqry = "                (SELECT TSPL_SD_SHIPMENT_DETAIL.Item_Code,datename(month,(Document_Date))Month, TSPL_SD_SHIPMENT_HEAD.Customer_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME, 
                                     (TSPL_SD_SHIPMENT_DETAIL.Location)Location,(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,(TSPL_LOCATION_MASTER.Add1)Add1,(TSPL_LOCATION_MASTER.Add2)Add2,(TSPL_LOCATION_MASTER.Add4)Add4,
                                     (convert (date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)) as Document_Date,
                                      (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SHIPMENT_DETAIL.Qty/TSPL_ITEM_UOM_MT.Conversion_Factor) as Quantity,
@@ -55,18 +62,18 @@ Public Class rptDealerSalesReport
 	                                 WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + txtFromDate.Value + "',103)   
                                      and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + txtToDate.Value + "',103) "
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                qry += "  and TSPL_SD_SHIPMENT_DETAIL.Location In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+                baseqry += "  and TSPL_SD_SHIPMENT_DETAIL.Location In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             End If
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_CUSTOMER_MASTER.cust_code In  (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
+                baseqry += "  and TSPL_CUSTOMER_MASTER.cust_code In  (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
 
             End If
 
 
-            qry += "  AND TSPL_SD_SHIPMENT_HEAD.Status=1   and TSPL_Item_Master.FG_for_CF_RPT=1  And TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 
+            baseqry += "  AND TSPL_SD_SHIPMENT_HEAD.Status=1   and TSPL_Item_Master.FG_for_CF_RPT=1  And TSPL_SD_SHIPMENT_HEAD.Inter_unit_sale=0 
 									  
 						              union all
-                         			  SELECT TSPL_SCRAPSALE_HEAD.cust_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME,(TSPL_SCRAPSALE_HEAD.Loc_Code) as Location,(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,(TSPL_LOCATION_MASTER.Add1)Add1,(TSPL_LOCATION_MASTER.Add2)Add2,(TSPL_LOCATION_MASTER.Add4)Add4,(convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103)) as Document_Date,
+                         			  SELECT  TSPL_SCRAPSALE_DETAIL.item_code, datename(month,(shipment_Date))Month,TSPL_SCRAPSALE_HEAD.cust_Code,(TSPL_CUSTOMER_MASTER.CUSTOMER_NAME)CUSTOMER_NAME,(TSPL_SCRAPSALE_HEAD.Loc_Code) as Location,(TSPL_LOCATION_MASTER.Location_Desc)Location_Desc,(TSPL_LOCATION_MASTER.Add1)Add1,(TSPL_LOCATION_MASTER.Add2)Add2,(TSPL_LOCATION_MASTER.Add4)Add4,(convert (date,TSPL_SCRAPSALE_HEAD.shipment_Date,103)) as Document_Date,
                                       (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SCRAPSALE_DETAIL.shipped_Qty/TSPL_ITEM_UOM_MT.Conversion_Factor) as Quantity,
                                       (price_CodeNon)price_CodeNon,'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName								   
 									 ,(TSPL_CUSTOMER_MASTER.Add1) as custAdd1 ,(TSPL_CUSTOMER_MASTER.add2) as custadd2 ,(TSPL_CUSTOMER_MASTER.add3 ) as custadd3   
@@ -84,22 +91,36 @@ Public Class rptDealerSalesReport
                                      and  convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= convert(date,'" + txtToDate.Value + "',103) "
 
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                qry += "  and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
+                baseqry += "  and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             End If
 
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-                qry += "  and TSPL_CUSTOMER_MASTER.cust_code In   (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
+                baseqry += "  and TSPL_CUSTOMER_MASTER.cust_code In   (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
 
             End If
 
-            qry += "AND TSPL_SCRAPSALE_HEAD.ispost=1   and TSPL_Item_Master.FG_for_CF_RPT=1   
+            baseqry += "AND TSPL_SCRAPSALE_HEAD.ispost=1   and TSPL_Item_Master.FG_for_CF_RPT=1   
      					and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =0  
-														 )XX GROUP BY xx.Customer_Code)
-								 "
-
-            If clsCommon.myLen(qry) > 0 Then
-                dt = clsDBFuncationality.GetDataTable(qry)
+														 ) "
+            If chkYearly.Checked Then
+                finalqry = " with RawData as (" + qry + "" + baseqry + "XX GROUP BY xx.Customer_Code))
+                            SELECT serial_number,LOcation,price_CodeNon,Location_Desc,Add1,Add2,Add4,Document_Date,Customer_Code,CUSTOMER_NAME,username,FromDate,ToDate,COMPANYLocation,place,HeadName, 
+isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
+                            isnull([July],0) AS July,isnull([August],0) AS Aug,isnull([September],0) AS Sept,isnull([October],0) AS Oct,isnull([November],0) AS Nov,isnull([December],0) AS Dec,isnull([January],0) AS Jan,isnull([February],0) AS Feb,isnull([March],0) AS March,
+                            (Isnull(April,0)+Isnull([May],0)+Isnull([June],0)+Isnull([July],0)+Isnull([August],0)+Isnull([September],0)+Isnull([October],0)+Isnull([November],0)+Isnull([December],0)+Isnull([January],0)+Isnull([February],0)+Isnull([March],0))
+                            as Total FROM RawData
+                            PIVOT ( SUM(Quantity) FOR [Month] IN ( [April],[May],[June],[July],[August],[September],[October],[November],[December],[January],[February], [March],[Total])
+                            ) AS PivotTable "
+            Else
+                finalqry += " " & qry & " " + baseqry + "XX GROUP BY xx.Customer_Code)"
             End If
+            'qry += "GROUP BY xx.Customer_Code)"
+
+            'finalqry = qry + baseqry
+
+            If clsCommon.myLen(finalqry) > 0 Then
+                    dt = clsDBFuncationality.GetDataTable(finalqry)
+                End If
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If Print = False Then
@@ -119,11 +140,17 @@ Public Class rptDealerSalesReport
                     'EnableDisableCntrl(False)
                     'ReStoreGridLayout()
                 Else
+
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptDealerSalesReport", "")
+                    If chkYearly.Checked Then
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptDealerSalesYearlyReport", "")
+                    Else
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dt, "crptDealerSalesReport", "")
+
+                    End If
                     frmCRV = Nothing
-                End If
-            Else
+                    End If
+                    Else
                 clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
             End If
         Catch ex As Exception
@@ -138,7 +165,10 @@ Public Class rptDealerSalesReport
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
             'gv1.Columns("Document_No").HeaderText = "Document No."
-            Gv1.Columns("serial_number").IsVisible = False
+            ' Gv1.Columns("Month").IsVisible = False
+            Gv1.Columns("username").IsVisible = False
+
+            Gv1.Columns("serial_number").IsVisible = True
             Gv1.Columns("serial_number").HeaderText = "SNO"
             Gv1.Columns("FROMDATE").IsVisible = False
             Gv1.Columns("TODATE").IsVisible = False
@@ -153,10 +183,21 @@ Public Class rptDealerSalesReport
             Gv1.Columns("Add4").IsVisible = False
             Gv1.Columns("username").IsVisible = False
             Gv1.Columns("HeadName").IsVisible = False
-            Gv1.Columns("place").IsVisible = True
-            Gv1.Columns("place").HeaderText = "Place"
-            Gv1.Columns("Quantity").IsVisible = True
-            Gv1.Columns("Quantity").HeaderText = "Quantity"
+
+            If chkYearly.Checked Then
+                Gv1.Columns("Total").IsVisible = True
+                Gv1.Columns("Total").HeaderText = "Quantity"
+                Gv1.Columns("place").IsVisible = False
+                Gv1.Columns("place").HeaderText = "Place"
+            Else
+                Gv1.Columns("month").IsVisible = False
+
+                Gv1.Columns("place").IsVisible = True
+                Gv1.Columns("place").HeaderText = "Place"
+                Gv1.Columns("Quantity").IsVisible = True
+                Gv1.Columns("Quantity").HeaderText = "Quantity"
+            End If
+
 
 
             Gv1.Columns("COMPANYLocation").IsVisible = False
@@ -170,9 +211,14 @@ Public Class rptDealerSalesReport
         Dim summaryRowItemB As New GridViewSummaryRowItem()
 
         'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
+        If chkYearly.Checked Then
+            Dim Total As New GridViewSummaryItem("Total", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Total)
+        Else
+            Dim Quantity As New GridViewSummaryItem("Quantity", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItemB.Add(Quantity)
+        End If
 
-        Dim Quantity As New GridViewSummaryItem("Quantity", "{0:n2}", GridAggregateFunction.Sum)
-        summaryRowItemB.Add(Quantity)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
             Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
@@ -190,6 +236,7 @@ Public Class rptDealerSalesReport
         txtBillToLocation.Value = ""
         lblBillToLocation.Text = ""
         txtCustomer.arrValueMember = Nothing
+        chkYearly.Checked = False
     End Sub
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -246,7 +293,13 @@ Public Class rptDealerSalesReport
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToExcelGrid("Dealer Sales Report", Gv1, arrHeader, Me.Text)
+                If chkYearly.Checked Then
+                    clsCommon.MyExportToExcelGrid("CATTLE SALE PRIVATE DEALER", Gv1, arrHeader, Me.Text)
+
+                Else
+                    clsCommon.MyExportToExcelGrid("Dealer Sales Report", Gv1, arrHeader, Me.Text)
+
+                End If
                 ' transportSql.exportdataChilRows(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
                 common.clsCommon.MyMessageBoxShow("Exported Successfully.", Me.Text)
                 'Process.Start(filePath)
@@ -260,40 +313,67 @@ Public Class rptDealerSalesReport
         End Try
     End Sub
 
-    Private Sub radPdf_Click(sender As Object, e As EventArgs) Handles radPdf.Click
+    'Private Sub radPdf_Click(sender As Object, e As EventArgs)
+    '    Try
+
+    '        If Gv1.Rows.Count > 0 Then
+
+    '            Dim arrHeader As List(Of String) = New List(Of String)()
+    '            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Admin") = CompairStringResult.Equal Then
+    '                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+
+    '            Else
+    '                'Dim strLocDesc As String = clsDBFuncationality.getSingleValue("select Location_Desc from tspl_location_master where Location_Code in (" + objCommonVar.strCurrUserLocations + ")")
+    '                'arrHeader.Add("Location : " + strLocDesc)
+    '            End If
+    '            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+
+    '            If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+    '                arrHeader.Add("Location : " + clsCommon.myCstr(lblBillToLocation.Text))
+    '            End If
+    '            'If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
+    '            '    arrHeader.Add("Customer : " + clsCommon.myCstr(txtCustomer.arrDispalyMember))
+    '            'End If '
+
+    '            'If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+    '            '    arrHeader.Add("Location : " + clsCommon.myCstr(lblBillToLocation.Text))
+    '            'End If
+
+    '            transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+    '            clsCommon.MyExportToPDF("Dealer Sales Report", Gv1, arrHeader, "Dealer Sales Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+    '        Else
+    '            common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+    '        End If
+
+    '    Catch ex As Exception
+    '        common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+    Private Sub chkYearly_Click(sender As Object, e As EventArgs) Handles chkYearly.Click
+        'txtBillToLocation.Enabled = False
+        'txtCustomer.Enabled = False
         Try
+            Dim qry As String = Nothing
+            qry = "select  top 1 Start_Date,end_date from TSPL_Fiscal_Year_Master order by Fiscal_Code desc"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            'Dim startDate As DateTime
+            'Dim endDate As DateTime
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                ' Assign values to variables
+                startDate = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
+                endDate = clsCommon.myCDate(dt.Rows(0)("End_Date"))
 
-            If Gv1.Rows.Count > 0 Then
+                ' Optional: Use the variables as needed
+                common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") &
+                                  " | End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
 
-                Dim arrHeader As List(Of String) = New List(Of String)()
-                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Admin") = CompairStringResult.Equal Then
-                    arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-
-                Else
-                    'Dim strLocDesc As String = clsDBFuncationality.getSingleValue("select Location_Desc from tspl_location_master where Location_Code in (" + objCommonVar.strCurrUserLocations + ")")
-                    'arrHeader.Add("Location : " + strLocDesc)
-                End If
-                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
-
-                If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
-                    arrHeader.Add("Location : " + clsCommon.myCstr(lblBillToLocation.Text))
-                End If
-                'If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
-                '    arrHeader.Add("Customer : " + clsCommon.myCstr(txtCustomer.arrDispalyMember))
-                'End If '
-
-                'If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
-                '    arrHeader.Add("Location : " + clsCommon.myCstr(lblBillToLocation.Text))
-                'End If
-
-                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("Dealer Sales Report", Gv1, arrHeader, "Dealer Sales Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                'common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") & vbCrLf & "End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow("No fiscal year data found.")
             End If
-
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+
         End Try
     End Sub
 End Class

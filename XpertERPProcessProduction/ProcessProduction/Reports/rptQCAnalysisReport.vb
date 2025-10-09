@@ -20,6 +20,9 @@ Public Class rptQCAnalysisReport
         txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
         Reset()
         rbtnQCdate.IsChecked = True
+        rbtQcForRm.IsChecked = True
+        MyLabel1.Visible = False
+        txtItemCodeFG.Visible = False
     End Sub
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Dim whrcls As String = ""
@@ -327,5 +330,36 @@ Public Class rptQCAnalysisReport
     End Sub
     Sub CancelPressed()
         Me.Close()
+    End Sub
+
+    Private Sub rbtQcForFG_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtQcForFG.CheckStateChanged
+        If rbtQcForFG.IsChecked = True Then
+            txtVendor.Visible = False
+            lblBMC.Visible = False
+            txtItemCode.Visible = False
+            MyLabel2.Visible = False
+            txtRALNo.Visible = False
+            MyLabel5.Visible = False
+            txtItemCodeFG.Visible = True
+            MyLabel1.Visible = True
+            RadGroupBox4.Visible = False
+        Else
+            txtVendor.Visible = True
+            lblBMC.Visible = True
+            txtItemCode.Visible = True
+            MyLabel2.Visible = True
+            txtRALNo.Visible = True
+            MyLabel5.Visible = True
+            txtItemCodeFG.Visible = False
+            MyLabel1.Visible = False
+            RadGroupBox4.Visible = True
+        End If
+    End Sub
+
+    Private Sub txtItemCodeFG__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtItemCodeFG._MYValidating
+        Dim qry As String = "select item_code as Code , item_desc  as [Item Name] from tspl_item_master"
+        Dim WhrCls As String = "structure_code='FG'"
+        txtItemCodeFG.Value = clsCommon.ShowSelectForm("fgcode", qry, "Code", WhrCls, txtItemCodeFG.Value, "Code", isButtonClicked)
+        'lblfgcode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from tspl_item_master  where Item_Code='" + txtItemCodeFG.Value + "'"))
     End Sub
 End Class

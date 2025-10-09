@@ -63,7 +63,21 @@ Public Class rptSaleReportCustomerWise
             End If
 
             Dim Itemqry As String = ""
-            Itemqry = " Select Item_Code,Item_Desc from TSPL_ITEM_MASTER where FG_for_CF_RPT=1 "
+            Itemqry = " Select Distinct TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,Item_Desc  from TSPL_SD_SALE_INVOICE_DETAIL
+                    LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.document_code = TSPL_SD_SALE_INVOICE_DETAIL.document_code
+                     LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
+                     where FG_for_CF_RPT=1 and
+                     CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value) + "',103)
+                    AND CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value) + "',103)
+			and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location = '" & TxtLocation.Value & "' 
+            Union all
+            Select Distinct TSPL_SCRAPINVOICE_DETAIL.Item_Code,TSPL_SCRAPINVOICE_DETAIL.Item_Desc  from TSPL_SCRAPINVOICE_DETAIL
+            LEFT JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_HEAD.invoice_No = TSPL_SCRAPINVOICE_DETAIL.invoice_No
+             LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SCRAPINVOICE_DETAIL.ITEM_CODE
+             where FG_for_CF_RPT=1 and
+             CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value) + "',103)
+                    AND CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value) + "',103)
+							and TSPL_SCRAPINVOICE_HEAD.Loc_Code = '" & TxtLocation.Value & "' "
             dtItem = clsDBFuncationality.GetDataTable(Itemqry)
 
             Dim IemNameQty As String = Nothing
@@ -122,6 +136,9 @@ Public Class rptSaleReportCustomerWise
             If txtCustomer.arrValueMember IsNot Nothing Then
                 qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
             End If
+            If TxtCustGrp.arrValueMember IsNot Nothing Then
+                qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(TxtCustGrp.arrValueMember) + ")  "
+            End If
 
             qry += " UNION ALL
   
@@ -142,6 +159,9 @@ Public Class rptSaleReportCustomerWise
                     "
             If txtCustomer.arrValueMember IsNot Nothing Then
                 qry += " and TSPL_SCRAPINVOICE_HEAD.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
+            End If
+            If TxtCustGrp.arrValueMember IsNot Nothing Then
+                qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(TxtCustGrp.arrValueMember) + ")  "
             End If
             qry += " ),
 
@@ -306,5 +326,113 @@ Public Class rptSaleReportCustomerWise
         txtCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtCustomer.arrValueMember, txtCustomer.arrDispalyMember)
         ''richa agarwal 26 June,2019 ERO/24/06/19-000653
 
+    End Sub
+
+    Private Sub TxtCustGrp__My_Click(sender As Object, e As EventArgs) Handles TxtCustGrp._My_Click
+        Dim qry As String = " select tspl_customer_master.cust_code as [Code], tspl_customer_master.Customer_Name as [Name],Tspl_customer_master.Cust_Group_Code as [Customer Group] from tspl_customer_master 
+                              where 1=1 and Cust_Group_Code='UNION' "
+        TxtCustGrp.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", TxtCustGrp.arrValueMember, TxtCustGrp.arrDispalyMember)
+        ''richa agarwal 26 June,2019 ERO/24/06/19-000653
+
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        PrintReport()
+    End Sub
+
+    Sub PrintReport()
+        Try
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim whrcls As String = ""
+            Dim dtPrint As New DataTable
+            Dim Qry As String = ""
+            Qry = "  ( SELECT  TSPL_SD_SALE_INVOICE_HEAD.Document_Date,((ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty, 
+                    ((ISNULL(TSPL_SD_SALE_INVOICE_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOMBAG.Conversion_Factor) AS Qty_Bag,
+                    TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name
+                    FROM TSPL_SD_SALE_INVOICE_DETAIL 
+                    LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.document_code = TSPL_SD_SALE_INVOICE_DETAIL.document_code
+                    LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
+                    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL FromUOM ON FromUOM.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code AND FromUOM.UOM_Code = TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL ToUOM ON ToUOM.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code AND ToUOM.UOM_Code = 'MT'
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ToUOMBAG ON ToUOMBAG.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.Item_Code AND ToUOMBAG.UOM_Code = 'BAG'
+                    WHERE   TSPL_Item_Master.FG_for_CF_RPT = 1 AND TSPL_SD_SALE_INVOICE_HEAD.Status = 1 AND TSPL_SD_SALE_INVOICE_HEAD.Inter_unit_sale = 0  
+                    AND CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value) + "',103)
+                    AND CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value) + "',103)
+                    and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location = '" & TxtLocation.Value & "'"
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
+            End If
+            If TxtCustGrp.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(TxtCustGrp.arrValueMember) + ")  "
+            End If
+
+            Qry += " UNION ALL
+  
+                    SELECT TSPL_SCRAPINVOICE_HEAD.shipment_Date,((ISNULL(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty, 
+                    ((ISNULL(TSPL_SCRAPINVOICE_DETAIL.shipped_Qty,0)*FromUOM.Conversion_Factor)/ToUOMBAG.Conversion_Factor) AS Qty_Bag,
+                    TSPL_SCRAPINVOICE_HEAD.Loc_Code AS Bill_To_Location,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SCRAPINVOICE_HEAD.Cust_Code AS Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name
+                    FROM TSPL_SCRAPINVOICE_DETAIL 
+                    LEFT JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_HEAD.invoice_No = TSPL_SCRAPINVOICE_DETAIL.invoice_No
+                    LEFT JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_SCRAPINVOICE_HEAD.Cust_Code
+                    LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SCRAPINVOICE_DETAIL.Item_Code
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL FromUOM ON FromUOM.Item_Code = TSPL_SCRAPINVOICE_DETAIL.Item_Code AND FromUOM.UOM_Code = TSPL_SCRAPINVOICE_DETAIL.Unit_code
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ToUOM ON ToUOM.Item_Code = TSPL_SCRAPINVOICE_DETAIL.Item_Code AND ToUOM.UOM_Code = 'MT'
+                    LEFT JOIN TSPL_ITEM_UOM_DETAIL AS ToUOMBAG ON ToUOMBAG.Item_Code = TSPL_SCRAPINVOICE_DETAIL.Item_Code AND ToUOMBAG.UOM_Code = 'BAG'
+                    WHERE  TSPL_Item_Master.FG_for_CF_RPT = 1 AND TSPL_SCRAPINVOICE_HEAD.ispost = 1 AND TSPL_SCRAPINVOICE_HEAD.Inter_unit_sale = 0  
+                    AND CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value) + "',103)
+                    AND CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value) + "',103) 
+                    and TSPL_SCRAPINVOICE_HEAD.Loc_Code = '" & TxtLocation.Value & "'"
+            If txtCustomer.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_SCRAPINVOICE_HEAD.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")  "
+            End If
+            If TxtCustGrp.arrValueMember IsNot Nothing Then
+                Qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in (" + clsCommon.GetMulcallString(TxtCustGrp.arrValueMember) + ")  "
+            End If
+            Qry += "   )"
+
+            Dim dtItems As DataTable = clsDBFuncationality.GetDataTable("select Item_Code,sum(Qty)Qty,sum(Qty_Bag)Qty_Bag,Max(Item_Desc)Item_Desc  from (" + Qry + ") x group by Item_Code")
+            Dim FinalQuery As String = " With CTERawData as ( " + Qry + "  )" + Environment.NewLine + Environment.NewLine
+            For ii As Integer = 1 To dtItems.Rows.Count Step 5
+                If ii > 1 Then
+                    FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
+                End If
+
+                FinalQuery += " select ROW_NUMBER() over (order by (Customer_Code)) As SNo, max(Document_Date) as Document_Date,"
+
+                FinalQuery += "(Customer_Code)Cust_Code,max(Customer_Name)Customer_Name,'" & objCommonVar.CurrentUser & "' as UserName "
+                For jj As Integer = 1 To 5
+                    Dim strJJ As String = clsCommon.myCstr(jj)
+                    Dim strICODE As String = ""
+                    Dim strIShortDesc As String = ""
+                    Dim strIQty As Decimal = 0
+                    Dim strIQtyBag As Decimal = 0
+                    If (ii + jj - 1) > dtItems.Rows.Count Then
+                        strICODE = ""
+                        strIShortDesc = ""
+                        strIQty = 0
+                        strIQtyBag = 0
+                    Else
+                        strICODE = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Code"))
+                        strIShortDesc = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Item_Desc"))
+                        strIQty = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Qty"))
+                        strIQtyBag = clsCommon.myCstr(dtItems.Rows(ii + jj - 2)("Qty_Bag"))
+                    End If
+                    FinalQuery += " ,'" + strICODE + "' as Item_" + strJJ + " ,'" + strIShortDesc + "' as Item_Short_Description_" + strJJ + " ,sum( '" + strIQtyBag + "') as ItemQtyBag_" + strJJ + ",sum( '" + strIQty + "') as ItemQty_" + strJJ + ""
+
+                Next
+                FinalQuery += " from (
+select xx.*	from CTERawData xx
+) x group by Customer_Code"
+            Next
+            dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
+            If dtPrint.Rows.Count > 0 Then
+                frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.SalesReport, dtPrint, "rptSalesReportCustomerWise", "Sale Report Customer Wise")
+            End If
+
+            frmCRV = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

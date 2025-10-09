@@ -302,4 +302,9 @@ where "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub FrmTotalDeductionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        txtFromDate.Value = clsCommon.GETSERVERDATE
+        txtToDate.Value = clsCommon.GETSERVERDATE
+    End Sub
 End Class

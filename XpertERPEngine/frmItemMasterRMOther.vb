@@ -3009,7 +3009,9 @@ Public Class FrmItemMasterRMOther
                 txtDCSSeqNo.Text = obj.DcsSeqNo
                 chkMorning.Checked = obj.Morning
                 chkChilledFreezen.Checked = obj.Chilled_Freezen
-                chkTaxable.Checked = obj.IsTaxable
+                'chkTaxable.Checked = obj.IsTaxable
+                chkTaxable.Checked = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 IS_TAXABLE from TSPL_ITEM_MASTER_TAXABLE where ITEM_CODE='" & obj.Item_Code & "' and EFFECTIVE_DATE <= '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MMM/yyyy") & "' order by EFFECTIVE_DATE desc")) = 1, True, False)
+                chkTaxable.Enabled = False
                 chkIsSerailzedInventory.Checked = obj.Is_Serial_Item
                 chkPickAutoSrNo.Checked = obj.Is_Pick_Auto_SrNo
                 txtNextAutoSerialCounter.Text = obj.Serial_Counter

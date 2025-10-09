@@ -100,7 +100,7 @@ Public Class FrmSalesOrderDispatch
         RunBatchFifowise = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing))
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
-        btnprinte_wayBill.Visible = False
+        btnprinte_wayBill.Visible = True
         lblInvnoForReplacement.Visible = False
         txtInvoice_for_replacement.Visible = False
         AddNew()
@@ -1893,7 +1893,22 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
             If clsCommon.myLen(txtLocation.Value) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtSubLocation.Value) <= 0 Then
                 Throw New Exception("Please select sub location")
             End If
+            If clsCommon.myLen(txtTransporterCode.Value) <= 0 Then
+                Throw New Exception("Please select Transporter")
+            End If
+            If clsCommon.myLen(txtVehicleCode.Value) <= 0 Then
+                Throw New Exception("Please select Vehicle")
+            End If
+            If clsCommon.myLen(lblVehicleNo.Text) <= 0 Then
+                Throw New Exception("Please map Vehicle No")
+            End If
             For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)) > 0 Then
+                    Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "' and Billing_UOM=1"))
+                    If clsCommon.myLen(Billing_UOM) <= 0 Then
+                        Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value) & "]")
+                    End If
+                End If
                 If clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)) > 0 Then
                     Throw New Exception("Enter Qty at line no -" & clsCommon.myCstr(ii + 1))
                 End If
@@ -1930,10 +1945,12 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 End If
                 obj.Transport_Id = clsCommon.myCstr(txtTransporterCode.Value)
                 obj.Transporter_Name = lblTransporterName.Text
-                obj.VehicleNo = txtVehicleCode.Value
-                obj.Remarks = txtRemark.Text
+                obj.Vehicle_Code = txtVehicleCode.Value
+                obj.VehicleNo = lblVehicleNo.Text
+                obj.Description = txtRemark.Text
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.TaxGroupName = lblTaxGrpName.Text
+                obj.Route_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Route_No from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "'"))
                 obj.IsEwaybill = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsGoverment from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code in(select Cust_Group_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtCustomerCode.Value & "')"))
                 If rbtnTaxCalAutomatic.IsChecked Then
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
@@ -2038,6 +2055,20 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
 
                 objTr.Location = txtLocation.Value
                 objTr.Sub_Location_code = IIf(clsCommon.myLen(txtSubLocation.Value) > 0, txtSubLocation.Value, "")
+
+                Dim Billing_UOM As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_Code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "' and Billing_UOM=1"))
+                If clsCommon.myLen(Billing_UOM) > 0 Then
+                    objTr.Billing_Unit_code = Billing_UOM
+                Else
+                    Throw New Exception("Please Map Billing UOM for item [" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value) & "]")
+                End If
+                Dim BillingUOMConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.Billing_UOM=1 "))
+                Dim BillingItemConvFactor As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value) & "' "))
+                If BillingUOMConvFactor > 0 AndAlso BillingItemConvFactor > 0 Then
+                    Dim DispatchQty As Decimal = clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value) * BillingItemConvFactor
+                    objTr.Billing_Qty = Math.Ceiling(DispatchQty / BillingUOMConvFactor)
+                End If
+
                 'objTr.Tender_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTenderRate).Value)
                 'objTr.Item_Rate = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
                 objTr.MRP = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTenderRate).Value)
@@ -2328,9 +2359,9 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 txtDocAmtWithoutTax.Text = obj.Discount_Base
                 txtTaxAmt.Text = obj.Total_Tax_Amt
                 txtDocAmt.Text = obj.Total_Amt
-                txtRemark.Text = obj.Remarks
-                txtVehicleCode.Value = obj.VehicleNo
-                lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleCode.Value) & "'")
+                txtRemark.Text = obj.Description
+                txtVehicleCode.Value = obj.Vehicle_Code
+                lblVehicleNo.Text = obj.VehicleNo
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsPSShipmentHeadDetail In obj.Arr
@@ -2477,9 +2508,9 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
 
     Private Sub txtVehicleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
         Try
-            Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER"
+            Dim qry As String = "Select distinct  vehicle_id ,Number as VehicleNo from TSPL_VEHICLE_MASTER"
             txtVehicleCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
-            lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleCode.Value) & "'")
+            lblVehicleNo.Text = connectSql.RunScalar("Select Number from TSPL_VEHICLE_MASTER where Vehicle_Id = '" & Convert.ToString(txtVehicleCode.Value) & "'")
             'txtVehicleCapacity.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Capacity  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

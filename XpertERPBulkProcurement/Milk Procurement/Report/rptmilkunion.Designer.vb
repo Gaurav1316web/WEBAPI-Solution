@@ -109,7 +109,7 @@ Partial Class rptmilkunion
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 411)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -277,7 +277,7 @@ Partial Class rptmilkunion
         Me.rbdAllTrans.AutoSize = True
         Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
         Me.rbdAllTrans.Name = "rbdAllTrans"
-        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
+        Me.rbdAllTrans.Size = New System.Drawing.Size(94, 17)
         Me.rbdAllTrans.TabIndex = 439
         Me.rbdAllTrans.Text = "All Transation"
         Me.rbdAllTrans.UseVisualStyleBackColor = True
@@ -328,6 +328,7 @@ Partial Class rptmilkunion
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True

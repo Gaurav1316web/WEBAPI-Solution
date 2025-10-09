@@ -102,13 +102,13 @@ Public Class rptSchemeSaleReport
             If dtSchemeItem.Rows.Count > 0 Then
                 For i As Integer = 0 To dtSchemeItem.Rows.Count - 1
                     If i = 0 Then
-                        SchitemNames1 += "[" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Item_Code")) + "] "
-                        SchItemName7 += "Sum(IsNull([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "]"
-                        SchItemName89 += " Sum(ISNULL([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Item_Code")) + "],0)"
+                        SchitemNames1 += "[" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "] "
+                        SchItemName7 += "Sum(IsNull([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "]"
+                        SchItemName89 += " Sum(ISNULL([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "],0)"
                     Else
-                        SchitemNames1 += ", [" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Item_Code")) + "] "
-                        SchItemName7 += ", Sum(IsNull([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Item_Code")) + "],0)) As [" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "]"
-                        SchItemName89 += "+" + " ISNULL([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Item_Code")) + "],0)"
+                        SchitemNames1 += ", [" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "] "
+                        SchItemName7 += ", Sum(IsNull([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "],0)) As [" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "]"
+                        SchItemName89 += "+" + " ISNULL([" + clsCommon.myCstr(dtSchemeItem.Rows(i)("Short_Description")) + "],0)"
                     End If
                 Next
             Else
@@ -121,11 +121,12 @@ Public Class rptSchemeSaleReport
             End If
 
             Dim BaseQry As String = ""
-            BaseQry = " Select max(Document_Code)Document_Code,max(Document_Date)Document_Date,Customer_Code,
+            BaseQry = " Select max(Document_Code)Document_Code, CONVERT(varchar(10), Document_Date, 103) AS Document_Date,max(Customer_Code)Customer_Code,
 " & ItemName7 & "," & ItemName89 & ") AS [Total Qty]," & SchItemName7 & "," & SchItemName89 & ") AS [Total Scheme Qty]
 
-from (Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,
-TSPL_ITEM_MASTER.Item_Code as Item_Code,case when Scheme_Item='Y' then TSPL_ITEM_MASTER.Item_Code end as Item_Code1,case when Scheme_Item='Y' then TSPL_ITEM_MASTER.item_desc end as Item_Desc1,
+from (Select max(Document_Code)Document_Code,Document_Date,max(Customer_Code)Customer_Code,(Item_Code)Item_Code,max(Item_Code1)Item_Code1,max(Item_Desc1)Item_Desc1,
+sum(Qty)Qty,sum(Qty1)Qty1 from  (Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,
+TSPL_ITEM_MASTER.Item_Code as Item_Code,case when Scheme_Item='Y' then TSPL_ITEM_MASTER.Item_Desc end as Item_Code1,case when Scheme_Item='Y' then TSPL_ITEM_MASTER.item_desc end as Item_Desc1,
 case when Scheme_Item='Y' then TSPL_SD_SALE_INVOICE_DETAIL.Qty end as Qty1,
 TSPL_SD_SALE_INVOICE_DETAIL.Qty
  from TSPL_SD_SALE_INVOICE_DETAIL
@@ -140,13 +141,13 @@ where convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE,
 and   convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" & txtToDate.Value & "', 103)"
 
             If txtDistributor.arrValueMember IsNot Nothing Then
-                BaseQry += "  TSPL_SD_SALE_INVOICE_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtDistributor.arrValueMember) + ")"
+                BaseQry += "  and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtDistributor.arrValueMember) + ")"
             End If
 
-            BaseQry += " )xx
+            BaseQry += " )xx group by document_date,Item_Code)	xxy
 
 PIVOT (SUM(qty)  For item_code In (" & itemNames1 & ") ) As pivot_fresh
-PIVOT (SUM(qty1)  For item_code1 In (" & SchitemNames1 & ") ) As pivot_Scheme group by Customer_Code"
+PIVOT (SUM(qty1)  For item_code1 In (" & SchitemNames1 & ") ) As pivot_Scheme group by  CONVERT(varchar(10), Document_Date, 103) order by CONVERT(varchar(10), Document_Date, 103) asc "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
             gv1.DataSource = Nothing
@@ -166,6 +167,7 @@ PIVOT (SUM(qty1)  For item_code1 In (" & SchitemNames1 & ") ) As pivot_Scheme gr
                 gv1.MasterTemplate.AutoExpandGroups = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gv1.BestFitColumns()
+                EnableDisableControls(False)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
@@ -182,8 +184,23 @@ PIVOT (SUM(qty1)  For item_code1 In (" & SchitemNames1 & ") ) As pivot_Scheme gr
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
-            gv1.Columns(ii).FormatString = "{0:n2}"
+            'gv1.Columns(ii).FormatString = "{0:n2}"
         Next
+        gv1.Columns("Document_Code").HeaderText = "Document"
+        gv1.Columns("Document_Code").IsVisible = False
+        gv1.Columns("Customer_Code").HeaderText = "Customer Code"
+        gv1.Columns("Customer_Code").IsVisible = False
+        gv1.Columns("Document_Date").HeaderText = "Document Date"
+        'gv1.Columns("Document_Date").DefaultCellStyle.Format = "dd/MM/yyyy"
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        For ii As Integer = 3 To gv1.Columns.Count - 1
+            'gv1.Columns(ii).FormatString = "{0:n2}"
+            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, "{0:F2}", GridAggregateFunction.Sum))
+        Next
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
     End Sub
 
     Private Sub rptSchemeSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -204,4 +221,46 @@ PIVOT (SUM(qty1)  For item_code1 In (" & SchitemNames1 & ") ) As pivot_Scheme gr
         RadGroupBox1.Enabled = val
     End Sub
 
+    Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+                'arrHeader.Add(objCommonVar.CurrentCompanyName)
+                clsCommon.MyExportToExcelGrid("", gv1, arrHeader, Me.Text)
+                'transportSql.exportdata(gv1, "", Me.Text, False, arrHeader, False, False, True)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                'arrHeader.Add(objCommonVar.CurrentCompanyName)
+                'arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
+                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub txtDistributor__My_Click(sender As Object, e As EventArgs) Handles txtDistributor._My_Click
+        Try
+            Dim qry As String = " Select Cust_Code As Code , Customer_Name As Name  from TSPL_CUSTOMER_MASTER  "
+            txtDistributor.arrValueMember = clsCommon.ShowMultipleSelectForm("LedgerRoute", qry, "Code", "Name", txtDistributor.arrValueMember, txtDistributor.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
