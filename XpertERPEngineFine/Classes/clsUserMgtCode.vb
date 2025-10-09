@@ -2690,7 +2690,7 @@ Public Class clsUserMgtCode
     Public Const rptSalesReport As String = "SALE-RPT"
 
     Public Const rptDealerSalesReport As String = "DEA_SA_RE"
-
+    Public Const rptPlantWiseAvailableStockQtyReport As String = "P_AV_STC_QT"
 
     Public Const rptSaleReportCustomerWise As String = "SALE-CW-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"

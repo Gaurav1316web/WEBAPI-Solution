@@ -505,7 +505,7 @@ where 2 = 2 "
                     If ii > 1 Then
                         FinalQuery += Environment.NewLine + " Union all " + Environment.NewLine
                     End If
-                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo,'" & IIf(ItemType = "PRODUCT", "PRODUCT", "ICECREAM") & "' as ProductOrIceCream,'" & IIf(Status = 1, "Approved", "Pending") & "' as Status,'" + clsCommon.GetPrintDate(clsCommon.myCDate(DocDate), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1 ,max(Booth) as Booth,"
+                    FinalQuery += " select " + clsCommon.myCstr(ii) + " as Grp , ROW_NUMBER() over (order by max(Display_Seq)) As SNo,'" & IIf(ItemType = "Product", "PRODUCT", "ICECREAM") & "' as ProductOrIceCream,'" & IIf(Status = 1, "Approved", "Pending") & "' as Status,'" + clsCommon.GetPrintDate(clsCommon.myCDate(DocDate), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1 ,max(Booth) as Booth,"
                     If isRouteSummary Then
                         FinalQuery += "max(Cust_Code)Cust_Code, Route_No,"
                     Else
@@ -563,6 +563,63 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
         End Try
         Return True
     End Function
+
+    Public Shared Function PrintLoadInSlipData(ByVal Form_ID As String, ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean) As Boolean
+        Try
+            Dim whrcls As String = ""
+
+            If clsCommon.myLen(ItemType) > 0 Then
+                whrcls += " and TSPL_Product_DEMAND_BOOKING_MASTER.ItemType='" + ItemType + "' "
+            End If
+            Dim qry As String = "( SELECT TSPL_COMPANY_MASTER.Logo_Img2,TSPL_COMPANY_MASTER.Logo_Img,Access_officer,Comp_Code1,Is_FreshItem,Is_Ambient ,TSPL_ITEM_MASTER.IsTaxable,TSPL_VEHICLE_MASTER.Description,Vehicle_Id,TSPL_COMPANY_MASTER.Comp_Name ,tspl_transport_master.Transporter_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.City_Code,TSPL_COMPANY_MASTER.Pincode,TSPL_COMPANY_MASTER.State,TSPL_COMPANY_MASTER.Phone1 ,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code  ,(TSPL_ITEM_MASTER.Alies_Name)Short_Description,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code as Booth, "
+            qry += "TSPL_Product_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date, TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.ItemNetAmount as Amount,TSPL_ITEM_MASTER.Short_Description + 'Amt' AS Item_Description,"
+            qry += " TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code, Case When TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code='Crate' Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty Else 0 end CRATE,TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty,TSPL_ITEM_MASTER.Sku_Seq,
+		    		Case When TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code='Pouch' Then TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty Else 0 End Pouch,0 AS Receipt_Amount "
+            qry += ",TSPL_CUSTOMER_MASTER.Display_Seq,CAST(isnull((TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(BULK_UOM.Conversion_Factor),0) AS numeric(10,2)) as Bulk_UOM_Qty,BULK_UOM.uom_code as Bulk_UOM FROM TSPL_PRODUCT_DEMAND_BOOKING_DETAIL "
+
+            qry += " 
+left outer join TSPL_Product_DEMAND_BOOKING_MASTER on TSPL_Product_DEMAND_BOOKING_MASTER.Document_No=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Document_No
+Left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_Product_DEMAND_BOOKING_MASTER.Route_No 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Unit_code
+LEFT JOIN  ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where BULK_UOM =1) as BULK_UOM ON BULK_UOM.Item_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.item_code 
+LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.Cust_Code
+left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.zone_code = TSPL_CUSTOMER_MASTER.zone_code
+left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_Product_DEMAND_BOOKING_MASTER.Comp_Code
+left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_PRODUCT_DEMAND_BOOKING_DETAIL.vehicle_code
+left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
+where 2 = 2 "
+
+            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
+            qry += "" & whrcls & "  "
+            qry += " and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "' and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "'"
+            If Not IsIndividualCustomer Then
+                qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            End If
+            If ArrRoute IsNot Nothing AndAlso ArrRoute.Count > 0 Then
+                qry += " And TSPL_Product_DEMAND_BOOKING_MASTER.Route_No In (" & clsCommon.GetMulcallString(ArrRoute) & ") "
+            End If
+            qry += " ) "
+
+            Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable("select Route_no,ROW_NUMBER() over ( partition  by route_no order by max(Sku_Seq)) as SNO, max(Route_Desc) as Route_Desc,max(Document_Date) as Document_Date,'" & IIf(ItemType = "Product", "PRODUCT", "ICECREAM") & "' as ProductOrIceCream,'" & IIf(Status = 1, "Approved", "Pending") & "' as Status,'" + clsCommon.GetPrintDate(clsCommon.myCDate(DocDate), "dd/MM/yyyy") + "' AS Date, max(Access_officer) as Access_officer,max(Comp_Code1) as Comp_Code1,max(Description) as Description,max(Vehicle_Id) as Vehicle_Id,max(Comp_Name) as Comp_Name,max(Transporter_Name) as Transporter_Name,max(Add1) as Add1,max(City_Code) as City_Code,max(Pincode) as Pincode,max(State) as State,max(Phone1) as Phone1 , Item_Code,max(Short_Description)Short_Description,sum(Qty)Qty,max(Unit_code)Unit_code,max(BULK_UOM) as Bulk_UOM,CEILING(sum(Bulk_UOM_Qty)) as Bulk_UOM_Qty,sum(Amount)Amount from  " & qry & " xx group by item_code,Route_no order by route_no, max(Sku_Seq)")
+            If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Print")
+                Return False
+                Exit Function
+            ElseIf dtPrint.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(Form_ID, CrystalReportFolder.SalesReport, dtPrint, "rptProductIceCreamLoadInSlip", "Booth Product Demand")
+                frmCRV = Nothing
+            End If
+            Return False
+            Exit Function
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
 End Class
 Public Class clsProductDemandBookingSaleDetail
 #Region "Variable"

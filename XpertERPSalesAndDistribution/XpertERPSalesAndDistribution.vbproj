@@ -1803,6 +1803,12 @@
     <Compile Include="Sales and Distribution\Report\RptPendingSettlement.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Report\rptPlantWiseAvailableStockQtyReportvb.Designer.vb">
+      <DependentUpon>rptPlantWiseAvailableStockQtyReportvb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptPlantWiseAvailableStockQtyReportvb.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Report\rptSaleAccountSummary.Designer.vb">
       <DependentUpon>rptSaleAccountSummary.vb</DependentUpon>
     </Compile>
@@ -2703,6 +2709,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\RptPendingSettlement.resx">
       <DependentUpon>RptPendingSettlement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptPlantWiseAvailableStockQtyReportvb.resx">
+      <DependentUpon>rptPlantWiseAvailableStockQtyReportvb.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\rptSaleAccountSummary.resx">
       <DependentUpon>rptSaleAccountSummary.vb</DependentUpon>
