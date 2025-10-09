@@ -1863,6 +1863,7 @@
     <None Include="Crystal Reports\Sales Report\rptSalesman_original.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesNew.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptSalesReportCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesSummaryNew.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSaleSummaryAgainstPO.rpt" />
     <None Include="Crystal Reports\Sales Report\rptStockConsumptionreport.rpt" />
