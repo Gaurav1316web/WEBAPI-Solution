@@ -63,6 +63,7 @@ Public Class clsFixedParameterType
     Public Const HeaderFATSNFKGDecimalPlaces = "Header FAT SNF KG Decimal Places"
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const BMCDecimalPlaces = "BMC Decimal Places"
+    Public Const BMCDCSApplyShift = "BMC DCS Apply Shift"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
     Public Const ApplySameDayShift = "Apply Same Day Shift"
     Public Const HideShiftCollection As String = "Hide Shift Collection"
@@ -1449,6 +1450,7 @@ Public Class clsFixedParameterCode
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const BMCSNFDecimalPlaces = "BMC SNF Decimal Places"
     Public Const BMCFATDecimalPlaces = "BMC FAT Decimal Places"
+    Public Const BMCDCSApplyShift = "BMC DCS Apply Shift"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
     Public Const AdjustQtyINOwnVSP = "Adjust Qty IN Own VSP"
     Public Const ApplySameDayShift = "Apply Same Day Shift"
@@ -3025,6 +3027,8 @@ Public Class clsFixedParameter
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, "2", "FAT Decaimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, "2", "SNF Decaimal Places")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, "0", "0-OFF;1-ON BMC/DCS Milk collection Apply shift on header")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, "0", "0-Show Both Shift;1-Hide Evening Shift;2-Hide Morning Shift")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, "0", "0-OFF;1-ON")
@@ -4651,6 +4655,7 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, EnumControlType.CheckBox)

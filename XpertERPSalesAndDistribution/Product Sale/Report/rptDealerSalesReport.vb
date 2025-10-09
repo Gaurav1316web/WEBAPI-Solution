@@ -58,9 +58,15 @@ Public Class rptDealerSalesReport
                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SHIPMENT_DETAIL.Unit_code
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT' 
-						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location
-	                                 WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + txtFromDate.Value + "',103)   
-                                     and  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + txtToDate.Value + "',103) "
+						      		 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_DETAIL.Location "
+            If chkYearly.Checked Then
+                baseqry += "  WHERE  Convert( Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert( Date,'" + startDate + "',103)   
+                                     And  convert(date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert( Date,'" + endDate + "',103)"
+            Else
+                baseqry += "  WHERE  Convert( Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= Convert( Date,'" + txtFromDate.Value + "',103)   
+                                     And  convert(date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= Convert( Date,'" + txtToDate.Value + "',103)"
+            End If
+
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                 baseqry += "  and TSPL_SD_SHIPMENT_DETAIL.Location In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             End If
@@ -86,9 +92,15 @@ Public Class rptDealerSalesReport
                                      AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SCRAPSALE_DETAIL.Unit_code
                                      LEFT JOIN  TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_MT ON  TSPL_ITEM_UOM_MT.Item_Code=TSPL_SCRAPSALE_DETAIL.Item_Code 
                                      AND TSPL_ITEM_UOM_MT.UOM_Code= 'MT' 
-						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code
-	                                 WHERE convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= convert(date,'" + txtFromDate.Value + "',103)   
-                                     and  convert(date,TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= convert(date,'" + txtToDate.Value + "',103) "
+						      		left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SCRAPSALE_HEAD.Loc_Code "
+
+            If chkYearly.Checked Then
+                baseqry += "  WHERE  Convert( Date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= Convert( Date,'" + startDate + "',103)   
+                                     And  convert(date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= Convert( Date,'" + endDate + "',103)"
+            Else
+                baseqry += "  WHERE  Convert( Date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) >= Convert( Date,'" + txtFromDate.Value + "',103)   
+                                     And  convert(date, TSPL_SCRAPSALE_HEAD.shipment_Date,103) <= Convert( Date,'" + txtToDate.Value + "',103)"
+            End If
 
             If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
                 baseqry += "  and TSPL_SCRAPSALE_HEAD.Loc_Code In ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
@@ -119,8 +131,8 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
             'finalqry = qry + baseqry
 
             If clsCommon.myLen(finalqry) > 0 Then
-                    dt = clsDBFuncationality.GetDataTable(finalqry)
-                End If
+                dt = clsDBFuncationality.GetDataTable(finalqry)
+            End If
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If Print = False Then
@@ -149,8 +161,8 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
 
                     End If
                     frmCRV = Nothing
-                    End If
-                    Else
+                End If
+            Else
                 clsCommon.MyMessageBoxShow("No data found to display.", "Sales Report")
             End If
         Catch ex As Exception
@@ -167,7 +179,6 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
             'gv1.Columns("Document_No").HeaderText = "Document No."
             ' Gv1.Columns("Month").IsVisible = False
             Gv1.Columns("username").IsVisible = False
-            Gv1.Columns("month").IsVisible = False
 
             Gv1.Columns("serial_number").IsVisible = True
             Gv1.Columns("serial_number").HeaderText = "SNO"
@@ -191,10 +202,13 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
                 Gv1.Columns("place").IsVisible = False
                 Gv1.Columns("place").HeaderText = "Place"
             Else
+                Gv1.Columns("month").IsVisible = False
+
                 Gv1.Columns("place").IsVisible = True
                 Gv1.Columns("place").HeaderText = "Place"
                 Gv1.Columns("Quantity").IsVisible = True
                 Gv1.Columns("Quantity").HeaderText = "Quantity"
+                Gv1.Columns("month").IsVisible = False
             End If
 
 
@@ -219,7 +233,7 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
         End If
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
-            Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+        Gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
 
         Gv1.AutoSizeRows = True
         Gv1.BestFitColumns()
@@ -362,10 +376,11 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
                 ' Assign values to variables
                 startDate = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
                 endDate = clsCommon.myCDate(dt.Rows(0)("End_Date"))
+                RadGroupBox1.Enabled = False
 
                 ' Optional: Use the variables as needed
-                common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") &
-                                  " | End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
+                'common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") &
+                ' " | End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
 
                 'common.clsCommon.MyMessageBoxShow("Start Date: " & clsCommon.GetPrintDate(startDate, "dd-MMM-yyyy") & vbCrLf & "End Date: " & clsCommon.GetPrintDate(endDate, "dd-MMM-yyyy"))
             Else
