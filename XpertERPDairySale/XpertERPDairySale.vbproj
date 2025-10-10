@@ -205,6 +205,12 @@
     <Compile Include="APS Sale\Transaction\FrmSalesOrderDispatch.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrderGatePass.Designer.vb">
+      <DependentUpon>FrmSalesOrderGatePass.vb</DependentUpon>
+    </Compile>
+    <Compile Include="APS Sale\Transaction\FrmSalesOrderGatePass.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Export Sale\DuplicateForm\frmPendingQuotation.Designer.vb">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>
     </Compile>
@@ -1266,6 +1272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrderDispatch.resx">
       <DependentUpon>FrmSalesOrderDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APS Sale\Transaction\FrmSalesOrderGatePass.resx">
+      <DependentUpon>FrmSalesOrderGatePass.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Export Sale\DuplicateForm\frmPendingQuotation.resx">
       <DependentUpon>frmPendingQuotation.vb</DependentUpon>

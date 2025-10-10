@@ -9654,6 +9654,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmSalesOrderDispatch
                         frm = New FrmSalesOrderDispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSalesOrderGatePass
+                        frm = New FrmSalesOrderGatePass
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmAdvanceForCD
                     '    frm = New frmCustomerAdvanceAgainstBooking
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

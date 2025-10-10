@@ -63,6 +63,7 @@ Public Class clsFixedParameterType
     Public Const HeaderFATSNFKGDecimalPlaces = "Header FAT SNF KG Decimal Places"
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const BMCDecimalPlaces = "BMC Decimal Places"
+    Public Const BMCDCSApplyShift = "BMC DCS Apply Shift"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
     Public Const ApplySameDayShift = "Apply Same Day Shift"
     Public Const HideShiftCollection As String = "Hide Shift Collection"
@@ -1360,6 +1361,7 @@ Public Class clsFixedParameterType
     Public Const SubstractDistributorCommissioninItemPrice = "Substract Distributor Commission In Item Price"
     Public Const ConvertTOBillingUOM = "Convert into Billing UOM"
     Public Const DifferentCrateTypeForFGItem = "Different Crate Type For FG Item"
+    Public Const StopMultipleLoginInAPP = "Stop Multiple Login In APP"
 End Class
 Public Class clsFixedParameterCode
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -1448,6 +1450,7 @@ Public Class clsFixedParameterCode
     Public Const SNFDecimalPlaces = "SNF Decimal Places"
     Public Const BMCSNFDecimalPlaces = "BMC SNF Decimal Places"
     Public Const BMCFATDecimalPlaces = "BMC FAT Decimal Places"
+    Public Const BMCDCSApplyShift = "BMC DCS Apply Shift"
     Public Const AdjustFATSNFINOwnVSP = "Adjust FAT SNF IN Own VSP"
     Public Const AdjustQtyINOwnVSP = "Adjust Qty IN Own VSP"
     Public Const ApplySameDayShift = "Apply Same Day Shift"
@@ -2873,7 +2876,7 @@ Public Class clsFixedParameterCode
     Public Const SubstractDistributorCommissioninItemPrice = "Substract Distributor Commission In Item Price"
     Public Const ConvertTOBillingUOM = "Convert into Billing UOM"
     Public Const DifferentCrateTypeForFGItem = "Different Crate Type For FG Item"
-
+    Public Const StopMultipleLoginInAPP = "Stop Multiple Login In APP"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3024,6 +3027,8 @@ Public Class clsFixedParameter
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, "2", "FAT Decaimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, "2", "SNF Decaimal Places")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, "0", "0-OFF;1-ON BMC/DCS Milk collection Apply shift on header")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, "0", "0-Show Both Shift;1-Hide Evening Shift;2-Hide Morning Shift")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, "0", "0-OFF;1-ON")
@@ -4558,6 +4563,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.StopMultipleLoginInAPP, clsFixedParameterCode.StopMultipleLoginInAPP, "0", "0:Off, 1:On;")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -4649,6 +4655,7 @@ Public Class clsFixedParameterProgramMapping
 
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, EnumControlType.CheckBox)
@@ -6442,5 +6449,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.SubstractDistributorCommissioninItemPrice, clsFixedParameterCode.SubstractDistributorCommissioninItemPrice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.StopMultipleLoginInAPP, clsFixedParameterCode.StopMultipleLoginInAPP, EnumControlType.CheckBox)
     End Sub
 End Class

@@ -61,6 +61,7 @@ Public Class frmMilkCollectionMCC
 
     Dim settSNFDecimalPlace As Integer = 0
     Dim settFATDecimalPlace As Integer = 0
+    Dim settBMCDCSShiftWise As Boolean = False
 
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
@@ -127,6 +128,7 @@ Public Class frmMilkCollectionMCC
 
         settFATDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCFATDecimalPlaces, Nothing))
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BMCDecimalPlaces, clsFixedParameterCode.BMCSNFDecimalPlaces, Nothing))
+        settBMCDCSShiftWise = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, Nothing)) = 1)
 
         MyBase.SetUserMgmt(MyBase.Form_ID)
         If clsCommon.CompairString(clsUserMgtCode.MilkCollectionMCCGateEntry, MyBase.Form_ID) = CompairStringResult.Equal Then
@@ -142,8 +144,9 @@ Public Class frmMilkCollectionMCC
         AddNew()
         SetUserMgmtNew()
         LoadReject()
+        LoadShift()
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtMDate.Value = clsCommon.GETSERVERDATE()
+        txtMDate.Value = txtDate.Value
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
             txtTotEnteredFATPer.Enabled = True
             txtTotEnteredSNFPer.Enabled = True
@@ -157,6 +160,38 @@ Public Class frmMilkCollectionMCC
         End If
         AllowSMS()
     End Sub
+    Private Sub LoadShift()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = ""
+        If settBMCDCSShiftWise Then
+            dr("Name") = "Select"
+        Else
+            dr("Name") = "NA"
+        End If
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "M"
+        dr("Name") = "Morning"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "E"
+        dr("Name") = "Evening"
+        dt.Rows.Add(dr)
+
+        cboShift.DataSource = dt
+        cboShift.ValueMember = "Code"
+        cboShift.DisplayMember = "Name"
+
+        cboShift.Enabled = settBMCDCSShiftWise
+
+    End Sub
+
     Public Sub LoadReject()
         cboRejectType.DataSource = clsMilkReceiptMCC.GetReject(False)
         cboRejectType.ValueMember = "Code"
@@ -200,20 +235,7 @@ Public Class frmMilkCollectionMCC
         cboFATSNFType.ValueMember = "Code"
         cboFATSNFType.DisplayMember = "Name"
     End Sub
-    Public Function LoadShift() As DataTable
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-        Dim dr As DataRow = dt.NewRow()
-        dr("Code") = "M"
-        dr("Name") = "Morning"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "E"
-        dr("Name") = "Evening"
-        dt.Rows.Add(dr)
-        Return dt
-    End Function
+
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
         txtTripNo.Value = 1
@@ -252,6 +274,7 @@ Public Class frmMilkCollectionMCC
         txtSlipNo.Text = ""
         txtTotEnteredFATPer.Text = ""
         txtTotEnteredSNFPer.Text = ""
+        cboShift.SelectedValue = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         LoadBlankGrid()
         gv1.Rows.AddNew()
@@ -1047,6 +1070,11 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 Throw New Exception("Please recovery % can't be more than 100")
             End If
         End If
+        If settBMCDCSShiftWise Then
+            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
+                Throw New Exception("Please select Shift")
+            End If
+        End If
         Dim qry As String = "select Count(Trip_No) as TripNo from TSPL_MILK_COLLECTION_MCC where Trip_No='" + clsCommon.myCstr(txtTripNo.Value) + "' And Tanker_No='" + clsCommon.myCstr(txtTankerNo.Value) + "' And convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) = '" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "'and Document_No='" + txtDocNo.Value + "'"
         Dim _count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
         If (_count > 0) Then
@@ -1077,6 +1105,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 End If
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
+                obj.Document_Shift = clsCommon.myCstr(cboShift.SelectedValue)
                 obj.Late = clsCommon.myCDecimal(cboLate.SelectedValue)
                 obj.FAT_SNF_Type = clsCommon.myCDecimal(cboFATSNFType.SelectedValue)
                 obj.Route_Code = txtRoute.Value
@@ -1170,6 +1199,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 End If
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
+                cboShift.SelectedValue = obj.Document_Shift
                 txtDate.Value = obj.Document_Date
                 cboLate.SelectedValue = clsCommon.myCstr(obj.Late)
                 cboFATSNFType.SelectedValue = clsCommon.myCstr(obj.FAT_SNF_Type)
@@ -1322,7 +1352,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select  TSPL_MILK_COLLECTION_MCC.Document_No,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Description,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,
+        Dim qry As String = "select  TSPL_MILK_COLLECTION_MCC.Document_No,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_Shift,TSPL_MILK_COLLECTION_MCC.Description,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,
 TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,
 case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as Status ,TSPL_MILK_COLLECTION_MCC.Trip_No from TSPL_MILK_COLLECTION_MCC left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_MCC.Route_Code"
         LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked, "TSPL_MILK_COLLECTION_MCC.Document_Date"), NavigatorType.Current)
@@ -2465,6 +2495,10 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                 If clsCommon.myLen(txtTripNo.Value) > 0 Then
                     strQry1 += " And Trip_No='" + clsCommon.myCstr(txtTripNo.Value) + "'"
                 End If
+                If clsCommon.myLen(cboShift.SelectedValue) > 0 Then
+                    strQry1 += " And Document_Shift='" + clsCommon.myCstr(cboShift.SelectedValue) + "'"
+                End If
+
                 Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_MILK_COLLECTION_MCC where convert(date, Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and Route_Code='" + txtRoute.Value + "'" + strQry1))
                 If clsCommon.myLen(strDocNo) > 0 Then
                     LoadData(strDocNo, NavigatorType.Current)
@@ -2914,5 +2948,9 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub cboShift_Validating(sender As Object, e As CancelEventArgs) Handles cboShift.Validating
+        LoadTransactionData()
     End Sub
 End Class

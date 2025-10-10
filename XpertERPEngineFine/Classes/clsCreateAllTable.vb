@@ -24745,6 +24745,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Remark", "varchar(200) NULL")
             coll.Add("Reject_Type", "Varchar(30) null references TSPL_MILK_REJECT_TYPE(Code)")
             coll.Add("Reject_Recovery_Per", "Decimal(18,2) null")
+            coll.Add("Document_Shift", "char(1) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, True, "", "Document_No", "Document_Date", True)
 
             'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -24830,6 +24831,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("operation_type", "VARCHAR(50)")
             coll.Add("Remark", "varchar(200) NULL")
+            coll.Add("Document_Shift", "char(1) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS", coll, Nothing, True, False, "", "Document_No", "Document_Date", True)
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_DCS_DETAIL' and COLUMN_NAME='Against_Multiple_Detail'"

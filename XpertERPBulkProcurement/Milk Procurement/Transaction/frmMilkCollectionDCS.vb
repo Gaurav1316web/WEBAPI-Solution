@@ -62,6 +62,7 @@ Public Class frmMilkCollectionDCS
     Dim SettAdjQty As Boolean = False
     Dim settApplySameDayShift As Boolean = False
     Dim isRouteInGrid As Boolean = False
+    Dim settBMCDCSShiftWise As Boolean = False
 
 #End Region
     Public Sub SetUserMgmtNew()
@@ -114,19 +115,48 @@ Public Class frmMilkCollectionDCS
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
         SettAdjQty = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AdjustFATSNFINOwnVSP, clsFixedParameterCode.AdjustQtyINOwnVSP, Nothing)) = 1)
         settApplySameDayShift = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplySameDayShift, clsFixedParameterCode.ApplySameDayShift, Nothing)) = 1)
+        settBMCDCSShiftWise = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.BMCDCSApplyShift, clsFixedParameterCode.BMCDCSApplyShift, Nothing)) = 1)
         'If isPickCLRInsteadOfSNF Then
         '    MyLabel23.Text = "CLR KG"
         '    MyLabel5.Text = "CLR %"
         'End If
         MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
         LoadFATSNFType()
+        LoadShift()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtMDCSDate.Value = clsCommon.GETSERVERDATE()
         AddNew()
         SetUserMgmtNew()
         RadButton2.Visible = Not (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal)
     End Sub
+    Private Sub LoadShift()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
 
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = ""
+        If settBMCDCSShiftWise Then
+            dr("Name") = "Select"
+        Else
+            dr("Name") = "NA"
+        End If
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "M"
+        dr("Name") = "Morning"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "E"
+        dr("Name") = "Evening"
+        dt.Rows.Add(dr)
+
+        cboShift.DataSource = dt
+        cboShift.ValueMember = "Code"
+        cboShift.DisplayMember = "Name"
+    End Sub
 
     Public Sub LoadFATSNFType()
         Dim dt As DataTable = New DataTable()
@@ -149,23 +179,23 @@ Public Class frmMilkCollectionDCS
     End Sub
 
 
-    Public Function LoadShift() As DataTable
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
+    'Public Function LoadShift() As DataTable
+    '    Dim dt As DataTable = New DataTable()
+    '    dt.Columns.Add("Code", GetType(String))
+    '    dt.Columns.Add("Name", GetType(String))
 
-        Dim dr As DataRow = dt.NewRow()
-        dr("Code") = "M"
-        dr("Name") = "Morning"
-        dt.Rows.Add(dr)
+    '    Dim dr As DataRow = dt.NewRow()
+    '    dr("Code") = "M"
+    '    dr("Name") = "Morning"
+    '    dt.Rows.Add(dr)
 
-        dr = dt.NewRow()
-        dr("Code") = "E"
-        dr("Name") = "Evening"
-        dt.Rows.Add(dr)
+    '    dr = dt.NewRow()
+    '    dr("Code") = "E"
+    '    dr("Name") = "Evening"
+    '    dt.Rows.Add(dr)
 
-        Return dt
-    End Function
+    '    Return dt
+    'End Function
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
@@ -202,13 +232,14 @@ Public Class frmMilkCollectionDCS
         lblSNFKg.Text = ""
         lblTotReceivedSNFKg.Text = ""
         lblTotPendingSNFKg.Text = ""
-
+        cboShift.SelectedValue = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         LoadBlankGrid()
         gv1.Rows.AddNew()
         gv1.Rows(0).Cells(colMilkType).Value = "Good"
         btnAddMissing.Enabled = False
         txtDate.Enabled = True
+        cboShift.Enabled = settBMCDCSShiftWise
         txtMCC.Focus()
         gv2.DataSource = Nothing
     End Sub
@@ -920,7 +951,11 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
                 End If
             Next
         End If
-
+        If settBMCDCSShiftWise Then
+            If clsCommon.myLen(cboShift.SelectedValue) <= 0 Then
+                Throw New Exception("Please select Shift")
+            End If
+        End If
         UpdateAllTotal()
         Return True
     End Function
@@ -943,6 +978,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
                 End If
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
+                obj.Document_Shift = clsCommon.myCstr(cboShift.SelectedValue)
                 obj.Description = txtDesc.Text
                 obj.Slip_No = txtSlipNo.Text
                 obj.Arr = GetTRData(False)
@@ -1067,6 +1103,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
             obj = clsMilkCollectionDCS.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 txtDate.Enabled = False
+                cboShift.Enabled = False
                 isNewEntry = False
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
@@ -1083,6 +1120,7 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
+                cboShift.SelectedValue = obj.Document_Shift
                 txtDesc.Text = obj.Description
                 txtSlipNo.Text = obj.Slip_No
                 Dim PreviousSNo As Integer = -1
@@ -1257,8 +1295,8 @@ select top 1 convert(Date, DOC_DATE,103) as DOC_DATE from tspl_milk_srn_head whe
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
             Dim qry As String = "select * from (
-select Document_No,max(Document_Date) as Document_Date,max(Description) as Description,max(BMC) as BMC,max(BMC_Code) as BMC_Code,max(BMC_Name) as BMC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(Tanker_No) as Tanker_No,max(Vehicle_No) as Vehicle_No,max(Status) as Status from (
-select TSPL_MILK_COLLECTION_DCS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS.Status=1 then 'Posted' else 'Pending' end as Status 
+select Document_No,max(Document_Date) as Document_Date,max(Document_Shift) as Document_Shift,max(Description) as Description,max(BMC) as BMC,max(BMC_Code) as BMC_Code,max(BMC_Name) as BMC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(Tanker_No) as Tanker_No,max(Vehicle_No) as Vehicle_No,max(Status) as Status from (
+select TSPL_MILK_COLLECTION_DCS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS.Document_Shift,TSPL_MILK_COLLECTION_DCS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS.Status=1 then 'Posted' else 'Pending' end as Status 
 from TSPL_MILK_COLLECTION_DCS 
 left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No 
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
@@ -1312,8 +1350,6 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
     Sub SetGridFocus()
         If gv1.CurrentCell IsNot Nothing Then
             If gv1.CurrentCell.ColumnInfo.Name = colMilkType Then
-                '    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
-                'ElseIf gv1.CurrentCell.ColumnInfo.Name = colDocCollectionMilkType Then
                 If objCommonVar.DisplayTypeInMilkReceipt Then
                     gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
                 Else
@@ -1445,6 +1481,102 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
         gv1.Columns(colMorningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
         gv1.Columns(colMorningSuspence).HeaderText = "Morning Mark Suspence" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningSuspenceRemarks).HeaderText = "Morning Suspence Remarks" + Environment.NewLine + CurrShift
+
+
+        SetShiftColumns()
+    End Sub
+
+    Private Sub SetShiftColumns()
+        If settBMCDCSShiftWise Then
+            gv1.Columns(colMorningQty).IsVisible = False
+            gv1.Columns(colMorningQty).ReadOnly = True
+
+            gv1.Columns(colMorningFATPerNoDecimal).IsVisible = False
+            gv1.Columns(colMorningFATPerNoDecimal).ReadOnly = True
+
+            gv1.Columns(colMorningSNFPerNoDecimal).IsVisible = False
+            gv1.Columns(colMorningSNFPerNoDecimal).ReadOnly = True
+
+            gv1.Columns(colMorningFATPer).IsVisible = False
+            gv1.Columns(colMorningFATPer).ReadOnly = True
+
+            gv1.Columns(colMorningSNFPer).IsVisible = False
+            gv1.Columns(colMorningSNFPer).ReadOnly = True
+
+            gv1.Columns(colMorningFATKG).IsVisible = False
+            gv1.Columns(colMorningFATKG).ReadOnly = True
+
+            gv1.Columns(colMorningSNFKG).IsVisible = False
+            gv1.Columns(colMorningSNFKG).ReadOnly = True
+
+            gv1.Columns(colEveningQty).IsVisible = False
+            gv1.Columns(colEveningQty).ReadOnly = True
+
+            gv1.Columns(colEveningFATPerNoDecimal).IsVisible = False
+            gv1.Columns(colEveningFATPerNoDecimal).ReadOnly = True
+
+            gv1.Columns(colEveningSNFPerNoDecimal).IsVisible = False
+            gv1.Columns(colEveningSNFPerNoDecimal).ReadOnly = True
+
+            gv1.Columns(colEveningFATPer).IsVisible = False
+            gv1.Columns(colEveningFATPer).ReadOnly = True
+
+            gv1.Columns(colEveningSNFPer).IsVisible = False
+            gv1.Columns(colEveningSNFPer).ReadOnly = True
+
+            gv1.Columns(colEveningFATKG).IsVisible = False
+            gv1.Columns(colEveningFATKG).ReadOnly = True
+
+            gv1.Columns(colEveningSNFKG).IsVisible = False
+            gv1.Columns(colEveningSNFKG).ReadOnly = True
+
+            If clsCommon.CompairString(clsCommon.myCstr(cboShift.SelectedValue), "M") = CompairStringResult.Equal Then
+                gv1.Columns(colMorningQty).IsVisible = True
+                gv1.Columns(colMorningQty).ReadOnly = Not gv1.Columns(colMorningQty).IsVisible
+
+                gv1.Columns(colMorningFATPerNoDecimal).IsVisible = SettFATSNFNoDecimalDCS
+                gv1.Columns(colMorningFATPerNoDecimal).ReadOnly = Not gv1.Columns(colMorningFATPerNoDecimal).IsVisible
+
+                gv1.Columns(colMorningSNFPerNoDecimal).IsVisible = SettFATSNFNoDecimalDCS
+                gv1.Columns(colMorningSNFPerNoDecimal).ReadOnly = Not gv1.Columns(colMorningSNFPerNoDecimal).IsVisible
+
+                gv1.Columns(colMorningFATPer).IsVisible = Not SettFATSNFNoDecimalDCS
+                gv1.Columns(colMorningFATPer).ReadOnly = Not gv1.Columns(colMorningFATPer).IsVisible
+
+                gv1.Columns(colMorningSNFPer).IsVisible = Not SettFATSNFNoDecimalDCS
+                gv1.Columns(colMorningSNFPer).ReadOnly = Not gv1.Columns(colMorningSNFPer).IsVisible
+
+                gv1.Columns(colMorningFATKG).IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS)
+                gv1.Columns(colMorningFATKG).ReadOnly = Not gv1.Columns(colMorningFATKG).IsVisible
+
+                gv1.Columns(colMorningSNFKG).IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS)
+                gv1.Columns(colMorningSNFKG).ReadOnly = Not gv1.Columns(colMorningSNFKG).IsVisible
+                SettHideShiftCollection = 1
+            ElseIf clsCommon.CompairString(clsCommon.myCstr(cboShift.SelectedValue), "E") = CompairStringResult.Equal Then
+                gv1.Columns(colEveningQty).IsVisible = True
+                gv1.Columns(colEveningQty).ReadOnly = Not gv1.Columns(colEveningQty).IsVisible
+
+                gv1.Columns(colEveningFATPerNoDecimal).IsVisible = SettFATSNFNoDecimalDCS
+                gv1.Columns(colEveningFATPerNoDecimal).ReadOnly = Not gv1.Columns(colEveningFATPerNoDecimal).IsVisible
+
+                gv1.Columns(colEveningSNFPerNoDecimal).IsVisible = SettFATSNFNoDecimalDCS
+                gv1.Columns(colEveningSNFPerNoDecimal).ReadOnly = Not gv1.Columns(colEveningSNFPerNoDecimal).IsVisible
+
+                gv1.Columns(colEveningFATPer).IsVisible = Not SettFATSNFNoDecimalDCS
+                gv1.Columns(colEveningFATPer).ReadOnly = Not gv1.Columns(colEveningFATPer).IsVisible
+
+                gv1.Columns(colEveningSNFPer).IsVisible = Not SettFATSNFNoDecimalDCS
+                gv1.Columns(colEveningSNFPer).ReadOnly = Not gv1.Columns(colEveningSNFPer).IsVisible
+
+                gv1.Columns(colEveningFATKG).IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS)
+                gv1.Columns(colEveningFATKG).ReadOnly = Not gv1.Columns(colEveningFATKG).IsVisible
+
+                gv1.Columns(colEveningSNFKG).IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS)
+                gv1.Columns(colEveningSNFKG).ReadOnly = Not gv1.Columns(colEveningSNFKG).IsVisible
+                SettHideShiftCollection = 2
+            End If
+        End If
+
     End Sub
 
     Private Sub txtDate_Validated(sender As Object, e As EventArgs) Handles txtDate.Validated
@@ -1459,6 +1591,9 @@ left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code 
 Where 2=2  and TSPL_MILK_COLLECTION_MCC.Status=1 and convert(Date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' "
+            If settBMCDCSShiftWise Then
+                Baseqry += " and TSPL_MILK_COLLECTION_MCC.Document_Shift='" + clsCommon.myCstr(cboShift.SelectedValue) + "'"
+            End If
 
             Dim qry As String = "select * from (
 select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tanker_No) as Tanker_No,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME from (
@@ -1516,6 +1651,9 @@ where 2=2 "
             If clsCommon.myLen(strMilkType) > 0 Then
                 qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type='" + strMilkType + "'"
             End If
+            If settBMCDCSShiftWise Then
+                qry += " and TSPL_MILK_COLLECTION_MCC.Document_Shift='" + clsCommon.myCstr(cboShift.SelectedValue) + "'"
+            End If
             If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
                 qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id in ("
                 For ii As Integer = 0 To arrMCC.Count - 1
@@ -1532,6 +1670,7 @@ where 2=2 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 txtDate.Enabled = False
+                cboShift.Enabled = False
                 Dim dclQty As Decimal = 0
                 Dim dclFATKg As Decimal = 0
                 Dim dclSNFKg As Decimal = 0
@@ -2178,12 +2317,16 @@ Left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = XXXMain.C
     Private Sub LoadTransactionData(ByVal strMilkType As String)
         Try
             If clsCommon.myLen(txtMCC.Tag) > 0 AndAlso clsCommon.myLen(txtMCC.Value) > 0 Then
-                Dim qry As String = "select Document_No,Milk_Type from ( select TSPL_MILK_COLLECTION_DCS.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type from tspl_milk_Collection_DCS_MCC_Detail
+                Dim qry As String = "select Document_No,Milk_Type from ( select TSPL_MILK_COLLECTION_DCS.Document_No,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type 
+from tspl_milk_Collection_DCS_MCC_Detail
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=tspl_milk_Collection_DCS_MCC_Detail.Document_No
 left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=tspl_milk_Collection_DCS_MCC_Detail.Against_Milk_Collection_MCC_Detail
 where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtMCC.Tag) + "'"
                 If clsCommon.myLen(strMilkType) > 0 Then
                     qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type='" + strMilkType + "'"
+                End If
+                If settBMCDCSShiftWise Then
+                    qry += " and TSPL_MILK_COLLECTION_DCS.Document_Shift='" + clsCommon.myCstr(cboShift.SelectedValue) + "'"
                 End If
                 qry += " )xx group by Document_No,Milk_Type "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -2427,6 +2570,9 @@ where  TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_P
         Else
 
         End If
+    End Sub
 
+    Private Sub cboShift_Validated(sender As Object, e As EventArgs) Handles cboShift.Validated
+        SetShiftColumns()
     End Sub
 End Class
