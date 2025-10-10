@@ -1,7 +1,5 @@
 ﻿Imports common
-
 Public Class FrmSalesOrderGatePass
-
 #Region "Variables"
     Private isNewEntry As Boolean = False
     Const ColApply As String = "ColApply"
@@ -31,7 +29,6 @@ Public Class FrmSalesOrderGatePass
     End Sub
     Private Sub FrmSalesOrderGatePass_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-
         CreateTable()
         AddNew()
     End Sub
@@ -117,7 +114,6 @@ Public Class FrmSalesOrderGatePass
         'End If
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         Gv1.MasterTemplate.Columns.Add(repoQty)
-
         Gv1.ShowGroupPanel = False
         Gv1.AllowColumnReorder = False
         Gv1.AllowRowReorder = False
@@ -158,7 +154,6 @@ Public Class FrmSalesOrderGatePass
         coll.Add("Qty", "decimal(18, 6) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_TENDER_GATE_PASS_DETAIL", coll, "", True, False, "TSPL_CUSTOMER_TENDER_GATE_PASS", "Document_Code", "", True)
     End Sub
-
     Private Sub FrmSalesOrderGatePass_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Try
             If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
@@ -187,13 +182,10 @@ Public Class FrmSalesOrderGatePass
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
-
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
             SaveData()
@@ -256,7 +248,6 @@ Public Class FrmSalesOrderGatePass
                 obj.Driver_Name = txtDriverName.Text
                 obj.Driver_Mob_No = txtDriverMobNo.Text
                 obj.Remarks = txtRemark.Text
-
                 obj.Arr = GetTRData()
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
@@ -282,7 +273,6 @@ Public Class FrmSalesOrderGatePass
         Next
         Return Arr
     End Function
-
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
             PostData()
@@ -322,7 +312,6 @@ Public Class FrmSalesOrderGatePass
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocCode.Value) <= 0 Then
@@ -337,14 +326,12 @@ Public Class FrmSalesOrderGatePass
     Public Sub PrintGatePass(ByVal Code As String)
         Try
             Dim atchqry As String = GetAttachQry(Code)
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptAPSGatePassJPR", "APS Gate Pass")
                 frmCRV = Nothing
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -353,7 +340,6 @@ Public Class FrmSalesOrderGatePass
         Dim Qry As String = " select '" & objCommonVar.CurrentUserCode & "' as UserName, TSPL_COMPANY_MASTER.Insurance_No, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_COMPANY_MASTER.Insurance_Comp_Name,TSPL_COMPANY_MASTER.comp_name,TSPL_COMPANY_MASTER.ISO_No,TSPL_COMPANY_MASTER.add1 + case when len(TSPL_COMPANY_MASTER.add2)> 0 then ', ' + TSPL_COMPANY_MASTER.add2 else '' end + case when LEN( isnull(TSPL_COMPANY_MASTER.Add3, '') )> 0 then ', ' + isnull(TSPL_COMPANY_MASTER.Add3, '') else ' ' end as Comp_Address,tspl_company_master.GSTReg_No,TSPL_CUSTOMER_TENDER_GATE_PASS.loading_slip,
 TSPL_CUSTOMER_TENDER_GATE_PASS.Location_code,TSPL_CUSTOMER_TENDER_GATE_PASS.Sub_Location,TSPL_CUSTOMER_TENDER_GATE_PASS.vehicle_no,TSPL_TRANSPORT_MASTER.Transporter_Name,TSPL_SD_SHIPMENT_HEAD.Document_Date as DispatchDate,TSPL_ROUTE_MASTER.Zone_Code,TSPL_CUSTOMER_TENDER_GATE_PASS.Driver_Name,TSPL_CUSTOMER_TENDER_GATE_PASS.Driver_Mob_No,TSPL_CUSTOMER_TENDER_GATE_PASS.Remarks,TSPL_SD_SHIPMENT_HEAD.Against_Cust_Order,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code as GPCode,TSPL_CUSTOMER_MASTER.Area_Code,TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Date as GPDate,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.IsReplacement,TSPL_CUSTOMER_TENDER_GATE_PASS_Detail.Item_Code,tspl_item_master.Short_Description,TSPL_CUSTOMER_TENDER_GATE_PASS_Detail.Unit_Code,TSPL_CUSTOMER_TENDER_GATE_PASS_Detail.Qty,
 tspl_company_master.Email as CompEmail,tspl_company_master.Phone1 as comp_Phone,TSPL_CUSTOMER_MASTER.Email as Cust_Email,TSPL_CUSTOMER_MASTER.Phone1 as CustPhone
-
 from TSPL_CUSTOMER_TENDER_GATE_PASS
 left join TSPL_CUSTOMER_TENDER_GATE_PASS_Detail on TSPL_CUSTOMER_TENDER_GATE_PASS_Detail.Document_Code = TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code 
 left join tspl_vehicle_master on tspl_vehicle_master.Vehicle_id = TSPL_CUSTOMER_TENDER_GATE_PASS.Vehicle_Code 
@@ -364,9 +350,6 @@ left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_CUST
 left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No= TSPL_SD_SHIPMENT_HEAD.Route_No
 left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
 where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
-
-
-
         Return Qry
     End Function
     Private Sub btnGPCancel_Click(sender As Object, e As EventArgs) Handles btnGPCancel.Click
@@ -407,7 +390,6 @@ where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" & Environment.NewLine & "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
@@ -429,7 +411,6 @@ where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
                 LoadBlankGrid()
                 AddNew()
                 isNewEntry = False
-
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -469,11 +450,9 @@ where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colLineNo).Value = sl
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsDBFuncationality.getSingleValue("select Short_Description from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(objTr.Item_Code) & "' ")
-
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colHSNCode).Value = objTr.HSN_Code
                         Gv1.Rows(Gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
-
                         sl += 1
                     Next
                 End If
@@ -484,7 +463,6 @@ where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
             isInsideLoadData = False
         End Try
     End Sub
-
     Private Sub txtDocCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocCode._MYNavigator
         Try
             Dim strwherecls As String = ""
@@ -502,7 +480,6 @@ where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDocCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocCode._MYValidating
         Try
             Dim strwherecls As String = ""
@@ -515,7 +492,6 @@ from TSPL_CUSTOMER_TENDER_GATE_PASS  "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDispatchCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDispatchCode._MYValidating
         Try
             Dim qry As String = "select Document_Code as Code,Document_Date as [Doc Date],Customer_Code as [Customer Code] from TSPL_SD_SHIPMENT_HEAD "
@@ -568,7 +544,6 @@ TSPL_SD_SHIPMENT_HEAD.Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPM
                         sl += 1
                     Next
                 End If
-
             Else
                 Throw New Exception("Data not found!")
             End If
@@ -576,7 +551,6 @@ TSPL_SD_SHIPMENT_HEAD.Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPM
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name,Loc_Short_Name as [Short Name] from TSPL_LOCATION_MASTER "
@@ -599,7 +573,6 @@ TSPL_SD_SHIPMENT_HEAD.Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPM
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
@@ -617,7 +590,6 @@ TSPL_SD_SHIPMENT_HEAD.Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPM
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtTransporterCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTransporterCode._MYValidating
         Try
             Dim qry As String = "select Transport_Id,Transporter_Name from TSPL_TRANSPORT_MASTER"
@@ -627,7 +599,6 @@ TSPL_SD_SHIPMENT_HEAD.Description from TSPL_SD_SHIPMENT_HEAD where TSPL_SD_SHIPM
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtVehicleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
         Try
             Dim qry As String = "Select distinct  vehicle_id ,Number as VehicleNo from TSPL_VEHICLE_MASTER"
