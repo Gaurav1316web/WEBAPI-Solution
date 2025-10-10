@@ -27060,7 +27060,7 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
 
     Private Sub txtCreditCashDCSSaleDoc__My_Click(sender As Object, e As EventArgs) Handles txtCreditCashDCSSaleDoc._My_Click
         Try
-            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where Status=1 and not exists ( select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE  where TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No = TSPL_SD_SHIPMENT_HEAD.Document_Code) "
+            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where  Total_Amt>0  and Status=1 and not exists ( select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE  where TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No = TSPL_SD_SHIPMENT_HEAD.Document_Code) "
             If rbtnCreditToCash.Checked Then
                 qry += " and  TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='N' "
             ElseIf rbtnCashToCredit.Checked Then
