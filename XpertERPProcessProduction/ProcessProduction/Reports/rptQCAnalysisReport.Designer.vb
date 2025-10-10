@@ -22,13 +22,18 @@ Partial Class rptQCAnalysisReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtQcForRm = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtQcForFG = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtItemCodeFG = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnQCdate = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnWeighmentDate = New Telerik.WinControls.UI.RadRadioButton()
@@ -57,19 +62,19 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtQcForRm = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtQcForFG = New Telerik.WinControls.UI.RadRadioButton()
-        Me.txtItemCodeFG = New common.UserControls.txtFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtQcForRm, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.rbtnQCdate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,18 +96,13 @@ Partial Class rptQCAnalysisReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rbtQcForRm, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition3
+        Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -135,6 +135,34 @@ Partial Class rptQCAnalysisReport
         Me.RadPanel1.Size = New System.Drawing.Size(956, 310)
         Me.RadPanel1.TabIndex = 15
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtQcForRm)
+        Me.RadGroupBox2.Controls.Add(Me.rbtQcForFG)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 12)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(196, 32)
+        Me.RadGroupBox2.TabIndex = 396
+        '
+        'rbtQcForRm
+        '
+        Me.rbtQcForRm.Location = New System.Drawing.Point(15, 7)
+        Me.rbtQcForRm.Name = "rbtQcForRm"
+        Me.rbtQcForRm.Size = New System.Drawing.Size(75, 18)
+        Me.rbtQcForRm.TabIndex = 1
+        Me.rbtQcForRm.Text = "QC For RM"
+        '
+        'rbtQcForFG
+        '
+        Me.rbtQcForFG.Location = New System.Drawing.Point(106, 7)
+        Me.rbtQcForFG.Name = "rbtQcForFG"
+        Me.rbtQcForFG.Size = New System.Drawing.Size(71, 18)
+        Me.rbtQcForFG.TabIndex = 0
+        Me.rbtQcForFG.Text = "QC For FG"
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -158,6 +186,42 @@ Partial Class rptQCAnalysisReport
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(559, 168)
         Me.RadGroupBox1.TabIndex = 389
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(6, 96)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(45, 18)
+        Me.MyLabel1.TabIndex = 397
+        Me.MyLabel1.Text = "Item FG"
+        '
+        'txtItemCodeFG
+        '
+        Me.txtItemCodeFG.CalculationExpression = Nothing
+        Me.txtItemCodeFG.FieldCode = Nothing
+        Me.txtItemCodeFG.FieldDesc = Nothing
+        Me.txtItemCodeFG.FieldMaxLength = 0
+        Me.txtItemCodeFG.FieldName = Nothing
+        Me.txtItemCodeFG.isCalculatedField = False
+        Me.txtItemCodeFG.IsSourceFromTable = False
+        Me.txtItemCodeFG.IsSourceFromValueList = False
+        Me.txtItemCodeFG.IsUnique = False
+        Me.txtItemCodeFG.Location = New System.Drawing.Point(95, 94)
+        Me.txtItemCodeFG.MendatroryField = True
+        Me.txtItemCodeFG.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemCodeFG.MyLinkLable1 = Nothing
+        Me.txtItemCodeFG.MyLinkLable2 = Nothing
+        Me.txtItemCodeFG.MyReadOnly = False
+        Me.txtItemCodeFG.MyShowMasterFormButton = False
+        Me.txtItemCodeFG.Name = "txtItemCodeFG"
+        Me.txtItemCodeFG.ReferenceFieldDesc = Nothing
+        Me.txtItemCodeFG.ReferenceFieldName = Nothing
+        Me.txtItemCodeFG.ReferenceTableName = Nothing
+        Me.txtItemCodeFG.Size = New System.Drawing.Size(189, 19)
+        Me.txtItemCodeFG.TabIndex = 396
+        Me.txtItemCodeFG.Value = ""
         '
         'RadGroupBox4
         '
@@ -217,7 +281,7 @@ Partial Class rptQCAnalysisReport
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(5, 142)
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 120)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(46, 18)
         Me.MyLabel5.TabIndex = 393
@@ -227,7 +291,7 @@ Partial Class rptQCAnalysisReport
         '
         Me.txtRALNo.arrDispalyMember = Nothing
         Me.txtRALNo.arrValueMember = Nothing
-        Me.txtRALNo.Location = New System.Drawing.Point(95, 142)
+        Me.txtRALNo.Location = New System.Drawing.Point(95, 119)
         Me.txtRALNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRALNo.MyLinkLable1 = Me.lblBMC
         Me.txtRALNo.MyLinkLable2 = Nothing
@@ -418,7 +482,7 @@ Partial Class rptQCAnalysisReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -510,70 +574,6 @@ Partial Class rptQCAnalysisReport
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rbtQcForRm)
-        Me.RadGroupBox2.Controls.Add(Me.rbtQcForFG)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 12)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(196, 32)
-        Me.RadGroupBox2.TabIndex = 396
-        '
-        'rbtQcForRm
-        '
-        Me.rbtQcForRm.Location = New System.Drawing.Point(15, 7)
-        Me.rbtQcForRm.Name = "rbtQcForRm"
-        Me.rbtQcForRm.Size = New System.Drawing.Size(75, 18)
-        Me.rbtQcForRm.TabIndex = 1
-        Me.rbtQcForRm.Text = "QC For RM"
-        '
-        'rbtQcForFG
-        '
-        Me.rbtQcForFG.Location = New System.Drawing.Point(106, 7)
-        Me.rbtQcForFG.Name = "rbtQcForFG"
-        Me.rbtQcForFG.Size = New System.Drawing.Size(71, 18)
-        Me.rbtQcForFG.TabIndex = 0
-        Me.rbtQcForFG.Text = "QC For FG"
-        '
-        'txtItemCodeFG
-        '
-        Me.txtItemCodeFG.CalculationExpression = Nothing
-        Me.txtItemCodeFG.FieldCode = Nothing
-        Me.txtItemCodeFG.FieldDesc = Nothing
-        Me.txtItemCodeFG.FieldMaxLength = 0
-        Me.txtItemCodeFG.FieldName = Nothing
-        Me.txtItemCodeFG.isCalculatedField = False
-        Me.txtItemCodeFG.IsSourceFromTable = False
-        Me.txtItemCodeFG.IsSourceFromValueList = False
-        Me.txtItemCodeFG.IsUnique = False
-        Me.txtItemCodeFG.Location = New System.Drawing.Point(95, 118)
-        Me.txtItemCodeFG.MendatroryField = True
-        Me.txtItemCodeFG.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItemCodeFG.MyLinkLable1 = Nothing
-        Me.txtItemCodeFG.MyLinkLable2 = Nothing
-        Me.txtItemCodeFG.MyReadOnly = False
-        Me.txtItemCodeFG.MyShowMasterFormButton = False
-        Me.txtItemCodeFG.Name = "txtItemCodeFG"
-        Me.txtItemCodeFG.ReferenceFieldDesc = Nothing
-        Me.txtItemCodeFG.ReferenceFieldName = Nothing
-        Me.txtItemCodeFG.ReferenceTableName = Nothing
-        Me.txtItemCodeFG.Size = New System.Drawing.Size(189, 19)
-        Me.txtItemCodeFG.TabIndex = 396
-        Me.txtItemCodeFG.Value = ""
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(6, 119)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(45, 18)
-        Me.MyLabel1.TabIndex = 397
-        Me.MyLabel1.Text = "Item FG"
-        '
         'rptQCAnalysisReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -595,9 +595,15 @@ Partial Class rptQCAnalysisReport
         Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtQcForRm, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
@@ -620,12 +626,6 @@ Partial Class rptQCAnalysisReport
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rbtQcForRm, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtQcForFG, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
