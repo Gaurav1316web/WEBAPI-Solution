@@ -2008,7 +2008,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1112, 569)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2039,7 +2039,7 @@ Partial Class FrmUtility
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(45.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1091, 407)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1091, 521)
         Me.RadPageViewPage1.Text = "Utility"
         '
         'RadScrollablePanel1
@@ -2105,8 +2105,8 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnDuplicateVoucherNo)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnUpdateAPInvoiceBalanceAmount)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox1)
-        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 405)
-        Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 407)
+        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1072, 519)
+        Me.RadScrollablePanel1.Size = New System.Drawing.Size(1091, 521)
         Me.RadScrollablePanel1.TabIndex = 627
         '
         'GroupBox116

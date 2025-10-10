@@ -38,7 +38,17 @@ Public Class rptDealerSalesReport
 
         Try
 
-            qry = "(SELECT  datename(month,max(xx.Document_Date))month,  '" + objCommonVar.CurrentUser + "' as username ,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,   ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,  Customer_Code,MAX(CUSTOMER_NAME)CUSTOMER_NAME,max(XX.Location)Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add2)Add2,
+            qry = "(SELECT "
+            If chkYearly.Checked Then
+                qry += " (xx.month)month, "
+
+            Else
+                qry += "datename(month,max(xx.Document_Date))month, "
+            End If
+
+
+
+            qry += " '" + objCommonVar.CurrentUser + "' as username ,'" + FromDate + "' AS FromDate, '" + TODate + " ' as ToDate,   ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,  Customer_Code,MAX(CUSTOMER_NAME)CUSTOMER_NAME,max(XX.Location)Location,MAX(XX.Location_Desc)Location_Desc,max(xx.Add1)Add1,max(xx.Add2)Add2,
                                      max(xx.add1+xx.add2)COMPANYLocation,
                                      max(xx.Add4)Add4,max(xx.Document_Date)Document_Date,max(xx.CustAdd2+xx.CustAdd1+xx.CustAdd3)place,
                                      cast(sum(xx.Quantity)as decimal(10,3))Quantity,max(price_CodeNon)price_CodeNon,max(xx.HeadName)HeadName FROM "
@@ -115,14 +125,14 @@ Public Class rptDealerSalesReport
      					and TSPL_SCRAPSALE_HEAD.Inter_unit_sale =0  
 														 ) "
             If chkYearly.Checked Then
-                finalqry = " with RawData as (" + qry + "" + baseqry + "XX GROUP BY xx.Customer_Code))
-                            SELECT serial_number,LOcation,price_CodeNon,Location_Desc,Add1,Add2,Add4,Document_Date,Customer_Code,CUSTOMER_NAME,username,FromDate,ToDate,COMPANYLocation,place,HeadName, 
-isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
-                            isnull([July],0) AS July,isnull([August],0) AS Aug,isnull([September],0) AS Sept,isnull([October],0) AS Oct,isnull([November],0) AS Nov,isnull([December],0) AS Dec,isnull([January],0) AS Jan,isnull([February],0) AS Feb,isnull([March],0) AS March,
-                            (Isnull(April,0)+Isnull([May],0)+Isnull([June],0)+Isnull([July],0)+Isnull([August],0)+Isnull([September],0)+Isnull([October],0)+Isnull([November],0)+Isnull([December],0)+Isnull([January],0)+Isnull([February],0)+Isnull([March],0))
+                finalqry = " with RawData as (" + qry + "" + baseqry + "XX GROUP BY xx.Customer_Code,xx.month))
+                            SELECT ROW_NUMBER() OVER (ORDER BY Customer_Code) AS serial_number,max(LOcation)LOcation,max(price_CodeNon)price_CodeNon,max(Location_Desc)Location_Desc,max(Add1)Add1,max(Add2)Add2,max(Add4)Add4,max(Document_Date)Document_Date,(Customer_Code)Customer_Code,max(CUSTOMER_NAME)CUSTOMER_NAME,max(username)username,max(FromDate)FromDate,max(ToDate)ToDate,max(COMPANYLocation)COMPANYLocation,max(place)place,max(HeadName)HeadName, 
+sum(isnull([April],0)) AS April,sum(isnull([May],0)) AS May,sum(isnull([June],0)) AS June,
+                            sum(isnull([July],0)) AS July,sum(isnull([August],0)) AS Aug,sum(isnull([September],0)) AS Sept,sum(isnull([October],0)) AS Oct,sum(isnull([November],0)) AS Nov,sum(isnull([December],0)) AS Dec,sum(isnull([January],0)) AS Jan,sum(isnull([February],0)) AS Feb,sum(isnull([March],0)) AS March,
+                            (sum(Isnull(April,0))+sum(Isnull([May],0))+sum(Isnull([June],0))+sum(Isnull([July],0))+sum(Isnull([August],0))+sum(Isnull([September],0))+sum(Isnull([October],0))+sum(Isnull([November],0))+sum(Isnull([December],0))+sum(Isnull([January],0))+sum(Isnull([February],0))+sum(Isnull([March],0)))
                             as Total FROM RawData
                             PIVOT ( SUM(Quantity) FOR [Month] IN ( [April],[May],[June],[July],[August],[September],[October],[November],[December],[January],[February], [March],[Total])
-                            ) AS PivotTable "
+                            ) AS PivotTable group by Customer_Code "
             Else
                 finalqry += " " & qry & " " + baseqry + "XX GROUP BY xx.Customer_Code)"
             End If
@@ -198,7 +208,7 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
 
             If chkYearly.Checked Then
                 Gv1.Columns("Total").IsVisible = True
-                Gv1.Columns("Total").HeaderText = "Quantity"
+                Gv1.Columns("Total").HeaderText = "Quantity MT"
                 Gv1.Columns("place").IsVisible = False
                 Gv1.Columns("place").HeaderText = "Place"
             Else
@@ -207,7 +217,7 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
                 Gv1.Columns("place").IsVisible = True
                 Gv1.Columns("place").HeaderText = "Place"
                 Gv1.Columns("Quantity").IsVisible = True
-                Gv1.Columns("Quantity").HeaderText = "Quantity"
+                Gv1.Columns("Quantity").HeaderText = "Quantity MT"
                 Gv1.Columns("month").IsVisible = False
             End If
 
@@ -250,6 +260,8 @@ isnull([April],0) AS April,isnull([May],0) AS May,isnull([June],0) AS June,
         lblBillToLocation.Text = ""
         txtCustomer.arrValueMember = Nothing
         chkYearly.Checked = False
+        RadGroupBox1.Enabled = True
+
     End Sub
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click

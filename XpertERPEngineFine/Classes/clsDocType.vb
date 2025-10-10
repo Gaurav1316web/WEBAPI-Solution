@@ -498,6 +498,7 @@ Public Class clsDocType
     Public Const frmCustomerTenderOrder As String = "Customer Tender Order"
     Public Const frmCustomerTenderDispatch As String = "Customer Tender Dispatch"
     Public Const frmCustomerTenderInvoice As String = "Customer Tender Invoice"
+    Public Const frmCustomerTenderGatePass As String = "Customer Tender GatePass"
     Public Const frmLeakedSaleReturn As String = "Leaked Sale Return"
 
     Public Const frmSaleInvoiceProductSale As String = "Product Invoice"
@@ -1610,6 +1611,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.frmCustomerTenderOrder, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderDispatch, "", False, False, True)
             InsertDefaultValue(clsDocType.frmCustomerTenderInvoice, "", False, False, True)
+            InsertDefaultValue(clsDocType.frmCustomerTenderGatePass, "", False, False, True)
             InsertDefaultValue(clsDocType.ItemCapacityLimit, "", False, False, True)
             InsertDefaultValue(clsDocType.BoothRouteMapping, "", False, False, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, False, True)
