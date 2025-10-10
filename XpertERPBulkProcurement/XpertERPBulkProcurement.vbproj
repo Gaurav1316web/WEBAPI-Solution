@@ -358,6 +358,12 @@
     <Compile Include="Milk Procurement\Report\YearlyDBTSummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\AMCUMaster.Designer.vb">
+      <DependentUpon>AMCUMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\AMCUMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\BMC Transporter Bill.Designer.vb">
       <DependentUpon>BMC Transporter Bill.vb</DependentUpon>
     </Compile>
@@ -1274,6 +1280,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\YearlyDBTSummaryReport.resx">
       <DependentUpon>YearlyDBTSummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\AMCUMaster.resx">
+      <DependentUpon>AMCUMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\BMC Transporter Bill.resx">
       <DependentUpon>BMC Transporter Bill.vb</DependentUpon>
