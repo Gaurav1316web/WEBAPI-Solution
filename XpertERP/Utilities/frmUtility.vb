@@ -27060,7 +27060,7 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
 
     Private Sub txtCreditCashDCSSaleDoc__My_Click(sender As Object, e As EventArgs) Handles txtCreditCashDCSSaleDoc._My_Click
         Try
-            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where Status=1 and not exists ( select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE  where TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No = TSPL_SD_SHIPMENT_HEAD.Document_Code) "
+            Dim qry As String = " select Document_Code AS Code from TSPL_SD_SHIPMENT_HEAD where  Total_Amt>0  and Status=1 and not exists ( select 1 from TSPL_PAYMENT_PROCESS_MCC_SALE  where TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No = TSPL_SD_SHIPMENT_HEAD.Document_Code) "
             If rbtnCreditToCash.Checked Then
                 qry += " and  TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='N' "
             ElseIf rbtnCashToCredit.Checked Then
@@ -27079,10 +27079,16 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
                 If rbtnCreditToCash.Checked Then
                     If clsCommon.MyMessageBoxShow(Me, "Total [" + clsCommon.myCstr(txtCreditCashDCSSaleDoc.arrValueMember.Count) + "] of Document convert from credit to cash. Do You want to continue", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                         Dim objDCSSale As clsMCCMaterialSale = New clsMCCMaterialSale()
+                        clsCommon.ProgressBarPercentShow()
                         For ii As Integer = 0 To txtCreditCashDCSSaleDoc.arrValueMember.Count - 1
+                            clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / (txtCreditCashDCSSaleDoc.arrValueMember.Count), "Converting Document  : " & (ii + 1) & "/" & txtCreditCashDCSSaleDoc.arrValueMember.Count & "")
                             objDCSSale = objDCSSale.GetData(txtCreditCashDCSSaleDoc.arrValueMember(ii), NavigatorType.Current, trans)
+                            If clsCommon.myLen(objDCSSale.Bank_Code) <= 0 Then
+                                objDCSSale.Bank_Code = clsDBFuncationality.getSingleValue("select TOP 1 BANK_CODE from tspl_bank_master where Bank_type='C' ", trans)
+                            End If
                             objDCSSale.RecieptEntryOfDCSSale(objDCSSale, trans)
                             clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Is_CashSale ='Y' where Document_Code='" + txtCreditCashDCSSaleDoc.arrValueMember(ii) + "'", trans)
+                            clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Bank_Code = '" & objDCSSale.Bank_Code & "' where Document_Code='" + txtCreditCashDCSSaleDoc.arrValueMember(ii) + "'", trans)
                         Next
                     End If
                 ElseIf rbtnCashToCredit.Checked Then
@@ -27090,16 +27096,23 @@ WHERE CONVERT(date, TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate, 103) >= '" & clsCommo
                         Dim dtReceipt As DataTable = clsDBFuncationality.GetDataTable("select Receipt_No from TSPL_RECEIPT_DETAIL  where Document_No in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
                         If dtReceipt IsNot Nothing AndAlso dtReceipt.Rows.Count > 0 Then
                             clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No=null , Is_CashSale ='N' where Document_Code in (" + clsCommon.GetMulcallString(txtCreditCashDCSSaleDoc.arrValueMember) + " )", trans)
+                            Dim ii As Integer = 0
+                            clsCommon.ProgressBarPercentShow()
                             For Each dr As DataRow In dtReceipt.Rows
+                                clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / (txtCreditCashDCSSaleDoc.arrValueMember.Count), "Converting Document  : " & (ii + 1) & "/" & txtCreditCashDCSSaleDoc.arrValueMember.Count & "")
                                 clsRcptEntryHeader.ReverseAndUnpost(clsCommon.myCstr(dr("Receipt_No")), trans)
                                 clsRcptEntryHeader.fundelete(clsCommon.myCstr(dr("Receipt_No")), trans)
+                                ii += 1
                             Next
                         End If
                     End If
                 End If
+                clsCommon.ProgressBarPercentHide()
                 trans.Commit()
+                clsCommon.MyMessageBoxShow(Me, "Task completed successfully.", Me.Text)
                 txtCreditCashDCSSaleDoc.arrValueMember = Nothing
             Catch ex As Exception
+                clsCommon.ProgressBarPercentHide()
                 trans.Rollback()
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try

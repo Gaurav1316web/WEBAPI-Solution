@@ -150,7 +150,7 @@ Public Class FrmGRNReport
             ' " where 2=2 and detail.Row_Type='Item' "
             If chkTrackingReport.Checked Then
 
-                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.*,[GRN Qty]-[Weighment Net Weight] as [Partial Reject Qty] from ("
+                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.*, case when ([Visual QC Status]='Partial Ok' or [Visual QC Status Second]='Partial Ok') then [GRN Qty]-[Weighment Net Weight] else 0 end as [Partial Reject Qty] from ("
 
                 If Not chkCancelRejected.Checked Then
                     qry += "select convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]

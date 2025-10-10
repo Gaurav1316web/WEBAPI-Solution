@@ -22,11 +22,10 @@ Partial Class FrmSalesOrderGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtDriverMobNo = New common.Controls.MyTextBox()
         Me.lblDriverMobno = New common.Controls.MyLabel()
         Me.txtDriverName = New common.Controls.MyTextBox()
@@ -57,13 +56,13 @@ Partial Class FrmSalesOrderGatePass
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtDocCode = New common.UserControls.txtNavigator()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnGPCancel = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnGPCancel = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -71,7 +70,6 @@ Partial Class FrmSalesOrderGatePass
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriverMobNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDriverMobno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -96,13 +94,13 @@ Partial Class FrmSalesOrderGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,6 +114,8 @@ Partial Class FrmSalesOrderGatePass
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -140,13 +140,14 @@ Partial Class FrmSalesOrderGatePass
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDriverMobNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDriverMobno)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDriverName)
@@ -183,15 +184,6 @@ Partial Class FrmSalesOrderGatePass
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 394)
         Me.SplitContainer2.SplitterDistance = 174
         Me.SplitContainer2.TabIndex = 0
-        '
-        'btnGo
-        '
-        Me.btnGo.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
-        Me.btnGo.Location = New System.Drawing.Point(464, 147)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(91, 18)
-        Me.btnGo.TabIndex = 1640
-        Me.btnGo.Text = ">>"
         '
         'txtDriverMobNo
         '
@@ -686,7 +678,7 @@ Partial Class FrmSalesOrderGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -694,6 +686,27 @@ Partial Class FrmSalesOrderGatePass
         Me.Gv1.Size = New System.Drawing.Size(800, 216)
         Me.Gv1.TabIndex = 2
         Me.Gv1.VarID = ""
+        '
+        'btnGPCancel
+        '
+        Me.btnGPCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnGPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGPCancel.Location = New System.Drawing.Point(577, 5)
+        Me.btnGPCancel.Name = "btnGPCancel"
+        Me.btnGPCancel.Size = New System.Drawing.Size(69, 24)
+        Me.btnGPCancel.TabIndex = 1036
+        Me.btnGPCancel.Text = "Cancel"
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(651, 5)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 24)
+        Me.btnReverse.TabIndex = 1035
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'btnClose
         '
@@ -746,27 +759,6 @@ Partial Class FrmSalesOrderGatePass
         Me.btnSave.TabIndex = 7
         Me.btnSave.Text = "Save"
         '
-        'btnGPCancel
-        '
-        Me.btnGPCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnGPCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGPCancel.Location = New System.Drawing.Point(577, 5)
-        Me.btnGPCancel.Name = "btnGPCancel"
-        Me.btnGPCancel.Size = New System.Drawing.Size(69, 24)
-        Me.btnGPCancel.TabIndex = 1036
-        Me.btnGPCancel.Text = "Cancel"
-        '
-        'btnReverse
-        '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(651, 5)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(69, 24)
-        Me.btnReverse.TabIndex = 1035
-        Me.btnReverse.Text = "Reverse"
-        Me.btnReverse.Visible = False
-        '
         'FrmSalesOrderGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -788,7 +780,6 @@ Partial Class FrmSalesOrderGatePass
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriverMobNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDriverMobno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -813,13 +804,13 @@ Partial Class FrmSalesOrderGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGPCancel, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -864,7 +855,6 @@ Partial Class FrmSalesOrderGatePass
     Friend WithEvents lblDriverMobno As common.Controls.MyLabel
     Friend WithEvents txtDriverName As common.Controls.MyTextBox
     Friend WithEvents lblDriveName As common.Controls.MyLabel
-    Friend WithEvents btnGo As RadButton
     Friend WithEvents btnGPCancel As RadButton
     Friend WithEvents btnReverse As RadButton
 End Class
