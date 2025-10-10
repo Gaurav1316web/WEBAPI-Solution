@@ -1644,6 +1644,8 @@
     <None Include="Crystal Reports\Sales Report\crptDailySettlementDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptDailySettlementSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\crptDayReportDirectSale.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptDealerSalesReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptDealerSalesYearlyReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptEmptyInwardRegister.rpt" />
     <None Include="Crystal Reports\Sales Report\crptER1 - Copy.rpt" />
     <None Include="Crystal Reports\Sales Report\crptER1%28B4 address%29.rpt" />
@@ -1863,6 +1865,7 @@
     <None Include="Crystal Reports\Sales Report\rptSalesman_original.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesNew.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesReport.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptSalesReportCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesSummaryNew.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSaleSummaryAgainstPO.rpt" />
     <None Include="Crystal Reports\Sales Report\rptStockConsumptionreport.rpt" />

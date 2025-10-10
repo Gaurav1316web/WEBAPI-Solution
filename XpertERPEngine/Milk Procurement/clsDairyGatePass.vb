@@ -216,10 +216,10 @@ Public Class clsDairyGatePassEntry
             objTr.Vehicle_Code = objGp.Vehicle_Id
             objTr.VehicleNo = objGp.Vehicle_Number
             objTr.CrateQty = 0
-            objTr.CrateQtyRecd = 0
+            objTr.CrateQtyRecd = objGp.TotalCrate
             objTr.Balance = 0
             objTr.Remarks = ""
-            objTr.OutQty = objGp.TotalCrate
+            objTr.OutQty = 0
             objTr.Adjustment = 0
             objTr.Jaali = 0
             objTr.Box = 0

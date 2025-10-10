@@ -582,7 +582,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RoutePartyWisePriceList, "Route and PartyWise Price List", "1.06.03.38", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleReportCustomerWise, "Sales Report Customer Wise", "1.06.03.41", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDealerSalesReport, "Dealer Sales Report", "1.06.03.42", clsUserMgtCode.SubModuleSaleNewReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.rptPlantWiseAvailableStockQtyReport, "Plant Wise Available Stock Qty Report", "1.06.03.43", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
         '--------------Material Management----------------------------------
@@ -2523,6 +2523,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "Transcation", "1.38.02", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.FrmSalesOrder, "Sales Order", "1.38.02.01", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
         InsertDefaultValue(clsUserMgtCode.FrmSalesOrderDispatch, "Sales Order Dispatch", "1.38.02.02", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
+        InsertDefaultValue(clsUserMgtCode.FrmSalesOrderGatePass, "Sales Order GatePass", "1.38.02.03", clsUserMgtCode.SubModuleAPSSaleDairyTransaction, "", 8, 0, "", "", "", True, True, False, "", Nothing, "", "", "", "", "", False, "", 0, True, False)
 
         '' Dairy APS Sale ==> Report
         InsertDefaultValue(clsUserMgtCode.SubModuleAPSSaleDairyReport, "Report", "1.38.03", clsUserMgtCode.ModuleAPSSaleDairy, "SM", 30)

@@ -9654,6 +9654,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmSalesOrderDispatch
                         frm = New FrmSalesOrderDispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSalesOrderGatePass
+                        frm = New FrmSalesOrderGatePass
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.frmAdvanceForCD
                     '    frm = New frmCustomerAdvanceAgainstBooking
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -10284,6 +10287,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptDealerSalesReport
                         frm = New rptDealerSalesReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptPlantWiseAvailableStockQtyReport
+                        frm = New rptPlantWiseAvailableStockQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.rptSaleReportCustomerWise

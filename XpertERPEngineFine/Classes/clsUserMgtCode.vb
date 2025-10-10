@@ -235,6 +235,7 @@ Public Class clsUserMgtCode
     Public Const frmCustomerTender As String = "CUST-TEND"
     Public Const FrmSalesOrder As String = "SALES-ORD"
     Public Const FrmSalesOrderDispatch As String = "SAL-ORD_DIS"
+    Public Const FrmSalesOrderGatePass As String = "SAL-ORD-GP"
     'Public Const frmAdvanceForCD As String = "ADV_For_CD"
     'Public Const frmAcknowledgeMentOfGRN As String = "ACK_OF_GRN"
     Public Const frmDairyBookingUploader As String = "DA_BOK_UPL"
@@ -2690,7 +2691,7 @@ Public Class clsUserMgtCode
     Public Const rptSalesReport As String = "SALE-RPT"
 
     Public Const rptDealerSalesReport As String = "DEA_SA_RE"
-
+    Public Const rptPlantWiseAvailableStockQtyReport As String = "P_AV_STC_QT"
 
     Public Const rptSaleReportCustomerWise As String = "SALE-CW-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"
