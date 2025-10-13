@@ -22,7 +22,7 @@ Partial Class frmRouteWiseSaleTargetReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -158,7 +158,7 @@ Partial Class frmRouteWiseSaleTargetReport
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -176,7 +176,6 @@ Partial Class frmRouteWiseSaleTargetReport
         Me.btnPrint.Size = New System.Drawing.Size(68, 24)
         Me.btnPrint.TabIndex = 15
         Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
         '
         'btnClose
         '
