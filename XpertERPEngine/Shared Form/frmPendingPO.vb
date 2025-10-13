@@ -809,7 +809,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
 
         Dim repoItemTolAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoItemTolAmt.FormatString = ""
-        repoItemTolAmt.HeaderText = IIf(Is_Load_MRN, "ItemTolerenceQty", "Tolerence Amt")
+        repoItemTolAmt.HeaderText = IIf(Is_Load_MRN, "ItemTolerenceQty", "Tolerence Qty")
         repoItemTolAmt.Name = colItemTolAmt
         repoItemTolAmt.Width = 70
         repoItemTolAmt.WrapText = True

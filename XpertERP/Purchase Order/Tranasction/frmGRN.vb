@@ -6615,6 +6615,7 @@ Public Class frmGRN
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating
         Try
             SelectPOItems()
+            ShowSchedule()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -8278,6 +8279,14 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
 
     Private Sub btnShowSchedule_Click(sender As Object, e As EventArgs) Handles btnShowSchedule.Click
         Try
+            ShowSchedule()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub ShowSchedule()
+        Try
             If clsCommon.myLen(txtRefNo.Text) > 0 Then
                 Dim lstItem As New List(Of String)
                 If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
@@ -8295,7 +8304,7 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frm As New FrmFreeGrid()
                     frm.ReportID = Form_ID
-                    frm.Text = "Schedule"
+                    frm.strFormName = "Schedule"
                     frm.dt = dt
                     frm.ShowDialog()
                 Else
@@ -8307,7 +8316,7 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 clsCommon.MyMessageBoxShow(Me, "Reference No can't be blank !", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 
