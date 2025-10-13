@@ -102,12 +102,12 @@ Public Class frmPendingPO
     Private Sub FrmPendingRequistion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             If objCommonVar.RCDFCFP AndAlso clsCommon.CompairString(Is_Load_MRN, "False") = CompairStringResult.Equal Then
+                Dim whr As String = Nothing
                 If clsCommon.myLen(strTendorCode) > 0 Then
-                    Dim strDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select Convert(Date,MAX(PurchaseOrder_Date),103)PurchaseOrder_Date from TSPL_PURCHASE_ORDER_HEAD Where 1=1 And RefTendorNo='" & strTendorCode & "'"), "dd/MM/yyyy")
-                    txtToDate.Value = strDate
-                Else
-                    txtToDate.Value = dtGRNDate
+                    whr = " Where 1=1 And RefTendorNo='" & strTendorCode & "' "
                 End If
+                Dim strDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select Convert(Date,MAX(PurchaseOrder_Date),103)PurchaseOrder_Date from TSPL_PURCHASE_ORDER_HEAD " & whr), "dd/MM/yyyy")
+                txtToDate.Value = strDate
                 txtFromDate.Value = txtToDate.Value.AddMonths(-1)
                 SplitContainer2.Panel1.Visible = True
             Else

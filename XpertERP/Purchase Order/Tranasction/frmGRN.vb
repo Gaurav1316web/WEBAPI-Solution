@@ -5867,6 +5867,16 @@ Public Class frmGRN
 
     End Sub
 
+    Public Function ReturnSelectTypeOfPO() As DataTable
+        Dim Qry As String = "Select 'RAL-RM' As Code "
+        Qry += " Union All "
+        Qry += " Select 'Item' As Code "
+        Qry += " Union All "
+        Qry += " Select 'Pending PO' As Code "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        Return dt
+    End Function
+
     Sub SelectPOItems()
         Try
             isInsideLoadData = True
@@ -5874,11 +5884,18 @@ Public Class frmGRN
             Dim frm As New frmPendingPO()
             If objCommonVar.RCDFCFP = True Then
                 Dim objItemMaster As clsItemMaster
-
                 Dim whrcls As String = Nothing
 
+                Dim frmNew As New XpertERPEngine.FrmFreeComboBox()
+                frmNew.ComboSource = ReturnSelectTypeOfPO()
+                frmNew.ComboValueMember = "Code"
+                frmNew.ComboDisplayMember = "Code"
+                frmNew.ShowDialog()
+
+
                 'whrcls = " TSPL_ITEM_MASTER.Structure_Code='RM' "
-                If clsCommon.MyMessageBoxShow(Me, "Do you want to select RAL-RM type?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                Dim lstItem As New List(Of String)
+                If clsCommon.CompairString(frmNew.strRetValue, "RAL-RM") = CompairStringResult.Equal Then
                     Dim Qry As String = clsTenderHead.ShowDataQry()
                     whrcls = " IsNull(Tender_Type,0)= 0 "
                     tenderCode = clsCommon.ShowSelectForm("TenderNoFndd", Qry, "DocumentNo", whrcls, txtDocNo.Value, "DocumentNo", True)
@@ -5888,9 +5905,9 @@ Public Class frmGRN
                     End If
                     Qry = clsTenderHead.GetDetailsDataQry(tenderCode)
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         whrcls = Nothing
-                        Dim lstItem As New List(Of String)
                         For Each dtRow As DataRow In dt.Rows
                             Dim strItem As String = clsCommon.myCstr(dtRow("Item_Code"))
                             If Not lstItem.Contains(strItem) Then
@@ -5901,14 +5918,25 @@ Public Class frmGRN
                     Else
                         whrcls = Nothing
                     End If
+                    If lstItem.Count > 1 Then
+                        objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
+                    End If
+
+                ElseIf clsCommon.CompairString(frmNew.strRetValue, "Item") = CompairStringResult.Equal Then
+                    objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
                 End If
-                objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
-                If objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
-                    frm.ItemForDocumentFilter = objItemMaster.Item_Code
-                Else
-                    frm.ItemForDocumentFilter = Nothing
-                    Exit Sub
+
+                If clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
+                    If lstItem IsNot Nothing AndAlso lstItem.Count = 1 Then
+                        frm.ItemForDocumentFilter = clsCommon.myCstr(lstItem(0))
+                    ElseIf objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
+                        frm.ItemForDocumentFilter = objItemMaster.Item_Code
+                    Else
+                        frm.ItemForDocumentFilter = Nothing
+                        Exit Sub
+                    End If
                 End If
+                lstItem = Nothing
             End If
             frm.strTendorCode = tenderCode
             frm.VendorCode = txtVendorNo.Value
@@ -6585,7 +6613,11 @@ Public Class frmGRN
     End Sub
 
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating
-        SelectPOItems()
+        Try
+            SelectPOItems()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtDept__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDept._MYValidating
