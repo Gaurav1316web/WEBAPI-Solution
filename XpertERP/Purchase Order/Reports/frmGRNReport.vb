@@ -150,7 +150,7 @@ Public Class FrmGRNReport
             ' " where 2=2 and detail.Row_Type='Item' "
             If chkTrackingReport.Checked Then
 
-                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.*,[GRN Qty]-[Weighment Net Weight] as [Partial Reject Qty] from ("
+                qry += "Select ROW_NUMBER() OVER(ORDER BY convert(varchar, final.[GRN Date],103),[GRN NO] ASC) as SNo,final.*, case when ([Visual QC Status]='Partial Ok' or [Visual QC Status Second]='Partial Ok') then [GRN Qty]-[Weighment Net Weight] else 0 end as [Partial Reject Qty] from ("
 
                 If Not chkCancelRejected.Checked Then
                     qry += "select convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]
@@ -775,43 +775,43 @@ Null As InputData9,Null As AliasName10,Null As InputData10,Null As AliasName11,N
         'Dim item1 As New GridViewSummaryItem("SNo", "{0:f0}", GridAggregateFunction.Sum)
         'summaryRowItem.Add(item1)
 
-        Dim item2 As New GridViewSummaryItem("GRN Qty", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("GRN Qty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
 
-        Dim item3 As New GridViewSummaryItem("Weighment Gross Weight", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item3 As New GridViewSummaryItem("Weighment Gross Weight", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
 
-        Dim item4 As New GridViewSummaryItem("Weighment Tare Weight", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item4 As New GridViewSummaryItem("Weighment Tare Weight", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
 
-        Dim item5 As New GridViewSummaryItem("Gunny Bag Weight", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item5 As New GridViewSummaryItem("Gunny Bag Weight", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
 
-        Dim item6 As New GridViewSummaryItem("Weighment Net Weight", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item6 As New GridViewSummaryItem("Weighment Net Weight", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
 
-        Dim item7 As New GridViewSummaryItem("SRN Rate", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item7 As New GridViewSummaryItem("SRN Rate", "{0:f3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
 
-        Dim item8 As New GridViewSummaryItem("SRN Received Qty", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item8 As New GridViewSummaryItem("SRN Received Qty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
 
-        Dim item9 As New GridViewSummaryItem("SRN Rejected Qty", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item9 As New GridViewSummaryItem("SRN Rejected Qty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item9)
 
-        Dim item10 As New GridViewSummaryItem("SRN Accepted Qty", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item10 As New GridViewSummaryItem("SRN Accepted Qty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item10)
 
-        Dim item11 As New GridViewSummaryItem("SRN Amount", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item11 As New GridViewSummaryItem("SRN Amount", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item11)
 
-        Dim item12 As New GridViewSummaryItem("SRN Tax Amount", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item12 As New GridViewSummaryItem("SRN Tax Amount", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item12)
 
-        Dim item13 As New GridViewSummaryItem("SRN Net Amount", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item13 As New GridViewSummaryItem("SRN Net Amount", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item13)
 
-        Dim item14 As New GridViewSummaryItem("Partial Reject Qty", "{0:f0}", GridAggregateFunction.Sum)
+        Dim item14 As New GridViewSummaryItem("Partial Reject Qty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item14)
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)

@@ -1798,7 +1798,7 @@ Public Class clsMCCMaterialSale
                 If obj.SaveData(obj, True, trans) Then
                     clsRcptEntryHeader.funRcptPost(obj.Receipt_No, trans, "MReceivable", objDCSSale.Bill_To_Location, True)
                     'clsCommon.MyMessageBoxShow("Receipt No: '" + obj.Receipt_No + "' create aganist DCS Sale no: '" + objDCSSale.Document_Code + "'")
-                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No =" & obj.Receipt_No & " where Document_Code='" + objDCSSale.Document_Code + "'", trans)
+                    clsDBFuncationality.ExecuteNonQuery("Update TSPL_SD_SHIPMENT_HEAD set Receipt_No ='" & obj.Receipt_No & "' where Document_Code='" + objDCSSale.Document_Code + "'", trans)
                 End If
                 '---------------------------------------------------------------------------
                 Return obj.Receipt_No
