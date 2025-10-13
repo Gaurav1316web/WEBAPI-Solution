@@ -1910,7 +1910,9 @@ tbl_Brand.Brand, tbl_Brand.BRANDDESC, TSPL_COMPANY_MASTER.Logo_Img,"
         End If
         Qry += ",CASE WHEN max(unit_code) = 'crate' OR max(unit_code) = 'pouch' THEN 'Crate/Pouch' ELSE max(unit_code) END AS unit_code_result,
                  Sum(qty) qty, Max(Comp_Address) Comp_Address, Max(Loc_add) Loc_add, Max(Route_No) Route_No, Sum(Totalcrate) Totalcrate, Sum(TotalCan) TotalCan, Max(Route_Desc) Route_Desc, Max(GPCode) GPCode, Max(GPDate) GPDate, Max(GPTime) GPTime, Max(vehicle_id) vehicle_id, Max(VehicleDesc) VehicleDesc, Max(location_code) location_code, Max(Location_desc) Location_desc, Max(transporter) transporter, Max(remarks) remarks, Max(comments) comments, Max(post) post, Item_code, Max(item_desc) item_desc, Max(short_description) short_description, Max(sku_seq) sku_seq, Max(TranporterNameFromMaster) TranporterNameFromMaster, Max(HSN_Code) HSN_Code, Max(Salesman) Salesman, Max(Column_Crate) as  Column_Crate, Max(Area_Code) Area_Code, Max(Zone_Code) Zone_Code, Max(ShiftType) ShiftType, Max(GSTReg_No) GSTReg_No, Max(Loading_Slip) Loading_Slip, Max(DispatchDate) DispatchDate, Max(GatePass_Date) GatePass_Date, Max(Amount) Amount, Max(AmountWithoutTax) as AmountWithoutTax, Max(Margin) Margin, Max(SecurityAmt) as SecurityAmt,max(Total_TCS_Amt)Total_TCS_Amt, max(Dist_Commission_Ratewithtax) Dist_Commission_Ratewithtax,max(zonecode)zonecode ,max(RoundOffAmt) as RoundOffAmt " + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", max(ItemCost) as UnitRate", "") + ", Max(Driver_Name) Driver_Name, Max(Driver_ContactNo) Driver_ContactNo,max(UOM_Code) as StokingUOM "
-
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " ,max(ActualRate)ActualRate "
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Qry += " ,MAX(Demand_UniqueID)Demand_UniqueID, max(NoCrateIssue)NoCrateIssue "
         End If
@@ -1955,6 +1957,9 @@ XYZ.TAX6,XYZ.TAX6_Amt,
 XYZ.TAX7,XYZ.TAX7_Amt,
 XYZ.TAX8,XYZ.TAX8_Amt,
 xyz.Sale_Invoice_No, "
+        End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += " xyz.ActualRate, "
         End If
         Qry += "case when Scheme_Item = 'Y' then 0 else xyz.Total_TCS_Amt end as Total_TCS_Amt,xyz.Zone_Code as Zonecode" + IIf(clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal, ", xyz.ItemCost", "") + ",TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_Name,TSPL_DAIRYSALE_GATEPASS_MASTER.Driver_ContactNo from TSPL_DAIRYSALE_GATEPASS_DETAIL " &
                    " left outer join TSPL_DAIRYSALE_GATEPASS_MASTER on TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode=TSPL_DAIRYSALE_GATEPASS_DETAIL.GPCode " &
@@ -2006,7 +2011,9 @@ xyz.Sale_Invoice_No, "
 		WHEN max(TSPL_SD_SHIPMENT_DETAIL.TAX10) = 'TCS' THEN sum(TSPL_SD_SHIPMENT_DETAIL.TAX10_Amt)
         ELSE 0 END AS Total_TCS_Amt 
          ,max(TSPL_SD_SHIPMENT_HEAD.RoundOffAmount) as RoundOffAmt,"
-
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
+            Qry += "  max(TSPL_SD_SHIPMENT_DETAIL.ActualRate)ActualRate  ,"
+        End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal Then
             Qry += "  MAX(TSPL_SD_SHIPMENT_DETAIL.TAX1)TAX1,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt)TAX1_Amt,
 		 MAX(TSPL_SD_SHIPMENT_DETAIL.TAX2_AMT)TAX2_AMT, MAX(TSPL_SD_SHIPMENT_DETAIL.TAX3_AMT)TAX3_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX4_AMT)TAX4_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX5_AMT)TAX5_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX6_AMT)TAX6_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX7_AMT)TAX7_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX8_AMT)TAX8_AMT,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX2)TAX2,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX3)TAX3,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX4)TAX4,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX5)TAX5,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX6)TAX6,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX7)TAX7,MAX(TSPL_SD_SHIPMENT_DETAIL.TAX8)TAX8, max(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No)Sale_Invoice_No, "
