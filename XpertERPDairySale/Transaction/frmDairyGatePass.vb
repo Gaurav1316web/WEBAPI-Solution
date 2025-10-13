@@ -1845,6 +1845,54 @@ left join tspl_item_uom_detail  LooseUnit on LooseUnit.item_code=TSPL_DAIRYSALE_
 where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
         Return Qry
     End Function
+    '----------------------------------BKNGATEPASSPRINTADDED--------------------------
+    Private Function GetAttachQryBKN(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
+        Dim Qry As String = ""
+        Qry = " Select * from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
+                        TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
+                        TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
+                        TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
+                        case when coalesce(InLtr.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InLtr.Conversion_factor,1)) end as QtyInLtr, 
+                        case when coalesce(InCrate.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InCrate.Conversion_factor,1)) end as QtyInCrate,
+                        case when coalesce(InPouch.Conversion_factor,0)=0 then 0 else convert(Decimal(18,2),  TSPL_SD_SHIPMENT_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor/coalesce(InPouch.Conversion_factor,1)) end as QtyInPouch,
+                        TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours, 
+                        TSPL_Route_Master.Route_Desc,TSPL_VEHICLE_MASTER.Vehicle_Id,case when TSPL_SD_SHIPMENT_HEAD.VehicleNo > ''  then  TSPL_SD_SHIPMENT_HEAD.VehicleNo else TSPL_VEHICLE_MASTER.Number  end As Vehicle_Number,
+                        TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1 As Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 As Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 As Cust_Add3,TSPL_CUSTOMER_MASTER.PIN_Code As Cust_PINCode,
+                        TSPL_CUSTOMER_MASTER.Phone1 As Cust_Phone1,TSPL_CUSTOMER_MASTER.Phone2 As Cust_Phone2,
+                        TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img As Comp_Logo1,TSPL_COMPANY_MASTER.Logo_Img2 As Comp_Logo2,TSPL_COMPANY_MASTER.Add1 As Comp_Add1,
+                       
+
+TSPL_COMPANY_MASTER.City_Code As Comp_City,TSPL_COMPANY_MASTER.State As Comp_State,TSPL_COMPANY_MASTER.GSTReg_No As Comp_GSTReg_No,TSPL_COMPANY_MASTER.Pan_No As Comp_PanNo,
+                        TSPL_COMPANY_MASTER.Email As Comp_Email,TSPL_COMPANY_MASTER.Pincode As Comp_Pincode,TSPL_COMPANY_MASTER.Phone1 As Comp_Phone1,
+                        TSPL_STATE_MASTER.GST_STATE_Code As State_Code,TSPL_STATE_MASTER.STATE_NAME,TSPL_SD_SHIPMENT_HEAD.Route_No,supply_date,TSPL_SD_SHIPMENT_HEAD.sub_location_code as sublocation, TSPL_COMPANY_MASTER.Comp_Code1  from  TSPL_SD_SHIPMENT_HEAD
+                        Left Outer Join TSPL_SD_SHIPMENT_DETAIL On TSPL_SD_SHIPMENT_DETAIL.Document_Code=TSPL_SD_SHIPMENT_HEAD.Document_Code
+                        Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                        left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location 
+                        Left Outer Join TSPL_Route_Master On TSPL_Route_Master.Route_No=TSPL_SD_SHIPMENT_HEAD.Route_No 
+                        Left Outer Join TSPL_VEHICLE_MASTER On TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SHIPMENT_HEAD.Vehicle_Code 
+                        left outer join TSPL_CITY_MASTER    On  TSPL_CITY_MASTER.City_Code =TSPL_LOCATION_MASTER.City_Code  
+                        left outer join TSPL_STATE_MASTER   On TSPL_STATE_MASTER.STATE_CODE =TSPL_LOCATION_MASTER.state  
+                        Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                        left outer join TSPL_ITEM_UOM_DETAIL  on TSPL_ITEM_UOM_DETAIL.Item_Code =TSPL_ITEM_MASTER.Item_Code  and   TSPL_ITEM_UOM_DETAIL.UOM_Code =TSPL_SD_SHIPMENT_DETAIL.Unit_code
+                        left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.LTR_TYPE='Y') as InLtr on InLtr.Item_code=TSPL_ITEM_MASTER.Item_Code  
+                        left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL 	  left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Crate_type='Y') as InCrate on InCrate.Item_code=TSPL_ITEM_MASTER.Item_Code  
+                        left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.UNIT_CODE= TSPL_ITEM_UOM_DETAIL.UOM_CODE where TSPL_UNIT_MaSTER.Packet_Type='Y' ) as InPouch on InPouch.Item_code=TSPL_ITEM_MASTER.Item_Code  
+						
+						left outer join (select Document_Code, STRING_AGG(Batch_No,CHAR(10)) as BatchNo , STRING_AGG(CAST(Qty AS INT), CHAR(10)) as Batch_Qty
+,Item_Code,UOM
+                from(
+SELECT TSPL_BATCH_ITEM.Document_Code, Batch_No, Qty, Parent_Line_No,Item_Code,UOM FROM TSPL_BATCH_ITEM WHERE TSPL_BATCH_ITEM.Document_Type='FS-SH'
+)x group by Document_Code,Parent_Line_No,Item_Code,UOM         
+)TabBatch
+On TabBatch.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code And  TabBatch.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  and TabBatch.UOM=TSPL_SD_SHIPMENT_DETAIL.Unit_code  
+                        Left outer join TSPL_COMPANY_MASTER on  TSPL_COMPANY_MASTER.Comp_Code1 = 'BKN'
+                    where TSPL_SD_SHIPMENT_HEAD.Document_Code in(Select DISTINCT(TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE) from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL 
+left outer join TSPL_SD_SHIPMENT_DETAIL ON  TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID
+where GPCode='" + StrCode + "'))xxx
+                        Left OUTER JOIN (Select 1 As COL1, 1 As COL2,  'ORIGINAL COPY' as CopyType1 UNION Select 1 as COL1, 2 as COL2,  'DUPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 3 as COL2,  'TRIPLICATE COPY' as CopyType1 UNION Select 1 as COL1, 4 as COL2,  'QUADRUPLICATE COPY' as CopyType1) YYY ON YYY.COL1=XXX.CopyType ORDER BY Line_No,YYY.COL2  "
+        Return Qry
+    End Function
+
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
@@ -2167,6 +2215,8 @@ xyz.Sale_Invoice_No, "
                 Dim subrptqry As String = ""
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                     atchqry = getUDPattachqry("'" & Code & "'", Nothing, Nothing, Nothing, "")
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    atchqry = GetAttachQryBKN(Code, isDepartmentRoute)
                 Else
                     atchqry = GetAttachQry(Code, isDepartmentRoute)
                 End If
@@ -2201,6 +2251,8 @@ xyz.Sale_Invoice_No, "
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptDairySaleGatePassItemWiseAJM1", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "KTA") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntriesKTA", "Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "rptCompanyAddress.rpt")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatepassBKN", "Gate Pass", "", "rptCompanyAddress.rpt")
 
                     Else
                         frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
