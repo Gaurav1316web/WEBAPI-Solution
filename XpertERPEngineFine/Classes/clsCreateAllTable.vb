@@ -37331,6 +37331,7 @@ LL")
             coll.Add("Route_code", "varchar(12) NULL")
             coll.Add("CrateQtyPreviousDay", "decimal(18, 2) not NULL default 0")
             coll.Add("DamageCrateQtyRecd", "int NULL")
+            coll.Add("CrateType", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", coll, Nothing, True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "", True)
 
             '======================Delivery Note Detail==============================
