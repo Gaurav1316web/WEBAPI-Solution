@@ -1231,9 +1231,9 @@ Public Class GLTransReport
         gv1.ShowGroupPanel = False
         gv1.MasterTemplate.AutoExpandGroups = True
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim item1 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
-        Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item2 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1682,9 +1682,9 @@ Public Class GLTransReport
         End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim total As New GridViewSummaryItem("TotalDrAmt", "{0:F2}", GridAggregateFunction.Sum)
+        Dim total As New GridViewSummaryItem("TotalDrAmt", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(total)
-        total = New GridViewSummaryItem("TotalCrAmt", "{0:F2}", GridAggregateFunction.Sum)
+        total = New GridViewSummaryItem("TotalCrAmt", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(total)
 
 
@@ -1698,10 +1698,10 @@ Public Class GLTransReport
             gv1.Columns("SubledgerCrAmt").Width = 100
             gv1.Columns("SubledgerCrAmt").HeaderText = "Sub Ledger Credit Amount"
 
-            Dim item3 As New GridViewSummaryItem("SubledgerDrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item3 As New GridViewSummaryItem("SubledgerDrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
 
-            Dim item4 As New GridViewSummaryItem("SubledgerCrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item4 As New GridViewSummaryItem("SubledgerCrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
         End If
 
@@ -1896,11 +1896,11 @@ Public Class GLTransReport
             'gv1.GroupDescriptors.Add(New GridGroupByExpression("Account_Code as Account_Code  format ""{0}: {1}"" group by Account_Code"))
 
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim total As New GridViewSummaryItem("TotalDrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim total As New GridViewSummaryItem("TotalDrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
-            total = New GridViewSummaryItem("TotalCrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            total = New GridViewSummaryItem("TotalCrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
-            total = New GridViewSummaryItem("FinalAmount", "{0:F2}", GridAggregateFunction.Sum)
+            total = New GridViewSummaryItem("FinalAmount", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1937,13 +1937,13 @@ Public Class GLTransReport
             gv1.Columns("Closing").Width = 100
 
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim total As New GridViewSummaryItem("Opening", "{0:F2}", GridAggregateFunction.Sum)
+            Dim total As New GridViewSummaryItem("Opening", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
-            total = New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            total = New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
-            total = New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            total = New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
-            total = New GridViewSummaryItem("Closing", "{0:F2}", GridAggregateFunction.Sum)
+            total = New GridViewSummaryItem("Closing", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(total)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
