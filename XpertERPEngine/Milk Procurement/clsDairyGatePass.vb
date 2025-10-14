@@ -206,40 +206,87 @@ Public Class clsDairyGatePassEntry
             obj.Source_Document_Code = objGp.GPCode
             obj.Arr = New List(Of clsCrateReceivedDetail)
 
-            Dim objTr As New clsCrateReceivedDetail()
-            objTr.Line_No = 1
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, trans)) = 1 Then
+                If objGp.ArrCrateType IsNot Nothing AndAlso objGp.ArrCrateType.Count > 1 Then
+                    Dim LineNo As Integer = 1
+                    For Each item As clsDairyGPCrateDetail In objGp.ArrCrateType
+                        Dim objTr As New clsCrateReceivedDetail()
 
-            objTr.Customer_Code = objGp.Arr(0).Cust_Code
+                        objTr.Line_No = LineNo
 
-            objTr.Sale_Invoice_Date = objGp.Supply_Date
+                        objTr.Customer_Code = objGp.Arr(0).Cust_Code
 
-            objTr.Vehicle_Code = objGp.Vehicle_Id
-            objTr.VehicleNo = objGp.Vehicle_Number
-            objTr.CrateQty = 0
-            objTr.CrateQtyRecd = objGp.TotalCrate
-            objTr.Balance = 0
-            objTr.Remarks = ""
-            objTr.OutQty = 0
-            objTr.Adjustment = 0
-            objTr.Jaali = 0
-            objTr.Box = 0
+                        objTr.Sale_Invoice_Date = objGp.Supply_Date
 
-            objTr.CrateQtyManual = 0
-            objTr.JaaliQtyRecd = 0
-            objTr.BoxQtyRecd = 0
-            objTr.jaaliAdjustment = 0
-            objTr.boxAdjustment = 0
-            objTr.jaaliOutQty = 0
-            objTr.boxOutQty = 0
+                        objTr.Vehicle_Code = objGp.Vehicle_Id
+                        objTr.VehicleNo = objGp.Vehicle_Number
+                        objTr.CrateType = item.CRATE_TYPE_CODE
+                        objTr.CrateQty = 0
+                        objTr.CrateQtyRecd = item.CRATE_QTY
+                        objTr.Balance = 0
+                        objTr.Remarks = ""
+                        objTr.OutQty = 0
+                        objTr.Adjustment = 0
+                        objTr.Jaali = 0
+                        objTr.Box = 0
 
-            objTr.CANQty = 0
-            objTr.CANRecQty = 0
-            objTr.CANOutQty = 0
-            objTr.CANAdjustment = 0
+                        objTr.CrateQtyManual = 0
+                        objTr.JaaliQtyRecd = 0
+                        objTr.BoxQtyRecd = 0
+                        objTr.jaaliAdjustment = 0
+                        objTr.boxAdjustment = 0
+                        objTr.jaaliOutQty = 0
+                        objTr.boxOutQty = 0
 
-            If (clsCommon.myLen(objTr.OutQty) > 0) Then
-                obj.Arr.Add(objTr)
+                        objTr.CANQty = 0
+                        objTr.CANRecQty = 0
+                        objTr.CANOutQty = 0
+                        objTr.CANAdjustment = 0
+
+                        If (objTr.CrateQtyRecd > 0) Then
+                            obj.Arr.Add(objTr)
+                        End If
+                        LineNo += 1
+                    Next
+                End If
+            Else
+                Dim objTr As New clsCrateReceivedDetail()
+
+                objTr.Line_No = 1
+
+                objTr.Customer_Code = objGp.Arr(0).Cust_Code
+
+                objTr.Sale_Invoice_Date = objGp.Supply_Date
+
+                objTr.Vehicle_Code = objGp.Vehicle_Id
+                objTr.VehicleNo = objGp.Vehicle_Number
+                objTr.CrateQty = 0
+                objTr.CrateQtyRecd = objGp.TotalCrate
+                objTr.Balance = 0
+                objTr.Remarks = ""
+                objTr.OutQty = 0
+                objTr.Adjustment = 0
+                objTr.Jaali = 0
+                objTr.Box = 0
+
+                objTr.CrateQtyManual = 0
+                objTr.JaaliQtyRecd = 0
+                objTr.BoxQtyRecd = 0
+                objTr.jaaliAdjustment = 0
+                objTr.boxAdjustment = 0
+                objTr.jaaliOutQty = 0
+                objTr.boxOutQty = 0
+
+                objTr.CANQty = 0
+                objTr.CANRecQty = 0
+                objTr.CANOutQty = 0
+                objTr.CANAdjustment = 0
+
+                If (objTr.CrateQtyRecd > 0) Then
+                    obj.Arr.Add(objTr)
+                End If
             End If
+
             obj.SaveData(obj, isNewEntry, True, trans)
 
         Catch ex As Exception

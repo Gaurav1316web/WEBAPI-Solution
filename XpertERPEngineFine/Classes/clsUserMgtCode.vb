@@ -2424,6 +2424,7 @@ Public Class clsUserMgtCode
     Public Const CanSummaryReport As String = "CN_SM_RPT"
     Public Const YearlyDBTSummaryReport As String = "YE_DBT_SU"
     Public Const FrmTotalDeductionReport As String = "TO_DED_RPT"
+    Public Const rptBMCDailyQtyReport As String = "BMC_D_Q_RPT"
 
     Public Const FrmDayWiseMilkCollectionVsDispatch As String = "DY_MKCO_DS"
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"
