@@ -6,6 +6,7 @@ Public Class FrmTotalDeductionReport
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim dt As DataTable
+    Dim isLoad As Boolean = False
 
 #End Region
 
@@ -139,33 +140,105 @@ where "
 
 
                 Dim sQuery As String = ""
-                sQuery = "  Select  VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME, " & DescName3 & "
-                            from 
-                             (Select *,0 as SweetQty,0 as SourQty,0 as CurdQty from (Select max(Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(Gender)Gender,"
-                sQuery += "VSP_CODE,max(DCSCode)DCSCode,max(VSP_NAME)VSP_NAME,"
-                sQuery += "sum(Milk_Qty)Milk_Qty,sum(Milk_Amount)Milk_Amount,sum(Head_Load_Amount)Head_Load_Amount,sum(Payable_Amount)Payable_Amount,sum(Deduction_Amount)Deduction_Amount,sum(Credit_Note_Amount)Credit_Note_Amount, " & DescName1 & " from(Select Registered_PDCS_CLUSTER,Gender,"
-                sQuery += " VSP_CODE,DCSCode,VSP_NAME,"
-                sQuery += "Milk_Qty,Milk_Amount,Head_Load_Amount,Payable_Amount,Deduction_Amount,Credit_Note_Amount, " & DescName2 & " from (Select max(yy.Registered_PDCS_CLUSTER)Registered_PDCS_CLUSTER,max(yy.Gender)Gender,"
-                sQuery += "MAX(yy.VSP_CODE)VSP_CODE,max(yy.VLC_CODE_Uploader)DCSCode,max(yy.VSP_NAME)VSP_NAME,"
-                sQuery += " SUM(yy.Milk_Qty)Milk_Qty,sum(yy.Milk_Amount)Milk_Amount,
-                                   sum(yy.Head_Load_Amount)Head_Load_Amount,sum(yy.Payable_Amount)Payable_Amount,sum(yy.Deduction_Amount)Deduction_Amount,
-                                   sum(yy.Credit_Note_Amount)Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount 
-                                   from (   Select max(Registered_PDCS_CLUSTER) as Registered_PDCS_CLUSTER,max(Gender) as Gender "
-                sQuery += " ,max(VLC_Code_VLC_Uploader) as VLC_CODE_Uploader,Vendor_CODE as VSP_CODE,max(Vendor_Name)VSP_NAME"
-                sQuery += " ,Sum(Milk_Qty)as Milk_Qty,sum( Milk_Amount) as Milk_Amount,SUM(Head_Load_Amount) as Head_Load_Amount,SUM(Payable_Amount) as Payable_Amount ,
-                                   SUM(Deduction_Amount) as Deduction_Amount,sUM(Credit_Note_Amount)as Credit_Note_Amount,DCS_Addition_Deduction,max(DCSDescription)DCSDescription,sum(Amount)Amount ,MAX(From_Date)From_Date 
-                                   from  ( " & Qry1 & "  )xx where 2=2 and Doc_No IN (" & Document & ")"
-                sQuery += " group by xx.Doc_No,"
-                sQuery += " xx.Vendor_CODE,"
-                sQuery += " xx.DCS_Addition_Deduction )YY group by "
-                sQuery += " VSP_CODE,"
-                sQuery += "DCS_Addition_Deduction)Tab1 
-                        PIVOT(SUM(Amount) FOR DCS_Addition_Deduction IN (" & Description & ")) AS Tab2 )tmp group by "
-                sQuery += " VSP_CODE "
-                sQuery += ")YY "
-                sQuery += " )Tab2 group by "
-                sQuery += " VSP_CODE "
-                sQuery += " order by cast(max(DCSCode)  as int) "
+                sQuery = " Select  "
+                If rdbDCS.IsChecked Then
+                    sQuery += " DCSCode,[DCS Name] "
+                ElseIf rdbBMC.IsChecked Then
+                    sQuery += " MCC,MCC_NAME as [MCC Name] "
+                ElseIf rdbArea.IsChecked Then
+                    sQuery += "Area_Location_Code as Area,Location_Desc as [Area Name]"
+                End If
+                sQuery += " ,(DeductionName) as DeductionName
+,cast((OP) as  decimal(18,2)) as [Opening],Total_Deduction,Deduction_Consumed as Deduction_Consumed,
+cast((OP+Total_Deduction-Deduction_Consumed) as decimal(18,2)) as [Balance Amount] 
+from ("
+                If rdbDCS.IsChecked Then
+                    sQuery += " select max(Area_Location_Code)Area_Location_Code,max(Location_Desc)Location_Desc,max(MCC)MCC,max(MCC_NAME)MCC_NAME,xx.DeductionCode,COALESCE(MAX(TSPL_DCS_ADDITION_DEDUCTION.Description),MAX(TSPL_DEDUCTION_MASTER.Description))  as DeductionName,
+                TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]"
+
+                ElseIf rdbBMC.IsChecked Then
+                    sQuery += "select max(Area_Location_Code)Area_Location_Code,max(Location_Desc)Location_Desc,MCC,max(MCC_NAME)MCC_NAME,xx.DeductionCode,COALESCE(MAX(TSPL_DCS_ADDITION_DEDUCTION.Description),MAX(TSPL_DEDUCTION_MASTER.Description))  as DeductionName,
+                max(TSPL_VENDOR_MASTER.Vendor_Code)Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]"
+                ElseIf rdbArea.IsChecked Then
+                    sQuery += "select (Area_Location_Code)Area_Location_Code,max(Location_Desc)Location_Desc,max(MCC)MCC,max(MCC_NAME)MCC_NAME,xx.DeductionCode,COALESCE(MAX(TSPL_DCS_ADDITION_DEDUCTION.Description),MAX(TSPL_DEDUCTION_MASTER.Description))  as DeductionName,
+                TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]"
+                End If
+
+                sQuery += " 
+,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=2 or RI=1 or RI=3 or RI=4 then 1 else -1 end)) as OP 
+,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=1 or RI=3 or RI=5) then 1 else 0 end)) as Total_Deduction
+,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when (RI=2 or RI=4) then 1 else 0 end)) as Deduction_Consumed 
+,max(Active)Active
+from (select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo as AP_Invoice_No,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,
+TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0 as Reduce_Deduc_Amt ,1 as RI,TSPL_VLC_MASTER_HEAD.Active
+from TSPL_MULTIPLE_DEDUCTION_DETAIL
+left  join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo
+left  join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
+where 2=2 
+
+Union all
+select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code as DeductionCode,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,2 as RI,TSPL_VLC_MASTER_HEAD.Active   
+from TSPL_PAYMENT_PROCESS_DEDUCTION
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
+where 2=2
+Union all
+select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_SD_SHIPMENT_HEAD.Document_Code as Document_No,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_Customer_Invoice_Head.Document_No as AP_Invoice_No ,TSPL_Customer_Invoice_Head.Posting_Date as AP_Invoice_Date,'D' as Document_Type,TSPL_SD_SHIPMENT_HEAD.Deduction as DeductionCode,TSPL_VLC_MASTER_HEAD.VSP_Code as Vendor_Code ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,0 as Reduce_Deduc_Amt ,3 as RI,TSPL_VLC_MASTER_HEAD.Active 
+from  TSPL_SD_SHIPMENT_HEAD 
+left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = TSPL_SD_SHIPMENT_HEAD.Deduction 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code= TSPL_VLC_MASTER_HEAD.VSP_Code
+left outer join TSPL_CUSTOMER_INVOICE_HEAD on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
+where  TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and TSPL_SD_SHIPMENT_HEAD.is_cashsale='N'  and TSPL_SD_SHIPMENT_HEAD.Status=1
+union all
+select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No as AP_Invoice_No ,TSPL_Customer_Invoice_Head.Posting_Date as AP_Invoice_Date,'D' as Document_Type,TSPL_SD_SHIPMENT_HEAD.Deduction as DeductionCode,TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt,4 as RI,TSPL_VLC_MASTER_HEAD.Active
+from TSPL_PAYMENT_PROCESS_MCC_SALE
+left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No
+left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Document_No=TSPL_PAYMENT_PROCESS_MCC_SALE.AR_Invoice_No
+left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_MCC_SALE.Doc_No
+left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
+where 2=2 
+union all
+select TSPL_MCC_MASTER.Area_Location_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,
+TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code as DeductionCode,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,
+TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,5 as RI,TSPL_VLC_MASTER_HEAD.Active   
+from TSPL_PAYMENT_PROCESS_DEDUCTION
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code 
+left outer join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+left Outer Join TSPL_LOCATION_MASTER On TSPL_LOCATION_MASTER.Location_Code=TSPL_MCC_MASTER.Area_Location_Code
+where 2=2 and ISProcurementDeduction=0
+ )xx
+left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
+left  join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=xx.DeductionCode
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code  "
+                If rdbDCS.IsChecked Then
+                    sQuery += " group by DeductionCode,TSPL_VENDOR_MASTER.Vendor_Code "
+                ElseIf rdbBMC.IsChecked Then
+                    sQuery += " group by DeductionCode,MCC "
+                ElseIf rdbArea.IsChecked Then
+                    sQuery += "group by DeductionCode,Area_Location_Code"
+                End If
+
+                sQuery += " )xxx  where 2=2 "
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery)
                 gv1.DataSource = Nothing
@@ -184,7 +257,7 @@ where "
                     SetGridFormation()
                     RadPageView1.SelectedPage = RadPageViewPage2
                     gv1.BestFitColumns()
-                    'EnableDisableControls(False)
+                    EnableDisableControls(False)
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
@@ -229,12 +302,12 @@ where "
         'End If
     End Sub
 
-    Private Sub EnableDisableControls(ByVal val As Boolean)
-        txtDCS.Enabled = val
-        txtMCC.Enabled = val
-        TxtDeduction.Enabled = val
-        RadGroupBox1.Enabled = val
-    End Sub
+    'Private Sub EnableDisableControls(ByVal val As Boolean)
+    '    txtDCS.Enabled = val
+    '    txtMCC.Enabled = val
+    '    TxtDeduction.Enabled = val
+    '    RadGroupBox1.Enabled = val
+    'End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Me.Close()
@@ -271,7 +344,114 @@ where "
         End Try
     End Sub
 
-    Private Sub txtDCS_Click(sender As Object, e As EventArgs) Handles txtDCS.Click
+    Private Sub txtMCC_Click(sender As Object, e As EventArgs) Handles txtMCC.Click
+        Try
+            Dim qry As String = " Select MCC_Code,MCC_NAME from TSPL_MCC_MASTER "
+
+            txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "MCC_Code", "MCC_NAME", txtMCC.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub FrmTotalDeductionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        txtFromDate.Value = clsCommon.GETSERVERDATE
+        txtToDate.Value = clsCommon.GETSERVERDATE
+    End Sub
+
+    Private Sub txtFromDate_Leave(sender As Object, e As EventArgs) Handles txtFromDate.Leave
+        If rbtnMonthly.Checked Then
+            SetToDateMonthly()
+        ElseIf rbtnCycleWise.Checked Then
+            SetToDateNew()
+        Else
+            txtToDate.Value = clsCommon.GETSERVERDATE
+        End If
+
+    End Sub
+
+    Sub SetToDateMonthly()
+        Try
+            'If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+            'clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month", Me.Text)
+            Dim dtCurr As Date = (txtFromDate.Value)
+                txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1).ToString("dd/MM/yyyy")
+
+                ' Set ToDate = last day of month
+                txtToDate.Value = New Date(dtCurr.Year, dtCurr.Month, Date.DaysInMonth(dtCurr.Year, dtCurr.Month)).ToString("dd/MM/yyyy")
+
+                'txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                ' txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                Exit Sub
+            'End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetToDateNew()
+        If Not isLoad Then
+            Dim PaymentCycleType As String = ""
+            Dim PaymentCycleValue As Integer = 0
+            ' If Not isLoad Then
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select top 1 PC_VALUE,PC_TYPE from TSPL_PAYMENT_CYCLE_MASTER ")
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Payment Cycle found on current MCC/Location", Me.Text)
+                Exit Sub
+            End If
+            PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+            Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
+            If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+                If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                    txtToDate.Value = txtFromDate.Value
+                    Exit Sub
+                End If
+                txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
+
+                If txtFromDate.Value.Month <> txtToDate.Value.Month Then
+                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+                Dim dtNxtPay As DateTime = txtToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+                If txtFromDate.Value.Month <> dtNxtPay.Month Then
+                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                End If
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
+                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
+                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                    Exit Sub
+                End If
+                txtToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, txtFromDate.Value)
+            ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
+                Dim today As Date = txtFromDate.Value
+                Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
+                txtFromDate.Value = today.AddDays(-dayDiff)
+                txtToDate.Value = txtFromDate.Value.AddDays(6)
+            End If
+        End If
+    End Sub
+
+    Private Sub txtFromDate_Validated(sender As Object, e As EventArgs) Handles txtFromDate.Validated
+        If rbtnMonthly.Checked Then
+            SetToDateMonthly()
+        ElseIf rbtnCycleWise.Checked Then
+            SetToDateNew()
+        End If
+    End Sub
+
+    Private Sub txtDCS__My_Click(sender As Object, e As EventArgs) Handles txtDCS._My_Click
         Try
             Dim qry As String = " select  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code] ,TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name],TSPL_VLC_MASTER_HEAD.VSP_Code,isnull(TSPL_VENDOR_MASTER.Zone_Code,'') AS Zone
 		                          from TSPL_VLC_MASTER_HEAD 
@@ -283,19 +463,11 @@ where "
         End Try
     End Sub
 
-    Private Sub txtMCC_Click(sender As Object, e As EventArgs) Handles txtMCC.Click
+    Private Sub TxtDeduction__My_Click(sender As Object, e As EventArgs) Handles TxtDeduction._My_Click
         Try
-            Dim qry As String = " Select MCC_Code,MCC_NAME from TSPL_MCC_MASTER "
-
-            txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "MCC_Code", "MCC_NAME", txtMCC.arrValueMember, Nothing)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub TxtDeduction_Click(sender As Object, e As EventArgs) Handles TxtDeduction.Click
-        Try
-            Dim qry As String = " Select Code,Description from TSPL_DEDUCTION_MASTER "
+            Dim qry As String = " Select Code,Description from TSPL_DEDUCTION_MASTER
+                                  union all
+                                  Select code,description from TSPL_DCS_ADDITION_DEDUCTION "
 
             TxtDeduction.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUVLC1", qry, "Code", "Description", TxtDeduction.arrValueMember, Nothing)
         Catch ex As Exception
@@ -303,8 +475,10 @@ where "
         End Try
     End Sub
 
-    Private Sub FrmTotalDeductionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtFromDate.Value = clsCommon.GETSERVERDATE
-        txtToDate.Value = clsCommon.GETSERVERDATE
+    Private Sub EnableDisableControls(ByVal val As Boolean)
+        txtDCS.Enabled = val
+        RadGroupBox2.Enabled = val
+        RadGroupBox3.Enabled = val
+        RadGroupBox1.Enabled = val
     End Sub
 End Class

@@ -23,7 +23,7 @@ Partial Class FrmTotalDeductionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -281,10 +281,12 @@ Partial Class FrmTotalDeductionReport
         'rbtnDate
         '
         Me.rbtnDate.AutoSize = True
+        Me.rbtnDate.Checked = True
         Me.rbtnDate.Location = New System.Drawing.Point(5, 5)
         Me.rbtnDate.Name = "rbtnDate"
         Me.rbtnDate.Size = New System.Drawing.Size(49, 17)
         Me.rbtnDate.TabIndex = 438
+        Me.rbtnDate.TabStop = True
         Me.rbtnDate.Text = "Date"
         Me.rbtnDate.UseVisualStyleBackColor = True
         '
@@ -501,7 +503,7 @@ Partial Class FrmTotalDeductionReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
