@@ -86,8 +86,6 @@ Public Class frmNIRQC
         btnPrint.Enabled = True
         btnPrint.Visible = True
         btnDelete.Enabled = False
-        btnPost.Enabled = False
-        btnPost.Visible = False
         'txtDate.Value = clsCommon.GETSERVERDATE()
         BlankAllControls()
     End Sub
