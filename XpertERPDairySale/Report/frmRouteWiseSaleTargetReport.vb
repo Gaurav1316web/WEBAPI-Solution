@@ -109,14 +109,12 @@ Where TSPL_ITEM_UOM_DETAIL.Default_UOM=1)ItemUOMDetails Group By Chapter_Head_Co
                         End If
                         sbKG.Append("'" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "'")
                     End If
-                    If isPrint Then
-                        If clsCommon.myLen(UOM("Description")) > 0 Then
-                            strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [Group" & clsCommon.myCstr(i + 1) & "]")
-                        End If
-                    Else
-                        If clsCommon.myLen(UOM("Description")) > 0 Then
-                            strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [" & clsCommon.myCstr(UOM("Description")) & "]")
-                        End If
+
+                    If isPrint AndAlso clsCommon.myLen(UOM("Description")) > 0 Then
+                        strItemType.Append(",Max([" & clsCommon.myCstr(UOM("Description")) & "]) As [DescGroup" & clsCommon.myCstr(i + 1) & "]")
+                    End If
+                    If clsCommon.myLen(UOM("Description")) > 0 Then
+                        strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [" & clsCommon.myCstr(UOM("Description")) & "]")
                     End If
                 Next
 
@@ -188,6 +186,7 @@ Select
 DetailData.Route_No As Code,MAX(Route_Desc) As Description, "
 
                 For Each strUOM In dt.Rows
+                    strQry += " Max(Description) As [DescGRP" & clsCommon.myCstr(i) & "],"
                     strQry += " Sum(QtyIn" & clsCommon.myCstr(strUOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='" & clsCommon.myCstr(strUOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(strUOM("Description")) & "',"
                 Next
                 strQry += " MAX(DetailData.Months)Months,
@@ -203,6 +202,7 @@ Select
 DetailData.Cust_Group_Code,MAX(Cust_Group_Desc)As Description,"
 
                 For Each strUOM In dt.Rows
+                    strQry += " Max(Description) As [DescGRP" & clsCommon.myCstr(i) & "],"
                     strQry += " Sum(QtyIn" & clsCommon.myCstr(strUOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='" & clsCommon.myCstr(strUOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(strUOM("Description")) & "',"
                 Next
                 strQry += " MAX(DetailData.Months)Months,
