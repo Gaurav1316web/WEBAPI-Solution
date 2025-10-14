@@ -1193,7 +1193,8 @@ Public Class frmTender
             txtDocNo.MyReadOnly = True
         End If
         If txtDocNo.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
+            'Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
+            Dim qry As String = clsTenderHead.ShowDataQry()
             txtDocNo.Value = clsCommon.ShowSelectForm("TenderNoFndd", qry, "DocumentNo", "", txtDocNo.Value, "DocumentNo", isButtonClicked)
             LoadData(txtDocNo.Value, NavigatorType.Current, False)
         End If

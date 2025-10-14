@@ -55,6 +55,19 @@ Public Class FrmSalesOrderGatePass
         txtDriverMobNo.Text = ""
         txtRemark.Text = ""
         LoadBlankGrid()
+        FieldControl(True)
+    End Sub
+    Private Sub FieldControl(ByVal flag As Boolean)
+        txtDate.Enabled = flag
+        txtDispatchCode.Enabled = flag
+        lblDispatchCode.Enabled = flag
+        txtTransporterCode.Enabled = flag
+        lblTransporterName.Enabled = flag
+        txtVehicleCode.Enabled = flag
+        txtLoadingSlip.Enabled = flag
+        txtVehicleCode.Enabled = flag
+        txtVehicleCode.Enabled = flag
+
     End Sub
     Private Sub LoadBlankGrid()
         Gv1.DataSource = Nothing
@@ -422,6 +435,7 @@ where TSPL_CUSTOMER_TENDER_GATE_PASS.Document_Code='" & StrCode & "'"
                     btnDelete.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Pending
                 End If
+                FieldControl(False)
                 txtDocCode.Value = obj.Document_Code
                 txtDate.Value = obj.Document_Date
                 txtDispatchCode.Value = obj.Dispatch_Code

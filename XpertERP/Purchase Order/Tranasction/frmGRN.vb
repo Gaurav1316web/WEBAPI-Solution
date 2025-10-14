@@ -3619,7 +3619,7 @@ Public Class frmGRN
                                 End If
                             End If
                         End If
-                        End If
+                    End If
                 End If
             End If
             If Not arrICode.Contains(strICode) Then
@@ -5867,371 +5867,426 @@ Public Class frmGRN
 
     End Sub
 
+    Public Function ReturnSelectTypeOfPO() As DataTable
+        Dim Qry As String = "Select 'RAL-RM' As Code "
+        Qry += " Union All "
+        Qry += " Select 'Item' As Code "
+        Qry += " Union All "
+        Qry += " Select 'Pending PO' As Code "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        Return dt
+    End Function
+
     Sub SelectPOItems()
-        isInsideLoadData = True
-        Dim frm As New frmPendingPO()
-        If objCommonVar.RCDFCFP = True Then
-            Dim objItemMaster As clsItemMaster
+        Try
+            isInsideLoadData = True
+            Dim tenderCode As String = Nothing
+            Dim frm As New frmPendingPO()
+            If objCommonVar.RCDFCFP = True Then
+                Dim objItemMaster As clsItemMaster
+                Dim whrcls As String = Nothing
 
-            Dim whrcls As String = Nothing
-            If clsCommon.MyMessageBoxShow(Me, "Do you want to select RM type?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                whrcls = " TSPL_ITEM_MASTER.Structure_Code='RM' "
-            Else
-                whrcls = " TSPL_ITEM_MASTER.Structure_Code<>'RM' "
-            End If
-            objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
-            If objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
-                frm.ItemForDocumentFilter = objItemMaster.Item_Code
-            Else
-                frm.ItemForDocumentFilter = Nothing
-            End If
-        End If
-        frm.VendorCode = txtVendorNo.Value
-        frm.VendorName = lblVendorName.Text
-        frm.strCurrCode = txtDocNo.Value
-        frm.PurchaseOrder_Type = cmbGRNType.SelectedValue
-        frm.Is_From_RGP = True
-        frm.dtGRNDate = txtDate.Value
-        frm.IsItemInsuranceColumn = True
-        frm.ShowDialog()
-        Dim objPO As clsPurchaseOrderHead = Nothing
-        LoadBlankGrid()
-        Dim strtaxGroupOLD As String = txtTaxGroup.Value
-        If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
-            objPO = clsPurchaseOrderHead.GetData(frm.ArrReturn(0).PurchaseOrder_No, NavigatorType.Current)
-            If objPO IsNot Nothing AndAlso clsCommon.myLen(objPO.PurchaseOrder_No) > 0 Then
-                If (clsCommon.myLen(txtVendorNo.Value) <= 0) Then
-                    txtVendorNo.Value = objPO.Vendor_Code
-                    lblVendorName.Text = objPO.Vendor_Name
-                    chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(objPO.Vendor_Code)
-                End If
-                'If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
-                chkJobWorkOutward.Checked = objPO.isJobWorkOutward
-                txtBillToLocation.Value = objPO.Bill_To_Location
-                lblBillToLocation.Text = objPO.BillToLocationName
-                txtBillToLocation.Enabled = False
-                txtShipToLocation.Value = objPO.Ship_To_Location
-                lblShipToLocation.Text = clsLocation.GetName(objPO.Ship_To_Location, Nothing)
-                txtShipToLocation.Enabled = False
-                txtSubLocation.Value = objPO.Sublocation_Code
-                lblSubLocation.Text = clsLocation.GetName(objPO.Sublocation_Code, Nothing)
-                If objCommonVar.RCDFCFP Then
-                    txtSubLocation.Enabled = False
-                Else
-                    txtSubLocation.Enabled = True
-                End If
-                TxtRetention.Text = objPO.Retention
-                'End If 
-                If (clsCommon.myLen(txtDesc.Text) <= 0) Then
-                    txtDesc.Text = objPO.Description
-                End If
-                If (clsCommon.myLen(txtDesc.Text) <= 0) Then
-                    txtRemarks.Text = objPO.Remarks
-                End If
-                If (clsCommon.myLen(txtRefNo.Text) <= 0) Then
-                    'txtRefNo.Text = objPO.Ref_No
-                    txtRefNo.Text = objPO.RefTendorNo
-                End If
+                Dim frmNew As New XpertERPEngine.FrmFreeComboBox()
+                frmNew.ComboSource = ReturnSelectTypeOfPO()
+                frmNew.ComboValueMember = "Code"
+                frmNew.ComboDisplayMember = "Code"
+                frmNew.ShowDialog()
 
-                cmbGRNType.SelectedValue = objPO.PurchaseOrder_Type
-                'If (clsCommon.myLen(txtReqNo.Value) <= 0) Then
-                '    txtReqNo.Value = objReq.PurchaseOrder_No
-                'End If
-                ''RICHA AGARWAL AGAINST TICKET NO. BM00000006091 ON 04/05/2015
-                txtCurrencyCode.Value = objPO.CURRENCY_CODE
-                txtConversionRate.Value = objPO.ConvRate
-                txtCurrencyCode.Enabled = False
-                ''-------------------------------------------
-                If (clsCommon.myLen(txtDept.Value) <= 0) Then
-                    txtDept.Value = objPO.Dept
-                    lblDept.Text = objPO.Dept_Desc
-                End If
-                If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
-                    cboItemType.SelectedValue = objPO.Item_Type
-                End If
-                If (clsCommon.myLen(txtRemarks.Text) <= 0) Then
-                    txtRemarks.Text = objPO.Remarks
-                End If
-                If (clsCommon.myLen(txtTermCode.Value) <= 0) Then
-                    txtTermCode.Value = objPO.Terms_Code
-                    lblTermName.Text = objPO.TermsName
-                    If clsCommon.myLen(objPO.Due_Date) > 0 Then
-                        txtDueDate.Value = objPO.Due_Date
+
+                'whrcls = " TSPL_ITEM_MASTER.Structure_Code='RM' "
+                Dim lstItem As New List(Of String)
+                If clsCommon.CompairString(frmNew.strRetValue, "RAL-RM") = CompairStringResult.Equal Then
+                    Dim Qry As String = clsTenderHead.ShowDataQry()
+                    whrcls = " IsNull(Tender_Type,0)= 0 "
+                    tenderCode = clsCommon.ShowSelectForm("TenderNoFndd", Qry, "DocumentNo", whrcls, txtDocNo.Value, "DocumentNo", True)
+                    Qry = Nothing
+                    If clsCommon.myLen(tenderCode) <= 0 Then
+                        Exit Sub
                     End If
-                End If
-                If objPO.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
-                    rbtnTaxCalAutomatic.IsChecked = True
-                ElseIf objPO.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
-                    rbtnTaxCalManual.IsChecked = True
-                End If
-                LoadBlankGridAC()
-                LoadBlankGridACInsurance()
-                If objPO.Arr_ACInsurance IsNot Nothing AndAlso objPO.Arr_ACInsurance.Count > 0 Then
-                    For Each objtr As clsPurchaseOrderAdditionChargeInsurance In objPO.Arr_ACInsurance
-                        gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceCode).Value = objtr.AC_Code
-                        gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceName).Value = objtr.AC_Name
-                        gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceAmount).Value = objtr.Amount
-                        gvACInsurance.Rows.AddNew()
-                    Next
-                End If
+                    Qry = clsTenderHead.GetDetailsDataQry(tenderCode)
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
-
-                If (clsCommon.myLen(objPO.Add_Charge_Code1) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code1
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name1
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt1
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code2) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code2
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name2
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt2
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code3) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code3
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name3
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt3
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code4) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code4
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name4
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt4
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code5) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code5
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name5
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt5
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code6) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code6
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name6
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt6
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code7) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code7
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name7
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt7
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code8) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code8
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name8
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt8
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code9) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code9
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name9
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt9
-                End If
-                If (clsCommon.myLen(objPO.Add_Charge_Code10) > 0) Then
-                    gvAC.Rows.AddNew()
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code10
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name10
-                    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt10
-                End If
-                gvAC.Rows.AddNew()
-            End If
-            If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
-                gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
-            End If
-
-            Dim reqno As String = ""
-            For Each obj As clsPurchaseOrderDetail In frm.ArrReturn
-                'Dim strTaxGrp As String=
-                If IsValidItem(obj) Then
-                    gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPONo).Value = obj.PurchaseOrder_No 'obj.Requisition_Id
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colReqNo).Value = obj.Requisition_Id
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = obj.Row_Type
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
-                    If clsCommon.CompairString(obj.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsAdditionalCharge.GetSACCode(obj.Item_Code, Nothing)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        whrcls = Nothing
+                        For Each dtRow As DataRow In dt.Rows
+                            Dim strItem As String = clsCommon.myCstr(dtRow("Item_Code"))
+                            If Not lstItem.Contains(strItem) Then
+                                lstItem.Add(strItem)
+                            End If
+                        Next
+                        whrcls = " TSPL_ITEM_MASTER.Item_Code In (" & clsCommon.GetMulcallString(lstItem) & ")"
                     Else
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+                        whrcls = Nothing
                     End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBlanketPO).Value = clsPurchaseOrderHead.BlanketPO(obj.PurchaseOrder_No, Nothing)
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceApplyOn).Value = obj.Item_Insurance_Apply_On
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = obj.Item_Insurance_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = obj.Item_Insurance_Amt
-
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = obj.Item_Cost
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = obj.Location
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = obj.LocationName
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = 0
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = obj.Balance_Qty
-                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Tag = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
-                    Else
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
-                    End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = obj.Detail_Discount_Amount
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per'obj.Disc_Per_Unit
-                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = obj.Disc_Per_Unit
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = obj.Taxable_Amount_Per
-                    If clsCommon.myCBool(gv1.Rows(gv1.Rows.Count - 1).Cells(colBlanketPO).Value) Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
-                    Else
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgPOQty).Value = obj.PurchaseOrder_Qty
+                    If lstItem.Count > 1 Then
+                        objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
                     End If
 
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate4).Value = obj.TAX4_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate5).Value = obj.TAX5_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate6).Value = obj.TAX6_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate7).Value = obj.TAX7_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate8).Value = obj.TAX8_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate9).Value = obj.TAX9_Rate
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate10).Value = obj.TAX10_Rate
-                    If rbtnTaxCalManual.IsChecked Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt1).Value = obj.TAX1_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt2).Value = obj.TAX2_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt3).Value = obj.TAX3_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt4).Value = obj.TAX4_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt5).Value = obj.TAX5_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt6).Value = obj.TAX6_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt7).Value = obj.TAX7_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt8).Value = obj.TAX8_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt9).Value = obj.TAX9_Amt
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = obj.TAX10_Amt
-                    End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRGPNo).Value = objPO.Against_RGP_NO
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAgainstItemWiseTaxCode).Value = obj.Against_Item_Wise_Tax_Rate
-                    reqno = obj.PurchaseOrder_No
-                    If ShowCapexCodeandSubCode Then
-                        MakeColumnReadOnly(True)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCategoryType).Value = objPO.Category
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colEmergency).Value = CInt(objPO.Emergency)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexCode).Value = objPO.Capex_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexSubCode).Value = objPO.Capex_SubCode
-                    End If
-                    LoadPOReceiveControl(gv1.Rows.Count - 1)
+                ElseIf clsCommon.CompairString(frmNew.strRetValue, "Item") = CompairStringResult.Equal Then
+                    objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
                 End If
-            Next
 
-            If objPO.Arr IsNot Nothing AndAlso objPO.Arr.Count > 0 Then
-                For Each objTr As clsPurchaseOrderDetail In objPO.Arr
-                    If objTr.Row_Type = "Misc" Then
+                If clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
+                    If lstItem IsNot Nothing AndAlso lstItem.Count = 1 Then
+                        frm.ItemForDocumentFilter = clsCommon.myCstr(lstItem(0))
+                    ElseIf objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
+                        frm.ItemForDocumentFilter = objItemMaster.Item_Code
+                    Else
+                        frm.ItemForDocumentFilter = Nothing
+                        Exit Sub
+                    End If
+                End If
+                lstItem = Nothing
+            End If
+            frm.strTendorCode = tenderCode
+            frm.VendorCode = txtVendorNo.Value
+            frm.VendorName = lblVendorName.Text
+            frm.strCurrCode = txtDocNo.Value
+            frm.PurchaseOrder_Type = cmbGRNType.SelectedValue
+            frm.Is_From_RGP = True
+            frm.dtGRNDate = txtDate.Value
+            frm.IsItemInsuranceColumn = True
+            frm.ShowDialog()
+            Dim objPO As clsPurchaseOrderHead = Nothing
+            LoadBlankGrid()
+            Dim strtaxGroupOLD As String = txtTaxGroup.Value
+            If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
+                objPO = clsPurchaseOrderHead.GetData(frm.ArrReturn(0).PurchaseOrder_No, NavigatorType.Current)
+                If objPO IsNot Nothing AndAlso clsCommon.myLen(objPO.PurchaseOrder_No) > 0 Then
+                    If (clsCommon.myLen(txtVendorNo.Value) <= 0) Then
+                        txtVendorNo.Value = objPO.Vendor_Code
+                        lblVendorName.Text = objPO.Vendor_Name
+                        chkVendorGrossReceipt.Checked = clsVendorMaster.isGrossReceipt(objPO.Vendor_Code)
+                    End If
+                    'If (clsCommon.myLen(txtBillToLocation.Value) <= 0) Then
+                    chkJobWorkOutward.Checked = objPO.isJobWorkOutward
+                    txtBillToLocation.Value = objPO.Bill_To_Location
+                    lblBillToLocation.Text = objPO.BillToLocationName
+                    txtBillToLocation.Enabled = False
+                    txtShipToLocation.Value = objPO.Ship_To_Location
+                    lblShipToLocation.Text = clsLocation.GetName(objPO.Ship_To_Location, Nothing)
+                    txtShipToLocation.Enabled = False
+                    txtSubLocation.Value = objPO.Sublocation_Code
+                    lblSubLocation.Text = clsLocation.GetName(objPO.Sublocation_Code, Nothing)
+                    If objCommonVar.RCDFCFP Then
+                        txtSubLocation.Enabled = False
+                    Else
+                        txtSubLocation.Enabled = True
+                    End If
+                    TxtRetention.Text = objPO.Retention
+                    'End If 
+                    If (clsCommon.myLen(txtDesc.Text) <= 0) Then
+                        txtDesc.Text = objPO.Description
+                    End If
+                    If (clsCommon.myLen(txtDesc.Text) <= 0) Then
+                        txtRemarks.Text = objPO.Remarks
+                    End If
+                    If (clsCommon.myLen(txtRefNo.Text) <= 0) Then
+                        'txtRefNo.Text = objPO.Ref_No
+                        txtRefNo.Text = objPO.RefTendorNo
+                    End If
+
+                    cmbGRNType.SelectedValue = objPO.PurchaseOrder_Type
+                    'If (clsCommon.myLen(txtReqNo.Value) <= 0) Then
+                    '    txtReqNo.Value = objReq.PurchaseOrder_No
+                    'End If
+                    ''RICHA AGARWAL AGAINST TICKET NO. BM00000006091 ON 04/05/2015
+                    txtCurrencyCode.Value = objPO.CURRENCY_CODE
+                    txtConversionRate.Value = objPO.ConvRate
+                    txtCurrencyCode.Enabled = False
+                    ''-------------------------------------------
+                    If (clsCommon.myLen(txtDept.Value) <= 0) Then
+                        txtDept.Value = objPO.Dept
+                        lblDept.Text = objPO.Dept_Desc
+                    End If
+                    If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
+                        cboItemType.SelectedValue = objPO.Item_Type
+                    End If
+                    If (clsCommon.myLen(txtRemarks.Text) <= 0) Then
+                        txtRemarks.Text = objPO.Remarks
+                    End If
+                    If (clsCommon.myLen(txtTermCode.Value) <= 0) Then
+                        txtTermCode.Value = objPO.Terms_Code
+                        lblTermName.Text = objPO.TermsName
+                        If clsCommon.myLen(objPO.Due_Date) > 0 Then
+                            txtDueDate.Value = objPO.Due_Date
+                        End If
+                    End If
+                    If objPO.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
+                        rbtnTaxCalAutomatic.IsChecked = True
+                    ElseIf objPO.Tax_Calculation_Type = EnumTaxCalucationType.Mannual Then
+                        rbtnTaxCalManual.IsChecked = True
+                    End If
+                    LoadBlankGridAC()
+                    LoadBlankGridACInsurance()
+                    If objPO.Arr_ACInsurance IsNot Nothing AndAlso objPO.Arr_ACInsurance.Count > 0 Then
+                        For Each objtr As clsPurchaseOrderAdditionChargeInsurance In objPO.Arr_ACInsurance
+                            gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceCode).Value = objtr.AC_Code
+                            gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceName).Value = objtr.AC_Name
+                            gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceAmount).Value = objtr.Amount
+                            gvACInsurance.Rows.AddNew()
+                        Next
+                    End If
+
+
+                    If (clsCommon.myLen(objPO.Add_Charge_Code1) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code1
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name1
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt1
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code2) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code2
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name2
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt2
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code3) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code3
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name3
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt3
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code4) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code4
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name4
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt4
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code5) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code5
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name5
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt5
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code6) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code6
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name6
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt6
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code7) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code7
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name7
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt7
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code8) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code8
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name8
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt8
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code9) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code9
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name9
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt9
+                    End If
+                    If (clsCommon.myLen(objPO.Add_Charge_Code10) > 0) Then
+                        gvAC.Rows.AddNew()
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objPO.Add_Charge_Code10
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objPO.Add_Charge_Name10
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objPO.Add_Charge_Amt10
+                    End If
+                    gvAC.Rows.AddNew()
+                End If
+                If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
+                    gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
+                End If
+
+                Dim reqno As String = ""
+                For Each obj As clsPurchaseOrderDetail In frm.ArrReturn
+                    'Dim strTaxGrp As String=
+                    If IsValidItem(obj) Then
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPONo).Value = reqno
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colReqNo).Value = objTr.Requisition_Id
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.Row_Type
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
-
-                        If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsAdditionalCharge.GetSACCode(objTr.Item_Code, Nothing)
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsInsurance).Value = clsAdditionalCharge.GetIsInsurance(objTr.Item_Code, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPONo).Value = obj.PurchaseOrder_No 'obj.Requisition_Id
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colReqNo).Value = obj.Requisition_Id
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = obj.Row_Type
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
+                        If clsCommon.CompairString(obj.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsAdditionalCharge.GetSACCode(obj.Item_Code, Nothing)
                         Else
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(objTr.Item_Code, Nothing)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
                         End If
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(objTr.Item_Code, Nothing)
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = 0
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(reqno, objTr.Item_Code) 'objTr.Disc_Per
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Amount
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = objTr.TAX1_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = objTr.TAX2_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = objTr.TAX3_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate4).Value = objTr.TAX4_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate5).Value = objTr.TAX5_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate6).Value = objTr.TAX6_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate7).Value = objTr.TAX7_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate8).Value = objTr.TAX8_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate9).Value = objTr.TAX9_Rate
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate10).Value = objTr.TAX10_Rate
-                        If rbtnTaxCalManual.IsChecked Then
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt1).Value = objTr.TAX1_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt2).Value = objTr.TAX2_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt3).Value = objTr.TAX3_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt4).Value = objTr.TAX4_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt5).Value = objTr.TAX5_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt6).Value = objTr.TAX6_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt7).Value = objTr.TAX7_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt8).Value = objTr.TAX8_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt9).Value = objTr.TAX9_Amt
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = objTr.TAX10_Amt
-                        End If
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = objTr.Taxable_Amount_Per
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = objTr.Header_Discount_Per
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBlanketPO).Value = clsPurchaseOrderHead.BlanketPO(obj.PurchaseOrder_No, Nothing)
 
-                        If ShowCapexCodeandSubCode Then ''VIJ/11/12/19-000116 by balwinder on 18/12/2019
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceApplyOn).Value = obj.Item_Insurance_Apply_On
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsurancePer).Value = obj.Item_Insurance_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemInsuranceAmt).Value = obj.Item_Insurance_Amt
+
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = obj.Item_Cost
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = obj.Unit_code
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = obj.Location
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = obj.LocationName
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = 0
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = obj.Balance_Qty
+                        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Tag = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per
+                        End If
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = obj.Detail_Discount_Amount
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per'obj.Disc_Per_Unit
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = obj.Disc_Per_Unit
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = obj.Taxable_Amount_Per
+                        If clsCommon.myCBool(gv1.Rows(gv1.Rows.Count - 1).Cells(colBlanketPO).Value) Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
+                        Else
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgPOQty).Value = obj.PurchaseOrder_Qty
+                        End If
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = obj.TAX1_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = obj.TAX2_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = obj.TAX3_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate4).Value = obj.TAX4_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate5).Value = obj.TAX5_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate6).Value = obj.TAX6_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate7).Value = obj.TAX7_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate8).Value = obj.TAX8_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate9).Value = obj.TAX9_Rate
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate10).Value = obj.TAX10_Rate
+                        If rbtnTaxCalManual.IsChecked Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt1).Value = obj.TAX1_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt2).Value = obj.TAX2_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt3).Value = obj.TAX3_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt4).Value = obj.TAX4_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt5).Value = obj.TAX5_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt6).Value = obj.TAX6_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt7).Value = obj.TAX7_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt8).Value = obj.TAX8_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt9).Value = obj.TAX9_Amt
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = obj.TAX10_Amt
+                        End If
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRGPNo).Value = objPO.Against_RGP_NO
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAgainstItemWiseTaxCode).Value = obj.Against_Item_Wise_Tax_Rate
+                        reqno = obj.PurchaseOrder_No
+                        If ShowCapexCodeandSubCode Then
                             MakeColumnReadOnly(True)
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colCategoryType).Value = objPO.Category
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colEmergency).Value = CInt(objPO.Emergency)
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexCode).Value = objPO.Capex_Code
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexSubCode).Value = objPO.Capex_SubCode
                         End If
+                        LoadPOReceiveControl(gv1.Rows.Count - 1)
+                    End If
+                Next
+
+                If objPO.Arr IsNot Nothing AndAlso objPO.Arr.Count > 0 Then
+                    For Each objTr As clsPurchaseOrderDetail In objPO.Arr
+                        If objTr.Row_Type = "Misc" Then
+                            gv1.Rows.AddNew()
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colPONo).Value = reqno
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colReqNo).Value = objTr.Requisition_Id
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.Row_Type
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
+
+                            If clsCommon.CompairString(objTr.Row_Type, clsItemRowType.RowTypeMisc) = CompairStringResult.Equal Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsAdditionalCharge.GetSACCode(objTr.Item_Code, Nothing)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colIsInsurance).Value = clsAdditionalCharge.GetIsInsurance(objTr.Item_Code, Nothing)
+                            Else
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(objTr.Item_Code, Nothing)
+                            End If
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(objTr.Item_Code, Nothing)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_code
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = 0
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingPO.Load_discount_for_GRN(reqno, objTr.Item_Code) 'objTr.Disc_Per
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Amount
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate1).Value = objTr.TAX1_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate2).Value = objTr.TAX2_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate3).Value = objTr.TAX3_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate4).Value = objTr.TAX4_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate5).Value = objTr.TAX5_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate6).Value = objTr.TAX6_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate7).Value = objTr.TAX7_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate8).Value = objTr.TAX8_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate9).Value = objTr.TAX9_Rate
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxRate10).Value = objTr.TAX10_Rate
+                            If rbtnTaxCalManual.IsChecked Then
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt1).Value = objTr.TAX1_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt2).Value = objTr.TAX2_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt3).Value = objTr.TAX3_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt4).Value = objTr.TAX4_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt5).Value = objTr.TAX5_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt6).Value = objTr.TAX6_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt7).Value = objTr.TAX7_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt8).Value = objTr.TAX8_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt9).Value = objTr.TAX9_Amt
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxAmt10).Value = objTr.TAX10_Amt
+                            End If
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = objTr.Taxable_Amount_Per
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = objTr.Header_Discount_Per
+
+                            If ShowCapexCodeandSubCode Then ''VIJ/11/12/19-000116 by balwinder on 18/12/2019
+                                MakeColumnReadOnly(True)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCategoryType).Value = objPO.Category
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colEmergency).Value = CInt(objPO.Emergency)
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexCode).Value = objPO.Capex_Code
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCapexSubCode).Value = objPO.Capex_SubCode
+                            End If
+                        End If
+                    Next
+                End If
+                gv1.Rows.AddNew()
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
+
+            End If
+
+            If rbtnTaxCalManual.IsChecked Then
+                For ii As Integer = 1 To 10
+                    If gv2.Rows.Count >= ii Then
+                        Dim dblTotTaxAmt As Double = 0
+                        For jj As Integer = 0 To gv1.Rows.Count - 1
+                            dblTotTaxAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells("COLTAXAMT" + clsCommon.myCstr(ii)).Value)
+                        Next
+                        gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTotTaxAmt
+                        gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(gv1.Rows(0).Cells("COLTAXRATE" + clsCommon.myCstr(ii)).Value)
                     End If
                 Next
             End If
-            gv1.Rows.AddNew()
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
-            gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
-
-        End If
-
-        If rbtnTaxCalManual.IsChecked Then
-            For ii As Integer = 1 To 10
-                If gv2.Rows.Count >= ii Then
-                    Dim dblTotTaxAmt As Double = 0
-                    For jj As Integer = 0 To gv1.Rows.Count - 1
-                        dblTotTaxAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells("COLTAXAMT" + clsCommon.myCstr(ii)).Value)
-                    Next
-                    gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = dblTotTaxAmt
-                    gv2.Rows(ii - 1).Cells(colTTaxRate).Value = clsCommon.myCdbl(gv1.Rows(0).Cells("COLTAXRATE" + clsCommon.myCstr(ii)).Value)
-                End If
-            Next
-        End If
-        SetitemWiseTaxSetting(False, False)
-        For ii As Integer = 0 To gv1.RowCount - 1
-            UpdateCurrentRow(ii)
-        Next
-
-        If rbtnTaxCalManual.IsChecked Then ''For Calcuation custom tax according to ratio of amount
+            SetitemWiseTaxSetting(False, False)
             For ii As Integer = 0 To gv1.RowCount - 1
                 UpdateCurrentRow(ii)
             Next
-        End If
 
-        CalculateInsuranceTotal(True)
-        isInsideLoadData = False
-        UpdateAllTotals()
-        RefreshReqNo()
-
-        gv1.Columns(colDisPer).ReadOnly = True
-        gv1.Columns(colDisAmt).ReadOnly = True
-
-        For ii As Integer = 0 To gv1.RowCount - 1
-            If clsCommon.myLen(txtReqNo.Value) > 0 Then
-                gv1.Rows(ii).Cells(colRate).ReadOnly = True
+            If rbtnTaxCalManual.IsChecked Then ''For Calcuation custom tax according to ratio of amount
+                For ii As Integer = 0 To gv1.RowCount - 1
+                    UpdateCurrentRow(ii)
+                Next
             End If
-        Next
 
+            CalculateInsuranceTotal(True)
+            isInsideLoadData = False
+            UpdateAllTotals()
+            RefreshReqNo()
+
+            gv1.Columns(colDisPer).ReadOnly = True
+            gv1.Columns(colDisAmt).ReadOnly = True
+
+            For ii As Integer = 0 To gv1.RowCount - 1
+                If clsCommon.myLen(txtReqNo.Value) > 0 Then
+                    gv1.Rows(ii).Cells(colRate).ReadOnly = True
+                End If
+            Next
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
 
@@ -6558,7 +6613,12 @@ Public Class frmGRN
     End Sub
 
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating
-        SelectPOItems()
+        Try
+            SelectPOItems()
+            ShowSchedule()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtDept__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDept._MYValidating
@@ -8219,6 +8279,14 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
 
     Private Sub btnShowSchedule_Click(sender As Object, e As EventArgs) Handles btnShowSchedule.Click
         Try
+            ShowSchedule()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub ShowSchedule()
+        Try
             If clsCommon.myLen(txtRefNo.Text) > 0 Then
                 Dim lstItem As New List(Of String)
                 If gv1 IsNot Nothing AndAlso gv1.Rows.Count > 0 Then
@@ -8236,7 +8304,7 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     Dim frm As New FrmFreeGrid()
                     frm.ReportID = Form_ID
-                    frm.Text = "Schedule"
+                    frm.strFormName = "Schedule"
                     frm.dt = dt
                     frm.ShowDialog()
                 Else
@@ -8248,7 +8316,7 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                 clsCommon.MyMessageBoxShow(Me, "Reference No can't be blank !", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 

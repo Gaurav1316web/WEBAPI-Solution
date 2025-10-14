@@ -165,6 +165,11 @@ Public Class clsTenderHead
         Return True
     End Function
 
+    Public Shared Function ShowDataQry() As String
+        Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
+        Return qry
+    End Function
+
 
     Public Shared Function GetData(ByVal strDocumentCode As String, ByVal NavType As NavigatorType) As clsTenderHead
         Try
@@ -233,13 +238,7 @@ Public Class clsTenderHead
                     obj.Posted_By = clsCommon.myCstr(dt.Rows(0)("Posted_By"))
                 End If
 
-                qry = "SELECT TSPL_TENDER_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_NAME
-FROM TSPL_TENDER_DETAIL 
-left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TENDER_DETAIL.Location 
-left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code
-left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_DETAIL.Item_Code
-left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TSPL_TENDER_DETAIL.Item_Type
-where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "'ORDER BY tspl_tender_detail.Line_No"
+                qry = GetDetailsDataQry(obj.DocumentCode)
                 dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -277,6 +276,17 @@ where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "'ORDER BY tspl_te
             Throw New Exception(ex.Message)
         End Try
 
+    End Function
+
+    Public Shared Function GetDetailsDataQry(ByVal strDoc As String) As String
+        Dim qry As String = "SELECT TSPL_TENDER_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_NAME
+FROM TSPL_TENDER_DETAIL 
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TENDER_DETAIL.Location 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+left outer join TSPL_ITEM_TYPE_MASTER on TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE=TSPL_TENDER_DETAIL.Item_Type
+where tspl_tender_detail.DocumentCode='" & strDoc & "'ORDER BY tspl_tender_detail.Line_No"
+        Return qry
     End Function
 
     Public Shared Function PostData(ByVal strDocNo As String) As Boolean

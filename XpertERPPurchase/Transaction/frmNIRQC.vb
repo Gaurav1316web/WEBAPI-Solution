@@ -86,8 +86,6 @@ Public Class frmNIRQC
         btnPrint.Enabled = True
         btnPrint.Visible = True
         btnDelete.Enabled = False
-        btnPost.Enabled = False
-        btnPost.Visible = False
         'txtDate.Value = clsCommon.GETSERVERDATE()
         BlankAllControls()
     End Sub
@@ -320,6 +318,7 @@ where TSPL_MRN_DETAIL.MRN_No='" & txtMRNNo.Value & "' and TSPL_MRN_HEAD.Status=1
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
             If clsCommon.CompairString(cboVisualQCStatus.SelectedValue, "2") = CompairStringResult.Equal Then
                 If clsCommon.MyMessageBoxShow("NIR QC Status : " & clsCommon.myCstr(cboVisualQCStatus.SelectedItem) & Environment.NewLine & "Do you want to cancel the NIRQC with GRN ?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), lblGRNNo.Text, True) Then
@@ -330,21 +329,19 @@ where TSPL_MRN_DETAIL.MRN_No='" & txtMRNNo.Value & "' and TSPL_MRN_HEAD.Status=1
             Else
                 PostData()
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub PostData()
-        'Try
-        '    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, txtCode.Value)
-        '    If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
-        '        clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
-        '        LoadData(txtCode.Value, NavigatorType.Current)
-        '    End If
-        'Catch ex As Exception
-        '    Throw New Exception(ex.Message)
-        'End Try
+        Try
+            If myMessages.postConfirm() AndAlso clsNIRQC.postdata(txtCode.Value) Then
+                clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
+                LoadData(txtCode.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Sub
 
 

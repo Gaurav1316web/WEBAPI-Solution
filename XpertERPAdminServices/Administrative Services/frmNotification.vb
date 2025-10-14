@@ -203,7 +203,9 @@ Public Class frmNotification
                         objtr.Login_Type = "B"
                     ElseIf arrUserType(i).Contains("MCC") OrElse arrUserType(i).Contains("M") Then
                         objtr.Login_Type = "M"
-                    ElseIf arrUserType(i).Contains("Milk Producer") OrElse arrUserType(i).Contains("F") Then
+                        'ElseIf arrUserType(i).Contains("Milk Producer") OrElse arrUserType(i).Contains("P") Then
+                        '    objtr.Login_Type = "P"
+                    ElseIf arrUserType(i).Contains("Milk Producer") Then
                         objtr.Login_Type = "F"
                     ElseIf arrUserType(i).Contains("RP") OrElse arrUserType(i).Contains("R") Then
                         objtr.Login_Type = "R"
@@ -298,7 +300,7 @@ COALESCE(
 FROM 
     TSPL_USER_MASTER 
 WHERE 
-    LEN(ISNULL(Login_Type,'')) > 0
+    Login_type IN ('SuperUser', 'CNF')
 
 UNION ALL
 

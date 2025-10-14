@@ -24,6 +24,7 @@ Partial Class frmSendBilltoDistributor
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkResendBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtDate1 = New common.Controls.MyDateTimePicker()
@@ -46,11 +47,14 @@ Partial Class frmSendBilltoDistributor
         Me.btnSendGatePass = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.chkResendBill = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -73,7 +77,8 @@ Partial Class frmSendBilltoDistributor
         CType(Me.btnSendGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -97,6 +102,7 @@ Partial Class frmSendBilltoDistributor
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.RadGroupBox4)
         Me.Panel1.Controls.Add(Me.chkResendBill)
         Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.RadGroupBox2)
@@ -106,6 +112,15 @@ Partial Class frmSendBilltoDistributor
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(800, 402)
         Me.Panel1.TabIndex = 392
+        '
+        'chkResendBill
+        '
+        Me.chkResendBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkResendBill.Location = New System.Drawing.Point(390, 38)
+        Me.chkResendBill.Name = "chkResendBill"
+        Me.chkResendBill.Size = New System.Drawing.Size(77, 16)
+        Me.chkResendBill.TabIndex = 1468
+        Me.chkResendBill.Text = "Resend Bill"
         '
         'RadGroupBox1
         '
@@ -117,7 +132,7 @@ Partial Class frmSendBilltoDistributor
         Me.RadGroupBox1.Controls.Add(Me.btnSendDemandBill)
         Me.RadGroupBox1.Controls.Add(Me.lblDocNo)
         Me.RadGroupBox1.HeaderText = "Demand Bill"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(14, 19)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(14, 45)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(344, 105)
         Me.RadGroupBox1.TabIndex = 278
@@ -210,7 +225,7 @@ Partial Class frmSendBilltoDistributor
         Me.RadGroupBox2.Controls.Add(Me.btnSendInvoice)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel7)
         Me.RadGroupBox2.HeaderText = "Invoice Bill"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(14, 130)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(14, 154)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(344, 105)
         Me.RadGroupBox2.TabIndex = 279
@@ -303,7 +318,7 @@ Partial Class frmSendBilltoDistributor
         Me.RadGroupBox3.Controls.Add(Me.btnSendGatePass)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel11)
         Me.RadGroupBox3.HeaderText = "Gatepass Bill"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(14, 241)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(14, 263)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Size = New System.Drawing.Size(344, 105)
         Me.RadGroupBox3.TabIndex = 280
@@ -396,14 +411,40 @@ Partial Class frmSendBilltoDistributor
         Me.btnClose.TabIndex = 10
         Me.btnClose.Text = "Close"
         '
-        'chkResendBill
+        'RadGroupBox4
         '
-        Me.chkResendBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkResendBill.Location = New System.Drawing.Point(390, 38)
-        Me.chkResendBill.Name = "chkResendBill"
-        Me.chkResendBill.Size = New System.Drawing.Size(77, 16)
-        Me.chkResendBill.TabIndex = 1468
-        Me.chkResendBill.Text = "Resend Bill"
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(14, 12)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(344, 29)
+        Me.RadGroupBox4.TabIndex = 1469
+        Me.RadGroupBox4.Visible = False
+        '
+        'rbtnMilk
+        '
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Checked = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(83, 6)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 0
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
+        '
+        'rbtnProduct
+        '
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(195, 6)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 1
+        Me.rbtnProduct.TabStop = True
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
         '
         'frmSendBilltoDistributor
         '
@@ -422,6 +463,7 @@ Partial Class frmSendBilltoDistributor
         Me.SplitContainer1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -447,7 +489,9 @@ Partial Class frmSendBilltoDistributor
         CType(Me.btnSendGatePass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -478,4 +522,7 @@ Partial Class frmSendBilltoDistributor
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtDate3 As common.Controls.MyDateTimePicker
     Friend WithEvents chkResendBill As RadCheckBox
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rbtnProduct As RadioButton
+    Friend WithEvents rbtnMilk As RadioButton
 End Class
