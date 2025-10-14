@@ -3395,11 +3395,17 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         Else
             strMCCMaterial = " select "
             ''richa 11 Sep,2018 BHA/13/09/18-000544
+            '' This case remove for sublocationadd 
+            ''Case When TSPL_LOCATION_MASTER.Is_Sub_Location='Y' Then TSPL_LOCATION_MASTER.Location_Code Else '' End As [Sub Location Code],
+            ''Case When TSPL_LOCATION_MASTER.Is_Sub_Location='Y' Then TSPL_LOCATION_MASTER.Location_Desc Else '' End As [Sub Location Name],
+
             If obj.ReportType = "Net Sale" Then
                 strMCCMaterial += " IM.Avg_Cost as [COGS],CogsAccount.Cost_Of_Goods_Sold,CogsAccount.Cost_Of_Goods_Sold_Description,  "
             End If
-            strMCCMaterial += " case when len([Form Type])>0 then [Form Type] else   _Type end  as [Form Type],[Trans Type],[Location Code],[Location Name],Case When TSPL_LOCATION_MASTER.Is_Sub_Location='Y' Then TSPL_LOCATION_MASTER.Location_Code Else '' End As [Sub Location Code],
-                                Case When TSPL_LOCATION_MASTER.Is_Sub_Location='Y' Then TSPL_LOCATION_MASTER.Location_Desc Else '' End As [Sub Location Name],Loc.State as [Location State],GSTState.GST_STATE_Code as [GST State Code],loc.GSTNO as [Dispatch Location GSTIN No], (CASE WHEN [Invoice Type]='T' THEN 'Tax' when [Invoice Type]='R' then 'Retail' when [Invoice Type]='N' then 'None' else [Invoice Type] end) as [Invoice Type],[Document No],"
+            strMCCMaterial += " case when len([Form Type])>0 then [Form Type] else   _Type end  as [Form Type],[Trans Type],[Location Code],[Location Name],
+ Sub_Location_code as [Sub Location Code],location_description As [Sub Location Name],
+
+Loc.State as [Location State],GSTState.GST_STATE_Code as [GST State Code],loc.GSTNO as [Dispatch Location GSTIN No], (CASE WHEN [Invoice Type]='T' THEN 'Tax' when [Invoice Type]='R' then 'Retail' when [Invoice Type]='N' then 'None' else [Invoice Type] end) as [Invoice Type],[Document No],"
             If EnableGSTRelatedfields = 0 Then
                 strMCCMaterial += "  [Document_date],"
             Else
@@ -3482,10 +3488,10 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             '    strMCCMaterial += " ,[Payment Type] as PaymentType,CustomerType,[Shipment Status] "
             'End If
             strMCCMaterial += "" & If(clsCommon.CompairString(obj.Program_Code, clsUserMgtCode.RptBulkSaleRegister) = CompairStringResult.Equal, " ,Fat_Amt as [Fat Amount],SNF_Amt as [SNF Amount],Standard_Rate as [Standard Rate] ", "") & " "
-            End If
+        End If
 
-            '' ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also) 
-            strMCCMaterial += " from ( "
+        '' ''richa agarwal add merchant trade trans_type in below qry BM00000008390 (Applied For DCC Also) 
+        strMCCMaterial += " from ( "
         '' change in query by Panch Raj against ticket No: UDL/16/05/18-000165
         '' add csa transfer 
         If obj.Trans_Type_List.Contains("CSA Sale") AndAlso obj.PickCSASaleFromSalePatti = False Then
@@ -3581,7 +3587,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             strSDTaxRate = " left join TSPL_TAX_RATES ttr  on ttr.tax_Code=TSPL_CSA_TRANSFER_DETAIL.tax10 and ttr.tax_Rate=TSPL_CSA_TRANSFER_DETAIL.TAX10_Rate and ttr._type<>'OH' and ttr._type<>'OH' and ttr.Tax_Type='T'"
             strMCCMaterial += " select * from (" & stCSACommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_CSA_TRANSFER_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
             strMCCMaterial += " )final"
-            strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+            strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
             strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
             strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
             strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -3766,14 +3772,14 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No],MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(ISNULL(final.TCSBaseAmount,0)) as TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,MAX(Shipment_Status)[Shipment Status] "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,MAX(Shipment_Status)[Shipment Status] ,max(Sub_Location_code)sub_location_code,max(SubLocation.location_desc)location_description"
             End If
             strMCCMaterial += " from ("
             '' richa UDL/09/08/18-000213 do job work data separately
             Dim strScarpCommonQry As String = ""
             strScarpCommonQry += " select "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strScarpCommonQry += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                strScarpCommonQry += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code, CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
                                         ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                                         ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -3876,14 +3882,14 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name] , [Delivery No]  , [Shipment No], MRP , [Scheme Code] ,[Cash Scheme Code] ,  [Cash Scheme Amount], [Price Code],final.Created_By ,final.Modify_By,final. RATE_UOM,final.Conv_Factor ,0 as Sampling,'N' as Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status] "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType ,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status],max(Sub_Location_code)sub_location_code,max(SubLocation.location_desc)location_description "
             End If
             strMCCMaterial += " from ("
             '' richa UDL/09/08/18-000213 do job work data separately
             Dim strScarpCommonQry As String = ""
             strScarpCommonQry = " select "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strScarpCommonQry += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                strScarpCommonQry += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code,  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                   ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -4039,7 +4045,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             Dim strSDRCommonQuery As String = ""
             strSDRCommonQuery = " select"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDRCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                strSDRCommonQuery += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code,  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                   ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -4110,7 +4116,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status] "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status] ,max(Sub_Location_code)sub_location_code,max(SubLocation.location_desc)location_description"
             End If
             strMCCMaterial += " from ( "
             strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
@@ -4173,7 +4179,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                              LEFT JOIN TSPL_TAX_MASTER TAXM11 ON TSPL_SD_SALE_RETURN_DETAIL.TAX10=TAXM11.TAX_CODE "
             strMCCMaterial += " select * from (" & strSDRCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_SD_SALE_RETURN_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
             strMCCMaterial += " )final"
-            strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+            strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code "
             strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
             strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
             strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -4268,7 +4274,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             Dim strSDRCommonQuery As String = ""
             strSDRCommonQuery = " select"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDRCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                strSDRCommonQuery += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code, CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                   ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -4333,7 +4339,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]  - case when (Trans_Type ='FSR' or Trans_Type ='PSR') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as  [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],final.[Transporter Name], [Delivery No]  , [Shipment No], MRP, Scheme_Code as [Scheme Code] ,Cash_Scheme_Code as [Cash Scheme Code], Cash_Scheme_Amount as [Cash Scheme Amount] ,final.Price_code as [Price Code] ,final.Created_By ,final.Modify_By,final.RATE_UOM ,final.Conv_Factor ,final. Sampling,final.Scheme_Item," &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],'' as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status] "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status],max(Sub_Location_code)sub_location_code,max(SubLocation.location_desc)location_description "
             End If
             strMCCMaterial += " from ( "
             strTaxColumns = strPivotForInnerQueryNoTax & "," & strDoublePivotForInnerQueryNoTax
@@ -4754,7 +4760,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             If obj.Trans_Type_List.Contains("MCC Sale Farmer") Then
                 strSDCommonQuery = " select "
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                    strSDCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                    strSDCommonQuery += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code, CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                   ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -5007,7 +5013,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 strSDTaxRate = " left join TSPL_TAX_RATES ttr  on ttr.tax_Code=TSPL_MCC_Sale_Return_Detail_Farmer.tax10 and ttr.tax_Rate=TSPL_MCC_Sale_Return_Detail_Farmer.TAX10_Rate and ttr._type<>'OH' and ttr._type<>'OH' and ttr.Tax_Type='S'"
                 strMCCMaterial += " select * from (" & strSDRCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_MCC_Sale_Return_Detail_Farmer.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
                 strMCCMaterial += " )final"
-                strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+                strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code "
                 strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
                 strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
                 strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -5036,7 +5042,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
             Dim strDebitCreditCommonQuery As String = ""
             strDebitCreditCommonQuery = " select"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strDebitCreditCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                strDebitCreditCommonQuery += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code, CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                   ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -5176,7 +5182,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         If obj.Trans_Type_List.Contains("Fresh Sale") OrElse obj.Trans_Type_List.Contains("Product Sale") OrElse obj.Trans_Type_List.Contains("MCC Sale") OrElse obj.Trans_Type_List.Contains("Export Sale") OrElse obj.Trans_Type_List.Contains("CSA Sale") OrElse obj.Trans_Type_List.Contains("Merchant Trade") OrElse obj.Trans_Type_List.Contains("General Sale") Then
             strSDCommonQuery = " select"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strSDCommonQuery += "  CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
+                strSDCommonQuery += " TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code, CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.STATUS = 0 THEN 'PENDING' ELSE 'POSTED' END AS Shipment_Status
 ,CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.trans_type = 'MCC' THEN CASE WHEN TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y' THEN 'CASH' 
                   ELSE 'CREDIT' END ELSE CASE WHEN TSPL_BOOKING_MATSER.Is_CashSale = 'Y' THEN 'CASH' ELSE 'CREDIT' END END AS PaymentType,Case when TSPL_BOOKING_MATSER.Is_BPL = 1 then 'BPL'
 						              WHEN TSPL_BOOKING_MATSER.Is_Distributor = 1 THEN 'Distributor'
@@ -5263,7 +5269,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                 " [AR Document No], [AR Document Amt],[AR Document Discount Amt],([AR Document Amt]-[AR Total Tax]-[AR Total Add Charge]- case when (Trans_Type ='FS') and [AR Document Amt]>0 then coalesce(final.[Scheme Amount],0) else 0 end ) as [AR Amount Before Tax],[AR Total Tax],[AR Total Add Charge],final.[GR No],final.[GR Date],[WayBill No],max([EWayBill No]) as [EWayBill No],max([EWayBill Date]) as [EWayBill Date],final.[Transporter Code],[Transporter Name], [Delivery No]  , [Shipment No], MRP, [Scheme Code] ,[Cash Scheme Code] , [Cash Scheme Amount], [Price Code],final.Created_By,final.Modify_By ,final. RATE_UOM,final. Conv_Factor,final.Sampling,final.Scheme_Item, " &
                 " max([Invoice Type GST]) as [Invoice Type GST],max([GSTIN No Company]) as [GSTIN No Company],max([GSTIN No Customer]) as [GSTIN No Customer],max([Nill Rate Amount]) as [Nill Rate Amount],max([Exempted Amount]) as [Exempted Amount],max([Non GST Supply]) as [Non GST Supply],max([Reverse Charge]) as [Reverse Charge],max([Export Type]) as [Export Type],max(Port) as Port,max([Shipping Bill No]) as [Shipping Bill No],max([Shipping Bill Date]) as [Shipping Bill Date],max([Original Invoice No]) as [Original Invoice No],max([Original Invoice Date]) as [Original Invoice Date],max([Reason for Revision]) as [Reason for Revision],max([LUT No]) as [LUT No],max(MANDI_TAX_AMT) as MANDI_TAX_AMT,SUM(isnull(final.TCSBaseAmount,0)) as TCSBaseAmount"
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") <> CompairStringResult.Equal Then
-                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status] "
+                strMCCMaterial += " ,max(Payment_Terms) as PaymentType,max(Gross_Amount)[Gross Amount],max(TotalSubsidyAmt)TotalSubsidyAmt,max(PaymentType)[Payment Type],max(CustomerType)CustomerType,max(Shipment_Status)[Shipment Status] ,max(Sub_Location_code)sub_location_code,max(SubLocation.location_desc)location_description"
             End If
             strMCCMaterial += " from ("
             'strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX1 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Tax1_Amt, TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1+'%' as Tax1Rate"
@@ -5326,7 +5332,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
                              LEFT JOIN TSPL_TAX_MASTER TAXM11 ON TSPL_SD_SALE_INVOICE_DETAIL.TAX10=TAXM11.TAX_CODE "
             strMCCMaterial += " select * from (" & strSDCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_SD_SALE_INVOICE_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
             strMCCMaterial += " )final"
-            strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+            strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
             strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
             strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
             strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -5731,7 +5737,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX10 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt as Tax10_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX10+'%' as Tax10Rate"
         strMCCMaterial += " select * from (" & strSDCommonQuery & strTaxColumns & strSDEndQry & " and TSPL_SD_SALE_INVOICE_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code "
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -5813,7 +5819,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strTaxColumns = " TSPL_CSA_TRANSFER_DETAIL.TAX10 ,0 as TAX10_Amt,TSPL_CSA_TRANSFER_DETAIL.TAX10_Rate,TSPL_CSA_TRANSFER_DETAIL.TAX10+'%' as Tax10Rate"
         strMCCMaterial += " select * from (" & stCSACommonQuery & strTaxColumns & strSDEndQry & " and TSPL_CSA_TRANSFER_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -6027,7 +6033,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strTaxColumns = " TSPL_SD_SALE_RETURN_DETAIL.TAX10 ,-TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt as TAX10_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX10+'%' as tax10rate  "
         strMCCMaterial += " select * from (" & strSDRCommonQuery & strTaxColumns & strSDEndQry & " and TSPL_SD_SALE_RETURN_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -7020,7 +7026,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strTaxColumns = " TSPL_SD_SALE_INVOICE_DETAIL.TAX10 ,(case when coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0)<=0  then 1 else coalesce(TSPL_SD_SALE_INVOICE_HEAD.convrate,0) end) * TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt as Tax10_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX10+'%' as Tax10Rate"
         strMCCMaterial += " select * from (" & strSDCommonQuery & strTaxColumns & strSDEndQry & " and TSPL_SD_SALE_INVOICE_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -7310,7 +7316,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strTaxColumns = " TSPL_SD_SALE_RETURN_DETAIL.TAX10 ,-TSPL_SD_SALE_RETURN_DETAIL.TAX10_Amt as TAX10_Amt,TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate ,TSPL_SD_SALE_RETURN_DETAIL.TAX10+'%' as tax10rate  "
         strMCCMaterial += " select * from (" & strSDRCommonQuery & strTaxColumns & strSDEndQry & " and TSPL_SD_SALE_RETURN_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -7893,7 +7899,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strSDTaxRate = " left join TSPL_TAX_RATES ttr  on ttr.tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.tax10 and ttr.tax_Rate=TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate and ttr._type<>'OH'"
         strMCCMaterial += " select * from (" & strSDCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_SD_SALE_INVOICE_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location  left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
@@ -8217,7 +8223,7 @@ where TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code='" + obj.Customer_Code + "'", trans
         strSDTaxRate = " left join TSPL_TAX_RATES ttr  on ttr.tax_Code=TSPL_SD_SALE_RETURN_DETAIL.tax10 and ttr.tax_Rate=TSPL_SD_SALE_RETURN_DETAIL.TAX10_Rate and ttr._type<>'OH'"
         strMCCMaterial += " select * from (" & strSDRCommonQuery & strSDTaxRateColumn & strTaxColumns & strSDEndQry & strSDTaxRate & strSDJoinQry & " and TSPL_SD_SALE_RETURN_DETAIL.tax10<>'' )s pivot (sum(tax10_amt) for tax10 in (" + strPivotForInnerQuery + "))t pivot (min(tax10_rate) for tax10rate in (" + strDoublePivotForInnerQuery + "))t"
         strMCCMaterial += " )final"
-        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location "
+        strMCCMaterial += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =final.Bill_To_Location left outer join TSPL_LOCATION_MASTER as SubLocation on SubLocation.Location_Code =final.sub_location_code"
         strMCCMaterial += " left outer join tspl_item_master on tspl_item_master.Item_Code =final.Item_Code "
         strMCCMaterial += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER .Cust_Code =final.Customer_Code "
         strMCCMaterial += " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER as Parent_Master ON Parent_Master.Cust_Code=TSPL_CUSTOMER_MASTER.Parent_Customer_No "
