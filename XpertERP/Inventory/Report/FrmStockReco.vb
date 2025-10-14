@@ -1386,8 +1386,14 @@ goAlreadyAdded:
                 If ChkMRPWise.Checked Then
                     strFinalQry += ",MRP "
                 End If
-                strFinalQry += " from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description," + strCodeColumnNull + "," + strCodeDescColumnNull + ",TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type,null As Structure_Descq,TSPL_ITEM_MASTER.RACK_NO  "
-                If ChkMRPWise.Checked Then
+                strFinalQry += " from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description," + strCodeColumnNull + "," + strCodeDescColumnNull + ",TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code"
+                If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "UOM") = CompairStringResult.Equal Then
+                    strFinalQry += ",'" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' as Stock_UOM "
+                Else
+                    strFinalQry += ",TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM "
+                End If
+                strFinalQry += " ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type,null As Structure_Descq,TSPL_ITEM_MASTER.RACK_NO  "
+                    If ChkMRPWise.Checked Then
                     strFinalQry += ",0 as MRP "
                 End If
                 strFinalQry += " FROM ExplodeDates( " + IIf(chkNoTransaction.Checked, "'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'", "'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'") + ",'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "') as d,TSPL_ITEM_MASTER,TSPL_LOCATION_MASTER,TSPL_ITEM_UOM_DETAIL where 2=2 "
@@ -1530,7 +1536,13 @@ goAlreadyAdded:
                 If ChkMRPWise.Checked Then
                     strFinalQry += ",MRP "
                 End If
-                strFinalQry += " from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description," + strCodeColumnNull + "," + strCodeDescColumnNull + ",TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code,TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type,null As Structure_Descq,TSPL_ITEM_MASTER.RACK_NO  "
+                strFinalQry += " from (SELECT 0 as Trans_Id,null as Trans_Type,null as Trans_Type_Name, null as Source_Doc_No, thedate as Punching_Date,'In' as InOutView,'I' as InOut,TSPL_LOCATION_MASTER.Location_Code as Location_Code,TSPL_LOCATION_MASTER.Location_Desc as [Loc Desp],null as [LocAddress],null as SourceCode,null as SourceName,null as SourceType ,TSPL_ITEM_MASTER.Item_Type,null as Item_Type_Name,null as Item_Group,null as Group_Description," + strCodeColumnNull + "," + strCodeDescColumnNull + ",TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,null as Item_Category_Struct_Code"
+                If clsCommon.CompairString(clsCommon.myCstr(cboUOMType.SelectedValue), "UOM") = CompairStringResult.Equal Then
+                    strFinalQry += ",'" + clsCommon.myCstr(cmbUnit.SelectedValue) + "' as Stock_UOM "
+                Else
+                    strFinalQry += ",TSPL_ITEM_UOM_DETAIL.UOM_Code as Stock_UOM "
+                End If
+                strFinalQry += " ,null as  itf_code ,0 as Stock_Qty,0 as Balance_QTYKG,0 as Rate,0 as Cost,0 as Balance_FAT, 0 as Balance_SNF ,null as In_Category,null as Out_Category,TSPL_ITEM_MASTER.Product_Type,null As Structure_Descq,TSPL_ITEM_MASTER.RACK_NO  "
                 If ChkMRPWise.Checked Then
                     strFinalQry += ",0 as MRP "
                 End If

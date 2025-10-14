@@ -300,7 +300,7 @@ where 2 = 2 "
                     If clsCommon.myLen(strShortDesc) <= 0 Then
                         Throw New Exception("Please set Short Description for item [" + clsCommon.myCstr(dtItems.Rows(ii)("Item_Code")) + "]")
                     End If
-                    FinalQuery += ",CEILING(sum(case when Item_Code='" + clsCommon.myCstr(dtItems.Rows(ii)("Item_Code")) + "'  then Qty else null end )) as [" + strShortDesc + "] "
+                    FinalQuery += ",CEILING(sum(case when Item_Code='" + clsCommon.myCstr(dtItems.Rows(ii)("Item_Code")) + "'  then Qty else 0.00 end )) as [" + strShortDesc + "] "
                 Next
 
                 FinalQuery += " ,sum(Amount*case when IsTaxable=0 then 1 else 0 end) as Amount,sum(Amount*case when IsTaxable=0 then 0 else 1 end) as ProductAmount,sum(crate)TotalCrates ,max(Display_Seq) as Display_Seq,convert(varchar, max(Document_Date),103) as Document_Date,FORMAT(GETDATE(), 'dd/MM/yyyy hh:mm tt') as PrintDateTime from (
