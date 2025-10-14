@@ -2540,7 +2540,7 @@ SaleReturnData AS (
         CTE.Row_Number,
         TSPL_ITEM_MASTER.Item_Code,
         max(TSPL_ITEM_MASTER.Alies_Name) Alies_Name ,
-        max(TSPL_SD_SALE_RETURN_Booking_DETAIL.Booth_Code) AS Cust_Code,
+        (TSPL_SD_SALE_RETURN_Booking_DETAIL.Booth_Code) AS Cust_Code,
         max(C.Customer_Name) AS Customer_Name,
        0 as Qty,
        round((isnull(TSPL_SD_SALE_RETURN_Booking_DETAIL.Return_Qty,0) *isnull(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1))/ConvertDiv.Conversion_Factor,2) AS Return_Qty,
@@ -2569,7 +2569,7 @@ SaleReturnData AS (
         max(T.Transporter_Name) AS Transporter_Name
     FROM TSPL_SD_SALE_RETURN_Booking_DETAIL
 left outer JOIN TSPL_SD_SALE_RETURN_HEAD  ON TSPL_SD_SALE_RETURN_Booking_DETAIL.DOCUMENT_CODE = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE
-left outer JOIN TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Document_Code = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE
+left outer JOIN TSPL_SD_SALE_RETURN_DETAIL on TSPL_SD_SALE_RETURN_DETAIL.Document_Code = TSPL_SD_SALE_RETURN_HEAD.DOCUMENT_CODE and Line_No=1
 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No = TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No
 left outer join TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE = TSPL_SD_SHIPMENT_HEAD.Document_Code
 left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code = TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
@@ -2586,7 +2586,7 @@ LEFT JOIN TSPL_ROUTE_MASTER R ON TSPL_SD_SALE_RETURN_HEAD.route_no = R.Route_No
 LEFT JOIN TSPL_STATE_MASTER S ON CM.State = S.STATE_CODE
 LEFT JOIN TSPL_VEHICLE_MASTER V ON R.vehicle_code = V.Vehicle_Id
 LEFT JOIN tspl_transport_master T ON T.Transport_Id = V.Transport_Id
-where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' and TSPL_SD_SALE_RETURN_HEAD.Status=1 group by TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_ITEM_MASTER.Item_Code,Return_Qty,amt_less_discount,Is_Milk_Pouch,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,ConvertDiv.Conversion_Factor
+where  2=2 and TSPL_ITEM_MASTER.Is_Milk_Pouch = 1 and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "' and  convert(date, TSPL_SD_SALE_RETURN_HEAD.Document_Date,103) <= '" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "' and TSPL_SD_SALE_RETURN_HEAD.Status=1 group by TSPL_SD_SALE_RETURN_HEAD.Document_Code,TSPL_SD_SALE_RETURN_Booking_DETAIL.Booth_Code,TSPL_ITEM_MASTER.Item_Code,Return_Qty,amt_less_discount,Is_Milk_Pouch,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,ConvertDiv.Conversion_Factor
 ,CTE.Row_Number
 )"
                             MainQuery += " select '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(ToDate.Value, "dd-MMM-yyyy") + "' as ToDate, max(XXXXXFinal.SNO) as SNO, route_no, [Cust_Code],max(Customer_Name) as Customer_Name,max(Credit_Customer) as Credit_Customer,max(ItemNamePart1) as ItemNamePart1,max(ItemNamePart2) as ItemNamePart2, sum(isnull([Item1],0)) as [Item1] ,sum(isnull([Item2],0)) as [Item2],sum(isnull([Item3],0)) as [Item3],sum(isnull([Item4],0)) as [Item4],sum(isnull([Item5],0)) as [Item5],sum(isnull([Item6],0)) as [Item6],sum(isnull([Item7],0)) as [Item7],sum(isnull([Item8],0)) as [Item8],sum(isnull([Item9],0)) as [Item9],sum(isnull([Item10],0)) as [Item10],sum(isnull([Item11],0)) as [Item11],sum(isnull([Item12],0)) as [Item12], sum (isnull(QtyNotMilkPouch,0)) as QtyNotMilkPouch ,sum(isnull(MilkAmt,0)) as MilkAmt, MAX(isnull(ProductAmt,0)) as ProductAmt,

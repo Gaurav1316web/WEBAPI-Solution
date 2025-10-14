@@ -6,21 +6,14 @@ Public Class rptPlantWiseAvailableStockQtyReport
     Inherits FrmMainTranScreen
 #Region "Varaibels"
     Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim dtLocation As DataTable = New DataTable()
 #End Region
     Private Sub rptPlantWiseAvailableStockQtyReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         RadPageView1.SelectedPage = RadPageViewPage1
         reset()
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Default_Location,TSPL_LOCATION_MASTER.LOCATION_DESC from TSPL_USER_MASTER left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.LOCATION_CODE= TSPL_USER_MASTER.Default_Location  where User_Code='" + objCommonVar.CurrentUserCode + "'")
-        If dt.Rows.Count > 0 Then
-            Dim arLoc As ArrayList = New ArrayList()
-            Dim arLocName As ArrayList = New ArrayList()
-            arLoc.Add(dt.Rows(0)("Default_Location"))
-            arLocName.Add(dt.Rows(0)("LOCATION_DESC"))
-            txtLocation.arrValueMember = arLoc
-            txtLocation.arrDispalyMember = arLocName
-        End If
+        txtDate.Value = clsCommon.GETSERVERDATE()
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -51,18 +44,6 @@ Public Class rptPlantWiseAvailableStockQtyReport
 
     Private Sub LoadData(ByVal isPrint As Boolean)
         Try
-            If txtDate.Value.Month <> 1 AndAlso txtDate.Value.Month <> 4 AndAlso txtDate.Value.Month <> 7 AndAlso txtDate.Value.Month <> 10 Then
-                clsCommon.MyMessageBoxShow(Me, "Quarter should be [01-Apr,01-Jul,01-Oct,01-Jan]", Me.Text)
-                Exit Sub
-            End If
-
-            Dim whrcls As String = " and  trans_type='MCC' and TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_DEDUCTION_MASTER.Ded_Grp_Code='DEDUCTION' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' "
-            If txtLocation.arrValueMember.Count > 0 AndAlso txtLocation.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Sub_Location_Code in  (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
-            End If
-            If txtItem.arrValueMember IsNot Nothing Then
-                whrcls += " and TSPL_SD_SHIPMENT_HEAD.Deduction in  (" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
-            End If
             Dim Location As String = Nothing
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 If txtLocation.arrValueMember.Count > 1 Then
@@ -71,24 +52,70 @@ Public Class rptPlantWiseAvailableStockQtyReport
                     Location = clsCommon.GetMulcallString(txtLocation.arrValueMember)
                 End If
             End If
-            Dim ReportType As String = ""
 
-            ReportType = "Cycle " + clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")) + " To " + clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")) + ")"
-            Dim qry As String = " ,isnull(sum((TSPL_SD_SHIPMENT_HEAD.Total_Amt-isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt,0))  * (Case When Document_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' THEN 1.00 ELSE 0 end)),0)  AS [OPBal],
- isnull(sum (TSPL_SD_SHIPMENT_HEAD.Total_Amt * (CASE WHEN Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='N' THEN 1.00 ELSE 0 end) ),0)  AS Credit_Amt,
- isnull(sum (TSPL_SD_SHIPMENT_HEAD.Total_Amt * (CASE WHEN Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_SD_SHIPMENT_HEAD.Is_CashSale ='Y' THEN 1.00 ELSE 0 end) ),0)  AS Cash_Amt,
-isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Reduce_Deduc_Amt,0))  * (CASE WHEN Document_Date >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "' AND Document_Date <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtDate.Value), "dd/MMM/yyyy hh:mm tt") + "'  THEN 1.00 ELSE 0 end) ),0)  AS Amt_Ded
- from TSPL_SD_SHIPMENT_HEAD  left join TSPL_PAYMENT_PROCESS_MCC_SALE on TSPL_PAYMENT_PROCESS_MCC_SALE.Shipment_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_SD_SHIPMENT_HEAD.Deduction where 2=2 " + whrcls + ""
-            Dim FinalQry As String = ""
-            FinalQry = " select 1 as Grp, max(TSPL_DEDUCTION_MASTER.Description) as Item " & qry & " and IS_GHEE=0  group by TSPL_SD_SHIPMENT_HEAD.Deduction  " & Environment.NewLine & " UNION ALL  " & Environment.NewLine & " select 2 as Grp, 'Total' as Item " & qry & " and IS_GHEE=0  "
-            FinalQry += "" & Environment.NewLine & " UNION ALL  " & Environment.NewLine & " select 3 as Grp, max(TSPL_DEDUCTION_MASTER.Description) as Item " & qry & " and IS_GHEE=1 group by TSPL_SD_SHIPMENT_HEAD.Deduction "
-            FinalQry += "" & Environment.NewLine & " UNION ALL  " & Environment.NewLine & " select 4 as Grp,Item,sum(OPBal)OPBal,SUM(Credit_Amt)Credit_Amt,SUM(Cash_Amt)Cash_Amt,SUM(Amt_Ded)Amt_Ded FROM (select 'Grand Total' as Item " & qry & " and IS_GHEE=0 group by TSPL_SD_SHIPMENT_HEAD.Deduction "
-            FinalQry += "" & Environment.NewLine & " UNION ALL  " & Environment.NewLine & " select 'Grand Total' as Item " & qry & " and IS_GHEE=1 group by TSPL_SD_SHIPMENT_HEAD.Deduction )Total group by Item "
-            FinalQry = "  select " + IIf(isPrint, " TSPL_COMPANY_MASTER.Comp_Name,'" + objCommonVar.CurrentUser + "' as UserCode,'" + ReportType + "' as ReportType," + Location + " as Location, ", "") + " ROW_NUMBER() over (order by grp) AS SNo,Item,OPBal,Credit_Amt,Cash_Amt,Credit_Amt+Cash_Amt as Total,Amt_Ded,Cash_Amt as Depo_Amt,(OPBal+Credit_Amt+Cash_Amt)-(Amt_Ded+Cash_Amt) as Closing_Bal from  (  " + FinalQry + " ) xx  left outer join TSPL_COMPANY_MASTER on 1 =1 where OPBal >0 or Credit_Amt >0 or Cash_Amt>0  or Amt_Ded>0  order by grp "
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(FinalQry)
+            Dim qry As String = " select xx.Location_Code, xx.Item_Desc,MT.UOM_Code AS unit,isnull((XX.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(mt.Conversion_Factor),0) As STOCK_QTY,isnull((XX.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(mt.Conversion_Factor),0) As Total_Stock_Qty,cast(xx.QTY_FOR_DAYS as integer)  as QTY_FOR_DAYS,cast(xx.QTY_FOR_DAYS as integer) as Total_QTY_FOR_Days,Location_Code as Location_Code_Qty , Location_Code + ' Days' as Location_Code_Days from (
+                SELECT RM_STOCK_DAYS.Location_Code, RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,max(RM_STOCK_DAYS.UOM)  AS 'UOM',SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))  AS 'STOCK_QTY',SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL,
+	            CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS'  FROM  (
+	            SELECT RM_STOCK.ITEM_CODE,RM_STOCK.Location_Code,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
+	            SELECT TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM', CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY' ,TSPL_INVENTORY_MOVEMENT.Location_Code FROM TSPL_INVENTORY_MOVEMENT
+	            LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code WHERE 2=2  AND TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')  and Punching_Date <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'
+				) RM_STOCK  GROUP BY RM_STOCK.Location_Code, RM_STOCK.Item_Code
+	            UNION ALL 
+	            SELECT  TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,TSPL_MF_BOM_HEAD.Location_Code,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',0 AS 'STOCK_QTY',AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN  (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE CASE WHEN TSPL_MF_BOM_DETAIL.CONSM_QUANTITY>0 THEN ((TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/TSPL_MF_BOM_HEAD.PROD_QUANTITY) ELSE 0 END END)  AS 'REQ_STOCK',
+	            0 AS 'MIN_LEVEL' FROM TSPL_MF_BOM_HEAD  LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2   GROUP BY PROD_ITEM_CODE ) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
+            	WHERE TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and BOM_DATE <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' GROUP BY  TSPL_MF_BOM_HEAD.LOCATION_CODE, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
+                UNION ALL
+                select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code,TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',0 AS 'STOCK_QTY', 0 AS 'REQ_STOCK',TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level AS 'MIN_LEVEL' from TSPL_ITEM_REORDER_LEVEL_NEW  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code where TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and Apply='Y' ) RM_STOCK_DAYS GROUP BY  RM_STOCK_DAYS.Location_Code, RM_STOCK_DAYS.ITEM_CODE ) xx 
+                left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code = xx.UOM left join ( select item_code,uom_code,conversion_factor,UOM_Description from  TSPL_ITEM_UOM_DETAIL where UOM_Code = 'MT' ) as  MT ON xx.Item_Code = MT.item_code  WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0 "
+
+            If txtItem.arrValueMember IsNot Nothing Then
+                qry += " and xx.ITEM_CODE in  (" & clsCommon.GetMulcallString(txtItem.arrValueMember) & ") "
+            End If
+            If txtLocation.arrValueMember IsNot Nothing Then
+                qry += " and xx.Location_Code in  (" & clsCommon.GetMulcallString(txtLocation.arrValueMember) & ") "
+            End If
+
+            qry += " ) XXX "
+
+            dtLocation = clsDBFuncationality.GetDataTable(" select max(Location_Code_Qty)Location_Code_Qty , max(Location_Code_Days)Location_Code_Days from (" & qry & " group by Location_Code ")
+            Dim LocationCodesQty As String = Nothing
+            Dim strLocationQty As String = Nothing
+            Dim LocationCodesDays As String = Nothing
+            Dim strLocationPrint As String = Nothing
+            If dtLocation IsNot Nothing AndAlso dtLocation.Rows.Count > 0 Then
+                For i As Integer = 0 To dtLocation.Rows.Count - 1
+                    If i = 0 Then
+                        strLocationQty += "Sum(IsNull([" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "],0)) As [" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "],Sum(IsNull([" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Days")) + "],0)) As [" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Days")) + "]"
+                        LocationCodesQty += "[" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "] "
+                        LocationCodesDays += "[" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Days")) + "] "
+                        strLocationPrint += " '" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "' as  Location_Code_" & clsCommon.myCstr(i + 1) & "_Name, SUM(case when Location_Code = '" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "' then STOCK_QTY else 0 end) as Location_" & clsCommon.myCstr(i + 1) & "_Qty, SUM(case when Location_Code = '" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "' then QTY_FOR_DAYS  else 0 end) as Location_" & clsCommon.myCstr(i + 1) & "_Days"
+                    Else
+                        strLocationQty += ", Sum(IsNull([" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "],0)) As [" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) & "],Sum(IsNull([" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Days")) + "],0)) As [" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Days")) + "]"
+                        LocationCodesQty += ", [" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "] "
+                        LocationCodesDays += ", [" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Days")) + "] "
+                        strLocationPrint += " ,'" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "' as Location_Code_" & clsCommon.myCstr(i + 1) & "_Name,SUM(case when Location_Code = '" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "' then STOCK_QTY else 0 end) as Location_" & clsCommon.myCstr(i + 1) & "_Qty, SUM(case when Location_Code = '" + clsCommon.myCstr(dtLocation.Rows(i)("Location_Code_Qty")) + "' then QTY_FOR_DAYS  else 0 end) as Location_" & clsCommon.myCstr(i + 1) & "_Days"
+                    End If
+                Next
+            Else
+                gv1.DataSource = Nothing
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
+                gv1.Rows.Clear()
+                gv1.Columns.Clear()
+                gv1.SummaryRowsBottom.Clear()
+                Exit Sub
+            End If
+            Dim dt As DataTable = New DataTable()
+            Dim dtPrint As DataTable = New DataTable()
+            If isPrint Then
+                dtPrint = clsDBFuncationality.GetDataTable("select Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' as Date, xxxxx.* from ( SELECT Item_Desc,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationPrint & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " Group by Item_Desc ) xxxxx left join TSPL_COMPANY_MASTER on 1= 1 ORDER BY  ITEM_DESC  ")
+            End If
+            qry += " PIVOT(SUM(STOCK_QTY) For Location_Code_Qty In ( " & LocationCodesQty & ")) As  PIVOTQTY  PIVOT(SUM(QTY_FOR_DAYS) For Location_Code_Days In ( " & LocationCodesDays & ")) As  PIVOTDays  Group by Item_Desc ORDER BY  ITEM_DESC "
+            dt = clsDBFuncationality.GetDataTable("SELECT Item_Desc,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationQty & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " ")
+
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
+            gv1.SummaryRowsBottom.Clear()
             If dt.Rows.Count > 0 Then
                 gv1.DataSource = dt
                 gv1.GroupDescriptors.Clear()
@@ -97,13 +124,13 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
                 gv1.AllowAddNewRow = False
                 gv1.AllowDeleteRow = False
                 RadPageView1.SelectedPage = RadPageViewPage2
-                SetGridFormation(isPrint)
                 View()
+                SetGridFormation()
                 ReStoreGridLayout()
                 EnableDisableCtrl(False)
                 If isPrint Then
                     Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.MilkProcurement, dt, "rptGheeAndCattleFeedDeductionStatement", "GHEE AND CATTLE FEED DEDUCTION STATEMENT ")
+                    frmCRV.funreport(Form_ID, CrystalReportFolder.PurchaseOrder, dtPrint, "rptPlantWiseStockAvailable", "Plant Wise Stock Available")
                     frmCRV = Nothing
                 End If
             Else
@@ -113,63 +140,69 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
                     clsCommon.MyMessageBoxShow(Me, "No Data found to Display", Me.Text)
                 End If
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGo.Enabled = True
         End Try
     End Sub
-    Sub SetGridFormation(ByVal isPrint As Boolean)
+    Sub SetGridFormation()
         gv1.TableElement.TableHeaderHeight = 40
         gv1.MasterTemplate.ShowRowHeaderColumn = True
         For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
             gv1.Columns(ii).Width = 120
-            gv1.Columns(ii).FormatString = "{0:n2}"
+            If gv1.Columns(ii).Name.Contains("Days") Then
+                gv1.Columns(ii).FormatString = ""
+                gv1.Columns(ii).HeaderText = "Days"
+            Else
+                gv1.Columns(ii).HeaderText = "Stock Qty"
+                gv1.Columns(ii).FormatString = "{0:n2}"
+            End If
         Next
         gv1.ShowGroupPanel = False
 
-        gv1.Columns("OPBal").HeaderText = "OB OutStanding To DCS"
-        gv1.Columns("Credit_Amt").HeaderText = "CR"
-        gv1.Columns("Cash_Amt").HeaderText = "Cash"
-        gv1.Columns("Amt_Ded").HeaderText = "Amt.Ded. To DCS"
-        gv1.Columns("Depo_Amt").HeaderText = "Depo. At Bank/Office"
-        gv1.Columns("Closing_Bal").HeaderText = "C.B. OutStanding To DCS"
-        gv1.Columns("SNo").Width = 50
-        gv1.Columns("SNo").FormatString = ""
-        Dim j As Integer = 0
-        If isPrint Then
-            gv1.Columns("Comp_Name").IsVisible = False
-            gv1.Columns("ReportType").IsVisible = False
-            gv1.Columns("UserCode").IsVisible = False
-        End If
+        gv1.Columns("Item_Desc").HeaderText = "Item"
+        gv1.Columns("Total_Stock_Qty").HeaderText = "Total Stock Available"
+        gv1.Columns("Total_QTY_FOR_Days").HeaderText = "Total Available Stock" + Environment.NewLine + "In Days"
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        For ii As Integer = 1 To gv1.Columns.Count - 1
+            summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, IIf(gv1.Columns(ii).Name.Contains("Days"), "{0:F0}", "{0:F2}"), GridAggregateFunction.Sum))
+        Next
+
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
+
     End Sub
-
     Sub View()
-        If gv1.Rows.Count > 0 Then
-            Dim view As New ColumnGroupsViewDefinition()
-            view.ColumnGroups.Add(New GridViewColumnGroup(""))
-            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNo").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Item").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("OPBal").Name)
+        Try
+            If gv1.Rows.Count > 0 Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Item_Desc").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Total_Stock_Qty").Name)
 
-            view.ColumnGroups.Add(New GridViewColumnGroup("SALE"))
-            view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                For ii As Integer = 0 To dtLocation.Rows.Count - 1
+                    view.ColumnGroups.Add(New GridViewColumnGroup(dtLocation.Rows(ii)("Location_Code_Qty")))
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                    For col As Integer = 2 To gv1.Columns.Count - 1
+                        If clsCommon.CompairString(gv1.Columns(col).HeaderText, dtLocation.Rows(ii)("Location_Code_Qty")) = CompairStringResult.Equal OrElse clsCommon.CompairString(gv1.Columns(col).HeaderText, dtLocation.Rows(ii)("Location_Code_Days")) = CompairStringResult.Equal Then
+                            view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
+                        End If
+                    Next
+                Next
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_QTY_FOR_Days").Name)
+                gv1.ViewDefinition = view
 
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Credit_Amt").Name)
-            view.ColumnGroups(1).Rows(0).ColumnNames.Add(gv1.Columns("Cash_Amt").Name)
-
-            view.ColumnGroups.Add(New GridViewColumnGroup(""))
-            view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
-
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Total").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Amt_Ded").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Depo_Amt").Name)
-            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("Closing_Bal").Name)
-            gv1.ViewDefinition = view
-        End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -200,11 +233,11 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
                 arrHeader.Add("Date : " & clsCommon.myCDate(txtDate.Value))
 
                 If txtLocation.arrValueMember IsNot Nothing Then
-                    arrHeader.Add("Location : " & clsCommon.GetMulcallString(txtLocation.arrValueMember) & "   Location Name :" & clsCommon.GetMulcallString(txtLocation.arrDispalyMember) & "")
+                    arrHeader.Add("Location : " & clsCommon.GetMulcallString(txtLocation.arrValueMember) & "  Location Name :" & clsCommon.GetMulcallString(txtLocation.arrDispalyMember) & "")
                 End If
 
                 If txtItem.arrValueMember IsNot Nothing Then
-                    arrHeader.Add("Deduction : " & clsCommon.GetMulcallString(txtItem.arrValueMember) & "   Deduction Name :" & clsCommon.GetMulcallString(txtItem.arrDispalyMember) & "")
+                    arrHeader.Add("Item : " & clsCommon.GetMulcallString(txtItem.arrValueMember) & "   Item Name :" & clsCommon.GetMulcallString(txtItem.arrDispalyMember) & "")
                 End If
                 clsCommon.MyExportToExcel(Me.Text, gv1, arrHeader, Me.Text)
                 clsCommon.MyMessageBoxShow(Me, "Export Successfully", Me.Text)
@@ -226,7 +259,7 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
                 End If
 
                 If txtItem.arrValueMember IsNot Nothing Then
-                    arrHeader.Add("Deduction : " & clsCommon.GetMulcallString(txtItem.arrValueMember) & "   Deduction Name :" & clsCommon.GetMulcallString(txtItem.arrDispalyMember) & "")
+                    arrHeader.Add("Item : " & clsCommon.GetMulcallString(txtItem.arrValueMember) & "   Item Name :" & clsCommon.GetMulcallString(txtItem.arrDispalyMember) & "")
                 End If
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text)
             Else
@@ -237,10 +270,7 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
         End Try
     End Sub
     Sub EnableDisableCtrl(ByVal val As Boolean)
-        txtDate.Enabled = val
         RadGroupBox1.Enabled = val
-        txtLocation.Enabled = val
-        txtItem.Enabled = val
     End Sub
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
@@ -266,14 +296,22 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
         End If
     End Sub
 
-    Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation.Click
-        Dim qry As String = " select Location_Code as Code , Location_Desc AS Name from tspl_location_master "
-        txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocFinder", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
+    Private Sub txtLocation__My_Click(sender As Object, e As EventArgs) Handles txtLocation._My_Click
+        Try
+            Dim qry As String = " select Location_Code as Code , Location_Desc AS Name from tspl_location_master "
+            txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("LocFinder", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub txtItem__My_Click(sender As Object, e As EventArgs) Handles txtItem._My_Click
-        Dim qry As String = " SELECT Item_Code AS Code,Item_Desc as [Item Description],Short_Description as [Short Description] FROM TSPL_ITEM_MASTER WHERE ITEM_TYPE = 'R' "
-        txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemFnd", qry, "Code", "Short Description", txtItem.arrValueMember, txtItem.arrDispalyMember)
+        Try
+            Dim qry As String = " SELECT Item_Code AS Code,Item_Desc as [Item Description],Short_Description as [Short Description] FROM TSPL_ITEM_MASTER WHERE ITEM_TYPE = 'R' "
+            txtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemFnd", qry, "Code", "Short Description", txtItem.arrValueMember, txtItem.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         reset()
@@ -281,7 +319,6 @@ isnull(sum ((isnull(TSPL_PAYMENT_PROCESS_MCC_SALE.Amount,0)-isnull(TSPL_PAYMENT_
     Sub reset()
         EnableDisableCtrl(True)
         gv1.DataSource = Nothing
-        txtDate.Value = clsCommon.GETSERVERDATE()
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click

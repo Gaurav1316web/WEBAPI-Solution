@@ -1488,6 +1488,7 @@
     <None Include="Crystal Reports\Purchase Order\rptPJV20042012old.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPJVwithoutsubreport.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPJVwrong.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptPlantWiseStockAvailable.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPurchaseInvoicePrint.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPurchaseInvoicePrintNew.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptQCAnalysisReportRejectionEnglish.rpt" />
