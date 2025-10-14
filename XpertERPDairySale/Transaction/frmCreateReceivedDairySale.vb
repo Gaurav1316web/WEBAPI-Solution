@@ -15,6 +15,7 @@ Public Class frmCreateReceivedDairySale
     Public strCrateReceived As String = Nothing
     Dim AllowWo_Outstanding As Boolean
     Dim AllowDuplicateEntry As Boolean = False
+    Dim DifferentCrateTypeForFGItem As Boolean = False
     Dim Qry As String
     Public isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -35,6 +36,7 @@ Public Class frmCreateReceivedDairySale
     Const colRouteName As String = "colRouteName"
     Const colVehicleCode As String = "colVehicleCode"
     Const colVehicleNo As String = "colVehicleNo"
+    Const colCrateType As String = "colCrateType"
     Const colCrateQtyPreviousDay As String = "colCrateQtyPreviousDay"
     '' Anubhooti 10-Sep-2014 BM00000003847 
     Const colCrateBalance As String = "colCrateBalance"
@@ -274,6 +276,18 @@ Public Class frmCreateReceivedDairySale
             repovehiclename.IsVisible = True
         End If
         gv1.MasterTemplate.Columns.Add(repovehiclename)
+        Dim repoCrateType As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCrateType.FormatString = ""
+        repoCrateType.HeaderText = "CrateType"
+        repoCrateType.Name = colCrateType
+        repoCrateType.Width = 100
+        repoCrateType.ReadOnly = True
+        If DifferentCrateTypeForFGItem Then
+            repoCrateType.IsVisible = True
+        Else
+            repoCrateType.IsVisible = False
+        End If
+        gv1.MasterTemplate.Columns.Add(repoCrateType)
         If CrateReceivingWithMultipleRoute = True Then
             Dim repoCrateQtyPreviousDay As GridViewDecimalColumn = New GridViewDecimalColumn()
             repoCrateQtyPreviousDay = New GridViewDecimalColumn()
@@ -1479,6 +1493,7 @@ Public Class frmCreateReceivedDairySale
                         'objTr.Salesman_Name = clsCommon.myCstr(grow.Cells(colSalesmanName).Value)
                         objTr.Vehicle_Code = clsCommon.myCstr(grow.Cells(colVehicleCode).Value)
                         objTr.VehicleNo = clsCommon.myCstr(grow.Cells(colVehicleNo).Value)
+                        objTr.CrateType = clsCommon.myCstr(grow.Cells(colCrateType).Value)
                         objTr.CrateQty = clsCommon.myCdbl(grow.Cells(colCreateQty).Value)
                         objTr.CrateQtyRecd = clsCommon.myCdbl(grow.Cells(colCreateQtyRecd).Value)
                         objTr.Balance = clsCommon.myCdbl(grow.Cells(colCrateBalance).Value)
@@ -1611,6 +1626,7 @@ Public Class frmCreateReceivedDairySale
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name as Name from tspl_customer_master where Cust_Code ='" + objTr.Customer_Code + "' "))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colVehicleCode).Value = objTr.Vehicle_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colVehicleNo).Value = objTr.VehicleNo
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCrateType).Value = objTr.CrateType
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCreateQtyRecd).Value = objTr.CrateQtyRecd
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCreateQty).Value = objTr.CrateQty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCrateBalance).Value = objTr.Balance
@@ -1839,6 +1855,8 @@ Public Class frmCreateReceivedDairySale
         CrateReceivingWithMultipleRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateReceivingWithMultipleRoute, clsFixedParameterCode.CrateReceivingWithMultipleRoute, Nothing)) = 1, True, False)
         CrateReceiveddairyCustomerWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CrateReceiveddairyCustomerWise, clsFixedParameterCode.CrateReceiveddairyCustomerWise, Nothing)) = 1, True, False)
         AllowOutEntryOnCrateReceivedDairyForAdjustment = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowOutEntryOnCrateReceivedDairyForAdjustment, clsFixedParameterCode.AllowOutEntryOnCrateReceivedDairyForAdjustment, Nothing)) = 1, True, False)
+        DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
+
         '=================================================================================================
         SetUserMgmtNew()
         AddNew()
@@ -2629,11 +2647,273 @@ Public Class frmCreateReceivedDairySale
     End Sub
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         Dim str As String
-        str = " select '' as [Location Code], '' as [Route No],'' as [Type I/O],'' as [Cust Code],'' as Date,'' as [Shift],'' as [Crate Qty] "
-        transportSql.ExporttoExcel(str, Me)
+        If DifferentCrateTypeForFGItem Then
+            str = " select '' as [Location Code], '' as [Route No],'' as [Type I/O],'' as [Cust Code],'' as Date,'' as [Shift],'' as [Crate Type],'' as [Crate Qty] "
+            transportSql.ExporttoExcel(str, Me)
+        Else
+            str = " select '' as [Location Code], '' as [Route No],'' as [Type I/O],'' as [Cust Code],'' as Date,'' as [Shift],'' as [Crate Qty] "
+            transportSql.ExporttoExcel(str, Me)
+        End If
+
     End Sub
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
-        ImportInCrate()
+        If DifferentCrateTypeForFGItem Then
+            ImportbyInCrateType()
+        Else
+            ImportInCrate()
+        End If
+    End Sub
+    Sub ImportbyInCrateType()
+        Dim gv As New UserControls.MyRadGridView
+        Me.Controls.Add(gv)
+        Dim Counter As Integer = 0
+        Dim strList As New List(Of String)
+        ''For Each grow As GridViewRowInfo In gv1.Rows
+        Dim dtError As New DataTable
+        dtError.Columns.Add("LineNo", GetType(Integer))
+        dtError.Columns.Add("Error", GetType(String))
+        If transportSql.importExcel(gv, "Location Code", "Route No", "Type I/O", "Cust Code", "Date", "Shift", "Crate Type", "Crate Qty") Then
+            Try
+                clsCommon.ProgressBarPercentHide()
+                Dim Lineno As Integer = 0
+                For Each grow As GridViewRowInfo In gv.Rows
+                    clsCommon.ProgressBarPercentUpdate((Lineno + 1) * 100 / (gv.Rows.Count), "Loading .... " & clsCommon.myCstr(Lineno + 1) & "/" & clsCommon.myCstr(gv.Rows.Count) & "")
+
+                    Dim strLocation As String = clsCommon.myCstr(grow.Cells("Location Code").Value)
+                    Dim strRoute As String = clsCommon.myCstr(grow.Cells("Route No").Value)
+                    Dim strTypeIO As String = clsCommon.myCstr(grow.Cells("Type I/O").Value)
+                    Dim strCustCode As String = clsCommon.myCstr(grow.Cells("Cust Code").Value)
+                    Dim strdate As Date = clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MM/yyyy")
+                    Dim strshift As String = clsCommon.myCstr(grow.Cells("Shift").Value)
+                    Dim strCrateType As String = clsCommon.myCstr(grow.Cells("Crate Type").Value)
+                    Dim dblCrateQty As Double = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
+                    Dim strName As String = ""
+                    'Counter += 1
+                    Lineno += 1
+                    Dim strUnique As String = strLocation & "_" & strRoute & "_" & strdate & "_" & strshift & "_" & strTypeIO & "_" & strCrateType
+                    Try
+                        If Not strList.Contains(strUnique) Then
+                            strList.Add(strUnique)
+                        Else
+                            Throw New Exception("Duplicate data found [" + strUnique + "]")
+                        End If
+                        If clsCommon.myLen(strLocation) <= 0 Then
+                            Throw New Exception("Location not found")
+                        End If
+                        If strLocation.Length > 12 Then
+                            Throw New Exception("length of Location can not be greater than 12")
+                        Else
+                            If strLocation.Length > 0 Then
+                                strName = clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_LOCATION_MASTER Where location_Code ='" & strLocation & "' and IsMainPlant=1 ")
+                                If strName <= 0 Then
+                                    Throw New Exception("Location (" & strLocation & ") does not exist in Location Master . Please make it entry first.")
+                                End If
+                            End If
+                        End If
+                        If clsCommon.myLen(strRoute) <= 0 Then
+                            Throw New Exception("Route No not found")
+                        End If
+                        If strRoute.Length > 0 Then
+                            strName = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ROUTE_MASTER where Route_No='" & strRoute & "' ")
+                            If strName <= 0 Then
+                                Throw New Exception("Route (" & strRoute & ") does not exist in Route Master . Please make it entry first.")
+                            End If
+                        End If
+                        If clsCommon.myLen(grow.Cells("Date").Value) <= 0 Then
+                            Throw New Exception("Transaction Date is not found")
+                        End If
+                        If strshift.Length <= 0 Then
+                            Throw New Exception("Shift should not be blank.")
+                        ElseIf Not strshift.All(Function(c) Char.IsLetter(c)) Then
+                            Throw New Exception("Shift should contain only alphabetic characters.")
+                        ElseIf clsCommon.CompairString(strshift, "M") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                            Throw New Exception("shift should be 'M','E' ")
+                            'ElseIf clsCommon.CompairString(strshift, "E") <> CompairStringResult.Equal Then
+                            '    Throw New Exception("shift should be 'E' ")
+                        End If
+                        If clsCommon.myLen(strCrateType) <= 0 Then
+                            Throw New Exception("Crate Type should not be blank.")
+                        End If
+                        If dblCrateQty <= 0 OrElse dblCrateQty <> Math.Floor(dblCrateQty) Then
+                            Throw New Exception("Qty of Crate cant't be zero or Can should be a positive whole number.")
+                        End If
+                        Dim DocNo As String = String.Empty
+                        If clsCommon.CompairString(strTypeIO, "I") = CompairStringResult.Equal Then
+                            If Not AllowDuplicateEntry Then
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and Type='" & strTypeIO & "'"))
+                            ElseIf clsCommon.myLen(strCustCode) > 0 Then
+                                Dim docQry As String = "select top 1 TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+left join TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE on TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code='" & strLocation & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code='" & strRoute & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType='" & strshift & "' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "' and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code='" & strCustCode & "'"
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(docQry))
+                            Else
+                                Throw New Exception("Customer Code Required for Duplicate Entry")
+                            End If
+
+                        Else
+                            If Not AllowDuplicateEntry Then
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and Type='" & strTypeIO & "'"))
+                            ElseIf clsCommon.myLen(strCustCode) > 0 Then
+                                Dim docQry As String = "select top 1 TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE 
+left join TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE on TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No=TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No
+where TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code='" & strLocation & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code='" & strRoute & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType='" & strshift & "' and convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "' and TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code='" & strCustCode & "'"
+                                DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(docQry))
+                            Else
+                                Throw New Exception("Customer Code Required for Duplicate Entry")
+                            End If
+
+                            'DocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE where Location_Code='" & strLocation & "' and Route_code='" & strRoute & "' and ShiftType='" & strshift & "' and convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(strdate, "dd/MMM/yyyy") & "' and TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Type='" & strTypeIO & "'"))
+                        End If
+                        If clsCommon.myLen(DocNo) > 0 Then
+                            Throw New Exception("Document [" & DocNo & " ] already exists!")
+                        End If
+                    Catch ex As Exception
+                        Dim dr As DataRow = dtError.NewRow()
+                        dr("LineNo") = Lineno
+                        dr("Error") = ex.Message
+                        dtError.Rows.Add(dr)
+                    End Try
+                Next
+                clsCommon.ProgressBarPercentHide()
+                If dtError.Rows.Count > 0 Then
+                    'trans.Rollback()
+                    Dim ff As New FrmFreeGrid
+                    ff.ReportID = "Crate_Entry"
+                    ff.Text = "Crate Entry"
+                    ff.dt = dtError
+                    ff.ShowDialog()
+                Else
+                    clsCommon.ProgressBarPercentShow()
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+
+                        Dim dtdis As DataTable = DirectCast(gv.DataSource, DataTable)
+                        Dim groupedData = dtdis.AsEnumerable() _
+    .GroupBy(Function(row) New With {
+        Key .Location_Code = row("Location Code"),
+        Key .Route = row("Route No"),
+        Key .Customer_code = row("Cust Code"),
+        Key .TypeIO = row("Type I/O"),
+        Key .date = row("Date"),
+        Key .shifttype = row("Shift")
+    }) _
+    .Select(Function(g) New With {
+        .Location_Code = g.Key.Location_Code,
+        .Route = g.Key.Route,
+        .Customer_code = g.Key.Customer_code,
+        .TypeIO = g.Key.TypeIO,
+        .date = g.Key.date,
+        .shifttype = g.Key.shifttype,
+                        .TotalQty = g.Sum(Function(row) Convert.ToDecimal(row("Crate Qty"))),
+        .RowCount = g.Count()
+    }).ToList()
+                        Dim test As String = "TEst"
+                        For Each group In groupedData
+                            Dim obj As New clsCrateReceivedHead()
+                            obj.Arr = New List(Of clsCrateReceivedDetail)
+
+                            Dim slno As Integer = 1
+                            For Each grow As GridViewRowInfo In gv.Rows
+                                If clsCommon.CompairString(clsCommon.myCstr(group.Location_Code), clsCommon.myCstr(grow.Cells("Location Code").Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(group.Route), clsCommon.myCstr(grow.Cells("Route No").Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(group.Customer_code), clsCommon.myCstr(grow.Cells("Cust Code").Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(group.TypeIO), clsCommon.myCstr(grow.Cells("Type I/O").Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(group.shifttype), clsCommon.myCstr(grow.Cells("Shift").Value)) = CompairStringResult.Equal AndAlso clsCommon.GetPrintDate(group.date) = clsCommon.GetPrintDate(grow.Cells("Date").Value) Then
+                                    Counter += 1
+                                    obj.TotalCrateQty = group.TotalQty
+                                    obj.Document_Date = group.date
+                                    obj.Invoice_Date = group.date
+                                    obj.Location_Code = group.Location_Code
+                                    obj.Comments = ""
+                                    obj.Vehicle_Code = ""
+                                    obj.Driver = ""
+                                    obj.SalesMan = ""
+                                    obj.ShiftType = group.shifttype
+                                    obj.Type = group.TypeIO
+                                    obj.Route_code = group.Route
+                                    obj.customer_code = group.Customer_code
+                                    Dim objTr As New clsCrateReceivedDetail()
+                                    Dim intLine As Integer = 0
+                                    If clsCommon.myLen(group.Customer_code) = 0 Then
+                                        Dim qry As String = "select top 1 TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+                                    left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
+                                                    where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE.ItemType='M'
+                                     and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" & clsCommon.GetPrintDate(obj.Document_Date) & "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" & obj.Route_code & "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" & clsCommon.GetPrintDate(obj.Document_Date) & "' then 2 else 3 end) end) order by Start_Date desc"
+                                        Dim dt As DataTable
+                                        dt = clsDBFuncationality.GetDataTable(qry, trans)
+                                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                                            For Each dr As DataRow In dt.Rows
+                                                intLine += 1
+                                                gv1.Rows.AddNew()
+                                                objTr.Customer_Code = clsCommon.myCstr(dr("Cust_Code"))
+                                                If Not chkCustomerWise.Checked Then
+                                                    objTr.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vehicle_code from tspl_route_Master where Route_No='" & obj.Route_code & "'", trans))
+                                                    objTr.VehicleNo = clsDBFuncationality.getSingleValue("select Number  from TSPL_VEHICLE_MASTER where Vehicle_Id ='" & clsCommon.myCstr(objTr.Vehicle_Code) & "'", trans)
+                                                End If
+                                            Next
+                                        Else
+                                            clsCommon.MyMessageBoxShow(Me, "Customer Not found in import Excel/Distributor Route tagging", Me.Text)
+                                        End If
+                                    End If
+                                    SetIDs()
+
+
+
+                                    objTr.Line_No = slno
+                                    objTr.Sale_Invoice_Date = group.date
+                                    If clsCommon.myLen(group.Customer_code) > 0 Then
+                                        objTr.Customer_Code = group.Customer_code
+                                    End If
+                                    If clsCommon.myLen(obj.Route_code) > 0 Then
+                                        objTr.Vehicle_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select vehicle_code from tspl_route_Master where Route_No='" & obj.Route_code & "'", trans))
+                                        objTr.VehicleNo = clsDBFuncationality.getSingleValue("select Number  from TSPL_VEHICLE_MASTER where Vehicle_Id ='" & clsCommon.myCstr(objTr.Vehicle_Code) & "'", trans)
+                                    End If
+                                    objTr.CrateType = clsCommon.myCstr(grow.Cells("Crate Type").Value)
+                                    objTr.CrateQty = 0
+                                    objTr.CrateQtyRecd = clsCommon.myCdbl(grow.Cells("Crate Qty").Value)
+                                    objTr.Balance = 0
+                                    objTr.Remarks = ""
+                                    objTr.OutQty = 0
+                                    objTr.Adjustment = 0
+                                    objTr.Jaali = 0
+                                    objTr.Box = 0
+                                    objTr.CrateQtyManual = 0
+                                    objTr.JaaliQtyRecd = 0
+                                    objTr.BoxQtyRecd = 0
+                                    objTr.jaaliAdjustment = 0
+                                    objTr.boxAdjustment = 0
+                                    objTr.jaaliOutQty = 0
+                                    objTr.boxOutQty = 0
+                                    objTr.CANQty = 0
+                                    objTr.CANRecQty = 0
+                                    objTr.CANAdjustment = 0
+                                    If objTr.CrateQtyRecd > 0 Then
+                                        obj.Arr.Add(objTr)
+                                        slno += 1
+                                    End If
+
+                                End If
+
+                            Next
+                            If obj IsNot Nothing Then
+                                obj.SaveData(obj, True, False, trans)
+
+                            End If
+                        Next
+
+
+                        clsCommon.ProgressBarPercentHide()
+                        trans.Commit()
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    Catch ex As Exception
+                        trans.Rollback()
+                        clsCommon.ProgressBarPercentHide()
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+            Catch ex As Exception
+                common.clsCommon.MyMessageBoxShow(Me, "Error at Rowno " + clsCommon.myCstr(Counter) + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            Finally
+                clsCommon.ProgressBarPercentHide()
+                Me.Controls.Remove(gv)
+            End Try
+        End If
     End Sub
     'Sub FillGridRouteWithQty()
     '    'If CrateReceivingWithMultipleRoute = True Then

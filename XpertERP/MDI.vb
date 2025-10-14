@@ -8873,6 +8873,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmTotalDeductionReport
                         frm = New FrmTotalDeductionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptBMCDailyQtyReport
+                        frm = New rptBMCDailyQtyReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTemporaryPaymentDeductionSummary
                         frm = New rptTemporaryPaymentDeductionSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

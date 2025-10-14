@@ -14419,6 +14419,12 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("BrandName", "varchar(30) NULL")
             coll.Add("SerailNo", "varchar(30) NULL")
             coll.Add("AMCU_FILE_INFO", "integer Null")
+
+            coll.Add("AMCU_FILE_LATITUDE", "varchar(20) NULL")
+            coll.Add("AMCU_FILE_LONGITUDE", "varchar(20) NULL")
+            coll.Add("AMCU_EXTRA_1", "varchar(100) NULL")
+            coll.Add("AMCU_EXTRA_2", "varchar(100) NULL")
+            coll.Add("AMCU_EXTRA_3", "varchar(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")
@@ -37325,6 +37331,7 @@ LL")
             coll.Add("Route_code", "varchar(12) NULL")
             coll.Add("CrateQtyPreviousDay", "decimal(18, 2) not NULL default 0")
             coll.Add("DamageCrateQtyRecd", "int NULL")
+            coll.Add("CrateType", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", coll, Nothing, True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "", True)
 
             '======================Delivery Note Detail==============================
