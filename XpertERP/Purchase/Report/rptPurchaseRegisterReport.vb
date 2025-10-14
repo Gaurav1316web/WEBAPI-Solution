@@ -513,14 +513,18 @@ Public Class RptPurchaseRegisterReport
         End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        'Dim TotalFATKG As New GridViewSummaryItem("Total FAT KG", "{0:n2}", GridAggregateFunction.Sum)
+        'summaryRowItem.Add(TotalFATKG)
+
         Dim intCount As Integer = 0
         For Each col As GridViewColumn In Gv1.Columns
             If clsCommon.CompairString(col.Name, "Total FAT KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "Total SNF KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "FAT KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "SNF KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "Quantity") = CompairStringResult.Equal Then
-                Dim item1 As New GridViewSummaryItem(col.Name, "{0:F3}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem(col.Name, "{0:n3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
 
             ElseIf col.Name.Contains("Landed_Cost_Amount") = True Or col.Name.Contains("Amount") = True Or col.Name.Contains("Amt") = True Or col.Name.Contains("Total") = True Or strPivotForFinalOuterQuery.Contains(col.Name) = True Or strPivotForAddChargeFinalOutersumQuery.Contains(col.Name) Then
-                Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
+                Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item)
             End If
         Next

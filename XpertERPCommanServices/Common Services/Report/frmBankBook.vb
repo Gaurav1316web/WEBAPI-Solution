@@ -531,12 +531,12 @@ Public Class FrmBankBook
         gvReport.Columns("Debit_Amount").IsVisible = True
         gvReport.Columns("Debit_Amount").Width = 151
         gvReport.Columns("Debit_Amount").HeaderText = "Dr Amount"
-        gvReport.Columns("Debit_Amount").FormatString = "{0:f2}"
+        gvReport.Columns("Debit_Amount").FormatString = "{0:n2}"
 
         gvReport.Columns("Credit_Amount").IsVisible = True
         gvReport.Columns("Credit_Amount").Width = 151
         gvReport.Columns("Credit_Amount").HeaderText = "Cr Amount"
-        gvReport.Columns("Credit_Amount").FormatString = "{0:f2}"
+        gvReport.Columns("Credit_Amount").FormatString = "{0:n2}"
 
 
         If Not chkSummary.IsChecked Then
@@ -547,9 +547,9 @@ Public Class FrmBankBook
         End If
         '---------------Total of Debit Amount ANd Credit Amount----- 
         Dim summaryRowItem As New GridViewSummaryRowItem()
-        Dim SUMDrAmt As New GridViewSummaryItem("Debit_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        Dim SUMDrAmt As New GridViewSummaryItem("Debit_Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(SUMDrAmt)
-        Dim SUMCrAmt As New GridViewSummaryItem("Credit_Amount", "{0:F2}", GridAggregateFunction.Sum)
+        Dim SUMCrAmt As New GridViewSummaryItem("Credit_Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(SUMCrAmt)
 
         gvReport.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
@@ -564,9 +564,9 @@ Public Class FrmBankBook
             gvReport.Columns("SubledgerCrAmt").Width = 100
             gvReport.Columns("SubledgerCrAmt").HeaderText = "Subledger Cr Amt"
 
-            Dim emptydr As New GridViewSummaryItem("SubledgerDrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim emptydr As New GridViewSummaryItem("SubledgerDrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(emptydr)
-            Dim emptycr As New GridViewSummaryItem("SubledgerCrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim emptycr As New GridViewSummaryItem("SubledgerCrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(emptycr)
         End If
 
