@@ -14419,6 +14419,12 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("BrandName", "varchar(30) NULL")
             coll.Add("SerailNo", "varchar(30) NULL")
             coll.Add("AMCU_FILE_INFO", "integer Null")
+
+            coll.Add("AMCU_FILE_LATITUDE", "varchar(20) NULL")
+            coll.Add("AMCU_FILE_LONGITUDE", "varchar(20) NULL")
+            coll.Add("AMCU_EXTRA_1", "varchar(100) NULL")
+            coll.Add("AMCU_EXTRA_2", "varchar(100) NULL")
+            coll.Add("AMCU_EXTRA_3", "varchar(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_VENDOR_MASTER ALTER COLUMN Cheque_In_Favour_Of VARCHAR(200)")

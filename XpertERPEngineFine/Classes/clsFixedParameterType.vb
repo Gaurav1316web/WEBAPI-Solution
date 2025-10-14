@@ -94,9 +94,10 @@ Public Class clsFixedParameterType
     Public Const AndroidAPPVersion As String = "Android APP Version"
     Public Const AndroidMPMaster As String = "Android MP Master"
     Public Const AndroidMPIncetiveEntry As String = "Android MP Incetive Entry"
-
     Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const AndroidDemandBooking As String = "Android Demand Booking"
+    Public Const AndroidAMCUDetails As String = "Android AMCU Details"
+
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
     Public Const DCSQtyDecimalPlaces As String = "DCS Qty Decimal Places"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
@@ -2878,6 +2879,9 @@ Public Class clsFixedParameterCode
     Public Const ConvertTOBillingUOM = "Convert into Billing UOM"
     Public Const DifferentCrateTypeForFGItem = "Different Crate Type For FG Item"
     Public Const StopMultipleLoginInAPP = "Stop Multiple Login In APP"
+    Public Const AMCUDetailsHeading1 As String = "AMCU Details Heading 1"
+    Public Const AMCUDetailsHeading2 As String = "AMCU Details Heading 2"
+    Public Const AMCUDetailsHeading3 As String = "AMCU Details Heading 3"
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
 End Class
 Public Class clsFixedParameter
@@ -2957,6 +2961,10 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading1, "Heading 1", "Dynamic Heading 1 for AMCU Detail")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading2, "Heading 2", "Dynamic Heading 2 for AMCU Detail")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading3, "Heading 3", "Dynamic Heading 3 for AMCU Detail")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickcompanyBankCodeFromPaymentProcess, clsFixedParameterCode.PickcompanyBankCodeFromPaymentProcess, "0", "0:OFF,1:ON;Pick company BankCode From Payment Process")
         InsertDefaultValueFixedParameter(clsFixedParameterType.isThereOnlyOneRowOfOwnDCS, clsFixedParameterCode.isThereOnlyOneRowOfOwnDCS, "0", "0:OFF,1:ON;Adjust qty of own DCS when there is only one row")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrintOnlyPostedDocument, clsFixedParameterCode.PrintOnlyPostedDocument, "0", "0:OFF,1:ON; Print Only Posted Document")

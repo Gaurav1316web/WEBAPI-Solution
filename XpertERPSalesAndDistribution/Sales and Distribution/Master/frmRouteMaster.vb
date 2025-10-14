@@ -586,6 +586,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Distance", txtDistance.Value)
         clsCommon.AddColumnsForChange(coll1, "TOLL_Amount", txtTollAmount.Value)
         clsCommon.AddColumnsForChange(coll1, "IsEarlyRoute", IIf(chkIsEarlyRoute.Checked = True, 1, 0))
+
         If txtRouteTime.Checked Then
             clsCommon.AddColumnsForChange(coll1, "Route_Time", clsCommon.GetPrintDate(txtRouteTime.Value, "dd/MMM/yyyy hh:mm tt"))
         Else
@@ -605,6 +606,8 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Location_Code", txtLocation.Value, True)
         clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
         clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
+        clsCommon.AddColumnsForChange(coll1, "Type", clsCommon.myCstr(ddltype.SelectedValue), True)
+
         clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommon.AddColumnsForChange(coll1, "Department_Route", IIf(chkDepartmentRoute.Checked = True, 1, 0), True)
         clsCommon.AddColumnsForChange(coll1, "Area_Code", fndZone.Value, True)
@@ -613,7 +616,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "ExtraM_Time", clsCommon.myCdbl(txtExtraMTime.Text), True)
         clsCommon.AddColumnsForChange(coll1, "ExtraE_Time", clsCommon.myCdbl(txtExtraETime.Text), True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
+        'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
 
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
@@ -660,6 +663,7 @@ Public Class frmRouteMaster
 
             ExtraUpdate(trans)
 
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
 
 
             If strActive <> value Then

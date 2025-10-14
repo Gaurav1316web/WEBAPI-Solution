@@ -3,6 +3,7 @@
 Public Class frmPendingPO
 
 #Region "Variables"
+    Public strTendorCode As String = Nothing
     Public IsItemInsuranceColumn As Boolean = False
     Public ItemForDocumentFilter As String = Nothing
     Dim ShowCapexCodeandSubCode As Boolean = False
@@ -100,8 +101,13 @@ Public Class frmPendingPO
 
     Private Sub FrmPendingRequistion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
-            If objCommonVar.RCDFCFP AndAlso dtGRNDate IsNot Nothing AndAlso clsCommon.CompairString(Is_Load_MRN, "False") = CompairStringResult.Equal Then
-                txtToDate.Value = dtGRNDate
+            If objCommonVar.RCDFCFP AndAlso clsCommon.CompairString(Is_Load_MRN, "False") = CompairStringResult.Equal Then
+                Dim whr As String = Nothing
+                If clsCommon.myLen(strTendorCode) > 0 Then
+                    whr = " Where 1=1 And RefTendorNo='" & strTendorCode & "' "
+                End If
+                Dim strDate As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select Convert(Date,MAX(PurchaseOrder_Date),103)PurchaseOrder_Date from TSPL_PURCHASE_ORDER_HEAD " & whr), "dd/MM/yyyy")
+                txtToDate.Value = strDate
                 txtFromDate.Value = txtToDate.Value.AddMonths(-1)
                 SplitContainer2.Panel1.Visible = True
             Else
@@ -448,6 +454,9 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 qry += " )Final left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=Final.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' "
                 If objCommonVar.RCDFCFP AndAlso dtGRNDate IsNot Nothing Then
                     qry += "  Where Convert(Date,TransDate,103)>=Convert(Date,'" & txtFromDate.Value & "',103) And Convert(Date,TransDate,103)<=Convert(Date,'" & txtToDate.Value & "',103) "
+                End If
+                If clsCommon.myLen(strTendorCode) > 0 Then
+                    qry += " And  RefTendorNo='" & strTendorCode & "'"
                 End If
                 qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and  (SUM((Qty *RI)-Unapproved" + IIf(OpenPOForShorateLeakageQty, "+", "-") + "DamageQty) <>0 or sum(isBlanket)>0) order by Code,ICode "
 
@@ -800,7 +809,7 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
 
         Dim repoItemTolAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoItemTolAmt.FormatString = ""
-        repoItemTolAmt.HeaderText = IIf(Is_Load_MRN, "ItemTolerenceQty", "Tolerence Amt")
+        repoItemTolAmt.HeaderText = IIf(Is_Load_MRN, "ItemTolerenceQty", "Tolerence Qty")
         repoItemTolAmt.Name = colItemTolAmt
         repoItemTolAmt.Width = 70
         repoItemTolAmt.WrapText = True

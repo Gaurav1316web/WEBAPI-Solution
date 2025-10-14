@@ -7952,6 +7952,9 @@ Public Class MDI
                     Case clsUserMgtCode.MilkGateEntryIn
                         frm = New frmMilkGateEntryIn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.AMCUMaster
+                        frm = New AMCUMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         'Case clsUserMgtCode.MilkRetesting
                         ' frm = New frmMilkRetesting
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8156,6 +8159,7 @@ Public Class MDI
                     Case clsUserMgtCode.MilkCollectionMCCSample
                         frm = New frmMilkCollectionMCCQC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.MilkCollectionDCS
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionDCS
