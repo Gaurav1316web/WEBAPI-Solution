@@ -1848,7 +1848,7 @@ where TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode='" & strCode & "' order by Sku_Seq "
     '----------------------------------BKNGATEPASSPRINTADDED--------------------------
     Private Function GetAttachQryBKN(ByVal StrCode As String, ByVal isDepartmentRoute As Boolean) As String
         Dim Qry As String = ""
-        Qry = " Select * from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
+        Qry = " Select *,'" + txtCode.Value + "' as GPCode,'" + txtDriverName.Text + "' as Driver_Name from (select 1 As CopyType, TabBatch.BatchNo,TabBatch.Batch_Qty,'' as Comp_Phone2,'' as Comp_Add3,'' as Comp_Add2,  InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_SD_SHIPMENT_HEAD.Document_Date,
                         TSPL_SD_SHIPMENT_HEAD.DO_Item_Type as Is_Taxable,Case When TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' OR TSPL_SD_SHIPMENT_HEAD.Shift_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_SD_SHIPMENT_DETAIL.*,TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Amount_with_Tax ,TSPL_SD_SHIPMENT_DETAIL.Qty as Booking_Qty,TSPL_COMPANY_MASTER.Access_Officer,
                         TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
