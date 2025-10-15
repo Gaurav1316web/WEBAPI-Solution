@@ -28,7 +28,6 @@ Public Class clsBMCTransporterBill
     Public Total_Before_Calc As Double = 0
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As DateTime?
-
     Public Arr As List(Of clsBMCTransporterBillDetail) = Nothing
     Public ArrDT As DataTable = Nothing
 #End Region
@@ -72,9 +71,9 @@ Public Class clsBMCTransporterBill
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
-        If obj.Arr.Count <= 0 Then
-            Throw New Exception("No detail found to save")
-        End If
+        'If obj.Arr.Count <= 0 Then
+        '    Throw New Exception("No detail found to save")
+        'End If
 
         If (isNewEntry) Then
             obj.Document_Code = clsERPFuncationality.GetNextCode(trans, clsCommon.myCDate(obj.Document_Date), clsDocType.BMCTransporterBill, "", Nothing)
@@ -436,6 +435,8 @@ Public Class clsBMCTransporterBillDetail
     Public Quantity_KG As Decimal = 0
     Public Diesel_RD As Decimal = 0
     Public Amount As Decimal = 0
+    Public arr As List(Of clsfrmVLCMaster) = Nothing
+
     'Public BalanceAmount As Decimal = 0
 #End Region
     Public Shared Function SaveData1(ByVal strDocNo As String, ByVal isNewEntry As Boolean, ByVal obj As clsBMCTransporterBillDetail, ByVal arr As List(Of clsBMCTransporterBillDetail), ByVal trans As SqlTransaction) As Boolean
@@ -479,7 +480,7 @@ Public Class clsBMCTransporterBillDetail
                 clsCommon.AddColumnsForChange(coll, "Quantity_KG", obj.Quantity_KG)
                 clsCommon.AddColumnsForChange(coll, "Diesel_RD", obj.Diesel_RD)
                 clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Update, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BMC_TRANSPORTER_BILL_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True
