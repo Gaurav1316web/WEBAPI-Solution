@@ -165,6 +165,34 @@ Public Class clsTenderHead
         Return True
     End Function
 
+    Public Shared Function LoadTenderType() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow
+        dr = dt.NewRow()
+        dr("Code") = "0"
+        dr("Name") = "RM Tender"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "1"
+        dr("Name") = "Risk Purchase"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "2"
+        dr("Name") = "Techical Spare Part"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "3"
+        dr("Name") = "Local Purchase"
+        dt.Rows.Add(dr)
+        Return dt
+    End Function
+
     Public Shared Function ShowDataQry() As String
         Dim qry As String = "select tspl_tender_header.DocumentCode as DocumentNo,convert(varchar(12),tspl_tender_header.Documentdate,103) as Document_date,case when tspl_tender_header.Posted=1 then 'posted' else 'Unposted' end as Posted,tspl_tender_header.FieldValue1 as Remark from tspl_tender_header"
         Return qry
