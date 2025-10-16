@@ -66,7 +66,7 @@ Partial Class FrmProductDemandBooking
         Me.rbtn_Product = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblCityName = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnreverse = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -918,7 +918,7 @@ Partial Class FrmProductDemandBooking
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents gv1 As RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
