@@ -53,7 +53,7 @@ Public Class rptPlantWiseAvailableStockQtyReport
                 End If
             End If
 
-            Dim qry As String = " select xx.Location_Code, xx.Item_Desc,MT.UOM_Code AS unit,isnull((XX.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(mt.Conversion_Factor),0) As STOCK_QTY,isnull((XX.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(mt.Conversion_Factor),0) As Total_Stock_Qty,cast(xx.QTY_FOR_DAYS as integer)  as QTY_FOR_DAYS,cast(xx.QTY_FOR_DAYS as integer) as Total_QTY_FOR_Days,Location_Code as Location_Code_Qty , Location_Code + ' Days' as Location_Code_Days from (
+            Dim qry As String = " select xx.ITEM_CODE, xx.Location_Code, xx.Item_Desc,MT.UOM_Code AS unit,isnull((XX.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(mt.Conversion_Factor),0) As STOCK_QTY,isnull((XX.Stock_Qty * isnull((TSPL_ITEM_UOM_DETAIL.Conversion_Factor),1)) /(mt.Conversion_Factor),0) As Total_Stock_Qty,cast(xx.QTY_FOR_DAYS as integer)  as QTY_FOR_DAYS,cast(xx.QTY_FOR_DAYS as integer) as Total_QTY_FOR_Days,Location_Code as Location_Code_Qty , Location_Code + ' Days' as Location_Code_Days from (
                 SELECT RM_STOCK_DAYS.Location_Code, RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,max(RM_STOCK_DAYS.UOM)  AS 'UOM',SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))  AS 'STOCK_QTY',SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL,
 	            CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS'  FROM  (
 	            SELECT RM_STOCK.ITEM_CODE,RM_STOCK.Location_Code,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
@@ -62,7 +62,7 @@ Public Class rptPlantWiseAvailableStockQtyReport
 				) RM_STOCK  GROUP BY RM_STOCK.Location_Code, RM_STOCK.Item_Code
 	            UNION ALL 
 	            SELECT  TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,TSPL_MF_BOM_HEAD.Location_Code,max(TSPL_ITEM_MASTER.Short_Description) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',0 AS 'STOCK_QTY',AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN  (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE CASE WHEN TSPL_MF_BOM_DETAIL.CONSM_QUANTITY>0 THEN ((TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/TSPL_MF_BOM_HEAD.PROD_QUANTITY) ELSE 0 END END)  AS 'REQ_STOCK',
-	            0 AS 'MIN_LEVEL' FROM TSPL_MF_BOM_HEAD  LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2   GROUP BY PROD_ITEM_CODE ) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
+	            0 AS 'MIN_LEVEL' FROM TSPL_MF_BOM_HEAD  LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2   GROUP BY LOCATION_CODE,PROD_ITEM_CODE ) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
             	WHERE TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and BOM_DATE <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' GROUP BY  TSPL_MF_BOM_HEAD.LOCATION_CODE, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
                 UNION ALL
                 select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code,TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_ITEM_MASTER.Unit_Code AS 'UOM',0 AS 'STOCK_QTY', 0 AS 'REQ_STOCK',TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level AS 'MIN_LEVEL' from TSPL_ITEM_REORDER_LEVEL_NEW  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code where TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and Apply='Y' ) RM_STOCK_DAYS GROUP BY  RM_STOCK_DAYS.Location_Code, RM_STOCK_DAYS.ITEM_CODE ) xx 
@@ -107,10 +107,10 @@ Public Class rptPlantWiseAvailableStockQtyReport
             Dim dt As DataTable = New DataTable()
             Dim dtPrint As DataTable = New DataTable()
             If isPrint Then
-                dtPrint = clsDBFuncationality.GetDataTable("select Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' as Date, xxxxx.* from ( SELECT Item_Desc,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationPrint & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " Group by Item_Desc ) xxxxx left join TSPL_COMPANY_MASTER on 1= 1 ORDER BY  ITEM_DESC  ")
+                dtPrint = clsDBFuncationality.GetDataTable("select Comp_Name,'" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' as Date, xxxxx.* from ( SELECT Item_Desc,ITEM_CODE,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationPrint & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " Group by ITEM_CODE,Item_Desc ) xxxxx left join TSPL_COMPANY_MASTER on 1= 1 ORDER BY  ITEM_DESC  ")
             End If
-            qry += " PIVOT(SUM(STOCK_QTY) For Location_Code_Qty In ( " & LocationCodesQty & ")) As  PIVOTQTY  PIVOT(SUM(QTY_FOR_DAYS) For Location_Code_Days In ( " & LocationCodesDays & ")) As  PIVOTDays  Group by Item_Desc ORDER BY  ITEM_DESC "
-            dt = clsDBFuncationality.GetDataTable("SELECT Item_Desc,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationQty & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " ")
+            qry += " PIVOT(SUM(STOCK_QTY) For Location_Code_Qty In ( " & LocationCodesQty & ")) As  PIVOTQTY  PIVOT(SUM(QTY_FOR_DAYS) For Location_Code_Days In ( " & LocationCodesDays & ")) As  PIVOTDays  Group by ITEM_CODE,Item_Desc ORDER BY  ITEM_DESC "
+            dt = clsDBFuncationality.GetDataTable("SELECT ITEM_CODE as [Item Code],Item_Desc,max(unit)Unit,sum(Total_Stock_Qty)Total_Stock_Qty," & strLocationQty & " ,sum(Total_QTY_FOR_Days)Total_QTY_FOR_Days  FROM (  " & qry & " ")
 
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -161,14 +161,16 @@ Public Class rptPlantWiseAvailableStockQtyReport
             End If
         Next
         gv1.ShowGroupPanel = False
-
+        gv1.Columns("Item Code").HeaderText = "Item Code"
+        gv1.Columns("Unit").HeaderText = "Unit"
+        gv1.Columns("Item Code").IsVisible = False
         gv1.Columns("Item_Desc").HeaderText = "Item"
         gv1.Columns("Total_Stock_Qty").HeaderText = "Total Stock Available"
-        gv1.Columns("Total_QTY_FOR_Days").HeaderText = "Total Available Stock" + Environment.NewLine + "In Days"
+        gv1.Columns("Total_QTY_FOR_Days").HeaderText = "Total Available Stock In Days"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
-        For ii As Integer = 1 To gv1.Columns.Count - 1
+        For ii As Integer = 3 To gv1.Columns.Count - 1
             summaryRowItem.Add(New GridViewSummaryItem(gv1.Columns(ii).Name, IIf(gv1.Columns(ii).Name.Contains("Days"), "{0:F0}", "{0:F2}"), GridAggregateFunction.Sum))
         Next
 
@@ -182,13 +184,17 @@ Public Class rptPlantWiseAvailableStockQtyReport
                 Dim view As New ColumnGroupsViewDefinition()
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Item Code").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Item_Desc").Name)
-                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Total_Stock_Qty").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Unit").Name)
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 1 Then
+                    view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Total_Stock_Qty").Name)
+                End If
 
                 For ii As Integer = 0 To dtLocation.Rows.Count - 1
                     view.ColumnGroups.Add(New GridViewColumnGroup(dtLocation.Rows(ii)("Location_Code_Qty")))
                     view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
-                    For col As Integer = 2 To gv1.Columns.Count - 1
+                    For col As Integer = 4 To gv1.Columns.Count - 1
                         If clsCommon.CompairString(gv1.Columns(col).HeaderText, dtLocation.Rows(ii)("Location_Code_Qty")) = CompairStringResult.Equal OrElse clsCommon.CompairString(gv1.Columns(col).HeaderText, dtLocation.Rows(ii)("Location_Code_Days")) = CompairStringResult.Equal Then
                             view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns(col).Name)
                         End If
@@ -196,10 +202,12 @@ Public Class rptPlantWiseAvailableStockQtyReport
                 Next
                 view.ColumnGroups.Add(New GridViewColumnGroup(""))
                 view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
-                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_QTY_FOR_Days").Name)
+                If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 1 Then
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(gv1.Columns("Total_QTY_FOR_Days").Name)
+                End If
                 gv1.ViewDefinition = view
 
-            End If
+                End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
