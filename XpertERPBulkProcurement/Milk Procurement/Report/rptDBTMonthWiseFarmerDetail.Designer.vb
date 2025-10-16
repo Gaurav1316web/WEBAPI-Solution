@@ -22,7 +22,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -80,7 +80,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 395
+        Me.SplitContainer1.SplitterDistance = 404
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -91,7 +91,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 395)
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 404)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -108,7 +108,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 347)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 356)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'txtMultUnion
@@ -263,7 +263,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv1.MyExportFilePath = ""
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
@@ -275,7 +275,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(715, 17)
+        Me.btnClose.Location = New System.Drawing.Point(715, 8)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(73, 20)
         Me.btnClose.TabIndex = 163
@@ -285,7 +285,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         '
         Me.btnNEFTUploader.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnNEFTUploader.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
-        Me.btnNEFTUploader.Location = New System.Drawing.Point(162, 19)
+        Me.btnNEFTUploader.Location = New System.Drawing.Point(162, 10)
         Me.btnNEFTUploader.Name = "btnNEFTUploader"
         Me.btnNEFTUploader.Size = New System.Drawing.Size(73, 20)
         Me.btnNEFTUploader.TabIndex = 162
@@ -306,7 +306,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(87, 19)
+        Me.btnReset.Location = New System.Drawing.Point(87, 10)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(73, 20)
         Me.btnReset.TabIndex = 161
@@ -315,7 +315,7 @@ Partial Class rptDBTMonthWiseFarmerDetail
         'btnGo
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Location = New System.Drawing.Point(12, 19)
+        Me.btnGo.Location = New System.Drawing.Point(12, 10)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(73, 20)
         Me.btnGo.TabIndex = 160
