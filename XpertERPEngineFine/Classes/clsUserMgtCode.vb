@@ -2266,6 +2266,7 @@ Public Class clsUserMgtCode
     Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
     Public Const rptDcsPaymentReport As String = "Dcs-Pyt-Rpt"
     Public Const rptYearlyMonthlyDcsCollectionReport As String = "Yr-Mont-Dc"
+    Public Const DcsMonthWiseMilkCollectionReport As String = "D_Mo_Wi_M_C"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"

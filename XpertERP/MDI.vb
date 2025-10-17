@@ -8798,6 +8798,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport
                         frm = New rptYearlyMonthlyDcsCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.DcsMonthWiseMilkCollectionReport
+                        frm = New DcsMonthWiseMilkCollectionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

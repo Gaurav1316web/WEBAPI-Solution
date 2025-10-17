@@ -190,6 +190,12 @@
     <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DcsMonthWiseMilkCollectionReport.Designer.vb">
+      <DependentUpon>DcsMonthWiseMilkCollectionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DcsMonthWiseMilkCollectionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmMCCSummary.Designer.vb">
       <DependentUpon>FrmMCCSummary.vb</DependentUpon>
     </Compile>
@@ -1201,6 +1207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Transaction\BulkProcurementUploader.resx">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DcsMonthWiseMilkCollectionReport.resx">
+      <DependentUpon>DcsMonthWiseMilkCollectionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMCCSummary.resx">
       <DependentUpon>FrmMCCSummary.vb</DependentUpon>
