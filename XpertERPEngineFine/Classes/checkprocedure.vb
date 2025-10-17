@@ -1922,6 +1922,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.YearlyDBTSummaryReport, "Yearly DBT Summary Report", "1.17.03.153", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmTotalDeductionReport, "Total DCS Deduction Report", "1.17.03.157", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCDailyQtyReport, "BMC Daily Qty Report", "1.17.03.158", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTMonthWiseFarmerDetail, "DBT Month Wise Farmer Detail", "1.17.03.160", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================

@@ -484,7 +484,7 @@ left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_PROD
 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
 where 2 = 2 "
 
-            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
+            'qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
             qry += "" & whrcls & "  "
             qry += " and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "' and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "'"
             If Not IsIndividualCustomer Then
