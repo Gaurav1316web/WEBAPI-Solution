@@ -1229,8 +1229,8 @@ Public Class clsPSShipmentHead
         'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
         '    whrCls = " AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
         'End If
-        If IsDairyModule = False Then
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
+        If Not IsDairyModule Then
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 AndAlso clsCommon.myLen(strwherecls) > 0 Then
                 whrCls = "  and TSPL_SD_SHIPMENT_HEAD.Trans_Type='PS' AND TSPL_SD_SHIPMENT_HEAD.Screen_Type='' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
             ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whrCls = "  and TSPL_SD_SHIPMENT_HEAD.Trans_Type='PS' AND TSPL_SD_SHIPMENT_HEAD.Screen_Type='' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
@@ -1241,7 +1241,7 @@ Public Class clsPSShipmentHead
             End If
         Else
             'TransType_Str = clsDBFuncationality.getSingleValue("SELECT isnull(Trans_Type,'') as Trans_Type FROM TSPL_SD_SHIPMENT_HEAD where Document_Code = '" + strPONo + "'", trans)
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 AndAlso clsCommon.myLen(strwherecls) > 0 Then
                 whrCls = "  and TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
             ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whrCls = "  and TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS') AND TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS' AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
