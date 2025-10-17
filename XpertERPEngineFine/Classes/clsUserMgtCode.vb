@@ -2235,7 +2235,7 @@ Public Class clsUserMgtCode
     Public Const MilkCollectionGenerate As String = "MLK-COL-GEN"
     Public Const MilkCollectionMCCMultipleDays As String = "MLK-COL-MLD"
     Public Const MilkCollectionDCSMultipleDays As String = "MLK-DCS-MLD"
-    Public Const AMCUMaster As String = "MLK-DCS-MLD"
+    Public Const AMCUMaster As String = "AMCU-MAS"
     Public Const MilkCollectionDCSMultipleDaysMerge As String = "MLK-MLD-MRG"
     Public Const DCSMilkCollectionSetting As String = "MLK-CLN-STN"
     Public Const MilkCollectionMCC As String = "MLK-COL-MCC"
@@ -2426,6 +2426,7 @@ Public Class clsUserMgtCode
     Public Const YearlyDBTSummaryReport As String = "YE_DBT_SU"
     Public Const FrmTotalDeductionReport As String = "TO_DED_RPT"
     Public Const rptBMCDailyQtyReport As String = "BMC_D_Q_RPT"
+    Public Const rptDBTMonthWiseFarmerDetail As String = "DBT-MO-W-FAR"
 
     Public Const FrmDayWiseMilkCollectionVsDispatch As String = "DY_MKCO_DS"
     Public Const rptMilkAnalysis As String = "MCC_MLK_ANA"

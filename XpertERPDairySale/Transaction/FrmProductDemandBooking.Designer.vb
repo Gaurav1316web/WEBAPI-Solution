@@ -22,7 +22,7 @@ Partial Class FrmProductDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -66,7 +66,8 @@ Partial Class FrmProductDemandBooking
         Me.rbtn_Product = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkIndividualCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblCityName = New common.Controls.MyLabel()
-        Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrintLoadinSlip = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnreverse = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -75,7 +76,6 @@ Partial Class FrmProductDemandBooking
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrintLoadinSlip = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -114,6 +114,7 @@ Partial Class FrmProductDemandBooking
         CType(Me.lblCityName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintLoadinSlip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -122,7 +123,6 @@ Partial Class FrmProductDemandBooking
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrintLoadinSlip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -738,10 +738,26 @@ Partial Class FrmProductDemandBooking
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyExportFilePath = ""
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1006, 292)
         Me.gv1.TabIndex = 0
+        Me.gv1.VarID = ""
+        '
+        'btnPrintLoadinSlip
+        '
+        Me.btnPrintLoadinSlip.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintLoadinSlip.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintLoadinSlip.Location = New System.Drawing.Point(497, 7)
+        Me.btnPrintLoadinSlip.Name = "btnPrintLoadinSlip"
+        Me.btnPrintLoadinSlip.Size = New System.Drawing.Size(142, 20)
+        Me.btnPrintLoadinSlip.TabIndex = 25
+        Me.btnPrintLoadinSlip.Text = "Print Loadin Slip"
         '
         'btnHistory
         '
@@ -824,16 +840,6 @@ Partial Class FrmProductDemandBooking
         Me.btnSave.TabIndex = 16
         Me.btnSave.Text = "Save"
         '
-        'btnPrintLoadinSlip
-        '
-        Me.btnPrintLoadinSlip.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrintLoadinSlip.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintLoadinSlip.Location = New System.Drawing.Point(497, 7)
-        Me.btnPrintLoadinSlip.Name = "btnPrintLoadinSlip"
-        Me.btnPrintLoadinSlip.Size = New System.Drawing.Size(142, 20)
-        Me.btnPrintLoadinSlip.TabIndex = 25
-        Me.btnPrintLoadinSlip.Text = "Print Loadin Slip"
-        '
         'FrmProductDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -888,6 +894,7 @@ Partial Class FrmProductDemandBooking
         CType(Me.lblCityName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintLoadinSlip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -896,7 +903,6 @@ Partial Class FrmProductDemandBooking
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrintLoadinSlip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -918,7 +924,7 @@ Partial Class FrmProductDemandBooking
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents gv1 As RadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDocNo As common.UserControls.txtNavigator
     Friend WithEvents RadLabel4 As common.Controls.MyLabel

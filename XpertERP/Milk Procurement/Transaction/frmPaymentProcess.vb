@@ -9001,8 +9001,11 @@ inner join (select MCC_Code from TSPL_MCC_MASTER ) as TabTSPL_MCC_MASTER on TabT
              )xx 
             left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.VSP_CODE 
             left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=xx.VLC_CODE 
-            where TSPL_VENDOR_MASTER.VSP_Farmer_Billing=0 and len(xx.VSP_CODE) > 0 and isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y' order by xx.VSP_CODE"
-
+            where TSPL_VENDOR_MASTER.VSP_Farmer_Billing=0 and len(xx.VSP_CODE) > 0 " 
+             If Not clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                qry += " And isnull(TSPL_VENDOR_MASTER.is_Drip_Saver,'')<>'Y'"
+            End If
+            qry += "  order by xx.VSP_CODE"
             Dim dtVSP As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtVSP IsNot Nothing AndAlso dtVSP.Rows.Count > 0 Then
                 arr = New ArrayList()
