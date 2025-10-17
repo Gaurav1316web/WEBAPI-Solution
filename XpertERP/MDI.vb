@@ -6500,6 +6500,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnGRNReport
                         frm = New FrmGRNReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptRejectionReport
+                        frm = New rptRejectionReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptUnpostedPO
                         frm = New frmRptUnpostedPO()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
