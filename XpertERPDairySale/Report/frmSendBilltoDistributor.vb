@@ -8,6 +8,7 @@ Public Class frmSendBilltoDistributor
     Dim settFileUpload As Boolean = False
     Dim corrFactor As Double
     Dim strQry As String = Nothing
+    Dim EnableProductSaleForJPR As Decimal = 0
 #End Region
 
     Private Sub frmSendBilltoDistributor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -16,6 +17,14 @@ Public Class frmSendBilltoDistributor
             txtDate2.Value = txtDate1.Value
             txtDate3.Value = txtDate1.Value
             chkResendBill.Checked = False
+            EnableProductSaleForJPR = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.EnableProductSaleForJPR, clsFixedParameterCode.EnableProductSaleForJPR, Nothing))
+            If EnableProductSaleForJPR = 1 Then
+                rbtnProduct.Visible = True
+                rbtnIceCream.Visible = True
+            Else
+                rbtnProduct.Visible = False
+                rbtnIceCream.Visible = False
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -29,8 +38,22 @@ Public Class frmSendBilltoDistributor
     Private Sub txtMultDoc__My_Click(sender As Object, e As EventArgs) Handles txtMultDoc._My_Click
         Try
             strQry = Nothing
-            strQry = "select TSPL_DEMAND_BOOKING_MASTER.Document_No as [Document No],convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as Document_Date,TSPL_DEMAND_BOOKING_MASTER.ShiftType As [Shift Type],TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer as [Individual Cust] from TSPL_DEMAND_BOOKING_MASTER where Posted=1 "
-            strQry += " And TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            strQry = "select Document_No as [Document No],convert(varchar(12),Document_date,103) as Document_Date"
+            If rbtnMilk.Checked Then
+                strQry += ",ShiftType As [Shift Type]"
+            End If
+            strQry += ",Route_No as [Route No],Location_Code as [Location Code],City_Code as [City Code]"
+            If rbtnMilk.Checked Then
+                strQry += ",TripNo AS [Trip No]"
+            End If
+            strQry += ",IsIndividualCustomer as [Individual Cust] from"
+            If rbtnMilk.Checked Then
+                strQry += " TSPL_DEMAND_BOOKING_MASTER "
+            Else
+                strQry += " TSPL_Product_DEMAND_BOOKING_MASTER "
+            End If
+
+            strQry += " where Posted=1 And IsIndividualCustomer=0 "
             If Not chkResendBill.Checked Then
                 strQry += " And File_Info Is Null"
             End If
@@ -52,15 +75,24 @@ Public Class frmSendBilltoDistributor
         clsCommon.ProgressBarPercentShow()
         Try
             strQry = Nothing
-            strQry = "select Document_No As [Document Code],CONVERT(VARCHAR(10), Document_Date, 103) As [Document Date],ShiftType As [Shift],Route_No As [Route No], ItemType As [Item Type],IsIndividualCustomer As [Is Individual Customer] from TSPL_DEMAND_BOOKING_MASTER Where Posted=1 "
-            strQry += " And TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 "
+            strQry = "select Document_No As [Document Code],CONVERT(VARCHAR(10), Document_Date, 103) As [Document Date],"
+            If rbtnMilk.Checked Then
+                strQry += " ShiftType As [Shift],"
+            End If
+            strQry += " Route_No As [Route No], ItemType As [Item Type],IsIndividualCustomer As [Is Individual Customer] "
+            If rbtnMilk.Checked Then
+                strQry += " from TSPL_DEMAND_BOOKING_MASTER "
+            Else
+                strQry += " ,Posted from TSPL_Product_DEMAND_BOOKING_MASTER "
+            End If
+            strQry += " Where Posted=1 And IsIndividualCustomer=0 "
             If txtMultDoc.arrValueMember IsNot Nothing AndAlso txtMultDoc.arrValueMember.Count > 0 Then
-                strQry += " and Document_No In (" & clsCommon.GetMulcallString(txtMultDoc.arrValueMember) & ")"
+                strQry += " And Document_No In (" & clsCommon.GetMulcallString(txtMultDoc.arrValueMember) & ")"
             End If
             If Not chkResendBill.Checked Then
                 strQry += " And File_Info Is Null "
             End If
-            strQry += " And Convert(Date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)=Convert(Date,'" & txtDate1.Value & "',103)"
+            strQry += " And Convert(Date,Document_Date,103)=Convert(Date,'" & txtDate1.Value & "',103)"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -89,9 +121,14 @@ Public Class frmSendBilltoDistributor
     Private Sub ProcessFileDemamd(dr As DataRow)
         Dim arrRoute As New ArrayList
         arrRoute.Add(clsCommon.myCstr(dr("Route No")))
-        Dim PDFPath As String = clsDemandBookingSale.PrintDOSData(arrRoute, clsCommon.myCstr(dr("Shift")), dr("Document Date"), IIf(clsCommon.myCstr(dr("Item Type")) = "Fresh", True, False), IIf(clsCommon.myCstr(dr("Item Type")) = "Ambient", True, False), IIf(clsCommon.myCDecimal(dr("Is Individual Customer")) > 0, True, False), 107, 48, DosPaperSize.A4, PageSetup.Landscap, False, False, True) ''
+        Dim PDFPath As String = Nothing
+        If rbtnMilk.Checked Then
+            PDFPath = clsDemandBookingSale.PrintDOSData(arrRoute, clsCommon.myCstr(dr("Shift")), dr("Document Date"), IIf(clsCommon.myCstr(dr("Item Type")) = "Fresh", True, False), IIf(clsCommon.myCstr(dr("Item Type")) = "Ambient", True, False), IIf(clsCommon.myCDecimal(dr("Is Individual Customer")) > 0, True, False), 107, 48, DosPaperSize.A4, PageSetup.Landscap, False, False, True) ''
+        Else
+            PDFPath = clsProductDemandBookingSale.PrintDemandProductData(Form_ID, arrRoute, clsCommon.myCstr(dr("Item Type")), dr("Document Date"), dr("Posted"), IIf(clsCommon.myCDecimal(dr("Is Individual Customer")) > 0, True, False), False, False, True)
+        End If
 
-        Dim qry1 As String = " Select FILE_INFO from TSPL_DEMAND_BOOKING_MASTER where Document_No= '" & clsCommon.myCstr(dr("Document Code")) & "'"
+        Dim qry1 As String = " Select FILE_INFO from " & clsCommon.myCstr(IIf(rbtnMilk.Checked, "TSPL_DEMAND_BOOKING_MASTER", "TSPL_Product_DEMAND_BOOKING_MASTER")) & " where Document_No= '" & clsCommon.myCstr(dr("Document Code")) & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
@@ -101,9 +138,9 @@ Public Class frmSendBilltoDistributor
 #Enable Warning
             End If
             If clsCommon.myLen(PDFPath) > 0 Then
-                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), "DMND-BLL", clsCommon.myCstr(dr("Document Code")))
+                Dim FileNo As Integer = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath), clsCommon.myCstr(IIf(rbtnMilk.Checked, "DMND-BLL", "PIDMND-BLL")), clsCommon.myCstr(dr("Document Code")))
                 If FileNo > 0 Then
-                    Dim qry As String = " UPDATE TSPL_DEMAND_BOOKING_MASTER set FILE_INFO=" & clsCommon.myCstr(FileNo) & ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where Document_No='" & clsCommon.myCstr(dr("Document Code")) & "'"
+                    Dim qry As String = " UPDATE " & clsCommon.myCstr(IIf(rbtnMilk.Checked, "TSPL_DEMAND_BOOKING_MASTER", "TSPL_Product_DEMAND_BOOKING_MASTER")) & " set FILE_INFO=" & clsCommon.myCstr(FileNo) & ",Send_By = '" & objCommonVar.CurrentUserCode & "',Send_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "' where Document_No='" & clsCommon.myCstr(dr("Document Code")) & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 End If
                 'Else
@@ -142,8 +179,19 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
             If Not chkResendBill.Checked Then
                 strQry += " and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null"
             End If
-            If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
-                strQry += " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.supply_date,103) = Convert(Date,'" & txtDate2.Value & "',103) "
+            If rbtnMilk.Checked Then
+                strQry += " And TSPL_SD_SHIPMENT_HEAD.Item_Type in ('S','')"
+            ElseIf rbtnProduct.Checked Then
+                strQry += " And TSPL_SD_SHIPMENT_HEAD.Item_Type = 'P'"
+            Else
+                strQry += " And TSPL_SD_SHIPMENT_HEAD.Item_Type = 'I'"
+            End If
+            If clsCommon.myCDate(txtDate2.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
+                If rbtnMilk.Checked Then
+                    strQry += " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.supply_date,103) = Convert(Date,'" & txtDate2.Value & "',103) "
+                Else
+                    strQry += " And Convert(Date, TSPL_SD_SHIPMENT_HEAD.Document_Date,103) = Convert(Date,'" & txtDate2.Value & "',103) "
+                End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Date can't be greater then current day date !", Me.Text)
 #Disable Warning
@@ -170,6 +218,13 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
             If Not chkResendBill.Checked Then
                 strQry += " and TSPL_SD_SHIPMENT_HEAD.FILE_INFO is null " 'and TSPL_SD_SALE_INVOICE_HEAD.FILE_INFO2 is null "
             End If
+            If rbtnMilk.Checked Then
+                strQry += " And TSPL_SD_SHIPMENT_HEAD.Item_Type in ('S','')"
+            ElseIf rbtnProduct.Checked Then
+                strQry += " And TSPL_SD_SHIPMENT_HEAD.Item_Type = 'P'"
+            Else
+                strQry += " And TSPL_SD_SHIPMENT_HEAD.Item_Type = 'I'"
+            End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim ii As Integer = 0
@@ -195,8 +250,16 @@ where TSPL_SD_SHIPMENT_HEAD.Status=1 And CONVERT(Date,Supply_Date,103)=CONVERT(D
     End Sub
 
     Private Sub ProcessFileInvoice(dr As DataRow)
-        Dim objInvoicePath As New frmShipmentDairy
-        Dim PDFPath As String = objInvoicePath.PrintInvoiveForAll(clsCommon.myCstr(dr("Document_Code")), txtDate2.Value, clsCommon.myCstr(dr("Sale_Invoice_No")), False, True, clsCommon.myCstr(dr("Customer_Code")))
+        Dim PDFPath As String = Nothing
+        If rbtnMilk.Checked Then
+            Dim objInvoicePath As New frmShipmentDairy
+            PDFPath = objInvoicePath.PrintInvoiveForAll(clsCommon.myCstr(dr("Document_Code")), txtDate2.Value, clsCommon.myCstr(dr("Sale_Invoice_No")), False, True, clsCommon.myCstr(dr("Customer_Code")))
+            objInvoicePath = Nothing
+        Else
+            Dim objInvoicePath As New FrmProductDispatch
+            PDFPath = objInvoicePath.PrintInvoiveForAll(clsCommon.myCstr(dr("Document_Code")), txtDate2.Value, clsCommon.myCstr(dr("Sale_Invoice_No")), clsCommon.myCstr(dr("Customer_Code")), True)
+            objInvoicePath = Nothing
+        End If
         Dim qry1 As String = " Select FILE_INFO from TSPL_SD_SHIPMENT_HEAD where Document_Code= '" & clsCommon.myCstr(dr("Document_Code")) & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -246,7 +309,14 @@ Where 2=2 "
             If Not chkResendBill.Checked Then
                 strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
             End If
-            If clsCommon.myCDate(txtDate1.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
+            If rbtnMilk.Checked Then
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type='M'"
+            ElseIf rbtnProduct.Checked Then
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type='P'"
+            Else
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type='I'"
+            End If
+            If clsCommon.myCDate(txtDate3.Value) <= clsCommon.myCDate(clsCommon.GETSERVERDATE()) Then
                 strQry += " And CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103) "
             Else
                 clsCommon.MyMessageBoxShow(Me, "Date can't be greater then current day date !", Me.Text)
@@ -270,6 +340,13 @@ left Outer join tspl_Route_Master on tspl_Route_Master.Route_No = TSPL_DAIRYSALE
 where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date,'" & txtDate3.Value & "',103)"
             If Not chkResendBill.Checked Then
                 strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.File_Info Is Null "
+            End If
+            If rbtnMilk.Checked Then
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type='M'"
+            ElseIf rbtnProduct.Checked Then
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type='P'"
+            Else
+                strQry += " And TSPL_DAIRYSALE_GATEPASS_MASTER.Item_Type='I'"
             End If
             If txtMultGatePass.arrValueMember IsNot Nothing AndAlso txtMultGatePass.arrValueMember.Count > 0 Then
                 strQry += " and TSPL_DAIRYSALE_GATEPASS_MASTER.GPCode in (" & clsCommon.GetMulcallString(txtMultGatePass.arrValueMember) & ")"
@@ -299,9 +376,15 @@ where  CONVERT(Date,TSPL_DAIRYSALE_GATEPASS_MASTER.Supply_Date,103)=CONVERT(Date
     End Sub
 
     Private Sub ProcessFileGatePass(dr As DataRow)
+        Dim PDFPath As String
         Dim objGatePassPath As New frmDairyGatePass
-        Dim PDFPath As String = objGatePassPath.GatepassWithFilePath(clsCommon.myCstr(dr("GP Code")), clsCommon.myCstr(dr("GP Date")), clsCommon.myCstr(dr("Shift Type")), Nothing, Nothing, clsCommon.myCstr(dr("Route No")), clsCommon.myCstr(dr("Location Code")), True)
-        Dim qry1 As String = " Select FILE_INFO from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode= '" & clsCommon.myCstr(dr("GP Code")) & "'"
+        If rbtnMilk.Checked Then
+            PDFPath = objGatePassPath.GatepassWithFilePath(clsCommon.myCstr(dr("GP Code")), clsCommon.myCstr(dr("GP Date")), clsCommon.myCstr(dr("Shift Type")), Nothing, Nothing, clsCommon.myCstr(dr("Route No")), clsCommon.myCstr(dr("Location Code")), True)
+        Else
+            PDFPath = objGatePassPath.funPrint2(clsCommon.myCstr(dr("GP Code")), True)
+        End If
+        objGatePassPath = Nothing
+            Dim qry1 As String = " Select FILE_INFO from TSPL_DAIRYSALE_GATEPASS_MASTER where GPCode= '" & clsCommon.myCstr(dr("GP Code")) & "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry1)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim fileInfo As String = clsCommon.myCstr(dt.Rows(0)("FILE_INFO"))
