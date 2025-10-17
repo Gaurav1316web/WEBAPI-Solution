@@ -4568,12 +4568,15 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 LblUpdatedVehicleCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Vehicle_Code from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'"))
                 LblUpdatedVehicleDesc.Text = clsCommon.myCstr(ClsVehicleMaster.GetName(LblUpdatedVehicleCode.Text, Nothing))
                 'setRouteDetail(txtVendorNo.Value, lblroutecode.Text)
-                GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
-                If chkDCS.Checked Then
-                    GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
-                Else
-                    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                If CheckOutstandingOnbooking = 1 Then
+                    GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
+                    If chkDCS.Checked Then
+                        GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
+                    Else
+                        CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                    End If
                 End If
+
                 ''richa TEC/01/10/19-001025
                 txtRouteNo.Value = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
                 lblRouteDesc.Text = clsCommon.myCstr(dt2.Rows(0)("Route_Desc"))

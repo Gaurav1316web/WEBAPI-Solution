@@ -7960,7 +7960,7 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         'Case clsUserMgtCode.MilkRetesting
                         ' frm = New frmMilkRetesting
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MilkGateEntryWeightment
                         frm = New frmMilkGateEntryWeighment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8801,6 +8801,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport
                         frm = New rptYearlyMonthlyDcsCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.DcsMonthWiseMilkCollectionReport
+                        frm = New DcsMonthWiseMilkCollectionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8879,6 +8882,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptBMCDailyQtyReport
                         frm = New rptBMCDailyQtyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptDBTMonthWiseFarmerDetail
+                        frm = New rptDBTMonthWiseFarmerDetail
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.rptTemporaryPaymentDeductionSummary
                         frm = New rptTemporaryPaymentDeductionSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

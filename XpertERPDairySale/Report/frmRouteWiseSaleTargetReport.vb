@@ -71,6 +71,7 @@ Public Class frmRouteWiseSaleTargetReport
                         End If
                     Next
                 Next
+                View()
                 Gv1.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data not found !", Me.Text)
@@ -80,42 +81,119 @@ Public Class frmRouteWiseSaleTargetReport
         End Try
     End Sub
 
-    Public Function ReturnQry(ByVal isPrint As Boolean) As String
-        Dim strQry As String
-        Try
-            strQry = "Select Chapter_Head_Code,MAX(Description)Description,UOM_Code from(
+    Sub View()
+        If Gv1.Rows.Count > 0 Then
+            Dim strQry As String = ReturnItemSubQry()
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim i As Integer = 0
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(Gv1.Columns("Code").Name)
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(Gv1.Columns("Description").Name)
+
+                For Each dtRow As DataRow In dt.Rows
+                    i += 1
+                    view.ColumnGroups.Add(New GridViewColumnGroup(Gv1.Columns(i + 1).Name))
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                    view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(Gv1.Columns(i + 1).Name)
+                    Gv1.Columns(Gv1.Columns(i + 1).Name).HeaderText = clsCommon.myCstr(dtRow("UOM_Code"))
+                Next
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("TGT MILK"))
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(Gv1.Columns("TGT MILK").Name)
+                Gv1.Columns("TGT MILK").HeaderText = clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy").ToUpper()
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("ACHV MILK"))
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(Gv1.Columns("ACHV MILK").Name)
+                Gv1.Columns("ACHV MILK").HeaderText = clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy").ToUpper()
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("PROGRESS"))
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(view.ColumnGroups.Count - 1).Rows(0).ColumnNames.Add(Gv1.Columns("PROGRESS").Name)
+                Gv1.Columns("PROGRESS").HeaderText = "%"
+
+                Gv1.ViewDefinition = view
+            End If
+
+            'Dim view As New ColumnGroupsViewDefinition()
+            'view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            'view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            'view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("SNo").Name)
+            'view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Item").Name)
+            'view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("OPBal").Name)
+
+            'view.ColumnGroups.Add(New GridViewColumnGroup("SALE"))
+            'view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+
+            'view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Credit_Amt").Name)
+            'view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Cash_Amt").Name)
+
+            'view.ColumnGroups.Add(New GridViewColumnGroup(""))
+            'view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+
+            'view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Total").Name)
+            'view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Amt_Ded").Name)
+            'view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Depo_Amt").Name)
+            'view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("Closing_Bal").Name)
+            'Gv1.ViewDefinition = view
+        End If
+    End Sub
+
+    Public Function ReturnItemSubQry() As String
+        Dim strQry As String = "Select Chapter_Head_Code,MAX(Description)Description,UOM_Code from(
 select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,tspl_chapter_head.Chapter_Head_Code,tspl_chapter_head.Description,TSPL_ITEM_UOM_DETAIL.UOM_Code from tspl_chapter_head
 Left Outer Join TSPL_ROUTE_WISE_SALE_TARGET On TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category=tspl_chapter_head.Chapter_Head_Code
 Left Outer Join TSPL_ITEM_MASTER On TSPL_ITEM_MASTER.Item_Sub_Group_Type=TSPL_ROUTE_WISE_SALE_TARGET.Item_Sub_Category
-Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-Where TSPL_ITEM_UOM_DETAIL.Default_UOM=1)ItemUOMDetails Group By Chapter_Head_Code,UOM_Code"
+Left Outer Join TSPL_ITEM_UOM_DETAIL On TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.Default_UOM=1)ItemUOMDetails Group By Chapter_Head_Code,UOM_Code"
+        Return strQry
+    End Function
 
+    Public Function ReturnQry(ByVal isPrint As Boolean) As String
+        Dim strQry As String
+        Try
+            strQry = ReturnItemSubQry()
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Dim sbLTR As New StringBuilder()
                 Dim sbKG As New StringBuilder()
                 Dim strItemType As New StringBuilder()
+                Dim strItemTypeIN As New StringBuilder()
                 Dim i As Integer = 0
                 For Each UOM In dt.Rows
-                    If clsCommon.myLen(UOM("Chapter_Head_Code")) <> 0 AndAlso clsCommon.CompairString(UOM("UOM_Code"), "LTR") = CompairStringResult.Equal Then
+                    If clsCommon.myLen(UOM("Chapter_Head_Code")) <> 0 AndAlso clsCommon.myLen(UOM("UOM_Code")) > 0 AndAlso clsCommon.CompairString(UOM("UOM_Code"), "LTR") = CompairStringResult.Equal Then
                         If clsCommon.myLen(sbLTR) > 0 Then
                             sbLTR.Append(",")
                         End If
                         sbLTR.Append("'" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "'")
                     End If
-                    If clsCommon.myLen(UOM("Chapter_Head_Code")) <> 0 AndAlso clsCommon.CompairString(UOM("UOM_Code"), "KG") = CompairStringResult.Equal Then
+                    If clsCommon.myLen(UOM("Chapter_Head_Code")) <> 0 AndAlso clsCommon.myLen(UOM("UOM_Code")) > 0 AndAlso clsCommon.CompairString(UOM("UOM_Code"), "KG") = CompairStringResult.Equal Then
                         If clsCommon.myLen(sbKG) > 0 Then
                             sbKG.Append(",")
                         End If
                         sbKG.Append("'" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "'")
                     End If
 
-                    If isPrint AndAlso clsCommon.myLen(UOM("Description")) > 0 Then
-                        strItemType.Append(",Max([" & clsCommon.myCstr(UOM("Description")) & "]) As [DescGroup" & clsCommon.myCstr(i + 1) & "]")
-                    End If
-                    If clsCommon.myLen(UOM("Description")) > 0 Then
+                    If isPrint Then
+                        strItemType.Append(",Max([DescGroup" & clsCommon.myCstr(i + 1) & "]) As [DescGroup" & clsCommon.myCstr(i + 1) & "]")
+                        strItemType.Append(",Max([DescGroupUOM" & clsCommon.myCstr(i + 1) & "]) As [DescGroupUOM" & clsCommon.myCstr(i + 1) & "]")
+                        strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [Group" & clsCommon.myCstr(i + 1) & "]")
+                    Else
                         strItemType.Append(",SUM([" & clsCommon.myCstr(UOM("Description")) & "]) As [" & clsCommon.myCstr(UOM("Description")) & "]")
                     End If
+
+                    strItemTypeIN.Append(" '" & clsCommon.myCstr(UOM("Description")) & "' As [DescGroup" & clsCommon.myCstr(i + 1) & "],")
+                    strItemTypeIN.Append(" '" & clsCommon.myCstr(UOM("UOM_Code")) & "' As [DescGroupUOM" & clsCommon.myCstr(i + 1) & "],")
+                    If clsCommon.myLen(UOM("UOM_Code")) > 0 Then
+                        strItemTypeIN.Append(" Sum(QtyIn" & clsCommon.myCstr(UOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Max(Item_Sub_Group_Type)='" & clsCommon.myCstr(UOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(UOM("Description")) & "',")
+                    Else
+                        strItemTypeIN.Append(" 0 As '" & clsCommon.myCstr(UOM("Description")) & "',")
+                    End If
+
+                    i += 1
                 Next
 
 
@@ -180,17 +258,17 @@ where 2=2  and TSPL_DEMAND_BOOKING_MASTER.Document_Date >= '01/" & clsCommon.Get
 --and TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code='ARMY U'
 And IsNull(TSPL_ROUTE_WISE_SALE_TARGET.Target_Qty,0)<>0
 )
-
+Select "
+                If isPrint Then
+                    strQry += " Day(Convert(Date,'" & txtToDate.Value & "',103)) As FilterDays,'" & clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy").ToUpper() & "' As FilterMonthYear,"
+                End If
+                strQry += "final.*,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,TSPL_STATE_MASTER.STATE_NAME,
+TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2 from(
 Select Code,MAX(Description)Description " & clsCommon.myCstr(strItemType) & ",SUM(Target_Qty)[TGT MILK],SUM([ACHV MILK])[ACHV MILK],Case When Sum(Target_Qty)<>0 Then Round(((SUM([ACHV MILK])/SUM(Target_Qty))*100),0) Else 0 End As 'PROGRESS' from (
 Select 
 DetailData.Route_No As Code,MAX(Route_Desc) As Description, "
-
-                For Each strUOM In dt.Rows
-                    strQry += " Max(Description) As [DescGRP" & clsCommon.myCstr(i) & "],"
-                    strQry += " Sum(QtyIn" & clsCommon.myCstr(strUOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='" & clsCommon.myCstr(strUOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(strUOM("Description")) & "',"
-                Next
-                strQry += " MAX(DetailData.Months)Months,
-IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
+                strQry += clsCommon.myCstr(strItemTypeIN)
+                strQry += " MAX(DetailData.Months)Months,IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
 (Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
 from DetailData 
 Where DetailData.IsGoverment<>1 
@@ -200,11 +278,7 @@ Union All
 
 Select 
 DetailData.Cust_Group_Code,MAX(Cust_Group_Desc)As Description,"
-
-                For Each strUOM In dt.Rows
-                    strQry += " Max(Description) As [DescGRP" & clsCommon.myCstr(i) & "],"
-                    strQry += " Sum(QtyIn" & clsCommon.myCstr(strUOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='" & clsCommon.myCstr(strUOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(strUOM("Description")) & "',"
-                Next
+                strQry += clsCommon.myCstr(strItemTypeIN)
                 strQry += " MAX(DetailData.Months)Months,
 IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
 (Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
@@ -215,30 +289,31 @@ Group BY DetailData.Cust_Group_Code,Item_Sub_Group_Type
 
 Union All
 
-Select '' As Code,Max(Description)Description ,SUM([MILK]) As [MILK],SUM(Target_Qty)Target_Qty,SUM([ACHV MILK])[ACHV MILK],
+Select '' As Code,Max(Description)Description " & clsCommon.myCstr(strItemType) & ",SUM(Target_Qty)Target_Qty,SUM([ACHV MILK])[ACHV MILK],
 Case When Sum(Target_Qty)<>0 Then Round(((SUM([ACHV MILK])/SUM(Target_Qty))*100),0) Else 0 End As 'PROGRESS' 
 from (
 Select 
 DetailData.Route_No As Code,'CITY (LTR)' As Description, "
-                For Each strUOM In dt.Rows
-                    strQry += " Sum(QtyIn" & clsCommon.myCstr(strUOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Max(Item_Sub_Group_Type)='" & clsCommon.myCstr(strUOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(strUOM("Description")) & "',"
-                Next
-                strQry += "MAX(DetailData.Months)Months,
-IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
+                strQry += clsCommon.myCstr(strItemTypeIN)
+                strQry += "MAX(DetailData.Months)Months,IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
 (Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Item_Sub_Group_Type='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
-
 from DetailData 
 Where DetailData.IsGoverment<>1 
 Group BY DetailData.Route_No,Item_Sub_Group_Type --Having Sum(Target_Qty)<>0
 
 Union All
 
-Select '' As Code,Description,SUM(MILK)MILK,MAX(Months)Months,SUM(Target_Qty)Target_Qty,SUm([ACHV MILK])[ACHV MILK]  from (
-Select 
-MAx(DetailData.Route_No) As Code,'TOTAL (LTR)' As Description,  "
+Select '' As Code,Description "
+                i = 0
                 For Each strUOM In dt.Rows
-                    strQry += " Sum(QtyIn" & clsCommon.myCstr(strUOM("UOM_Code")) & ")*Case When Max(DetailData.Document_Date)='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Max(Item_Sub_Group_Type)='" & clsCommon.myCstr(strUOM("Chapter_Head_Code")) & "' Then 1 Else 0 End As '" & clsCommon.myCstr(strUOM("Description")) & "',"
+                    strQry += ",Max(DescGroup" & clsCommon.myCstr(i + 1) & ") As [DescGroup" & clsCommon.myCstr(i + 1) & "]"
+                    strQry += ",Max(DescGroupUOM" & clsCommon.myCstr(i + 1) & ") As [DescGroupUOM" & clsCommon.myCstr(i + 1) & "]"
+                    strQry += ",Sum([" & clsCommon.myCstr(strUOM("Description")) & "]) As [" & clsCommon.myCstr(strUOM("Description")) & "]"
+                    i += 1
                 Next
+                strQry += ",MAX(Months)Months,SUM(Target_Qty)Target_Qty,SUm([ACHV MILK])[ACHV MILK]  from (
+Select Max(DetailData.Route_No) As Code,Max(DetailData.Document_Date) As Document_Date,'TOTAL (LTR)' As Description,  "
+                strQry += clsCommon.myCstr(strItemTypeIN)
                 strQry += "MAX(DetailData.Months)Months,
 IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
 (Sum(QtyInLTR)*Case When Max(DetailData.Document_Date)<='" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "' And Max(Item_Sub_Group_Type)='MILK' Then 1 Else 0 End)/DAY('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "') As 'ACHV MILK'
@@ -246,7 +321,9 @@ IsNull(Max(DetailData.Target_Qty),0)Target_Qty,
 from DetailData 
 Group BY DetailData.Target_Qty 
 )AllTotal Group By Description
-)TotalWise Group By Description "
+)TotalWise Group By Description )final
+Left Outer Join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code1='" & objCommonVar.CurrComp_Code1 & "'
+Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State"
             Else
                 clsCommon.MyMessageBoxShow(Me, "Item sub group type not found !", Me.Text)
             End If

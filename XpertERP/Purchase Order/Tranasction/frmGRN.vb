@@ -5868,12 +5868,22 @@ Public Class frmGRN
     End Sub
 
     Public Function ReturnSelectTypeOfPO() As DataTable
-        Dim Qry As String = "Select 'RAL-RM' As Code "
-        Qry += " Union All "
-        Qry += " Select 'Item' As Code "
-        Qry += " Union All "
-        Qry += " Select 'Pending PO' As Code "
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        'Dim Qry As String = "Select 'RAL-RM' As Code "
+        'Qry += " Union All "
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        dt = clsTenderHead.LoadTenderType()
+        Dim dr As DataRow
+        dr = dt.NewRow()
+        dr("Code") = "ITEM"
+        dr("Name") = "ITEM"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Pending PO"
+        dr("Name") = "Pending PO"
+        dt.Rows.Add(dr)
         Return dt
     End Function
 
@@ -5889,15 +5899,15 @@ Public Class frmGRN
                 Dim frmNew As New XpertERPEngine.FrmFreeComboBox()
                 frmNew.ComboSource = ReturnSelectTypeOfPO()
                 frmNew.ComboValueMember = "Code"
-                frmNew.ComboDisplayMember = "Code"
+                frmNew.ComboDisplayMember = "Name"
                 frmNew.ShowDialog()
 
 
                 'whrcls = " TSPL_ITEM_MASTER.Structure_Code='RM' "
                 Dim lstItem As New List(Of String)
-                If clsCommon.CompairString(frmNew.strRetValue, "RAL-RM") = CompairStringResult.Equal Then
+                If frmNew.strRetValue IsNot Nothing AndAlso clsCommon.CompairString(frmNew.strRetValue, "ITEM") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
                     Dim Qry As String = clsTenderHead.ShowDataQry()
-                    whrcls = " IsNull(Tender_Type,0)= 0 "
+                    whrcls = " Posted=1 And IsNull(Tender_Type,0)= '" & frmNew.strRetValue & "' "
                     tenderCode = clsCommon.ShowSelectForm("TenderNoFndd", Qry, "DocumentNo", whrcls, txtDocNo.Value, "DocumentNo", True)
                     Qry = Nothing
                     If clsCommon.myLen(tenderCode) <= 0 Then
@@ -5922,11 +5932,11 @@ Public Class frmGRN
                         objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
                     End If
 
-                ElseIf clsCommon.CompairString(frmNew.strRetValue, "Item") = CompairStringResult.Equal Then
+                ElseIf frmNew.strRetValue IsNot Nothing AndAlso clsCommon.CompairString(frmNew.strRetValue, "Item") = CompairStringResult.Equal Then
                     objItemMaster = clsItemMaster.FinderForItem("", "", True, "", whrcls)
                 End If
 
-                If clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
+                If  clsCommon.CompairString(frmNew.strRetValue, "Pending PO") <> CompairStringResult.Equal Then
                     If lstItem IsNot Nothing AndAlso lstItem.Count = 1 Then
                         frm.ItemForDocumentFilter = clsCommon.myCstr(lstItem(0))
                     ElseIf objItemMaster IsNot Nothing AndAlso clsCommon.myLen(objItemMaster.Item_Code) > 0 Then
@@ -6615,7 +6625,9 @@ Public Class frmGRN
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtReqNo._MYValidating
         Try
             SelectPOItems()
-            ShowSchedule()
+            If clsCommon.myLen(txtRefNo.Text) > 0 Then
+                ShowSchedule()
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

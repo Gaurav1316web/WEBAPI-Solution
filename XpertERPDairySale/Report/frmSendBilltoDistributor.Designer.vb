@@ -24,6 +24,9 @@ Partial Class frmSendBilltoDistributor
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
         Me.chkResendBill = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
@@ -47,13 +50,13 @@ Partial Class frmSendBilltoDistributor
         Me.btnSendGatePass = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
-        Me.rbtnProduct = New System.Windows.Forms.RadioButton()
+        Me.rbtnIceCream = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
         CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -77,8 +80,6 @@ Partial Class frmSendBilltoDistributor
         CType(Me.btnSendGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,10 +114,45 @@ Partial Class frmSendBilltoDistributor
         Me.Panel1.Size = New System.Drawing.Size(800, 402)
         Me.Panel1.TabIndex = 392
         '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnIceCream)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnProduct)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(14, 12)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(344, 29)
+        Me.RadGroupBox4.TabIndex = 1469
+        '
+        'rbtnProduct
+        '
+        Me.rbtnProduct.AutoSize = True
+        Me.rbtnProduct.Location = New System.Drawing.Point(131, 6)
+        Me.rbtnProduct.Name = "rbtnProduct"
+        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnProduct.TabIndex = 1
+        Me.rbtnProduct.TabStop = True
+        Me.rbtnProduct.Text = "Product"
+        Me.rbtnProduct.UseVisualStyleBackColor = True
+        '
+        'rbtnMilk
+        '
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Checked = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(30, 6)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 0
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
+        '
         'chkResendBill
         '
         Me.chkResendBill.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkResendBill.Location = New System.Drawing.Point(390, 38)
+        Me.chkResendBill.Location = New System.Drawing.Point(387, 21)
         Me.chkResendBill.Name = "chkResendBill"
         Me.chkResendBill.Size = New System.Drawing.Size(77, 16)
         Me.chkResendBill.TabIndex = 1468
@@ -411,40 +447,16 @@ Partial Class frmSendBilltoDistributor
         Me.btnClose.TabIndex = 10
         Me.btnClose.Text = "Close"
         '
-        'RadGroupBox4
+        'rbtnIceCream
         '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.rbtnProduct)
-        Me.RadGroupBox4.Controls.Add(Me.rbtnMilk)
-        Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(14, 12)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(344, 29)
-        Me.RadGroupBox4.TabIndex = 1469
-        Me.RadGroupBox4.Visible = False
-        '
-        'rbtnMilk
-        '
-        Me.rbtnMilk.AutoSize = True
-        Me.rbtnMilk.Checked = True
-        Me.rbtnMilk.Location = New System.Drawing.Point(83, 6)
-        Me.rbtnMilk.Name = "rbtnMilk"
-        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
-        Me.rbtnMilk.TabIndex = 0
-        Me.rbtnMilk.TabStop = True
-        Me.rbtnMilk.Text = "Milk"
-        Me.rbtnMilk.UseVisualStyleBackColor = True
-        '
-        'rbtnProduct
-        '
-        Me.rbtnProduct.AutoSize = True
-        Me.rbtnProduct.Location = New System.Drawing.Point(195, 6)
-        Me.rbtnProduct.Name = "rbtnProduct"
-        Me.rbtnProduct.Size = New System.Drawing.Size(65, 17)
-        Me.rbtnProduct.TabIndex = 1
-        Me.rbtnProduct.TabStop = True
-        Me.rbtnProduct.Text = "Product"
-        Me.rbtnProduct.UseVisualStyleBackColor = True
+        Me.rbtnIceCream.AutoSize = True
+        Me.rbtnIceCream.Location = New System.Drawing.Point(240, 6)
+        Me.rbtnIceCream.Name = "rbtnIceCream"
+        Me.rbtnIceCream.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnIceCream.TabIndex = 2
+        Me.rbtnIceCream.TabStop = True
+        Me.rbtnIceCream.Text = "Ice Cream"
+        Me.rbtnIceCream.UseVisualStyleBackColor = True
         '
         'frmSendBilltoDistributor
         '
@@ -463,6 +475,9 @@ Partial Class frmSendBilltoDistributor
         Me.SplitContainer1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
         CType(Me.chkResendBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -489,9 +504,6 @@ Partial Class frmSendBilltoDistributor
         CType(Me.btnSendGatePass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -525,4 +537,5 @@ Partial Class frmSendBilltoDistributor
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents rbtnProduct As RadioButton
     Friend WithEvents rbtnMilk As RadioButton
+    Friend WithEvents rbtnIceCream As RadioButton
 End Class

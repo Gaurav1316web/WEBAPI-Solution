@@ -1452,6 +1452,7 @@ Public Class FrmQuickEntry1
         Dim strWhrcls As String = ""
         Dim strWhrclas As String = ""
         If objCommonVar.RCDFCFP = True Then
+            strWhrclas += " 2=2 "
         Else
             strWhrclas += " User_Code='" + objCommonVar.CurrentUserCode + "' "
         End If
