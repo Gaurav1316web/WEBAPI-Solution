@@ -1212,8 +1212,8 @@ Public Class frmStanderdProductionEntry
             End If
             UpdateCurrentRow(grow.Index)
         Next
-        Dim intGunnyBagConsumption As Integer = 0
-        Dim intConsGunnyEntered As Integer = 0
+        'Dim intGunnyBagConsumption As Integer = 0
+        'Dim intConsGunnyEntered As Integer = 0
         For Each grow As GridViewRowInfo In gvConsumption.Rows
             If clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 Then
                 If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) > 0 Then
@@ -1260,24 +1260,24 @@ Public Class frmStanderdProductionEntry
                         Return False
                     End If
                 End If
-                intGunnyBagConsumption += clsCommon.myCDecimal(grow.Cells(colConGunnyBag).Value)
+                'intGunnyBagConsumption += clsCommon.myCDecimal(grow.Cells(colConGunnyBag).Value)
             End If
         Next
+        ''Stop Hit the inventory for gunny bag by balwinder on 21/10/2025
+        'For Each grow As GridViewRowInfo In gvGunny.Rows
+        '    If clsCommon.myLen(grow.Cells(colGunnyICode).Value) > 0 Then
+        '        intConsGunnyEntered += clsCommon.myCDecimal(grow.Cells(colGunnyQty).Value)
+        '    End If
+        'Next
 
-        For Each grow As GridViewRowInfo In gvGunny.Rows
-            If clsCommon.myLen(grow.Cells(colGunnyICode).Value) > 0 Then
-                intConsGunnyEntered += clsCommon.myCDecimal(grow.Cells(colGunnyQty).Value)
-            End If
-        Next
-
-        If intGunnyBagConsumption > 0 OrElse intConsGunnyEntered > 0 Then
-            Dim intGunnyBagConsumptionMin As Integer = intGunnyBagConsumption - (intGunnyBagConsumption * SettGunnyBagTollerance / 100)
-            Dim intGunnyBagConsumptionMax As Integer = intGunnyBagConsumption + (intGunnyBagConsumption * SettGunnyBagTollerance / 100)
-            If intConsGunnyEntered < intGunnyBagConsumptionMin OrElse intConsGunnyEntered > intGunnyBagConsumptionMax Then
-                clsCommon.MyMessageBoxShow(Me, "Enter gunny Bag [" + clsCommon.myCstr(intConsGunnyEntered) + "] It should be [" + clsCommon.myCstr(intGunnyBagConsumptionMin) + "-" + clsCommon.myCstr(intGunnyBagConsumptionMax) + "] ", Me.Text)
-                Return False
-            End If
-        End If
+        'If intGunnyBagConsumption > 0 OrElse intConsGunnyEntered > 0 Then
+        '    Dim intGunnyBagConsumptionMin As Integer = intGunnyBagConsumption - (intGunnyBagConsumption * SettGunnyBagTollerance / 100)
+        '    Dim intGunnyBagConsumptionMax As Integer = intGunnyBagConsumption + (intGunnyBagConsumption * SettGunnyBagTollerance / 100)
+        '    If intConsGunnyEntered < intGunnyBagConsumptionMin OrElse intConsGunnyEntered > intGunnyBagConsumptionMax Then
+        '        clsCommon.MyMessageBoxShow(Me, "Enter gunny Bag [" + clsCommon.myCstr(intConsGunnyEntered) + "] It should be [" + clsCommon.myCstr(intGunnyBagConsumptionMin) + "-" + clsCommon.myCstr(intGunnyBagConsumptionMax) + "] ", Me.Text)
+        '        Return False
+        '    End If
+        'End If
 
         '' check fat/snf control
         If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.FatSNFControlOnProductionConsumption, clsFixedParameterCode.FatSNFControlOnProductionConsumption, Nothing), "1") = CompairStringResult.Equal Then

@@ -843,37 +843,36 @@ Public Class FrmQualityCheckForSRN
             Else
                 Errorcontrol.ResetError(txtGEDate)
             End If
-
-            Dim arrMRN As New List(Of String)
-            Dim arr As New List(Of String)
-
             Dim icode As String = ""
-            Dim status As Integer = 0
-            For ii As Integer = 0 To gv_MRN.Rows.Count - 1
-                icode = clsCommon.myCstr(gv_MRN.Rows(ii).Cells(colMRNDocNo).Value)
-                If clsCommon.myLen(icode) > 0 AndAlso clsCommon.myCBool(gv_MRN.Rows(ii).Cells(colMRNSelect).Value) = True Then
-                    status += 1
-                End If
-                If clsCommon.myLen(icode) > 0 AndAlso Not arrMRN.Contains(icode) Then
-                    If clsCommon.CompairString(txtAccept.Text, "Rejected") = CompairStringResult.Equal Then
-                        Dim qry As String = "select isnull(NIR_QC,0) as NIR_QC from TSPL_MRN_Head where MRN_No='" + icode + "'  "
-                        Dim intStatus As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
-                        If intStatus = 1 Then
-                            clsCommon.MyMessageBoxShow("You can't reject MRN [" + icode + "] becuase NIR QC applied.")
-                            Return False
-                        End If
-                    End If
 
-                    arrMRN.Add(icode)
-                End If
-            Next
+            'Dim arrMRN As New List(Of String)
+            'Dim status As Integer = 0
+            'For ii As Integer = 0 To gv_MRN.Rows.Count - 1
+            '    icode = clsCommon.myCstr(gv_MRN.Rows(ii).Cells(colMRNDocNo).Value)
+            '    If clsCommon.myLen(icode) > 0 AndAlso clsCommon.myCBool(gv_MRN.Rows(ii).Cells(colMRNSelect).Value) = True Then
+            '        status += 1
+            '    End If
+            '    If clsCommon.myLen(icode) > 0 AndAlso Not arrMRN.Contains(icode) Then
+            '        If clsCommon.CompairString(txtAccept.Text, "Rejected") = CompairStringResult.Equal Then
+            '            Dim qry As String = "select isnull(NIR_QC,0) as NIR_QC from TSPL_MRN_Head where MRN_No='" + icode + "'  "
+            '            Dim intStatus As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+            '            If intStatus = 1 Then
+            '                clsCommon.MyMessageBoxShow("You can't reject MRN [" + icode + "] becuase NIR QC applied.")
+            '                Return False
+            '            End If
+            '        End If
 
-            If arrMRN.Count <= 0 Then
-                RadPageView1.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow(Me, "No MRN details found for QC process.", Me.Text)
-                Return False
-            End If
+            '        arrMRN.Add(icode)
+            '    End If
+            'Next
 
+            'If arrMRN.Count <= 0 Then
+            '    RadPageView1.SelectedPage = RadPageViewPage1
+            '    clsCommon.MyMessageBoxShow(Me, "No MRN details found for QC process.", Me.Text)
+            '    Return False
+            'End If
+
+            Dim arr As New List(Of String)
             Dim qty As Decimal = Nothing
             Dim netqty As Decimal = Nothing
             Dim countr1 As Integer = 0
