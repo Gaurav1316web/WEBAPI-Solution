@@ -22,9 +22,12 @@ Partial Class frmPriceMasterPlan
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.rgbShiftType = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkForPrice = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblPricePlanCopyNo = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -51,6 +54,7 @@ Partial Class frmPriceMasterPlan
         Me.rbtnBackCalculationWithoutTax = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnBackCalculationWithTax = New Telerik.WinControls.UI.RadRadioButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.BtnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -64,13 +68,16 @@ Partial Class frmPriceMasterPlan
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbShiftType.SuspendLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkForPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPricePlanCopyNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,6 +102,7 @@ Partial Class frmPriceMasterPlan
         CType(Me.rbtnBackCalculationWithTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,7 +110,6 @@ Partial Class frmPriceMasterPlan
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -145,6 +152,7 @@ Partial Class frmPriceMasterPlan
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.rgbShiftType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkForPrice)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblPricePlanCopyNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel3)
@@ -175,6 +183,36 @@ Partial Class frmPriceMasterPlan
         Me.SplitContainer2.Size = New System.Drawing.Size(932, 429)
         Me.SplitContainer2.SplitterDistance = 118
         Me.SplitContainer2.TabIndex = 0
+        '
+        'rgbShiftType
+        '
+        Me.rgbShiftType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbShiftType.Controls.Add(Me.rbtnEvening)
+        Me.rgbShiftType.Controls.Add(Me.rbtnMorning)
+        Me.rgbShiftType.HeaderText = ""
+        Me.rgbShiftType.Location = New System.Drawing.Point(692, 43)
+        Me.rgbShiftType.Name = "rgbShiftType"
+        Me.rgbShiftType.Size = New System.Drawing.Size(154, 26)
+        Me.rgbShiftType.TabIndex = 19
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(66, 3)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(4, 3)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 0
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'chkForPrice
         '
@@ -557,7 +595,7 @@ Partial Class frmPriceMasterPlan
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -565,6 +603,17 @@ Partial Class frmPriceMasterPlan
         Me.gv1.Size = New System.Drawing.Size(932, 307)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(230, 5)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(111, 20)
+        Me.btnReverse.TabIndex = 54
+        Me.btnReverse.Text = "Reverse && Unpost"
+        Me.btnReverse.Visible = False
         '
         'BtnHistory
         '
@@ -664,17 +713,6 @@ Partial Class frmPriceMasterPlan
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Delete Layout"
         '
-        'btnReverse
-        '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(230, 5)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(111, 20)
-        Me.btnReverse.TabIndex = 54
-        Me.btnReverse.Text = "Reverse && Unpost"
-        Me.btnReverse.Visible = False
-        '
         'frmPriceMasterPlan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -696,6 +734,11 @@ Partial Class frmPriceMasterPlan
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbShiftType.ResumeLayout(False)
+        Me.rgbShiftType.PerformLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkForPrice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPricePlanCopyNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -721,6 +764,7 @@ Partial Class frmPriceMasterPlan
         CType(Me.rbtnBackCalculationWithTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -728,7 +772,6 @@ Partial Class frmPriceMasterPlan
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -776,4 +819,7 @@ Partial Class frmPriceMasterPlan
     Friend WithEvents BtnHistory As RadButton
     Friend WithEvents chkForPrice As RadCheckBox
     Friend WithEvents btnReverse As RadButton
+    Friend WithEvents rgbShiftType As RadGroupBox
+    Friend WithEvents rbtnEvening As RadRadioButton
+    Friend WithEvents rbtnMorning As RadRadioButton
 End Class

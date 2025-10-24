@@ -2162,4 +2162,76 @@ GROUP BY
         cmbYear.DataSource = dt
 
     End Sub
+
+    Private Sub chkBPL_CheckStateChanged(sender As Object, e As EventArgs) Handles chkBPL.CheckStateChanged
+        If chkBPL.Checked Then
+            chkExcludeShift.Checked = False
+            chkExcludeShift.Enabled = False
+            rbtnDateWise.IsChecked = True
+            RadGroupBox5.Enabled = False
+            rbtnCustomerWise.IsChecked = True
+            RadGroupBox1.Enabled = False
+            rbtnItemTypeTaxable.IsChecked = True
+            RadGroupBox2.Enabled = False
+            txtfDate.Value = clsCommon.GETSERVERDATE.AddDays(-30)
+            txtToDate.Value = clsCommon.GETSERVERDATE
+            TxtRoute.Enabled = False
+        Else
+            chkExcludeShift.Enabled = True
+            rbtnDateWise.IsChecked = True
+            RadGroupBox5.Enabled = True
+            rbtnCustomerWise.IsChecked = True
+            RadGroupBox1.Enabled = True
+            rbtnItemTypeTaxable.IsChecked = True
+            RadGroupBox2.Enabled = True
+            txtfDate.Value = clsCommon.GETSERVERDATE
+            txtToDate.Value = txtfDate.Value
+            TxtRoute.Enabled = True
+        End If
+    End Sub
+
+    Private Sub btnBPLPrint_Click(sender As Object, e As EventArgs) Handles btnBPLPrint.Click
+        Try
+            If txtfDate.Value <= txtToDate.Value Then
+                Dim Qry As String = " select string_agg(TSPL_ITEM_MASTER.Short_Description,', ') as item_Name from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code where TSPL_BOOKING_MATSER.Is_BPL=1 and convert(date,TSPL_BOOKING_MATSER.document_date)>='" & clsCommon.GetPrintDate(txtfDate.Value) & "' and convert(date,TSPL_BOOKING_MATSER.document_date)<='" & clsCommon.GetPrintDate(txtToDate.Value) & "' and TSPL_SD_SHIPMENT_HEAD.Status=1  "
+                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                    Qry += " and TSPL_BOOKING_DETAIL.Cust_Code in  (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                End If
+                Dim ItemName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Qry))
+
+                    If clsCommon.myLen(ItemName) > 0 Then
+                    Qry = "select TSPL_COMPANY_MASTER.Comp_Name as CompName,TSPL_COMPANY_MASTER.Add1+' '+TSPL_COMPANY_MASTER.Add2+' '+TSPL_COMPANY_MASTER.Add3 as CompAddress,TSPL_COMPANY_MASTER.Logo_Img,
+TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_CUSTOMER_MASTER.Add1+' '+TSPL_CUSTOMER_MASTER.Add2+' '+ TSPL_CUSTOMER_MASTER.Add3 as CustAddress,
+TSPL_CUSTOMER_MASTER.City_Code,TSPL_CITY_MASTER.City_Name, '" & ItemName & "' as Alies_Name,
+TSPL_BOOKING_MATSER.BPL_Coupon_Code,FORMAT(TSPL_BOOKING_MATSER.BPL_Coupon_Date,'dd/MM/yyyy') as CouponDate,TSPL_BOOKING_MATSER.BPL_Name,TSPL_BOOKING_MATSER.BPL_Remark,format(TSPL_BOOKING_MATSER.Supply_Date,'dd/MM/yyyy') as Supply_Date ,TSPL_BOOKING_MATSER.BPL_Category,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_BOOKING_MATSER.Total_Amt,TSPL_BOOKING_MATSER.Description
+from TSPL_BOOKING_MATSER
+left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No
+left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Against_Booking_No=TSPL_BOOKING_MATSER.Document_No
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code
+left join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='UDP'
+where TSPL_BOOKING_MATSER.Is_BPL=1 and convert(date,TSPL_BOOKING_MATSER.document_date)>='" & clsCommon.GetPrintDate(txtfDate.Value) & "' and convert(date,TSPL_BOOKING_MATSER.document_date)<='" & clsCommon.GetPrintDate(txtToDate.Value) & "' and TSPL_SD_SHIPMENT_HEAD.Status=1 "
+                    If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                        Qry += " and TSPL_BOOKING_DETAIL.Cust_Code in  (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")"
+                    End If
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frmCRV As New frmCrystalReportViewer()
+                        frmCRV.funreport(MyBase.Form_ID, CrystalReportFolder.KwalitySalesReport, dt, "crptBPLprint", "")
+                        frmCRV = Nothing
+                    Else
+                            Throw New Exception("Data not found!")
+                        End If
+                    Else
+                        Throw New Exception("Data not found!")
+                    End If
+
+                End If
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

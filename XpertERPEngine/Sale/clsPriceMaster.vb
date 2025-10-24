@@ -22,6 +22,7 @@ Public Class clsPriceMaster
     Public Item_Basic_Net As Double
     Public Start_Date As Date
     Public End_Date As Date?
+    Public Shift_Type As String
     Public Empty_Value_Shell As Double
     Public Can_Edit As Char
     Public NetLTPT As Double
@@ -189,6 +190,7 @@ Public Class clsPriceMaster
                 clsCommon.AddColumnsForChange(coll, "Basic_Price_On", obj.Basic_Price_On)
                 clsCommon.AddColumnsForChange(coll, "Landing_Cost", obj.Landing_Cost)
                 clsCommon.AddColumnsForChange(coll, "Purchase_Cost", obj.Purchase_Cost)
+                clsCommon.AddColumnsForChange(coll, "Shift_Type", obj.Shift_Type)
                 If obj.End_Date Is Nothing Or clsCommon.myLen(obj.End_Date) <= 0 Then
                     clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
                 Else
@@ -483,6 +485,7 @@ Public Class clsPriceMaster
                 obj.Is_With_Tax = clsCommon.myCstr(dt.Rows(0)("Is_With_Tax"))
                 obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
                 obj.UOM = clsCommon.myCstr(dt.Rows(0)("UOM"))
+                obj.Shift_Type = clsCommon.myCstr(dt.Rows(0)("Shift_Type"))
                 obj.Start_Date = dt.Rows(0)("Start_Date")
                 obj.Item_Basic_Net = clsCommon.myCdbl(dt.Rows(0)("Item_Basic_Net"))
                 obj.Item_Basic_Price = clsCommon.myCdbl(dt.Rows(0)("Item_Basic_Price"))

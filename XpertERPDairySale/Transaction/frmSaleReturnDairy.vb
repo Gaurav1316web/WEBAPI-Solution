@@ -563,6 +563,7 @@ Public Class frmSaleReturnDairy
 
 
     Sub BlankAllControls()
+        rbtnMorning.IsChecked = True
         isInvoiceLoadData = False
         TxtTotalCAN.Value = 0
         txtShippedCan.Value = 0
@@ -2958,7 +2959,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
             " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
             "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-            "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  " & whrcls & "  " &
+            "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  2=( case when CONVERT(date,Start_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,Start_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end)  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  " & whrcls & "  " &
             " and UOM='" & strUnit & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & strItem & "'  AND Location_Code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'  " &
             ") XXXE WHERE RowNo=1  "
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -4394,6 +4395,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
             RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
         End If
         btnInvoiceJE.Visible = False
+
         BlankAllControls()
         LoadBlankGrid()
         LoadBlankGridAC()
@@ -4725,6 +4727,7 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 obj.TotalCAN = TxtTotalCAN.Value
                 obj.CrateQty = txtCrateQty.Value
                 obj.Return_Type = ddlReturnType.SelectedValue
+                obj.Shift_Type = IIf(rbtnMorning.IsChecked, "Morning", "Evening")
                 If clsCommon.CompairString(obj.Return_Type, "D") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Return_Type, "I") = CompairStringResult.Equal Then
                     obj.Damage_Type = IIf(rbtn_leak.Checked, "0", "1")
                 End If
@@ -5233,6 +5236,11 @@ Where TSPL_ITEM_MASTER.Item_Code='" + itemCode + "' And TSPL_ITEM_UOM_DETAIL.UOM
                 'txtDate.Enabled = False
                 txtVendorNo.Enabled = False
                 chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
+                If clsCommon.CompairString(obj.Shift_Type, "Morning") = CompairStringResult.Equal Then
+                    rbtnMorning.IsChecked = True
+                ElseIf clsCommon.CompairString(obj.Shift_Type, "Evening") = CompairStringResult.Equal Then
+                    rbtnEvening.IsChecked = True
+                End If
 
                 lblVendorName.Text = obj.Customer_Name
                 txtRefNo.Text = obj.Ref_No

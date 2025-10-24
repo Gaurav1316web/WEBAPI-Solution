@@ -6,6 +6,7 @@ Public Class clsPricePlanHead
     Public Plan_Code As String
     Public Plan_Date As DateTime
     Public Loc_Code As String
+    Public Shift_Type As String
     Public Start_Date As DateTime
     Public End_Date As Date?
     Public Is_ALL_UOM As Boolean
@@ -37,6 +38,7 @@ Public Class clsPricePlanHead
                 clsCommon.AddColumnsForChange(coll, "End_Date", clsCommon.GetPrintDate(obj.End_Date, "dd/MMM/yyyy"))
             End If
             clsCommon.AddColumnsForChange(coll, "Is_ALL_UOM", IIf(obj.Is_ALL_UOM, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Shift_Type", obj.Shift_Type)
             clsCommon.AddColumnsForChange(coll, "Is_FOR_Price", IIf(obj.Is_FOR_Price, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Back_Calculation", IIf(obj.Is_Back_Calculation, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Back_Calculation_Type", obj.Back_Calculation_Type)
@@ -91,6 +93,7 @@ Public Class clsPricePlanHead
             obj.Plan_Code = clsCommon.myCstr(dt.Rows(0)("Plan_Code"))
             obj.Plan_Date = clsCommon.myCDate(dt.Rows(0)("Plan_Date"))
             obj.Loc_Code = clsCommon.myCstr(dt.Rows(0)("Loc_Code"))
+            obj.Shift_Type = clsCommon.myCstr(dt.Rows(0)("Shift_Type"))
             obj.PricePlanCopyNo = clsCommon.myCstr(dt.Rows(0)("PricePlanCopyNo"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Start_Date = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
@@ -274,6 +277,7 @@ Public Class clsPricePlanHead
                 obj.Purchase_Cost = 0
                 obj.Start_Date = objPP.Start_Date
                 obj.End_Date = objPP.End_Date
+                obj.Shift_Type = objPP.Shift_Type
                 obj.Is_Active = 1
                 obj.Is_For_Price = IIf(objPP.Is_FOR_Price, 1, 0)
 

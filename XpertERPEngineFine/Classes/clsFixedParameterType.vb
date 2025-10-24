@@ -1364,6 +1364,7 @@ Public Class clsFixedParameterType
     Public Const DifferentCrateTypeForFGItem = "Different Crate Type For FG Item"
     Public Const StopMultipleLoginInAPP = "Stop Multiple Login In APP"
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
+    Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
 End Class
 Public Class clsFixedParameterCode
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -2883,6 +2884,8 @@ Public Class clsFixedParameterCode
     Public Const AMCUDetailsHeading2 As String = "AMCU Details Heading 2"
     Public Const AMCUDetailsHeading3 As String = "AMCU Details Heading 3"
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
+    Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4575,6 +4578,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopMultipleLoginInAPP, clsFixedParameterCode.StopMultipleLoginInAPP, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, "4", "Enter Comission Decimal Places")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, "0", "0:Supply Date, 1:Document Date")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6462,5 +6466,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.StopMultipleLoginInAPP, clsFixedParameterCode.StopMultipleLoginInAPP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, EnumControlType.CheckBox)
     End Sub
 End Class

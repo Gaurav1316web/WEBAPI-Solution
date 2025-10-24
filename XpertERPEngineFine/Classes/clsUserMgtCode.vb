@@ -1187,6 +1187,7 @@ Public Class clsUserMgtCode
     Public Const ItemBasicPrice As String = "ITEM-BASIC-P"
     Public Const mbtnBreakageHead1 As String = "BREAKAGE"
     Public Const FrmItemMasterRMOther As String = "RM-OTHERS"
+    Public Const TypeOfItemMaster As String = "TYP-OF-ITEM"
     Public Const frmStandardscheme As String = "STD_SCHEME"
     Public Const frmStandardRateItem As String = "STD_RAT_ITM"
     Public Const frmItemCategoryLevel As String = "ITMCATLVEL"

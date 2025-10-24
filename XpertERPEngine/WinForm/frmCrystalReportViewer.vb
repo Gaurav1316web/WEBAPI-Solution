@@ -59,7 +59,7 @@ Public Class frmCrystalReportViewer
             ElseIf crpfolder = CrystalReportFolder.InventoryReport Then
                 strReportPath = strpath + "\Crystal Reports" + strGST + "\Inventory Report\" & strReportName & ".rpt"
             ElseIf crpfolder = CrystalReportFolder.KwalitySalesReport Then
-                strReportPath = strpath + "\Crystal Reports" + strGST + "\Kwality Sales Report\" & strReportName & ".rpt"
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Dairy Sales Report\" & strReportName & ".rpt"
             ElseIf crpfolder = CrystalReportFolder.MilkProcurement Then
                 strReportPath = strpath + "\Crystal Reports" + strGST + "\Milk Procurement\" & strReportName & ".rpt"
             ElseIf crpfolder = CrystalReportFolder.NewSalesReports Then

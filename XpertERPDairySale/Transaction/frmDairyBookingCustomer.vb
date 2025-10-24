@@ -13,6 +13,7 @@ Public Class frmDairyBookingCustomer
     Dim OneTimeCheck As Boolean = False
     Dim ApplyDefaultTCSIsChecked As Boolean = False
     Dim ConvertIntoBillingUOM As Boolean = False
+    Dim ApplyPricePlanOnDocumentDate As Boolean = False
 
     Dim HideOutstanding As Boolean = True
     Dim ApplyManualScheme As Boolean = False
@@ -316,6 +317,7 @@ Public Class frmDairyBookingCustomer
         ApplyDefaultTCSIsChecked = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDefaultTCSIsChecked, clsFixedParameterCode.ApplyDefaultTCSIsChecked, Nothing)) = 0, False, True)
         ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
+        ApplyPricePlanOnDocumentDate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, Nothing)) = 1, True, False)
 
         'SetMailRight()
         SetUserMgmtNew()
@@ -1485,6 +1487,10 @@ Public Class frmDairyBookingCustomer
         End If
         txtPriceCode.Text = Price_code
         lblPriceCodeDesc.Text = Price_code
+        Dim PriceDate As DateTime = txtSupplyDate.Value
+        If ApplyPricePlanOnDocumentDate Then
+            PriceDate = txtDate.Value
+        End If
         qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
         " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
         "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
@@ -1501,7 +1507,7 @@ Public Class frmDairyBookingCustomer
         " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
         " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
         "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-        "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  " & whrcls & "  " &
+        "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  2=( case when CONVERT(date,Start_Date,103)='" + clsCommon.GetPrintDate(PriceDate) + "' and Shift_Type='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbGatePassType.Text), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,Start_Date,103)<='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbGatePassType.Text), "AM") = CompairStringResult.Equal, clsCommon.GetPrintDate(PriceDate.AddDays(-1)), clsCommon.GetPrintDate(PriceDate)) + "' then 2 else 3 end)  end) and (End_Date >= '" & clsCommon.GetPrintDate(PriceDate, "dd/MMM/yyyy") & "'  or End_date is null) " & whrcls & "  " &
         " and UOM='" & strUnit & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & strItem & "'  AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
         ") XXXE WHERE RowNo=1  "
         dt = clsDBFuncationality.GetDataTable(qry)
@@ -4568,14 +4574,17 @@ and TSPL_BOOKING_DETAIL.document_No in ( SELECT DISTINCT TSPL_BOOKING_DETAIL.Doc
                 LblUpdatedVehicleCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Vehicle_Code from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'"))
                 LblUpdatedVehicleDesc.Text = clsCommon.myCstr(ClsVehicleMaster.GetName(LblUpdatedVehicleCode.Text, Nothing))
                 'setRouteDetail(txtVendorNo.Value, lblroutecode.Text)
+
                 GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
-                If chkDCS.Checked Then
-                    GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
-                Else
-                    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                End If
-                ''richa TEC/01/10/19-001025
-                txtRouteNo.Value = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
+                    If chkDCS.Checked Then
+                        GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
+                    Else
+                        CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                    End If
+
+
+                    ''richa TEC/01/10/19-001025
+                    txtRouteNo.Value = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
                 lblRouteDesc.Text = clsCommon.myCstr(dt2.Rows(0)("Route_Desc"))
                 If clsCommon.CompairString(obj.GatePass_Type, "") = CompairStringResult.Equal Then
                     cmbGatePassType.Text = "Select"

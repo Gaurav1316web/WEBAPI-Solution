@@ -639,6 +639,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmOverheadCostGroup, "Overhead Cost Group", "1.07.01.39", clsUserMgtCode.SubModuleMaterialSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmItemCostMapping, "Item Cost Mapping", "1.07.01.40", clsUserMgtCode.SubModuleMaterialSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmWeightUomMaster, "Weight Uom Master", "1.07.01.41", clsUserMgtCode.SubModuleMaterialSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.TypeOfItemMaster, "Type Of Item", "1.07.01.42", clsUserMgtCode.SubModuleMaterialSetup, 27)
         ' Transaction 
         InsertDefaultValue(clsUserMgtCode.SubModuleMaterialTransaction, "Transaction", "1.07.02", clsUserMgtCode.ModuleMaterial, "SM", 26)
 
@@ -3467,6 +3468,7 @@ Public Class clsProgramIdFormNameMapping
         UpdateFormName(clsUserMgtCode.packType, "Frmpacktype", "ERP.EXE")
         UpdateFormName("frmExcisableLocationDetails", "FrmExcisableLocationDetails", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.FrmItemMasterRMOther, "FrmItemMasterRMOther", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.TypeOfItemMaster, "TypeOfItemMaster", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.frmPartNoMaster, "FrmPartNoMaster", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.InvetorySourceCode, "frmInventorySourceCode", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.frmGrievanceTypeMaster, "frmGrievanceTypeMaster", "ERP.EXE")

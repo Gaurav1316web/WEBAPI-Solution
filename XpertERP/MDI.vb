@@ -4065,6 +4065,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmItemMasterRMOther
                         frm = New FrmItemMasterRMOther()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.TypeOfItemMaster
+                        frm = New TypeOfItemMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmPartNoMaster
                         frm = New FrmPartNoMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

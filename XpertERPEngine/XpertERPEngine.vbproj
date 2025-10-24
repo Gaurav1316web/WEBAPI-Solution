@@ -597,6 +597,12 @@
     <Compile Include="TDS\clsRemitanceEntry.vb" />
     <Compile Include="TDS\clsRemittance.vb" />
     <Compile Include="TDS\ClsTDSPayment.vb" />
+    <Compile Include="TypeOfItemMaster.Designer.vb">
+      <DependentUpon>TypeOfItemMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TypeOfItemMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>
@@ -1455,6 +1461,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.resx">
       <DependentUpon>RptBulkMilkMultiplePurchaseInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TypeOfItemMaster.resx">
+      <DependentUpon>TypeOfItemMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\ucCustomFields.resx">
       <DependentUpon>ucCustomFields.vb</DependentUpon>

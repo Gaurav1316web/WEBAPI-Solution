@@ -22,7 +22,7 @@ Partial Class frmDCSDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -39,11 +39,8 @@ Partial Class frmDCSDemandBooking
         Me.txtVehicleNo = New Telerik.WinControls.UI.RadTextBox()
         Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.lblLocationDesc = New common.Controls.MyLabel()
-        Me.rbtnOther = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
-        Me.rbtnGhee = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnCatelFeed = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblDocNo = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.UsLock1 = New common.usLock()
@@ -54,12 +51,14 @@ Partial Class frmDCSDemandBooking
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtRouteNo = New common.UserControls.txtFinder()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnreverse = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.ddlItemType = New common.Controls.MyComboBox()
+        Me.lblItemType = New common.Controls.MyLabel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -73,10 +72,7 @@ Partial Class frmDCSDemandBooking
         CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnOther, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnGhee, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnCatelFeed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,12 +81,14 @@ Partial Class frmDCSDemandBooking
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -171,6 +169,8 @@ Partial Class frmDCSDemandBooking
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblItemType)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.ddlItemType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkIndividualCustomer)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomerName)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomerCode)
@@ -178,11 +178,8 @@ Partial Class frmDCSDemandBooking
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtVehicleNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblVehicleNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocationDesc)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnOther)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnGhee)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnCatelFeed)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDocNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDocNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
@@ -285,14 +282,6 @@ Partial Class frmDCSDemandBooking
         Me.lblLocationDesc.TabIndex = 1469
         Me.lblLocationDesc.TextWrap = False
         '
-        'rbtnOther
-        '
-        Me.rbtnOther.Location = New System.Drawing.Point(856, 8)
-        Me.rbtnOther.Name = "rbtnOther"
-        Me.rbtnOther.Size = New System.Drawing.Size(49, 18)
-        Me.rbtnOther.TabIndex = 1469
-        Me.rbtnOther.Text = "Other"
-        '
         'lblLocation
         '
         Me.lblLocation.FieldName = Nothing
@@ -328,22 +317,6 @@ Partial Class frmDCSDemandBooking
         Me.txtLocation.Size = New System.Drawing.Size(115, 19)
         Me.txtLocation.TabIndex = 1467
         Me.txtLocation.Value = ""
-        '
-        'rbtnGhee
-        '
-        Me.rbtnGhee.Location = New System.Drawing.Point(804, 8)
-        Me.rbtnGhee.Name = "rbtnGhee"
-        Me.rbtnGhee.Size = New System.Drawing.Size(46, 18)
-        Me.rbtnGhee.TabIndex = 1469
-        Me.rbtnGhee.Text = "Ghee"
-        '
-        'rbtnCatelFeed
-        '
-        Me.rbtnCatelFeed.Location = New System.Drawing.Point(725, 7)
-        Me.rbtnCatelFeed.Name = "rbtnCatelFeed"
-        Me.rbtnCatelFeed.Size = New System.Drawing.Size(73, 18)
-        Me.rbtnCatelFeed.TabIndex = 1468
-        Me.rbtnCatelFeed.Text = "Catel Feed"
         '
         'lblDocNo
         '
@@ -489,10 +462,20 @@ Partial Class frmDCSDemandBooking
         '
         '
         '
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.Size = New System.Drawing.Size(916, 322)
         Me.gv1.TabIndex = 0
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(224, 6)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(69, 20)
+        Me.btnHistory.TabIndex = 21
+        Me.btnHistory.Text = "History"
         '
         'btnreverse
         '
@@ -545,15 +528,40 @@ Partial Class frmDCSDemandBooking
         Me.btnSave.TabIndex = 16
         Me.btnSave.Text = "Save"
         '
-        'btnHistory
+        'ddlItemType
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(224, 6)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(69, 20)
-        Me.btnHistory.TabIndex = 21
-        Me.btnHistory.Text = "History"
+        Me.ddlItemType.AutoCompleteDisplayMember = Nothing
+        Me.ddlItemType.AutoCompleteValueMember = Nothing
+        Me.ddlItemType.CalculationExpression = Nothing
+        Me.ddlItemType.DropDownAnimationEnabled = True
+        Me.ddlItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlItemType.FieldCode = Nothing
+        Me.ddlItemType.FieldDesc = Nothing
+        Me.ddlItemType.FieldMaxLength = 0
+        Me.ddlItemType.FieldName = Nothing
+        Me.ddlItemType.isCalculatedField = False
+        Me.ddlItemType.IsSourceFromTable = False
+        Me.ddlItemType.IsSourceFromValueList = False
+        Me.ddlItemType.IsUnique = False
+        Me.ddlItemType.Location = New System.Drawing.Point(787, 6)
+        Me.ddlItemType.MendatroryField = True
+        Me.ddlItemType.MyLinkLable1 = Nothing
+        Me.ddlItemType.MyLinkLable2 = Nothing
+        Me.ddlItemType.Name = "ddlItemType"
+        Me.ddlItemType.ReferenceFieldDesc = Nothing
+        Me.ddlItemType.ReferenceFieldName = Nothing
+        Me.ddlItemType.ReferenceTableName = Nothing
+        Me.ddlItemType.Size = New System.Drawing.Size(117, 20)
+        Me.ddlItemType.TabIndex = 1476
+        '
+        'lblItemType
+        '
+        Me.lblItemType.FieldName = Nothing
+        Me.lblItemType.Location = New System.Drawing.Point(727, 7)
+        Me.lblItemType.Name = "lblItemType"
+        Me.lblItemType.Size = New System.Drawing.Size(56, 18)
+        Me.lblItemType.TabIndex = 1477
+        Me.lblItemType.Text = "Item Type"
         '
         'frmDCSDemandBooking
         '
@@ -582,10 +590,7 @@ Partial Class frmDCSDemandBooking
         CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnOther, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnGhee, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnCatelFeed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -594,12 +599,14 @@ Partial Class frmDCSDemandBooking
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -624,9 +631,6 @@ Partial Class frmDCSDemandBooking
     Friend WithEvents lblRouteNo As common.Controls.MyLabel
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents txtRouteNo As common.UserControls.txtFinder
-    Friend WithEvents rbtnOther As RadRadioButton
-    Friend WithEvents rbtnGhee As RadRadioButton
-    Friend WithEvents rbtnCatelFeed As RadRadioButton
     Friend WithEvents lblLocationDesc As common.Controls.MyLabel
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
@@ -643,4 +647,6 @@ Partial Class frmDCSDemandBooking
     Friend WithEvents lblCustomerCode As common.Controls.MyLabel
     Friend WithEvents txtCustomerNo As common.UserControls.txtFinder
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents lblItemType As common.Controls.MyLabel
+    Friend WithEvents ddlItemType As common.Controls.MyComboBox
 End Class

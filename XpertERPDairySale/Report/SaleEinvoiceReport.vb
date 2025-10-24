@@ -32,6 +32,7 @@ Public Class SaleEinvoiceReport
         ChkBoth.Checked = True
         RadGroupBox3.Visible = False
         rbtnMilk.Checked = True
+        chkBPL.Checked = False
     End Sub
 
     'Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs)
@@ -123,43 +124,48 @@ Public Class SaleEinvoiceReport
             Dim whrDCSSale As String = ""
             Dim whrclsDate As String = ""
             If BtnMorning.IsChecked Then
-                whrDCSSale = " And TSPL_SD_SHIPMENT_HEAD.Shift_Type in( 'AM','')"
-                whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
-            ElseIf BtnEvening.IsChecked Then
-                whrDCSSale += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type in('PM','') "
-                whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
-            End If
-            If rbtnDocumentdate.IsChecked Then
-                whrclsDate += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-                whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-            Else
-                whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-                whrclsDate += " where Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
-                                Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
-            End If
-
-            If ChkB2B.Checked = True Then
-                Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
-            ElseIf chkB2C.Checked = True Then
-                Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
-            End If
-            If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-                Whr += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-            End If
-
-            If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
-                If chkDCSSale.Checked Then
-                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ",'')" + Environment.NewLine
-                Else
-                    Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")" + Environment.NewLine
+                    whrDCSSale = " And TSPL_SD_SHIPMENT_HEAD.Shift_Type in( 'AM','')"
+                    whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' "
+                ElseIf BtnEvening.IsChecked Then
+                    whrDCSSale += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type in('PM','') "
+                    whrclsDate += "And TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' "
                 End If
-            End If
+                If rbtnDocumentdate.IsChecked Then
+                    whrclsDate += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                    whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                Else
+                    whrDCSSale += " where Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SALE_INVOICE_HEAD.document_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                    whrclsDate += " where Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) >= Convert( Date,'" + strtxtfDate + "',103) AND 
+                                Convert( Date, TSPL_SD_SHIPMENT_HEAD.Supply_Date,103) <= Convert(Date,'" + strToDate + "',103) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
+                End If
 
-            If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-                Whr += " and TSPL_ITEM_MASTER.Item_Code in(" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")" + Environment.NewLine
+                If ChkB2B.Checked = True Then
+                    Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=1 "
+                ElseIf chkB2C.Checked = True Then
+                    Whr += " and TSPL_CUSTOMER_MASTER.GST_Registered=0 "
+                End If
+                If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
+                    Whr += " and tspl_customer_master.cust_code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
+                End If
+
+
+            If chkBPL.Checked Then
+                Whr += " and TSPL_BOOKING_MATSER.Is_BPL=1  "
+            Else
+                If TxtRoute.arrValueMember IsNot Nothing AndAlso TxtRoute.arrValueMember.Count > 0 Then
+                    If chkDCSSale.Checked Then
+                        Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ",'')" + Environment.NewLine
+                    Else
+                        Whr += " and TSPL_SD_SALE_INVOICE_HEAD.Route_No in(" + clsCommon.GetMulcallString(TxtRoute.arrValueMember) + ")" + Environment.NewLine
+                    End If
+                End If
+
+                If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
+                    Whr += " and TSPL_ITEM_MASTER.Item_Code in(" + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")" + Environment.NewLine
+                End If
             End If
 
             If EnableProductSaleForJPR Then
@@ -172,9 +178,9 @@ Public Class SaleEinvoiceReport
                 End If
             End If
             Dim Baseqry As String = ""
-            If rbtnSummary.IsChecked Then
-                GetReportGridID()
-                qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
+                If rbtnSummary.IsChecked Then
+                    GetReportGridID()
+                    qry = "SELECT  max(CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103)) as [Supply Date],
                            CASE WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'AM' THEN 'Morning' WHEN max(TSPL_SD_SHIPMENT_HEAD.Shift_Type) = 'PM' THEN 'Evening'  end as [Shift Type],
                            max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS [Location],
                            max(TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code) AS [Sub Location],
@@ -185,10 +191,10 @@ Public Class SaleEinvoiceReport
                            maX(TSPL_STATE_MASTER.GST_STATE_Code) AS [Party State],
                            max(TSPL_CUSTOMER_MASTER.GSTNO) AS [Recipient Gst No],
                            max(TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type) as [E Invoice Type],"
-                If EnableProductSaleForJPR Then
-                    qry += "max(case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],"
-                End If
-                qry += " max(Ack_No) AS [Ack No],
+                    If EnableProductSaleForJPR Then
+                        qry += "max(case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream' end  )  as [Item Type],"
+                    End If
+                    qry += " max(Ack_No) AS [Ack No],
                            max(CONVERT(varchar,Ack_Date, 103)) AS [Ack Date],
                            max(IRN_No) AS [IRN No],
                            TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
@@ -278,10 +284,10 @@ Public Class SaleEinvoiceReport
                            left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                            left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
                            left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
-                Baseqry=qry
-                qry += "" + Whr + " " + whrclsDate + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
-            ElseIf rbtnDetail.IsChecked Then
-                qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
+                    Baseqry = qry
+                    qry += "" + Whr + " " + whrclsDate + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code  "
+                ElseIf rbtnDetail.IsChecked Then
+                    qry = "SELECT  CONVERT(varchar,TSPL_SD_SHIPMENT_HEAD.Supply_Date, 103) as [Supply Date],
                                 CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' THEN 'Morning' WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'PM' THEN 'Evening'  end as [Shift Type], 
                                 TSPL_SD_SHIPMENT_HEAD.Bill_To_Location AS [Location],
                                 TSPL_SD_SALE_INVOICE_HEAD.Sub_Location_code AS [Sub Location],
@@ -292,10 +298,10 @@ Public Class SaleEinvoiceReport
                                 TSPL_STATE_MASTER.GST_STATE_Code AS [Party State],
 								TSPL_CUSTOMER_MASTER.GSTNO AS [Recipient Gst No],
                                 TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type as [E Invoice Type],"
-                If EnableProductSaleForJPR Then
-                    qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
-                End If
-                qry += " Ack_No AS [Ack No],
+                    If EnableProductSaleForJPR Then
+                        qry += "case when  TSPL_SD_SALE_INVOICE_HEAD.item_type = 'M' then 'Milk' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'P' then 'Product' when TSPL_SD_SALE_INVOICE_HEAD.item_type = 'I' then 'Ice Cream'  end as [Item Type],"
+                    End If
+                    qry += " Ack_No AS [Ack No],
                                 CONVERT(varchar,Ack_Date, 103) AS [Ack Date],
 								IRN_No AS [IRN No],
                                 TSPL_SD_SALE_INVOICE_HEAD.Document_Code AS [Invoice No],
@@ -310,9 +316,11 @@ Public Class SaleEinvoiceReport
                                 TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount AS [Item Amount],
                                 tspl_item_master.HSN_Code as [HSN Code],                               
                                 TSPL_SD_SALE_INVOICE_HEAD.EwayBillNo AS [EwayBillNo],
-                                TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate AS [EwayBillDate],
-
-                                 Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate 
+                                TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate AS [EwayBillDate], "
+                    If chkBPL.Checked Then
+                    qry += " TSPL_BOOKING_MATSER.BPL_Coupon_Code,CONVERT(VARCHAR(10),TSPL_BOOKING_MATSER.BPL_Coupon_Date,103) AS BPL_Coupon_Date ,TSPL_BOOKING_MATSER.BPL_Name,TSPL_BOOKING_MATSER.BPL_Remark,TSPL_BOOKING_MATSER.BPL_Category,"
+                End If
+                    qry += " Convert(decimal(18,2),CASE WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX1='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate 
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX2='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate 
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX3='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate 
     				WHEN TSPL_SD_SALE_INVOICE_HEAD.TAX4='KKF'  THEN TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate 
@@ -454,17 +462,24 @@ Public Class SaleEinvoiceReport
                                 left join tspl_item_master on tspl_item_master.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
                                 left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
                                 left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No "
-                Baseqry=qry
-                qry += " " + Whr + "" + whrclsDate + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
-            End If
-            If chkDCSSale.Checked Then
-                qry = "" + qry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Baseqry + whrDCSSale + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC'"
-                If rbtnSummary.IsChecked Then
-                    qry += "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code "
+                If chkBPL.Checked Then
+                    qry += " left outer join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_No=TSPL_SD_SHIPMENT_HEAD.Against_Booking_No "
                 End If
-            End If
 
-            qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+                Baseqry = qry
+                    qry += " " + whrclsDate + " " + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type <> 'MCC' "
+                End If
+                If chkDCSSale.Checked Then
+                    qry = "" + qry + " " + Environment.NewLine + " union all " + Environment.NewLine + " " + Baseqry + whrDCSSale + Whr + " And TSPL_SD_SALE_INVOICE_HEAD.Trans_Type = 'MCC'"
+                    If rbtnSummary.IsChecked Then
+                        qry += "  group by TSPL_SD_SALE_INVOICE_HEAD.Document_Code "
+                    End If
+                End If
+
+                qry += " ORDER BY TSPL_SD_SALE_INVOICE_HEAD.Document_Code"
+
+
+
             dt = clsDBFuncationality.GetDataTable(qry)
             gvData.GroupDescriptors.Clear()
             gvData.MasterTemplate.SummaryRowsBottom.Clear()
@@ -766,6 +781,27 @@ Public Class SaleEinvoiceReport
                 gvData.Columns("EwayBillDate").HeaderText = "EwayBillDate"
                 gvData.Columns("EwayBillDate").Width = 100
                 gvData.Columns("EwayBillDate").IsVisible = True
+                If chkBPL.Checked Then
+                    gvData.Columns("BPL_Coupon_Code").HeaderText = "BPL Coupon Code"
+                    gvData.Columns("BPL_Coupon_Code").Width = 100
+                    gvData.Columns("BPL_Coupon_Code").IsVisible = True
+
+                    gvData.Columns("BPL_Coupon_Date").HeaderText = "BPL Coupon Date"
+                    gvData.Columns("BPL_Coupon_Date").Width = 100
+                    gvData.Columns("BPL_Coupon_Date").IsVisible = True
+
+                    gvData.Columns("BPL_Name").HeaderText = "BPL Name"
+                    gvData.Columns("BPL_Name").Width = 100
+                    gvData.Columns("BPL_Name").IsVisible = True
+
+                    gvData.Columns("BPL_Remark").HeaderText = "BPL Remark"
+                    gvData.Columns("BPL_Remark").Width = 100
+                    gvData.Columns("BPL_Remark").IsVisible = True
+
+                    gvData.Columns("BPL_Category").HeaderText = "BPL Category"
+                    gvData.Columns("BPL_Category").Width = 100
+                    gvData.Columns("BPL_Category").IsVisible = True
+                End If
 
                 gvData.Columns("KKF %").HeaderText = "KKF %"
                 gvData.Columns("KKF %").Width = 100
@@ -1211,6 +1247,32 @@ Public Class SaleEinvoiceReport
         If ChkBoth.Checked Then
             ChkB2B.Checked = False
             chkB2C.Checked = False
+        End If
+    End Sub
+
+    Private Sub chkBPL_CheckStateChanged(sender As Object, e As EventArgs) Handles chkBPL.CheckStateChanged
+        If chkBPL.Checked Then
+            rbtnDetail.IsChecked = True
+            ChkBoth.Checked = True
+            RadGroupBox2.Enabled = False
+            RadGroupBox6.Visible = False
+            RadGroupBox1.Enabled = False
+            chkDCSSale.Visible = False
+            TxtRoute.Visible = False
+            txtItem.Visible = False
+            MyLabel10.Visible = False
+            MyLabel4.Visible = False
+        Else
+            rbtnDetail.IsChecked = True
+            ChkBoth.Checked = True
+            RadGroupBox2.Enabled = True
+            RadGroupBox6.Visible = True
+            RadGroupBox1.Enabled = True
+            chkDCSSale.Visible = True
+            TxtRoute.Visible = True
+            txtItem.Visible = False
+            MyLabel10.Visible = True
+            MyLabel4.Visible = False
         End If
     End Sub
 
