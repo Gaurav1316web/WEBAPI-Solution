@@ -888,9 +888,9 @@ Public Class frmRptTrialBalanceNew
                 gv1.MasterTemplate.AutoExpandGroups = True
                 Dim summaryRowItem As New GridViewSummaryRowItem()
 
-                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
-                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -974,9 +974,9 @@ Public Class frmRptTrialBalanceNew
                 gv1.ShowGroupPanel = False
                 gv1.MasterTemplate.AutoExpandGroups = True
                 Dim summaryRowItem As New GridViewSummaryRowItem()
-                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
-                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1002,9 +1002,9 @@ Public Class frmRptTrialBalanceNew
                 gv1.ShowGroupPanel = False
                 gv1.MasterTemplate.AutoExpandGroups = True
                 Dim summaryRowItem As New GridViewSummaryRowItem()
-                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
-                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1065,9 +1065,9 @@ Public Class frmRptTrialBalanceNew
                 gv1.ShowGroupPanel = False
                 gv1.MasterTemplate.AutoExpandGroups = True
                 Dim summaryRowItem As New GridViewSummaryRowItem()
-                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
-                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+                Dim item2 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item2)
                 gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1128,15 +1128,15 @@ Public Class frmRptTrialBalanceNew
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("OPActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item3 As New GridViewSummaryItem("OPActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item3)
-                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item4)
-                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item5)
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                     gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1230,15 +1230,15 @@ Public Class frmRptTrialBalanceNew
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item2)
-                    Dim item3 As New GridViewSummaryItem("OPActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item3 As New GridViewSummaryItem("OPActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item3)
-                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item4)
-                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item5)
                     'Dim item6 As New GridViewSummaryItem("PeriodBal", "{0:F2}", GridAggregateFunction.Sum)
                     'summaryRowItem.Add(item6)
@@ -1308,13 +1308,13 @@ Public Class frmRptTrialBalanceNew
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item2)
-                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item4)
-                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item5)
                     gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                     gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1363,13 +1363,13 @@ Public Class frmRptTrialBalanceNew
                     gv1.ShowGroupPanel = False
                     gv1.MasterTemplate.AutoExpandGroups = True
                     Dim summaryRowItem As New GridViewSummaryRowItem()
-                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item1 As New GridViewSummaryItem("NormalDr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item1)
-                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item2 As New GridViewSummaryItem("NormalCr", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item2)
-                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item4 As New GridViewSummaryItem("PeriodActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item4)
-                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item5 As New GridViewSummaryItem("ActualBal", "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item5)
 
                     '' done by richa agarwal 04 Apr, 2018 only in case f period trial balance
@@ -1433,9 +1433,9 @@ Public Class frmRptTrialBalanceNew
             gv1.ShowGroupPanel = False
             gv1.MasterTemplate.AutoExpandGroups = True
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim item1 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item1 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item2 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1501,17 +1501,17 @@ Public Class frmRptTrialBalanceNew
             gv1.ShowGroupPanel = False
             gv1.MasterTemplate.AutoExpandGroups = True
             Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim item1 As New GridViewSummaryItem("DrAmtOP", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item1 As New GridViewSummaryItem("DrAmtOP", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
-            Dim item2 As New GridViewSummaryItem("CrAmtOP", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item2 As New GridViewSummaryItem("CrAmtOP", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
-            Dim item3 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item3 As New GridViewSummaryItem("DrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
-            Dim item4 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item4 As New GridViewSummaryItem("CrAmt", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)
-            Dim item5 As New GridViewSummaryItem("DrAmtCL", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item5 As New GridViewSummaryItem("DrAmtCL", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item5)
-            Dim item6 As New GridViewSummaryItem("CrAmtCL", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item6 As New GridViewSummaryItem("CrAmtCL", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item6)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom
@@ -1558,10 +1558,10 @@ Public Class frmRptTrialBalanceNew
                 gv1.Columns(key).Width = 100
                 gv1.Columns(key).HeaderText = arrLocation(key)
 
-                Dim item1 As New GridViewSummaryItem(key, "{0:F2}", GridAggregateFunction.Sum)
+                Dim item1 As New GridViewSummaryItem(key, "{0:n2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(item1)
             Next
-            Dim item2 As New GridViewSummaryItem("Total", "{0:F2}", GridAggregateFunction.Sum)
+            Dim item2 As New GridViewSummaryItem("Total", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             gv1.MasterView.SummaryRows(0).PinPosition = PinnedRowPosition.Bottom

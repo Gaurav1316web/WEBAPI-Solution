@@ -873,6 +873,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.Rptralwisematerialreceivedandpayment, "Ral Wise Material Received And Payment", "1.08.03.51", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.RmSecurityDeduction, "Rm Security Deduction", "1.08.03.52", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.WeightmentAutoAndManualReport, "Weightment Auto And Manual Report", "1.08.03.53", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptRejectionReport, "Rejection Detail Report", "1.08.03.57", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -1922,6 +1923,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CanSummaryReport, "Can Summary Report", "1.17.03.152", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.YearlyDBTSummaryReport, "Yearly DBT Summary Report", "1.17.03.153", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmTotalDeductionReport, "Total DCS Deduction Report", "1.17.03.157", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCDailyQtyReport, "BMC Daily Qty Report", "1.17.03.158", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTMonthWiseFarmerDetail, "DBT Month Wise Farmer Detail", "1.17.03.160", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DcsMonthWiseMilkCollectionReport, "Dcs Month Wise Milk Collection Report", "1.17.03.159", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         '' Anubhooti 05-Aug-2014
         '=================================================Human Resource================================================================

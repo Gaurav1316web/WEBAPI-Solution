@@ -1253,7 +1253,7 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.btnSendEmail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSendEmail.Controls.Add(Me.BtnCancel)
-        Me.btnSendEmail.Location = New System.Drawing.Point(316, 5)
+        Me.btnSendEmail.Location = New System.Drawing.Point(316, 4)
         Me.btnSendEmail.Name = "btnSendEmail"
         Me.btnSendEmail.Size = New System.Drawing.Size(80, 22)
         Me.btnSendEmail.TabIndex = 6
@@ -1262,9 +1262,9 @@ Partial Class FrmQualityCheckForSRN
         'BtnCancel
         '
         Me.BtnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.BtnCancel.Location = New System.Drawing.Point(2, 1)
+        Me.BtnCancel.Location = New System.Drawing.Point(0, 0)
         Me.BtnCancel.Name = "BtnCancel"
-        Me.BtnCancel.Size = New System.Drawing.Size(75, 22)
+        Me.BtnCancel.Size = New System.Drawing.Size(79, 22)
         Me.BtnCancel.TabIndex = 70
         Me.BtnCancel.Text = "Cancel"
         '

@@ -90,6 +90,9 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\XpertERP\bin\Debug\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="LinkShell">
       <HintPath>..\XpertERP\bin\Debug\LinkShell.dll</HintPath>
     </Reference>

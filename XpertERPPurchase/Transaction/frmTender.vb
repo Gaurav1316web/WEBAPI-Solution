@@ -134,32 +134,7 @@ Public Class frmTender
         cboMode.DisplayMember = "Name"
     End Sub
     Sub LoadTenderType()
-        Dim dt As DataTable = New DataTable()
-        dt.Columns.Add("Code", GetType(String))
-        dt.Columns.Add("Name", GetType(String))
-
-        Dim dr As DataRow
-        dr = dt.NewRow()
-        dr("Code") = "0"
-        dr("Name") = "RM Tender"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "1"
-        dr("Name") = "Risk Purchase"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "2"
-        dr("Name") = "Techical Spare Part"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "3"
-        dr("Name") = "Local Purchase"
-        dt.Rows.Add(dr)
-
-        cboTenderType.DataSource = dt
+        cboTenderType.DataSource = clsTenderHead.LoadTenderType()
         cboTenderType.ValueMember = "Code"
         cboTenderType.DisplayMember = "Name"
     End Sub

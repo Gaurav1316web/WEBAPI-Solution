@@ -454,7 +454,12 @@ Public Class clsProductDemandBookingSale
         Return True
     End Function
 
-    Public Shared Function PrintDemandProductData(ByVal Form_ID As String, ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean, isMultipleRoutes As Boolean, ByVal isRouteSummary As Boolean) As Boolean
+    Public Shared Function PrintDemandProductData(ByVal Form_ID As String, ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean, isMultipleRoutes As Boolean, ByVal isRouteSummary As Boolean) As String
+        Return PrintDemandProductData(Form_ID, ArrRoute, ItemType, DocDate, Status, IsIndividualCustomer, isMultipleRoutes, isRouteSummary, False)
+    End Function
+
+    Public Shared Function PrintDemandProductData(ByVal Form_ID As String, ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean, isMultipleRoutes As Boolean, ByVal isRouteSummary As Boolean, ByVal isFilePath As Boolean) As String
+        Dim filePath As String = Nothing
         Try
             Dim whrcls As String = ""
 
@@ -479,7 +484,7 @@ left outer join tspl_vehicle_master on tspl_vehicle_master.vehicle_id =TSPL_PROD
 left outer join tspl_transport_master on tspl_transport_master.Transport_Id=tspl_vehicle_master.Transport_Id
 where 2 = 2 "
 
-            qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
+            'qry += " and TSPL_Product_DEMAND_BOOKING_MASTER.Posted = 1 "
             qry += "" & whrcls & "  "
             qry += " and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "' and Cast(TSPL_Product_DEMAND_BOOKING_MASTER.Document_Date as Date) <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.myCDate(DocDate)), "dd/MMM/yyyy") + "'"
             If Not IsIndividualCustomer Then
@@ -493,9 +498,7 @@ where 2 = 2 "
             Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable("select ROW_NUMBER() over (order by max(Sku_Seq)) as SNO, Item_Code,max(Short_Description)Short_Description,sum(Qty)Qty,max(Unit_code)Unit_code,sum(Amount)Amount from  " & qry & " xx group by item_code order by max(Sku_Seq)")
             Dim dtPrint As DataTable = clsDBFuncationality.GetDataTable(qry + " order by Sku_Seq")
             If dtPrint Is Nothing OrElse dtPrint.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Print")
-                Return False
-                Exit Function
+                Throw New Exception("No Data Found to Print")
             ElseIf dtPrint.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
 
@@ -548,20 +551,18 @@ left outer join TSPL_ITEM_UOM_DETAIL as TabCrateUOM on TabCrateUOM.Item_Code=xx.
                 Next
                 dtPrint = clsDBFuncationality.GetDataTable(FinalQuery)
                 If isMultipleRoutes Then
-                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandPrint", "Booth Product Demand", "rptSubProductDemandBooking")
+                    filePath = frmCRV.funsubreportWithdt(Form_ID, isFilePath, CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandPrint", "Booth Product Demand", "rptSubProductDemandBooking")
                 ElseIf isRouteSummary Then
-                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandRouteSummary", "Booth Product Demand", "rptSubProductDemandBooking")
+                    filePath = frmCRV.funsubreportWithdt(Form_ID, isFilePath, CrystalReportFolder.KwalitySalesReport, dtPrint, dtSubReport, "rptProductIceCreamDemandRouteSummary", "Booth Product Demand", "rptSubProductDemandBooking")
                 Else
-                    frmCRV.funsubreportWithdt(Form_ID, CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductDemandBooking", "Booth Product Demand", "rptSubProductDemandBooking")
+                    filePath = frmCRV.funsubreportWithdt(Form_ID, isFilePath, CrystalReportFolder.SalesReport, dtPrint, dtSubReport, "rptProductDemandBooking", "Booth Product Demand", "rptSubProductDemandBooking")
                 End If
                 frmCRV = Nothing
             End If
-            Return False
-            Exit Function
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-        Return True
+        Return filePath
     End Function
 
     Public Shared Function PrintLoadInSlipData(ByVal Form_ID As String, ByVal ArrRoute As ArrayList, ByVal ItemType As String, ByVal DocDate As Date, ByVal Status As Integer, ByVal IsIndividualCustomer As Boolean) As Boolean

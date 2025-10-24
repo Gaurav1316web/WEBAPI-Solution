@@ -661,13 +661,13 @@ Public Class rptSaleRegisterDetail
             Dim intCount As Integer = 0
             For Each col As GridViewColumn In Gv1.Columns
                 If col.Name.Contains("Amount") = True Or col.Name.Contains("Amt") = True Or col.Name.Contains("Total") = True Or strPivotForFinalOuterQuery.Contains(col.Name) = True Then
-                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item)
                 ElseIf col.Name.Contains("Rate") = True Or col.Name.Contains("%") = True Then
-                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Avg)
                     summaryRowItem.Add(item)
                 ElseIf col.Name.Contains("Gross") = True Then
-                    Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item)
                 End If
             Next
@@ -947,16 +947,16 @@ Public Class rptSaleRegisterDetail
                 Dim intCount As Integer = 0
                 For Each col As GridViewColumn In Gv1.Columns
                     If clsCommon.CompairString(col.Name, "Total FAT KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "Total SNF KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "FAT KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "SNF KG") = CompairStringResult.Equal Or clsCommon.CompairString(col.Name, "Quantity") = CompairStringResult.Equal OrElse clsCommon.CompairString(col.Name, "Ltr Qty") = CompairStringResult.Equal Then
-                        Dim item1 As New GridViewSummaryItem(col.Name, "{0:F3}", GridAggregateFunction.Sum)
+                        Dim item1 As New GridViewSummaryItem(col.Name, "{0:n3}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(item1)
                     ElseIf col.Name.Contains("Amount") = True Or col.Name.Contains("Amt") = True Or col.Name.Contains("Total") = True Or strPivotForFinalOuterQuery.Contains(col.Name) = True Then
-                        Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
+                        Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(item)
                     ElseIf col.Name.Contains("Rate") = True Or col.Name.Contains("%") = True Then
-                        Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Avg)
+                        Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Avg)
                         summaryRowItem.Add(item)
                     ElseIf col.Name.Contains("COGS") = True Then
-                        Dim item As New GridViewSummaryItem(col.Name, "{0:F2}", GridAggregateFunction.Sum)
+                        Dim item As New GridViewSummaryItem(col.Name, "{0:n2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(item)
                     End If
                 Next
@@ -971,7 +971,7 @@ Public Class rptSaleRegisterDetail
                 Dim dblColumnIndex As Integer = Gv1.Columns.IndexOf("Rate")
                 For i As Integer = 8 To dblColumnIndex - 1
                     Dim strColumnName As String = clsCommon.myCstr(Gv1.Columns(i).Name)
-                    Dim item As New GridViewSummaryItem(strColumnName, "{0:F2}", GridAggregateFunction.Sum)
+                    Dim item As New GridViewSummaryItem(strColumnName, "{0:n2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(item)
                 Next
                 Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)

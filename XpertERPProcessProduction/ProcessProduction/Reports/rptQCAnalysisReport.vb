@@ -135,14 +135,14 @@ Public Class rptQCAnalysisReport
             End If
             qry = ""
             qry = "select '" & strDate & "' as [" & strDate & "] ,  max(Location_Code)Location_Code,max(Location_Desc)[Location Desc],max(Vendor_Code)Vendor_Code,max(Vendor_Name)[Vendor Name], max(Item_Code)Item_Code,max(Item_Desc)[Item Desc],max(RAL_NO)RAL_NO , Document_Code,max(Document_Date)Document_Date,
-            MAX(Item_Desc)[Item Name] ,max(Weighment_Code)Weighment_Code , max(Weighment_Date)Weighment_Date,max(VehicleNo)VehicleNo ," & SumParamInput & ", '' as Qc," & SumParamDed & ", sum(" & TotalDed & ") as [Total Deduction]
-            from ( select VehicleNo,Item_Desc,Location_Desc,Vendor_Name, Location_Code,Document_Code,Document_Date, Vendor_Code ,Item_Code , Weighment_Code , Weighment_Date , QC_Param_Code ,Gate_Entry_No, Gate_Entry_Date,RAL_NO ," & paramNameInput & ", " & paramNameDed & "
+            MAX(Item_Desc)[Item Name] ,max(Weighment_Code)Weighment_Code , max(Weighment_Date)Weighment_Date,max(VehicleNo)VehicleNo ," & SumParamInput & ", '' as Qc," & SumParamDed & ", sum(" & TotalDed & ") as [Total Deduction],max(Status) as [Status]
+            from ( select VehicleNo,Item_Desc,Location_Desc,Vendor_Name, Location_Code,Document_Code,Document_Date, Vendor_Code ,Item_Code , Weighment_Code , Weighment_Date , QC_Param_Code ,Gate_Entry_No, Gate_Entry_Date,RAL_NO ," & paramNameInput & ", " & paramNameDed & ",Status
             from ( select max(VehicleNo)VehicleNo, max(Location_Code)Location_Code,max(Location_Desc)Location_Desc , Document_Code,max(Document_Date)Document_Date,max(Vendor_Code)Vendor_Code,max(Vendor_Name)Vendor_Name, max(Item_Code)Item_Code,max(Weighment_Code)Weighment_Code , max(Weighment_Date)Weighment_Date , max(QC_Param_Code)QC_Param_Code ,
-            max(Gate_Entry_No)Gate_Entry_No , max(Gate_Entry_Date)Gate_Entry_Date ,MAX(Item_Desc)Item_Desc, max(RAL_NO)RAL_NO, sum(InputData)InputData , sum(InputDataDeductionPer)InputDataDeductionPer , max(param_desc)param_desc , max(param_desc_Ded)param_desc_Ded
+            max(Gate_Entry_No)Gate_Entry_No , max(Gate_Entry_Date)Gate_Entry_Date ,MAX(Item_Desc)Item_Desc, max(RAL_NO)RAL_NO, sum(InputData)InputData , sum(InputDataDeductionPer)InputDataDeductionPer , max(param_desc)param_desc , max(param_desc_Ded)param_desc_Ded,max(Status) as Status
             from  ( select TSPL_MRN_Head.VehicleNo, TSPL_LOCATION_MASTER.Location_Code  , TSPL_LOCATION_MASTER.Location_Desc ,  TSPL_QC_CHECK_HEAD.Document_Code, convert (varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as Document_Date ,TSPL_QC_CHECK_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name ,
             TSPL_QC_CHECK_SRN_DETAIL.Item_Code, TSPL_ITEM_MASTER.Item_Desc , TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code , convert (varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date , TSPL_QC_CHECK_SRN_DETAIL.QC_Param_Code, (case when len(tspl_qc_log_sheet_master.AliasName)>0 then tspl_qc_log_sheet_master.AliasName else tspl_qc_log_sheet_master.description end) as param_desc,
             (case when len(tspl_qc_log_sheet_master.AliasName)>0 then tspl_qc_log_sheet_master.AliasName else tspl_qc_log_sheet_master.description end) + 'Ded' as param_desc_Ded,TSPL_QC_CHECK_SRN_DETAIL.InputData , TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer
-            ,TSPL_QC_CHECK_HEAD.Gate_Entry_No,TSPL_QC_CHECK_HEAD.Gate_Entry_Date,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_GRN_HEAD.Ref_No as RAL_NO from TSPL_QC_CHECK_SRN_DETAIL 
+            ,TSPL_QC_CHECK_HEAD.Gate_Entry_No,TSPL_QC_CHECK_HEAD.Gate_Entry_Date,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_QC_CHECK_HEAD.QC_Status as Status,TSPL_GRN_HEAD.Ref_No as RAL_NO from TSPL_QC_CHECK_SRN_DETAIL 
             inner join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code = TSPL_QC_CHECK_SRN_DETAIL.Document_Code left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code
             left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No = TSPL_QC_CHECK_SRN_DETAIL.MRN_No and TSPL_MRN_DETAIL.Item_Code = TSPL_QC_CHECK_SRN_DETAIL.Item_Code left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No = TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code = TSPL_MRN_DETAIL.Item_Code
             left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_GRN_DETAIL.GRN_No left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_DETAIL.GRN_No left outer join tspl_qc_log_sheet_master on tspl_qc_log_sheet_master.code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code and tspl_qc_log_sheet_master.trans_id='standard'
@@ -467,13 +467,13 @@ Public Class rptQCAnalysisReport
             '(" + paramInputPivot + ")) AS PivotResult
             'ORDER BY PivotResult.Item_Code "
 
-            qry = " SELECT PivotResult.Location_Code,PivotResult.Location_Desc,PivotResult.Document_Code,
-PivotResult.Document_Date,PivotResult.Item_Code,   PivotResult.Item_Desc,
-   " + paramNameInput + "
+            qry = " SELECT PivotResult.Location_Code as [Location Code],PivotResult.Location_Desc as [Location Desc],PivotResult.Document_Code as [Document Code],
+PivotResult.Document_Date as [Document Date],PivotResult.Item_Code as [Item Code],   PivotResult.Item_Desc as [Item Desc],
+   " + paramNameInput + ",PivotResult.Status
 FROM 
 (
    SELECT H.Location_Code,L.Location_Desc,H.Document_Code       ,H.Document_Date,D.Item_Code,I.Item_Desc
-   ,D.InputData,
+   ,D.InputData,CASE WHEN H.Qc_Status = 'A' THEN 'Accepted'WHEN H.Qc_Status = 'R' THEN 'Rejected' ELSE 'Pending' END AS Status,
     CASE WHEN LEN(M.AliasName) > 0 THEN M.AliasName ELSE M.Description END AS param_desc
     FROM TSPL_QC_CHECK_PARA_DETAIL AS D
     LEFT JOIN TSPL_PROD_QC_CHECK_HEAD AS H ON H.Document_Code = D.Document_Code

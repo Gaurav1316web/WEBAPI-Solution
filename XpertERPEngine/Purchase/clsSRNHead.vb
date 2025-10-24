@@ -464,11 +464,20 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
         End If
     End Function
 
-
     Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal Document_Type As String) As Boolean
-
-        Dim qry As String = ""
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            CancelData(Form_Id, Doc_No, Document_Type, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal Document_Type As String, ByVal trans As SqlTransaction) As Boolean
+        Dim qry As String = ""
         Try
             Dim Doc_Type As String = Nothing
 
@@ -545,13 +554,13 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 qry = "delete from TSPL_SRN_Head where SRN_No='" & Doc_No & "' "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
-            trans.Commit()
+
             '' release objects 
             obj = Nothing
             qry = Nothing
 
         Catch ex As Exception
-            trans.Rollback()
+
             Throw New Exception(ex.Message)
         End Try
         Return True

@@ -982,6 +982,9 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
             'coll.Add("UploderDocNo", "Varchar(30) null references TSPL_DEMAND_UPLOADER(Document_No)")
             coll.Add("IsUpdating", "integer null")
             coll.Add("IsPosting", "integer null")
+            coll.Add("Send_By", "varchar(12)  NULL")
+            coll.Add("Send_Date", "datetime  NULL")
+            coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PRODUCT_DEMAND_BOOKING_MASTER", coll, "", True, False, "", "Document_No", "Document_Date", True)
             coll = New Dictionary(Of String, String)()
             coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
@@ -2083,5 +2086,30 @@ group by TSPL_Product_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.displ
         Dim ArrRoute As ArrayList = New ArrayList
         ArrRoute.Add(txtRouteNo.Value)
         clsProductDemandBookingSale.PrintLoadInSlipData(MyBase.Form_ID, ArrRoute, ItemType, txtDate.Value, UsLock1.Status, False)
+    End Sub
+
+    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
+        Try
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            'Dim sfd As SaveFileDialog = New SaveFileDialog()
+            'Dim filePath As String = ""
+            'sfd.FileName = Me.Text
+            'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
+            'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            '    filePath = sfd.FileName
+            'Else
+            'End If
+            'If Not filePath.Equals(String.Empty) Then
+
+            transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                transportSql.exportdata(gv1, "", Me.Text, , Nothing, False, False, True)
+
+            ' End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
     End Sub
 End Class

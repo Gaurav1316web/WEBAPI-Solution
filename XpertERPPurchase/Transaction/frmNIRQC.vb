@@ -392,7 +392,7 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
                 Exit Sub
             End If
             If clsCommon.myLen(txtCode.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                If clsCommon.MyMessageBoxShow("Do you want to cancel the NIRQC?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
                 End If
                 '    If clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(txtDocNo.Value), Nothing) Then
@@ -415,30 +415,28 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
                         'Else
                         '    clsPurchaseOrderHead.ReverseAndUnpost(txtDocNo.Value, MyBase.Form_ID)
                     End If
-                    If common.clsCommon.MyMessageBoxShow("Do you want to cancel the NIRQC?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
-                        Dim Reason As String = ""
-                        If (myMessages.CancelConfirms(Me)) Then
-                            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtCode.Value))
-                            If clsCancelLog.CheckForReasonOnDelete() Then
-                                '' REASON FOR DELETE 
-                                Dim frm As New FrmFreeTxtBox1
-                                frm.Text = "Remarks for Cancel"
-                                frm.ShowDialog()
-                                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                                    Exit Sub
-                                Else
-                                    Reason = frm.strRmks
-                                End If
-                            End If
-                            If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), IIf(clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") = CompairStringResult.Equal, True, False), False) Then
-
-                                'If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value)) Then
-                                ' saveCancelLog(Reason, "Cancel", Nothing)
-                                clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
-                                AddNew()
-                            End If
+                    'If common.clsCommon.MyMessageBoxShow("Do you want to cancel the NIRQC?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Dim Reason As String = ""
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtCode.Value))
+                    If clsCancelLog.CheckForReasonOnDelete() Then
+                        '' REASON FOR DELETE 
+                        Dim frm As New FrmFreeTxtBox1
+                        frm.Text = "Remarks for Cancel"
+                        frm.ShowDialog()
+                        If clsCommon.myLen(frm.strRmks) <= 0 Then
+                            Exit Sub
+                        Else
+                            Reason = frm.strRmks
                         End If
                     End If
+                    If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value), IIf(clsCommon.CompairString(clsCommon.myCstr(cboVisualQCStatus.SelectedItem), "Not Ok") = CompairStringResult.Equal, True, False), False) Then
+
+                        'If clsNIRQC.CancelData(Me.Form_ID, clsCommon.myCstr(txtCode.Value)) Then
+                        ' saveCancelLog(Reason, "Cancel", Nothing)
+                        clsCommon.MyMessageBoxShow(Me, "Data Cancel Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                    'End If
                 End If
             End If
         Catch ex As Exception
