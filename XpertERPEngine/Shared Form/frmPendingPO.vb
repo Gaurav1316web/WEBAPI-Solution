@@ -211,7 +211,7 @@ Public Class frmPendingPO
                     strSRNCondition = " and tspl_srn_head.PurchaseOrder_Type='" + PurchaseOrder_Type + "'"
                 End If
 
-                qry = "select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,max(tolerencePer) as tolerencePer,
+                qry = "Select * from ( select CAST(0 as bit) as Sel,code,max(Final.Tax_Group) as Tax_Group,max(TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as TaxGroupName,ICode,max(IName) as IName,max(tolerencePer) as tolerencePer,
 	  max(ItemTolerenceQty) as ItemTolerenceQty ,MAX(IType) as IType,max(Unit)as Unit,max(Location) as Location,MAX(TSPL_LOCATION_MASTER.Location_Desc) as LocationName," &
                         " SUM(Qty* case when RI=1 then 1 else 0 end) as POQty," &
                         " SUM(Qty* case when RI=-1 then 1 else 0 end) as GRNQty," &
@@ -443,7 +443,6 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                         "where TSPL_PR_HEAD.Status=1 and" + Environment.NewLine +
                         "len(isnull(TSPL_SRN_DETAIL.PO_ID,''))>0 "
                     End If
-
                 End If
                 '' add rejected qty for further grn
                 'qry += " union all " + Environment.NewLine +
@@ -452,14 +451,14 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
                 '       " left outer join tspl_item_master on tspl_item_master.item_code=TSPL_QC_CHECK_SRN_DETAIL.item_code where TSPL_QC_CHECK_HEAD.Posted=1 " &
                 '       " and len(isnull(TSPL_QC_CHECK_SRN_DETAIL.PO_No,''))>0  and TSPL_QC_CHECK_SRN_DETAIL.Ok_Qty<=0 and not exists (select * from TSPL_MRN_DETAIL where TSPL_MRN_DETAIL.MRN_No=TSPL_QC_CHECK_SRN_DETAIL.MRN_No )"
                 qry += " )Final left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=Final.Location left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=Final.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='P' "
+                qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and  (SUM((Qty *RI)-Unapproved" + IIf(OpenPOForShorateLeakageQty, "+", "-") + "DamageQty) <>0 or sum(isBlanket)>0) )xyz "
                 If objCommonVar.RCDFCFP AndAlso dtGRNDate IsNot Nothing Then
                     qry += "  Where Convert(Date,TransDate,103)>=Convert(Date,'" & txtFromDate.Value & "',103) And Convert(Date,TransDate,103)<=Convert(Date,'" & txtToDate.Value & "',103) "
                 End If
                 If clsCommon.myLen(strTendorCode) > 0 Then
                     qry += " And  RefTendorNo='" & strTendorCode & "'"
                 End If
-                qry += " group by Code,ICode,Unit,MRP having SUM(Chk)>0 and  (SUM((Qty *RI)-Unapproved" + IIf(OpenPOForShorateLeakageQty, "+", "-") + "DamageQty) <>0 or sum(isBlanket)>0) order by Code,ICode "
-
+                qry += " order by Code,ICode "
             End If
         End If
 

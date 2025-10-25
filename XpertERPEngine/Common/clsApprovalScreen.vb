@@ -86,6 +86,21 @@ Public Class clsApprovalScreen
         End Try
     End Function
 
+    Public Shared Function GetDataQry(ByVal Module_Code As String, ByVal Screen_Code As String, ByVal strLocCode As String, ByVal strCaptex As String) As String
+        Dim qry As String = "select TSPL_APPROVAL_LEVEL_SCREEN.*,tspl_user_master.user_name from TSPL_APPROVAL_LEVEL_SCREEN left outer join tspl_user_master on tspl_user_master.user_code=TSPL_APPROVAL_LEVEL_SCREEN.user_code where TSPL_APPROVAL_LEVEL_SCREEN.comp_code='" & objCommonVar.CurrentCompanyCode & "' "
+        If clsCommon.myLen(Module_Code) > 0 Then
+            qry += " and TSPL_APPROVAL_LEVEL_SCREEN.module_code='" & Module_Code & "' "
+        End If
+        qry += " and TSPL_APPROVAL_LEVEL_SCREEN.trans_code='" & Screen_Code & "'"
+        If clsCommon.myLen(strLocCode) > 0 Then
+            qry += " and Loc_Code='" & strLocCode & "'"
+        End If
+        If clsCommon.myLen(strCaptex) > 0 Then
+            qry += " and Capex_Category='" & strCaptex & "'"
+        End If
+        Return qry
+    End Function
+
     Public Shared Function GetData(ByVal Module_Code As String, ByVal Screen_Code As String, ByVal strLocCode As String, ByVal strCaptex As String, Optional ByVal trans As SqlTransaction = Nothing) As clsApprovalScreen
         Dim obj As New clsApprovalScreen()
         Dim obj1 As New clsApprovalScreen()
@@ -93,13 +108,14 @@ Public Class clsApprovalScreen
         Try
             obj.Arr = New List(Of clsApprovalScreen)
 
-            Dim qry As String = "select TSPL_APPROVAL_LEVEL_SCREEN.*,tspl_user_master.user_name from TSPL_APPROVAL_LEVEL_SCREEN left outer join tspl_user_master on tspl_user_master.user_code=TSPL_APPROVAL_LEVEL_SCREEN.user_code where TSPL_APPROVAL_LEVEL_SCREEN.comp_code='" & objCommonVar.CurrentCompanyCode & "' and TSPL_APPROVAL_LEVEL_SCREEN.module_code='" & Module_Code & "' and TSPL_APPROVAL_LEVEL_SCREEN.trans_code='" & Screen_Code & "'"
-            If clsCommon.myLen(strLocCode) > 0 Then
-                qry += " and Loc_Code='" & strLocCode & "'"
-            End If
-            If clsCommon.myLen(strCaptex) > 0 Then
-                qry += " and Capex_Category='" & strCaptex & "'"
-            End If
+            'Dim qry As String = "select TSPL_APPROVAL_LEVEL_SCREEN.*,tspl_user_master.user_name from TSPL_APPROVAL_LEVEL_SCREEN left outer join tspl_user_master on tspl_user_master.user_code=TSPL_APPROVAL_LEVEL_SCREEN.user_code where TSPL_APPROVAL_LEVEL_SCREEN.comp_code='" & objCommonVar.CurrentCompanyCode & "' and TSPL_APPROVAL_LEVEL_SCREEN.module_code='" & Module_Code & "' and TSPL_APPROVAL_LEVEL_SCREEN.trans_code='" & Screen_Code & "'"
+            'If clsCommon.myLen(strLocCode) > 0 Then
+            '    qry += " and Loc_Code='" & strLocCode & "'"
+            'End If
+            'If clsCommon.myLen(strCaptex) > 0 Then
+            '    qry += " and Capex_Category='" & strCaptex & "'"
+            'End If
+            Dim qry As String = GetDataQry(Module_Code, Screen_Code, strLocCode, strCaptex)
             dt = clsDBFuncationality.GetDataTable(qry, trans)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -700,6 +716,9 @@ Public Class clsApply_Approval
 
                         If chkcunter = 1 AndAlso msg = 0 AndAlso documentCounter = 0 Then
                             If Not clsCommon.MyMessageBoxShow("Want to send document for approval?", "Attention", Windows.Forms.MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                                If objCommonVar.RCDFCFP AndAlso clsCommon.CompairString(Form_Id, clsUserMgtCode.NIRQC) = CompairStringResult.Equal Then
+                                    ChkApproval(Nothing, Form_Id, strLocationCode, strCapexCategory, trans)
+                                End If
                                 str = ""
                                 documentsendforApprovalScreenfromQuickBookEntry = False
                                 Return str
@@ -799,6 +818,20 @@ Public Class clsApply_Approval
             coll = Nothing
         End Try
     End Function
+
+    Public Shared Function ChkApproval(ByVal strModule As String, ByVal strFormID As String, ByVal strLocation As String, ByVal strCaptex As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim Qry As String = clsApprovalScreen.GetDataQry(strModule, strFormID, strLocation, strCaptex)
+            Dim chkCount As Integer = clsDBFuncationality.getSingleValue("Select Count(*) from(" & Qry & ")xyz", trans)
+            If chkCount > 0 Then
+                Throw New Exception("Need to send for approval !")
+            End If
+            Return True
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
     ''end here
     ''below function is call on update of document,when document update then check if send for approval then updation not allowed
     Public Shared Function CheckUpdate_Doc_Valid(ByVal Form_Id As String, ByVal Doc_Code As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
