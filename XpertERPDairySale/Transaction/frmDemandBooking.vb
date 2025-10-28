@@ -4274,8 +4274,27 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                     Next
                     ' Bind the converted DataTabl
                 End If
-                dtNew.Rows.Add(dtNew.NewRow)
 
+                Dim isVisibleCol As Integer = 0
+                For ii As Integer = 0 To GVTruckSheet.Columns.Count - 1
+                    If GVTruckSheet.Columns(ii).IsVisible Then
+                        isVisibleCol += 1
+                    End If
+                Next
+
+                Dim totFreshAmbCol As Integer = dtFresh.Columns.Count + dtAmbient.Columns.Count
+                If isVisibleCol < totFreshAmbCol Then
+                    Dim colToAdd As Integer = totFreshAmbCol - isVisibleCol
+                    For i As Integer = 1 To colToAdd
+                        Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
+                        newCol.HeaderText = ""
+                        newCol.IsVisible = True
+                        GVTruckSheet.Columns.Add(newCol)
+                        dtNew.Columns.Add("ExtraCol" & i, GetType(String))
+                    Next
+                    GVTruckSheet.Refresh()
+                End If
+                dtNew.Rows.Add(dtNew.NewRow)
 
                 Dim colk As Integer = -1
                 colk = GetNextvisibleColumn(GVTruckSheet, colk)
