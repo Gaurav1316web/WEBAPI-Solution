@@ -2482,6 +2482,12 @@
     <Compile Include="Purchase\Report\frmRptVendorLedgerVSAgeing.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Purchase\Report\MostUserScreen.Designer.vb">
+      <DependentUpon>MostUserScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Purchase\Report\MostUserScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Purchase\Report\RptARReport.Designer.vb">
       <DependentUpon>RptARReport.vb</DependentUpon>
     </Compile>
@@ -5975,6 +5981,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\frmRptVendorLedgerVSAgeing.resx">
       <DependentUpon>frmRptVendorLedgerVSAgeing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\Report\MostUserScreen.resx">
+      <DependentUpon>MostUserScreen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\RptARReport.resx">
       <DependentUpon>RptARReport.vb</DependentUpon>

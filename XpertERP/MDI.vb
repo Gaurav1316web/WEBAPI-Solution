@@ -10035,6 +10035,9 @@ Public Class MDI
                     Case clsUserMgtCode.SalesMarketingDashboard
                         frm = New SalesMarketingDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MostUserScreen
+                        frm = New MostUserScreen()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                     Case clsUserMgtCode.rptSMSDetailsReport
