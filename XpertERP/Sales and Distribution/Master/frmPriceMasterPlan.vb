@@ -316,7 +316,7 @@ Public Class frmPriceMasterPlan
             repoTextBox.IsVisible = False
             gv1.MasterTemplate.Columns.Add(repoTextBox)
 
-           
+
 
             For ii As Integer = 1 To 10
 
@@ -516,7 +516,7 @@ Public Class frmPriceMasterPlan
                     obj.PricePlanCopyNo = clsCommon.myCstr(lblPricePlanCopyNo.Text)
                 End If
 
-
+                obj.Shift_Type = IIf(rbtnMorning.IsChecked, "Morning", "Evening")
                 obj.Is_ALL_UOM = chkAllUOM.Checked
                 obj.Is_FOR_Price = chkForPrice.Checked
                 obj.Is_Back_Calculation = chkBackCalculation.Checked
@@ -745,7 +745,11 @@ Public Class frmPriceMasterPlan
                 lblPricePlanCopyNo.Text = clsCommon.myCstr(obj.PricePlanCopyNo)
                 chkAllUOM.Checked = obj.Is_ALL_UOM
                 chkForPrice.Checked = obj.Is_FOR_Price
-
+                If clsCommon.CompairString(obj.Shift_Type, "Morning") = CompairStringResult.Equal Then
+                    rbtnMorning.IsChecked = True
+                ElseIf clsCommon.CompairString(obj.Shift_Type, "Evening") = CompairStringResult.Equal Then
+                    rbtnEvening.IsChecked = True
+                End If
                 chkBackCalculation.Checked = obj.Is_Back_Calculation
                 If chkBackCalculation.Checked Then
                     If obj.Back_Calculation_Type = 1 Then
@@ -896,9 +900,9 @@ Public Class frmPriceMasterPlan
     End Sub
 
     Private Sub fndcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-        Dim qry As String = "select Plan_Code as PlanCode,convert(varchar,Plan_Date,103) as PlanDate,Loc_Code as LocationCode,TSPL_LOCATION_MASTER.Location_Desc as Location,Start_Date as StartDate,End_Date as EndDate,case when Post_Status=1 then 'Approved' else 'Pending' end as Status" + Environment.NewLine + _
-            " ,isnull(TSPL_ITEM_PRICE_PLAN_HEADER.Remarks,'') as Remarks ,isnull(TSPL_ITEM_PRICE_PLAN_HEADER.PricePlanCopyNo,'') as [Price Plan Copy No] " & Environment.NewLine & _
-        " from TSPL_ITEM_PRICE_PLAN_HEADER" + Environment.NewLine + _
+        Dim qry As String = "select Plan_Code as PlanCode,convert(varchar,Plan_Date,103) as PlanDate,Loc_Code as LocationCode,TSPL_LOCATION_MASTER.Location_Desc as Location,Start_Date as StartDate,End_Date as EndDate,case when Post_Status=1 then 'Approved' else 'Pending' end as Status" + Environment.NewLine +
+            " ,isnull(TSPL_ITEM_PRICE_PLAN_HEADER.Remarks,'') as Remarks ,isnull(TSPL_ITEM_PRICE_PLAN_HEADER.PricePlanCopyNo,'') as [Price Plan Copy No] " & Environment.NewLine &
+        " from TSPL_ITEM_PRICE_PLAN_HEADER" + Environment.NewLine +
         "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_ITEM_PRICE_PLAN_HEADER.Loc_Code"
 
         Dim whrcls As String = ""
@@ -1174,8 +1178,8 @@ Public Class frmPriceMasterPlan
         qry += " where Location_Code = '" + strTransLocation + "' " + whrCls + " "
         qry += " group by Tax_Group_Code"
         qry += " )xxx"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " + whrCls_taxGrp + " " + Environment.NewLine + _
-        " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine + _
+        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " + whrCls_taxGrp + " " + Environment.NewLine +
+        " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine +
         " " & whrExempted & " ) xxxx "
         Return clsCommon.ShowSelectForm("POtxGroupfndd", qry, "Code", "", strCurrCode, "Code", isButtonClicked)
     End Function
@@ -1513,9 +1517,9 @@ Public Class frmPriceMasterPlan
                             Throw New Exception("Please enter Tax Group")
                         End If
 
-                        qry = "select Tax_Group_Code as Code  from( select xxx.Tax_Group_Code,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc  from (" + Environment.NewLine + _
-                        " Select Tax_Group_Code from TSPL_LOCATION_WISE_TAX_MASTER  where Location_Code = '" + txtLocation.Value + "'  and  Tax_Type='" + obj.PriceType + "' group by Tax_Group_Code )xxx " + Environment.NewLine + _
-                        " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code  and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + obj.PriceType + "'" + Environment.NewLine + _
+                        qry = "select Tax_Group_Code as Code  from( select xxx.Tax_Group_Code,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc  from (" + Environment.NewLine +
+                        " Select Tax_Group_Code from TSPL_LOCATION_WISE_TAX_MASTER  where Location_Code = '" + txtLocation.Value + "'  and  Tax_Type='" + obj.PriceType + "' group by Tax_Group_Code )xxx " + Environment.NewLine +
+                        " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code  and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + obj.PriceType + "'" + Environment.NewLine +
                         " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) "
 
                         ''richa TEC/30/07/19-000967 if item is of Non taxable type then show only exempted type of taxes
@@ -1569,8 +1573,8 @@ Public Class frmPriceMasterPlan
 
     Function GetValidTaxRate(ByVal strTaxGroup As String, ByVal strTaxType As String, ByVal strLineNo As String, ByVal TaxRate As Decimal) As Boolean
         If clsCommon.myLen(strTaxGroup) > 0 AndAlso TaxRate > 0 Then
-            Dim qry As String = "select 1 from TSPL_TAX_GROUP_DETAILS " + Environment.NewLine + _
-             " left outer join TSPL_TAX_RATES on TSPL_TAX_RATES.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type=TSPL_TAX_GROUP_DETAILS.Tax_Group_Type" + Environment.NewLine + _
+            Dim qry As String = "select 1 from TSPL_TAX_GROUP_DETAILS " + Environment.NewLine +
+             " left outer join TSPL_TAX_RATES on TSPL_TAX_RATES.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type=TSPL_TAX_GROUP_DETAILS.Tax_Group_Type" + Environment.NewLine +
              " where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + strTaxGroup + "' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_GROUP_DETAILS.Trans_Code='" + strLineNo + "'  and TSPL_TAX_RATES.Tax_Rate='" + clsCommon.myCstr(TaxRate) + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -1684,7 +1688,7 @@ Public Class frmPriceMasterPlan
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1753,5 +1757,13 @@ Public Class frmPriceMasterPlan
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub MyLabel3_Click(sender As Object, e As EventArgs) Handles MyLabel3.Click
+
+    End Sub
+
+    Private Sub lblPricePlanCopyNo_Click(sender As Object, e As EventArgs) Handles lblPricePlanCopyNo.Click
+
     End Sub
 End Class

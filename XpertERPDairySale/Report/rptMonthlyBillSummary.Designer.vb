@@ -27,6 +27,8 @@ Partial Class rptMonthlyBillSummary
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.rgbPeriod = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cmbYear = New System.Windows.Forms.ComboBox()
+        Me.cmbMonth = New System.Windows.Forms.ComboBox()
         Me.lblYear = New common.Controls.MyLabel()
         Me.lblMonth = New common.Controls.MyLabel()
         Me.txtZone = New common.UserControls.txtMultiSelectFinder()
@@ -61,8 +63,8 @@ Partial Class rptMonthlyBillSummary
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.cmbYear = New System.Windows.Forms.ComboBox()
-        Me.cmbMonth = New System.Windows.Forms.ComboBox()
+        Me.chkBPL = New System.Windows.Forms.CheckBox()
+        Me.btnBPLPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -106,6 +108,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnBPLPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +125,7 @@ Partial Class rptMonthlyBillSummary
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnBPLPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnprintDetail)
@@ -146,6 +150,7 @@ Partial Class rptMonthlyBillSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkBPL)
         Me.RadPageViewPage1.Controls.Add(Me.rgbPeriod)
         Me.RadPageViewPage1.Controls.Add(Me.txtZone)
         Me.RadPageViewPage1.Controls.Add(Me.lblZone)
@@ -178,6 +183,22 @@ Partial Class rptMonthlyBillSummary
         Me.rgbPeriod.Size = New System.Drawing.Size(281, 40)
         Me.rgbPeriod.TabIndex = 452
         Me.rgbPeriod.Text = "Period"
+        '
+        'cmbYear
+        '
+        Me.cmbYear.FormattingEnabled = True
+        Me.cmbYear.Location = New System.Drawing.Point(183, 13)
+        Me.cmbYear.Name = "cmbYear"
+        Me.cmbYear.Size = New System.Drawing.Size(85, 21)
+        Me.cmbYear.TabIndex = 5
+        '
+        'cmbMonth
+        '
+        Me.cmbMonth.FormattingEnabled = True
+        Me.cmbMonth.Location = New System.Drawing.Point(55, 14)
+        Me.cmbMonth.Name = "cmbMonth"
+        Me.cmbMonth.Size = New System.Drawing.Size(85, 21)
+        Me.cmbMonth.TabIndex = 4
         '
         'lblYear
         '
@@ -567,21 +588,24 @@ Partial Class rptMonthlyBillSummary
         Me.btnPrint.TabIndex = 165
         Me.btnPrint.Text = "Print"
         '
-        'cmbYear
+        'chkBPL
         '
-        Me.cmbYear.FormattingEnabled = True
-        Me.cmbYear.Location = New System.Drawing.Point(183, 13)
-        Me.cmbYear.Name = "cmbYear"
-        Me.cmbYear.Size = New System.Drawing.Size(85, 21)
-        Me.cmbYear.TabIndex = 5
+        Me.chkBPL.AutoSize = True
+        Me.chkBPL.Location = New System.Drawing.Point(684, 18)
+        Me.chkBPL.Name = "chkBPL"
+        Me.chkBPL.Size = New System.Drawing.Size(43, 17)
+        Me.chkBPL.TabIndex = 453
+        Me.chkBPL.Text = "BPL"
+        Me.chkBPL.UseVisualStyleBackColor = True
         '
-        'cmbMonth
+        'btnBPLPrint
         '
-        Me.cmbMonth.FormattingEnabled = True
-        Me.cmbMonth.Location = New System.Drawing.Point(55, 14)
-        Me.cmbMonth.Name = "cmbMonth"
-        Me.cmbMonth.Size = New System.Drawing.Size(85, 21)
-        Me.cmbMonth.TabIndex = 4
+        Me.btnBPLPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBPLPrint.Location = New System.Drawing.Point(507, 7)
+        Me.btnBPLPrint.Name = "btnBPLPrint"
+        Me.btnBPLPrint.Size = New System.Drawing.Size(96, 18)
+        Me.btnBPLPrint.TabIndex = 171
+        Me.btnBPLPrint.Text = "BPL Print"
         '
         'rptMonthlyBillSummary
         '
@@ -644,6 +668,7 @@ Partial Class rptMonthlyBillSummary
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnBPLPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -689,4 +714,6 @@ Partial Class rptMonthlyBillSummary
     Friend WithEvents lblMonth As common.Controls.MyLabel
     Friend WithEvents cmbYear As ComboBox
     Friend WithEvents cmbMonth As ComboBox
+    Friend WithEvents chkBPL As CheckBox
+    Friend WithEvents btnBPLPrint As RadButton
 End Class

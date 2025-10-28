@@ -561,6 +561,7 @@ Public Class frmDairyGatePass
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                         If chkIndividualCustomer.Checked Then
                             strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=1 and TSPL_SD_SHIPMENT_HEAD.Demand_UniqueID in('" & txtDemandNo.Value & "-T','" & txtDemandNo.Value & "-NT' )"
+                            txtTripNo.Text = "1"
                         Else
                             strQuery += " and TSPL_SD_SHIPMENT_HEAD.IsIndividualCustomer=0 "
                         End If

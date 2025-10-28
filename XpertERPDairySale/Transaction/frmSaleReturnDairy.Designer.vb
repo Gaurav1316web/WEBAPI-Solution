@@ -22,11 +22,11 @@ Partial Class frmSaleReturnDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -46,6 +46,7 @@ Partial Class frmSaleReturnDairy
         Me.rbtn_leak = New System.Windows.Forms.RadioButton()
         Me.rbtn_expire = New System.Windows.Forms.RadioButton()
         Me.pnlPCJ = New System.Windows.Forms.Panel()
+        Me.chkBoothWiseReturn = New Telerik.WinControls.UI.RadCheckBox()
         Me.fndProject = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.lblProject = New common.Controls.MyLabel()
@@ -208,7 +209,9 @@ Partial Class frmSaleReturnDairy
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.chkBoothWiseReturn = New Telerik.WinControls.UI.RadCheckBox()
+        Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -228,6 +231,7 @@ Partial Class frmSaleReturnDairy
         CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnl_damage.SuspendLayout()
         Me.pnlPCJ.SuspendLayout()
+        CType(Me.chkBoothWiseReturn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fndProject, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -377,7 +381,9 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkBoothWiseReturn, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel3.SuspendLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -436,6 +442,7 @@ Partial Class frmSaleReturnDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.Panel3)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel60)
         Me.RadPageViewPage1.Controls.Add(Me.txtSubLocation)
@@ -569,7 +576,7 @@ Partial Class frmSaleReturnDairy
         Me.Panel2.Controls.Add(Me.MyLabel52)
         Me.Panel2.Controls.Add(Me.TxtTotalCAN)
         Me.Panel2.Controls.Add(Me.MyLabel51)
-        Me.Panel2.Location = New System.Drawing.Point(955, 105)
+        Me.Panel2.Location = New System.Drawing.Point(955, 133)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(181, 49)
         Me.Panel2.TabIndex = 1450
@@ -737,6 +744,15 @@ Partial Class frmSaleReturnDairy
         Me.pnlPCJ.Name = "pnlPCJ"
         Me.pnlPCJ.Size = New System.Drawing.Size(417, 22)
         Me.pnlPCJ.TabIndex = 56
+        '
+        'chkBoothWiseReturn
+        '
+        Me.chkBoothWiseReturn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkBoothWiseReturn.Location = New System.Drawing.Point(266, 3)
+        Me.chkBoothWiseReturn.Name = "chkBoothWiseReturn"
+        Me.chkBoothWiseReturn.Size = New System.Drawing.Size(147, 16)
+        Me.chkBoothWiseReturn.TabIndex = 1476
+        Me.chkBoothWiseReturn.Text = "Apply Booth Wise Return"
         '
         'fndProject
         '
@@ -935,7 +951,7 @@ Partial Class frmSaleReturnDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
@@ -1057,7 +1073,7 @@ Partial Class frmSaleReturnDairy
         Me.txtCrateQty.IsSourceFromTable = False
         Me.txtCrateQty.IsSourceFromValueList = False
         Me.txtCrateQty.IsUnique = False
-        Me.txtCrateQty.Location = New System.Drawing.Point(1053, 156)
+        Me.txtCrateQty.Location = New System.Drawing.Point(1053, 184)
         Me.txtCrateQty.MendatroryField = False
         Me.txtCrateQty.MyLinkLable1 = Nothing
         Me.txtCrateQty.MyLinkLable2 = Nothing
@@ -1076,7 +1092,7 @@ Partial Class frmSaleReturnDairy
         '
         Me.MyLabel50.FieldName = Nothing
         Me.MyLabel50.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel50.Location = New System.Drawing.Point(957, 158)
+        Me.MyLabel50.Location = New System.Drawing.Point(957, 186)
         Me.MyLabel50.Name = "MyLabel50"
         Me.MyLabel50.Size = New System.Drawing.Size(81, 16)
         Me.MyLabel50.TabIndex = 1448
@@ -1086,7 +1102,7 @@ Partial Class frmSaleReturnDairy
         '
         Me.MyLabel37.FieldName = Nothing
         Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel37.Location = New System.Drawing.Point(955, 75)
+        Me.MyLabel37.Location = New System.Drawing.Point(955, 112)
         Me.MyLabel37.Name = "MyLabel37"
         Me.MyLabel37.Size = New System.Drawing.Size(26, 16)
         Me.MyLabel37.TabIndex = 1401
@@ -1115,7 +1131,7 @@ Partial Class frmSaleReturnDairy
         Me.txtBox.IsSourceFromTable = False
         Me.txtBox.IsSourceFromValueList = False
         Me.txtBox.IsUnique = False
-        Me.txtBox.Location = New System.Drawing.Point(993, 73)
+        Me.txtBox.Location = New System.Drawing.Point(993, 110)
         Me.txtBox.MendatroryField = False
         Me.txtBox.MyLinkLable1 = Nothing
         Me.txtBox.MyLinkLable2 = Nothing
@@ -1159,7 +1175,7 @@ Partial Class frmSaleReturnDairy
         '
         Me.MyLabel36.FieldName = Nothing
         Me.MyLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel36.Location = New System.Drawing.Point(954, 50)
+        Me.MyLabel36.Location = New System.Drawing.Point(954, 87)
         Me.MyLabel36.Name = "MyLabel36"
         Me.MyLabel36.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel36.TabIndex = 1402
@@ -1189,7 +1205,7 @@ Partial Class frmSaleReturnDairy
         Me.txtJaali.IsSourceFromTable = False
         Me.txtJaali.IsSourceFromValueList = False
         Me.txtJaali.IsUnique = False
-        Me.txtJaali.Location = New System.Drawing.Point(992, 48)
+        Me.txtJaali.Location = New System.Drawing.Point(992, 85)
         Me.txtJaali.MendatroryField = False
         Me.txtJaali.MyLinkLable1 = Nothing
         Me.txtJaali.MyLinkLable2 = Nothing
@@ -1220,7 +1236,7 @@ Partial Class frmSaleReturnDairy
         '
         Me.MyLabel35.FieldName = Nothing
         Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel35.Location = New System.Drawing.Point(954, 25)
+        Me.MyLabel35.Location = New System.Drawing.Point(954, 62)
         Me.MyLabel35.Name = "MyLabel35"
         Me.MyLabel35.Size = New System.Drawing.Size(34, 16)
         Me.MyLabel35.TabIndex = 1403
@@ -1239,7 +1255,7 @@ Partial Class frmSaleReturnDairy
         Me.txtCrate.IsSourceFromTable = False
         Me.txtCrate.IsSourceFromValueList = False
         Me.txtCrate.IsUnique = False
-        Me.txtCrate.Location = New System.Drawing.Point(992, 23)
+        Me.txtCrate.Location = New System.Drawing.Point(992, 60)
         Me.txtCrate.MendatroryField = False
         Me.txtCrate.MyLinkLable1 = Nothing
         Me.txtCrate.MyLinkLable2 = Nothing
@@ -2072,7 +2088,7 @@ Partial Class frmSaleReturnDairy
         Me.gvBooth.MasterTemplate.AllowDeleteRow = False
         Me.gvBooth.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBooth.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvBooth.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvBooth.MyExportFilePath = ""
         Me.gvBooth.MyStopExport = False
         Me.gvBooth.Name = "gvBooth"
@@ -2317,7 +2333,7 @@ Partial Class frmSaleReturnDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyExportFilePath = ""
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
@@ -2371,7 +2387,7 @@ Partial Class frmSaleReturnDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyExportFilePath = ""
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
@@ -3101,18 +3117,37 @@ Partial Class frmSaleReturnDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'chkBoothWiseReturn
+        'Panel3
         '
-        Me.chkBoothWiseReturn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBoothWiseReturn.Location = New System.Drawing.Point(266, 3)
-        Me.chkBoothWiseReturn.Name = "chkBoothWiseReturn"
-        Me.chkBoothWiseReturn.Size = New System.Drawing.Size(147, 16)
-        Me.chkBoothWiseReturn.TabIndex = 1476
-        Me.chkBoothWiseReturn.Text = "Apply Booth Wise Return"
+        Me.Panel3.Controls.Add(Me.rbtnEvening)
+        Me.Panel3.Controls.Add(Me.rbtnMorning)
+        Me.Panel3.Location = New System.Drawing.Point(950, 30)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(137, 24)
+        Me.Panel3.TabIndex = 1476
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(71, 3)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 39
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(5, 3)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 38
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'frmSaleReturnDairy
         '
@@ -3153,6 +3188,7 @@ Partial Class frmSaleReturnDairy
         Me.pnl_damage.PerformLayout()
         Me.pnlPCJ.ResumeLayout(False)
         Me.pnlPCJ.PerformLayout()
+        CType(Me.chkBoothWiseReturn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fndProject, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3311,7 +3347,10 @@ Partial Class frmSaleReturnDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkBoothWiseReturn, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel3.ResumeLayout(False)
+        Me.Panel3.PerformLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3499,5 +3538,8 @@ Partial Class frmSaleReturnDairy
     Friend WithEvents RadPageViewPage5 As RadPageViewPage
     Friend WithEvents gvBooth As common.UserControls.MyRadGridView
     Friend WithEvents chkBoothWiseReturn As RadCheckBox
+    Friend WithEvents Panel3 As Panel
+    Friend WithEvents rbtnEvening As RadRadioButton
+    Friend WithEvents rbtnMorning As RadRadioButton
 End Class
 

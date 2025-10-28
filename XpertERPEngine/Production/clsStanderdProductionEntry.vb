@@ -1620,54 +1620,54 @@ Public Class clsStanderdProductionEntryRM
                 End If
             Next
 
+            ''Stop Hit the inventory for gunny bag by balwinder on 21/10/2025
+            'For Each objGunny As clsStanderdProductionEntryGunnyBag In objRec.ArrGunny
+            '    obj = New clsInventoryMovement
+            '    obj.Trans_Type = "GunnyBag"
+            '    obj.InOut = "I"
+            '    obj.Location_Code = objRec.LOCATION_CODE 'objProd.LOCATION_CODE
+            '    obj.Item_Code = objGunny.Item_Code
+            '    obj.Item_Desc = objGunny.Item_Name
+            '    obj.Qty = objGunny.Qty
+            '    obj.UOM = objGunny.UOM
+            '    obj.Source_Doc_No = objRec.PROD_ENTRY_CODE
+            '    obj.Source_Doc_Date = objRec.PROD_DATE
 
-            For Each objGunny As clsStanderdProductionEntryGunnyBag In objRec.ArrGunny
-                obj = New clsInventoryMovement
-                obj.Trans_Type = "GunnyBag"
-                obj.InOut = "I"
-                obj.Location_Code = objRec.LOCATION_CODE 'objProd.LOCATION_CODE
-                obj.Item_Code = objGunny.Item_Code
-                obj.Item_Desc = objGunny.Item_Name
-                obj.Qty = objGunny.Qty
-                obj.UOM = objGunny.UOM
-                obj.Source_Doc_No = objRec.PROD_ENTRY_CODE
-                obj.Source_Doc_Date = objRec.PROD_DATE
+            '    Dim strItemType As String = clsItemMaster.GetItemType(objGunny.Item_Code, trans)
+            '    Dim strItemTypeToSave As String = ""
+            '    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+            '        strItemTypeToSave = "RM"
+            '    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+            '        strItemTypeToSave = "OT"
+            '    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+            '        strItemTypeToSave = "FT"
+            '    Else
+            '        strItemTypeToSave = strItemType
+            '        'Throw New Exception("Item Type not found: " + strItemType)
+            '    End If
+            '    obj.ItemType = strItemTypeToSave
+            '    obj.Batch_No = ""
 
-                Dim strItemType As String = clsItemMaster.GetItemType(objGunny.Item_Code, trans)
-                Dim strItemTypeToSave As String = ""
-                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "RM"
-                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "OT"
-                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "FT"
-                Else
-                    strItemTypeToSave = strItemType
-                    'Throw New Exception("Item Type not found: " + strItemType)
-                End If
-                obj.ItemType = strItemTypeToSave
-                obj.Batch_No = ""
+            '    ''===========================================================
+            '    obj.FAT_Per = 0
+            '    obj.SNF_Per = 0
+            '    obj.FAT_KG = 0
+            '    obj.SNF_KG = 0
 
-                ''===========================================================
-                obj.FAT_Per = 0
-                obj.SNF_Per = 0
-                obj.FAT_KG = 0
-                obj.SNF_KG = 0
+            '    obj.Fat_Rate = 0
+            '    obj.SNF_Amt = 0
+            '    obj.Fat_Amt = 0
+            '    obj.SNF_Rate = 0
+            '    ''==================================================================
 
-                obj.Fat_Rate = 0
-                obj.SNF_Amt = 0
-                obj.Fat_Amt = 0
-                obj.SNF_Rate = 0
-                ''==================================================================
-
-                obj.Avg_Cost = 0
-                obj.FIFO_Cost = 0
-                obj.LIFO_Cost = 0
+            '    obj.Avg_Cost = 0
+            '    obj.FIFO_Cost = 0
+            '    obj.LIFO_Cost = 0
 
 
-                ArrInventoryMovement.Add(obj)
+            '    ArrInventoryMovement.Add(obj)
 
-            Next
+            'Next
 
 
             If ArrInventoryMovement.Count > 0 Then

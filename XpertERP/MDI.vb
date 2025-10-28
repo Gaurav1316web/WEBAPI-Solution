@@ -4065,6 +4065,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmItemMasterRMOther
                         frm = New FrmItemMasterRMOther()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.TypeOfItemMaster
+                        frm = New TypeOfItemMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmPartNoMaster
                         frm = New FrmPartNoMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6499,6 +6502,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.mbtnGRNReport
                         frm = New FrmGRNReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptRejectionReport
+                        frm = New rptRejectionReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptUnpostedPO
                         frm = New frmRptUnpostedPO()

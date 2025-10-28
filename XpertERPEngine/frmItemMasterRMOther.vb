@@ -1244,54 +1244,63 @@ Public Class FrmItemMasterRMOther
         dr("Code") = ""
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "A"
-        dr("Name") = "A"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "B"
-        dr("Name") = "B"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "C"
-        dr("Name") = "C"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "G"
-        dr("Name") = "GHEE"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "CF"
-        dr("Name") = "Cattle Feed"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "O"
-        dr("Name") = "Other"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "T"
-        dr("Name") = "Technical Spare Parts"
-        dt.Rows.Add(dr)
-        dr = dt.NewRow()
-        dr("Code") = "M"
-        dr("Name") = "Milk"
-        dt.Rows.Add(dr)
-        If EnableProductSaleForJPR Then
-
-            dr = dt.NewRow()
-            dr("Code") = "P"
-            dr("Name") = "Product"
-            dt.Rows.Add(dr)
-            dr = dt.NewRow()
-            dr("Code") = "I"
-            dr("Name") = "Ice Cream"
-            dt.Rows.Add(dr)
+        Dim strQry As String = "select Code,Name from TSPL_Type_Of_Item"
+        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry)
+        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            For Each drs As DataRow In dt1.Rows
+                dr = dt.NewRow()
+                dr("Code") = clsCommon.myCstr(drs("Code"))
+                dr("Name") = clsCommon.myCstr(drs("Name"))
+                dt.Rows.Add(dr)
+            Next
         End If
+        'dr = dt.NewRow()
+        'dr("Code") = "A"
+        'dr("Name") = "A"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "B"
+        'dr("Name") = "B"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "C"
+        'dr("Name") = "C"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "G"
+        'dr("Name") = "GHEE"
+        'dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "CF"
+        'dr("Name") = "Cattle Feed"
+        'dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "O"
+        'dr("Name") = "Other"
+        'dt.Rows.Add(dr)
+
+        'dr = dt.NewRow()
+        'dr("Code") = "T"
+        'dr("Name") = "Technical Spare Parts"
+        'dt.Rows.Add(dr)
+        'dr = dt.NewRow()
+        'dr("Code") = "M"
+        'dr("Name") = "Milk"
+        'dt.Rows.Add(dr)
+        'If EnableProductSaleForJPR Then
+
+        '    dr = dt.NewRow()
+        '    dr("Code") = "P"
+        '    dr("Name") = "Product"
+        '    dt.Rows.Add(dr)
+        '    dr = dt.NewRow()
+        '    dr("Code") = "I"
+        '    dr("Name") = "Ice Cream"
+        '    dt.Rows.Add(dr)
+        'End If
 
 
         cboType.DataSource = dt

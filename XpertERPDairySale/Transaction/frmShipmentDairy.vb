@@ -18,6 +18,7 @@ Public Class frmShipmentDairy
     Dim ConvertIntoBillingUOM As Boolean = False
     Dim ConvertIntoBulkUOM As Boolean = False
     Dim DifferentCrateTypeForFGItem As Boolean = False
+    Dim ApplyPricePlanOnDocumentDate As Boolean = False
 
     Dim ApplyManualScheme As Boolean = False
     Dim AutoSchemeOnTotalDispatchQty As Boolean = False
@@ -785,6 +786,7 @@ Public Class frmShipmentDairy
         ConvertIntoBillingUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertTOBillingUOM, clsFixedParameterCode.ConvertTOBillingUOM, Nothing)) = 1, True, False)
         ConvertIntoBulkUOM = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertIntoBulkUOM, clsFixedParameterCode.ConvertIntoBulkUOM, Nothing)) = 1, True, False)
         DifferentCrateTypeForFGItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DifferentCrateTypeForFGItem, clsFixedParameterCode.DifferentCrateTypeForFGItem, Nothing)) = 1, True, False)
+        ApplyPricePlanOnDocumentDate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, Nothing)) = 1, True, False)
         DispatchCommissionDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, Nothing))
 
         dtpChallan.Value = clsCommon.GETSERVERDATE
@@ -6260,6 +6262,10 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 whrcls = " and TSPL_ITEM_PRICE_MASTER.Price_Code='" & Price_code & "' and TSPL_ITEM_PRICE_MASTER.Is_For_Price=0 "
             End If
             txtPriceCode.Text = Price_code
+            Dim PriceDate As DateTime = txtSupplyDate.Value
+            If ApplyPricePlanOnDocumentDate Then
+                PriceDate = txtDate.Value
+            End If
             'lblPriceCodeDesc.Text = Price_code
             Dim qry = " Select Is_With_Tax,RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
                 " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
@@ -6276,7 +6282,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
            " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
            " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt ,TSPL_ITEM_PRICE_MASTER.Tax_group  from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
            "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-           "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  " & whrcls & "   " &
+           "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  2=( case when CONVERT(date,Start_Date,103)='" + clsCommon.GetPrintDate(PriceDate) + "' and Shift_Type='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,Start_Date,103)<='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, clsCommon.GetPrintDate(PriceDate.AddDays(-1)), clsCommon.GetPrintDate(PriceDate)) + "' then 2 else 3 end)  end) and (End_Date >= '" & clsCommon.GetPrintDate(PriceDate, "dd/MMM/yyyy") & "'  or End_date is null) " & whrcls & "   " &
           " And UOM ='" & strUnit & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & strItem & "' " &
            "AND Location_Code='" & txtBillToLocation.Value & "' " & strTax & " " &
            ") XXXE WHERE RowNo=1  "

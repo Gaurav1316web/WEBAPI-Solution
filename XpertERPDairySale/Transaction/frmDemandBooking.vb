@@ -2482,7 +2482,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                 " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
                 " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
                 "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-                "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
+                "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  2=( case when CONVERT(date,Start_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,Start_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end) and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
                 "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
                 ") XXXE WHERE RowNo=1  "
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -2702,7 +2702,7 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                     " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
                     " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TSPL_ITEM_PRICE_MASTER.TAX1_Amt , TSPL_ITEM_PRICE_MASTER.TAX2_Amt ,TSPL_ITEM_PRICE_MASTER.TAX3_Amt ,TSPL_ITEM_PRICE_MASTER.TAX4_Amt,TSPL_ITEM_PRICE_MASTER.TAX5_Amt,TSPL_ITEM_PRICE_MASTER.TAX6_Amt,TSPL_ITEM_PRICE_MASTER.TAX7_Amt,   TSPL_ITEM_PRICE_MASTER.TAX8_Amt,TSPL_ITEM_PRICE_MASTER.TAX9_Amt,TSPL_ITEM_PRICE_MASTER.TAX10_Amt,TSPL_ITEM_PRICE_MASTER.Against_Plan_TR_Code from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
                     "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-                    "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
+                    "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  2=( case when CONVERT(date,Start_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,Start_Date,103)<='" + IIf(rbtnMorning.IsChecked, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end)  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
                     "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
                     ") XXXE WHERE RowNo=1  "
                         'Else
@@ -3882,7 +3882,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             Dim strItemA As String = sbstrItemA.ToString()
             Dim strProdQ As String = sbstrProdQ.ToString()
             Dim strItemSUM As String = sbstrItemSUM.ToString()
-            Dim Qry As String = "select max(customer_Name) as Agents, " & strItemSUM & ""
+            Dim Qry As String = "select Cust_Code As Code,max(customer_Name) as Agents, " & strItemSUM & ""
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
                 Qry += " ,sum(isnull(TotalLtr_CustWise,0)) as [Milk In Ltr],sum(isnull(TotalCrates_ItemWise,0)) as [Crates],sum(isnull(MAmt,0)) as [Milk Amount],sum(isnull(PQty,0)) as [Product Quantity],sum(isnull(PAmt,0)) as [Product Amount] "
             End If
@@ -3991,7 +3991,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             'End If
             'Dim newTotalAmtRow As DataRow = dt.NewRow
             'newTotalAmtRow("Agents") = "Total Amt"
-            For i As Integer = 1 To dt.Columns.Count - 1
+            For i As Integer = 2 To dt.Columns.Count - 1
                 Dim ColName As String = dt.Columns(i).ColumnName
                 newTotalRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" & ColName & "])", ""))
                 'If ColName.Contains("#C") Then
@@ -4274,8 +4274,27 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                     Next
                     ' Bind the converted DataTabl
                 End If
-                dtNew.Rows.Add(dtNew.NewRow)
 
+                Dim isVisibleCol As Integer = 0
+                For ii As Integer = 0 To GVTruckSheet.Columns.Count - 1
+                    If GVTruckSheet.Columns(ii).IsVisible Then
+                        isVisibleCol += 1
+                    End If
+                Next
+
+                Dim totFreshAmbCol As Integer = dtFresh.Columns.Count + dtAmbient.Columns.Count
+                If isVisibleCol < totFreshAmbCol Then
+                    Dim colToAdd As Integer = totFreshAmbCol - isVisibleCol
+                    For i As Integer = 1 To colToAdd
+                        Dim newCol As New GridViewTextBoxColumn("ExtraCol" & i)
+                        newCol.HeaderText = ""
+                        newCol.IsVisible = True
+                        GVTruckSheet.Columns.Add(newCol)
+                        dtNew.Columns.Add("ExtraCol" & i, GetType(String))
+                    Next
+                    GVTruckSheet.Refresh()
+                End If
+                dtNew.Rows.Add(dtNew.NewRow)
 
                 Dim colk As Integer = -1
                 colk = GetNextvisibleColumn(GVTruckSheet, colk)

@@ -390,6 +390,12 @@
     <Compile Include="Report\rptralwisematerialreceivedandpayment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptRejectionReport.Designer.vb">
+      <DependentUpon>rptRejectionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptRejectionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptrlPenaltyRegister.Designer.vb">
       <DependentUpon>rptrlPenaltyRegister.vb</DependentUpon>
     </Compile>
@@ -647,6 +653,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptralwisematerialreceivedandpayment.resx">
       <DependentUpon>rptralwisematerialreceivedandpayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptRejectionReport.resx">
+      <DependentUpon>rptRejectionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptrlPenaltyRegister.resx">
       <DependentUpon>rptrlPenaltyRegister.vb</DependentUpon>

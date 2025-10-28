@@ -2134,3 +2134,109 @@ select Item_Code,Conversion_Factor as BagCF from TSPL_ITEM_UOM_DETAIL where UOM_
         Return dt
     End Function
 End Class
+Public Class clsTypeofItem
+#Region "Variables"
+    Public Code As String
+    Public Name As String
+#End Region
+    Public Function SaveData(ByVal obj As clsTypeofItem, ByVal isNewEntry As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            SaveData(obj, isNewEntry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Function SaveData(ByVal obj As clsTypeofItem, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim isExists As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(code) from TSPL_Type_Of_Item where code'" + obj.Code + "'")) = 0, False, True)
+            If isExists Then
+                Throw New Exception("Code [" & obj.Code & "] Already Exists")
+            End If
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
+            clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
+            clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Type_Of_Item", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Type_Of_Item", OMInsertOrUpdate.Update, "TSPL_Type_Of_Item.Code='" + clsCommon.myCstr(obj.Code) + "' ", trans)
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_Type_Of_Item", "Code", trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType) As clsTypeofItem
+        Return GetData(strDocumentNo, NavType, Nothing)
+    End Function
+    Public Shared Function GetData(ByVal strDocNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsTypeofItem
+        Dim obj As clsTypeofItem = Nothing
+        Dim qry = "SELECT  TSPL_Type_Of_Item.Code,TSPL_Type_Of_Item.Name  FROM TSPL_Type_Of_Item where 2=2 "
+        Dim whrCls As String = ""
+        Select Case NavType
+            Case NavigatorType.First
+                qry += " and TSPL_Type_Of_Item.Code = (select MIN(Code) from TSPL_Type_Of_Item WHERE 1=1 " + whrCls + ")"
+            Case NavigatorType.Last
+                qry += " and TSPL_Type_Of_Item.Code = (select Max(Code) from TSPL_Type_Of_Item WHERE 1=1 " + whrCls + ")"
+            Case NavigatorType.Current
+                qry += " and TSPL_Type_Of_Item.Code = '" + strDocNo + "'"
+            Case NavigatorType.Next
+                qry += " and TSPL_Type_Of_Item.Code = (select Min(Code) from TSPL_Type_Of_Item where Code >'" + strDocNo + "' " + whrCls + ")"
+            Case NavigatorType.Previous
+                qry += " and TSPL_Type_Of_Item.Code = (select Max(Code) from TSPL_Type_Of_Item where Code <'" + strDocNo + "' " + whrCls + ")"
+        End Select
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            obj = New clsTypeofItem()
+            obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
+            obj.Name = clsCommon.myCstr(dt.Rows(0)("Name"))
+
+
+        End If
+        Return obj
+    End Function
+    Public Shared Function DeleteData(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            DeleteData(strDocNo, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean
+        Dim obj As New clsTypeofItem()
+        Try
+            isSaved = False
+            If (clsCommon.myLen(strCode) <= 0) Then
+                Throw New Exception("Code not found to Delete")
+            End If
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_Type_Of_Item", "Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_Type_Of_Item", "Code", trans)
+            Dim isPosted As Integer = 0
+            isPosted = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(TSPL_Type_Of_Item.code) as NoofCount from TSPL_ITEM_MASTER left join TSPL_Type_Of_Item on TSPL_Type_Of_Item.Code=TSPL_ITEM_MASTER.TypeOfItm", trans))
+            If (isPosted = 1) Then
+                Throw New Exception("Already in Use")
+            End If
+            Dim qry As String
+            qry = "delete from TSPL_Type_Of_Item where Code ='" & strCode & "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return isSaved
+    End Function
+End Class

@@ -553,61 +553,6 @@ Public Class clsQualityCheckForSRNHead
     End Function
 
 
-    Public Shared Function CancelData(ByVal strCode As String) As Boolean
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-            ''qc approval must be deleted.
-            ' Dim qry As String = ""
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
-            If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
-
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-
-            End If
-
-            Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
-            'If (obj.Posted = ERPTransactionStatus.Approved) Then
-            '    Throw New Exception("Already Posted Document")
-            'End If
-            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
-
-            Dim qry1 As String = ""
-            'Dim dt As DataTable = Nothing
-            'strCode = obj.Document_Code
-            'qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
-            qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
-            dt = clsDBFuncationality.GetDataTable(qry1, trans)
-            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.bill_to_location, TSPL_QC_CHECK_HEAD.Document_Code from TSPL_QC_CHECK_HEAD where Document_Code= '" + obj.Document_Code + "' ", trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
-
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
-                Return True
-                Exit Function
-            End If
-
-            Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            qry = "delete from TSPL_QC_CHECK_MRN_DETAIL where document_code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            qry = "delete from TSPL_QC_CHECK_SRN_DETAIL where document_code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            qry = "delete from TSPL_QC_CHECK_DETAIL where document_code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' "
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            trans.Commit()
-            Return True
-        Catch ex As Exception
-            trans.Rollback()
-            Throw New Exception(ex.Message)
-        End Try
-    End Function
 
 
     Public Shared Function DeleteData(ByVal strCode As String, ByVal QC_Type As String) As Boolean
@@ -680,35 +625,37 @@ Public Class clsQualityCheckForSRNHead
             Throw New Exception(ex.Message)
         End Try
     End Function
-    Public Shared Function CancelData(ByVal strCode As String, ByVal QC_Type As String, ByVal trans As SqlTransaction) As Boolean
-        trans = clsDBFuncationality.GetTransactin()
+
+
+    Public Shared Function CancelData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            ''qc approval must be deleted.
-            ' Dim qry As String = ""
+            CancelData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function CancelData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
             If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-
             End If
-
             Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
-            If (obj.Posted = ERPTransactionStatus.Approved) Then
-                Throw New Exception("Already Posted Document")
-            End If
+            clsCommonFunctionality.SaveCancelData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Document_Code), "TSPL_QC_CHECK_HEAD", "Document_Code", "TSPL_QC_CHECK_DETAIL", "Document_Code", "TSPL_PI_REMITTANCE", "Document_No", trans)
 
             Dim qry1 As String = ""
-            'Dim dt As DataTable = Nothing
-            'strCode = obj.Document_Code
-            'qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
-            qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
+            qry1 = "Select distinct TSPL_TENDER_PENALTY_DETAIL.Document_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
             dt = clsDBFuncationality.GetDataTable(qry1, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
-                Return True
-                Exit Function
+                Throw New Exception("First Delete RAL Penalty [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "] then only you can cancel it.")
             End If
 
+            Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.bill_to_location, TSPL_QC_CHECK_HEAD.Document_Code from TSPL_QC_CHECK_HEAD where Document_Code= '" + obj.Document_Code + "' ", trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
 
             Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -725,13 +672,63 @@ Public Class clsQualityCheckForSRNHead
             qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            trans.Commit()
-            Return True
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
+    'Public Shared Function CancelData(ByVal strCode As String, ByVal QC_Type As String, ByVal trans As SqlTransaction) As Boolean
+    '    trans = clsDBFuncationality.GetTransactin()
+    '    Try
+    '        ''qc approval must be deleted.
+    '        ' Dim qry As String = ""
+    '        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
+    '        If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
+    '            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+    '            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+
+    '        End If
+
+    '        Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
+    '        If (obj.Posted = ERPTransactionStatus.Approved) Then
+    '            Throw New Exception("Already Posted Document")
+    '        End If
+
+    '        Dim qry1 As String = ""
+    '        'Dim dt As DataTable = Nothing
+    '        'strCode = obj.Document_Code
+    '        'qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
+    '        qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
+    '        dt = clsDBFuncationality.GetDataTable(qry1, trans)
+    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+    '            clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
+    '            Return True
+    '            Exit Function
+    '        End If
+
+
+    '        Dim qry As String = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where document_code='" + strCode + "'"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+    '        qry = "delete from TSPL_QC_CHECK_MRN_DETAIL where document_code='" + strCode + "'"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+    '        qry = "delete from TSPL_QC_CHECK_SRN_DETAIL where document_code='" + strCode + "'"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+    '        qry = "delete from TSPL_QC_CHECK_DETAIL where document_code='" + strCode + "'"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+    '        qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' "
+    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+    '        trans.Commit()
+    '        Return True
+    '    Catch ex As Exception
+    '        trans.Rollback()
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    'End Function
 
 
     Public Shared Function PostData(ByVal strCode As String, ByVal QC_Type As String) As Boolean
@@ -750,53 +747,75 @@ Public Class clsQualityCheckForSRNHead
 
     Public Shared Function PostData(ByVal strCode As String, ByVal QC_Type As String, ByVal trans As SqlTransaction) As Boolean
         Try
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
-
-            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-            'End If
-
             Dim dts As DataTable = clsDBFuncationality.GetDataTable(" select TSPL_QC_CHECK_HEAD.Bill_To_location, TSPL_QC_CHECK_HEAD.Document_Date from TSPL_QC_CHECK_HEAD where Document_Code= '" + strCode + "' ", trans)
             If dts IsNot Nothing AndAlso dts.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), clsCommon.myCDate(dts.Rows(0)("Document_Date")), trans)
             End If
-
-            Dim qry As String = "select Posted from TSPL_QC_CHECK_HEAD where Document_Code='" + strCode + "' "
-            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1 Then
-                Throw New Exception("Already Posted Document [" + strCode + "]")
+            Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, QC_Type, NavigatorType.Current, trans)
+            If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
+                Throw New Exception("Invalid Docuemnt [" + strCode + "]")
             End If
-            qry = "update TSPL_QC_CHECK_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + strCode + "' and QC_Type='" + QC_Type + "'"
+            If obj.Posted = 1 Then
+                Throw New Exception("Already Posted Document [" + obj.Document_Code + "]")
+            End If
+
+            Dim qry As String = "update TSPL_QC_CHECK_HEAD set Posted='1',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code='" + obj.Document_Code + "' and QC_Type='" + QC_Type + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_QC_CHECK_HEAD", "Document_Code", trans)
-
-            'qry = "update TSPL_PURCHASE_ORDER_HEAD set close_yn='N' where (coalesce((select sum(ok_qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & strCode & "'),0)<=0 or coalesce((select sum(Reject_Qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & strCode & "'),0)>0)"
-            Dim StrPONOQry As String = "DECLARE @query  AS NVARCHAR(MAX) SELECT  STUFF((SELECT distinct ',''' + TSPL_QC_CHECK_detail.po_no+'''' as Alies_Name 
-            FROM TSPL_QC_CHECK_detail where document_code in ('" & strCode & "')  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
-            Dim StrPONO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(StrPONOQry, trans))
-
-
-            If clsCommon.myLen(StrPONO) > 0 Then
-                qry = "update TSPL_PURCHASE_ORDER_HEAD set close_yn='N' where (coalesce((select sum(ok_qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & strCode & "'),0)<=0 or coalesce((select sum(Reject_Qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & strCode & "'),0)>0) and TSPL_PURCHASE_ORDER_HEAD.PURCHASEORDER_no in (" & StrPONO & ") "
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            End If
-
-
-            '===Sanjeet(03/01/2017) for notifiaction====
-            Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmQualityCheckForSRN + "'", trans))
-            Dim obj As New clsQualityCheckForSRNHead()
-            
-            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
-            If clsCommon.CompairString(strNotificationOn, "P") = CompairStringResult.Equal Then
-                'Dim obj As New clsQualityCheckForSRNHead()
-                obj = clsQualityCheckForSRNHead.GetData(strCode, QC_Type, NavigatorType.Current, trans)
-                CreateNotificationContentEMP(obj, trans)
-            End If
-            '=======================================
-            If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
-                If clsCommon.myLen(obj.Document_Code) = 0 Then
-                    obj = clsQualityCheckForSRNHead.GetData(strCode, QC_Type, NavigatorType.Current, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_QC_CHECK_HEAD", "Document_Code", trans)
+            If clsCommon.CompairString(obj.QC_Status, "Rejected") = CompairStringResult.Equal Then
+                qry = "select TSPL_MRN_DETAIL.GRN_Id,TSPL_MRN_DETAIL.MRN_No ,tspl_srn_Detail.SRN_No,TSPL_SRN_HEAD.Status as SRNStatus,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_NIR_QC.Document_No as NIRQCNo
+from TSPL_MRN_DETAIL 
+left outer join tspl_srn_Detail on tspl_srn_Detail.MRN_Id=TSPL_MRN_DETAIL.MRN_No
+left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=tspl_srn_Detail.SRN_No
+left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_DETAIL.GRN_Id
+left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAIL.MRN_No
+where TSPL_MRN_DETAIL.MRN_No in (select MRN_No from TSPL_QC_CHECK_MRN_DETAIL where Document_Code='" + obj.Document_Code + "')"
+                Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtDoc IsNot Nothing AndAlso dtDoc.Rows.Count > 0 Then
+                    CancelData(obj.Document_Code, trans)
+                    If clsCommon.myLen(dtDoc.Rows(0)("SRN_No")) > 0 Then
+                        clsSRNHead.CancelData("SRN", clsCommon.myCstr(dtDoc.Rows(0)("SRN_No")), "", trans)
+                    End If
+                    If clsCommon.myLen(dtDoc.Rows(0)("NIRQCNo")) > 0 Then
+                        clsNIRQC.CancelData("", clsCommon.myCstr(dtDoc.Rows(0)("NIRQCNo")), "", False, trans)
+                    End If
+                    If clsCommon.myLen(dtDoc.Rows(0)("MRN_No")) > 0 Then
+                        clsMRNHead.MRNCancel("", clsCommon.myCstr(dtDoc.Rows(0)("MRN_No")), trans)
+                    End If
+                    If clsCommon.myLen(dtDoc.Rows(0)("Weighment_Code")) > 0 Then
+                        clsPOWeighment.CancelData(clsCommon.myCstr(dtDoc.Rows(0)("Weighment_Code")), trans)
+                    End If
+                    If clsCommon.myLen(dtDoc.Rows(0)("GRN_Id")) > 0 Then
+                        clsGRNHead.GRNCancel("", clsCommon.myCstr(dtDoc.Rows(0)("GRN_Id")), trans)
+                    End If
                 End If
-                CreateInternalEmailSMS(obj, trans)
+            Else
+                Dim StrPONOQry As String = "DECLARE @query  AS NVARCHAR(MAX) SELECT  STUFF((SELECT distinct ',''' + TSPL_QC_CHECK_detail.po_no+'''' as Alies_Name 
+            FROM TSPL_QC_CHECK_detail where document_code in ('" & obj.Document_Code & "')  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
+                Dim StrPONO As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(StrPONOQry, trans))
+
+
+                If clsCommon.myLen(StrPONO) > 0 Then
+                    qry = "update TSPL_PURCHASE_ORDER_HEAD set close_yn='N' where (coalesce((select sum(ok_qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & obj.Document_Code & "'),0)<=0 or coalesce((select sum(Reject_Qty) from TSPL_QC_CHECK_DETAIL where  Document_Code='" & obj.Document_Code & "'),0)>0) and TSPL_PURCHASE_ORDER_HEAD.PURCHASEORDER_no in (" & StrPONO & ") "
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                End If
+
+
+                '===Sanjeet(03/01/2017) for notifiaction====
+                Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmQualityCheckForSRN + "'", trans))
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", clsCommon.myCstr(dts.Rows(0)("Bill_To_location")), obj.Document_Date, trans)
+                If clsCommon.CompairString(strNotificationOn, "P") = CompairStringResult.Equal Then
+                    'Dim obj As New clsQualityCheckForSRNHead()
+                    obj = clsQualityCheckForSRNHead.GetData(obj.Document_Code, QC_Type, NavigatorType.Current, trans)
+                    CreateNotificationContentEMP(obj, trans)
+                End If
+                '=======================================
+                If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
+                    If clsCommon.myLen(obj.Document_Code) = 0 Then
+                        obj = clsQualityCheckForSRNHead.GetData(obj.Document_Code, QC_Type, NavigatorType.Current, trans)
+                    End If
+                    CreateInternalEmailSMS(obj, trans)
+                End If
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

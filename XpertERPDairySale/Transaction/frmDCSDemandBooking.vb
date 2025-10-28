@@ -108,7 +108,6 @@ Public Class frmDCSDemandBooking
         txtCustomerNo.Visible = False
         lblCustomerName.Visible = False
         lblCustomerCode.Visible = False
-        rbtnCatelFeed.IsChecked = True
         LoadBlankGrid()
         btnSave.Enabled = True
         btnPost.Enabled = True
@@ -119,6 +118,26 @@ Public Class frmDCSDemandBooking
         txtDocNo.MyReadOnly = False
         isNewEntry = True
         CategoriesFlag(True)
+        LoadItemType()
+    End Sub
+    Sub LoadItemType()
+        Dim dt As New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = Nothing
+        Dim strQry As String = "select Code,Name from TSPL_Type_Of_Item"
+        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry)
+        If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+            For Each drs As DataRow In dt1.Rows
+                dr = dt.NewRow()
+                dr("Code") = clsCommon.myCstr(drs("Code"))
+                dr("Name") = clsCommon.myCstr(drs("Name"))
+                dt.Rows.Add(dr)
+            Next
+        End If
+        ddlItemType.DataSource = dt
+        ddlItemType.ValueMember = "Code"
+        ddlItemType.DisplayMember = "Name"
     End Sub
     Sub LoadBlankGrid()
         Dim qry As String = String.Empty
@@ -180,7 +199,7 @@ Public Class frmDCSDemandBooking
         repoOutstanding.Width = 50
         repoOutstanding.WrapText = True
         repoOutstanding.ReadOnly = True
-        repoOutstanding.IsVisible = True
+        repoOutstanding.IsVisible = False
         repoOutstanding.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoOutstanding)
         Dim repoLastMilkdate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -223,18 +242,17 @@ Public Class frmDCSDemandBooking
         repoCalAmtforSale.IsVisible = True
         repoCalAmtforSale.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoCalAmtforSale)
+
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         qry = "select * from (
     select 'Ambient' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,tspl_item_master.TypeOfItm,tspl_item_master.DcsSeqNo   from tspl_item_master 
     left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL .item_code=tspl_item_master.Item_Code 
     where  tspl_item_master.Is_Ambient=1   and isnull(TSPL_ITEM_MASTER.CAN,0)=0  and isnull(TSPL_ITEM_MASTER.CRATE,0)=0  and tspl_item_master.Active=1"
-        If rbtnCatelFeed.IsChecked Then
-            qry += " And tspl_item_master.TypeOfItm='CF' "
-        ElseIf rbtnGhee.IsChecked Then
-            qry += " And tspl_item_master.TypeOfItm='G' "
-        ElseIf rbtnOther.IsChecked Then
-            qry += " And tspl_item_master.TypeOfItm='O' "
+        If ddlItemType.SelectedValue IsNot Nothing Then
+            qry += " And tspl_item_master.TypeOfItm='" & clsCommon.myCstr(ddlItemType.SelectedValue) & "' "
         End If
+
+
         qry += " and tspl_item_master.DcsSeqNo is not null and tspl_item_master.DcsSeqNo>0
     and TSPL_ITEM_UOM_DETAIL.Default_UOM=1
     )z order by DcsSeqNo,Item_Code"
@@ -365,13 +383,7 @@ Public Class frmDCSDemandBooking
                 obj.Document_Date = txtDate.Value
                 obj.Route_No = txtRouteNo.Value
                 obj.Location = txtLocation.Value
-                If rbtnCatelFeed.IsChecked Then
-                    obj.Categories = "CF"
-                ElseIf rbtnGhee.IsChecked Then
-                    obj.Categories = "G"
-                ElseIf rbtnOther.IsChecked Then
-                    obj.Categories = "O"
-                End If
+                obj.Categories = ddlItemType.SelectedValue
                 obj.VehicleNo = txtVehicleNo.Text
                 If chkIndividualCustomer.Checked Then
                     obj.IsIndividualCustomer = True
@@ -428,13 +440,8 @@ Public Class frmDCSDemandBooking
                 AddNew()
                 isNewEntry = False
                 'Catel Feed=CF,Ghee=G,Other=O
-                If clsCommon.CompairString(obj.Categories, "CF") = CompairStringResult.Equal Then
-                    rbtnCatelFeed.IsChecked = True
-                ElseIf clsCommon.CompairString(obj.Categories, "G") = CompairStringResult.Equal Then
-                    rbtnGhee.IsChecked = True
-                ElseIf clsCommon.CompairString(obj.Categories, "O") = CompairStringResult.Equal Then
-                    rbtnOther.IsChecked = True
-                End If
+
+                ddlItemType.SelectedValue = obj.Categories
                 CategoriesFlag(False)
                 txtDate.Enabled = False
                 txtRouteNo.Enabled = False
@@ -483,9 +490,9 @@ Public Class frmDCSDemandBooking
         End Try
     End Sub
     Public Sub CategoriesFlag(ByVal flag As Boolean)
-        rbtnCatelFeed.Enabled = flag
-        rbtnGhee.Enabled = flag
-        rbtnOther.Enabled = flag
+        'rbtnCatelFeed.Enabled = flag
+        'rbtnGhee.Enabled = flag
+        'rbtnOther.Enabled = flag
     End Sub
     Sub PostData()
         Try
@@ -592,36 +599,36 @@ Public Class frmDCSDemandBooking
             gv1.Columns(gv1.Columns.Count - 1).IsCurrent = True
         End If
     End Sub
-    Private Sub rbtnCatelFeed_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnCatelFeed.ToggleStateChanged
-        If rbtnCatelFeed.IsChecked Then
-            rbtnGhee.IsChecked = False
-            rbtnOther.IsChecked = False
-            LoadBlankGrid()
-            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-                LoadDCS(txtRouteNo.Value)
-            End If
-        End If
-    End Sub
-    Private Sub rbtnGhee_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnGhee.ToggleStateChanged
-        If rbtnGhee.IsChecked Then
-            rbtnCatelFeed.IsChecked = False
-            rbtnOther.IsChecked = False
-            LoadBlankGrid()
-            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-                LoadDCS(txtRouteNo.Value)
-            End If
-        End If
-    End Sub
-    Private Sub rbtnOther_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnOther.ToggleStateChanged
-        If rbtnOther.IsChecked Then
-            rbtnGhee.IsChecked = False
-            rbtnCatelFeed.IsChecked = False
-            LoadBlankGrid()
-            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-                LoadDCS(txtRouteNo.Value)
-            End If
-        End If
-    End Sub
+    'Private Sub rbtnCatelFeed_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
+    '    'If rbtnCatelFeed.IsChecked Then
+    '    '    rbtnGhee.IsChecked = False
+    '    '    rbtnOther.IsChecked = False
+    '    '    LoadBlankGrid()
+    '    '    If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+    '    '        LoadDCS(txtRouteNo.Value)
+    '    '    End If
+    '    'End If
+    'End Sub
+    'Private Sub rbtnGhee_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
+    '    If rbtnGhee.IsChecked Then
+    '        rbtnCatelFeed.IsChecked = False
+    '        rbtnOther.IsChecked = False
+    '        LoadBlankGrid()
+    '        If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+    '            LoadDCS(txtRouteNo.Value)
+    '        End If
+    '    End If
+    'End Sub
+    'Private Sub rbtnOther_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
+    '    If rbtnOther.IsChecked Then
+    '        rbtnGhee.IsChecked = False
+    '        rbtnCatelFeed.IsChecked = False
+    '        LoadBlankGrid()
+    '        If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+    '            LoadDCS(txtRouteNo.Value)
+    '        End If
+    '    End If
+    'End Sub
     Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
         Try
             Dim qry As String = "Select TSPL_BULK_ROUTE_MASTER.Route_No as Code from TSPL_BULK_ROUTE_MASTER"
@@ -682,7 +689,7 @@ where Route_Code= '" + RouteNo + "'"
                         gv1.Rows(dbrow).Cells(colDCSName).Value = clsCommon.myCstr(dr("VLC_Name"))
                         gv1.Rows(dbrow).Cells(colCreditType).Value = RowCredit
 
-                        gv1.Rows(dbrow).Cells(colOutstanding).Value = GetOutStandingBal(clsCommon.myCstr(dr("VSP_Code")), clsCommon.GetPrintDate(txtDate.Value))
+                        gv1.Rows(dbrow).Cells(colOutstanding).Value = 0 'GetOutStandingBal(clsCommon.myCstr(dr("VSP_Code")), clsCommon.GetPrintDate(txtDate.Value))
                         gv1.Rows(dbrow).Cells(colLastMilkdate).Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_SRN_HEAD Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' order by TSPL_MILK_SRN_HEAD.DOC_DATE desc"), "dd-MMM-yyyy")
                         gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value = GetUnbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
                             gv1.Rows(dbrow).Cells(colbilledMilkAmt).Value = GetLastbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
@@ -851,5 +858,9 @@ order by FROM_DATE desc)"
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub ddlItemType_SelectedValueChanged(sender As Object, e As EventArgs) Handles ddlItemType.SelectedValueChanged
+        LoadBlankGrid()
     End Sub
 End Class

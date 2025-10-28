@@ -5508,7 +5508,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
        " TSPL_ITEM_PRICE_MASTER.TAX4, TSPL_ITEM_PRICE_MASTER.TAX5, TSPL_ITEM_PRICE_MASTER.TAX6, TSPL_ITEM_PRICE_MASTER.TAX7, " &
        " TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10,TAX1_Amt,TAX2_Amt,TAX3_Amt,TAX4_Amt ,TSPL_ITEM_PRICE_MASTER.Tax_group  from TSPL_ITEM_PRICE_MASTER  left  outer join  " &
        "TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_PRICE_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code and  " &
-       "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  " & whrcls & "   " &
+       "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  2=( case when CONVERT(date,Start_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "' and Shift_Type='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, "Morning", "Evening") + "' then 2 else ( case when CONVERT(date,Start_Date,103)<='" + IIf(clsCommon.CompairString(clsCommon.myCstr(cmbShift.SelectedValue), "AM") = CompairStringResult.Equal, clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)), clsCommon.GetPrintDate(txtDate.Value)) + "' then 2 else 3 end)  end) and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  " & whrcls & "   " &
       " And UOM ='" & strUnit & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & strItem & "' " &
        "AND Location_Code='" & txtBillToLocation.Value & "' " & strTax & " " &
        ") XXXE WHERE RowNo=1  "

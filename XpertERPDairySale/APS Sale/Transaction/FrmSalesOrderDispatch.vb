@@ -1167,7 +1167,8 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
         End Try
     End Sub
     Private Sub SetTax(ByVal Item_Code As String, ByVal introw As Integer)
-        Dim isTaxable As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where Item_Code='" & Item_Code & "'")) = 1, True, False)
+        'Dim isTaxable As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where Item_Code='" & Item_Code & "'")) = 1, True, False)
+        Dim isTaxable As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 IS_TAXABLE from TSPL_ITEM_MASTER_TAXABLE where ITEM_CODE='" & clsCommon.myCstr(Item_Code) & "'  and EFFECTIVE_DATE<='" & clsCommon.GetPrintDate(txtDate.Value) & "' order by EFFECTIVE_DATE desc")) = 1, True, False)
         GSTStatus = clsERPFuncationality.GetGSTStatus(txtDate.Value)
         If Not GSTStatus OrElse (isTaxable AndAlso GSTStatus) Then
             If CalculateTaxRatefromItemwsieTaxOnSale Then
@@ -1233,7 +1234,8 @@ where TSPL_CUSTOMER_TENDER_Order_DETAIL.Document_Code='" & strCode & "' "
             'For intRowNo As Integer = 0 To gv1.Rows.Count - 1
             If (clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0) Then
                 BlankTaxDetails(intRowNo, isChangeRate)
-                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'"))
+                'IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'"))
+                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 IS_TAXABLE from TSPL_ITEM_MASTER_TAXABLE where ITEM_CODE='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'  and EFFECTIVE_DATE<='" & clsCommon.GetPrintDate(txtDate.Value) & "' order by EFFECTIVE_DATE desc"))
                 If ((clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 AndAlso IsTaxable = 1) OrElse (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code IN (select Tax_Code  from TSPL_TAX_GROUP_DETAILS WHERE TAX_GROUP_CODE='" & txtTaxGroup.Value & "') AND Is_TCS ='Y'")) > 0)) Then
                     Dim ii As Integer = 1
                     For Each dr As DataRow In dt.Rows
@@ -2024,7 +2026,8 @@ TSPL_CUSTOMER_TENDER_ORDER left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTE
                 obj.Total_Amt = clsCommon.myCdbl(txtDocAmt.Text)
                 obj.Arr = GetTRData()
                 If clsCommon.CompairString(clsCommon.myCstr(obj.Arr(0).Item_Code), clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Code from TSPL_ITEM_MASTER where Item_Code='" & clsCommon.myCstr(obj.Arr(0).Item_Code) & "'"))) = CompairStringResult.Equal Then
-                    Dim isTaxable As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where Item_Code='" & obj.Arr(0).Item_Code & "'")) = 1, True, False)
+                    'Dim isTaxable As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where Item_Code='" & obj.Arr(0).Item_Code & "'")) = 1, True, False)
+                    Dim isTaxable As Boolean = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select top 1 IS_TAXABLE from TSPL_ITEM_MASTER_TAXABLE where ITEM_CODE='" & clsCommon.myCstr(obj.Arr(0).Item_Code) & "'  and EFFECTIVE_DATE<='" & clsCommon.GetPrintDate(txtDate.Value) & "' order by EFFECTIVE_DATE desc")) = 1, True, False)
                     If isTaxable Then
                         obj.DO_Item_Type = "T"
 
