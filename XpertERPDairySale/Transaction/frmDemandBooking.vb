@@ -3882,7 +3882,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             Dim strItemA As String = sbstrItemA.ToString()
             Dim strProdQ As String = sbstrProdQ.ToString()
             Dim strItemSUM As String = sbstrItemSUM.ToString()
-            Dim Qry As String = "select max(customer_Name) as Agents, " & strItemSUM & ""
+            Dim Qry As String = "select Cust_Code As Code,max(customer_Name) as Agents, " & strItemSUM & ""
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") <> CompairStringResult.Equal Then
                 Qry += " ,sum(isnull(TotalLtr_CustWise,0)) as [Milk In Ltr],sum(isnull(TotalCrates_ItemWise,0)) as [Crates],sum(isnull(MAmt,0)) as [Milk Amount],sum(isnull(PQty,0)) as [Product Quantity],sum(isnull(PAmt,0)) as [Product Amount] "
             End If
@@ -3991,7 +3991,7 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
             'End If
             'Dim newTotalAmtRow As DataRow = dt.NewRow
             'newTotalAmtRow("Agents") = "Total Amt"
-            For i As Integer = 1 To dt.Columns.Count - 1
+            For i As Integer = 2 To dt.Columns.Count - 1
                 Dim ColName As String = dt.Columns(i).ColumnName
                 newTotalRow(ColName) = clsCommon.myCdbl(dt.Compute("sum([" & ColName & "])", ""))
                 'If ColName.Contains("#C") Then
