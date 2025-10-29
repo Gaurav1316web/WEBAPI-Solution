@@ -2786,34 +2786,65 @@ Case When TSPL_Customer_INVOICE_HEAD.TAX10 IN ('TCS') Then Isnull(TSPL_Customer_
               case when TSPL_Customer_Invoice_Head.Document_Type ='C' then -1 else 1 end * isnull(TSPL_Customer_Invoice_Head.RoundOffAmount,0) as [Round Off Amount], 
               TSPL_Customer_Invoice_Head.Document_Total  as [Invoice Amount],'N' As [Reverse Charges] " & Environment.NewLine &
             " from (Select Document_No,Sum(Tax_Rate)Tax_Rate,Sum(Tax_Amt)Tax_Amt,MAX(Amount)Amount,MAX(Total_Tax)Total_Tax,Max(Total_Amount)Total_Amount from (Select Document_No,Tax,Tax_Rate,Sum(Tax_Amt)Tax_Amt,Sum(Amount)Amount,SUM(Total_Tax)Total_Tax,SUM(Total_Amount)Total_Amount from (
-Select Document_No, Tax1 As Tax, (Case When TAX1 IN ('CGST','SGST','IGST') Then IsNull(Tax1_Rate,0) Else 0 End) As Tax_Rate, Tax1_Amt As Tax_Amt,
-TAX1_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax1 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX1 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax1_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax1_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX1_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax2 As Tax,(Case When TAX2 IN ('CGST','SGST','IGST') Then IsNull(Tax2_Rate,0) Else 0 End) As Tax_Rate, Tax2_Amt As Tax_Amt,
-TAX2_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax2 As Tax,(Case When TSPL_Customer_Invoice_Head.TAX2 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax2_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax2_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX2_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax3 As Tax, (Case When TAX3 IN ('CGST','SGST','IGST') Then IsNull(Tax3_Rate,0) Else 0 End) As Tax_Rate, Tax3_Amt As Tax_Amt,
-TAX3_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax3 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX3 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax3_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax3_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX3_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax4 As Tax, (Case When TAX4 IN ('CGST','SGST','IGST') Then IsNull(Tax4_Rate,0) Else 0 End) As Tax_Rate, Tax4_Amt As Tax_Amt,
-TAX4_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax4 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX4 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax4_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax4_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX4_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax5 As Tax, (Case When TAX5 IN ('CGST','SGST','IGST') Then IsNull(Tax5_Rate,0) Else 0 End) As Tax_Rate, Tax5_Amt As Tax_Amt,
-TAX5_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax5 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX5 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax5_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax5_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX5_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL 
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax6 As Tax, (Case When TAX6 IN ('CGST','SGST','IGST') Then IsNull(Tax6_Rate,0) Else 0 End) As Tax_Rate, Tax6_Amt As Tax_Amt,
-TAX6_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax6 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX6 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax6_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax6_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX6_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax7 As Tax, (Case When TAX7 IN ('CGST','SGST','IGST') Then IsNull(Tax7_Rate,0) Else 0 End) As Tax_Rate, Tax7_Amt As Tax_Amt,
-TAX7_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax7 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX7 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax7_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax7_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX7_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+ --Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax8 As Tax, (Case When TAX8 IN ('CGST','SGST','IGST') Then IsNull(Tax8_Rate,0) Else 0 End) As Tax_Rate, Tax8_Amt As Tax_Amt,
-TAX8_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax8 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX8 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax8_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax8_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX8_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax9 As Tax, (Case When TAX9 IN ('CGST','SGST','IGST') Then IsNull(Tax9_Rate,0) Else 0 End) As Tax_Rate, Tax9_Amt As Tax_Amt,
-TAX9_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL --Where Document_No='AIN-CHU/2526/000020'
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax9 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX9 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax9_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax9_Amt As Tax_Amt,
+TSPL_CUSTOMER_INVOICE_DETAIL.TAX9_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL 
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
 Union All
-Select Document_No, Tax10 As Tax, (Case When TAX10 IN ('CGST','SGST','IGST') Then IsNull(Tax10_Rate,0) Else 0 End) As Tax_Rate, Tax10_Amt As Tax_Amt,TAX10_Base_Amt As Amount,Total_Tax,Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL)xyzTaxRate "
+Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Tax10 As Tax, (Case When TSPL_Customer_Invoice_Head.TAX10 IN ('CGST','SGST','IGST') Then IsNull(TSPL_CUSTOMER_INVOICE_DETAIL.Tax10_Rate,0) Else 0 End) As Tax_Rate, TSPL_CUSTOMER_INVOICE_DETAIL.Tax10_Amt As Tax_Amt,TSPL_CUSTOMER_INVOICE_DETAIL.TAX10_Base_Amt As Amount,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Tax,TSPL_CUSTOMER_INVOICE_DETAIL.Total_Amount from TSPL_CUSTOMER_INVOICE_DETAIL
+Inner Join TSPL_Customer_Invoice_Head On TSPL_Customer_Invoice_Head.Document_No=TSPL_CUSTOMER_INVOICE_DETAIL.Document_No
+where  convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date ,103)>=convert(date,'" & txtFromDate.Value & "',103) AND convert(date,TSPL_Customer_INVOICE_HEAD.Document_Date,103)<=convert(date,'" & txtToDate.Value & "',103)
+--Where Document_No='AIN-CHU/2526/006569'
+ )xyzTaxRate "
             BaseQry += " Where 2=2"
             If clsCommon.CompairString(strType, "Nil Rated Invoices - 8A, 8B, 8C, 8D") = CompairStringResult.Equal Then
                 BaseQry += " And Tax='EXEMPT' "

@@ -2747,6 +2747,7 @@ Public Class clsUserMgtCode
     Public Const DashboardMilkUnion As String = "UN-DSB"
     Public Const DairySaleDashboard As String = "DAR-DSB"
     Public Const SalesMarketingDashboard As String = "SAL-MAR-DAS"
+    Public Const MostUserScreen As String = "MO_US_SC"
     Public Const rptDBTDashboard As String = "DBT-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
