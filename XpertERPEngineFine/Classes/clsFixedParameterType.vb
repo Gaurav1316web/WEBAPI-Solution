@@ -6179,6 +6179,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmSaleSettingProduct, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSNSalesOrder, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialFarmer, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyFreshDispatchMultiple, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
