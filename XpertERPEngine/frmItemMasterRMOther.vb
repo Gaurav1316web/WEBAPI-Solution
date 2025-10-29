@@ -529,6 +529,7 @@ Public Class FrmItemMasterRMOther
         '' Pankaj Jha, Added Seq No.
         '' 
         txtSeqNo.Text = ""
+        txtSummarySeqNo.Text = ""
         txtUploaderSeq.Text = ""
         txtDCSSeqNo.Text = ""
         txtMarSeqNo.Text = ""
@@ -1649,6 +1650,7 @@ Public Class FrmItemMasterRMOther
                 obj.AlternativeItem = txtAlternativeItem.Value
                 obj.Item_Category_Struct_Code = txtCategoryStructureCode.Value
                 obj.Sku_Seq = clsCommon.myCdbl(txtSeqNo.Text)
+                obj.SummarySeqNo = clsCommon.myCdbl(txtSummarySeqNo.Text)
                 obj.Uploader_Seq = clsCommon.myCdbl(txtUploaderSeq.Text)
                 obj.DcsSeqNo = clsCommon.myCdbl(txtDCSSeqNo.Text)
                 obj.Is_DisplayDemand = chkIsDisplayDemad.Checked
@@ -3014,6 +3016,7 @@ Public Class FrmItemMasterRMOther
                 txt_tolerance.Value = obj.Tolerance
                 cmbUsedAs.SelectedValue = obj.Item_used_as
                 txtSeqNo.Text = obj.Sku_Seq
+                txtSummarySeqNo.Text = obj.SummarySeqNo
                 txtUploaderSeq.Text = obj.Uploader_Seq
                 txtDCSSeqNo.Text = obj.DcsSeqNo
                 chkMorning.Checked = obj.Morning

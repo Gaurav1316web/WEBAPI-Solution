@@ -924,8 +924,11 @@ xxx:
         Return FileCount
     End Function
 
-
     Public Function exportdata(ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
+        Return exportdata(False, MaxRowExport, gv, flname, sname, fromRow, ToRow, isblanksheet, arrHeader, ExportWithoutHeader, FormatCellofExcel, doubleheadershowninExcel, MultipleFiles, UseFilePath, manadatoryField, AllCellsInString)
+    End Function
+
+    Public Function exportdata(ByVal isArrHeaderMerged As Boolean, ByVal MaxRowExport As Integer, ByVal gv As MyRadGridView, ByVal flname As String, ByVal sname As String, ByVal fromRow As Integer, ToRow As Integer, Optional ByVal isblanksheet As Boolean = False, Optional ByVal arrHeader As List(Of String) = Nothing, Optional ExportWithoutHeader As Boolean = False, Optional FormatCellofExcel As Boolean = False, Optional doubleheadershowninExcel As Boolean = False, Optional ByVal MultipleFiles As Boolean = False, Optional ByVal UseFilePath As Boolean = False, Optional ByVal manadatoryField As List(Of String) = Nothing, Optional ByVal AllCellsInString As Boolean = False) As Integer
         Dim FileCount As Integer = 1
         If AllCellsInString Then
             MaxRowExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsInExcelExport, clsFixedParameterCode.MaxRowsInExcelExport, Nothing))
@@ -1151,14 +1154,33 @@ xxx:
 
             Dim colIndex As Integer = 1
             Dim rowIndex As Integer = 1
-
             If Not IsNothing(arrHeader) Then
-                For Each Str As String In arrHeader
-                    excel.Cells(rowIndex, colIndex) = Str
-                    rowIndex += 1
-                Next
+                If isArrHeaderMerged Then
+                    For Each Str As String In arrHeader
+                        Dim startCell As String = "A" & rowIndex.ToString()
+                        Dim endCell As String = ColumnIndexToColumnLetter(gv.Columns.Count) & rowIndex.ToString()
+                        Dim mergeRange As String = startCell & ":" & endCell
+                        excel.Cells(rowIndex, (gv.Columns.Count / 2)) = Str
+                        excel.Rows(rowIndex).Font.Bold = True
+                        excel.Range(mergeRange).Merge()
+                        excel.Range(mergeRange).HorizontalAlignment = -4131 ' Left Align
+                        excel.Cells(rowIndex, colIndex) = Str
+                        rowIndex += 1
+                    Next
+                Else
+                    For Each Str As String In arrHeader
+                        excel.Cells(rowIndex, colIndex) = Str
+                        rowIndex += 1
+                    Next
+                End If
             End If
 
+            'If Not IsNothing(arrHeader) Then
+            '    For Each Str As String In arrHeader
+            '        excel.Cells(rowIndex, colIndex) = Str
+            '        rowIndex += 1
+            '    Next
+            'End If
 
             ''richa agarwal 09-feb-2016 to show double header in excel BM00000008811
             If doubleheadershowninExcel = True Then
