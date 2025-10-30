@@ -150,6 +150,7 @@ Public Class clsSNSalesReturnHead
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSalesNew, clsUserMgtCode.frmSNSaleReturn, obj.Bill_To_Location, obj.Document_Date, trans)
             ''
             clsSerializeInvenotry.DeleteData("Sale Return", obj.Document_Code, trans)
+            clsBatchInventory.DeleteData("Sale Return", obj.Document_Code, trans)
             Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim strDocNo As String = ""
@@ -738,6 +739,7 @@ Public Class clsSNSalesReturnHead
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("Sale Return", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
+                    objTr.arrBatchItem = clsBatchInventory.GetData("Sale Return", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -825,7 +827,7 @@ Public Class clsSNSalesReturnHead
             '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Sale Return", obj.Bill_To_Location, obj.Document_Date, trans)
             ''
-            If (obj.Status = 1) Then
+            If (obj.Status = 1)  Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
             If (obj.On_Hold) Then
@@ -1509,6 +1511,7 @@ Public Class clsSNSalesReturnHead
                 clsCommonFunctionality.SaveDeletedData(objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SALE_RETURN_HEAD", "Document_Code", "TSPL_SD_SALE_RETURN_DETAIL", "Document_Code", trans)
 
                 clsSerializeInvenotry.DeleteData("Sale Return", strCode, trans)
+                clsBatchInventory.DeleteData("Sale Return", obj.Document_Code, trans)
 
                 Dim qry As String = "delete from TSPL_SD_SALE_RETURN_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1806,6 +1809,7 @@ Public Class clsSNSalesReturnDetail
     Public HeadDiscPer As Double = 0
     Public HeadDiscPerAmt As Double = 0
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsSNSalesReturnDetail), ByVal trans As SqlTransaction) As Boolean
@@ -1935,6 +1939,7 @@ Public Class clsSNSalesReturnDetail
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_RETURN_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("Sale Return", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
+                clsBatchInventory.SaveData("Sale Return", strDocNo, dtDocDate, "I", obj.Item_Code, obj.Location, obj.Line_No, obj.MRP, obj.Unit_code, obj.arrBatchItem, trans)
             Next
         End If
         Return True

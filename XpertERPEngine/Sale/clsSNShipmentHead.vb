@@ -1039,6 +1039,7 @@ Public Class clsSNShipmentHead
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
+            clsBatchInventory.DeleteData("SD-SH", obj.Document_Code, trans)
             Dim qry1 As String = "delete from TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry1, trans)
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + obj.Document_Code + "'"
@@ -1883,6 +1884,7 @@ Public Class clsSNShipmentHead
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("SD-IN", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
+                    objTr.arrBatchItem = clsBatchInventory.GetData("SD-SH", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     objTr.ItemwiseTaxCode = clsCommon.myCstr(dr("ItemwiseTaxCode"))
                     obj.Arr.Add(objTr)
                 Next
@@ -2486,7 +2488,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 clsCommonFunctionality.SaveHistoryData(2, objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", "TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING", "Document_Code", "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
 
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
-
+                clsBatchInventory.DeleteData("SD-SH", obj.Document_Code, trans)
                 Dim qry As String = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2637,6 +2639,8 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
             If Not isReverseOnly Then
+                clsBatchInventory.ReverseAndUnpost("SD-SH", strCode, trans)
+
                 Qry = "Update TSPL_SD_SHIPMENT_HEAD set Status = 0 where Document_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
@@ -2731,7 +2735,7 @@ Public Class clsSNShipmentDetail
 
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
 
-
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
     Public Scheme_Applicable As String = Nothing
     Public Scheme_Code As String = Nothing
     Public Scheme_Item As String = Nothing
@@ -2933,6 +2937,7 @@ Public Class clsSNShipmentDetail
                 clsCommon.AddColumnsForChange(coll, "ItemwiseTaxCode", obj.ItemwiseTaxCode)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("SD-IN", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
+                clsBatchInventory.SaveData("SD-SH", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
             Next
         End If
         Return True

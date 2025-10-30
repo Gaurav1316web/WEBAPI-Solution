@@ -66,6 +66,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.15", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.SalesMarketingDashboard, "Sales And Marketing Dashboard", "1.00.03.16", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDBTDashboard, "DBT Dashboard", "1.00.03.17", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.MostUserScreen, "Most User Screen", "1.00.03.18", clsUserMgtCode.SubModulePayableReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -316,6 +317,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.VendorPaymentDetails, "Vendor Payment Details Report", "1.03.03.20", clsUserMgtCode.SubModulePayableReport, 37)
         InsertDefaultValue(clsUserMgtCode.VendorLedgerVsAgeing, "Vendor Ledger Vs Ageing", "1.03.03.03", clsUserMgtCode.SubModulePayableReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPaymentPayable, "Payment Payable Report", "1.03.03.21", clsUserMgtCode.SubModulePayableReport, 37)
+
         '--------------General Ledger----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleGL, "General Ledger", "1.04", clsUserMgtCode.ExpertERP, "M", 23)
 

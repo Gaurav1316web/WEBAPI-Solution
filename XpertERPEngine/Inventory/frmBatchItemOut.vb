@@ -620,7 +620,7 @@ Public Class frmBatchItemOut
                 qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
                 qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
                 qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' " + Environment.NewLine
-                qry += " and(TSPL_BATCH_ITEM.Document_Type='" + strCurrDocType.Substring(0, 2) + "-SH" + "' and TSPL_BATCH_ITEM.Document_Code in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strShipmentNo + "'))  " + Environment.NewLine
+                qry += " and(TSPL_BATCH_ITEM.Document_Type =" + IIf(strCurrDocType.ToUpper() = "MCC-MSALE", "'" + strCurrDocType + "'", "'" + strCurrDocType.Substring(0, 2) + "-SH'") + " and TSPL_BATCH_ITEM.Document_Code in (select Document_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strShipmentNo + "'))  " + Environment.NewLine
                 'qry += " union all " + Environment.NewLine
                 'qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,'O' as In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, (TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
                 'qry += " from TSPL_BATCH_ITEM " + Environment.NewLine

@@ -9059,7 +9059,7 @@ order by   TSPL_Demand_Booking_Detail.TR_Code "
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             Dim obj As New clsPSShipmentHead()
-            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing, True)
+            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing, False, True)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 btnSave.Enabled = True
                 btnPost.Enabled = True
