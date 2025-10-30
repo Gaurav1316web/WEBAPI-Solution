@@ -821,7 +821,7 @@ Public Class frmAdjustmentStore
                                 If ChkMilkType.Checked Then
                                     OpenBatchItemNew()
                                 Else
-                                    OpenBatchItem()
+                                    OpenBatchItem(Not objCommonVar.AutoGenrateBatchInventory)
                                 End If
                                 ' End If
                             End If
@@ -2033,18 +2033,21 @@ Public Class frmAdjustmentStore
                         End If
                     End If
                 Else
-                    Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
-                    If arrBatchNo Is Nothing Then
-                        Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
-                    Else
-                        Dim tQty As Decimal = 0
-                        For Each objBatch As clsBatchInventory In arrBatchNo
-                            tQty += objBatch.Qty
-                        Next
-                        If tQty <> dblQty Then
-                            Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                    If Not objCommonVar.AutoGenrateBatchInventory OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal Then
+                        Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                        If arrBatchNo Is Nothing Then
+                            Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                        Else
+                            Dim tQty As Decimal = 0
+                            For Each objBatch As clsBatchInventory In arrBatchNo
+                                tQty += objBatch.Qty
+                            Next
+                            If tQty <> dblQty Then
+                                Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            End If
                         End If
                     End If
+
                 End If
             End If
 
@@ -2170,7 +2173,9 @@ Public Class frmAdjustmentStore
                         If ChkMilkType.Checked Then
                             objTr.arrBatchItemNew = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventoryNew))
                         Else
-                            objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                            If Not objCommonVar.AutoGenrateBatchInventory OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransType.SelectedValue), "Out") = CompairStringResult.Equal Then
+                                objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                            End If
                         End If
                         If (clsCommon.myLen(objTr.Item_Code) > 0) Then
                             obj.Arr.Add(objTr)
@@ -2370,22 +2375,24 @@ Public Class frmAdjustmentStore
         End Try
     End Sub
 
-    Sub OpenBatchItem()
+    Sub OpenBatchItem(ByVal isShowFormForIn As Boolean)
         If clsERPFuncationality.GetBatchWiseApplicableStatus(txtDate.Value) = True Then
             Dim blnBatchqty As Boolean = False
             If clsCommon.myCBool(gv1.CurrentRow.Cells(colIsBatchItem).Value) Then
                 If clsCommon.CompairString("In", clsCommon.myCstr(cboTransType.SelectedValue)) = CompairStringResult.Equal Then
-                    Dim frm As frmBatchItemIn = New frmBatchItemIn()
-                    frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
-                    frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
-                    frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
-                    frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-                    frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
-                    frm.TransDate = txtDate.Value
-                    frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
-                    frm.ShowDialog()
-                    If Not frm.isCencelButtonClicked Then
-                        gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                    If isShowFormForIn Then
+                        Dim frm As frmBatchItemIn = New frmBatchItemIn()
+                        frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+                        frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+                        frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+                        frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+                        frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+                        frm.TransDate = txtDate.Value
+                        frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                        frm.ShowDialog()
+                        If Not frm.isCencelButtonClicked Then
+                            gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+                        End If
                     End If
                 Else
                     If RunBatchFifowise = 0 Then
@@ -3171,15 +3178,13 @@ Public Class frmAdjustmentStore
                 Else
                     OpenBatchItemIfFIFIOSettingONNew()
                 End If
-
             Else
                 If RunBatchFifowise = 0 Or cboTransType.SelectedValue = "In" Then
-                    OpenBatchItem()
+                    OpenBatchItem(True)
                 Else
                     OpenBatchItemIfFIFIOSettingON()
                 End If
             End If
-
             '=========================================
         End If
     End Sub

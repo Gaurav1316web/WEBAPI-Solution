@@ -28,8 +28,6 @@ Partial Class frmStanderdProductionEntry
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.txtGRN = New common.UserControls.txtMultiSelectFinder()
-        Me.LblVLC = New common.Controls.MyLabel()
         Me.chkReporcess = New common.Controls.MyCheckBox()
         Me.grpReprocess = New System.Windows.Forms.GroupBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -74,15 +72,14 @@ Partial Class frmStanderdProductionEntry
         Me.RadLabel6 = New common.Controls.MyLabel()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.pageBatchProduction = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvBatch = New common.UserControls.MyRadGridView()
+        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.pageConsumption = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvConsumption = New common.UserControls.MyRadGridView()
+        Me.MyLabel10 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvGunny = New common.UserControls.MyRadGridView()
         Me.pageProductionCost = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvProductionCost = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
@@ -105,7 +102,6 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkReporcess, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpReprocess.SuspendLayout()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -142,21 +138,17 @@ Partial Class frmStanderdProductionEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.pageBatchProduction.SuspendLayout()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me.gvBatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvBatch.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageConsumption.SuspendLayout()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
         CType(Me.gvConsumption, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvConsumption.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gvGunny, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvGunny.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageProductionCost.SuspendLayout()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
         CType(Me.gvProductionCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProductionCost.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage1.SuspendLayout()
@@ -212,8 +204,6 @@ Partial Class frmStanderdProductionEntry
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtGRN)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.LblVLC)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkReporcess)
         Me.SplitContainer2.Panel1.Controls.Add(Me.grpReprocess)
         Me.SplitContainer2.Panel1.Controls.Add(Me.CboShift)
@@ -244,31 +234,8 @@ Partial Class frmStanderdProductionEntry
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Size = New System.Drawing.Size(1036, 462)
-        Me.SplitContainer2.SplitterDistance = 167
+        Me.SplitContainer2.SplitterDistance = 141
         Me.SplitContainer2.TabIndex = 2
-        '
-        'txtGRN
-        '
-        Me.txtGRN.arrDispalyMember = Nothing
-        Me.txtGRN.arrValueMember = Nothing
-        Me.txtGRN.Location = New System.Drawing.Point(101, 137)
-        Me.txtGRN.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGRN.MyLinkLable1 = Me.LblVLC
-        Me.txtGRN.MyLinkLable2 = Nothing
-        Me.txtGRN.MyNullText = "Please select..."
-        Me.txtGRN.Name = "txtGRN"
-        Me.txtGRN.Size = New System.Drawing.Size(482, 20)
-        Me.txtGRN.TabIndex = 1522
-        '
-        'LblVLC
-        '
-        Me.LblVLC.FieldName = Nothing
-        Me.LblVLC.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblVLC.Location = New System.Drawing.Point(13, 138)
-        Me.LblVLC.Name = "LblVLC"
-        Me.LblVLC.Size = New System.Drawing.Size(47, 18)
-        Me.LblVLC.TabIndex = 1523
-        Me.LblVLC.Text = "GRN No"
         '
         'chkReporcess
         '
@@ -945,38 +912,25 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
-        Me.RadPageView1.Size = New System.Drawing.Size(1036, 291)
+        Me.RadPageView1.SelectedPage = Me.pageBatchProduction
+        Me.RadPageView1.Size = New System.Drawing.Size(1036, 317)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Gunny Bag"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Gunny Bag"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
         '
         'pageBatchProduction
         '
-        Me.pageBatchProduction.Controls.Add(Me.RadGroupBox2)
+        Me.pageBatchProduction.Controls.Add(Me.gvBatch)
+        Me.pageBatchProduction.Controls.Add(Me.MyLabel11)
         Me.pageBatchProduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageBatchProduction.ItemSize = New System.Drawing.SizeF(70.0!, 26.0!)
         Me.pageBatchProduction.Location = New System.Drawing.Point(10, 35)
         Me.pageBatchProduction.Name = "pageBatchProduction"
-        Me.pageBatchProduction.Size = New System.Drawing.Size(1015, 245)
+        Me.pageBatchProduction.Size = New System.Drawing.Size(1015, 271)
         Me.pageBatchProduction.Text = "Production"
-        '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.gvBatch)
-        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox2.HeaderText = "Received Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1015, 245)
-        Me.RadGroupBox2.TabIndex = 9
-        Me.RadGroupBox2.Text = "Received Item Details"
         '
         'gvBatch
         '
@@ -986,7 +940,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gvBatch.ForeColor = System.Drawing.Color.Black
         Me.gvBatch.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvBatch.Location = New System.Drawing.Point(10, 20)
+        Me.gvBatch.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
@@ -1000,33 +954,32 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
         Me.gvBatch.ShowHeaderCellButtons = True
-        Me.gvBatch.Size = New System.Drawing.Size(995, 215)
+        Me.gvBatch.Size = New System.Drawing.Size(1015, 258)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
         Me.gvBatch.VarID = ""
         '
+        'MyLabel11
+        '
+        Me.MyLabel11.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel11.Location = New System.Drawing.Point(0, 258)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(1015, 13)
+        Me.MyLabel11.TabIndex = 32
+        Me.MyLabel11.Text = "Press F5 Batch item Details "
+        '
         'pageConsumption
         '
-        Me.pageConsumption.Controls.Add(Me.RadGroupBox1)
+        Me.pageConsumption.Controls.Add(Me.gvConsumption)
+        Me.pageConsumption.Controls.Add(Me.MyLabel10)
         Me.pageConsumption.ItemSize = New System.Drawing.SizeF(83.0!, 26.0!)
         Me.pageConsumption.Location = New System.Drawing.Point(10, 35)
         Me.pageConsumption.Name = "pageConsumption"
-        Me.pageConsumption.Size = New System.Drawing.Size(1015, 245)
+        Me.pageConsumption.Size = New System.Drawing.Size(1015, 271)
         Me.pageConsumption.Text = "Consumption"
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.gvConsumption)
-        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox1.HeaderText = "Consumption Item Details"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1015, 245)
-        Me.RadGroupBox1.TabIndex = 10
-        Me.RadGroupBox1.Text = "Consumption Item Details"
         '
         'gvConsumption
         '
@@ -1036,7 +989,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gvConsumption.ForeColor = System.Drawing.Color.Black
         Me.gvConsumption.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvConsumption.Location = New System.Drawing.Point(10, 20)
+        Me.gvConsumption.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
@@ -1051,10 +1004,22 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvConsumption.ShowGroupPanel = False
         Me.gvConsumption.ShowHeaderCellButtons = True
-        Me.gvConsumption.Size = New System.Drawing.Size(995, 215)
+        Me.gvConsumption.Size = New System.Drawing.Size(1015, 258)
         Me.gvConsumption.TabIndex = 0
         Me.gvConsumption.TabStop = False
         Me.gvConsumption.VarID = ""
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel10.Location = New System.Drawing.Point(0, 258)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(1015, 13)
+        Me.MyLabel10.TabIndex = 31
+        Me.MyLabel10.Text = "Press F5 Batch item Details "
         '
         'RadPageViewPage2
         '
@@ -1062,7 +1027,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1015, 245)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1015, 271)
         Me.RadPageViewPage2.Text = "Gunny Bag"
         '
         'gvGunny
@@ -1088,33 +1053,19 @@ Partial Class frmStanderdProductionEntry
         Me.gvGunny.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvGunny.ShowGroupPanel = False
         Me.gvGunny.ShowHeaderCellButtons = True
-        Me.gvGunny.Size = New System.Drawing.Size(1015, 245)
+        Me.gvGunny.Size = New System.Drawing.Size(1015, 271)
         Me.gvGunny.TabIndex = 1
         Me.gvGunny.TabStop = False
         Me.gvGunny.VarID = ""
         '
         'pageProductionCost
         '
-        Me.pageProductionCost.Controls.Add(Me.RadGroupBox3)
+        Me.pageProductionCost.Controls.Add(Me.gvProductionCost)
         Me.pageProductionCost.ItemSize = New System.Drawing.SizeF(97.0!, 26.0!)
         Me.pageProductionCost.Location = New System.Drawing.Point(10, 35)
         Me.pageProductionCost.Name = "pageProductionCost"
-        Me.pageProductionCost.Size = New System.Drawing.Size(1015, 266)
+        Me.pageProductionCost.Size = New System.Drawing.Size(1015, 271)
         Me.pageProductionCost.Text = "Production Cost"
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.gvProductionCost)
-        Me.RadGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox3.HeaderText = "Production Cost details"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(1015, 266)
-        Me.RadGroupBox3.TabIndex = 10
-        Me.RadGroupBox3.Text = "Production Cost details"
         '
         'gvProductionCost
         '
@@ -1124,7 +1075,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gvProductionCost.ForeColor = System.Drawing.Color.Black
         Me.gvProductionCost.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvProductionCost.Location = New System.Drawing.Point(10, 20)
+        Me.gvProductionCost.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
@@ -1139,7 +1090,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProductionCost.ShowGroupPanel = False
         Me.gvProductionCost.ShowHeaderCellButtons = True
-        Me.gvProductionCost.Size = New System.Drawing.Size(995, 236)
+        Me.gvProductionCost.Size = New System.Drawing.Size(1015, 271)
         Me.gvProductionCost.TabIndex = 0
         Me.gvProductionCost.TabStop = False
         Me.gvProductionCost.VarID = ""
@@ -1150,7 +1101,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1015, 266)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1015, 271)
         Me.RadPageViewPage1.Text = "Attachments"
         '
         'UcAttachment1
@@ -1158,7 +1109,7 @@ Partial Class frmStanderdProductionEntry
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1015, 266)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1015, 271)
         Me.UcAttachment1.TabIndex = 2
         '
         'btnHistory
@@ -1291,7 +1242,6 @@ Partial Class frmStanderdProductionEntry
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.LblVLC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkReporcess, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpReprocess.ResumeLayout(False)
         Me.grpReprocess.PerformLayout()
@@ -1330,21 +1280,19 @@ Partial Class frmStanderdProductionEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.pageBatchProduction.ResumeLayout(False)
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
+        Me.pageBatchProduction.PerformLayout()
         CType(Me.gvBatch.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvBatch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageConsumption.ResumeLayout(False)
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
+        Me.pageConsumption.PerformLayout()
         CType(Me.gvConsumption.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvConsumption, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gvGunny.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvGunny, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageProductionCost.ResumeLayout(False)
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
         CType(Me.gvProductionCost.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProductionCost, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage1.ResumeLayout(False)
@@ -1372,7 +1320,6 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents gvBatch As common.UserControls.MyRadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents dtpBatchDate As common.Controls.MyDateTimePicker
@@ -1394,10 +1341,8 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
     Friend WithEvents pageConsumption As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvConsumption As common.UserControls.MyRadGridView
     Friend WithEvents pageProductionCost As Telerik.WinControls.UI.RadPageViewPage
-    Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents gvProductionCost As common.UserControls.MyRadGridView
     Friend WithEvents txtBatchNo As common.Controls.MyTextBox
     Friend WithEvents TxtCategory As common.Controls.MyLabel
@@ -1434,7 +1379,7 @@ Partial Class frmStanderdProductionEntry
     Friend WithEvents rbtnReprocessStock As common.Controls.MyRadioButton
     Friend WithEvents rbtnReprocessProuctionEnty As common.Controls.MyRadioButton
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
-    Friend WithEvents txtGRN As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents LblVLC As common.Controls.MyLabel
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
 End Class
 

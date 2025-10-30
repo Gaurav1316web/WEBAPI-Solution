@@ -471,6 +471,27 @@ Public Class ClsAdjustments
         End If
 
         Try
+            Dim dtPostDate As DateTime = clsCommon.GETSERVERDATE(trans)
+            If objCommonVar.AutoGenrateBatchInventory AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.Trans_Type), "In") = CompairStringResult.Equal Then
+                For Each objtr As ClsAdjustmentsDetails In obj.Arr
+                    If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
+                        Dim ArrBatchItem As New List(Of clsBatchInventory)
+                        Dim objBatch As New clsBatchInventory
+                        objBatch.Parent_Line_No = objtr.Adjustment_Line_No
+                        objBatch.Line_No = 1
+                        objBatch.Batch_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.Adjustment_Date, "dd/MMM/yyyy"), clsDocType.ItemBatch, clsItemMaster.GetItemType(objtr.Item_Code, trans), obj.Loc_Code, False, True, False, False, False, False, "", clsCommon.GetPrintDate(dtPostDate, "ddMMyyHHmm"), "")
+                        objBatch.Manual_BatchNo = objBatch.Batch_No
+                        objBatch.Manufacture_Date = dtPostDate
+                        objBatch.Expiry_Date = dtPostDate.AddDays(clsItemMaster.GetSelfLife(objtr.Item_Code, trans))
+                        objBatch.Qty = objtr.Item_Quantity
+                        ArrBatchItem.Add(objBatch)
+                        clsBatchInventory.SaveData("IC-AD", obj.Adjustment_No, obj.Adjustment_Date, "I", objtr.Item_Code, obj.Loc_Code, objtr.Adjustment_Line_No, 0, objtr.Unit_Code, ArrBatchItem, trans)
+                    End If
+                Next
+                obj = obj.GetData(StrAdjustmentNo, strAdjustmentType, NavigatorType.Current, trans)
+            End If
+
+
             'Dim conversion As Decimal
             Dim ArrLocationDetails As List(Of clsItemLocationDetails) = New List(Of clsItemLocationDetails)()
             Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
@@ -1886,6 +1907,12 @@ Public Class ClsAdjustments
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT_New", "Source_Doc_No", trans)
+
+            If objCommonVar.AutoGenrateBatchInventory Then
+                clsBatchInventory.DeleteData("IC-AD", strCode, trans)
+            Else
+                clsBatchInventory.ReverseAndUnpost("IC-AD", strCode, trans)
+            End If
 
             Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='IC-AD'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)

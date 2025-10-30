@@ -765,12 +765,14 @@ Public Class frmBatchItemOut
             End If
         Else
 
-            qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty from (" + Environment.NewLine
+            qry = "select Batch_No as BatchNo,max(Manual_BatchNo) as Manual_BatchNo,Min(Manufacture_Date) as ManufactureDate,MAX(Expiry_Date) as ExpiryDate,sum(Qty * (case when In_Out_Type='I' then 1 else case when In_Out_Type='O' then -1 else 0 end end )) as Qty,MAX(RALNo) as RALNo,max(VehicleNo) as VehicleNo from (" + Environment.NewLine
             qry += " select * from (" + Environment.NewLine
-            qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,TSPL_BATCH_ITEM.In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, convert(decimal(18,2),(TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor) as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP" + Environment.NewLine
+            qry += " select TSPL_BATCH_ITEM.Batch_No,TSPL_BATCH_ITEM.Manual_BatchNo,TSPL_BATCH_ITEM.In_Out_Type,TSPL_BATCH_ITEM.UOM as OrgUOM,TSPL_BATCH_ITEM.Qty as OrgQty,TSPL_BATCH_ITEM.MRP as OrgMRP,TSPL_BATCH_ITEM.Expiry_Date,TSPL_BATCH_ITEM.Manufacture_Date, convert(decimal(18,2),(TSPL_BATCH_ITEM.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ConvertedUOM.Conversion_Factor) as Qty, (TSPL_BATCH_ITEM.MRP/TSPL_ITEM_UOM_DETAIL.Conversion_Factor)*ConvertedUOM.Conversion_Factor as MRP,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as RALNo,TSPL_SRN_HEAD.VehicleNo" + Environment.NewLine
             qry += " from TSPL_BATCH_ITEM " + Environment.NewLine
             qry += " left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_BATCH_ITEM.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_BATCH_ITEM.UOM" + Environment.NewLine
-            qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'" + Environment.NewLine
+            qry += " left outer join TSPL_ITEM_UOM_DETAIL as ConvertedUOM on ConvertedUOM.Item_Code=TSPL_BATCH_ITEM.Item_Code and ConvertedUOM.UOM_Code='" + strUOM + "'
+left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_BATCH_ITEM.Document_Code and TSPL_BATCH_ITEM.Document_Type='SRN' 
+left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO " + Environment.NewLine
             qry += " where TSPL_BATCH_ITEM.Item_Code='" + strItemCode + "' and TSPL_BATCH_ITEM.Location_Code='" + strLocationCode + "' " + Environment.NewLine
             qry += " and not( TSPL_BATCH_ITEM.Document_Code = '" + strCurrDocNo + "' and TSPL_BATCH_ITEM.Document_Type = '" + strCurrDocType + "') " + Environment.NewLine
             If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkStockOfItemTillTransactionDateOnly, clsFixedParameterCode.checkStockOfItemTillTransactionDateOnly, Nothing)) = 1) = True AndAlso clsCommon.CompairString(strCurrDocType, "PH-ST") = CompairStringResult.Equal Then

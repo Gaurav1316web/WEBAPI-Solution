@@ -4748,18 +4748,20 @@ Public Class frmSRN
                     End If
                 End If
                 '' ===== ENd of code===
-                ''richa agarwal 27 June,2019
-                If dblQty > 0 AndAlso clsCommon.myCBool(clsItemMaster.IsBatchItem(gv1.Rows(ii).Cells(colICode).Value)) Then
-                    Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
-                    If arrBatchNo Is Nothing Then
-                        Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
-                    Else
-                        Dim tQty As Decimal = 0
-                        For Each objBatch As clsBatchInventory In arrBatchNo
-                            tQty += objBatch.Qty
-                        Next
-                        If tQty <> dblQty Then
-                            Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                If Not objCommonVar.AutoGenrateBatchInventory Then
+                    ''richa agarwal 27 June,2019
+                    If dblQty > 0 AndAlso clsCommon.myCBool(clsItemMaster.IsBatchItem(gv1.Rows(ii).Cells(colICode).Value)) Then
+                        Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                        If arrBatchNo Is Nothing Then
+                            Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                        Else
+                            Dim tQty As Decimal = 0
+                            For Each objBatch As clsBatchInventory In arrBatchNo
+                                tQty += objBatch.Qty
+                            Next
+                            If tQty <> dblQty Then
+                                Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            End If
                         End If
                     End If
                 End If
@@ -5407,7 +5409,10 @@ Public Class frmSRN
                     'Else
                     objTr.PO_ID = clsCommon.myCstr(grow.Cells(colPONo).Value)
                     ' End If
-                    objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                    If Not objCommonVar.AutoGenrateBatchInventory Then
+                        objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
+                    End If
+
                     If is_Load_MRN Then
                         objTr.MRN_Id = clsCommon.myCstr(grow.Cells(colMRN_NO).Value)
                         objTr.GRN_ID = clsCommon.myCstr(grow.Cells(colGRN_NO).Value)
