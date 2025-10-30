@@ -86,12 +86,6 @@ Public Class frmStanderdProductionEntry
 
 #End Region
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Line_No", "INTEGER NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", coll, "", True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
-
         SetUserMgmtNew()
         DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
         RunBatchFifowise = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, Nothing)) = 1)

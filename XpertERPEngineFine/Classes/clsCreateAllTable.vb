@@ -57295,6 +57295,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("FINAL_PRODUCTION_QTY_MAX", "FLOAT NOT NULL default 0")
             coll.Add("CONSM_QTY_Original", "FLOAT NOT NULL default 0")
             coll.Add("Gunny_Bags", "INTEGER NULL")
+            coll.Add("Line_No", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
             coll = New Dictionary(Of String, String)()
@@ -57326,6 +57327,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Fat_Amt", "float not null default 0")
             coll.Add("SNF_Amt", "float not null default 0")
             coll.Add("Process_Loss_Per", "Decimal(18,2) null")
+            coll.Add("Line_No", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", coll, "", True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
 
@@ -57369,6 +57371,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Fat_Amt", "float not null default 0")
             coll.Add("SNF_Amt", "float not null default 0")
             coll.Add("Reprocess_Qty", "decimal(18,2) NULL")
+            coll.Add("Line_No", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
             coll = New Dictionary(Of String, String)()
