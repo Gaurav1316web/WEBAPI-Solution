@@ -2307,6 +2307,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                     End If
                                 End If
                                 OpenSerialItem()
+                                OpenBatchItem()
                             End If
                             UpdateCurrentRow(gv1.CurrentRow.Index)
                             If rbtnTaxCalManual.IsChecked Then
@@ -3353,6 +3354,20 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                             Return False
                         End If
                     End If
+                    If dblQty > 0 AndAlso clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) + "'", Nothing)) Then
+                        Dim arrBatchNo As List(Of clsBatchInventory) = TryCast(gv1.Rows(ii).Cells(colICode).Tag, List(Of clsBatchInventory))
+                        If arrBatchNo Is Nothing Then
+                            Throw New Exception("Please provide Batch no for item : " + strICode + " . At Line No" + clsCommon.myCstr(ii + 1))
+                        Else
+                            Dim tQty As Decimal = 0
+                            For Each objBatch As clsBatchInventory In arrBatchNo
+                                tQty += objBatch.Qty
+                            Next
+                            If tQty <> dblQty Then
+                                Throw New Exception("Item : " + strICode + " Entered Qty " + clsCommon.myCstr(dblQty) + Environment.NewLine + "And Batchwise Qty " + clsCommon.myCstr(tQty) + " . At Line No" + clsCommon.myCstr(ii + 1))
+                            End If
+                        End If
+                    End If
                 Next
 
                 For ii As Integer = 0 To gvAC.Rows.Count - 1
@@ -3606,6 +3621,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                     objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                     objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                    objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
                     objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.DamageQty = clsCommon.myCdbl(grow.Cells(colDamageQty).Value)
@@ -4164,6 +4180,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                     For Each objTr As clsSNSalesReturnDetail In obj.Arr
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Tag = objTr.arrSrItem
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = objTr.arrBatchItem
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = objTr.Row_Type
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = IIf(objTr.Status = 0, "No", "Yes")
@@ -5170,6 +5187,7 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = obj.Document_Code
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = obj.Row_Type
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = obj.Item_Code
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Tag = obj.arrBatchItem
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = obj.Item_Desc
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(obj.Item_Code)
@@ -6465,9 +6483,30 @@ where TSPL_ITEM_UOM_DETAIL.Item_Code='" + ICode + "' And  TSPL_ITEM_UOM_DETAIL.U
             End If
         ElseIf e.KeyCode = Keys.F4 Then
             OpenSerialItem()
+        ElseIf e.KeyCode = Keys.F5 Then
+            OpenBatchItem()
         End If
     End Sub
 
+    Sub OpenBatchItem()
+        If clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
+            Dim frm As frmBatchItemOut = New frmBatchItemOut()
+            frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
+            frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
+            frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
+            frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
+            frm.strLocationCode = txtBillToLocation.Value
+            frm.strCurrDocNo = txtDocNo.Value
+            frm.strCurrDocType = "SD-SH"
+            frm.strSplTransaction = "DSSaleReturn"
+            frm.strShipmentNo = clsDBFuncationality.getSingleValue("select Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtReqNo.Value & "'")
+            frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
+            frm.ShowDialog()
+            If Not frm.isCencelButtonClicked Then
+                gv1.CurrentRow.Cells(colICode).Tag = frm.arr
+            End If
+        End If
+    End Sub
     Private Sub gv1_RowFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs) Handles gv1.RowFormatting
         Try
             If clsCommon.CompairString(clsCommon.myCstr(e.RowElement.RowInfo.Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCdbl(e.RowElement.RowInfo.Cells(colIsMannualAmt).Value) > 0 Then

@@ -2474,7 +2474,7 @@ Public Class clsCreateAllTable
             coll.Add("Print_Sequence", "integer Null")
             coll.Add("DCS_Sale_Zero_Cost", "integer Null")
             coll.Add("CrateType_Item", "Varchar(30) null")
-
+            coll.Add("Summary_Seq_No", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")

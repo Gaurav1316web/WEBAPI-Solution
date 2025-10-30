@@ -9,6 +9,7 @@ Public Class clsNIRQC
     Public QC_Remarks As String = Nothing
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As DateTime? = Nothing
+    Public Form_ID As String
 #End Region
     Public Shared Function CheckNIRQCUsedInSRN(ByVal strSRNNo As String, ByVal trans As SqlTransaction) As Boolean
         Dim qry As String = "select sum(fin.[cnt]) from (Select 1 as [cnt],TSPL_SRN_DETAIL.SRN_No from TSPL_SRN_DETAIL 
@@ -52,6 +53,11 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
                 'If Not isNewEntry Then
                 'End If
+                dt = Nothing
+                dt = clsDBFuncationality.GetDataTable(ReturnMRNDataQry(obj.MRN_No), trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    clsApply_Approval.CheckApprovalRequired(clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), Nothing, obj.Form_ID, obj.Document_No, obj.Document_Date, Nothing, obj.QC_Remarks, clsCommon.myCdbl(dt.Rows(0)("MRN_Total_Amt")), 0, Nothing, trans, 0, False)
+                End If
                 trans.Commit()
             Catch ex As Exception
                 trans.Rollback()
@@ -62,6 +68,20 @@ where TSPL_SRN_DETAIL.MRN_ID ='" + strSRNNo + "')fin "
         End Try
         Return isSaved
     End Function
+
+    Public Shared Function ReturnMRNDataQry(ByVal strMRN As String) As String
+        Dim qry As String = "select TSPL_GRN_HEAd.VisualQCStatusSecond,TSPL_GRN_HEAd.VisualQCStatus,TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MRN_HEAD.VehicleNo,TSPL_MRN_HEAD.MRN_Total_Amt
+from TSPL_MRN_DETAIL
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+left outer join TSPL_MRN_HEAD  on TSPL_MRN_HEAD.MRN_No=TSPL_MRN_DETAIL.MRN_No
+left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
+left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_HEAD.Against_GRN
+left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
+left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_HEAD.Bill_To_Location
+where TSPL_MRN_DETAIL.MRN_No='" & strMRN & "' and TSPL_MRN_HEAD.Status=1 and TSPL_MRN_HEAD.NIR_QC=1 and TSPL_ITEM_MASTER.NIR_QC=1"
+        Return qry
+    End Function
+
     Public Shared Function GetData(ByVal strDocNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsNIRQC
         Dim obj As clsNIRQC = Nothing
         Dim qry As String = "SELECT TSPL_NIR_QC.* from TSPL_NIR_QC  where 2=2"
