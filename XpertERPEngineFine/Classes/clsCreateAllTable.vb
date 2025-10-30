@@ -2503,7 +2503,7 @@ FROM TSPL_ITEM_MASTER"
             End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll.Add("Code", "Varcha(2) Not NULL")
+            coll.Add("Code", "Varchar(2) Not NULL")
             coll.Add("Name", "Varchar(30) Not null")
             coll.Add("Created_By", "varchar(12) Not NULL")
             coll.Add("Created_Date", "Datetime Not NULL")

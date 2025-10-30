@@ -1531,8 +1531,28 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
                 End If
             End If
             ''-----------------------
-
+            Dim dtPostDate As DateTime = clsCommon.GETSERVERDATE(trans)
             Dim qry As String = ""
+
+            If objCommonVar.AutoGenrateBatchInventory Then
+                For Each objtr As clsSRNDetail In obj.Arr
+                    If clsItemMaster.IsBatchItem(objtr.Item_Code, trans) Then
+                        Dim ArrBatchItem As New List(Of clsBatchInventory)
+                        Dim objBatch As New clsBatchInventory
+                        objBatch.Parent_Line_No = objtr.Line_No
+                        objBatch.Line_No = 1
+                        objBatch.Batch_No = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy"), clsDocType.ItemBatch, clsItemMaster.GetItemType(objtr.Item_Code, trans), obj.Bill_To_Location, False, True, False, False, False, False, "", clsCommon.GetPrintDate(dtPostDate, "ddMMyyHHmm"), "")
+                        objBatch.Manual_BatchNo = objBatch.Batch_No
+                        objBatch.Manufacture_Date = dtPostDate
+                        objBatch.Expiry_Date = dtPostDate.AddDays(clsItemMaster.GetSelfLife(objtr.Item_Code, trans))
+                        objBatch.Qty = objtr.SRN_Qty
+                        ArrBatchItem.Add(objBatch)
+                        clsBatchInventory.SaveData("SRN", strDocNo, obj.SRN_Date, "I", objtr.Item_Code, obj.Bill_To_Location, objtr.Line_No, 0, objtr.Unit_code, ArrBatchItem, trans)
+                    End If
+                Next
+                obj = clsSRNHead.GetData(strDocNo, NavigatorType.Current, trans)
+            End If
+
             Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
             Dim IsRejectedItemFound As Boolean = False
             Dim strFirstItemCodeNonItemRowType As String = GetFirstItemCode(obj.Arr)
@@ -3029,7 +3049,11 @@ where TSPL_TENDER_PENALTY_DETAIL.SRN_No='" + clsCommon.myCstr(strcodeNo) + "')fi
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
 
-
+            If objCommonVar.AutoGenrateBatchInventory Then
+                clsBatchInventory.DeleteData("SRN", strCode, trans)
+            Else
+                clsBatchInventory.ReverseAndUnpost("SRN", strCode, trans)
+            End If
             clsBatchInventory.ReverseAndUnpost("SRN", strCode, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
             Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='SRN'"

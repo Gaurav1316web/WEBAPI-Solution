@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const ItemBatch As String = "Item Batch"
     Public Const RouteWiseSaleTarget As String = "Route Wise Sale Target"
     Public Const BMC_Transporter_Bill As String = "BMC Transporter Bill"
     Public Const frmCommissionTPTCalculation As String = "Commission/TPT Calculation"
@@ -2067,6 +2068,14 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.FixedAsset, "", False, False)
 
             InsertDefaultValue(clsDocType.BreakDownEntry, "", False, True)
+
+            qry = "select ITEM_TYPE_CODE from TSPL_ITEM_TYPE_MASTER"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    InsertDefaultValue(clsDocType.ItemBatch, clsCommon.myCstr(dr("ITEM_TYPE_CODE")), False, True)
+                Next
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

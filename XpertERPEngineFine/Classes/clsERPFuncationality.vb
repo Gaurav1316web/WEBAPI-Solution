@@ -34,6 +34,9 @@ Public Class clsERPFuncationality
     End Function
 
     Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean, ByVal isLocationCodeisRoute As Boolean) As String
+        Return GetNextCode(trans, dtDocDate, strDocType, strTransType, strLocationCode, isLocationCodeisSegment, isIncreaseCounter, isLocationCodeisState, isMonthlyChange, isLocationCodeisMCC, isLocationCodeisRoute, "", "", "")
+    End Function
+    Public Shared Function GetNextCode(ByVal trans As SqlTransaction, ByVal dtDocDate As Date, ByVal strDocType As String, ByVal strTransType As String, ByVal strLocationCode As String, ByVal isLocationCodeisSegment As Boolean, ByVal isIncreaseCounter As Boolean, ByVal isLocationCodeisState As Boolean, ByVal isMonthlyChange As Boolean, ByVal isLocationCodeisMCC As Boolean, ByVal isLocationCodeisRoute As Boolean, ByVal Extra1 As String, ByVal Extra2 As String, ByVal Extra3 As String) As String
         Dim qry As String = ""
         Dim strRetCode As String = ""
         Dim strLocatinSegmentCode As String = ""
@@ -270,6 +273,16 @@ Public Class clsERPFuncationality
                 strRetCode = clsCommon.myCstr(dt.Rows(0)("Doc_Prfeix")).Trim() + strSep + strFinYear + strSep
             End If
         End If
+        ''Add Extra 
+        If clsCommon.myLen(Extra1) > 0 Then
+            strRetCode += Extra1 + strSep
+        End If
+        If clsCommon.myLen(Extra2) > 0 Then
+            strRetCode += Extra2 + strSep
+        End If
+        If clsCommon.myLen(Extra3) > 0 Then
+            strRetCode += Extra3 + strSep
+        End If
         Dim intNumPartLen As Integer = clsCommon.myCdbl(dt.Rows(0)("MinSizeofSeries"))
         If isDailyChange Then
             intNumPartLen = clsCommon.myCdbl(dt.Rows(0)("MinSizeofSeries"))
@@ -278,12 +291,13 @@ Public Class clsERPFuncationality
             intNumPartLen = clsCommon.myCdbl(dt.Rows(0)("MinSizeofSeries"))
             strRetCode += IIf(intCurrMonth < 10, "0", "") + clsCommon.myCstr(intCurrMonth).Trim() + strSep
         End If
+
         Dim intLen As Integer = clsCommon.myLen(intCurrCounter) ''clsCommon.myLen(dt.Rows(0)("Next_Number"))
         For ii As Integer = 1 To intNumPartLen - intLen
             strRetCode += "0"
         Next
         strRetCode += clsCommon.myCstr(intCurrCounter)
-        CheckForValidCounter(strRetCode, strDocType, strTransType, trans)
+        'CheckForValidCounter(strRetCode, strDocType, strTransType, trans)
         'Throw New Exception(strRetCode)
 
         'Ticket No- TEC/07/03/19-000436 sanjay Unique document code generation check for other than existing client
@@ -1235,6 +1249,8 @@ AND Convert(Date, End_Date , 103)>=convert(Date, '" + clsCommon.GetPrintDate(Doc
                 If clsCommon.myLen(dt.Rows(0).Item("Fin_Year")) > 0 Then
                     StrMessage += Environment.NewLine + "Financial Year [" + clsCommon.myCstr(dt.Rows(0).Item("Fin_Year")) + "]"
                 End If
+            Else
+                StrMessage += ex.Message
             End If
 
             Throw New Exception(StrMessage)
