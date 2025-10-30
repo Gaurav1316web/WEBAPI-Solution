@@ -29637,7 +29637,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Admin_Charge", "float null")
             coll.Add("PROD_Drawing_No", "varchar(100) null")
             coll.Add("LOCATION_CODE", "varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, True, "", "BOM_CODE", "BOM_DATE")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, True, "", "BOM_CODE", "BOM_DATE", True)
 
             ''TSPL_MF_BOM_DETAIL
 

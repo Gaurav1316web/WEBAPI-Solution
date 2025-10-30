@@ -22,9 +22,13 @@ Partial Class frmCancelledTransactions_DairySale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnCancelDate = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDocumentDate = New Telerik.WinControls.UI.RadRadioButton()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgUser = New common.MyCheckBoxGrid()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -50,14 +54,18 @@ Partial Class frmCancelledTransactions_DairySale
         Me.btnPrintCancel = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblNoOfRecords = New common.Controls.MyLabel()
-        Me.rgbItemType = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnCancelDate = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnDocumentDate = New Telerik.WinControls.UI.RadRadioButton()
-        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RdbDelete = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbCancel = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbItemType.SuspendLayout()
+        CType(Me.rbtnCancelDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -85,11 +93,10 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.rgbItemType.SuspendLayout()
-        CType(Me.rbtnCancelDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RdbDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,6 +122,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.rgbItemType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox4)
@@ -140,6 +148,46 @@ Partial Class frmCancelledTransactions_DairySale
         Me.SplitContainer1.Size = New System.Drawing.Size(914, 459)
         Me.SplitContainer1.SplitterDistance = 422
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(12, 39)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel1.TabIndex = 1538
+        Me.MyLabel1.Text = "Date"
+        '
+        'rgbItemType
+        '
+        Me.rgbItemType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbItemType.Controls.Add(Me.rbtnCancelDate)
+        Me.rgbItemType.Controls.Add(Me.rbtnDocumentDate)
+        Me.rgbItemType.HeaderText = ""
+        Me.rgbItemType.Location = New System.Drawing.Point(83, 30)
+        Me.rgbItemType.Name = "rgbItemType"
+        Me.rgbItemType.Size = New System.Drawing.Size(230, 25)
+        Me.rgbItemType.TabIndex = 1537
+        '
+        'rbtnCancelDate
+        '
+        Me.rbtnCancelDate.Location = New System.Drawing.Point(124, 5)
+        Me.rbtnCancelDate.Name = "rbtnCancelDate"
+        Me.rbtnCancelDate.Size = New System.Drawing.Size(79, 18)
+        Me.rbtnCancelDate.TabIndex = 1
+        Me.rbtnCancelDate.TabStop = False
+        Me.rbtnCancelDate.Text = "Cancel date"
+        '
+        'rbtnDocumentDate
+        '
+        Me.rbtnDocumentDate.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDocumentDate.Location = New System.Drawing.Point(6, 5)
+        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
+        Me.rbtnDocumentDate.Size = New System.Drawing.Size(94, 18)
+        Me.rbtnDocumentDate.TabIndex = 0
+        Me.rbtnDocumentDate.Text = "Doument Date"
+        Me.rbtnDocumentDate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'RadGroupBox4
         '
@@ -260,7 +308,7 @@ Partial Class frmCancelledTransactions_DairySale
         'btnShow
         '
         Me.btnShow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShow.Location = New System.Drawing.Point(83, 105)
+        Me.btnShow.Location = New System.Drawing.Point(83, 125)
         Me.btnShow.Name = "btnShow"
         Me.btnShow.Size = New System.Drawing.Size(81, 39)
         Me.btnShow.TabIndex = 7
@@ -270,7 +318,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         Me.dtpToDate.CustomFormat = "dd/MMM/yyyy"
         Me.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpToDate.Location = New System.Drawing.Point(231, 83)
+        Me.dtpToDate.Location = New System.Drawing.Point(231, 102)
         Me.dtpToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpToDate.Name = "dtpToDate"
         Me.dtpToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -284,7 +332,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         Me.dtpFromDate.CustomFormat = "dd/MMM/yyyy"
         Me.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpFromDate.Location = New System.Drawing.Point(83, 83)
+        Me.dtpFromDate.Location = New System.Drawing.Point(83, 102)
         Me.dtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFromDate.Name = "dtpFromDate"
         Me.dtpFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -298,7 +346,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(179, 85)
+        Me.RadLabel3.Location = New System.Drawing.Point(179, 104)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(46, 16)
         Me.RadLabel3.TabIndex = 12
@@ -308,7 +356,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(8, 83)
+        Me.RadLabel2.Location = New System.Drawing.Point(8, 102)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(60, 16)
         Me.RadLabel2.TabIndex = 9
@@ -323,10 +371,10 @@ Partial Class frmCancelledTransactions_DairySale
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Transaction Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 157)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(5, 169)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(906, 263)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(906, 251)
         Me.RadGroupBox2.TabIndex = 8
         Me.RadGroupBox2.Text = "Transaction Details"
         '
@@ -346,14 +394,14 @@ Partial Class frmCancelledTransactions_DairySale
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyExportFilePath = ""
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(886, 233)
+        Me.gv1.Size = New System.Drawing.Size(886, 221)
         Me.gv1.TabIndex = 0
         Me.gv1.VarID = ""
         '
@@ -370,7 +418,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.cboTransaction.IsSourceFromTable = False
         Me.cboTransaction.IsSourceFromValueList = False
         Me.cboTransaction.IsUnique = False
-        Me.cboTransaction.Location = New System.Drawing.Point(83, 60)
+        Me.cboTransaction.Location = New System.Drawing.Point(83, 81)
         Me.cboTransaction.MendatroryField = True
         Me.cboTransaction.MyLinkLable1 = Nothing
         Me.cboTransaction.MyLinkLable2 = Nothing
@@ -385,7 +433,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(8, 60)
+        Me.RadLabel1.Location = New System.Drawing.Point(8, 81)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(65, 16)
         Me.RadLabel1.TabIndex = 10
@@ -404,7 +452,7 @@ Partial Class frmCancelledTransactions_DairySale
         Me.cboModule.IsSourceFromTable = False
         Me.cboModule.IsSourceFromValueList = False
         Me.cboModule.IsUnique = False
-        Me.cboModule.Location = New System.Drawing.Point(83, 34)
+        Me.cboModule.Location = New System.Drawing.Point(83, 58)
         Me.cboModule.MendatroryField = True
         Me.cboModule.MyLinkLable1 = Nothing
         Me.cboModule.MyLinkLable2 = Nothing
@@ -419,7 +467,7 @@ Partial Class frmCancelledTransactions_DairySale
         '
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel10.Location = New System.Drawing.Point(8, 37)
+        Me.RadLabel10.Location = New System.Drawing.Point(8, 61)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(43, 16)
         Me.RadLabel10.TabIndex = 11
@@ -469,45 +517,35 @@ Partial Class frmCancelledTransactions_DairySale
         Me.lblNoOfRecords.TabIndex = 2
         Me.lblNoOfRecords.Text = "0 Record Found"
         '
-        'rgbItemType
+        'RadGroupBox1
         '
-        Me.rgbItemType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.rgbItemType.Controls.Add(Me.rbtnCancelDate)
-        Me.rgbItemType.Controls.Add(Me.rbtnDocumentDate)
-        Me.rgbItemType.HeaderText = ""
-        Me.rgbItemType.Location = New System.Drawing.Point(83, 3)
-        Me.rgbItemType.Name = "rgbItemType"
-        Me.rgbItemType.Size = New System.Drawing.Size(230, 25)
-        Me.rgbItemType.TabIndex = 1537
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.RdbDelete)
+        Me.RadGroupBox1.Controls.Add(Me.rdbCancel)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(83, 2)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(230, 25)
+        Me.RadGroupBox1.TabIndex = 1539
         '
-        'rbtnCancelDate
+        'RdbDelete
         '
-        Me.rbtnCancelDate.Location = New System.Drawing.Point(124, 5)
-        Me.rbtnCancelDate.Name = "rbtnCancelDate"
-        Me.rbtnCancelDate.Size = New System.Drawing.Size(79, 18)
-        Me.rbtnCancelDate.TabIndex = 1
-        Me.rbtnCancelDate.TabStop = False
-        Me.rbtnCancelDate.Text = "Cancel date"
+        Me.RdbDelete.Location = New System.Drawing.Point(124, 5)
+        Me.RdbDelete.Name = "RdbDelete"
+        Me.RdbDelete.Size = New System.Drawing.Size(52, 18)
+        Me.RdbDelete.TabIndex = 1
+        Me.RdbDelete.TabStop = False
+        Me.RdbDelete.Text = "Delete"
         '
-        'rbtnDocumentDate
+        'rdbCancel
         '
-        Me.rbtnDocumentDate.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnDocumentDate.Location = New System.Drawing.Point(6, 5)
-        Me.rbtnDocumentDate.Name = "rbtnDocumentDate"
-        Me.rbtnDocumentDate.Size = New System.Drawing.Size(94, 18)
-        Me.rbtnDocumentDate.TabIndex = 0
-        Me.rbtnDocumentDate.Text = "Doument Date"
-        Me.rbtnDocumentDate.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(12, 12)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel1.TabIndex = 1538
-        Me.MyLabel1.Text = "Date"
+        Me.rdbCancel.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbCancel.Location = New System.Drawing.Point(6, 5)
+        Me.rdbCancel.Name = "rdbCancel"
+        Me.rdbCancel.Size = New System.Drawing.Size(53, 18)
+        Me.rdbCancel.TabIndex = 0
+        Me.rdbCancel.Text = "Cancel"
+        Me.rdbCancel.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'frmCancelledTransactions_DairySale
         '
@@ -528,6 +566,12 @@ Partial Class frmCancelledTransactions_DairySale
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbItemType.ResumeLayout(False)
+        Me.rgbItemType.PerformLayout()
+        CType(Me.rbtnCancelDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
@@ -557,12 +601,11 @@ Partial Class frmCancelledTransactions_DairySale
         CType(Me.btnPrintCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rgbItemType, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.rgbItemType.ResumeLayout(False)
-        Me.rgbItemType.PerformLayout()
-        CType(Me.rbtnCancelDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDocumentDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.RdbDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbCancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -598,5 +641,8 @@ Partial Class frmCancelledTransactions_DairySale
     Friend WithEvents rgbItemType As RadGroupBox
     Friend WithEvents rbtnCancelDate As RadRadioButton
     Friend WithEvents rbtnDocumentDate As RadRadioButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents RdbDelete As RadRadioButton
+    Friend WithEvents rdbCancel As RadRadioButton
 End Class
 

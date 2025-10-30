@@ -63,21 +63,25 @@ Public Class rptSaleReportCustomerWise
             End If
 
             Dim Itemqry As String = ""
-            Itemqry = " Select Distinct TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,Item_Desc  from TSPL_SD_SALE_INVOICE_DETAIL
-                    LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.document_code = TSPL_SD_SALE_INVOICE_DETAIL.document_code
-                     LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
-                     where FG_for_CF_RPT=1 and
-                     CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
-                    AND CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
-			and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location = '" & TxtLocation.Value & "' 
-            Union all
-            Select Distinct TSPL_SCRAPINVOICE_DETAIL.Item_Code,TSPL_SCRAPINVOICE_DETAIL.Item_Desc  from TSPL_SCRAPINVOICE_DETAIL
-            LEFT JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_HEAD.invoice_No = TSPL_SCRAPINVOICE_DETAIL.invoice_No
-             LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SCRAPINVOICE_DETAIL.ITEM_CODE
-             where FG_for_CF_RPT=1 and
-             CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
-                    AND CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
-							and TSPL_SCRAPINVOICE_HEAD.Loc_Code = '" & TxtLocation.Value & "' "
+            Itemqry = "Select Item_Code,Item_Desc from TSPL_Item_Master "
+            If TxtItem.arrValueMember IsNot Nothing Then
+                Itemqry += " where 2=2 and TSPL_Item_Master.Item_Code in (" + clsCommon.GetMulcallString(TxtItem.arrValueMember) + ")  "
+            End If
+            '         Itemqry = " Select Distinct TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,Item_Desc  from TSPL_SD_SALE_INVOICE_DETAIL
+            '                 LEFT JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.document_code = TSPL_SD_SALE_INVOICE_DETAIL.document_code
+            '                  LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SD_SALE_INVOICE_DETAIL.ITEM_CODE
+            '                  where FG_for_CF_RPT=1 and
+            '                  CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
+            '                 AND CONVERT(DATE, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
+            'and TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location = '" & TxtLocation.Value & "' 
+            '         Union all
+            '         Select Distinct TSPL_SCRAPINVOICE_DETAIL.Item_Code,TSPL_SCRAPINVOICE_DETAIL.Item_Desc  from TSPL_SCRAPINVOICE_DETAIL
+            '         LEFT JOIN TSPL_SCRAPINVOICE_HEAD ON TSPL_SCRAPINVOICE_HEAD.invoice_No = TSPL_SCRAPINVOICE_DETAIL.invoice_No
+            '          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code = TSPL_SCRAPINVOICE_DETAIL.ITEM_CODE
+            '          where FG_for_CF_RPT=1 and
+            '          CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtFromDate.Value) + "',103)
+            '                 AND CONVERT(DATE, TSPL_SCRAPINVOICE_HEAD.shipment_Date,103) <= CONVERT(DATE, '" + clsCommon.GetPrintDate(txtToDate.Value) + "',103)
+            '				and TSPL_SCRAPINVOICE_HEAD.Loc_Code = '" & TxtLocation.Value & "' "
             dtItem = clsDBFuncationality.GetDataTable(Itemqry)
 
             Dim IemNameQty As String = Nothing
@@ -440,5 +444,12 @@ select xx.*	from CTERawData xx
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxtItem._My_Click
+        Dim qry As String = " Select TSPL_Item_Master.Item_Code as Code,TSPL_Item_Master.Item_Desc as Name from TSPL_Item_Master 
+                              where 1=1 and FG_for_CF_RPT=1 "
+        TxtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", TxtItem.arrValueMember, TxtItem.arrDispalyMember)
+
     End Sub
 End Class
