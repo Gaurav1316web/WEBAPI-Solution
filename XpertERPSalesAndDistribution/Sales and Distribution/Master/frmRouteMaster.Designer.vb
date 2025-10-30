@@ -24,7 +24,7 @@ Partial Class frmRouteMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rlblRouteid = New common.Controls.MyLabel()
         Me.rlblDescription = New common.Controls.MyLabel()
         Me.rlblType = New common.Controls.MyLabel()
@@ -104,6 +104,7 @@ Partial Class frmRouteMaster
         Me.lblExtraETime = New common.Controls.MyLabel()
         Me.txtExtraMTime = New common.Controls.MyTextBox()
         Me.txtExtraETime = New common.Controls.MyTextBox()
+        Me.chkAllowDecimal = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.rlblRouteid, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,6 +170,7 @@ Partial Class frmRouteMaster
         CType(Me.lblExtraETime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtExtraMTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtExtraETime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -990,7 +992,7 @@ Partial Class frmRouteMaster
         Me.dgv.MasterTemplate.EnableFiltering = True
         Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgv.MyExportFilePath = ""
         Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
@@ -1399,11 +1401,21 @@ Partial Class frmRouteMaster
         Me.txtExtraETime.Size = New System.Drawing.Size(75, 18)
         Me.txtExtraETime.TabIndex = 1417
         '
+        'chkAllowDecimal
+        '
+        Me.chkAllowDecimal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAllowDecimal.Location = New System.Drawing.Point(715, 95)
+        Me.chkAllowDecimal.Name = "chkAllowDecimal"
+        Me.chkAllowDecimal.Size = New System.Drawing.Size(91, 16)
+        Me.chkAllowDecimal.TabIndex = 1418
+        Me.chkAllowDecimal.Text = "Allow Decimal"
+        '
         'frmRouteMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(930, 511)
+        Me.Controls.Add(Me.chkAllowDecimal)
         Me.Controls.Add(Me.txtExtraETime)
         Me.Controls.Add(Me.txtExtraMTime)
         Me.Controls.Add(Me.lblExtraETime)
@@ -1547,6 +1559,7 @@ Partial Class frmRouteMaster
         CType(Me.lblExtraETime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtExtraMTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtExtraETime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAllowDecimal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1631,5 +1644,6 @@ Partial Class frmRouteMaster
     Friend WithEvents lblExtraETime As common.Controls.MyLabel
     Friend WithEvents txtExtraMTime As common.Controls.MyTextBox
     Friend WithEvents txtExtraETime As common.Controls.MyTextBox
+    Friend WithEvents chkAllowDecimal As RadCheckBox
 End Class
 

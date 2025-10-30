@@ -11,6 +11,7 @@ Public Class frmDemandBooking
     Dim PrintOnlyPostedDocument As Boolean = False
     Dim isIndent As Boolean = False
     Dim ApplyItemUOMOnDemand As Boolean = False
+    Dim AllowRouteWiseDemandEntryInDecimal As Boolean = False
     Dim GVTruckSheet As MyRadGridView
     Dim gvFullMode As Boolean = False
     Dim SeprateMorningEveningSequence As Boolean = False
@@ -133,6 +134,7 @@ Public Class frmDemandBooking
             ApplyItemCapacityLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemCapacityLimit, clsFixedParameterCode.ApplyItemCapacityLimit, Nothing)) = 1, True, False)
             SeprateMorningEveningSequence = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateMorningEveningSequence, clsFixedParameterCode.SeprateMorningEveningSequence, Nothing)) = 1, True, False)
             ApplyItemUOMOnDemand = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyItemUOMOnDemand, clsFixedParameterCode.ApplyItemUOMOnDemand, Nothing)) = 1, True, False)
+            AllowRouteWiseDemandEntryInDecimal = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, Nothing)) = 1, True, False)
             CrateHisTable()
             AddNew()
             SetUserMgmtNew()
@@ -2966,22 +2968,44 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                 'Dim ItempouchCF As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='Pouch' "))
                                 'Dim cellValue As String = clsCommon.myCstr(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                 Dim DispatchQty As Decimal = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
-                                    If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
-                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                        Throw New InvalidOperationException("Decimal values are not allowed.")
-                                    End If
-                                Else
-                                    If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
-                                        Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                If AllowRouteWiseDemandEntryInDecimal Then
 
-                                        If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_Route_Master where Route_No='" & txtRouteNo.Value & "' and  AllowEntryInDecimal=1 ")) = 0 Then
+                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
                                             gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                            Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                            Throw New InvalidOperationException("Decimal values are not allowed.")
                                         End If
+                                    Else
+                                        If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                            Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                            If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                            End If
+                                        End If
+
                                     End If
 
+                                Else
+                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
+                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                            Throw New InvalidOperationException("Decimal values are not allowed.")
+                                        End If
+                                    Else
+                                        If CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
+                                            Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                            If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                            End If
+                                        End If
+
+                                    End If
                                 End If
+
 
                                 If ApplyItemCapacityLimit Then
                                     status = CheckItemCapacityLimit(clsCommon.myCstr(obj1.itemCode), clsCommon.myCstr(obj1.Unit_code), cellValue, dblrows, dblcolumns)
@@ -3003,19 +3027,36 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") <> CompairStringResult.Equal AndAlso CrateConvFactor > 0 AndAlso ItemConvFactor > 0 Then
                                         'If CrateConvFactor > 0 And ItemConvFactor > 0 Then
                                         Dim DispatchQty As Decimal = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
-                                            If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
-                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                Throw New InvalidOperationException("Decimal values are not allowed.")
+                                        If AllowRouteWiseDemandEntryInDecimal Then
+                                            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_Route_Master where Route_No='" & txtRouteNo.Value & "' and  AllowEntryInDecimal=1 ")) = 0 Then
+                                                If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Decimal values are not allowed.")
+                                                End If
+                                            Else
+                                                Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                                If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                                End If
                                             End If
                                         Else
-                                            Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
+                                                If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Decimal values are not allowed.")
+                                                End If
+                                            Else
+                                                Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
 
-                                            If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
-                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                                If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                    gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                    Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                                End If
                                             End If
                                         End If
+
                                         If ConvertPouchtoCrate Then
                                             If DispatchQty > (CrateConvFactor / 2) Then
                                                 dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
@@ -3111,19 +3152,36 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                                 Else
                                                     dblTotalPCrateRowWise = 0
                                                 End If
-                                                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
-                                                    If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
-                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                        Throw New InvalidOperationException("Decimal values are not allowed.")
+                                                If AllowRouteWiseDemandEntryInDecimal Then
+                                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_Route_Master where Route_No='" & txtRouteNo.Value & "' and  AllowEntryInDecimal=1 ")) = 0 Then
+                                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                            Throw New InvalidOperationException("Decimal values are not allowed.")
+                                                        End If
+                                                    Else
+                                                        Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                                        If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                            Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                                        End If
                                                     End If
                                                 Else
-                                                    Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
+                                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                            Throw New InvalidOperationException("Decimal values are not allowed.")
+                                                        End If
+                                                    Else
+                                                        Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
 
-                                                    If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
-                                                        gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                                        Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                                        If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                            Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                                        End If
                                                     End If
                                                 End If
+
                                                 'ElseIf DontCreateForPouch Then
                                                 '    dblTotalCrateRowWise = Math.Floor(DispatchQty / CrateConvFactor)
                                                 'Else
@@ -3162,19 +3220,37 @@ and isnull(TSPL_Booth_Route_Mapping_Head.Posted,0)=1 and Item_Type='Milk' and 2=
                                     Else
                                         dblTotalPCrateRowWise = 0
                                     End If
-                                    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
-                                        If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
-                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                            Throw New InvalidOperationException("Decimal values are not allowed.")
+                                    If AllowRouteWiseDemandEntryInDecimal Then
+                                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_Route_Master where Route_No='" & txtRouteNo.Value & "' and  AllowEntryInDecimal=1 ")) = 0 Then
+                                            If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New InvalidOperationException("Decimal values are not allowed.")
+                                            End If
+                                        Else
+                                            Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+
+                                            If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                            End If
                                         End If
                                     Else
-                                        Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
+                                        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(AllowEntryInDecimal) from TSPL_ITEM_MASTER where Item_Code='" & obj1.itemCode & "' and  AllowEntryInDecimal=1")) = 0 Then
+                                            If cellValue.Contains(".") OrElse cellValue.Contains(",") Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New InvalidOperationException("Decimal values are not allowed.")
+                                            End If
+                                        Else
+                                            Dim ItemCFofDecimalUom As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.Decimal_UOM ='1'"))
 
-                                        If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
-                                            gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-                                            Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                            If DispatchQty Mod ItemCFofDecimalUom <> 0 Then
+                                                gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
+                                                Throw New InvalidOperationException("Please Enter Valid Qty for " & obj1.ShortDesc)
+                                            End If
                                         End If
+
                                     End If
+
 
                                 End If
                             End If
@@ -3925,7 +4001,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as ProdQ
 	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=1 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as MAmt
     ,Cast((CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.Qty ELSE 0 END) As Int) as PQty
-	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as PAmt
+	,(CASE WHEN TSPL_ITEM_MASTER.Is_Milk_Pouch=0 THEN TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount ELSE 0 END) as PAmt,TSPL_ITEM_MASTER.Summary_Seq_No
 	 from TSPL_DEMAND_BOOKING_MASTER Left outer join TSPL_DEMAND_BOOKING_DETAIL
      On TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
      Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
@@ -3947,6 +4023,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
 	,0 as MAmt
     ,0 as PQty
 	,0 as PAmt
+,TSPL_ITEM_MASTER.Summary_Seq_No
 from TSPL_CUSTOMER_MASTER
 Left Outer Join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No  
 LEFT Outer Join ( Select Document_No,Max(Document_Date)Document_Date,Route_No,Max(ShiftType)ShiftType from TSPL_DEMAND_BOOKING_MASTER Where CONVERT(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)=Convert(Date,'" & txtDate.Value & "',103) Group By Document_No,Route_No )TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  
@@ -4197,28 +4274,25 @@ and CONVERT(date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= Convert(Date,'"
                 'Dim GVFreshTotal As New UserControls.MyRadGridView
 
                 If strFUOMPivot IsNot Nothing AndAlso (rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
-                    strQry = "Select Alies_Name As [Product Name]," & strFUOM & ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
-from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strFUOMPivot & ") ) AS PivotTable "
+                    strQry = "Select Alies_Name As [Product Name]," & strFUOM & ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount],MAX(Summary_Seq_No)Summary_Seq_No  
+from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strFUOMPivot & ") ) AS PivotTable Order By Summary_Seq_No"
                     dtFresh = clsDBFuncationality.GetDataTable(strQry)
                     If dtFresh IsNot Nothing AndAlso dtFresh.Rows.Count > 0 Then
                         GVFresh.Refresh()
                         GVFresh.DataSource = dtFresh
-
-
                     End If
                     'strQry += " Union All "
-                    strQry = "Select 'Total : ' As [Product Name]," & strFSumItem & ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]  
-from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strFUOMPivot & ") ) AS PivotTable "
+                    strQry = "Select 'Total : ' As [Product Name]," & strFSumItem & ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
+from (" & BaseQry & ")xyz where Is_FreshItem=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strFUOMPivot & ") ) AS PivotTable"
                     dtFreshTotal = clsDBFuncationality.GetDataTable(strQry)
-
                 End If
 
                 If strPUOMPivot IsNot Nothing AndAlso (rbtn_Ambient.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked) Then
-                    strQry = "Select Alies_Name As [Product Name]," & strPUOM & ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
-from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strPUOMPivot & ") ) AS PivotTable "
+                    strQry = "Select Alies_Name As [Product Name]," & strPUOM & ",[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] ,MAX(Summary_Seq_No)Summary_Seq_No
+from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strPUOMPivot & ") ) AS PivotTable Order By Summary_Seq_No "
                     dtAmbient = clsDBFuncationality.GetDataTable(strQry)
                     'strQry += " Union All "
-                    strQry = "Select 'Total : ' As [Product Name]," & strPSumItem & ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount] 
+                    strQry = "Select 'Total : ' As [Product Name]," & strPSumItem & ",Sum([Cash Amount])[Cash Amount] from (Select Item_Code,Max(Alies_Name)Alies_Name,MAX(Unit_Desc)Unit_Desc,Sum(Qty)Qty ,SUM(ItemNetAmount)[Cash Amount]
 from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_Code) AS SourceTable PIVOT ( SUM(Qty) FOR Unit_Desc IN (" & strPUOMPivot & ") ) AS PivotTable "
                     dtAmbientTotal = clsDBFuncationality.GetDataTable(strQry)
                 End If
@@ -4413,12 +4487,12 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
             Dim arrHeader As List(Of String) = New List(Of String)()
             If isExcelPDF Then
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "AJM") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                    arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")))
-                    arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening"))
-                    arrHeader.Add("Trip No : " & clsCommon.myCstr(TripNo))
-                    arrHeader.Add("Route : " & lblRouteDesc.Text)
-                    arrHeader.Add("City : " & lblCityName.Text)
-                    arrHeader.Add("Distributor : " & lblTransporterName.Text)
+                    arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "     " & "Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "     " & "Trip No : " & clsCommon.myCstr(TripNo) & "     " & "Route : " & lblRouteDesc.Text & "     " & "City : " & lblCityName.Text & "     " & "Distributor : " & lblTransporterName.Text)
+                    'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening"))
+                    'arrHeader.Add("Trip No : " & clsCommon.myCstr(TripNo))
+                    'arrHeader.Add("Route : " & lblRouteDesc.Text)
+                    'arrHeader.Add("City : " & lblCityName.Text)
+                    'arrHeader.Add("Distributor : " & lblTransporterName.Text)
                 Else
                     arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked, "Morning", "Evening") & "   Trip No : " & clsCommon.myCstr(TripNo))
                     arrHeader.Add("Route : " & lblRouteDesc.Text & "    City : " & lblCityName.Text & "   Distributor : " & lblTransporterName.Text)
@@ -4429,7 +4503,7 @@ from (" & BaseQry & ")xyz where Is_Ambient=1 And Qty>0 group By  Item_code,Unit_
                 'arrHeader.Add("Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
                 'arrHeader.Add("Distributor : " & lblTransporterName.Text)
                 'arrHeader.Add("Trip : " & clsCommon.myCstr(txtTripNo.Text))
-                transportSql.exportdata(Nothing, GVTruckSheet, "", "Truck Sheet", 0, GVTruckSheet.Rows.Count, False, arrHeader, False, False, True, False, False, Nothing, True)
+                transportSql.exportdata(True, Nothing, GVTruckSheet, "", "Truck Sheet", 0, GVTruckSheet.Rows.Count, False, arrHeader, False, False, True, False, False, Nothing, True)
             Else
                 'doc.HeaderHeight = 60
                 'doc.Landscape = True

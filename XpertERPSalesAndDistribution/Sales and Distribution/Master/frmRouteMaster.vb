@@ -17,6 +17,7 @@ Public Class frmRouteMaster
     Private isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim EnableLocation As Boolean = False
+    Dim AllowRouteWiseDemandEntryInDecimal As Boolean = False
     Dim ApplyDepartmentRoute As Boolean = False
     Dim SettNoOFCustomerForImportExport As Integer
 #End Region
@@ -32,6 +33,7 @@ Public Class frmRouteMaster
         SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
         ApplyDepartmentRoute = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyDepartmentRoute, clsFixedParameterCode.ApplyDepartmentRoute, Nothing)) = 1, True, False)
+        AllowRouteWiseDemandEntryInDecimal = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, Nothing)) = 1, True, False)
         EnableLocation = True '' Update on 11-Jun-2025 (ASHOK Sir)
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
@@ -57,6 +59,11 @@ Public Class frmRouteMaster
         Else
             txtLocation.Enabled = False
             txtLocationDesc.Enabled = False
+        End If
+        If AllowRouteWiseDemandEntryInDecimal Then
+            chkAllowDecimal.Visible = True
+        Else
+            chkAllowDecimal.Visible = False
         End If
     End Sub
     Private Sub LoadEntryUOM()
@@ -291,7 +298,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route,ExtraM_Time,ExtraE_Time  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM,Location_Code,Area_Code ,Zone_Code,IsNull(Split_Print,0) As Split_Print,IsNull(Department_Route,0) as Department_Route,ExtraM_Time,ExtraE_Time,AllowEntryInDecimal  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -337,6 +344,7 @@ Public Class frmRouteMaster
                     fndZone.Value = clsCommon.myCstr(dt.Rows(i)("Area_Code"))
                     txtExtraMTime.Text = clsCommon.myCdbl(dt.Rows(i)("ExtraM_Time"))
                     txtExtraETime.Text = clsCommon.myCdbl(dt.Rows(i)("ExtraE_Time"))
+                    chkAllowDecimal.Checked = IIf(clsCommon.myCdbl(dt.Rows(i)("AllowEntryInDecimal")) = 1, True, False)
                     If clsCommon.myCdbl(clsCommon.myCstr(dt.Rows(i)("Split_Print"))) > 0 Then
                         rbtnSplitPrint.Checked = True
                     Else
@@ -461,6 +469,7 @@ Public Class frmRouteMaster
             chkDepartmentRoute.Checked = False
             txtExtraETime.Text = "0"
             txtExtraMTime.Text = "0"
+            chkAllowDecimal.Checked = False
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -615,6 +624,7 @@ Public Class frmRouteMaster
         clsCommon.AddColumnsForChange(coll1, "Split_Print", IIf(rbtnSplitPrint.Checked, 1, 0), True)
         clsCommon.AddColumnsForChange(coll1, "ExtraM_Time", clsCommon.myCdbl(txtExtraMTime.Text), True)
         clsCommon.AddColumnsForChange(coll1, "ExtraE_Time", clsCommon.myCdbl(txtExtraETime.Text), True)
+        clsCommon.AddColumnsForChange(coll1, "AllowEntryInDecimal", IIf(chkAllowDecimal.Checked, 1, 0), True)
         clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
         'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndRouteid.Value, "TSPL_ROUTE_MASTER", "Route_No", trans)
 

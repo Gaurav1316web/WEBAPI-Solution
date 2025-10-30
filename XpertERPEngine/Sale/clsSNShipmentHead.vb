@@ -195,16 +195,19 @@ Public Class clsSNShipmentHead
         Return True
     End Function
     Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, Optional ByVal IsCSA As Boolean = False, Optional ByVal IsMISDebtorReport As Boolean = False, Optional ByVal IsShowApplyDocument As Boolean = False, Optional ByVal trans As SqlTransaction = Nothing) As String
-        Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, True, Nothing)
+        Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, Nothing, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, True)
     End Function
 
     Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, ByVal IsCSA As Boolean, ByVal IsMISDebtorReport As Boolean, ByVal IsShowApplyDocument As Boolean, ByVal trans As SqlTransaction, ByVal IsIncludecardIndent As Boolean) As String
-        Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, IsIncludecardIndent, "")
+        'Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, IsIncludecardIndent, "")
+        Return GetCustomerBaseQry(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, Nothing, IsCSA, IsMISDebtorReport, IsShowApplyDocument, trans, IsIncludecardIndent)
     End Function
-    Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, ByVal IsCSA As Boolean, ByVal IsMISDebtorReport As Boolean, ByVal IsShowApplyDocument As Boolean, ByVal trans As SqlTransaction, ByVal IsIncludecardIndent As Boolean, ByVal DocNo As String) As String
+    Public Shared Function GetCustomerBaseQry(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, ByVal DocNo As String, ByVal IsCSA As Boolean, ByVal IsMISDebtorReport As Boolean, ByVal IsShowApplyDocument As Boolean, ByVal trans As SqlTransaction, ByVal IsIncludecardIndent As Boolean) As String
         Dim strtempBaseQryforopening As String = ""
         Dim strtempBaseQry As String = ""
-        strtempBaseQryforopening = GetCustomerBaseQryForOpening(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsShowApplyDocument, trans, IsIncludecardIndent, DocNo)
+        'strtempBaseQryforopening = GetCustomerBaseQryForOpening(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, IsCSA, IsShowApplyDocument, trans, IsIncludecardIndent, DocNo)
+        strtempBaseQryforopening = GetCustomerBaseQryForOpening(ItemWisecheck, IsSecurity, SecurityType, Docwise, CurrencyType, strCustomer, isOpening, strfromdate, strtodate, DocNo, IsCSA, IsShowApplyDocument, trans, IsIncludecardIndent)
+
         Dim strExcludeEXcforApplyDocumnets As String = " and InnQuery.DocNo not in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)   "
         If isOpening = True Then
             strExcludeEXcforApplyDocumnets += "  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
@@ -281,7 +284,8 @@ Public Class clsSNShipmentHead
         End If
         Return strtempBaseQry
     End Function
-    Public Shared Function GetCustomerBaseQryForOpening(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, Optional ByVal IsCSA As Boolean = False, Optional ByVal IsShowApplyDocument As Boolean = False, Optional ByVal trans As SqlTransaction = Nothing, Optional ByVal IsIncludecardIndent As Boolean = True, Optional ByVal DocNo As String = "") As String
+    'Public Shared Function GetCustomerBaseQryForOpening(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, Optional ByVal IsCSA As Boolean = False, Optional ByVal IsShowApplyDocument As Boolean = False, Optional ByVal trans As SqlTransaction = Nothing, Optional ByVal IsIncludecardIndent As Boolean = True, Optional ByVal DocNo As String = "") As String
+    Public Shared Function GetCustomerBaseQryForOpening(ByVal ItemWisecheck As Boolean, ByVal IsSecurity As Boolean, ByVal SecurityType As String, ByVal Docwise As Boolean, ByVal CurrencyType As String, ByVal strCustomer As String, ByVal isOpening As Boolean, ByVal strfromdate As String, ByVal strtodate As String, ByVal DocNo As String, Optional ByVal IsCSA As Boolean = False, Optional ByVal IsShowApplyDocument As Boolean = False, Optional ByVal trans As SqlTransaction = Nothing, Optional ByVal IsIncludecardIndent As Boolean = True) As String
         Dim strtempBaseQry As String = String.Empty
         Dim AllowtoSHOWParentChildCustomer As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSHOWParentChildCustomer, clsFixedParameterCode.AllowtoSHOWParentChildCustomer, trans)) = 1, True, False))
         Try
@@ -1035,6 +1039,7 @@ Public Class clsSNShipmentHead
             End If
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleService, clsUserMgtCode.frmSNShipment, obj.Bill_To_Location, obj.Document_Date, trans)
             clsSerializeInvenotry.DeleteData("SD-IN", obj.Document_Code, trans)
+            clsBatchInventory.DeleteData("SD-SH", obj.Document_Code, trans)
             Dim qry1 As String = "delete from TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry1, trans)
             Dim qry As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + obj.Document_Code + "'"
@@ -1879,6 +1884,7 @@ Public Class clsSNShipmentHead
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
                     objTr.arrSrItem = clsSerializeInvenotry.GetData("SD-IN", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
+                    objTr.arrBatchItem = clsBatchInventory.GetData("SD-SH", objTr.Document_Code, objTr.Item_Code, objTr.Line_No, trans)
                     objTr.ItemwiseTaxCode = clsCommon.myCstr(dr("ItemwiseTaxCode"))
                     obj.Arr.Add(objTr)
                 Next
@@ -2482,7 +2488,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 clsCommonFunctionality.SaveHistoryData(2, objCommonVar.CurrentUserCode, strCode, "TSPL_SD_SHIPMENT_HEAD", "Document_Code", "TSPL_SD_SHIPMENT_DETAIL", "Document_Code", "TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING", "Document_Code", "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", "Document_Code", "", "", "", "", "", "", trans)
 
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
-
+                clsBatchInventory.DeleteData("SD-SH", obj.Document_Code, trans)
                 Dim qry As String = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2633,6 +2639,8 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
             If Not isReverseOnly Then
+                clsBatchInventory.ReverseAndUnpost("SD-SH", strCode, trans)
+
                 Qry = "Update TSPL_SD_SHIPMENT_HEAD set Status = 0 where Document_Code='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
@@ -2727,7 +2735,7 @@ Public Class clsSNShipmentDetail
 
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
 
-
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
     Public Scheme_Applicable As String = Nothing
     Public Scheme_Code As String = Nothing
     Public Scheme_Item As String = Nothing
@@ -2929,6 +2937,7 @@ Public Class clsSNShipmentDetail
                 clsCommon.AddColumnsForChange(coll, "ItemwiseTaxCode", obj.ItemwiseTaxCode)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 clsSerializeInvenotry.SaveData("SD-IN", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, obj.arrSrItem, trans)
+                clsBatchInventory.SaveData("SD-SH", strDocNo, DocDate, "O", obj.Item_Code, obj.Location, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
             Next
         End If
         Return True

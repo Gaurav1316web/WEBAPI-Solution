@@ -1077,7 +1077,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             Dim strQry As String = "select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Booking_No ='" + Doc_No + "'"
             Dim DispatchDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry, trans))
             If clsCommon.myLen(DispatchDocNo) > 0 Then
-                Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(DispatchDocNo, NavigatorType.Current, trans)
+                Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(DispatchDocNo, NavigatorType.Current, trans, False)
                 FlagDocumentIsTaxable = obj.Is_Taxable
                 EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SD_SALE_INVOICE_HEAD", "Document_Code", obj.Invoice_No, trans)
                 Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & obj.Invoice_No & "' ", trans))

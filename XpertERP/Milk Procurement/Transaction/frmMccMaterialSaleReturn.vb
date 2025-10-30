@@ -7196,12 +7196,16 @@ Public Class frmMccMaterialSaleReturn
 
     Sub OpenBatchItem()
         If clsCommon.myCBool(clsDBFuncationality.getSingleValue("select TSPL_ITEM_MASTER.Is_Batch_Item  from TSPL_ITEM_MASTER where TSPL_ITEM_MASTER.Item_Code ='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "'", Nothing)) Then
-            Dim frm As frmBatchItemIn = New frmBatchItemIn()
+            Dim frm As frmBatchItemOut = New frmBatchItemOut()
             frm.strItemCode = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
             frm.strItemName = clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value)
             frm.dblqty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
             frm.strUOM = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
-            frm.dblMRP = clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value)
+            frm.strLocationCode = txtBillToLocation.Value
+            frm.strCurrDocNo = txtDocNo.Value
+            frm.strCurrDocType = "MCC-MSALE"
+            frm.strSplTransaction = "DSSaleReturn"
+            frm.strShipmentNo = clsDBFuncationality.getSingleValue("select Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtReqNo.Value & "'")
             frm.arr = TryCast(gv1.CurrentRow.Cells(colICode).Tag, List(Of clsBatchInventory))
             frm.ShowDialog()
             If Not frm.isCencelButtonClicked Then

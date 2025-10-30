@@ -2474,7 +2474,7 @@ Public Class clsCreateAllTable
             coll.Add("Print_Sequence", "integer Null")
             coll.Add("DCS_Sale_Zero_Cost", "integer Null")
             coll.Add("CrateType_Item", "Varchar(30) null")
-
+            coll.Add("Summary_Seq_No", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ITEM_MASTER alter COLUMN Deduction_Type varchar(30)")
@@ -2503,7 +2503,7 @@ FROM TSPL_ITEM_MASTER"
             End Try
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll.Add("Code", "Varcha(2) Not NULL")
+            coll.Add("Code", "Varchar(2) Not NULL")
             coll.Add("Name", "Varchar(30) Not null")
             coll.Add("Created_By", "varchar(12) Not NULL")
             coll.Add("Created_Date", "Datetime Not NULL")
@@ -3455,6 +3455,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Department_Route", "integer null")
             coll.Add("ExtraM_Time", "integer null")
             coll.Add("ExtraE_Time", "integer null")
+            coll.Add("AllowEntryInDecimal", "integer null")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ROUTE_MASTER", coll, "", True, False, "", "", "", True)
 
@@ -29637,7 +29638,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Admin_Charge", "float null")
             coll.Add("PROD_Drawing_No", "varchar(100) null")
             coll.Add("LOCATION_CODE", "varchar(12) NULL References TSPL_LOCATION_MASTER(LOCATION_CODE)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, True, "", "BOM_CODE", "BOM_DATE")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MF_BOM_HEAD", coll, Nothing, True, True, "", "BOM_CODE", "BOM_DATE", True)
 
             ''TSPL_MF_BOM_DETAIL
 
@@ -57294,6 +57295,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("FINAL_PRODUCTION_QTY_MAX", "FLOAT NOT NULL default 0")
             coll.Add("CONSM_QTY_Original", "FLOAT NOT NULL default 0")
             coll.Add("Gunny_Bags", "INTEGER NULL")
+            coll.Add("Line_No", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
             coll = New Dictionary(Of String, String)()
@@ -57325,6 +57327,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Fat_Amt", "float not null default 0")
             coll.Add("SNF_Amt", "float not null default 0")
             coll.Add("Process_Loss_Per", "Decimal(18,2) null")
+            coll.Add("Line_No", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", coll, "", True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
 
@@ -57368,6 +57371,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Fat_Amt", "float not null default 0")
             coll.Add("SNF_Amt", "float not null default 0")
             coll.Add("Reprocess_Qty", "decimal(18,2) NULL")
+            coll.Add("Line_No", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_PRODUCTION_ENTRY_DETAIL", coll, Nothing, True, True, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
             coll = New Dictionary(Of String, String)()

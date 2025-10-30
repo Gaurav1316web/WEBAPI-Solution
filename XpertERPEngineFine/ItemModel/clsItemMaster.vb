@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Public Class clsItemMaster
 #Region "Variables"
+    Public SummarySeqNo As Integer = 0
     Public isSecurityDeduction As Integer = 0
     Public isPenaltyDeduction As Integer = 0
     Public isHighClass As Integer = 0
@@ -1536,6 +1537,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 clsCommon.AddColumnsForChange(coll, "Active", IIf(obj.Active, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
                 clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
+                clsCommon.AddColumnsForChange(coll, "Summary_Seq_No", clsCommon.myCdbl(obj.SummarySeqNo))
                 clsCommon.AddColumnsForChange(coll, "Uploader_Seq", clsCommon.myCdbl(obj.Uploader_Seq))
                 clsCommon.AddColumnsForChange(coll, "DcsSeqNo", clsCommon.myCdbl(obj.DcsSeqNo))
                 clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
@@ -1818,6 +1820,7 @@ where TabConvFatMul.Item_Code='" + itemCode + "' and TabConvFatMul.UOM_Code='" +
                 obj.Weight_UOM = clsCommon.myCstr(dt.Rows(0)("Weight_UOM"))
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
+                obj.SummarySeqNo = clsCommon.myCdbl(dt.Rows(0)("Summary_Seq_No"))
                 obj.Uploader_Seq = clsCommon.myCdbl(dt.Rows(0)("Uploader_Seq"))
                 obj.DcsSeqNo = clsCommon.myCdbl(dt.Rows(0)("DcsSeqNo"))
                 obj.DCS_Sale_Zero_Cost = IIf(clsCommon.myCdbl(dt.Rows(0)("DCS_Sale_Zero_Cost")) = 1, True, False)

@@ -154,8 +154,16 @@ Public Class objCommonVar
     Private Shared _JSONTrack As Boolean = False
     Private Shared _ImportExportDrive As String = ""
     Private Shared _ApplyBoothRouteMapping As Boolean = False
+    Private Shared _AutoGenrateBatchInventory As Boolean = False
 #End Region
-
+    Public Shared Property AutoGenrateBatchInventory() As Boolean
+        Get
+            Return _AutoGenrateBatchInventory
+        End Get
+        Set(ByVal Value As Boolean)
+            _AutoGenrateBatchInventory = Value
+        End Set
+    End Property
     Public Shared Property JSONTrack() As Boolean
         Get
             Return _JSONTrack
@@ -1053,6 +1061,7 @@ Public Class objCommonVar
         objCommonVar.RCDFRateControl = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RCDFRateControl, clsFixedParameterCode.RCDFRateControl, Nothing)) = 1, True, False)
         objCommonVar.ImportExportDrive = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ImportExportDrive, clsFixedParameterCode.ImportExportDrive, Nothing))
         objCommonVar.ApplyBoothRouteMapping = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBoothRouteMapping, clsFixedParameterCode.ApplyBoothRouteMapping, Nothing)) = 1, True, False)
+        objCommonVar.AutoGenrateBatchInventory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoGenrateBatchInventoryOnPost, clsFixedParameterCode.AutoGenrateBatchInventoryOnPost, Nothing)) = 1, True, False)
 
         dt.Dispose()
     End Sub

@@ -2,6 +2,8 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
+
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "pick company BankCode From Payment Process"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const MaxFATPerLimitforReport As String = "Max FAT Per Limit for Report"
@@ -1365,8 +1367,11 @@ Public Class clsFixedParameterType
     Public Const StopMultipleLoginInAPP = "Stop Multiple Login In APP"
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
     Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
+    Public Const DisplayTransporterAddress = "Display Transporter Address"
+    Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
 End Class
 Public Class clsFixedParameterCode
+    Public Const AutoGenrateBatchInventoryOnPost As String = "Auto Genrate Batch Inventory On Post"
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
     Public Const isThereOnlyOneRowOfOwnDCS As String = "is There Only One Row Of Own DCS"
     Public Const StopYesBankVirtualAccount As String = "Stop Yes Bank virtual Account"
@@ -2885,7 +2890,8 @@ Public Class clsFixedParameterCode
     Public Const AMCUDetailsHeading3 As String = "AMCU Details Heading 3"
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
     Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
-
+    Public Const DisplayTransporterAddress = "Display Transporter Address"
+    Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -2964,6 +2970,7 @@ Public Class clsFixedParameter
         End Try
     End Function
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenrateBatchInventoryOnPost, clsFixedParameterCode.AutoGenrateBatchInventoryOnPost, "0", "0:OFF,1:ON;if on then Auto Genrate Batch Inventory At Post of Transaction")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading1, "Heading 1", "Dynamic Heading 1 for AMCU Detail")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading2, "Heading 2", "Dynamic Heading 2 for AMCU Detail")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAMCUDetails, clsFixedParameterCode.AMCUDetailsHeading3, "Heading 3", "Dynamic Heading 3 for AMCU Detail")
@@ -4579,6 +4586,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopMultipleLoginInAPP, clsFixedParameterCode.StopMultipleLoginInAPP, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, "4", "Enter Comission Decimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, "0", "0:Supply Date, 1:Document Date")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, "0", "0:Company Address, 1:Transporter Address")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6179,6 +6188,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmSaleSettingProduct, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSNSalesOrder, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialFarmer, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyFreshDispatchMultiple, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.AutoSchemeOn, clsFixedParameterCode.AutoSchemeOn, EnumControlType.CheckBox)
@@ -6467,5 +6478,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.StopMultipleLoginInAPP, clsFixedParameterCode.StopMultipleLoginInAPP, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.FrmUtilityForm, clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmRouteMaster, clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, EnumControlType.CheckBox)
     End Sub
 End Class

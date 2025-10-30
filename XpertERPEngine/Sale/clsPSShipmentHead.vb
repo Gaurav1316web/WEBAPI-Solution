@@ -1204,9 +1204,12 @@ Public Class clsPSShipmentHead
         End Try
     End Function
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType) As clsPSShipmentHead
-        Return GetData(strDocumentNo, NavType, Nothing)
+        Return GetData(strDocumentNo, NavType, Nothing, False)
     End Function
-    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, Optional ByVal IsDairyModule As Boolean = False) As clsPSShipmentHead
+    Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType, ByVal IsProductDispacth As Boolean) As clsPSShipmentHead
+        Return GetData(strDocumentNo, NavType, Nothing, IsProductDispacth, True)
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal IsProductDispacth As Boolean, Optional ByVal IsDairyModule As Boolean = False) As clsPSShipmentHead
         'Dim TransType_Str As String = ""
         Dim obj As clsPSShipmentHead = Nothing
         Dim qry As String = "SELECT TSPL_SD_SHIPMENT_HEAD.isCardSale,TSPL_SD_SHIPMENT_HEAD.Sub_Location_code,TSPL_SD_SHIPMENT_HEAD.ChangedTCSBaseAmount,TSPL_SD_SHIPMENT_HEAD.ActualTCSBaseAmount, TSPL_SD_SHIPMENT_HEAD.Customer_Complaint_No,TSPL_SD_SHIPMENT_HEAD.Invoice_No_ForReplacement,TSPL_SD_SHIPMENT_HEAD.IsReplacement,TSPL_SD_SHIPMENT_HEAD.Manual_Driver_Name,TSPL_SD_SHIPMENT_HEAD.Manual_Salesman_Name , TSPL_SD_SHIPMENT_HEAD.IsSampling,TSPL_SD_SHIPMENT_HEAD.TotalCAN,TSPL_SD_SHIPMENT_HEAD.ShippedCAN, TSPL_SD_SHIPMENT_HEAD.CrateQty,TSPL_SD_SHIPMENT_HEAD.OPKm,TSPL_SD_SHIPMENT_HEAD.CLKm,TSPL_SD_SHIPMENT_HEAD.Trans_Type,TSPL_SD_SHIPMENT_HEAD.Is_CustomerChanged, TSPL_SD_SHIPMENT_HEAD.IsSameBillShipParty, TSPL_SD_SHIPMENT_HEAD.Scheme_Tax_Group, TSPL_SD_SHIPMENT_HEAD.Electronic_Ref_No,TSPL_SD_SHIPMENT_HEAD.EWayBillNo,TSPL_SD_SHIPMENT_HEAD.EWayBillDate, TSPL_SD_SHIPMENT_HEAD.Is_Taxable,TSPL_SD_SHIPMENT_HEAD.DO_Item_Type,TSPL_SD_SHIPMENT_HEAD.Shift_Type,TSPL_SD_SHIPMENT_HEAD.Vehicle_Manual_No,isnull(TSPL_SD_SHIPMENT_HEAD.Nine_NR_No,'') as 'Nine_NR_No', TSPL_SD_SHIPMENT_HEAD.Freight_Type,TSPL_SD_SHIPMENT_HEAD.EmptyCharge,TSPL_SD_SHIPMENT_HEAD.FixedCharge,TSPL_SD_SHIPMENT_HEAD.Including_Insurance,isnull(TSPL_SD_SHIPMENT_HEAD.Print_Discount_Amt,0) as 'Print_Discount_Amt',TSPL_SD_SHIPMENT_HEAD.VAT_InvoiceNo,TSPL_SD_SHIPMENT_HEAD.Crate,TSPL_SD_SHIPMENT_HEAD.Jaali,TSPL_SD_SHIPMENT_HEAD.Box ,TSPL_SD_SHIPMENT_HEAD.GatePass_No, ISNULL(TSPL_SD_SHIPMENT_HEAD.Transporter_Name_Manual,'') AS Transporter_Name_Manual ,TSPL_SD_SHIPMENT_HEAD.Is_OwnVehicle,TSPL_SD_SHIPMENT_HEAD.Gross_Item_Wt,TSPL_SD_SHIPMENT_HEAD.RoundOffAmount,TSPL_SD_SHIPMENT_HEAD.Advance_Approval_Reqd,TSPL_SD_SHIPMENT_HEAD.Is_Advance_Approved,TSPL_SD_SHIPMENT_HEAD.Freight_Charges,TSPL_SD_SHIPMENT_HEAD.Total_Item_Weight,TSPL_SD_SHIPMENT_HEAD.Total_Item_WeightMetric,TSPL_SD_SHIPMENT_HEAD.Transport_Id,TSPL_SD_SHIPMENT_HEAD.Transporter_Name,TSPL_SD_SHIPMENT_HEAD.Road_Permit_No,TSPL_SD_SHIPMENT_HEAD.Is_Delivered,TSPL_SD_SHIPMENT_HEAD.HeadDisc_PerAmt,TSPL_SD_SHIPMENT_HEAD.cust_po_date,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code,TSPL_SD_SHIPMENT_HEAD.price_group_code,TSPL_SD_SHIPMENT_HEAD.Invoice_Type,TSPL_SD_SHIPMENT_HEAD.HeadDisc_Per,TSPL_SD_SHIPMENT_HEAD.HeadDisc_Amt,TSPL_SD_SHIPMENT_HEAD.TotCashDiscAmt,TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Price_Code,TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_HEAD.Status,TSPL_SD_SHIPMENT_HEAD.On_Hold,TSPL_SD_SHIPMENT_HEAD.Ref_No,TSPL_SD_SHIPMENT_HEAD.Description,TSPL_SD_SHIPMENT_HEAD.Remarks,TSPL_SD_SHIPMENT_HEAD.Tax_Group,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location,isnull(TSPL_SD_SHIPMENT_HEAD.Ship_To_Location,'') as Ship_To_Location,isnull(TSPL_SD_SHIPMENT_HEAD.Ship_To_Party,'') as Ship_To_Party,isnull(TSPL_SD_SHIPMENT_HEAD.Ship_To_Party_Parent,'') as Ship_To_Party_Parent,TSPL_SD_SHIPMENT_HEAD.TAX1,TSPL_SD_SHIPMENT_HEAD.TAX1_Rate,TSPL_SD_SHIPMENT_HEAD.TAX1_Amt,TSPL_SD_SHIPMENT_HEAD.TAX1_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX2,TSPL_SD_SHIPMENT_HEAD.TAX2_Rate,TSPL_SD_SHIPMENT_HEAD.TAX2_Amt,TSPL_SD_SHIPMENT_HEAD.TAX2_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX3,TSPL_SD_SHIPMENT_HEAD.TAX3_Rate,TSPL_SD_SHIPMENT_HEAD.TAX3_Amt,TSPL_SD_SHIPMENT_HEAD.TAX3_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX4,TSPL_SD_SHIPMENT_HEAD.TAX4_Rate,TSPL_SD_SHIPMENT_HEAD.TAX4_Amt,TSPL_SD_SHIPMENT_HEAD.TAX4_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX5,TSPL_SD_SHIPMENT_HEAD.TAX5_Rate,TSPL_SD_SHIPMENT_HEAD.TAX5_Amt,TSPL_SD_SHIPMENT_HEAD.TAX5_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX6,TSPL_SD_SHIPMENT_HEAD.TAX6_Rate,TSPL_SD_SHIPMENT_HEAD.TAX6_Amt,TSPL_SD_SHIPMENT_HEAD.TAX6_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX7,TSPL_SD_SHIPMENT_HEAD.TAX7_Rate,TSPL_SD_SHIPMENT_HEAD.TAX7_Amt,TSPL_SD_SHIPMENT_HEAD.TAX7_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX8,TSPL_SD_SHIPMENT_HEAD.TAX8_Rate,TSPL_SD_SHIPMENT_HEAD.TAX8_Amt,TSPL_SD_SHIPMENT_HEAD.TAX8_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX9,TSPL_SD_SHIPMENT_HEAD.TAX9_Rate,TSPL_SD_SHIPMENT_HEAD.TAX9_Amt,TSPL_SD_SHIPMENT_HEAD.TAX9_Base_Amt,TSPL_SD_SHIPMENT_HEAD.TAX10,TSPL_SD_SHIPMENT_HEAD.TAX10_Rate,TSPL_SD_SHIPMENT_HEAD.TAX10_Amt,TSPL_SD_SHIPMENT_HEAD.TAX10_Base_Amt,TSPL_SD_SHIPMENT_HEAD.Discount_Base,TSPL_SD_SHIPMENT_HEAD.Discount_Amt,TSPL_SD_SHIPMENT_HEAD.Amount_Less_Discount,TSPL_SD_SHIPMENT_HEAD.Total_Tax_Amt,TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Comp_Code,TSPL_SD_SHIPMENT_HEAD.Terms_Code,TSPL_SD_SHIPMENT_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SHIPMENT_HEAD.Posting_Date,TSPL_SD_SHIPMENT_HEAD.Total_Amt,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.VehicleNo,TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,TSPL_SD_SHIPMENT_HEAD.GRNo,TSPL_SD_SHIPMENT_HEAD.GENo,TSPL_SD_SHIPMENT_HEAD.GEDate, TSPL_SD_SHIPMENT_HEAD.Dept,TSPL_SD_SHIPMENT_HEAD.Dept_Desc,TSPL_SD_SHIPMENT_HEAD.Item_Type,TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order ,TSPL_SD_SHIPMENT_HEAD.Against_Sales_Order,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt1,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt2,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt3,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt4,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt5,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt6,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt7,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt8,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code9 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name9,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt9 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Code10 ,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Name10,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt10,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge,TSPL_SD_SHIPMENT_HEAD.Tax_Calculation_Type,TSPL_SD_SHIPMENT_HEAD.Challan_No, TSPL_SD_SHIPMENT_HEAD.Challan_Date, TSPL_SD_SHIPMENT_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.Inv_No,TSPL_SD_SHIPMENT_HEAD.Is_Internal,TSPL_SD_SHIPMENT_HEAD.Is_Create_Auto_Invoice,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No,TSPL_SD_SHIPMENT_HEAD.Is_Create_Auto_Receipt,TSPL_SD_SHIPMENT_HEAD.Salesman_Code ,TSPL_SD_SHIPMENT_HEAD.Salesman_Name,  "
@@ -1250,6 +1253,12 @@ Public Class clsPSShipmentHead
             Else
                 whrCls = " and TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('FS','PS')  AND TSPL_SD_SHIPMENT_HEAD.Screen_Type='DS'"
             End If
+        End If
+
+        If IsProductDispacth Then
+            whrCls += " and TSPL_SD_SHIPMENT_HEAD.Item_Type in('P','I') "
+        Else
+            whrCls += " and TSPL_SD_SHIPMENT_HEAD.Item_Type in('S','') "
         End If
         '-----------------------------------------------------
         Select Case NavType
@@ -1892,9 +1901,9 @@ Public Class clsPSShipmentHead
                 Throw New Exception("Shipment No not found to Post")
             End If
             If IsDairyModule = False Then
-                obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans)
+                obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False)
             Else
-                obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, IsDairyModule)
+                obj = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False, IsDairyModule)
             End If
             Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, trans)) = 1, True, False)
             If StockCheckOnPostForDairyDispatchMultiple = True Then
@@ -2033,7 +2042,7 @@ Public Class clsPSShipmentHead
     Public Shared Function ReciepEntryOfDispatch(ByVal strInvNo As String, ByVal strBankCode As String, ByVal strPaymentCode As String, ByVal trans As SqlTransaction) As String
         Dim objSaleInv As New clsPSShipmentHead()
         Try
-            objSaleInv = GetData(strInvNo, NavigatorType.Current, trans)
+            objSaleInv = GetData(strInvNo, NavigatorType.Current, trans, False)
             Dim dblReceiptAmt As Double = objSaleInv.Total_Amt
             If dblReceiptAmt > 0 Then
                 'Dim qry As String = "select SUM(Adjustment_Amount)  from TSPL_Receipt_Adjustment_Header where Doc_No='" + strInvNo + "' and Is_Post='Y'"
@@ -2369,7 +2378,7 @@ Public Class clsPSShipmentHead
             Dim isSkipCogsGL As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, trans)) = 0, False, True)
             If Not isSkipCogsGL Then    '' Done By Pankaj Jha For Skipping Cogs GL
                 Dim obj As New clsPSShipmentHead
-                obj = clsPSShipmentHead.GetData(strCode, NavigatorType.Current, trans)
+                obj = clsPSShipmentHead.GetData(strCode, NavigatorType.Current, trans, False)
                 Dim ArryLstGLAC As ArrayList = New ArrayList()
                 Dim strInventoryControlAc As String = ""
                 Dim strShipmentClearingAC As String = ""
@@ -3188,7 +3197,7 @@ Public Class clsPSShipmentHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Shipment No not found to Delete")
         End If
-        Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strCode, NavigatorType.Current, trans)
+        Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strCode, NavigatorType.Current, trans, False)
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
                 '' Anubhooti 06-Sep-2014 BM00000003735 (Locked Transaction)

@@ -160,7 +160,6 @@ Public Class clsSNInvoiceHead
     Public HeadDisc_Amt As Double = 0
     Public HeadDisc_PerAmt As Double = 0
     Public TotCashDiscAmt As Double = 0
-
     Public InvoiceManualNowithPrefix As String = Nothing
 
 #End Region
@@ -988,6 +987,7 @@ where TSPL_SD_SALE_RETURN_HEAD.Against_Invoice_No='" + obj.Document_Code + "' "
                     objTr.vendor_desc = clsCommon.myCstr(dr("vendor_desc"))
                     objTr.HeadDiscPer = clsCommon.myCdbl(dr("HeadDiscPer"))
                     objTr.HeadDiscPerAmt = clsCommon.myCdbl(dr("HeadDiscPerAmt"))
+                    objTr.arrBatchItem = clsBatchInventory.GetData("SD-SH", obj.Against_Shipment_No, objTr.Item_Code, objTr.Line_No, trans)
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -2099,6 +2099,7 @@ End Class
 
 Public Class clsSNInvoiceDetail
 #Region "Variables"
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
     Public Document_Code As String = Nothing
     Public Line_No As Integer = 0
     Public Row_Type As String = Nothing
