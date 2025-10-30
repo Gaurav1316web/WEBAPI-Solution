@@ -3455,6 +3455,7 @@ FROM TSPL_ITEM_MASTER"
             coll.Add("Department_Route", "integer null")
             coll.Add("ExtraM_Time", "integer null")
             coll.Add("ExtraE_Time", "integer null")
+            coll.Add("AllowEntryInDecimal", "integer null")
             'clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_ROUTE_MASTER", coll, "", True, False, "", "", "", True)
 

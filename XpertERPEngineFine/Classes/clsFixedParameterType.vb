@@ -1366,6 +1366,7 @@ Public Class clsFixedParameterType
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
     Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
     Public Const DisplayTransporterAddress = "Display Transporter Address"
+    Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
 End Class
 Public Class clsFixedParameterCode
     Public Const PickcompanyBankCodeFromPaymentProcess As String = "Pick company BankCode From Payment Process"
@@ -2887,6 +2888,7 @@ Public Class clsFixedParameterCode
     Public Const DispatchCommissionDecimalPlaces = "Dispatch Commission Decimal Places"
     Public Const ApplyPricePlanOnDocumentDate = "Apply Price Plan On Document Date"
     Public Const DisplayTransporterAddress = "Display Transporter Address"
+    Public Const AllowRouteWiseDemandEntryInDecimal = "Allow Route Wise Demand Entry In Decimal"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4581,6 +4583,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, "4", "Enter Comission Decimal Places")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, "0", "0:Supply Date, 1:Document Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, "0", "0:Company Address, 1:Transporter Address")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, "0", "0:Off, 1:On")
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
     End Function
@@ -6472,5 +6475,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DispatchCommissionDecimalPlaces, clsFixedParameterCode.DispatchCommissionDecimalPlaces, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyPricePlanOnDocumentDate, clsFixedParameterCode.ApplyPricePlanOnDocumentDate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmUtilityForm, clsFixedParameterType.DisplayTransporterAddress, clsFixedParameterCode.DisplayTransporterAddress, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmRouteMaster, clsFixedParameterType.AllowRouteWiseDemandEntryInDecimal, clsFixedParameterCode.AllowRouteWiseDemandEntryInDecimal, EnumControlType.CheckBox)
     End Sub
 End Class
