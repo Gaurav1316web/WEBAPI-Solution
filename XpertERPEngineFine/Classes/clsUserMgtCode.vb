@@ -1218,6 +1218,7 @@ Public Class clsUserMgtCode
     Public Const mbtnEmptyTrans As String = "EMPTY-TRANS"
     Public Const mbtnProductionEntry As String = "PROD-ENTRY"
     Public Const mbtnStoreAdjustment As String = "STORE-ADJ"
+    Public Const frmStartBatchEntry As String = "S-BATCH-ENT"
     Public Const FrmItemMcMapping As String = "ITEM-MC-MAP"
     Public Const frmWarehouseBreakage As String = "WH-BRKG"
     Public Const frmPhysicalStock As String = "PHY-STOCK"
