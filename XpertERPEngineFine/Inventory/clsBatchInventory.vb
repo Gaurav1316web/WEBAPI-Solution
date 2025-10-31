@@ -181,8 +181,12 @@ Public Class clsBatchInventory
         Return Arr
     End Function
     Public Shared Function DeleteData(ByVal strDocType As String, ByVal strDocNo As String, ByVal trans As SqlTransaction)
+        Return DeleteData(strDocType, strDocNo, trans, "")
+    End Function
+    Public Shared Function DeleteData(ByVal strDocType As String, ByVal strDocNo As String, ByVal trans As SqlTransaction, ByVal WhrCls As String)
         clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_BATCH_ITEM", "Document_Code", trans)
-        Dim qry As String = "Delete from TSPL_BATCH_ITEM where Document_Type='" + strDocType + "' and Document_Code='" + strDocNo + "'"
+        Dim qry As String = "Delete from TSPL_BATCH_ITEM where Document_Type='" + strDocType + "' and Document_Code='" + strDocNo + "' " + WhrCls
+
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Return True
     End Function

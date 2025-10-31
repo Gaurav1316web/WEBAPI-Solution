@@ -5399,7 +5399,7 @@ Public Class FrmProductDispatch
                 strItem = " TypeOfItm='O'"
             End If
             gv1.CurrentRow.Cells(colICode).Value = clsItemMaster.getFinder(strItem, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), False)
-            gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Default_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
+            gv1.CurrentRow.Cells(colUnit).Value = clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Bulk_UOM=1 and Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
             gv1.CurrentRow.Cells(colIName).Value = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where Item_Code='" & gv1.CurrentRow.Cells(colICode).Value & "' ")
             gv1.CurrentRow.Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), Nothing)
             gv1.CurrentRow.Cells(colIStruct).Value = clsItemMaster.GetItemStructureCode(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), Nothing)
@@ -7911,7 +7911,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             Dim obj As New clsPSShipmentHead()
-            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing, True)
+            obj = clsPSShipmentHead.GetData(strCode, NavTyep, Nothing, True, True)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
                 btnSave.Enabled = True
                 btnPost.Enabled = True

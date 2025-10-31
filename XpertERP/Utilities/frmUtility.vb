@@ -10341,7 +10341,7 @@ Public Class FrmUtility
                         'Dim strLocationCode As String = clsCommon.myCstr(dt.Rows(ii)("NewLocCode"))
                         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                         Try
-                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans)
+                            Dim obj As clsPSShipmentHead = clsPSShipmentHead.GetData(strDocNo, NavigatorType.Current, trans, False)
                             clsPSShipmentHead.CreateJournalEntry(obj.Document_Code, trans, strVoucherNo)
                             clsDBFuncationality.ExecuteNonQuery("Insert into TEMP_CREATED_PDISPATCH values('" & strDocNo & "','" & strVoucherNo & "')", trans)
                             trans.Commit()

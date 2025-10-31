@@ -218,6 +218,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="Report\CancelPurchaseInvoiceReport.Designer.vb">
+      <DependentUpon>CancelPurchaseInvoiceReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\CancelPurchaseInvoiceReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmAdditionalCharge1.Designer.vb">
       <DependentUpon>frmAdditionalCharge1.vb</DependentUpon>
     </Compile>
@@ -567,6 +573,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\CancelPurchaseInvoiceReport.resx">
+      <DependentUpon>CancelPurchaseInvoiceReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\frmAdditionalCharge1.resx">
       <DependentUpon>frmAdditionalCharge1.vb</DependentUpon>
