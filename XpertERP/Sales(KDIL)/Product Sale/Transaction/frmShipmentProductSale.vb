@@ -6309,13 +6309,13 @@ Public Class frmShipmentProductSale
         Dim strwherecls As String = ""
         strwherecls = Xtra.CustomerPermission()
 
-        Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS as DeliveryCode, " & _
-            "CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, " & _
-            "TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code], " & _
-            "Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount, " & _
-            "case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch] from " & _
-            "TSPL_SD_SHIPMENT_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join  " & _
-            "TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code " & _
+        Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS as DeliveryCode, " &
+            "CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date, " &
+            "TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as [Location Code], " &
+            "Location_Desc as [Location Name],TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount, " &
+            "case when TSPL_SD_SHIPMENT_HEAD.Statu                                              s=0 then 'Pending' else 'Approved' end as [Status],Direct_Dispatch as [Direct Dispatch] from " &
+            "TSPL_SD_SHIPMENT_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code left outer join  " &
+            "TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code " &
             "left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No"
 
         Dim whrClas As String = ""
